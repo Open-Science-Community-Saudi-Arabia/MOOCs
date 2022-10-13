@@ -37,3 +37,8 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Backend API sensitive files
+./backend_API/src/node_modules
+./backend_API/src/.env
+
