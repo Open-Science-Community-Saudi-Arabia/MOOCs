@@ -1,5 +1,5 @@
 require('dotenv').config({path: `${__dirname}/.env`})
-const {MONGO_URI, PORT} = require('./helpers/config')
+const {MONGO_URI, PORT} = require('./utils/config')
 
 const app = require('./app')
 
