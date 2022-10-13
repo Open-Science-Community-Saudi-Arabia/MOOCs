@@ -1,24 +1,24 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:prettier/recommended"],
+	"extends": ["airbnb", "prettier", "plugin:prettier/recommended", "plugin:react/jsx-runtime"],
 	"env": {
-    "browser": true,
-    "commonjs": true,
-    "es2021": true,
-    "jest": true,
-    "node": true
-  },
-  "plugins": ["prettier", "react"],
+		"browser": true,
+		"commonjs": true,
+		"es2021": true,
+		"jest": true,
+		"node": true
+	},
+	"plugins": ["prettier", "react"],
 	"parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true 
-    }
-  },
-  "rules": {
+		"ecmaVersion": "latest",
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"rules": {
 		"react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
-    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }],
-    "no-unused-vars": "warn",
+		"prettier/prettier": ["warn", {}, { "usePrettierrc": true }],
+		"no-unused-vars": "warn",
 		"no-console": "warn"
-  }
+	}
 }
