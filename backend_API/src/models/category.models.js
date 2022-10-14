@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const PasswordSchema = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -9,4 +9,4 @@ const PasswordSchema = new mongoose.Schema({
 { timestamps: true}
 );
 
-module.exports = mongoose.model("Password", PasswordSchema);
+module.exports = mongoose.model("Category", CategorySchema);
