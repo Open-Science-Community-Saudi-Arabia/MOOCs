@@ -665,10 +665,12 @@
   "version" "1.3.2"
   dependencies:
     "is-arrayish" "^0.2.1"
-
 "esbuild-linux-64@0.15.10":
   "integrity" "sha512-jd8XfaSJeucMpD63YNMO1JCrdJhckHWcMv6O233bL4l6ogQKQOxBYSRP/XLWP+6kVTu0obXovuckJDcA0DKtQA=="
   "resolved" "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.15.10.tgz"
+"esbuild-windows-64@0.15.10":
+  "integrity" "sha512-2H0gdsyHi5x+8lbng3hLbxDWR7mKHWh5BXZGKVG830KUmXOOWFE2YKJ4tHRkejRduOGDrBvHBriYsGtmTv3ntA=="
+  "resolved" "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.15.10.tgz"
   "version" "0.15.10"
 
 "esbuild@^0.15.9":
