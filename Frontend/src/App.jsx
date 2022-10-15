@@ -1,12 +1,8 @@
-import './App.css'
-import LandingPage from "./components/landing-page"
+import "./GlobalStyles.css";
+import Layout from "./utils/Routing";
 
 function App() {
-  return (
-    <div>
-      <LandingPage/>
-    </div>
-  )
+  return <Layout />;
 }
 
-export default App
+export default App;
