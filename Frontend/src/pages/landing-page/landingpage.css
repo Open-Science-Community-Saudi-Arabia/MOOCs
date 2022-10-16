@@ -1,18 +1,114 @@
-.landing-page {
+/* .landing-page {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #eee;
-    gap: 4em;
+    gap: 4em; 
+} */
+.hero--wrapper{
+    height: 99vh;
+    /* background-color: dodgerblue; */
+    font-family: 'Lato';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.img--wrapper{
+    /* width: 35rem; */
+}
+.img--wrapper img{
+    width: 100%;
+}
+.hero--content{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 85%;
+    margin: 0 auto;
+    gap: 6.375rem;
+    position: relative;
+}
+
+.record--wrapper{
+    position:absolute;
+    display: flex;
+    column-gap: 9.1875rem;
+    bottom: -26%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.button-wrapper{
+    display: flex;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.hero--content--wrapper{
+max-width: 42.0625rem;
+display: flex;
+flex-direction: column;
+}
+
+.hero--title{
+color: black;
+font-size: 4rem;
+font-weight: 700;
+}
+
+.hero--desc{
+ color: black;
+ font-size: 1.75rem;
+ font-weight: 500;
+ margin-top: 1.3125rem;
+ text-align: justify;
+}
+
+.course--container{
+    height: 100vh;
+    padding-top: 12.9375rem;
+}
+
+.heading--wrapper{
+    justify-content:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center ;
+    font-family: 'Lato';
+}
+.heading--wrapper .course--desc{
+    max-width: 30.5625rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+.course--title{
+    display: flex;
+    font-weight: 800;
+    font-size: 2.25rem;
 }
 
 .landing-page a {
-    color: rgb(12, 24, 194);
+    color: #222ba4;
     text-decoration: none;
 }
 
 .landing-page a:hover {
     text-decoration: underline;
+}
+.links{
+    display: flex;
+}
+.hero{
+    background-color: green;
+    height: 100vh;
+}
+
+.carosel{
+    max-width: 80%;
+    margin: 5rem auto;
 }
