@@ -1,0 +1,18 @@
+.landing-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #eee;
+    gap: 4em;
+}
+
+.landing-page a {
+    color: rgb(12, 24, 194);
+    text-decoration: none;
+}
+
+.landing-page a:hover {
+    text-decoration: underline;
+}
