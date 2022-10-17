@@ -167,7 +167,11 @@
 .icon-btn {
 	display: none;
 	color: #03c4eb;
+	background-color: transparent;
 	transition: color 0.25s ease-in-out;
+	font-size: 1.5rem;
+	border: none;
+	outline: none;
 }
 .icon-btn:hover {
 	color: #fff;
