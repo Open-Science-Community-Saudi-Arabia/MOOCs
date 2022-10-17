@@ -183,7 +183,7 @@
 	}
 }
 
-@media screen and (min-width: 95em) {
+@media screen and (min-width: 1025px) {
 	.navbar {
 		justify-content: space-around;
 	}
@@ -191,10 +191,6 @@
 	.navbar-mobile,
 	.navbar-mobile.open {
 		display: none;
-	}
-
-	.logo {
-		font-size: 4rem;
 	}
 
 	.category-btn {
