@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server"
+    "start": "node ./src/server",
+    "dev": "nodemon ./src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +21,8 @@
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.5",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
