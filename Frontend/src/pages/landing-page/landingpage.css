@@ -170,6 +170,7 @@ font-weight: 700;
     padding-left: 7.25rem;
     padding-right: 7.25rem;
     align-items: center;
+    height: 100vh;
 }
 .instructor{
     display: flex;
@@ -193,6 +194,34 @@ font-weight: 700;
     width: 15.75rem;
 }
 
-.testimonial{
+.testimonial-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.testimonial--card--wrapper{
+    display: flex;
+    gap: 10.0625rem;
     
+}
+
+.testimonial-header{
+    max-width: 38.3125rem;
+    font-family: 'Lato';
+    margin-bottom: 5.0625rem;
+    
+}
+.testimonial-header h1{
+    font-size: 3rem;
+    font-weight: 900;
+    color: #373737;
+    text-align: center;
+    margin-bottom: 2.3125rem;
+}
+.testimonial-header p{
+    font-size: 1.125rem;
+    font-weight: 400;
+    text-align: center;
 }
