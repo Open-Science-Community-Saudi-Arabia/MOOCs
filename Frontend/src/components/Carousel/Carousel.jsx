@@ -1,10 +1,10 @@
-import './Carosel.css'
+import './Carousel.css'
 import  Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-const Carosel = ({children}) => {
+const Carousel = ({children}) => {
   const  settings = {
         infinite:true,
         speed: 500,
@@ -47,7 +47,7 @@ const Carosel = ({children}) => {
   )
 }
 
-export default Carosel
+export default Carousel
 
 const SampleNextArrow = ({
     onClick,

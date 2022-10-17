@@ -92,21 +92,3 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
-.online--learning{
-    background-color: #1F1AB6;
-    height: 70vh;
-    position: relative;
-}
-.ring1{
-    position: absolute;
-    top: -60px;
-    left: 0;
-}
-.ring2{
-    position: absolute;
-    bottom: -120px;
-    right: 0;
-}
-.online--learning--wrapper{
-    
-}

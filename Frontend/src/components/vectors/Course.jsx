@@ -1,6 +1,6 @@
 import * as React from "react"
 
-const SvgComponent = (props) => (
+const CourseIcon = (props) => (
   <svg
     width={45}
     height={45}
@@ -19,4 +19,4 @@ const SvgComponent = (props) => (
   </svg>
 )
 
-export default SvgComponent
+export default CourseIcon

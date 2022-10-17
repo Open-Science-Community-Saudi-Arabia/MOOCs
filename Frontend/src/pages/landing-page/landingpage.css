@@ -16,9 +16,7 @@
     justify-content: center;
 }
 
-.img--wrapper{
-    /* width: 35rem; */
-}
+
 .img--wrapper img{
     width: 100%;
 }
@@ -111,4 +109,90 @@ font-weight: 700;
 .carosel{
     max-width: 80%;
     margin: 5rem auto;
+}
+
+
+
+.online--learning{
+    background-color: #03C4EB;
+    height: 80vh;
+    position: relative;
+}
+.ring1{
+    position: absolute;
+    top: -60px;
+    left: 0;
+}
+.ring2{
+    position: absolute;
+    bottom: -120px;
+    right: 0;
+}
+.online--learning--wrapper{
+    display: flex;
+    height: 100%;
+}
+.learning--content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 7.25rem;
+    padding-right: 7.25rem;
+    align-items: center;
+    height: 100%;
+}
+
+.learning--content h1{
+    font-size: 8rem;
+    font-weight: 700;
+    font-family: 'Lato';
+    color: white;
+}
+.learning--benefit{
+    max-width: 32.4375rem;
+}
+.learning--benefit h3{
+    font-size: 3rem;
+    font-weight: 900;
+    color: white;
+    font-family: 'Lato';
+    margin-bottom: 3.8125rem;
+}
+.learning{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.5625rem;
+}
+
+.instructor-container{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 7.25rem;
+    padding-right: 7.25rem;
+    align-items: center;
+}
+.instructor{
+    display: flex;
+    flex-direction: column;
+    max-width: 38.3125rem;
+}
+.instructor h1{
+    font-weight: 900;
+    font-size: 3rem;
+    font-family: 'Lato';
+    margin-bottom: 2.5rem;
+
+}
+.instructor > p{
+    font-size: 1.125rem;
+    font-weight: 400;
+    margin-bottom: 1.375rem;
+}
+
+.Buttton--wrapper{
+    width: 15.75rem;
+}
+
+.testimonial{
+    
 }
