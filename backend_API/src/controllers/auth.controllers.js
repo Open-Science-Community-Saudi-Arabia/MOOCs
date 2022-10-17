@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken')
 const { CustomAPIError } = require('./../utils/custom_errors')
 
 //Function to sign token
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (id, role) => {
+  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   })
 }
 
 //Create token and send to client
 const createToken = (user, statusCode, res) => {
-  const token = signToken(user._id)
+  const token = signToken(user._id, user.role)
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
