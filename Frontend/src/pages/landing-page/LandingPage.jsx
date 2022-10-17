@@ -17,7 +17,7 @@ function LandingPage() {
         <div className="hero--content">
          <div className="img--wrapper">
          <img
-            src="../../../public/images/hero-1.jpg"
+            src="../../../public/images/Mask Group.png"
             alt=""
             className="images"
           />
@@ -27,11 +27,7 @@ function LandingPage() {
             <p className="hero--desc">Online education is electronically supported learning that
  relies on the Internet for teacher/student interaction and
  the distribution of class materials.</p>
-
- <div className="button-wrapper"> 
-          <Button title='Join for Free'/>
-          <Button title='Explore Courses' outlined={true}/>          
-        </div>
+ 
           </div>
         </div>
           <div className="record--wrapper">
