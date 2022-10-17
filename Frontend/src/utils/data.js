@@ -1,6 +1,9 @@
 import GlobalIcon from "../components/vectors/GlobalIcon";
 import Time from "../components/vectors/Time.jsx";
 import UsersIcon from "../components/vectors/UsersIcon.jsx";
+import Certificate from "../components/vectors/Certificate";
+import CourseIcon from '../components/vectors/Course'
+import TrainingIcon from "../components/vectors/Training";
 export const record = [
   {
     icon: Time,
@@ -75,3 +78,22 @@ export const courses = [
     ratings:'4.7'
   },
 ];
+
+export const learning = [
+  {
+    title:'Online Degrees',
+    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim',
+    icon:Certificate,
+  },
+  {
+    title:'Short courses',
+    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis',
+    icon:CourseIcon,
+  },
+  {
+    title:'Expert Traning',
+    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor',
+    icon:TrainingIcon,
+  }
+
+]

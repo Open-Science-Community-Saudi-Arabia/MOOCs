@@ -5,8 +5,9 @@ import Records from "../../components/Records/Records";
 import { record } from "../../utils/data";
 import "./landingpage.css";
 import Course from "../../components/Course/Course";
-import {courses} from '../../utils/data'
-import Carosel from "../../components/Carosel/Carosel";
+import {courses, learning} from '../../utils/data'
+import Carosel from "../../components/Carousel/Carousel";
+import LearningWidget from "../../components/Learningwidget/LearningWidget";
 
 function LandingPage() {
   return (
@@ -56,16 +57,42 @@ function LandingPage() {
        <img src="../../../public/images/ring1.png" alt="" className="ring2" />
        <img src="../../../public/images/ring2.png" className="ring1" alt="" />
        <div className="online--learning--wrapper">
-        <h1>
+          <div className="learning--content">
+          <h1>
         OSCSA 
         </h1>
-        <div>
+        <div className="learning--benefit">
           <h3>Benifits from our online 
 learning</h3>
+
+     <div className="learning">
+     {learning.map((learn, index)=> <LearningWidget {...learn} key={index}/>)}
+     </div>
         </div>
+          </div>
        </div>
       </section>
-      <section>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit cum est, consequatur dolore obcaecati pariatur quia doloremque non excepturi ipsam reiciendis unde eveniet. Alias corrupti nobis optio? Hic, ea rerum!</section>
+      <section className="instructor-container">
+        <div className="instructor">
+          <h1>
+          Become an Instructor
+          </h1>
+          <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo,
+
+vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci
+          </p>
+         <div className="Buttton--wrapper">
+         <Button title='Click Here to Apply' outlined={true}/>
+         </div>
+        </div>
+        <div>
+          <img src="../../../public/images/Mask Group.png" alt="" />
+        </div>
+      </section>
+      <section className="testimonial">
+            
+      </section>
     </>
   );
 }
