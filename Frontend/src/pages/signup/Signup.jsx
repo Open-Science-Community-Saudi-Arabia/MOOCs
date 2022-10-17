@@ -1,5 +1,4 @@
 import React from "react";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import "./signup.css";
 import { Link } from "react-router-dom";
 
@@ -33,15 +32,6 @@ function Signup() {
           </form>
 
           <div className="line"></div>
-
-          <div className="media-options">
-            <a href="#" className="field facebook">
-              <i className="bx bxl-facebook facebook-icon">
-                <FacebookIcon />
-              </i>
-              <span>Sign Up with Facebook</span>
-            </a>
-          </div>
 
           <div className="media-options">
             <a href="#" className="field google">
