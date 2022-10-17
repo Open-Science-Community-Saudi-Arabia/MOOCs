@@ -5,9 +5,10 @@ import Records from "../../components/Records/Records";
 import { record } from "../../utils/data";
 import "./landingpage.css";
 import Course from "../../components/Course/Course";
-import {courses, learning} from '../../utils/data'
+import {courses, learning, testimonials} from '../../utils/data'
 import Carosel from "../../components/Carousel/Carousel";
 import LearningWidget from "../../components/Learningwidget/LearningWidget";
+import Testimonial from "../../components/TestimonialCard/Testimonial";
 
 function LandingPage() {
   return (
@@ -90,8 +91,19 @@ vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim
           <img src="../../../public/images/Mask Group.png" alt="" />
         </div>
       </section>
-      <section className="testimonial">
-            
+      <section className="testimonial-wrapper">
+           <div className="testimonial-header">
+           <h1>
+            Student Testimonial
+            </h1>
+            <p>vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci</p>
+           </div>
+
+<div className="testimonial--card--wrapper">
+  
+       {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
+
+</div>
       </section>
     </>
   );

@@ -1,0 +1,32 @@
+.testimonial{
+    max-width: 31.9375rem;
+    border: 4px solid #03C4EB;
+    position: relative;
+    display: flex;
+    border-radius: 0.9375rem;
+
+}
+
+.testimonial .img{
+/* position: absolute; */
+margin-left: -80px;
+}
+.desc--container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 1.3125rem;
+    max-width: 25.4375rem;
+    padding-right: 10px;
+    font-family: 'Lato';
+}
+.desc--container h3{
+    align-self: flex-end;
+    font-size: 1.375rem;
+    font-weight: 600;
+}
+.desc--container p{
+    font-size: 1.25rem;
+    font-weight: 400;
+}
