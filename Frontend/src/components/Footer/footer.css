@@ -15,7 +15,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	width: 70%;
 	gap: 2rem;
 	padding: 1rem;
 }
@@ -48,13 +47,13 @@
 }
 
 .footer-links > h2 {
-	font-size: 2rem;
+	font-size: 1.5rem;
 	line-height: 28.8px;
 }
 
 .footer-links a {
 	text-decoration: none;
-	font-size: 1.25rem;
+	font-size: 1rem;
 	color: #fff;
 	transition: all 0.3s ease-in-out;
 }
