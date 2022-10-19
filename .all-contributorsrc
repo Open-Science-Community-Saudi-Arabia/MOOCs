@@ -12,7 +12,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/74486522?v=4",
       "profile": "http://adedamolaorofin.web.app",
       "contributions": [
-        "infra"
+        "infra",
+        "design"
       ]
     },
     {
@@ -32,6 +33,24 @@
       "profile": "https://goodnewssandy.netlify.app/",
       "contributions": [
         "review"
+      ]
+    },
+    {
+      "login": "mufidat3250",
+      "name": "Wahab Mufidat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77861437?v=4",
+      "profile": "https://github.com/mufidat3250",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "anslemkelechi",
+      "name": "Kelechi Okoronkwo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47811347?v=4",
+      "profile": "https://github.com/anslemkelechi",
+      "contributions": [
+        "infra"
       ]
     }
   ],
