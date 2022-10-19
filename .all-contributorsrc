@@ -24,6 +24,15 @@
         "infra",
         "ideas"
       ]
+    },
+    {
+      "login": "mufidat3250",
+      "name": "Wahab Mufidat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77861437?v=4",
+      "profile": "https://github.com/mufidat3250",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
