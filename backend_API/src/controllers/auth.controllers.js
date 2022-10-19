@@ -1,3 +1,5 @@
+const UUID = require('uuid').v4
+const { Oauth2Client } = require('google-auth-library')
 const User = require('./../models/user.models')
 const asyncWrapper = require('./../utils/async_wrapper')
 const jwt = require('jsonwebtoken')
@@ -6,15 +8,15 @@ const sendEmail = require('./../utils/email')
 const crypto = require('crypto')
 
 //Function to sign token
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (id, role) => {
+  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   })
 }
 
 //Create token and send to client
 const createToken = (user, statusCode, res) => {
-  const token = signToken(user._id)
+  const token = signToken(user._id, user.role)
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
@@ -135,3 +137,34 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
 
   createToken(user, 200, res)
 })
+
+exports.googleSignin = asyncWrapper(async (req, res, next) => {
+  const authorization = req.headers.authorization;
+  const token = authorization.split(' ')[1];
+
+  // Verify id token
+  const ticket = await Oauthclient.verifyIdToken({
+    idToken: token,
+    audience: config.OAUTH_CLIENT_ID
+  }),
+    payload = ticket.getPayload(),
+    existing_user = await User.findOne({ email: payload.email });
+
+  // Create new user in db
+  if (!existing_user) {
+    const user_data = {
+      firstname: payload.given_name,
+      lastname: payload.family_name,
+      email: payload.email,
+      role: 'EndUser',
+      password: UUID()  // Random id as password, won't be needed for authentication
+    };
+
+    const new_user = await User.create(user_data);
+
+    createToken(new_user, 200, res)
+  }
+
+  createToken(existing_user, 200, res)
+});
+
