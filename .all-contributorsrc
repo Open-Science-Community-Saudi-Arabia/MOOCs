@@ -15,6 +15,34 @@
         "infra",
         "design"
       ]
+    },
+    {
+      "login": "RealRichi3",
+      "name": "Richie",
+      "avatar_url": "https://avatars.githubusercontent.com/u/76791916?v=4",
+      "profile": "https://realrichi3.github.io",
+      "contributions": [
+        "infra",
+        "ideas"
+      ]
+    },
+    {
+      "login": "mufidat3250",
+      "name": "Wahab Mufidat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77861437?v=4",
+      "profile": "https://github.com/mufidat3250",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "anslemkelechi",
+      "name": "Kelechi Okoronkwo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47811347?v=4",
+      "profile": "https://github.com/anslemkelechi",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
