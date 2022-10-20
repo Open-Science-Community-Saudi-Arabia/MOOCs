@@ -73,6 +73,15 @@
         "test",
         "infra"
       ]
+    },
+    {
+      "login": "AminMusah",
+      "name": "Amin Musah Ahmed",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60413409?v=4",
+      "profile": "https://github.com/AminMusah",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
