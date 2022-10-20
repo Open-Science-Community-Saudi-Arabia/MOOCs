@@ -1,10 +1,12 @@
 const express = require('express')
+const authController = require('./../controllers/auth.controllers')
 const router = express.Router()
 
-// router.post('/signup', signupController)
-// router.post('/login', signupController)
+router.post('/signup', authController.signup)
+router.post('/login', authController.login)
+router.post('/forgetpassword', authController.forgetPassword)
+router.patch('/resetpassword/:token', authController.resetPassword)
+router.post('/googlesignin', authController.googleSignin)
 // router.post('/verifyemail', signupController)
-// router.post('/password reset', signupController)
-
 
 module.exports = router
