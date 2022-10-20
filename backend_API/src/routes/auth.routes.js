@@ -4,7 +4,6 @@ const router = express.Router()
 
 router.post('/signup', authController.signup)
 router.post('/login', authController.login)
-router.post('/googlesignin', authController.googleSignin)
 // router.post('/verifyemail', signupController)
 // router.post('/password reset', signupController)
 

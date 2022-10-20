@@ -5,7 +5,8 @@ const asyncWrapper = require("../utils/async_wrapper")
 exports.getCourses = asyncWrapper(
     async (req, res, next) => {
 
-        return await Video.find().sort({_id: -1})
+        const courses = await Video.find().sort({_id: -1})
+        return res.status(200).send({ courses: courses })
 
     }
 )
@@ -16,6 +17,6 @@ exports.deleteCourse = asyncWrapper(
         const courseId = req.params.courseId
         const course = await Video.findByIdAndDelete(courseId)
 
-        return "course has been deleted successfully"
+        res.status(200).send({ message: "course has been deleted successfully" }) 
     }
 )

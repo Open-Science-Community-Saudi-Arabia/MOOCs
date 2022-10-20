@@ -1,5 +1,3 @@
-const UUID = require('uuid').v4
-const { Oauth2Client } = require('google-auth-library')
 const User = require('./../models/user.models')
 const asyncWrapper = require('./../utils/async_wrapper')
 const jwt = require('jsonwebtoken')
@@ -65,33 +63,3 @@ exports.login = asyncWrapper(async (req, res, next) => {
   //Send token to client
   createToken(currentUser, 200, res)
 })
-
-exports.googleSignin = asyncWrapper(async (req, res, next) => {
-  const authorization = req.headers.authorization;
-  const token = authorization.split(' ')[1];
-
-  // Verify id token
-  const ticket = await Oauthclient.verifyIdToken({
-    idToken: token,
-    audience: config.OAUTH_CLIENT_ID
-  }),
-    payload = ticket.getPayload(),
-    existing_user = await User.findOne({ email: payload.email });
-
-  // Create new user in db
-  if (!existing_user) {
-    const user_data = {
-      firstname: payload.given_name,
-      lastname: payload.family_name,
-      email: payload.email,
-      role: 'EndUser',
-      password: UUID()  // Random id as password, won't be needed for authentication
-    };
-
-    const new_user = await User.create(user_data);
-
-    createToken(new_user, 200, res)
-  }
-
-  createToken(existing_user, 200, res)
-});
