@@ -1,0 +1,5 @@
+#!include:../.gitignore
+node_modules/
+
+# html files
+*.html
