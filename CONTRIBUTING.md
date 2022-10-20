@@ -1,12 +1,12 @@
 # Contributing Guidelines:
 
-We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be a [issue report](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) 
+We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be an [issue report](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) 
 or a [pull request](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/pulls).
 
 ## Contribution workflow:
 
 1. Check that there isn't [already an issue](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) about your idea to avoid duplicating work.
-    * If there isn't one already, please create one so that others know you're working on this
+    * If there isn't one already, please create one so that others know you're working on it.
 
 2. Fork the [Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/) to your GitHub account.
 
@@ -36,7 +36,7 @@ or a [pull request](https://github.com/Open-Science-Community-Saudi-Arabia/Open-
     
  ```
 
-6. Make the necessary changes / additions within your forked repository.
+6. Make the necessary changes and additions / subtractions within your forked repository.
 
 7. Add and commit changes made.
 
