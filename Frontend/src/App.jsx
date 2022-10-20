@@ -1,8 +1,8 @@
-import "./GlobalStyles.css";
-import Layout from "./utils/Routing";
+import "./GlobalStyles.css"
+import Layout from "./utils/Routing"
 
 function App() {
-  return <Layout />;
+    return <Layout />
 }
 
-export default App;
+export default App

@@ -1,6 +1,5 @@
 /* Google Fonts - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 .container {
     height: 100vh;
@@ -17,7 +16,7 @@
     width: 80%;
     padding: 30px;
     border-radius: 6px;
-    background: #FFF;
+    background: #fff;
 }
 
 .form.signup {
@@ -129,12 +128,12 @@ form {
 }
 
 .line::before {
-    content: 'Or';
+    content: "Or";
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #FFF;
+    background-color: #fff;
     color: #8b8b8b;
     padding: 0 15px;
 }
@@ -177,7 +176,7 @@ img.google-img {
 }
 
 a.google {
-    border: 1px solid #CACACA;
+    border: 1px solid #cacaca;
 }
 
 a.google span {
@@ -190,5 +189,4 @@ a.google span {
     .form {
         padding: 20px 10px;
     }
-
 }
