@@ -89,11 +89,13 @@ export const learning = [
     title:'Short courses',
     desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis',
     icon:CourseIcon,
+  
   },
   {
     title:'Expert Traning',
     desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor',
     icon:TrainingIcon,
+
   }
 
 ]

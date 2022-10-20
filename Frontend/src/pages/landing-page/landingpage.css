@@ -1,26 +1,290 @@
 .landing-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #eee;
+  gap: 4em;
+}
+.hero--wrapper {
+  height: 99vh;
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 96.71%
+    ),
+    #03c4eb;
+  font-family: "Lato";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.landingpage {
+  display: flex;
+  flex-direction: column;
+}
+
+.img--wrapper img {
+  width: 100%;
+}
+.hero--content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 85%;
+  margin: 0 auto;
+  gap: 6.375rem;
+  position: relative;
+}
+
+.record--wrapper {
+  position: absolute;
+  display: flex;
+  column-gap: 9.1875rem;
+  bottom: -24%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button-wrapper {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.hero--content--wrapper {
+  max-width: 30.0625rem;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.hero--title {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.hero--desc {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 1.3125rem;
+  text-align: left;
+}
+
+.course--container {
+  height: 100vh;
+  padding-top: 12.9375rem;
+}
+
+.heading--wrapper {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lato";
+}
+.heading--wrapper .course--desc {
+  max-width: 30.5625rem;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.course--title {
+  display: flex;
+  font-weight: 800;
+  font-size: 2.25rem;
+}
+
+.landing-page a {
+  color: #222ba4;
+  text-decoration: none;
+}
+
+.landing-page a:hover {
+  text-decoration: underline;
+}
+.links {
+  display: flex;
+  font-size: 2rem;
+}
+.hero {
+  background-color: green;
+  height: 100vh;
+}
+
+.carosel {
+  max-width: 100%;
+  margin: 5rem 2rem;
+  margin-bottom: 40rem;
+}
+
+.online--learning {
+  background-color: #03c4eb;
+  height: 80vh;
+  position: relative;
+  margin-top: 5rem;
+}
+.ring1 {
+  position: absolute;
+  top: -60px;
+  left: 0;
+}
+.ring2 {
+  position: absolute;
+  bottom: -120px;
+  right: 0;
+}
+.online--learning--wrapper {
+  display: flex;
+  height: 100%;
+}
+.learning--content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 7.25rem;
+  padding-right: 7.25rem;
+  align-items: center;
+  height: 100%;
+}
+
+.learning--content h1 {
+  font-size: 8rem;
+  font-weight: 700;
+  font-family: "Lato";
+  color: white;
+}
+.learning--benefit {
+  max-width: 32.4375rem;
+}
+.learning--benefit h3 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  font-family: "Lato";
+  margin-bottom: 3.8125rem;
+}
+.learning {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.5625rem;
+}
+
+.instructor-container {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 7.25rem;
+  padding-right: 7.25rem;
+  align-items: center;
+  height: 100vh;
+}
+.instructor {
+  display: flex;
+  flex-direction: column;
+  max-width: 38.3125rem;
+}
+.instructor h1 {
+  font-weight: 900;
+  font-size: 3rem;
+  font-family: "Lato";
+  margin-bottom: 2.5rem;
+}
+.instructor > p {
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin-bottom: 1.375rem;
+}
+
+.Buttton--wrapper {
+  width: 15.75rem;
+}
+
+.testimonial-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+.testimonial--card--wrapper {
+  display: flex;
+  gap: 10.0625rem;
+}
+
+.testimonial-header {
+  max-width: 38.3125rem;
+  font-family: "Lato";
+  margin-bottom: 5.0625rem;
+}
+.testimonial-header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #373737;
+  text-align: center;
+  margin-bottom: 2.3125rem;
+}
+.testimonial-header p {
+  font-size: 1.125rem;
+  font-weight: 400;
+  text-align: center;
+}
+.record--mobile {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .landing-page {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #eee;
-    gap: 4em; 
-}
-.hero--wrapper{
+    gap: 4em;
+  }
+
+  .hero--wrapper {
     height: 99vh;
-    background:linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 96.71%), #03C4EB;
-    font-family: 'Lato';
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 96.71%
+      ),
+      #03c4eb;
+    font-family: "Lato";
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+  }
 
+  .hero--title {
+    font-size: 3rem;
+    font-weight: 700;
+  }
 
-.img--wrapper img{
-    width: 100%;
-}
-.hero--content{
+  .hero--desc {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 1.3125rem;
+    text-align: left;
+  }
+
+  .record--wrapper {
+    position: absolute;
+    display: flex;
+    column-gap: 5.1875rem;
+    bottom: -25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* flex-direction: column; */
+  }
+
+  .hero--content {
     display: flex;
     align-items: center;
     width: 100%;
@@ -28,202 +292,351 @@
     margin: 0 auto;
     gap: 6.375rem;
     position: relative;
-}
+  }
 
-.record--wrapper{
-    position:absolute;
-    display: flex;
-    column-gap: 9.1875rem;
-    bottom: -24%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.button-wrapper{
-    display: flex;
-    margin-top: 1rem;
-    gap: 1rem;
-}
+  .record--mobile {
+    display: none;
+  }
 
-.hero--content--wrapper{
-max-width: 30.0625rem;
-display: flex;
-flex-direction: column;
-color: white;
-
-}
-
-.hero--title{
-font-size: 4rem;
-font-weight: 700;
-}
-
-.hero--desc{
-color: white; 
- font-size: 18px;
- font-weight: 500;
- margin-top: 1.3125rem;
- text-align:left;
-}
-
-.course--container{
-    height: 100vh;
-    padding-top: 12.9375rem;
-}
-
-.heading--wrapper{
-    justify-content:center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center ;
-    font-family: 'Lato';
-}
-.heading--wrapper .course--desc{
-    max-width: 30.5625rem;
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: center;
-}
-
-.course--title{
-    display: flex;
-    font-weight: 800;
-    font-size: 2.25rem;
-}
-
-.landing-page a {
-    color: #222ba4;
-    text-decoration: none;
-}
-
-.landing-page a:hover {
-    text-decoration: underline;
-}
-.links{
-    display: flex;
-}
-.hero{
-    background-color: green;
-    height: 100vh;
-}
-
-.carosel{
-    max-width: 80%;
-    margin: 5rem auto;
-}
-
-
-
-.online--learning{
-    background-color: #03C4EB;
+  .course--container {
+    height: 80vh;
+    padding-top: 8.9375rem;
+    margin-bottom: 10rem;
+  }
+  .online--learning {
+    background-color: #03c4eb;
     height: 80vh;
     position: relative;
-    margin-top: 5rem;
-}
-.ring1{
-    position: absolute;
-    top: -60px;
-    left: 0;
-}
-.ring2{
-    position: absolute;
-    bottom: -120px;
-    right: 0;
-}
-.online--learning--wrapper{
-    display: flex;
-    height: 100%;
-}
-.learning--content{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding-left: 7.25rem;
-    padding-right: 7.25rem;
-    align-items: center;
-    height: 100%;
-}
+    margin-top: 10rem;
+  }
 
-.learning--content h1{
-    font-size: 8rem;
+  .learning--content h1 {
+    font-size: 3rem;
     font-weight: 700;
-    font-family: 'Lato';
+    font-family: "Lato";
     color: white;
-}
-.learning--benefit{
+  }
+
+  .learning--benefit {
     max-width: 32.4375rem;
-}
-.learning--benefit h3{
-    font-size: 3rem;
+  }
+  .learning--benefit h3 {
+    font-size: 2rem;
     font-weight: 900;
     color: white;
-    font-family: 'Lato';
-    margin-bottom: 3.8125rem;
-}
-.learning{
+    font-family: "Lato";
+    margin-bottom: 2rem;
+  }
+  .learning {
     display: flex;
     flex-direction: column;
-    row-gap: 2.5625rem;
-}
+    row-gap: 1.5625rem;
+  }
 
-.instructor-container{
-    display: flex;
-    justify-content: space-between;
-    padding-left: 7.25rem;
-    padding-right: 7.25rem;
-    align-items: center;
-    height: 100vh;
-}
-.instructor{
-    display: flex;
-    flex-direction: column;
-    max-width: 38.3125rem;
-}
-.instructor h1{
-    font-weight: 900;
-    font-size: 3rem;
-    font-family: 'Lato';
-    margin-bottom: 2.5rem;
-
-}
-.instructor > p{
-    font-size: 1.125rem;
-    font-weight: 400;
-    margin-bottom: 1.375rem;
-}
-
-.Buttton--wrapper{
-    width: 15.75rem;
-}
-
-.testimonial-wrapper{
+  .testimonial-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 80vh;
-}
-.testimonial--card--wrapper{
+  }
+  .testimonial--card--wrapper {
     display: flex;
-    gap: 10.0625rem;
-    
-}
+    gap: 6.0625rem;
+  }
 
-.testimonial-header{
+  .testimonial-header {
     max-width: 38.3125rem;
-    font-family: 'Lato';
+    font-family: "Lato";
     margin-bottom: 5.0625rem;
-    
-}
-.testimonial-header h1{
+  }
+  .testimonial-header h1 {
     font-size: 3rem;
     font-weight: 900;
     color: #373737;
     text-align: center;
     margin-bottom: 2.3125rem;
-}
-.testimonial-header p{
+  }
+  .testimonial-header p {
     font-size: 1.125rem;
     font-weight: 400;
     text-align: center;
+  }
+
+  .instructor-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    align-items: center;
+    height: 100vh;
+  }
+  .instructor {
+    display: flex;
+    flex-direction: column;
+    max-width: 38.3125rem;
+  }
+  .instructor h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    font-family: "Lato";
+    margin-bottom: 2.5rem;
+  }
+  .instructor > p {
+    font-size: 1.125rem;
+    font-weight: 400;
+    margin-bottom: 1.375rem;
+  }
+  .instruction--img {
+    max-width: 27rem;
+  }
+  .instruction--img img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero--wrapper {
+    height: 60vh;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 96.71%
+      ),
+      #03c4eb;
+    font-family: "Lato";
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .record--wrapper {
+    display: none;
+  }
+  .record--mobile {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+    overflow-x: auto;
+  }
+
+  .course--container {
+    height: 20vh;
+  }
+  .course--container {
+    height: 80vh;
+    padding-top: 4.9375rem;
+  }
+
+  .online--learning {
+    background-color: #03c4eb;
+    height: 80vh;
+    position: relative;
+    margin-top: 8rem;
+  }
+
+  .learning--content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+    align-items: center;
+    height: 100%;
+  }
+
+  .testimonial--card--wrapper {
+    display: flex;
+    gap: 6.0625rem;
+    flex-direction: column;
+  }
+  .testimonial-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .testimonial-header > p {
+    padding: 0 2rem;
+  }
+
+  .instructor-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    align-items: center;
+    height: 100vh;
+  }
+  .instructor {
+    display: flex;
+    flex-direction: column;
+    max-width: 38.3125rem;
+  }
+  .instructor h1 {
+    font-weight: 900;
+    font-size: 2rem;
+    font-family: "Lato";
+    margin-bottom: 1.5rem;
+  }
+  .instructor > p {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 1.375rem;
+    max-width: 20rem;
+  }
+  .instruction--img {
+    max-width: 27rem;
+  }
+  .instruction--img img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 414px) {
+  .hero--wrapper {
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 96.71%
+      ),
+      #03c4eb;
+    font-family: "Lato";
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 2rem;
+  }
+  .hero--content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 85%;
+    margin: 0 auto;
+    gap: 6.375rem;
+    position: relative;
+    flex-direction: column;
+  }
+
+  .hero--title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .hero--desc {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 1.3125rem;
+    text-align: center;
+  }
+
+  .course--container {
+    height: 50vh;
+    padding-top: 2.9375rem;
+  }
+
+  .online--learning {
+    background-color: #03c4eb;
+    height: 80vh;
+    position: relative;
+    margin-top: 3rem;
+  }
+
+  .learning--benefit {
+    max-width: 32.4375rem;
+  }
+  .learning--benefit h3 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    font-family: "Lato";
+    margin-bottom: 1.8125rem;
+    text-align: center;
+  }
+  .learning {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.5625rem;
+  }
+
+  .learning--content h1 {
+    display: none;
+  }
+  .carosel {
+    max-width: 100%;
+    margin: 0rem 2rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+  }
+
+  .instructor-container {
+    display: flex;
+    padding-left: 0rem;
+    padding-right: 1rem;
+    align-items: center;
+    height: 60vh;
+    flex-direction: column;
+    row-gap: 2rem;
+  }
+  .instructor {
+    display: flex;
+    flex-direction: column;
+    width: 40.3125rem;
+    order: 2;
+  }
+  .instructor h1 {
+    font-weight: 900;
+    font-size: 2rem;
+    font-family: "Lato";
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .instructor > p {
+    font-size: 1.125rem;
+    font-weight: 400;
+    margin-bottom: 1.375rem;
+    align-self: center;
+    text-align: center;
+    max-width: 32rem;
+  }
+  .Buttton--wrapper {
+    align-self: center;
+  }
+
+  .testimonial-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+  .testimonial--card--wrapper {
+    display: flex;
+    gap: 6.0625rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimonial-header {
+    max-width: 38.3125rem;
+    font-family: "Lato";
+    margin-bottom: 5.0625rem;
+  }
+  .testimonial-header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #373737;
+    text-align: center;
+    margin-bottom: 2.3125rem;
+  }
+  .testimonial-header p {
+    font-size: 1.125rem;
+    font-weight: 400;
+    text-align: center;
+  }
 }

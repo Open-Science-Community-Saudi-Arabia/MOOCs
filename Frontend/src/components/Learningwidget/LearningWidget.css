@@ -32,3 +32,17 @@
     font-family: 'Lato';
     color: white;
 }
+
+@media (max-width:425px) {
+    .Icon--wrapper{
+        width: 70px;
+        height: 70px;
+        background-color: white;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+  
+}

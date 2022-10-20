@@ -5,13 +5,16 @@
 }
  .imgwrapper{
     position: relative;
+    /* width: rem; */
 }
 .imgwrapper img{
-    border-radius: 15px;
+    object-fit: cover;
 }
 .imgwrapper img{
     width: 100%;
     object-fit: contain;
+    border-radius: 15px;
+
 }
 .creative{
     position: absolute;
@@ -47,6 +50,7 @@
     text-align: center;
     font-size: 14px;
     color: #484848;
+    align-self: center;
 }
 
 .play{

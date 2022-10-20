@@ -6,7 +6,9 @@ const LearningWidget = ({title, desc, icon:Icon}) => {
     <div className='learningwidget'>
        <div className='icon--container'>
        <div className='Icon--wrapper'>
+        <div className='icon'>
         <Icon/>
+        </div>
        </div>
        </div>
         <div className='details'>
