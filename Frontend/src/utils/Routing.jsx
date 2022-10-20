@@ -5,11 +5,12 @@ import Login from "../pages/login/Login"
 import Signup from "../pages/signup/Signup"
 
 function Layout() {
+    console.log("Hello")
     return (
         <Routes>
-            <Route path="/" element={<LandingPage />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
         </Routes>
     )
 }

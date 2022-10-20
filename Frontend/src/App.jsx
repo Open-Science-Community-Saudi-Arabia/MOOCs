@@ -1,3 +1,4 @@
+import React from "react"
 import "./GlobalStyles.css"
 import Layout from "./utils/Routing"
 
