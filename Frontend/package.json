@@ -12,7 +12,9 @@
         "prettier": "prettier .",
         "format": "prettier --write",
         "format:fix": "yarn prettier -- --write",
-        "format:check": "yarn prettier -- --check"
+        "format:check": "yarn prettier -- --check",
+        "prepare": "cd .. && husky install Frontend/.husky",
+        "lint-staged": "lint-staged --config lint-staged.config.js"
     },
     "dependencies": {
         "react": "^18.2.0",
@@ -31,6 +33,8 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.28.0",
         "eslint-plugin-react-hooks": "^4.3.0",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3",
         "prettier": "^2.7.1",
         "vite": "^3.1.0"
     }
