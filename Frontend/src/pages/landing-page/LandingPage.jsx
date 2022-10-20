@@ -1,9 +1,9 @@
 import Button from "../../components/Button/Button";
 import React from "react";
-import { Link } from "react-router-dom";
 import Records from "../../components/Records/Records";
 import { record } from "../../utils/data";
 import "./landingpage.css";
+import {Link} from 'react-router-dom'
 import Course from "../../components/Course/Course";
 import {courses, learning, testimonials} from '../../utils/data'
 import Carosel from "../../components/Carousel/Carousel";
@@ -12,7 +12,7 @@ import Testimonial from "../../components/TestimonialCard/Testimonial";
 
 function LandingPage() {
   return (
-    <>
+    <div className="landingpage">
       <section className="hero--wrapper">
         <div className="hero--content">
          <div className="img--wrapper">
@@ -30,10 +30,13 @@ function LandingPage() {
  
           </div>
         </div>
-          <div className="record--wrapper">
+           <div className="record--wrapper">
+          {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
+          </div>          
+      </section>
+      <div className="record--mobile">
           {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
           </div>
-      </section>
       <section className="course--container">
        <div className="heading--wrapper">
        <h1 className="course--title">
@@ -59,16 +62,18 @@ function LandingPage() {
         OSCSA 
         </h1>
         <div className="learning--benefit">
-          <h3>Benifits from our online 
-learning</h3>
+          <h3>Benefits from our online 
+learning</h3> 
 
-     <div className="learning">
+      <div className="learning">
      {learning.map((learn, index)=> <LearningWidget {...learn} key={index}/>)}
-     </div>
+     </div> 
         </div>
           </div>
        </div>
       </section>
+
+
       <section className="instructor-container">
         <div className="instructor">
           <h1>
@@ -76,17 +81,19 @@ learning</h3>
           </h1>
           <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo,
+          luctus venenatis, lectus magna fringilla urna, 
 
-vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci
           </p>
          <div className="Buttton--wrapper">
          <Button title='Click Here to Apply' outlined={true}/>
          </div>
         </div>
-        <div>
+        <div className="instruction--img">
           <img src="../../../public/images/Mask Group.png" alt="" />
         </div>
       </section>
+
+
       <section className="testimonial-wrapper">
            <div className="testimonial-header">
            <h1>
@@ -101,16 +108,15 @@ vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim
 
 </div>
       </section>
-    </>
+
+      <div className=" links">
+       <Link to="/login">Go to Login Page</Link>
+        <Link to="/signup">Go to Sign Up Page</Link>
+
+       </div> 
+    </div>
   );
 }
 
 export default LandingPage;
 
-{
-  /* <div className=" link">
-       <Link to="/login">Go to Login Page</Link>
-        <Link to="/signup">Go to Sign Up Page</Link>
-
-       </div> */
-}
