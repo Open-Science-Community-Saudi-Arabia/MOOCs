@@ -2,8 +2,8 @@ import './Carousel.css'
 import  Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import LeftArrow from '../vectors/LeftArrow'
+import RightArrow from '../vectors/RightArrow'
 const Carousel = ({children}) => {
   const  settings = {
         infinite:true,
@@ -58,7 +58,7 @@ const SampleNextArrow = ({
         onClick={onClick}
       >
       
-        <ArrowRightIcon />
+        <RightArrow/>
       </div>
     );
   };
@@ -71,7 +71,7 @@ const SampleNextArrow = ({
         className="prev"
         onClick={onClick}
       >
-        <ArrowLeftIcon/>
+        <LeftArrow/>
       </div>
     );
   };
