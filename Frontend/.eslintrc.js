@@ -19,6 +19,7 @@ module.exports = {
         "react/button-has-type": 0,
         "react/self-closing-comp": "warn",
         "import/newline-after-import": "warn",
-        "import/order": "warn"
+        "import/order": "warn",
+        "no-console": "warn"
     }
 }
