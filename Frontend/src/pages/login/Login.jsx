@@ -1,6 +1,7 @@
 import React from "react"
 import "./login.css"
 import { Link } from "react-router-dom"
+
 function Login() {
     return (
         <div>
@@ -19,7 +20,7 @@ function Login() {
                                 <span>Login with Google</span>
                             </a>
                         </div>
-                        <div className="line"></div>
+                        <div className="line" />
 
                         <form action="#">
                             <div className="field input-field">
@@ -32,7 +33,7 @@ function Login() {
                                     placeholder="Password"
                                     className="password"
                                 />
-                                <i className="bx bx-hide eye-icon"></i>
+                                <i className="bx bx-hide eye-icon" />
                             </div>
 
                             <div className="field button-field">

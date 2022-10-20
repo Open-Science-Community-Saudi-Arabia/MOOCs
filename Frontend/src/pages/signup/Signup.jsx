@@ -19,7 +19,7 @@ function Signup() {
                         </div>
                         <div className="field input-field">
                             <input type="password" placeholder="Password" className="password" />
-                            <i className="bx bx-hide eye-icon"></i>
+                            <i className="bx bx-hide eye-icon" />
                         </div>
 
                         <div className="field button-field">
@@ -27,7 +27,7 @@ function Signup() {
                         </div>
                     </form>
 
-                    <div className="line"></div>
+                    <div className="line" />
 
                     <div className="media-options">
                         <a href="#" className="field google">
