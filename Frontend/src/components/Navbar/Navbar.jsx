@@ -52,20 +52,18 @@ const Navbar = () => {
 						Categories
 						<BiCaretDown />
 					</button>
-					<div className="auth-btns-wrapper">
-						<button
-							className={isOpen ? "auth-btns mobile" : "auth-btns"}
-							onClick={() => navigate("/login")}
-						>
-							Log In
-						</button>
-						<button
-							className={isOpen ? "auth-btns mobile" : "auth-btns"}
-							onClick={() => navigate("/signup")}
-						>
-							Sign Up
-						</button>
-					</div>
+					<button
+						className={isOpen ? "auth-btns mobile" : "auth-btns"}
+						onClick={() => navigate("/login")}
+					>
+						Log In
+					</button>
+					<button
+						className={isOpen ? "auth-btns mobile" : "auth-btns"}
+						onClick={() => navigate("/signup")}
+					>
+						Sign Up
+					</button>
 				</div>
 				<button className="mobile-nav-icon" onClick={() => setIsOpen(!isOpen)}>
 					{isOpen ? <FaTimes /> : <HiBars3 />}
