@@ -13,7 +13,8 @@
       "profile": "http://adedamolaorofin.web.app",
       "contributions": [
         "infra",
-        "design"
+        "design",
+        "review"
       ]
     },
     {
@@ -72,6 +73,25 @@
       "contributions": [
         "test",
         "infra"
+      ]
+    },
+    {
+      "login": "AminMusah",
+      "name": "Amin Musah Ahmed",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60413409?v=4",
+      "profile": "https://github.com/AminMusah",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "JulianaSau",
+      "name": "Juliana Sau ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49183775?v=4",
+      "profile": "https://julianasau.vercel.app",
+      "contributions": [
+        "infra",
+        "ideas"
       ]
     }
   ],
