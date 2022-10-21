@@ -68,25 +68,25 @@ const user_schema = new Schema(
 //       // Set password field in User collection to null
 //       this.password = null
 
-user_schema.pre('save', () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // Save password reference for user in Password collection
-            await Password.create({
-                user_id: this._id,
-                password: this.password,
-                role: this.role
-            })
+// user_schema.pre('save', () => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       // Save password reference for user in Password collection
+//       await Password.create({
+//         user_id: this._id,
+//         password: this.password,
+//         role: this.role
+//       })
 
-            // Set password field in User collection to null
-            this.password = null
+//       // Set password field in User collection to null
+//       this.password = null
 
-            resolve(this)
-        } catch (error) {
-            reject(error)
-        }
-    })
-})
+//       resolve(this)
+//     } catch (error) {
+//       reject(error)
+//     }
+//   })
+// })
 
 user_schema.methods.comparePassword = async function (
   candidatePassword,
