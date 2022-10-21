@@ -23,9 +23,11 @@ const createToken = (user, statusCode, res) => {
     ),
     httpOnly: true,
   }
+  console.log(cookieOptions)
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
   res.cookie('jwt', token, cookieOptions)
   user.password = undefined
+  user.passwordConfirm = undefined
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -36,6 +38,7 @@ const createToken = (user, statusCode, res) => {
 }
 
 exports.signup = asyncWrapper(async (req, res, next) => {
+  console.log(req.body)
   //1. Grab Values from req.body & Store Values in database
   const user = await User.create({
     firstname: req.body.firstname,
