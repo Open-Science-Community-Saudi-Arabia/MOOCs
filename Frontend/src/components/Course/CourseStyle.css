@@ -6,14 +6,14 @@
  .imgwrapper{
     position: relative;
     /* width: rem; */
+    height:13.875rem;
 }
+
 .imgwrapper img{
+    height: 100%;
     object-fit: cover;
-}
-.imgwrapper img{
-    width: 100%;
-    object-fit: contain;
     border-radius: 15px;
+    width: 100%;
 
 }
 .creative{
@@ -70,6 +70,7 @@ gap: 0.5rem;
 .lessons{
 color:#0B036B;
 font-weight: 700;
+font-size: 13px;
 }
 .play{
     display: flex;

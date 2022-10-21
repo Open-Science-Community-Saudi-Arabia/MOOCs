@@ -24,3 +24,7 @@
   box-sizing: border-box;
   font-family: 'Poppins', 'Lato', 'Roboto' sans-serif;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}
