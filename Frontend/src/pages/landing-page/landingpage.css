@@ -245,6 +245,7 @@
     flex-direction: column;
     background-color: #eee;
     gap: 4em;
+    overflow-x: hidden;
   }
 
   .hero--wrapper {
@@ -281,7 +282,6 @@
     bottom: -25%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* flex-direction: column; */
   }
 
   .hero--content {
@@ -586,7 +586,7 @@
   .instructor {
     display: flex;
     flex-direction: column;
-    width: 40.3125rem;
+    max-width: 40.3125rem;
     order: 2;
   }
   .instructor h1 {
@@ -639,4 +639,9 @@
     font-weight: 400;
     text-align: center;
   }
+
+}
+
+::-webkit-scrollbar{
+    display: none;
 }

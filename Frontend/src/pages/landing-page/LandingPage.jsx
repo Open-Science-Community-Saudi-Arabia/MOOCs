@@ -32,7 +32,7 @@ function LandingPage() {
         </div>
            <div className="record--wrapper">
           {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
-          </div>          
+          </div>           
       </section>
       <div className="record--mobile">
           {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
@@ -44,16 +44,16 @@ function LandingPage() {
         </h1>
         <p className="course--desc">Lorem ipsum dolor sit amet, in sed integer. Scelerisque nam evget imperdiet accumsan, ipsum  turpis cursus. In elit amet, tortor nunc.</p>
        </div>
-       <div className="carosel">
+        <div className="carosel">
       <Carosel>
       {
         courses.map((course, index)=>  <Course {...course} key={index}/>)
        }
       </Carosel>
-       </div>
+       </div> 
       </section>
 
-      <section className="online--learning">
+       <section className="online--learning">
        <img src="../../../public/images/ring1.png" alt="" className="ring2" />
        <img src="../../../public/images/ring2.png" className="ring1" alt="" />
        <div className="online--learning--wrapper">
@@ -71,11 +71,11 @@ learning</h3>
         </div>
           </div>
        </div>
-      </section>
+      </section> 
 
 
       <section className="instructor-container">
-        <div className="instructor">
+         <div className="instructor">
           <h1>
           Become an Instructor
           </h1>
@@ -90,7 +90,7 @@ learning</h3>
         </div>
         <div className="instruction--img">
           <img src="../../../public/images/Mask Group.png" alt="" />
-        </div>
+        </div> 
       </section>
 
 
@@ -100,18 +100,18 @@ learning</h3>
             Student Testimonial
             </h1>
             <p>vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci</p>
-           </div>
+           </div> 
 
-<div className="testimonial--card--wrapper">
+ <div className="testimonial--card--wrapper">
   
        {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
 
-</div>
+</div> 
       </section>
 
       <div className=" links">
-       <Link to="/login">Go to Login Page</Link>
-        <Link to="/signup">Go to Sign Up Page</Link>
+       {/* <Link to="/login">Go to Login Page</Link>
+        <Link to="/signup">Go to Sign Up Page</Link> */}
 
        </div> 
     </div>
