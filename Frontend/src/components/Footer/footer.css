@@ -28,13 +28,13 @@
 }
 
 .footer-summary > h1 {
-	font-size: 5rem;
+	font-size: 1.8rem;
 	font-weight: 700;
 }
 
 .footer-summary > p {
 	line-height: 22px;
-	font-size: 1.25rem;
+	font-size: 1rem;
 }
 
 .footer-links {
@@ -90,5 +90,9 @@
 		width: 100%;
 		gap: 3rem;
 		padding: 2rem 1rem;
+	}
+
+	.footer-summary > h1 {
+		font-size: 2rem;
 	}
 }

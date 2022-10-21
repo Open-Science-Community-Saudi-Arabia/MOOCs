@@ -17,7 +17,7 @@
 }
 
 .logo {
-	font-size: 3rem;
+	font-size: 1.5rem;
 	font-weight: 700;
 	text-decoration: none;
 	color: #fff;
@@ -186,6 +186,10 @@
 @media screen and (min-width: 1025px) {
 	.navbar {
 		justify-content: space-around;
+	}
+	
+	.logo {
+		font-size: 2rem;
 	}
 
 	.navbar-mobile,
