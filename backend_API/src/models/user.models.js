@@ -60,6 +60,10 @@ const user_schema = new Schema(
 user_schema.pre('save', function (next) {
     return new Promise(async (resolve, reject) => {
         try {
+            if (!this.isModified('password')) return next()
+            this.password = await bcrypt.hash(this.password, 12)
+            this.passwordConfirm = undefined
+
             // Extra check incase mongodb index for email is not created
             const email_exists = await User.findOne({ email: this.email })
             if (email_exists) {
