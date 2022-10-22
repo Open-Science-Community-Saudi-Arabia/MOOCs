@@ -8,7 +8,8 @@ const app = express();
 
 
 // Middlewares
-app.use(morgan("dev"))
+if (process.env.NODE_ENV == 'dev') app.use(morgan('dev'));
+
 app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
