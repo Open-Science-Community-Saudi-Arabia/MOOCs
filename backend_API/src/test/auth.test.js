@@ -74,7 +74,6 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for duplicate signup', async () => {
-            console.log(signup_data)
             const res = await app.post(url).send(signup_data)
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.be.a('object')
@@ -105,7 +104,6 @@ describe('User Authentication for Signup, Email verification, login and password
         it('should return status code 200 for successful login', async () => {
             await app.post('/api/v1/auth/signup').send(signup_data)
             const res = await app.post(url).send(login_data)
-            console.log(login_data)
             
             expect(res.body).to.have.a.property('token').to.be.a('string')
             expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
@@ -120,6 +118,27 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
     })
+
+    describe('POST /forgotPassword', async () => {
+        const url = '/api/v1/auth/forgotPassword'
+        let user;
+
+        it('should return status code 404 for none matching user email', async () => {
+            const res = await app.post(url).send({ email: "thisisthewrongemail" })
+
+            expect(res.statusCode).to.equal(404)
+            expect(res.body.message).to.be.a('string').to.equal("No User Found With That Email")
+        })
+
+        it('should return status code 200 for successful password reset', async () => {
+            await app.post('/api/v1/auth/signup').send(signup_data)
+            const res = await app.post(url).send(login_data)
+
+            expect(res.statusCode).to.equal(200)
+            expect(res.body.message).to.be.a('string').to.equal("Token sent to email")
+        })
+    })
+
     // describe('POST /verify', () => {
     //     const url = '/api/v1/auth/verify'
     //     let user, bearer_token, ver_token;
