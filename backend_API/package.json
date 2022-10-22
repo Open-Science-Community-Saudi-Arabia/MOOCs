@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./src/test/ --timeout 10000",
     "dev": "cross-env NODE_ENV=dev nodemon ./src/server.js",
-    "start": "node ./src/server"
+    "start": "nodemon ./src/server"
   },
   "author": "",
   "license": "ISC",
