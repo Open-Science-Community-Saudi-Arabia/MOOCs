@@ -1,5 +1,3 @@
-const UUID = require('uuid').v4
-const { Oauth2Client } = require('google-auth-library')
 const User = require('./../models/user.models')
 const asyncWrapper = require('./../utils/async_wrapper')
 const jwt = require('jsonwebtoken')
@@ -26,7 +24,6 @@ const createToken = (user, statusCode, res) => {
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
   res.cookie('jwt', token, cookieOptions)
   user.password = undefined
-  user.passwordConfirm = undefined
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -46,7 +43,6 @@ exports.signup = asyncWrapper(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   })
-
   createToken(user, 200, res)
 })
 

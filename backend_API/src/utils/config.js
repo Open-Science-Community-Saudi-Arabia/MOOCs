@@ -8,6 +8,6 @@ const JWT_SECRET_EXPIRES_IN = process.env.JWT_ACCESS_EXPIRES_IN
 module.exports = {
     MONGO_URI,
     PORT,
-    JWT_SECRET,
+    JWT_SECRET_KEY,
     JWT_SECRET_EXPIRES_IN
 }
