@@ -1,10 +1,11 @@
 const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const videoSchema = new mongoose.Schema({
     adminId: {
-        type: mongoose.Schema.Types,
-        ref: "admin",
-        default: ""
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Admin",
+        // default: ""
     },
     title: {
         type: String,
@@ -24,6 +25,6 @@ const videoSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
-const Video = model("video", videoSchema)
+const Video = mongoose.model("Video", videoSchema)
 
 module.exports = Video
