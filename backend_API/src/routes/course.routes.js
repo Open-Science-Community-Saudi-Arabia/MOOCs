@@ -1,12 +1,13 @@
 
 const router = require("express")()
 
+const express = require("expres")
 const {getCourses, deleteCourse} = require("../controllers/courses.controller")
-const permission = require("../middlewares/permission_handler")
+const permission = require("../middlewares/permissions_handler")
 const {basicAuth} = require("../middlewares/auth")
 
-router.get("/get-courses", basicAuth, permission("Admin EndUser"), getCourses)
+router.get("/get-courses", basicAuth(req, res, next), permission("Admin EndUser"), getCourses)
 
-router.delete("/delete-course/:courseId",basicAuth, permission("Admin"), deleteCourse)
+router.delete("/delete-course/:courseId",basicAuth(req, res, next), basicAuth(req, res, next), permission("Admin"), deleteCourse)
 
 module.exports = router
