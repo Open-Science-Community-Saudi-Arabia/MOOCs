@@ -70,9 +70,6 @@ user_schema.pre('save', function (next) {
                 return reject(new BadRequestError('Email already exists please user another email'))
             }
 
-            // Set password field in User collection to null
-            const salt = await bcrypt.genSalt(10)
-            this.password = await bcrypt.hash(this.password, salt)
             resolve(this)
         } catch (error) {
             reject(error)
@@ -83,7 +80,7 @@ user_schema.pre('save', function (next) {
 user_schema.methods.comparePassword = async function (
     candidatePassword,
     userPassword,
-) {
+) { 
     return await bcrypt.compare(candidatePassword, userPassword)
 }
 
