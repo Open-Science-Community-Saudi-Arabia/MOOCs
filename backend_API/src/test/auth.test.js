@@ -74,6 +74,7 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for duplicate signup', async () => {
+            console.log(signup_data)
             const res = await app.post(url).send(signup_data)
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.be.a('object')
@@ -104,8 +105,8 @@ describe('User Authentication for Signup, Email verification, login and password
         it('should return status code 200 for successful login', async () => {
             await app.post('/api/v1/auth/signup').send(signup_data)
             const res = await app.post(url).send(login_data)
+            console.log(login_data)
             
-            // console.log(res)
             expect(res.body).to.have.a.property('token').to.be.a('string')
             expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
             expect(res.statusCode).to.equal(200)
