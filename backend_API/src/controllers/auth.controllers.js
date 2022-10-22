@@ -1,5 +1,3 @@
-const UUID = require('uuid').v4
-const { Oauth2Client } = require('google-auth-library')
 const User = require('./../models/user.models')
 const asyncWrapper = require('./../utils/async_wrapper')
 const jwt = require('jsonwebtoken')
