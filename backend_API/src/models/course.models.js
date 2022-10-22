@@ -1,29 +1,29 @@
 const mongoose = require("mongoose")
 
-const CourseSchema = new mongoose.Schema({
+const videoSchema = new mongoose.Schema({
+    adminId: {
+        type: mongoose.Schema.Types,
+        ref: "admin",
+        default: ""
+    },
     title: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
-    desc: {
+    tutorName: {
         type: String,
-        required: true,
+        required: true
     },
     video: {
-        type: String, /*video url*/
-        required: false,
+        videoId: String,
+        videoUrl: String
     },
-    username: {      /*admin username*/
+    category: {
         type: String,
-        required: true,
-    },
-    categories: {
-        type: Array,
-        required: false,
+        required: true
     }
-},
-    { timestamps: true }
-);
+}, {timestamps: true})
 
-module.exports = mongoose.model("Course", CourseSchema);
+const Video = model("video", videoSchema)
+
+module.exports = Video
