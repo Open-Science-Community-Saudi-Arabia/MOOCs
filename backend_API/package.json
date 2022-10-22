@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server",
-    "dev": "nodemon ./src/server.js"
+    "test": "cross-env NODE_ENV=test mocha ./src/test/ --timeout 10000",
+    "dev": "cross-env NODE_ENV=dev nodemon ./src/server.js",
+    "start": "nodemon ./src/server"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "google-auth-library": "^8.5.1",
@@ -23,9 +24,13 @@
     "morgan": "^1.10.0",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.19",
+    "supertest": "^6.3.0",
+    "uuid": "^9.0.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.1.0",
     "nodemon": "^2.0.20"
   }
 }
