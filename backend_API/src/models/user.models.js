@@ -39,6 +39,7 @@ const user_schema = new Schema(
         },
         message: 'Password do not match',
       },
+      select: false,
     },
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
@@ -55,38 +56,19 @@ const user_schema = new Schema(
 //     justOne: true
 // })
 
-// user_schema.pre('save', () => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       // Save password reference for user in Password collection
-//       await Password.create({
-//         user_id: this._id,
-//         password: this.password,
-//         role: this.role,
-//       })
 
-//       // Set password field in User collection to null
-//       this.password = null
-
-// user_schema.pre('save', () => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       // Save password reference for user in Password collection
-//       await Password.create({
-//         user_id: this._id,
-//         password: this.password,
-//         role: this.role
-//       })
-
-//       // Set password field in User collection to null
-//       this.password = null
-
-//       resolve(this)
-//     } catch (error) {
-//       reject(error)
-//     }
-//   })
-// })
+user_schema.pre('save', function (next) {
+  return new Promise(async(resolve, reject) => {
+    try {
+      // Set password field in User collection to null
+      const salt = await bcrypt.genSalt(10)
+      this.password = await bcrypt.hash(this.password, salt)
+      resolve(this)
+    } catch (error) {
+      reject(error)
+    }
+  })
+})
 
 user_schema.methods.comparePassword = async function (
   candidatePassword,
