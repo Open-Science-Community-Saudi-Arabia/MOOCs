@@ -3,7 +3,6 @@ import React from "react";
 import Records from "../../components/Records/Records";
 import { record } from "../../utils/data";
 import "./landingpage.css";
-import {Link} from 'react-router-dom'
 import Course from "../../components/Course/Course";
 import {courses, learning, testimonials} from '../../utils/data'
 import Carosel from "../../components/Carousel/Carousel";
@@ -13,11 +12,11 @@ import Testimonial from "../../components/TestimonialCard/Testimonial";
 function LandingPage() {
   return (
     <div className="landingpage">
-      <section className="hero--wrapper">
-        <div className="hero--content">
+      <section className="hero--wrapper ">
+        <div className="hero--content ">
          <div className="img--wrapper">
          <img
-            src="../../../public/images/Mask Group.png"
+            src="/images/Mask Group.png"
             alt=""
             className="images"
           />
@@ -26,8 +25,7 @@ function LandingPage() {
             <h1 className="hero--title">A revolutionary way to educate.</h1>
             <p className="hero--desc">Online education is electronically supported learning that
  relies on the Internet for teacher/student interaction and
- the distribution of class materials.</p>
- 
+ the distribution of class materials.</p> 
           </div>
         </div>
            <div className="record--wrapper">
@@ -37,7 +35,7 @@ function LandingPage() {
       <div className="record--mobile">
           {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
           </div>
-      <section className="course--container">
+      <section className="course--container cont">
        <div className="heading--wrapper">
        <h1 className="course--title">
         Our Popular Courses
@@ -54,8 +52,8 @@ function LandingPage() {
       </section>
 
        <section className="online--learning">
-       <img src="../../../public/images/ring1.png" alt="" className="ring2" />
-       <img src="../../../public/images/ring2.png" className="ring1" alt="" />
+       <img src="/images/ring1.png" alt="" className="ring2" />
+       <img src="/public/images/ring2.png" className="ring1" alt="" />
        <div className="online--learning--wrapper">
           <div className="learning--content">
           <h1>
@@ -89,12 +87,12 @@ learning</h3>
          </div>
         </div>
         <div className="instruction--img">
-          <img src="../../../public/images/Mask Group.png" alt="" />
+          <img src="/images/Mask Group.png" alt="" />
         </div> 
       </section>
 
 
-      <section className="testimonial-wrapper">
+      <section className="testimonial-wrapper cont">
            <div className="testimonial-header">
            <h1>
             Student Testimonial
@@ -102,10 +100,9 @@ learning</h3>
             <p>vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci</p>
            </div> 
 
- <div className="testimonial--card--wrapper">
+ <div className="testimonial--card--wrapper ">
   
        {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
-
 </div> 
       </section>
 

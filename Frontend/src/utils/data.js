@@ -24,7 +24,7 @@ export const record = [
 
 export const courses = [
   {
-    img: "../../public/images/course3.png",
+    img: "/images/course3.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -33,7 +33,7 @@ export const courses = [
     ratings:'4.5'
   },
   {
-    img: "../../public/images/course1.png",
+    img: "/images/course1.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -42,7 +42,7 @@ export const courses = [
     ratings:'4.0'
   },
   {
-    img: "../../public/images/course2.png",
+    img: "/images/course2.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -51,7 +51,7 @@ export const courses = [
     ratings:'4.7'
   },
   {
-    img: "../../public/images/course1.png",
+    img: "/images/course1.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -60,7 +60,7 @@ export const courses = [
     ratings:'4.5'
   },
   {
-    img: "../../public/images/course3.png",
+    img: "/images/course3.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -69,7 +69,7 @@ export const courses = [
     ratings:'4.0'
   },
   {
-    img: "../../public/images/course2.png",
+    img: "/images/course2.png",
     title: "Creative Writing",
     desc: `Creative Writing : Creative writing is
         any writing that goes outside 
@@ -102,12 +102,12 @@ export const learning = [
 
 export const testimonials =[
   {
-    img:'../../public/images/testimonial1.png',
+    img:'/images/testimonial1.png',
     name:'-Jeo Stanlee',
     desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor'
   },
   {
-    img:'../../public/images/testimonial1.png',
+    img:'/images/testimonial1.png',
     name:'',
     desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor'
   }
