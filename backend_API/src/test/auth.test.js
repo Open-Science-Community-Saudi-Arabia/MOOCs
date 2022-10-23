@@ -7,13 +7,13 @@ const server = require('../app')
 const request = require('supertest'),
     app = request.agent(server)
 const connectDatabase = require('../db/connectDB')
-const { User } = require('../models/user.models')
+const User = require('../models/user.models')
 
 
 
 describe('User Authentication for Signup, Email verification, login and password reset', () => {
     // Clear the test database before running tests
-    before(async() => {
+    before(async () => {
         await mongoose.connection.dropDatabase()
     })
 
@@ -82,7 +82,7 @@ describe('User Authentication for Signup, Email verification, login and password
         })
     })
 
-    describe('POST /login', async () => {
+    describe('POST /login', () => {
         const url = '/api/v1/auth/login'
         let user;
 
@@ -104,7 +104,7 @@ describe('User Authentication for Signup, Email verification, login and password
         it('should return status code 200 for successful login', async () => {
             await app.post('/api/v1/auth/signup').send(signup_data)
             const res = await app.post(url).send(login_data)
-            
+
             expect(res.body).to.have.a.property('token').to.be.a('string')
             expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
             expect(res.statusCode).to.equal(200)
@@ -119,7 +119,7 @@ describe('User Authentication for Signup, Email verification, login and password
 
     })
 
-    describe('POST /forgotPassword', async () => {
+    describe('POST /forgotPassword', () => {
         const url = '/api/v1/auth/forgotPassword'
         let user;
 
@@ -130,13 +130,36 @@ describe('User Authentication for Signup, Email verification, login and password
             expect(res.body.message).to.be.a('string').to.equal("No User Found With That Email")
         })
 
-        it('should return status code 200 for successful password reset', async () => {
-            await app.post('/api/v1/auth/signup').send(signup_data)
+        it('should return status code 200 for successful forgot password request', async () => {
             const res = await app.post(url).send(login_data)
 
             expect(res.statusCode).to.equal(200)
             expect(res.body.message).to.be.a('string').to.equal("Token sent to email")
         })
+    })
+
+    describe('PATCH /resetpassword/:token', async () => {
+        let url;
+        before(() => {
+            new_password = 'thisisthenewpassword'
+        })
+
+        // it("should return status 200 for successful password reset", async () => {
+        //     const user = await User.findOne({ email: login_data.email })
+        //     console.log(user)
+        //     expect(user).to.have.property('passwordResetToken')
+        //     expect(user.passwordResetToken).not.to.equal(undefined)
+        //     expect(user.passwordResetToken).to.be.a('string')
+
+        //     const token = user.passwordResetToken
+        //     url = '/api/v1/auth/resetpassword/' + token
+        //     console.log(url)
+        //     const res = await app.patch(url).send({ pasword: new_password })
+
+        //     console.log(res.body)
+        //     expect(res.body).to.have.property('status').to.equal('success')
+
+        // })
     })
 
     // describe('POST /verify', () => {
