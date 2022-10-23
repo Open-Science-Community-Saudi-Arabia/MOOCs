@@ -1,0 +1,154 @@
+:root {
+  --PrimaryColor: hsl(197, 71%, 73%);
+  --HoverColor: hsl(202, 42%, 69%);
+  --PaleGreen: hsl(96, 75%, 89%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(208, 10%, 36%);
+  --textColor: hsl(240, 1%, 48%);
+  --bgColor: hsl(220, 10%, 94%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  --courseCardColor: hsl(120, 5%, 88%);
+  --courseCardHover: hsl(120, 27%, 87%);
+  /* font */
+  --biggestFontSize: 2.5rem;
+  --h1FontSize: 1.5rem;
+  --h2FontSize: 1.25rem;
+  --h3FontSize: 1rem;
+  --normalFontSize: 0.938rem;
+  --smallFontSize: 0.813rem;
+  --smallestFontSize: 0.75rem;
+}
+
+.listingSection {
+  flex-basis: 70%;
+}
+.listingSection .heading {
+  width: 100%;
+  justify-content: space-between;
+}
+.listingSection .heading h1 {
+  font-size: var(--h2FontSize);
+  color: var(--blackColor);
+  font-weight: 700;
+}
+.listingSection .heading .btn {
+  border: 1px solid transparent;
+}
+.listingSection .heading .btn:hover {
+  border: 2px solid var(--PrimaryColor);
+  background: none;
+  color: var(--PrimaryColor);
+}
+.listingSection .sectionContainer {
+  width: 100%;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.listingSection .sectionContainer .singleCourse {
+  position: relative;
+  width: 150px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background: var(--courseCardColor);
+}
+.listingSection .sectionContainer .singleCourse:hover {
+  background: var(--HoverColor);
+  box-shadow: 0 2px 2px var(--inputColor);
+}
+.listingSection .sectionContainer .singleCourse img {
+  max-width: 100px;
+}
+.listingSection .sectionContainer .singleCourse .icon {
+  color: var(--PrimaryColor);
+  margin-bottom: 10px;
+  top: 10px;
+  right: 10px;
+}
+.listingSection .sectionContainer .singleCourse .icon:hover {
+  color: var(--whiteColor);
+}
+.listingSection .sectionContainer .singleCourse h3 {
+  font-size: var(--h3FontSize);
+  color: var(--blackColor);
+  padding: 1rem 0;
+}
+.listingSection .course {
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+.listingSection .course .topCourses .heading,
+.listingSection .course .weakCourses .heading {
+  padding: 1rem 0;
+}
+.listingSection .course .topCourses .heading h3,
+.listingSection .course .weakCourses .heading h3 {
+  color: var(--blackColor);
+}
+.listingSection .course .topCourses .heading .btn,
+.listingSection .course .weakCourses .heading .btn {
+  padding: 0.5rem 1rem;
+}
+.listingSection .course .topCourses .card,
+.listingSection .course .weakCourses .card {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--whiteColor);
+  gap: 1rem;
+  box-shadow: 0 2px 4px var(--inputColor);
+}
+.listingSection .course .topCourses .card .courses,
+.listingSection .course .weakCourses .card .courses {
+  padding-right: 1rem;
+  border-right: 2px solid var(--greyText);
+}
+.listingSection .course .topCourses .card .courses img,
+.listingSection .course .weakCourses .card .courses img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 2px solid var(--inputColor);
+  transition: 0.5ms ease;
+}
+.listingSection .course .topCourses .card .courses img:hover,
+.listingSection .course .weakCourses .card .courses img:hover {
+  transform: translateY(-10px);
+}
+.listingSection .course .topCourses .card .cardText span,
+.listingSection .course .weakCourses .card .cardText span {
+  color: var(--blackColor);
+  font-weight: 500;
+}
+.listingSection .course .topCourses .card .cardText span small,
+.listingSection .course .weakCourses .card .cardText span small {
+  font-weight: 400;
+}
+
+@media screen and (max-width: 990px) {
+  .listingSection .course .card {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 918px) {
+  .listingSection .singleCourse {
+    width: 200px !important;
+  }
+}
+@media screen and (max-width: 490px) {
+  .listingSection .course {
+    flex-direction: column;
+  }
+  .listingSection .course .card {
+    flex-direction: row;
+  }
+}/*# sourceMappingURL=listing.css.map */

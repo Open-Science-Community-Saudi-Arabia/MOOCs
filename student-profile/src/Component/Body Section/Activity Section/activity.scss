@@ -1,0 +1,80 @@
+:root {
+  --PrimaryColor: hsl(197, 71%, 73%);
+  --HoverColor: hsl(202, 42%, 69%);
+  --PaleGreen: hsl(96, 75%, 89%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(208, 10%, 36%);
+  --textColor: hsl(240, 1%, 48%);
+  --bgColor: hsl(220, 10%, 94%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  --courseCardColor: hsl(120, 5%, 88%);
+  --courseCardHover: hsl(120, 27%, 87%);
+
+  /* font */
+  --biggestFontSize: 2.5rem;
+  --h1FontSize: 1.5rem;
+  --h2FontSize: 1.25rem;
+  --h3FontSize: 1rem;
+  --normalFontSize: 0.938rem;
+  --smallFontSize: 0.813rem;
+  --smallestFontSize: 0.75rem;
+}
+
+.activitySection {
+  flex-basis: 25%;
+  .heading {
+    width: 100%;
+    justify-content: space-between;
+    h1 {
+      font-size: var(--h2FontSize);
+      color: var(--blackColor);
+      font-weight: 700;
+    }
+    .btn {
+      border: 1px solid transparent;
+    }
+    .btn:hover {
+      border: 1px solid var(--PrimaryColor);
+      color: var(--PrimaryColor);
+      background: none;
+    }
+  }
+  .contentSection {
+    margin-top: 1rem;
+    color: var(--textColor);
+    .singleActivity {
+      align-items: flex-start;
+      justify-content: space-between;
+
+      img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0 2px4px var(--HoverColor);
+        margin-right: 1rem;
+      }
+      .activityDetails {
+        flex: 1;
+        .name {
+          font-size: var(--h3FontSize);
+          font-weight: 600;
+          color: var(--blackColor);
+          display: block;
+        }
+        small {
+          font-weight: 500;
+          color: var(--textColor);
+          font-size: var(--smallFontSize);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 918px) {
+  .activitySection {
+    width: 100%;
+  }
+}
