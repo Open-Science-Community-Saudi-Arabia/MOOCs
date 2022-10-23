@@ -1,11 +1,16 @@
 const UUID = require('uuid').v4
-const { Oauth2Client } = require('google-auth-library')
-const User = require('./../models/user.models')
-const asyncWrapper = require('./../utils/async_wrapper')
 const jwt = require('jsonwebtoken')
-const { CustomAPIError } = require('./../utils/custom_errors')
-const sendEmail = require('./../utils/email')
 const crypto = require('crypto')
+
+const config = require('../utils/config')
+const asyncWrapper = require('./../utils/async_wrapper')
+const sendEmail = require('./../utils/email')
+const { CustomAPIError } = require('./../utils/custom_errors')
+
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
+
+const User = require('./../models/user.models')
 
 //Function to sign token
 const signToken = (id, role) => {
@@ -78,13 +83,15 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
   }
   //2. Generate Reset Token
   const resetToken = user.createHashedToken()
-  await user.save({ validateBeforeSave: false })
-
+  const curr = await user.save({ validateBeforeSave: false })
+  console.log(curr)
+  
   //3. Send Token To Client
   const tokenUrl = `${req.protocol}://${req.get(
     'host',
   )}/api/v1/auth/resetpassword/${resetToken}`
 
+  console.log(tokenUrl)
   const message = `Forgot your password? Click on the link below and reset your password with your new password: ${tokenUrl}.\nIf you didn't reset your password, ignore this email!`
 
   try {
@@ -145,25 +152,26 @@ exports.googleSignin = asyncWrapper(async (req, res, next) => {
   const token = authorization.split(' ')[1];
 
   // Verify id token
-  const ticket = await Oauthclient.verifyIdToken({
+  const ticket = await client.verifyIdToken({
     idToken: token,
-    audience: config.OAUTH_CLIENT_ID
+    audience: config.GOOGLE_SIGNIN_CLIENT_ID,
   }),
     payload = ticket.getPayload(),
     existing_user = await User.findOne({ email: payload.email });
 
   // Create new user in db
+  const random_str = UUID(); // Random unique str as password, won't be needed for authentication
   if (!existing_user) {
     const user_data = {
       firstname: payload.given_name,
       lastname: payload.family_name,
       email: payload.email,
       role: 'EndUser',
-      password: UUID()  // Random id as password, won't be needed for authentication
+      password: random_str,  
+      passwordConfirm: random_str
     };
 
     const new_user = await User.create(user_data);
-
     createToken(new_user, 200, res)
   }
 
