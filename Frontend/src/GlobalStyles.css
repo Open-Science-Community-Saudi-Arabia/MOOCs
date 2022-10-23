@@ -25,6 +25,13 @@
   font-family: 'Poppins', 'Lato', 'Roboto' sans-serif;
 }
 
-::-webkit-scrollbar{
-  display: none;
+::-webkit-scrollbar {
+  width: 3px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background:rgb(252, 245, 245);
 }

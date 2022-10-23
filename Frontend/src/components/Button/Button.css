@@ -10,11 +10,23 @@
     font-weight: 600;
     font-size: 1.375rem;
     font-family: 'Lato';
-   
+    cursor: pointer;   
 }
+
+.button :hover{
+}
+
 .outline{
     border: 1px solid #03C4EB;
     color:black;
+    
+}
+
+.outline:hover{
+    border-color: 1px solid #0e7880;
+    color: #0e7880;
+    transform: translateY(3px);
+
 }
 .button--bg{
     background-color:#03C4EB;

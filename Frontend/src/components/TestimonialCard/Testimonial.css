@@ -41,7 +41,6 @@ margin-left: -80px;
 }
 
 .testimonial .img{
-/* position: absolute; */
 margin-left: -50px;
 width: 100px;
 }
@@ -65,4 +64,14 @@ width: 100px;
     font-weight: 400;
 }
 
+}
+
+@media (max-width:375px) {
+    .testimonial .img{
+        width: 80px;
+        height: 80px;
+
+margin-left: -40px;
+
+    }
 }
