@@ -1,13 +1,23 @@
 /* Google Fonts - Poppins */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+:root{
+    --black-20: rgb(20, 20, 20);
+    --gray-52: rgb(52, 52, 52);
+    --gray-72: rgb(72, 72, 72);
+    --gray-203: rgb(203, 213, 225);
+    --white-255: rgb(255, 255, 255);
+    --white-248: rgb(248, 250, 252);
+    --skyblue-190: hsl(190, 97%, 47%);
+    --darkblue-245: hsl(245, 95%, 22%);
+    --blue-208: hsl(208, 97%, 58%);
+}
 .container {
     height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #4070f4;
+    background-color: var(--blue-208);
     column-gap: 30px;
 }
 
@@ -16,7 +26,7 @@
     width: 80%;
     padding: 30px;
     border-radius: 6px;
-    background: #fff;
+    background: var(--white-255);
 }
 
 .form.signup {
@@ -40,7 +50,7 @@
 
 header {
     font-size: 28px;
-    color: #232836;
+    color: var(--skyblue-190);
     text-align: center;
 }
 
@@ -69,7 +79,7 @@ form {
 .field input {
     outline: none;
     padding: 0 15px;
-    border: 1px solid#CACACA;
+    border: 1px solid var(--gray-203);
 }
 
 .field input:focus {
@@ -82,20 +92,20 @@ form {
     right: 10px;
     transform: translateY(-50%);
     font-size: 18px;
-    color: #8b8b8b;
+    color: var(--gray-72);
     cursor: pointer;
     padding: 5px;
 }
 
 .field button {
-    color: #fff;
-    background-color: #0171d3;
+    color: var(--white-255);
+    background-color: var(--skyblue-190);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .field button:hover {
-    background-color: #016dcb;
+    background-color: var(--blue-208);
 }
 
 .form-link {
@@ -111,7 +121,7 @@ form {
 }
 
 .form a {
-    color: #0171d3;
+    color: var(--blue-208);
     text-decoration: none;
 }
 
@@ -124,17 +134,17 @@ form {
     height: 1px;
     width: 100%;
     margin: 36px 0;
-    background-color: #d4d4d4;
+    background-color: var(--gray-203);
 }
 
 .line::before {
-    content: "Or";
+    content: 'Or';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
-    color: #8b8b8b;
+    background-color: var(--white-255);
+    color: var(--gray-72);
     padding: 0 15px;
 }
 
@@ -145,20 +155,20 @@ form {
 }
 
 a.facebook {
-    color: #fff;
-    background-color: #4267b2;
+    color: var(--white-255);
+    background-color: var(--blue-208);
 }
 
 a.facebook .facebook-icon {
     height: 30px;
     width: 30px;
-    color: #0171d3;
+    color: var(--skyblue-190);
     font-size: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--white-255);
 }
 
 .facebook-icon,
@@ -176,17 +186,18 @@ img.google-img {
 }
 
 a.google {
-    border: 1px solid #cacaca;
+    border: 1px solid var(--gray-203);
 }
 
 a.google span {
     font-weight: 500;
     opacity: 0.6;
-    color: #232836;
+    color: var(--gray-72);
 }
 
 @media screen and (max-width: 400px) {
     .form {
         padding: 20px 10px;
     }
+
 }
