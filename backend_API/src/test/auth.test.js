@@ -6,7 +6,10 @@ const expect = require('chai').expect
 const server = require('../app')
 const request = require('supertest'),
     app = request.agent(server)
+
 const connectDatabase = require('../db/connectDB')
+
+const TestToken = require('../models/test_token.models')
 const User = require('../models/user.models')
 
 
@@ -135,6 +138,14 @@ describe('User Authentication for Signup, Email verification, login and password
 
             expect(res.statusCode).to.equal(200)
             expect(res.body.message).to.be.a('string').to.equal("Token sent to email")
+        })
+
+        it("test token collection should have record of unhashed token", async () => {
+            const user = await User.findOne({ email: login_data.email })
+            const token = await TestToken.findOne({ user: user._id })
+
+            expect(token).to.be.a('object')
+            expect(token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
         })
     })
 
