@@ -53,7 +53,7 @@ function LandingPage() {
 
        <section className="online--learning">
        <img src="/images/ring1.png" alt="" className="ring2" />
-       <img src="/public/images/ring2.png" className="ring1" alt="" />
+       <img src="/images/ring2.png" className="ring1" alt="" />
        <div className="online--learning--wrapper">
           <div className="learning--content">
           <h1>
