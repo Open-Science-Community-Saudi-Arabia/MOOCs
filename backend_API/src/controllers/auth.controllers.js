@@ -85,7 +85,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     //2. Generate Reset Token
     const resetToken = user.createHashedToken()
     const curr = await user.save({ validateBeforeSave: false })
-    console.log(curr)
+    // console.log(curr)
 
     //3. Send Token To Client
     const tokenUrl = `${req.protocol}://${req.get(
@@ -95,8 +95,8 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     // Save to test token collection -- aids in running unit tests
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
         await TestToken.create({
-            token: resetToken,
-            email: req.body.email,
+            password_reset: resetToken,
+            user: user._id,
         })
     }
 
