@@ -7,8 +7,6 @@ const server = require('../app')
 const request = require('supertest'),
     app = request.agent(server)
 
-const connectDatabase = require('../db/connectDB')
-
 const TestToken = require('../models/test_token.models')
 const User = require('../models/user.models')
 
@@ -155,22 +153,48 @@ describe('User Authentication for Signup, Email verification, login and password
             new_password = 'thisisthenewpassword'
         })
 
-        // it("should return status 200 for successful password reset", async () => {
-        //     const user = await User.findOne({ email: login_data.email })
-        //     console.log(user)
-        //     expect(user).to.have.property('passwordResetToken')
-        //     expect(user.passwordResetToken).not.to.equal(undefined)
-        //     expect(user.passwordResetToken).to.be.a('string')
+        it("should return status 404 invalid or missing password reset token", async () => {
+            url = '/api/v1/auth/resetpassword/' + 'thisisnotthevalidtoken'
+            const res = await app.patch(url)
 
-        //     const token = user.passwordResetToken
-        //     url = '/api/v1/auth/resetpassword/' + token
-        //     console.log(url)
-        //     const res = await app.patch(url).send({ pasword: new_password })
+            expect(res.statusCode).to.equal(404)
+            expect(res.body).to.have.property('message').to.equal('Token Invalid or Token Expired, Request for a new reset token')
+        })
 
-        //     console.log(res.body)
-        //     expect(res.body).to.have.property('status').to.equal('success')
+        it("should return status 200 for successful password reset", async () => {
+            const user = await User.findOne({ email: login_data.email })
 
-        // })
+            expect(user).to.have.property('passwordResetToken')
+            expect(user.passwordResetToken).not.to.equal(undefined)
+            expect(user.passwordResetToken).to.be.a('string')
+
+            const test_token = await TestToken.findOne({ user: user._id })
+            expect(test_token).to.be.a('object')
+            expect(test_token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
+
+            const token = test_token.password_reset
+
+            url = '/api/v1/auth/resetpassword/' + token
+            const res = await app.patch(url).send({ password: new_password })
+
+            expect(res.statusCode).to.equal(200)
+            expect(res.body).to.have.property('status').to.equal('success')
+        })
+
+        it('should return status code 200 for successful login with new password', async () => {
+            const res = await app.post('/api/v1/auth/login').send({ email: login_data.email, password: new_password })
+
+            expect(res.body).to.have.a.property('token').to.be.a('string')
+            expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+            expect(res.statusCode).to.equal(200)
+
+            expect(res.body).to.have.a.property('data').to.be.a('object')
+            expect(res.body.data).to.have.a.property('user').to.be.a('object')
+            expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
+            expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
+            expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
+            expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
+        })
     })
 
     // describe('POST /verify', () => {
