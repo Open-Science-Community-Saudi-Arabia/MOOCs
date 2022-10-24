@@ -134,6 +134,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
         passwordResetToken: hashedToken,
         passwordResetTokenExpires: { $gt: Date.now() },
     })
+
     //2. If token is invalid or token has expired
     if (!user) {
         return next(
@@ -143,15 +144,10 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
             ),
         )
     }
-    //3. If token is valid and not expired
-    user.password = req.body.password
-    user.passwordConfirm = req.body.password
-    user.passwordResetToken = undefined
-    user.passwordResetTokenExpires = undefined
-    await user.save({})
 
-    //4. Log in the user and send JWT Token
+    await user.changePassword(req.body.password)
 
+    //3. Log in the user and send JWT Token
     createToken(user, 200, res)
 })
 
