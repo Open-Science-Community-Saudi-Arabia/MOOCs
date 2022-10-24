@@ -79,8 +79,27 @@ user_schema.pre('save', function (next) {
 user_schema.methods.comparePassword = async function (
     candidatePassword,
     userPassword,
-) { 
+) {
     return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+user_schema.methods.changePassword = async function (newPassword) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const new_hash =  await bcrypt.hash(newPassword, 12)
+
+            await this.updateOne({
+                password: new_hash,
+                passwordConfirm: new_hash,
+                passwordResetToken: undefined,
+                passwordResetTokenExpires: undefined
+            })
+
+            resolve(this)
+        } catch (error) {
+            reject(error)
+        }
+    })
 }
 
 user_schema.methods.createHashedToken = function () {
