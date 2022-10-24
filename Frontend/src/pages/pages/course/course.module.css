@@ -1,0 +1,19 @@
+.course {
+    background-color: #03C4EB;
+    color: #fff;
+}
+
+.course__header {
+    width: 70%;
+    margin: auto;
+    padding: 16px;
+    padding-top: 40px;
+    font-weight: 200;
+}
+
+@media screen and (max-width: 48em) {
+    .course__header {
+        width: 100%;
+    }
+  }
+  
