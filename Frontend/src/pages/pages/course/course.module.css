@@ -11,7 +11,7 @@
     font-weight: 200;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (max-width: 1024px) {
 .course__header {
       width: 80%;
     }
