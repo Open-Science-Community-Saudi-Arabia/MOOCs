@@ -32,7 +32,7 @@ function Tabs({ children }) {
 }
 
 function Tab({children}) {
-  return {children};
+  return  <div>{children}</div>;
 }
 
 export { Tabs, Tab };

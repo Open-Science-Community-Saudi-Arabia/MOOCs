@@ -11,9 +11,21 @@
     font-weight: 200;
 }
 
-@media screen and (max-width: 48em) {
+@media screen and (min-width: 1024px) {
+.course__header {
+      width: 80%;
+    }
+  }
+
+@media screen and (max-width: 768px) {
     .course__header {
         width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .course__header {
+       padding-left: 10px;
     }
   }
   

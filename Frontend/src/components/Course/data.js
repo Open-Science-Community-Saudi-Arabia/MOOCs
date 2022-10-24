@@ -2,31 +2,31 @@
   {
     id: 1,
     name: "HTML and CSS",
-    imageUrl: "/assets/react.svg",
+    imageUrl: "/react.svg",
     tutor: "Shola A",
   },
   {
     id: 2,
     name: "Hacking",
-    imageUrl: "/assets//hacking.svg",
+    imageUrl: "/hacking.svg",
     tutor: "Shola A",
   },
   {
     id: 3,
     name: "Advaced React",
-    imageUrl: "/assets/next.svg",
+    imageUrl: "/next.svg",
     tutor: "Shola A",
   },
   {
     id: 4,
     name: "Node.js and MongoDB",
-    imageUrl: "/assets/random.svg",
+    imageUrl: "/random.svg",
     tutor: "Shola A",
   },
   {
     id: 5,
     name: "Golang",
-    imageUrl: "/assets/algo.svg",
+    imageUrl: "/algo.svg",
     tutor: "Shola A",
   },
 ];

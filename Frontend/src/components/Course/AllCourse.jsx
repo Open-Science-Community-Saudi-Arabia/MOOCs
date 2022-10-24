@@ -7,7 +7,7 @@ function AllCourse() {
   return (
     <div className={styles.course__row}>
       {courses.map(course => (
-        <CourseCard course={course} />
+        <CourseCard course={course}  key={course.id}/>
       ))}
     </div>
   );

@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styles from './course.module.css';
 
 function CourseCard({course}) {
   return (
+    <Link to={`/course/${course.id}`}>
     <div className={styles.course__wrapper} key={course.id}>
        <img src={course.imageUrl} alt=''/> 
        <p className={styles.course__name}>{course.name}</p>
        <p>{course.tutor}</p>
-       <div className={styles.course__line}/>
     </div>
+    </Link>
   )
 }
 
