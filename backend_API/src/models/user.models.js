@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const Password = require('./password.models')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
@@ -70,9 +69,6 @@ user_schema.pre('save', function (next) {
                 return reject(new BadRequestError('Email already exists please user another email'))
             }
 
-            // Set password field in User collection to null
-            const salt = await bcrypt.genSalt(10)
-            this.password = await bcrypt.hash(this.password, salt)
             resolve(this)
         } catch (error) {
             reject(error)
@@ -85,6 +81,25 @@ user_schema.methods.comparePassword = async function (
     userPassword,
 ) {
     return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+user_schema.methods.changePassword = async function (newPassword) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const new_hash =  await bcrypt.hash(newPassword, 12)
+
+            await this.updateOne({
+                password: new_hash,
+                passwordConfirm: new_hash,
+                passwordResetToken: undefined,
+                passwordResetTokenExpires: undefined
+            })
+
+            resolve(this)
+        } catch (error) {
+            reject(error)
+        }
+    })
 }
 
 user_schema.methods.createHashedToken = function () {
