@@ -1,5 +1,5 @@
 import React from "react"
-import "./signup.css"
+import "../CSS/login-signup.css"
 import { Link } from "react-router-dom"
 
 function Signup() {
