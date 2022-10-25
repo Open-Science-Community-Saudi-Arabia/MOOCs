@@ -197,6 +197,67 @@ describe('User Authentication for Signup, Email verification, login and password
         })
     })
 
+    describe('Auth Middleware', () => {
+        let url = '/api/v1/course';
+        let token;
+
+        before(async () => {
+            end_user_signup_data = {
+                firstname: 'End',
+                lastname: 'User',
+                email: 'endusertestemail@moocs.com',
+                password: 'thisisthepassword',
+                passwordConfirm: 'thisisthepassword',
+                role: 'EndUser'
+            }
+
+            admin_signup_data = {
+                firstname: 'Admin',
+                lastname: 'User',
+                email: 'admintestemail@moocs.com',
+                password: 'thisisthepassword',
+                passwordConfirm: 'thisisthepassword',
+                role: 'Admin'
+            }
+
+            // Create End User
+            const end_user = await app.post('/api/v1/auth/signup').send(end_user_signup_data)
+            expect(end_user.statusCode).to.equal(200)
+
+            // Create Admin User
+            const admin = await app.post('/api/v1/auth/signup').send(admin_signup_data)
+            expect(admin.statusCode).to.equal(200)
+
+            // Login End User
+            const end_user_login = await app.post('/api/v1/auth/login').send(end_user_signup_data)
+            expect(end_user_login.statusCode).to.equal(200)
+            expect(end_user_login.body).to.have.a.property('token').to.be.a('string')
+            expect(end_user_login.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+
+            // Login Admin User
+            const admin_login = await app.post('/api/v1/auth/login').send(admin_signup_data)
+            expect(admin_login.statusCode).to.equal(200)
+            expect(admin_login.body).to.have.a.property('token').to.be.a('string')
+            expect(admin_login.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+
+            // Set End User Token
+            end_user_token = end_user_login.body.token
+
+            // Set Admin User Token
+            admin_token = admin_login.body.token
+
+            expect(end_user_token).to.be.a('string')
+            expect(admin_token).to.be.a('string')
+        })
+
+        it('should return status code 401 for no access token', async () => {
+            const res = await app.delete('/api/v1/course/delete-course/null')
+
+            expect(res.statusCode).to.equal(403)
+            expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Unauthenticated, Please Login')
+        })
+
+    })
     // describe('POST /verify', () => {
     //     const url = '/api/v1/auth/verify'
     //     let user, bearer_token, ver_token;
