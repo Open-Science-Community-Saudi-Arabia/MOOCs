@@ -42,7 +42,7 @@
 
 header {
     font-size: 28px;
-    color: var(--black-20);
+    color: var(--black-0);
     text-align: center;
 }
 
@@ -109,7 +109,7 @@ form {
 .form-link a {
     font-size: 14px;
     font-weight: 400;
-    color: var(--gray-52);
+    color: var(--black-52);
 }
 
 .form a {
