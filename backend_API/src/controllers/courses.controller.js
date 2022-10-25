@@ -2,6 +2,20 @@ const Video = require("../models/course.models")
 const {v2} = require("cloudinary")
 const asyncWrapper = require("../utils/async_wrapper")
 
+exports.createCourse = asyncWrapper(
+    async (req, res, next) =>{
+	const newCourse = new Video(req.body);
+       try{
+            const savedCourse = await newCourse.save();
+            res.status(200).json(savedCourse);
+       }catch(err){
+            res.status(500).json(err);
+       }
+     }
+)
+
+
+
 exports.getCourses = asyncWrapper(
     async (req, res, next) => {
 
