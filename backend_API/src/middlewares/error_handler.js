@@ -14,7 +14,7 @@ const handleValidationErr = (err) => {
 
 const errorHandler = (err, req, res, next) => {
   if (process.env.NODE_ENV != 'test') {
-    console.log(err)
+      console.log(err)
   }
   //Send Operational Errors We Trust To Client
   let error = { ...err }
