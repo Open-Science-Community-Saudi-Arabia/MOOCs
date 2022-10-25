@@ -6,9 +6,9 @@ const config = require('../utils/config');
 const { CustomAPIError } = require('../utils/custom_errors');
 
 const basicAuth = asyncWrapper((req, res, next) => {
-    const token = req.cookies.access_token;
+    const token = req.cookies.token;
     if (!token) {
-        return res.sendStatus(403);
+        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
     }
     try {
         const data = jwt.verify(token, config.JWT_SECRET);
@@ -16,7 +16,7 @@ const basicAuth = asyncWrapper((req, res, next) => {
 
         return next();
     } catch {
-        return next(new CustomAPIError('Unauthenticated', 403))
+        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
     }
 });
 
