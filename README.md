@@ -107,7 +107,7 @@ yarn install
 yarn dev
 ```
 
-- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 - You're all set. Happy coding😁
 
 ### Creating a production building
@@ -116,15 +116,27 @@ yarn dev
 yarn build
 ```
 
+### Checking formatting of whole project
+
+```bash
+yarn format:check
+```
+
+### Creating code syntax is in line with eslint rules
+
+```bash
+yarn lint:check
+```
+
 ## Things to note as you contribute
 
 - Any page you code has to be responsive.
 - Write clear and concise commit messages.
 - Always run `yarn` after pulling code from the upstream repository.
-- Always, **Always** make pull requests to the **dev** branch, not the main branch. All pull requests to the main branch will not be merged.
+- Always, **Always** make pull requests to the **dev_team2** branch, not the `main` branch. All pull requests to the `main` branch will not be merged.
 - Please, always test your code and make sure it works correctly before making a pull request
-- Run `yarn format` to format your code before you commit
-- Run `yarn lint` to lint all files in the frontend project directory
+- Run `prettier --check "input name of file here"` to check if your code is well formatted before you commit
+- Run `eslint input name of file here --color` to check if the files you edited con form to the standards required for this project
 
 ### Setting up Backend
 
