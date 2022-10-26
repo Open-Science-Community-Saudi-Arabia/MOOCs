@@ -40,8 +40,10 @@ const user_schema = new Schema(
             },
             select: false,
         },
-        passwordResetToken: String,
-        passwordResetTokenExpires: Date,
+        emailVerificationToken: { type: String, select: false },
+        isVerified: { type: Boolean, default: false, select: false },
+        passwordResetToken: { type: String, select: false },
+        passwordResetTokenExpires: { type: Date, select: false },
     },
     options,
     { timestamp: true },
@@ -86,7 +88,7 @@ user_schema.methods.comparePassword = async function (
 user_schema.methods.changePassword = async function (newPassword) {
     return new Promise(async (resolve, reject) => {
         try {
-            const new_hash =  await bcrypt.hash(newPassword, 12)
+            const new_hash = await bcrypt.hash(newPassword, 12)
 
             await this.updateOne({
                 password: new_hash,
@@ -102,13 +104,21 @@ user_schema.methods.changePassword = async function (newPassword) {
     })
 }
 
-user_schema.methods.createHashedToken = function () {
+user_schema.methods.createHashedToken = function (token_type) {
     const resetToken = crypto.randomBytes(32).toString('hex')
-    this.passwordResetToken = crypto
+
+    const hashedToken = crypto
         .createHash('sha256')
         .update(resetToken)
         .digest('hex')
-    this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
+
+    if (token_type == 'password_reset') {
+        this.passwordResetToken = hashedToken
+        this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
+    }
+
+    if (token_type == 'email_verification') { this.emailVerificationToken = hashedToken };
+
     return resetToken
 }
 
