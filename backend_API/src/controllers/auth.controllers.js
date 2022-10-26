@@ -56,7 +56,6 @@ exports.signup = asyncWrapper(async (req, res, next) => {
     //2. Create email verification Token
     const ver_token = currentUser.createHashedToken('email_verification')
     currentUser.save({ validateBeforeSave: false })
-    currentUser.emailVerificationToken = ver_token
 
     //3. Save to test token collection -- aids in running unit tests
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
@@ -69,7 +68,7 @@ exports.signup = asyncWrapper(async (req, res, next) => {
     //4. Send email to user
     const url = `${req.protocol}://${req.get(
         'host',
-    )}/api/v1/auth/verify-email/${ver_token}`
+    )}/api/v1/auth/verifyemail/${ver_token}`
 
     const message = `Please click on the link below to verify your email address: ${url}`
     await sendEmail({
@@ -109,9 +108,9 @@ exports.verifyEmail = asyncWrapper(async (req, res, next) => {
         .update(req.params.token)
         .digest('hex')
 
-    const user = await User.findOne({ emailVerificationToken: hashedToken })
 
     //2. If token is invalid or token has expired
+    const user = await User.findOne({ emailVerificationToken: hashedToken }).select('+emailVerificationToken')
     if (!user) {
         return next(
             new CustomAPIError(
@@ -125,7 +124,6 @@ exports.verifyEmail = asyncWrapper(async (req, res, next) => {
     user.emailVerificationToken = undefined
     await user.save({ validateBeforeSave: false })
 
-    //3. Log in the user and send JWT Token
     return res.status(201).send({ status: 'success' })
 })
 
