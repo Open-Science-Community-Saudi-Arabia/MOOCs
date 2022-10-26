@@ -162,12 +162,11 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it("should return status 200 for successful password reset", async () => {
-            const user = await User.findOne({ email: login_data.email })
-
+            const user = await User.findOne({ email: login_data.email }).select('+passwordResetToken')
             expect(user).to.have.property('passwordResetToken')
             expect(user.passwordResetToken).not.to.equal(undefined)
             expect(user.passwordResetToken).to.be.a('string')
-
+            
             const test_token = await TestToken.findOne({ user: user._id })
             expect(test_token).to.be.a('object')
             expect(test_token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
