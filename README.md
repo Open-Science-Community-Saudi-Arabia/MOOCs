@@ -13,7 +13,7 @@
     <source media="(prefers-color-scheme: dark)" srcset="https://avatars.githubusercontent.com/u/79674464?s=200&v=4">
     <img src="https://avatars.githubusercontent.com/u/79674464?s=200&v=4" width="80" height="80" alt="Logo"/>
   </picture>
-  <p align="center" style="font-size:30px; margin-top: 10px; margin-left: 10px">OSCCA</p>
+  <p align="center" style="font-size:30px; margin-top: 10px; margin-left: 10px">OSCSA</p>
 </div>
 
 <h1 align="center">Massive Open Online Courses (MOOCs) for Open Science in Arabic</h1>
@@ -118,14 +118,30 @@ yarn build
 
 ### Checking formatting of whole project
 
+- Run this script to check if all files meet prettier standard rules of formatting
+
 ```bash
 yarn format:check
 ```
 
-### Creating code syntax is in line with eslint rules
+- Run this script to fix all auto-fixable formatting errors in the whole project
+
+```bash
+yarn format:fix
+```
+
+### Checking code syntax is in line with eslint rules
+
+- Run this script to check if all files meet eslint standard rules of code sytax
 
 ```bash
 yarn lint:check
+```
+
+- Run this script to fix all auto-fixable syntax errors in the whole project
+
+```bash
+yarn lint:fix
 ```
 
 ## Things to note as you contribute
