@@ -74,4 +74,4 @@ const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
 const Course = mongoose.model("Course", courseSchema)
 
-module.exports = { Video, Course }
+module.exports = { Video, Course, Question, Exercise }
