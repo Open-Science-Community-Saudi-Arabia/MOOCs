@@ -29,23 +29,19 @@ const exerciseSchema = new Schema({
 })
 
 const videoSchema = new mongoose.Schema({
-    adminId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin",
-        // default: ""
-    },
     title: {
         type: String,
-        required: true
+        // required: true
     },
-    tutorName: {
+    author: {
         type: String,
         required: true
     },
-    video: {
-        videoId: String,
-        videoUrl: String
-    },
+    video_id: { type: String, required: true },
+    video_url: { type: String, required: true },
+    description: { type: String, required: true },
+    duration: { type: Number, required: true },
+    course: { type: Schema.Types.ObjectId, ref: "Course" },
     category: {
         type: String,
         required: true
@@ -53,7 +49,7 @@ const videoSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 const courseSchema = new mongoose.Schema({
-    tutorName: {
+    author: {
         type: String,
         required: true
     },
