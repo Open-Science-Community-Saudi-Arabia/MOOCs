@@ -3,6 +3,8 @@ const { v2 } = require("cloudinary")
 const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError } = require("../utils/custom_errors");
 
+/* COURSES */
+
 exports.createCourse = asyncWrapper(
     async (req, res, next) => {
         const newCourse = new Course(req.body);
@@ -48,7 +50,8 @@ exports.deleteCourse = asyncWrapper(
 )
 
 
-// Video
+/* VIDEOS */
+
 exports.uploadVideo = asyncWrapper(
     async (req, res, next) => {
         const { video } = req.files
@@ -74,7 +77,6 @@ exports.uploadVideo = asyncWrapper(
     }
 )
 
-
 // Get data for particular video - req.body._id = video_id
 // Get data for all videos - req.body._id = null
 // Get videos for a particular course - req.body.course_id = course_id
@@ -98,5 +100,15 @@ exports.updateVideo = asyncWrapper(
         }
 
         next(new BadRequestError("Video not found"));
+    }
+)
+
+exports.deleteVideo = asyncWrapper(
+    async (req, res, next) => {
+
+        const videoId = req.params.videoId
+        await Video.findByIdAndDelete(videoId)
+
+        res.status(200).send({ message: "video has been deleted successfully" })
     }
 )
