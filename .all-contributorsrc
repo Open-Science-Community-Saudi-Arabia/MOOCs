@@ -93,6 +93,15 @@
         "infra",
         "ideas"
       ]
+    },
+    {
+      "login": "ORIYOMI289",
+      "name": "JewelCodes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63899878?v=4",
+      "profile": "https://github.com/ORIYOMI289",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
