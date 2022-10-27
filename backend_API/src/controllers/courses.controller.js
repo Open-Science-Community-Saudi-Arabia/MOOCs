@@ -63,13 +63,22 @@ exports.uploadVideo = asyncWrapper(
             video_url: result.secure_url,
             video_id: result.public_id,
             ...req.body
-        //     course: course_id,
-        //     description: req.body.description,
-        //     title: req.body.title,
-        //     author: req.body.author
+            //     course: course_id,
+            //     description: req.body.description,
+            //     title: req.body.title,
+            //     author: req.body.author
         })
 
         const savedVideo = await newVideo.save()
         res.status(200).json(savedVideo);
+    }
+)
+
+// Get all the videos linked to a course
+exports.getVideosForCourse = asyncWrapper(
+    async (req, res, next) => {
+
+        const videos = await Video.find({ course: req.params.courseId })
+        res.status(200).json(videos);
     }
 )
