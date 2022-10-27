@@ -86,3 +86,17 @@ exports.getVideo = asyncWrapper(
         res.status(200).json(videos);
     }
 )
+
+exports.updateVideo = asyncWrapper(
+    async (req, res, next) => {
+        const video = await Video.findById(req.params.id);
+
+        if (video) {
+            await video.updateOne({ $set: req.body });
+
+            return res.status(200).json({ message: "Video Updated", video: video });
+        }
+
+        next(new BadRequestError("Video not found"));
+    }
+)
