@@ -46,3 +46,30 @@ exports.deleteCourse = asyncWrapper(
         res.status(200).send({ message: "course has been deleted successfully" })
     }
 )
+
+
+// Video
+exports.uploadVideo = asyncWrapper(
+    async (req, res, next) => {
+        const { video } = req.files
+        const { course_id } = req.body
+
+        const result = await v2.uploader.upload(video.tempFilePath, {
+            resource_type: "video",
+            folder: "videos"
+        })
+
+        const newVideo = new Video({
+            video_url: result.secure_url,
+            video_id: result.public_id,
+            ...req.body
+        //     course: course_id,
+        //     description: req.body.description,
+        //     title: req.body.title,
+        //     author: req.body.author
+        })
+
+        const savedVideo = await newVideo.save()
+        res.status(200).json(savedVideo);
+    }
+)
