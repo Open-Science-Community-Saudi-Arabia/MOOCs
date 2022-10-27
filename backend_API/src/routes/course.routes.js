@@ -1,7 +1,7 @@
 
 const router = require("express")()
 
-const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo, getVideosForCourse } = require("../controllers/course.controllers")
+const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo, getVideo } = require("../controllers/course.controllers")
 const permission = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
@@ -13,6 +13,6 @@ router
 
 router
     .post("/upload-video", basicAuth, permission("Admin"), uploadVideo)
-    .get("/course/videos", basicAuth, permission("Admin EndUser"), getVideosForCourse)
+    .get("/course/video", basicAuth, permission("Admin EndUser"), getVideo)
 
 module.exports = router
