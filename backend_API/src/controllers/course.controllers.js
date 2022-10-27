@@ -74,11 +74,15 @@ exports.uploadVideo = asyncWrapper(
     }
 )
 
-// Get all the videos linked to a course
-exports.getVideosForCourse = asyncWrapper(
+
+// Get data for particular video - req.body._id = video_id
+// Get data for all videos - req.body._id = null
+// Get videos for a particular course - req.body.course_id = course_id
+// Get all videos - req.body = null
+exports.getVideo = asyncWrapper(
     async (req, res, next) => {
 
-        const videos = await Video.find({ course: req.params.courseId })
+        const videos = await Video.find(req.body)
         res.status(200).json(videos);
     }
 )
