@@ -1,7 +1,7 @@
 
 const router = require("express")()
 
-const { createCourse, getCourses, deleteCourse, updateCourse } = require("../controllers/courses.controller")
+const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo } = require("../controllers/courses.controller")
 const permission = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
@@ -11,4 +11,6 @@ router
     .patch("/update-course/:id", basicAuth, permission("Admin"), updateCourse)
     .delete("/delete-course/:courseId", basicAuth, permission("Admin"), deleteCourse)
 
+router
+    .post("/upload-video", basicAuth, permission("Admin"), uploadVideo)
 module.exports = router
