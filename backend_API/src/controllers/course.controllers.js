@@ -13,10 +13,14 @@ exports.createCourse = asyncWrapper(
     }
 )
 
+// Get data for particular course - req.body._id = video_id
+// Get data for all course - req.body._id = null
+// Get videos for a particular course - req.body.course_id = course_id
+// Get all videos - req.body = null
 exports.getCourses = asyncWrapper(
     async (req, res, next) => {
-        if (req.body.query) {
-            const courses = await Course.find(query)
+        if (req.body) {
+            const courses = await Course.find(req.body)
             res.status(200).json(courses);
         }
         const courses = await Course.find().sort({ _id: -1 })
