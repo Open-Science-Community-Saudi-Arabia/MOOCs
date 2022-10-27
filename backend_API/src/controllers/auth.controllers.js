@@ -31,8 +31,14 @@ const createToken = (user, statusCode, res) => {
     }
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
     res.cookie('jwt', token, cookieOptions)
+
+    // Remove sensitive data from user object
     user.password = undefined
     user.passwordConfirm = undefined
+    user.emailVerificationToken = undefined
+    user.passwordResetToken = undefined
+    user.isVerified = undefined
+
     res.status(statusCode).json({
         status: 'success',
         token,
@@ -151,6 +157,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
         }
 
         const message = `Forgot your password? Click on the link below and reset your password with your new password: ${tokenUrl}.\nIf you didn't reset your password, ignore this email!`
+        console.log(user.email)
         await sendEmail({
             email: user.email,
             subject: 'Your Password Reset Link(Valid for 10mins)',
