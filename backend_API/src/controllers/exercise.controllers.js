@@ -46,22 +46,22 @@ exports.deleteExercise = asyncWrapper(
     }
 )
     
-exports.addQuestionToExercise = asyncWrapper(
+exports.addQuestion = asyncWrapper(
     async (req, res, next) => {
-        const exerciseId = req.params.exerciseId
-        const exercise = await Exercise.findById(exerciseId)
-        const question = new Question(req.body)
-        await question.save()
+        const exercise = await Exercise.findById(req.body.exercise_id)
+        const question = await Question.findById(req.body.question_id)
+
         exercise.questions.push(question)
         await exercise.save()
+        
         res.status(200).send({ message: "question has been added to exercise successfully" })
     }
 )
 
-exports.deleteQuestionFromExercise = asyncWrapper(
+exports.removeQuestion = asyncWrapper(
     async (req, res, next) => {
-        const exerciseId = req.params.exerciseId
-        const questionId = req.params.questionId
+        const exerciseId = req.body.exerciseId
+        const questionId = req.body.questionId
         const exercise = await Exercise.findById(exerciseId)
         exercise.questions.pull(questionId)
         await exercise.save()
