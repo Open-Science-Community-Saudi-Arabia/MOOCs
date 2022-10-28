@@ -5,15 +5,19 @@ const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo, getVi
 const permission = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
-router
-    .post("/create-course/:courseId", basicAuth, permission("Admin"), createCourse)
-    .get("/get-courses", basicAuth, permission("Admin EndUser"), getCourses)
-    .patch("/update-course/:id", basicAuth, permission("Admin"), updateCourse)
-    .delete("/delete-course/:courseId", basicAuth, permission("Admin"), deleteCourse)
+router.all('/', basicAuth)
 
 router
-    .post("/upload-video", basicAuth, permission("Admin"), uploadVideo)
-    .get("/course/video", basicAuth, permission("Admin EndUser"), getVideo)
-    .patch("/update-video/:id", basicAuth, permission("Admin"), updateVideo)
+    .post("/new", permission("Admin"), createCourse)
+    .get("/", permission("Admin EndUser"), getCourses)
+    .patch("/update/:id", permission("Admin"), updateCourse)
+    .delete("/delete/:courseId", permission("Admin"), deleteCourse)
+
+router
+    .post("/video/upload", permission("Admin"), uploadVideo)
+    .get("/course/video", permission("Admin EndUser"), getVideo)
+    .patch("/video/update/:id", permission("Admin"), updateVideo)
+
+
 
 module.exports = router
