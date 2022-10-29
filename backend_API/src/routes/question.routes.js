@@ -13,4 +13,4 @@ router
     .delete("/delete/:id", deleteQuestion)
     .post("/grade", permit('EndUser'), scoreAnswers)
 
-
+module.exports = router
