@@ -1,5 +1,5 @@
 
-const router = require("express")()
+const router = require("express").Router();
 
 const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo, getVideo, updateVideo } = require("../controllers/course.controllers")
 const permission = require("../middlewares/permission_handler")

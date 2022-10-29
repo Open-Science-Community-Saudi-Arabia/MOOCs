@@ -1,4 +1,4 @@
-const router = require("express")()
+const router = require("express").Router();
 
 const permission = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
