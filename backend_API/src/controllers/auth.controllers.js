@@ -157,7 +157,6 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
         }
 
         const message = `Forgot your password? Click on the link below and reset your password with your new password: ${tokenUrl}.\nIf you didn't reset your password, ignore this email!`
-        console.log(user.email)
         await sendEmail({
             email: user.email,
             subject: 'Your Password Reset Link(Valid for 10mins)',
