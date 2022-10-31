@@ -5,7 +5,7 @@ const { basicAuth } = require("../middlewares/auth")
 
 const { createExercise, getExercises,
     deleteExercise, addQuestion,
-    removeQuestion } = require("../controllers/exercise.controllers")
+    removeQuestion, updateExercise } = require("../controllers/exercise.controllers")
 
 router.all('/', basicAuth)
 
