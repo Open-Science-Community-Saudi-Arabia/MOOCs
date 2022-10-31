@@ -44,7 +44,6 @@ exports.updateCourse = asyncWrapper(
 
 exports.deleteCourse = asyncWrapper(
     async (req, res, next) => {
-        console.log('insided the delete course controller')
         const courseId = req.params.courseId
         await Course.findByIdAndDelete(courseId)
 
@@ -112,6 +111,6 @@ exports.deleteVideo = asyncWrapper(
         const videoId = req.params.videoId
         await Video.findByIdAndDelete(videoId)
 
-        returnres.status(200).send({ message: "video has been deleted successfully" })
+        return res.status(200).send({ message: "video has been deleted successfully" })
     }
 )
