@@ -1,4 +1,4 @@
-const { Question, Exercise, Video, Course } = require('../models')
+const { Question, Exercise, Video, Course } = require('../models/course.models')
 const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError } = require('../utils/custom_errors')
 

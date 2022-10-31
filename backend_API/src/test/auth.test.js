@@ -218,7 +218,7 @@ describe('User Authentication for Signup, Email verification, login and password
                 passwordConfirm: 'thisisthepassword',
                 role: 'Admin'
             }
-
+            
             // Create End User
             const end_user = await app.post('/api/v1/auth/signup').send(end_user_signup_data)
             expect(end_user.statusCode).to.equal(200)
@@ -250,13 +250,14 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 401 for no access token', async () => {
-            const res = await app.delete('/api/v1/course/delete-course/null')
+            const res = await app.delete('/api/v1/course/delete/null')
 
-            expect(res.statusCode).to.equal(403)
+            expect(res.statusCode).to.equal(401)
             expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Unauthenticated, Please Login')
         })
 
     })
+
     // describe('POST /verify', () => {
     //     const url = '/api/v1/auth/verify'
     //     let user, bearer_token, ver_token;
