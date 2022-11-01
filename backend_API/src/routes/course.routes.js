@@ -5,7 +5,7 @@ const { createCourse, getCourses, deleteCourse, updateCourse, uploadVideo, getVi
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
-// router.all('/', basicAuth)
+router.all('/', basicAuth)
 
 router
     .post("/new", permit("Admin"), createCourse)
