@@ -51,6 +51,54 @@ exports.deleteCourse = asyncWrapper(
     }
 )
 
+exports.enrollCourse = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const user = await User.findById(req.body.user_id)
+
+        course.enrolled_users.push(user)
+        await course.save()
+
+        user.enrolled_courses.push(course)
+        await user.save()
+
+        res.status(200).send({ message: "user has been enrolled in course successfully" })
+    }
+)
+
+exports.cancelEnrollment = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const user = await User.findById(req.body.user_id)
+
+        course.enrolled_users.pull(user)
+        await course.save()
+
+        user.enrolled_courses.pull(course)
+        await user.save()
+
+        res.status(200).send({ message: "user has been unenrolled from course successfully" })
+    }
+)
+
+exports.getEnrolledCourses = asyncWrapper(
+    async (req, res, next) => {
+        const user = await User.findById(req.body.user_id)
+        const enrolledCourses = await Course.find({ _id: { $in: user.enrolled_courses } })
+
+        res.status(200).send({ enrolledCourses: enrolledCourses })
+    }
+)
+
+exports.getEnrolledUsers = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const enrolledUsers = await User.find({ _id: { $in: course.enrolled_users } })
+
+        res.status(200).send({ enrolledUsers: enrolledUsers })
+    }
+)
+
 
 /* VIDEOS */
 
