@@ -66,6 +66,20 @@ exports.enrollCourse = asyncWrapper(
     }
 )
 
+exports.cancelEnrollment = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const user = await User.findById(req.body.user_id)
+
+        course.enrolled_users.pull(user)
+        await course.save()
+
+        user.enrolled_courses.pull(course)
+        await user.save()
+
+        res.status(200).send({ message: "user has been unenrolled from course successfully" })
+    }
+)
 
 /* VIDEOS */
 
