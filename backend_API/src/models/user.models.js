@@ -44,6 +44,17 @@ const user_schema = new Schema(
         isVerified: { type: Boolean, default: false, select: false },
         passwordResetToken: { type: String, select: false },
         passwordResetTokenExpires: { type: Date, select: false },
+        enrolled_courses: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Course',
+                status: {
+                    type: String,
+                    enum: ['Enrolled', 'Completed'],
+                    default: 'Enrolled',
+                }
+            }]
+
     },
     options,
     { timestamp: true },
