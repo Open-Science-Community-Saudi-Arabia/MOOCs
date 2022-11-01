@@ -81,6 +81,15 @@ exports.cancelEnrollment = asyncWrapper(
     }
 )
 
+exports.getEnrolledCourses = asyncWrapper(
+    async (req, res, next) => {
+        const user = await User.findById(req.body.user_id)
+        const enrolledCourses = await Course.find({ _id: { $in: user.enrolled_courses } })
+
+        res.status(200).send({ enrolledCourses: enrolledCourses })
+    }
+)
+
 /* VIDEOS */
 
 exports.uploadVideo = asyncWrapper(
