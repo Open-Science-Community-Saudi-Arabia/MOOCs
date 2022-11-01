@@ -90,6 +90,16 @@ exports.getEnrolledCourses = asyncWrapper(
     }
 )
 
+exports.getEnrolledUsers = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const enrolledUsers = await User.find({ _id: { $in: course.enrolled_users } })
+
+        res.status(200).send({ enrolledUsers: enrolledUsers })
+    }
+)
+
+
 /* VIDEOS */
 
 exports.uploadVideo = asyncWrapper(
