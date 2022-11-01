@@ -51,6 +51,21 @@ exports.deleteCourse = asyncWrapper(
     }
 )
 
+exports.enrollCourse = asyncWrapper(
+    async (req, res, next) => {
+        const course = await Course.findById(req.body.course_id)
+        const user = await User.findById(req.body.user_id)
+
+        course.enrolled_users.push(user)
+        await course.save()
+
+        user.enrolled_courses.push(course)
+        await user.save()
+
+        res.status(200).send({ message: "user has been enrolled in course successfully" })
+    }
+)
+
 
 /* VIDEOS */
 
