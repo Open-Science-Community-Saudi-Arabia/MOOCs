@@ -63,6 +63,7 @@ const courseSchema = new mongoose.Schema({
     },
     videos: [{ type: mongoose.Types.ObjectId, ref: "Video" }],
     exercises: [{ type: mongoose.Types.ObjectId, ref: "Exercise" }],
+    enrolled_users: [{ type: mongoose.Types.ObjectId, ref: "User" }]
 }, { timestamps: true })
 
 const Question = mongoose.model("Question", questionSchema)
