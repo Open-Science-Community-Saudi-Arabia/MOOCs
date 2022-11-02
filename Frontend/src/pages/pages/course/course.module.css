@@ -1,0 +1,31 @@
+.course {
+    background-color: #03C4EB;
+    color: #fff;
+}
+
+.course__header {
+    width: 70%;
+    margin: auto;
+    padding: 16px;
+    padding-top: 40px;
+    font-weight: 200;
+}
+
+@media screen and (max-width: 1024px) {
+.course__header {
+      width: 80%;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .course__header {
+        width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .course__header {
+       padding-left: 10px;
+    }
+  }
+  
