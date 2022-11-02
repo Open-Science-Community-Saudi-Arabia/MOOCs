@@ -1,8 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import "./login.css"
 import { Link } from "react-router-dom"
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 function Login() {
+    const [ emailInput, setEmailInput] = useState("");
+    const[ passwordInput, setPasswordInput] = useState("");
+    const [ passwordType, setPasswordType] = useState("password");
+    const [isPassword, setIsPassword] = useState(true);
+
+    const handleToggle = () => {
+        if (isPassword) {
+            setPasswordType("text")
+            setIsPassword(false);
+        } else {
+            setPasswordType("password");
+            setIsPassword(true);
+        }
+        return setIsPassword(!isPassword);
+    }
+
     return (
         <div>
             <section className="container forms">
@@ -24,16 +41,20 @@ function Login() {
 
                         <form action="#">
                             <div className="field input-field">
-                                <input type="email" placeholder="Email" className="input" />
+                                <input value={emailInput} type="email" placeholder="Email" className="input" onChange={(e) => setEmailInput(e.target.value)}/>
                             </div>
 
                             <div className="field input-field">
                                 <input
-                                    type="password"
+                                    value={passwordInput}
+                                    type={passwordType}
                                     placeholder="Password"
                                     className="password"
+                                    onChange={(e) => setPasswordInput(e.target.value)}
                                 />
-                                <i className="bx bx-hide eye-icon" />
+                                 <div role="presentation" className="eye-icon" onClick={handleToggle}>
+                                 {isPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                                </div>
                             </div>
 
                             <div className="field button-field">

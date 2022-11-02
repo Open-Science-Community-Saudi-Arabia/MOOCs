@@ -1,8 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import "./signup.css"
 import { Link } from "react-router-dom"
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai"
 
 function Signup() {
+    const [ nameInput, setNameInput] = useState("");
+    const [ emailInput, setEmailInput] = useState("");
+    const [ passwordInput, setPasswordInput] = useState("");
+    const [ passwordType, setPasswordType] = useState("password");
+    const [ isPassword, setIsPassword] = useState(true);
+
+    const handleToggle = () => {
+        if (isPassword) {
+            setPasswordType("text")
+            setIsPassword(false);
+        } else {
+            setPasswordType("password");
+            setIsPassword(true);
+        }
+        return setIsPassword(!isPassword);
+    }
     return (
         <section className="container forms">
             <div className="form login">
@@ -11,15 +28,18 @@ function Signup() {
 
                     <form action="#">
                         <div className="field input-field">
-                            <input type="text" placeholder="Full Name" className="input" />
+                            <input value={nameInput} type="text" placeholder="Full Name" className="input" onChange={(e) => setNameInput(e.target.value)} />
                         </div>
 
                         <div className="field input-field">
-                            <input type="email" placeholder="Email" className="input" />
+                            <input value={emailInput} type="email" placeholder="Email" className="input" onChange={(e) => setEmailInput(e.target.value)}/>
                         </div>
                         <div className="field input-field">
-                            <input type="password" placeholder="Password" className="password" />
-                            <i className="bx bx-hide eye-icon" />
+                            <input value={passwordInput} type={passwordType} placeholder="Password" className="password" onChange={(e) => setPasswordInput(e.target.value)}/>
+                            
+                            <div role="presentation" className="eye-icon" onClick={handleToggle}>
+                                 {isPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                            </div>
                         </div>
 
                         <div className="field button-field">
