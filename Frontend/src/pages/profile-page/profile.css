@@ -1,0 +1,67 @@
+.profile {
+	height: 100vh;
+}
+
+.profile-header {
+	font-size: 1.8rem;
+	color: white;
+	background: #03c4eb;
+	padding: 4.5rem;
+}
+
+.profile-image {
+	object-fit: cover;
+	object-position: center;
+}
+
+.profile-container {
+	padding: 4rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.profile-card,
+.profile-courses {
+	flex-basis: 100%;
+}
+
+.profile-courses > h3 {
+	margin-bottom: 2rem;
+	font-size: 1.5rem;
+}
+
+.profile-courses-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4rem;
+}
+
+.profile-card-content {
+	padding: 1rem;
+}
+
+.profile-card-content > h2 {
+	margin-bottom: 1rem;
+}
+
+.profile-button {
+	margin: 1.5rem;
+}
+
+hr {
+	margin: 2rem 0;
+}
+
+@media screen and (max-width: 900px) {
+	.profile-header {
+		padding: 2rem;
+	}
+
+	.user-card {
+		padding: 2rem;
+	}
+	.profile-container,
+	.profile-courses-list {
+		flex-flow: column;
+	}
+}

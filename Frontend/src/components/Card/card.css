@@ -1,0 +1,10 @@
+.card {
+	background: rgba(247, 247, 247, 0.356);
+	width: 40%;
+}
+
+@media screen and (max-width: 600px) {
+	.card {
+		width: 80%;
+	}
+}

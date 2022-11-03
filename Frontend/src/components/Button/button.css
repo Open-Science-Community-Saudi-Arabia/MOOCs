@@ -1,0 +1,26 @@
+.button {
+	padding: 0.5rem 1.5rem;
+	border-radius: 0.5rem;
+	border: none;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 1.2rem;
+	color: white;
+	transition: all 1s ease-in-out;
+}
+
+.button:hover {
+	transform: translateY(-10px);
+}
+
+.primary {
+	background: #03c4eb;
+}
+
+.secondary {
+	background: rgb(19, 233, 29);
+}
+
+.danger {
+	background: rgb(255, 26, 26);
+}
