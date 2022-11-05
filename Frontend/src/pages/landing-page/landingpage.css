@@ -247,7 +247,6 @@
     height: 80vh;
     position: relative;
     margin-top: 8rem;
-    background-color: red;
   }
 }
 
@@ -510,7 +509,6 @@
 
 @media (max-width: 768px) {
   .hero--wrapper {
-    height: 60vh;
     background: linear-gradient(
         180deg,
         rgba(255, 255, 255, 0.2) 0%,
