@@ -25,7 +25,7 @@
 .outline:hover{
     border-color: 1px solid #0e7880;
     color: #0e7880;
-    transform: translateY(3px);
+    /* transform: translateY(3px); */
 
 }
 .button--bg{
