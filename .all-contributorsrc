@@ -13,7 +13,8 @@
       "profile": "http://adedamolaorofin.web.app",
       "contributions": [
         "infra",
-        "design"
+        "design",
+        "review"
       ]
     },
     {
@@ -61,6 +62,44 @@
       "name": "Obiora Ebuka",
       "avatar_url": "https://avatars.githubusercontent.com/u/94439139?v=4",
       "profile": "https://github.com/oEbuka",
+      "contributions": [
+        "infra"
+      ]
+    },
+    {
+      "login": "okerekechinweotito",
+      "name": "Okereke Chinweotito",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65835404?v=4",
+      "profile": "http://okereke.dev",
+      "contributions": [
+        "test",
+        "infra"
+      ]
+    },
+    {
+      "login": "AminMusah",
+      "name": "Amin Musah Ahmed",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60413409?v=4",
+      "profile": "https://github.com/AminMusah",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "JulianaSau",
+      "name": "Juliana Sau ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49183775?v=4",
+      "profile": "https://julianasau.vercel.app",
+      "contributions": [
+        "infra",
+        "ideas"
+      ]
+    },
+    {
+      "login": "ORIYOMI289",
+      "name": "JewelCodes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63899878?v=4",
+      "profile": "https://github.com/ORIYOMI289",
       "contributions": [
         "infra"
       ]
