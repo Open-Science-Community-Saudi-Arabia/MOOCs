@@ -162,12 +162,11 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it("should return status 200 for successful password reset", async () => {
-            const user = await User.findOne({ email: login_data.email })
-
+            const user = await User.findOne({ email: login_data.email }).select('+passwordResetToken')
             expect(user).to.have.property('passwordResetToken')
             expect(user.passwordResetToken).not.to.equal(undefined)
             expect(user.passwordResetToken).to.be.a('string')
-
+            
             const test_token = await TestToken.findOne({ user: user._id })
             expect(test_token).to.be.a('object')
             expect(test_token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
@@ -219,7 +218,7 @@ describe('User Authentication for Signup, Email verification, login and password
                 passwordConfirm: 'thisisthepassword',
                 role: 'Admin'
             }
-
+            
             // Create End User
             const end_user = await app.post('/api/v1/auth/signup').send(end_user_signup_data)
             expect(end_user.statusCode).to.equal(200)
@@ -251,13 +250,14 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 401 for no access token', async () => {
-            const res = await app.delete('/api/v1/course/delete-course/null')
+            const res = await app.delete('/api/v1/course/delete/null')
 
-            expect(res.statusCode).to.equal(403)
+            expect(res.statusCode).to.equal(401)
             expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Unauthenticated, Please Login')
         })
 
     })
+
     // describe('POST /verify', () => {
     //     const url = '/api/v1/auth/verify'
     //     let user, bearer_token, ver_token;
