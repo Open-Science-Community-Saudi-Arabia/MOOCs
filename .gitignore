@@ -39,7 +39,7 @@ vignettes/*.pdf
 .Renviron
 
 # Backend API sensitive files
-/backend_API/src/*.env
+/backend_API/src/.env*
 *node_modules/
 
 # History files
