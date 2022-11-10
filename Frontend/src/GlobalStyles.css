@@ -1,3 +1,6 @@
+/* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
 :root{
     --black-0: rgb(0, 0, 0);
     --black-52: rgb(52, 52, 52);
@@ -13,10 +16,12 @@
     --purple-256: hsl(256, 100%, 78%);
 
 }
-* {
+body,html,* {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	/* font-family: 'Poppins', sans-serif; */
 	font-family: "Lato", sans-serif;
+   
 }
+
