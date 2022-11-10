@@ -34,7 +34,7 @@
 	position: fixed;
 	width: 70%;
 	transition: all 0.5s ease;
-	padding: 3rem;
+	padding: 1em 3rem;
 }
 
 .navbar-mobile {
@@ -44,6 +44,7 @@
 .nav-links.mobile,
 .category-btn.mobile {
 	display: flex;
+	font-size:1.2rem;
 }
 
 .auth-btns-wrapper {
@@ -56,9 +57,10 @@
 
 .auth-btns.mobile {
 	display: flex;
-	font-size: 1.5rem;
-	padding: 1rem;
+	font-size: 1.2rem;
+	padding: 0.8rem;
 	width: 100%;
+	
 }
 
 .category-btn {
