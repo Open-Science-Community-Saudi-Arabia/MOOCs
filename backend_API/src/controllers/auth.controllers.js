@@ -31,8 +31,14 @@ const createToken = (user, statusCode, res) => {
     }
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
     res.cookie('jwt', token, cookieOptions)
+
+    // Remove sensitive data from user object
     user.password = undefined
     user.passwordConfirm = undefined
+    user.emailVerificationToken = undefined
+    user.passwordResetToken = undefined
+    user.isVerified = undefined
+
     res.status(statusCode).json({
         status: 'success',
         token,
@@ -44,7 +50,7 @@ const createToken = (user, statusCode, res) => {
 
 exports.signup = asyncWrapper(async (req, res, next) => {
     //1. Grab Values from req.body & Store Values in database
-    const user = await User.create({
+    const currentUser = await User.create({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
@@ -53,7 +59,32 @@ exports.signup = asyncWrapper(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     })
 
-    createToken(user, 200, res)
+    //2. Create email verification Token
+    const ver_token = currentUser.createHashedToken('email_verification')
+    currentUser.save({ validateBeforeSave: false })
+
+    //3. Save to test token collection -- aids in running unit tests
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+        await TestToken.create({
+            user: currentUser._id,
+            email_verification: ver_token
+        })
+    }
+
+    //4. Send email to user
+    const url = `${req.protocol}://${req.get(
+        'host',
+    )}/api/v1/auth/verifyemail/${ver_token}`
+
+    const message = `Please click on the link below to verify your email address: ${url}`
+    await sendEmail({
+        email: currentUser.email,
+        subject: 'Your email verification token link',
+        message
+    })
+
+    createToken(currentUser, 200, res)
+
 })
 
 exports.login = asyncWrapper(async (req, res, next) => {
@@ -76,6 +107,32 @@ exports.login = asyncWrapper(async (req, res, next) => {
     createToken(currentUser, 200, res)
 })
 
+exports.verifyEmail = asyncWrapper(async (req, res, next) => {
+    //1. Get email verification token from query params
+    const hashedToken = crypto
+        .createHash('sha256')
+        .update(req.params.token)
+        .digest('hex')
+
+
+    //2. If token is invalid or token has expired
+    const user = await User.findOne({ emailVerificationToken: hashedToken }).select('+emailVerificationToken')
+    if (!user) {
+        return next(
+            new CustomAPIError(
+                'Token Invalid or Token Expired, Request for a new reset token',
+                404,
+            ),
+        )
+    }
+
+    user.isVerified = true
+    user.emailVerificationToken = undefined
+    await user.save({ validateBeforeSave: false })
+
+    return res.status(201).send({ status: 'success' })
+})
+
 exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     //1. Get User By The Email Posted
     const user = await User.findOne({ email: req.body.email })
@@ -83,7 +140,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
         return next(new CustomAPIError('No User Found With That Email', 404))
     }
     //2. Generate Reset Token
-    const resetToken = user.createHashedToken()
+    const resetToken = user.createHashedToken('password_reset')
     const curr = await user.save({ validateBeforeSave: false })
     // console.log(curr)
 
@@ -93,16 +150,13 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     )}/api/v1/auth/resetpassword/${resetToken}`
 
     // Save to test token collection -- aids in running unit tests
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-        await TestToken.create({
-            password_reset: resetToken,
-            user: user._id,
-        })
-    }
-
-    const message = `Forgot your password? Click on the link below and reset your password with your new password: ${tokenUrl}.\nIf you didn't reset your password, ignore this email!`
-
     try {
+        if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+            await TestToken.findOneAndUpdate({ user: user._id }, { password_reset: resetToken },
+                { upsert: true })
+        }
+
+        const message = `Forgot your password? Click on the link below and reset your password with your new password: ${tokenUrl}.\nIf you didn't reset your password, ignore this email!`
         await sendEmail({
             email: user.email,
             subject: 'Your Password Reset Link(Valid for 10mins)',
