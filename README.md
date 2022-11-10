@@ -28,13 +28,16 @@
     <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs">View Demo</a>
+    <a href="https://oscsa-moocs.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Report Bug</a>
     ·
     <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Request Feature</a>
   </p>
 </div>
+
+## Deployment
+Frontend: https://oscsa-moocs.netlify.app/
 
 ## Technologies
 
