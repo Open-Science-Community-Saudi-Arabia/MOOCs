@@ -84,7 +84,7 @@
 	color: #d5d2d275;
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 991px) {
 	.footer-wrapper {
 		flex-direction: row;
 		width: 100%;
