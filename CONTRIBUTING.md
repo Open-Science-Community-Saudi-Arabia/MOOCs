@@ -79,8 +79,7 @@ Your commit messages should be descriptive enough
 
 If you're not used to this workflow with git, you can start with some [basic docs from GitHub](https://help.github.com/articles/fork-a-repo/).
 
-#### PROJECT FOLDER STRUCTURE
-
+### PROJECT FOLDER STRUCTURE
 ```
 .....
 backend_API/
@@ -126,6 +125,11 @@ package.json
 - /src/db - Contains DB connection files
 - /src/test - Contains files for unit tests
 
+### FILE NAME FORMAT
+- controllers should have a suffix `.controllers.js`
+- route files should have a suffux `.routes.js`
+- models files should have a suffix `.model.js`
+
 ### ROUTE FORMATTING
 Each route file should be imported to the `routes_handler.js` file. The route_handler.js will have a uniform route path pattern. All routes will then be exported to the `app.js` file 
 
@@ -133,9 +137,9 @@ Route path format - `/api/v1/<ROUTE GROUP>/<ROUTE ACTION>/`. v1 is the current A
 `/api/v1/<ROUTE GROUP>/` prefix is applied in the `routes_handler.js` file
 
 ROUTE GROUPS includes - auth, course, exercise, question
-For `auth` routes group use `/api/v1/auth/<ROUTE ACTION>`
-For `course` routes group use `/api/v1/course/<ROUTE ACTION>`
-For `exercise` routes group use `/api/v1/exercise/<ROUTE ACTION>`
+- For `auth` routes group use `/api/v1/auth/<ROUTE ACTION>`
+- For `course` routes group use `/api/v1/course/<ROUTE ACTION>`
+- For `exercise` routes group use `/api/v1/exercise/<ROUTE ACTION>`
 
 ROUTE ACTIONS may vary as the case may be, good examples of ROUTE ACTIONS are `update new create`
 A good example of a complete route path is `/api/v1/auth/signup` where `auth` is the route group and `signup` is the route action
@@ -168,3 +172,4 @@ npm test
 ## NOTE
 - After making any contribution, make sure to run all tests and ensure they all pass before making a pull request
 - All succesful contributions and pending tasks are reference [here](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues/5)
+- All issues and pull requests should be made using the templates at [templates](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/tree/dev_team2/.github)
