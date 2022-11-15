@@ -1,21 +1,21 @@
-.course{
+.course {
     border-radius: 0.5rem 0.5rem 0 0;
     overflow: hidden;
 }
- .imgwrapper{
+
+.imgwrapper {
     position: relative;
-    /* width: rem; */
-    height:13.875rem;
+    height: 13.875rem;
 }
 
-.imgwrapper img{
+.imgwrapper img {
     height: 100%;
     object-fit: cover;
     border-radius: 15px;
     width: 100%;
-
 }
-.creative{
+
+.creative {
     position: absolute;
     top: 0;
     left: 0;
@@ -26,25 +26,28 @@
     font-weight: 500;
     font-size: 14px;
 }
-.rating--wrapper{
+
+.rating--wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.course--content{
+
+.course--content {
     display: flex;
     flex-direction: column;
     row-gap: 0.5rem;
 }
-.course--content .title{
-    color:#0B036B;
+
+.course--content .title {
+    color: #0B036B;
     font-size: 1.5rem;
     font-weight: 700;
     margin-top: 1rem;
     text-align: center;
 }
 
-.course--content .desc{
+.course--content .desc {
     max-width: 19rem;
     text-align: center;
     font-size: 14px;
@@ -52,51 +55,57 @@
     align-self: center;
 }
 
-.play{
-display: flex;
-}
-.rating{
-display: flex;
-align-items: center;
-background-color:#03C4EB;
-padding: 0.2rem 0.5rem;
-border-radius: 0.5625rem;
-gap: 0.5rem;
-}
-.rating p{
-    color: white;
-}
-.lessons{
-color:#0B036B;
-font-weight: 700;
-font-size: 13px;
-}
-.play{
+.play {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;  
 }
 
-.carosel{
+.rating {
+    display: flex;
+    align-items: center;
+    background-color: #03C4EB;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5625rem;
+    gap: 0.5rem;
+}
+
+.rating p {
+    color: white;
+}
+
+.lessons {
+    color: #0B036B;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.play {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carosel {
     position: relative;
 }
-.next{
-position: absolute;
-right: -20px;
-top: 0;
-bottom: 0;
-display: flex;
-justify-content: center;
-align-items: center;
-cursor: pointer;
+
+.next {
+    position: absolute;
+    right: -20px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
-.prev{
-cursor: pointer;
-position: absolute;
-left: -20px;
-top: 0;
-bottom: 0;
-display: flex;
-justify-content: center;
-align-items: center;
+
+.prev {
+    cursor: pointer;
+    position: absolute;
+    left: -20px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

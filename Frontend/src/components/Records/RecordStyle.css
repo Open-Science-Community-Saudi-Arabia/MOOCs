@@ -1,7 +1,7 @@
-.record-wrapper{
+.record-wrapper {
     background-color: white;
     backdrop-filter: blur(2px);
-    border:1px solid #03C4EB;
+    border: 1px solid #03C4EB;
     padding-top: 33px;
     padding-bottom: 33px;
     display: flex;
@@ -12,24 +12,23 @@
     gap: 0.625rem;
     width: 13rem;
     color: #03C4EB;
-
 }
 
-.record{
+.record {
     font-size: 1.5rem;
     font-weight: 800;
-
 }
-.desc{
+
+.desc {
     font-size: 1.125rem;
     font-weight: 800;
-    
 }
+
 @media (max-width:1024px) {
-    .record-wrapper{
+    .record-wrapper {
         background-color: white;
         backdrop-filter: blur(2px);
-        border:1px solid #03C4EB;
+        border: 1px solid #03C4EB;
         padding-top: 15px;
         padding-bottom: 15px;
         display: flex;
@@ -37,19 +36,17 @@
         align-items: center;
         flex-direction: column;
         border-radius: 0.9375rem;
-        /* gap: 0.625rem; */
-        color: #03C4EB; 
-        width: 9rem; 
+        color: #03C4EB;
+        width: 9rem;
     }
 
-    .record{
+    .record {
         font-size: 1.5rem;
         font-weight: 800;
-
     }
-    .desc{
+
+    .desc {
         font-size: 1.125rem;
         font-weight: 800;
-      
     }
 }

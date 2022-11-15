@@ -4,13 +4,16 @@ import Records from "../../components/Records/Records";
 import { record ,courses, learning, testimonials} from "../../utils/data";
 import "./landingpage.css";
 import Course from "../../components/Course/Course";
-
 import Carosel from "../../components/Carousel/Carousel";
 import LearningWidget from "../../components/Learningwidget/LearningWidget";
 import Testimonial from "../../components/TestimonialCard/Testimonial";
+import Navbar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
 
 function LandingPage() {
   return (
+    <>
+  <Navbar/>
     <div className="landingpage">
 <section className="hero--container">
       <div className="hero--wrapper ">
@@ -103,13 +106,14 @@ learning</h3>
            </div> 
 
  <div className="testimonial--card--wrapper ">
-  
        {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
 </div> 
       </section>
 
       
     </div>
+    <Footer/>
+    </>
   );
 }
 
