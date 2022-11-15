@@ -1,5 +1,5 @@
+
 import React from "react";
-import Button from "../../components/Button/Button";
 import Records from "../../components/Records/Records";
 import { record ,courses, learning, testimonials} from "../../utils/data";
 import "./landingpage.css";
@@ -12,7 +12,9 @@ import Testimonial from "../../components/TestimonialCard/Testimonial";
 function LandingPage() {
   return (
     <div className="landingpage">
-      <section className="hero--wrapper ">
+<section className="hero--container">
+      <div className="hero--wrapper ">
+      
         <div className="hero--content ">
          <div className="img--wrapper">
          <img
@@ -30,11 +32,11 @@ function LandingPage() {
         </div>
            <div className="record--wrapper">
           {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
-          </div>           
+          </div> 
+          </div> 
+
       </section>
-      <div className="record--mobile">
-          {record.map((item, index)=> <Records {...item} key={`record${index}`}/>)}
-          </div>
+     
       <section className="course--container cont">
        <div className="heading--wrapper">
        <h1 className="course--title">
@@ -83,7 +85,7 @@ learning</h3>
 
           </p>
          <div className="Buttton--wrapper">
-         <Button title='Click Here to Apply' outlined/>
+         <button>Click Here to Apply</button>
          </div>
         </div>
         <div className="instruction--img">
@@ -105,10 +107,10 @@ learning</h3>
        {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
 </div> 
       </section>
+
+      
     </div>
   );
-
-
 }
 
 export default LandingPage;

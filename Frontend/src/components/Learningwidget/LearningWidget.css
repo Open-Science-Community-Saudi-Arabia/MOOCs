@@ -23,26 +23,20 @@
 .details h1{
     font-size: 1.5rem;
     font: 700;
-    font-family: 'Lato';
     margin-bottom: 10px;
 }
 .details p{
     font-size: 14px;
     font-weight: 400;
-    font-family: 'Lato';
     color: white;
 }
 
-@media (max-width:425px) {
-    .Icon--wrapper{
-        width: 70px;
-        height: 70px;
-        background-color: white;
-        border-radius: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    
+@media (max-width:700px) {
+
+    .learningwidget {
+        display: block;
+        text-align: center;
+        
     }
   
 }
