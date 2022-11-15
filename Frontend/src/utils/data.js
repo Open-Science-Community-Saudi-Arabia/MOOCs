@@ -1,9 +1,10 @@
 import GlobalIcon from "../components/vectors/GlobalIcon";
-import Time from "../components/vectors/Time.jsx";
-import UsersIcon from "../components/vectors/UsersIcon.jsx";
+import Time from "../components/vectors/Time";
+import UsersIcon from "../components/vectors/UsersIcon";
 import Certificate from "../components/vectors/Certificate";
 import CourseIcon from '../components/vectors/Course'
 import TrainingIcon from "../components/vectors/Training";
+
 export const record = [
   {
     icon: Time,

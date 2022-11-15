@@ -1,10 +1,10 @@
-import Button from "../../components/Button/Button";
 import React from "react";
+import Button from "../../components/Button/Button";
 import Records from "../../components/Records/Records";
-import { record } from "../../utils/data";
+import { record ,courses, learning, testimonials} from "../../utils/data";
 import "./landingpage.css";
 import Course from "../../components/Course/Course";
-import {courses, learning, testimonials} from '../../utils/data'
+
 import Carosel from "../../components/Carousel/Carousel";
 import LearningWidget from "../../components/Learningwidget/LearningWidget";
 import Testimonial from "../../components/TestimonialCard/Testimonial";
@@ -83,7 +83,7 @@ learning</h3>
 
           </p>
          <div className="Buttton--wrapper">
-         <Button title='Click Here to Apply' outlined={true}/>
+         <Button title='Click Here to Apply' outlined/>
          </div>
         </div>
         <div className="instruction--img">
@@ -105,14 +105,10 @@ learning</h3>
        {testimonials.map((item, index)=> <Testimonial {...item} key={index}/>)}
 </div> 
       </section>
-
-      <div className=" links">
-       {/* <Link to="/login">Go to Login Page</Link>
-        <Link to="/signup">Go to Sign Up Page</Link> */}
-
-       </div> 
     </div>
   );
+
+
 }
 
 export default LandingPage;
