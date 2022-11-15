@@ -105,11 +105,11 @@ export const testimonials =[
   {
     img:'/images/testimonial1.png',
     name:'-Jeo Stanlee',
-    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor'
+    desc:'Lorem ipsum magna fringilla urna, porttitor'
   },
   {
     img:'/images/testimonial1.png',
-    name:'',
-    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor'
+    name:'-Jeo Stanlee',
+    desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus'
   }
 ]

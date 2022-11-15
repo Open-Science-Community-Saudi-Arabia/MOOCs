@@ -1,14 +1,19 @@
 .landing-page {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: #eee;
   gap: 4em;
+  
+}
+.hero--container{
+  height: 50em;
 }
 .hero--wrapper {
-  height: 100vh;
+  height: 40em;
+position: relative;
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.2) 0%,
@@ -19,6 +24,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+ 
 }
 
 .cont{
@@ -41,6 +47,7 @@
   margin: 0 auto;
   gap: 6.375rem;
   position: relative;
+  
 }
 
 .record--wrapper {
@@ -77,10 +84,6 @@
   text-align: left;
 }
 
-.course--container {
-  height: 100vh;
-  padding-top: 12.9375rem;
-}
 
 .heading--wrapper {
   justify-content: center;
@@ -88,7 +91,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Lato";
+
 }
 .heading--wrapper .course--desc {
   max-width: 30.5625rem;
@@ -98,9 +101,10 @@
 }
 
 .course--title {
-  display: flex;
-  font-weight: 800;
-  font-size: 2.25rem;
+  
+  font-weight: 900;
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
 }
 
 .landing-page a {
@@ -123,12 +127,12 @@
 .carosel {
   max-width: 100%;
   margin: 5rem 2rem;
-  margin-bottom: 40rem;
+
 }
 
 .online--learning {
   background-color: #03c4eb;
-  height: 80vh;
+  /* height: 80vh; */
   position: relative;
   margin-top: 5rem;
 }
@@ -150,16 +154,16 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding-left: 7.25rem;
-  padding-right: 7.25rem;
+  padding:3em 5em;
   align-items: center;
   height: 100%;
+  gap:0.5em;
+  flex-wrap: wrap;
 }
 
 .learning--content h1 {
-  font-size: 8rem;
+  font-size: 7rem;
   font-weight: 700;
-  font-family: "Lato";
   color: white;
 }
 .learning--benefit {
@@ -169,7 +173,7 @@
   font-size: 3rem;
   font-weight: 900;
   color: white;
-  font-family: "Lato";
+
   margin-bottom: 3.8125rem;
 }
 .learning {
@@ -181,685 +185,195 @@
 .instructor-container {
   display: flex;
   justify-content: space-between;
-  padding-left: 7.25rem;
-  padding-right: 7.25rem;
+ padding: 0em 5em;
   align-items: center;
-  height: 100vh;
+
 }
 .instructor {
   display: flex;
   flex-direction: column;
-  max-width: 38.3125rem;
+  max-width:30rem;
 }
 .instructor h1 {
   font-weight: 900;
   font-size: 3rem;
-  font-family: "Lato";
-  margin-bottom: 2.5rem;
+
+  margin-bottom: 1rem;
 }
 .instructor > p {
   font-size: 1.125rem;
   font-weight: 400;
   margin-bottom: 1.375rem;
 }
-
-.Buttton--wrapper {
-  width: 15.75rem;
+.instruction--img  {
+ width:30rem
 }
+
 
 .testimonial-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  max-width:80%;
+  margin: 6rem auto;
+
 }
 .testimonial--card--wrapper {
   display: flex;
-  gap: 10.0625rem;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .testimonial-header {
-  max-width: 38.3125rem;
-  font-family: "Lato";
-  margin-bottom: 5.0625rem;
+
+  margin-bottom: 4rem;
 }
 .testimonial-header h1 {
   font-size: 3rem;
   font-weight: 900;
-  color: #373737;
   text-align: center;
-  margin-bottom: 2.3125rem;
+  margin-bottom: 1rem;
 }
 .testimonial-header p {
   font-size: 1.125rem;
   font-weight: 400;
   text-align: center;
-}
-.record--mobile {
-  display: none;
+  width: 80%;
+    margin: auto;
 }
 
+ button{
+  width: 100%;
+  height: 60px;   
+  border: none;
+  outline: none;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.375rem;
 
-@media (max-width:1440px) {
-  .online--learning {
-    background-color: #03c4eb;
-    height: 80vh;
-    position: relative;
-    margin-top: 8rem;
-  }
+  cursor: pointer; 
+  color:white;
+  background-color: #03C4EB; 
 }
+
+button:hover{
+  border: 1px solid #03C4EB; 
+ background-color: white;
+ color:#03C4EB;
+}
+
 
 @media (max-width: 1024px) {
-  .landing-page {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #eee;
-    gap: 4em;
-    overflow-x: hidden;
-  }
-
-  .hero--wrapper {
-    height: 99vh;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero--title {
-    font-size: 3rem;
-    font-weight: 700;
-  }
-
-  .hero--desc {
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 1.3125rem;
-    text-align: left;
-  }
-
-  .record--wrapper {
-    position: absolute;
-    display: flex;
-    column-gap: 5.1875rem;
-    bottom: -25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .hero--content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 85%;
-    margin: 0 auto;
-    gap: 6.375rem;
-    position: relative;
-  }
-
-  .record--mobile {
-    display: none;
-  }
-
-  .course--container {
-    height: 80vh;
-    padding-top: 8.9375rem;
-    margin-bottom: 10rem;
-  }
-  .online--learning {
-    background-color: #03c4eb;
-    height: 80vh;
-    position: relative;
-    margin-top: 10rem;
-  }
-
-  .learning--content h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    font-family: "Lato";
-    color: white;
-  }
-
-  .learning--benefit {
-    max-width: 32.4375rem;
-  }
-  .learning--benefit h3 {
-    font-size: 2rem;
-    font-weight: 900;
-    color: white;
-    font-family: "Lato";
-    margin-bottom: 2rem;
-  }
-  .learning {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1.5625rem;
-  }
-
-  .testimonial-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-  }
-  .testimonial--card--wrapper {
-    display: flex;
-    gap: 6.0625rem;
-  }
-
-  .testimonial-header {
-    max-width: 38.3125rem;
-    font-family: "Lato";
-    margin-bottom: 5.0625rem;
-  }
-  .testimonial-header h1 {
-    font-size: 3rem;
-    font-weight: 900;
-    color: #373737;
-    text-align: center;
-    margin-bottom: 2.3125rem;
-  }
-  .testimonial-header p {
-    font-size: 1.125rem;
-    font-weight: 400;
-    text-align: center;
-  }
-
-  .instructor-container {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    align-items: center;
-    height: 100vh;
-  }
-  .instructor {
-    display: flex;
-    flex-direction: column;
-    max-width: 38.3125rem;
-  }
-  .instructor h1 {
-    font-weight: 900;
-    font-size: 3rem;
-    font-family: "Lato";
-    margin-bottom: 2.5rem;
-  }
-  .instructor > p {
-    font-size: 1.125rem;
-    font-weight: 400;
-    margin-bottom: 1.375rem;
-  }
-  .instruction--img {
-    max-width: 27rem;
-  }
-  .instruction--img img {
-    width: 100%;
-  }
-}
-
-
-
-
-@media (max-width:912px) {
-  .hero--wrapper {
-    height: 32em;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .record--wrapper { 
-    bottom: 57%;
-    left: 50%;
-  }
-  .course--container{
-    height: 50em;
-    margin-bottom: 2rem;
-  }
-
-  .online--learning{
-    height: 40rem;
-    margin-top: 0;
-  }
-  
-  .instructor-container{
-    height: 30rem;
-    gap: 2.5rem;
-  }
-
-  .instructor p{
-    max-width: 35em;
-  }
-  .testimonial-wrapper{
-    height: 40em;
-    padding-top: 0rem;
-  }
-  .testimonial--card--wrapper{
-    flex-direction: column;
-  }
-}
-
-
-
-@media (max-width:820px) {
-  .hero--wrapper {
-    height: 32em;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .record--wrapper { 
-    bottom: 49%;
-    left: 50%;
-  }
-  .course--container{
-    height: 50em;
-    margin-bottom: 2rem;
-  }
-
-  .online--learning{
-    height: 40rem;
-    margin-top: 0;
-  }
-  
-  .instructor-container{
-    height: 30rem;
-    gap: 2.5rem;
-  }
-
-  .instructor p{
-    max-width: 35em;
-  }
-  .testimonial-wrapper{
-    height: 40em;
-    padding-top: 0rem;
-  }
-  .testimonial--card--wrapper{
-    flex-direction: column;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .hero--wrapper {
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .record--wrapper {
-    display: none;
-  }
-  .record--mobile {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 2rem 1rem;
-    overflow-x: auto;
-  }
-
-  .course--container {
-    height: 20vh;
-  }
-  .course--container {
-    height: 80vh;
-    padding-top: 4.9375rem;
-  }
-
-  .online--learning {
-    background-color: #03c4eb;
-    height: 80vh;
-    position: relative;
-    margin-top: 8rem;
-  }
-
-  .learning--content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-    align-items: center;
-    height: 100%;
-  }
-
-  .testimonial--card--wrapper {
-    display: flex;
-    gap: 6.0625rem;
-    flex-direction: column;
-  }
-  .testimonial-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .testimonial-header > p {
-    padding: 0 2rem;
-  }
-
-  .instructor-container {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    align-items: center;
-    height: 100vh;
-  }
-  .instructor {
-    display: flex;
-    flex-direction: column;
-    max-width: 38.3125rem;
-  }
-  .instructor h1 {
-    font-weight: 900;
-    font-size: 2rem;
-    font-family: "Lato";
-    margin-bottom: 1.5rem;
-  }
-  .instructor > p {
-    font-size: 14px;
-    font-weight: 400;
-    margin-bottom: 1.375rem;
-    max-width: 20rem;
-  }
-  .instruction--img {
-    max-width: 27rem;
-  }
-  .instruction--img img {
-    width: 100%;
-  }
-}
-
-@media (max-width: 414px) {
-  .hero--wrapper {
-    height: 65vh;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-bottom: 2rem;
-  
-  }
-  .img--wrapper{
-    height: 70%;
-  }
-  .hero--content--wrapper{
-    height: 30%;
-  }
-
-  .hero--content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 85%;
-    margin: 0 auto;
-    gap: 2rem;
-    position: relative;
-    flex-direction: column;
-   
-  }
-
-  .hero--title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  .hero--desc {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 1.3125rem;
-    text-align: center;
-  }
-
-  .course--container {
-    height: 50vh;
-    padding-top: 2.9375rem;
-  }
-
-  .online--learning {
-    background-color: #03c4eb;
-    height: 80vh;
-    position: relative;
-    margin-top: 3rem;
-  }
-
-  .learning--benefit {
-    max-width: 32.4375rem;
-  }
-  .learning--benefit h3 {
-    font-size: 2rem;
-    font-weight: 900;
-    color: white;
-    font-family: "Lato";
-    margin-bottom: 1.8125rem;
-    text-align: center;
-  }
-  .learning {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2.5625rem;
-  }
-
-  .learning--content h1 {
-    display: none;
-  }
   .carosel {
-    max-width: 100%;
-    margin: 0rem 2rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-  }
 
-  .instructor-container {
-    display: flex;
-    padding-left: 0rem;
-    padding-right: 1rem;
-    align-items: center;
-    height: 60vh;
-    flex-direction: column;
-    row-gap: 2rem;
+    margin: 5rem 0rem;
+  
   }
-  .instructor {
-    display: flex;
-    flex-direction: column;
-    max-width: 40.3125rem;
-    order: 2;
-  }
-  .instructor h1 {
-    font-weight: 900;
-    font-size: 2rem;
-    font-family: "Lato";
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  .instructor > p {
-    font-size: 1.125rem;
-    font-weight: 400;
-    margin-bottom: 1.375rem;
-    align-self: center;
-    text-align: center;
-    max-width: 32rem;
-  }
-  .Buttton--wrapper {
-    align-self: center;
-  }
-
-  .testimonial-wrapper {
-    display: flex;
-    flex-direction: column;
+  .learning--content {
+    
+    padding:3em ;
+    
     justify-content: center;
-    align-items: center;
-    height: 80vh;
-  }
-  .testimonial--card--wrapper {
-    display: flex;
-    gap: 6.0625rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .testimonial-header {
-    max-width: 38.3125rem;
-    font-family: "Lato";
-    margin-bottom: 5.0625rem;
-  }
-  .testimonial-header h1 {
-    font-size: 3rem;
-    font-weight: 900;
-    color: #373737;
-    text-align: center;
-    margin-bottom: 2.3125rem;
-  }
-  .testimonial-header p {
-    font-size: 1.125rem;
-    font-weight: 400;
-    text-align: center;
   }
 }
-
-
-@media (max-width:398px) {
-
-  .hero--wrapper {
-    height: 65vh;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0) 96.71%
-      ),
-      #03c4eb;
-    font-family: "Lato";
-    display: flex;
-    flex-direction: column;
+@media (max-width: 991px) {
+  .instructor-container {
+   justify-content: center;
+   padding: 2em 5em;
+  }
+  .instructor-container img{
+   display: none;
+   }
+   .hero--content {
+    gap: 0rem;
     justify-content: center;
-    padding-bottom: 2rem;
-  }
-  .course--container{
-    height: auto;
-    margin-bottom: 2rem;
-  }
-  .instructor-container{
-    margin:  0 auto;
-  }
-  .instructor{
-    margin-top: 3rem;
-  }
-  .instructor p{
+    flex-wrap: wrap-reverse;
+}
+   .img--wrapper img {
+    width: 50%;
+}
+.img--wrapper  {
   text-align: center;
-   margin-left: 1rem;
-  }
-  .testimonial-wrapper{
-    margin-top: 20rem;
-  }
-
-  .testimonial--card--wrapper{
-    margin-left: 1rem;
-  }
+  
+ }
+.record--wrapper {
+  
+  column-gap: 3rem;
+ 
 }
-
-
-@media (max-width:393px) {
-  .testimonial-wrapper{
-    margin-top: 6rem;
-  }
+.instructor-container {
+ 
+  flex-wrap: wrap;
 }
-
-
-@media (max-width:390px) {
-  .testimonial-wrapper{
-    margin-top: 10rem;
-  }
 }
-
-
-@media (max-width:375px) {
-  .hero--wrapper {
-    height: 90vh;
-  }
-  .testimonial-wrapper{
-    margin-top: 15rem;
-  }
-}
-
-@media (height:1366px) {
-  .hero--wrapper {
-    height: 45vh;  
-  }
-  .course--container {
-    height: 30vh;
-    padding-top: 10.9375rem;
-  }
+@media (max-width:700px) {
   .record--wrapper {
-    position: absolute;
-    display: flex;
-    column-gap: 9.1875rem;
-    bottom: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .online--learning {
-    background-color: #03c4eb;
-    height: 40vh;
     position: relative;
-    margin-top: 15rem;
-  }
-  .instructor-container {
     display: flex;
-    padding-left: 2.5rem;
-    padding-right: 1rem;
-    align-items: center;
-    height: 50vh;
-    row-gap: 2rem;
+    flex-wrap: wrap;
+   column-gap: 1em;
+   row-gap:1em;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    justify-content: center;
   }
-  .testimonial-wrapper {
-    height: 30vh;
-  }
+  .hero--content {
+   margin-top: 4em;
+}
+.hero--title {
+  font-size: 2rem;
+
+}
+.hero--wrapper {
+  height: auto;
+ 
+} 
+.course--title {
+  
+  font-size: 2rem;
+  
+}
+.learning--content h1 {
+  font-size: 5rem;
+ 
+}
+.learning--benefit h3 {
+  font-size: 2rem;
+  
 }
 
-.landing-page a:hover {
-    text-decoration: underline;
+.instructor-container {
+ 
+  padding: 2em 2em;
+}
+.testimonial-header p {
+  
+width: 100%;
+
+}
+.testimonial-wrapper {
+
+    max-width: auto;
+   
+}
+
+.instructor h1 ,.testimonial-header h1 {
+ 
+  font-size: 2rem;
+  
+}
+.online--learning {
+ margin-top: 0em;
+}
+.testimonial-wrapper {
+  
+  margin: 2rem auto;
+}
+
 }
