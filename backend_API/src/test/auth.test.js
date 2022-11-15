@@ -6,14 +6,15 @@ const expect = require('chai').expect
 const server = require('../app')
 const request = require('supertest'),
     app = request.agent(server)
-const connectDatabase = require('../db/connectDB')
-const { User } = require('../models/user.models')
+
+const TestToken = require('../models/test_token.models')
+const User = require('../models/user.models')
 
 
 
 describe('User Authentication for Signup, Email verification, login and password reset', () => {
     // Clear the test database before running tests
-    before(async() => {
+    before(async () => {
         await mongoose.connection.dropDatabase()
     })
 
@@ -82,7 +83,7 @@ describe('User Authentication for Signup, Email verification, login and password
         })
     })
 
-    describe('POST /login', async () => {
+    describe('POST /login', () => {
         const url = '/api/v1/auth/login'
         let user;
 
@@ -104,8 +105,7 @@ describe('User Authentication for Signup, Email verification, login and password
         it('should return status code 200 for successful login', async () => {
             await app.post('/api/v1/auth/signup').send(signup_data)
             const res = await app.post(url).send(login_data)
-            
-            // console.log(res)
+
             expect(res.body).to.have.a.property('token').to.be.a('string')
             expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
             expect(res.statusCode).to.equal(200)
@@ -119,6 +119,145 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
     })
+
+    describe('POST /forgotPassword', () => {
+        const url = '/api/v1/auth/forgotPassword'
+        let user;
+
+        it('should return status code 404 for none matching user email', async () => {
+            const res = await app.post(url).send({ email: "thisisthewrongemail" })
+
+            expect(res.statusCode).to.equal(404)
+            expect(res.body.message).to.be.a('string').to.equal("No User Found With That Email")
+        })
+
+        it('should return status code 200 for successful forgot password request', async () => {
+            const res = await app.post(url).send(login_data)
+
+            expect(res.statusCode).to.equal(200)
+            expect(res.body.message).to.be.a('string').to.equal("Token sent to email")
+        })
+
+        it("test token collection should have record of unhashed token", async () => {
+            const user = await User.findOne({ email: login_data.email })
+            const token = await TestToken.findOne({ user: user._id })
+
+            expect(token).to.be.a('object')
+            expect(token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
+        })
+    })
+
+    describe('PATCH /resetpassword/:token', async () => {
+        let url;
+        before(() => {
+            new_password = 'thisisthenewpassword'
+        })
+
+        it("should return status 404 invalid or missing password reset token", async () => {
+            url = '/api/v1/auth/resetpassword/' + 'thisisnotthevalidtoken'
+            const res = await app.patch(url)
+
+            expect(res.statusCode).to.equal(404)
+            expect(res.body).to.have.property('message').to.equal('Token Invalid or Token Expired, Request for a new reset token')
+        })
+
+        it("should return status 200 for successful password reset", async () => {
+            const user = await User.findOne({ email: login_data.email }).select('+passwordResetToken')
+            expect(user).to.have.property('passwordResetToken')
+            expect(user.passwordResetToken).not.to.equal(undefined)
+            expect(user.passwordResetToken).to.be.a('string')
+            
+            const test_token = await TestToken.findOne({ user: user._id })
+            expect(test_token).to.be.a('object')
+            expect(test_token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
+
+            const token = test_token.password_reset
+
+            url = '/api/v1/auth/resetpassword/' + token
+            const res = await app.patch(url).send({ password: new_password })
+
+            expect(res.statusCode).to.equal(200)
+            expect(res.body).to.have.property('status').to.equal('success')
+        })
+
+        it('should return status code 200 for successful login with new password', async () => {
+            const res = await app.post('/api/v1/auth/login').send({ email: login_data.email, password: new_password })
+
+            expect(res.body).to.have.a.property('token').to.be.a('string')
+            expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+            expect(res.statusCode).to.equal(200)
+
+            expect(res.body).to.have.a.property('data').to.be.a('object')
+            expect(res.body.data).to.have.a.property('user').to.be.a('object')
+            expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
+            expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
+            expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
+            expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
+        })
+    })
+
+    describe('Auth Middleware', () => {
+        let url = '/api/v1/course';
+        let token;
+
+        before(async () => {
+            end_user_signup_data = {
+                firstname: 'End',
+                lastname: 'User',
+                email: 'endusertestemail@moocs.com',
+                password: 'thisisthepassword',
+                passwordConfirm: 'thisisthepassword',
+                role: 'EndUser'
+            }
+
+            admin_signup_data = {
+                firstname: 'Admin',
+                lastname: 'User',
+                email: 'admintestemail@moocs.com',
+                password: 'thisisthepassword',
+                passwordConfirm: 'thisisthepassword',
+                role: 'Admin'
+            }
+            
+            // Create End User
+            const end_user = await app.post('/api/v1/auth/signup').send(end_user_signup_data)
+            expect(end_user.statusCode).to.equal(200)
+
+            // Create Admin User
+            const admin = await app.post('/api/v1/auth/signup').send(admin_signup_data)
+            expect(admin.statusCode).to.equal(200)
+
+            // Login End User
+            const end_user_login = await app.post('/api/v1/auth/login').send(end_user_signup_data)
+            expect(end_user_login.statusCode).to.equal(200)
+            expect(end_user_login.body).to.have.a.property('token').to.be.a('string')
+            expect(end_user_login.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+
+            // Login Admin User
+            const admin_login = await app.post('/api/v1/auth/login').send(admin_signup_data)
+            expect(admin_login.statusCode).to.equal(200)
+            expect(admin_login.body).to.have.a.property('token').to.be.a('string')
+            expect(admin_login.body).to.have.a.property('status').to.be.a('string').to.equal('success')
+
+            // Set End User Token
+            end_user_token = end_user_login.body.token
+
+            // Set Admin User Token
+            admin_token = admin_login.body.token
+
+            expect(end_user_token).to.be.a('string')
+            expect(admin_token).to.be.a('string')
+        })
+
+        it('should return status code 401 for no access token', async () => {
+            const res = await app.delete('/api/v1/course/delete/null')
+
+            expect(res.statusCode).to.equal(401)
+            expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Unauthenticated, Please Login')
+        })
+
+    })
+
     // describe('POST /verify', () => {
     //     const url = '/api/v1/auth/verify'
     //     let user, bearer_token, ver_token;

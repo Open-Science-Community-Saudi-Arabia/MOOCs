@@ -1,37 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,400;0,700;1,300;1,400;1,700&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,700;1,100;1,200;1,300;1,400;1,500;1,600&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap');
-
-
 :root{
-  font-size: 16px;
+  --black-0: rgb(0, 0, 0);
+  --black-52: rgb(52, 52, 52);
+  --gray-55: rgb(55, 55, 55);
+  --gray-72: rgb(72, 72, 72);
+  --gray-217: rgb(217, 217, 217);
+  --gray-203: rgb(203, 213, 225);
+  --white-248: rgb(248,250,252);
+  --white-255: rgb(255, 255, 255);
+  --skyblue-190: hsl(190, 97%, 47%);
+  --darkblue-245: hsl(245, 95%, 22%);
+  --blue-208: hsl(208, 97%, 58%);
+  --purple-256: hsl(256, 100%, 78%);
 
 }
-
-@media (max-width:1024px) {
-  :root{
-    font-size: 14px;
-  }
+body,html,* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Lato", sans-serif;
+ 
 }
 
 
-@media (max-width:650px) {
-  :root{
-    font-size: 12px;
-  }
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', 'Lato', 'Roboto' sans-serif;
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background:rgb(252, 245, 245);
-}
