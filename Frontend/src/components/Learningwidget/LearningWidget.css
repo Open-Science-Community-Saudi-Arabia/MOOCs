@@ -1,10 +1,10 @@
-.learningwidget{
+.learningwidget {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 3.5625rem;
-    
 }
-.Icon--wrapper{
+
+.Icon--wrapper {
     width: 80px;
     height: 80px;
     background-color: white;
@@ -12,20 +12,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
-.icon--container{
+.icon--container {
     display: grid;
-    place-content: center;    
+    place-content: center;
 }
 
-.details h1{
+.details h1 {
     font-size: 1.5rem;
     font: 700;
     margin-bottom: 10px;
 }
-.details p{
+
+.details p {
     font-size: 14px;
     font-weight: 400;
     color: white;
@@ -36,7 +36,7 @@
     .learningwidget {
         display: block;
         text-align: center;
-        
+
     }
-  
+
 }
