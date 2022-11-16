@@ -50,9 +50,10 @@ git clone https://github.com/<your-github-username>/Open-Science-Community-in-Sa
 
 ```bash
    git checkout dev_team2
-   git checkout -b <your-github-username>
+   git checkout -b <commit-message>
 
 ```
+Your commit message should be descriptive enough, an exmaple is `feat-signpup` or `fix-failed-login`
 
 6. Make the necessary changes and additions / subtractions within your forked repository.
 
