@@ -9,7 +9,7 @@ This project is meant to serve as the backend API for the MOOCs platform. The pr
 
 The API is hosted for testing at https://moocs-test.onrender.com/
 
-#### API DOCUMENTATION
+### API DOCUMENTATION
 Documentation for consuming the API endpoints can be found here https://documenter.getpostman.com/view/20633788/2s8YemuZwv
 
 #### Technologies
