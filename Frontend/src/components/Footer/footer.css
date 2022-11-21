@@ -27,12 +27,12 @@
 	gap: 15px;
 }
 
-.footer-summary > h1 {
+.footer-summary>h1 {
 	font-size: 1.8rem;
 	font-weight: 700;
 }
 
-.footer-summary > p {
+.footer-summary>p {
 	line-height: 22px;
 	font-size: 1rem;
 }
@@ -46,7 +46,7 @@
 	align-items: flex-start;
 }
 
-.footer-links > h2 {
+.footer-links>h2 {
 	font-size: 1.5rem;
 	line-height: 28.8px;
 }
@@ -66,7 +66,7 @@
 	transition: all 0.3s ease-in-out;
 }
 
-.contact-links > svg {
+.contact-links>svg {
 	font-size: 1.5rem;
 }
 
@@ -92,7 +92,7 @@
 		padding: 2rem 1rem;
 	}
 
-	.footer-summary > h1 {
+	.footer-summary>h1 {
 		font-size: 2rem;
 	}
 }
