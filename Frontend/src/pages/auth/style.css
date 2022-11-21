@@ -45,7 +45,7 @@ header {
 }
 
 form {
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .form .field {
@@ -76,12 +76,16 @@ form {
     border-bottom-width: 2px;
 }
 
+.button-field {
+    margin-top: 30px !important;
+}
+
 .eye-icon {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    font-size: 18px;
+    font-size: 20px;
     color: var(--gray-72);
     cursor: pointer;
     padding: 5px;
@@ -92,10 +96,9 @@ form {
     background-color: var(--skyblue-190);
     transition: all 0.3s ease;
     cursor: pointer;
-}
-
-.field button:hover {
-    background-color: var(--blue-208);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-link {
@@ -183,6 +186,18 @@ a.google span {
     font-weight: 500;
     opacity: 0.6;
     color: var(--gray-72);
+}
+
+.field .password-check {
+    border: 1px solid var(--error) !important
+}
+
+.field .error {
+    color: var(--error);
+    font-size: 13px;
+    align-items: center;
+    display:flex;
+    gap:5px
 }
 
 @media screen and (max-width: 400px) {

@@ -13,6 +13,8 @@
   --darkblue-245: hsl(245, 95%, 22%);
   --blue-208: hsl(208, 97%, 58%);
   --purple-256: hsl(256, 100%, 78%);
+  --error: hsl(0, 79%, 63%);
+  --success: hsl(125, 79%, 63%);
 }
 
 body,
@@ -22,9 +24,14 @@ html,
   padding: 0;
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
+  
 }
 body{
   width:100%;
   height:100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background-color: hsl(122, 39%, 58%)!important;
 }
