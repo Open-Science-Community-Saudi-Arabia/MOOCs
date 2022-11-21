@@ -122,7 +122,7 @@ npm test
 
 ```bash
 
-git clone https://github.com/<your-github-username>/Open-Science-Community-in-Saudi.git
+git clone https://github.com/<your-github-username>/MOOCs.git
 
 ```
 
@@ -130,7 +130,7 @@ git clone https://github.com/<your-github-username>/Open-Science-Community-in-Sa
 
 ```bash
 
-    git remote add upstream https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi.git
+    git remote add upstream https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs.git
     git fetch upstream
     git pull upstream main
     git push
