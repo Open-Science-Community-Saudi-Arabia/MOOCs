@@ -138,7 +138,7 @@ git clone https://github.com/<your-github-username>/MOOCs.git
 
 ```
 
-5. From the dev_team2 branch, create a new branch with your github username as its name.
+5. From the dev_team2 branch, create a new branch with a different name.
 
 ```bash
    git checkout dev_team2
