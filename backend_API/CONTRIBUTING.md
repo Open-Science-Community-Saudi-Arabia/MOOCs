@@ -14,10 +14,11 @@ Documentation for consuming the API endpoints can be found here https://document
 
 #### Technologies
 
-- Node JS - Backend Environment
-- Express JS - Framework for APIs
-- Mongo DB - Non Relational Database
-- Mocha and Chai - Framework for Unit tests
+- [Node JS](https://nodejs.org/en/) - Backend Environment
+- [Express JS](https://expressjs.com/) - Framework for APIs
+- [Mongo DB](https://www.mongodb.com/) - Non Relational Database
+- [Mocha](https://mochajs.org/) - Framework for Unit tests
+- [Chai](https://www.chaijs.com/) - Assertion library for Node
 
 
 ### PROJECT FOLDER STRUCTURE
