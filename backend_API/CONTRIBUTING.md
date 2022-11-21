@@ -19,66 +19,6 @@ Documentation for consuming the API endpoints can be found here https://document
 - Mongo DB - Non Relational Database
 - Mocha and Chai - Framework for Unit tests
 
-### CONTRIBUTING WORKFLOW
-
-1. Check that there isn't [already an issue](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) about your idea to avoid duplicating work.
-
-   - If there isn't one already, please create one so that others know you're working on it.
-
-2. Fork the [Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/) to your GitHub account.
-
-3. Clone the forked repository on your local machine.
-
-```bash
-
-git clone https://github.com/<your-github-username>/Open-Science-Community-in-Saudi.git
-
-```
-
-4. Sync the fork, to avoid merge conflicts.
-
-```bash
-
-    git remote add upstream https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi.git
-    git fetch upstream
-    git pull upstream master
-    git push
-
-```
-
-5. From the dev_team2 branch, create a new branch with your github username as its name.
-
-```bash
-   git checkout dev_team2
-   git checkout -b <new-branch-name>
-
-```
-Your branch name should be descriptive enough, an exmaple is `feat-signpup` or `fix-failed-login`
-
-6. Make the necessary changes and additions / subtractions within your forked repository.
-
-7. Add and commit changes made.
-
-```bash
-
-   git add .
-   git commit -m "commit message"
-
-```
-
-Your commit messages should be descriptive enough
-
-8. Push the changes to forked repository.
-
-```bash
-
-   git push origin <branch-name>
-
-```
-
-9. Submit a Pull Request against the `dev_team2` branch and wait for the code to be reviewed and merged.
-
-If you're not used to this workflow with git, you can start with some [basic docs from GitHub](https://help.github.com/articles/fork-a-repo/).
 
 ### PROJECT FOLDER STRUCTURE
 ```
@@ -169,6 +109,68 @@ npm start
 ```
 npm test
 ```
+
+### CONTRIBUTING WORKFLOW
+
+1. Check that there isn't [already an issue](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) about your idea to avoid duplicating work.
+
+   - If there isn't one already, please create one so that others know you're working on it.
+
+2. Fork the [Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/) to your GitHub account.
+
+3. Clone the forked repository on your local machine.
+
+```bash
+
+git clone https://github.com/<your-github-username>/Open-Science-Community-in-Saudi.git
+
+```
+
+4. Sync the fork, to avoid merge conflicts.
+
+```bash
+
+    git remote add upstream https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi.git
+    git fetch upstream
+    git pull upstream master
+    git push
+
+```
+
+5. From the dev_team2 branch, create a new branch with your github username as its name.
+
+```bash
+   git checkout dev_team2
+   git checkout -b <new-branch-name>
+
+```
+Your branch name should be descriptive enough, an exmaple is `feat-signpup` or `fix-failed-login`
+
+6. Make the necessary changes and additions / subtractions within your forked repository.
+
+7. Add and commit changes made.
+
+```bash
+
+   git add .
+   git commit -m "commit message"
+
+```
+
+Your commit messages should be descriptive enough
+
+8. Push the changes to forked repository.
+
+```bash
+
+   git push origin <branch-name>
+
+```
+
+9. Submit a Pull Request against the `dev_team2` branch and wait for the code to be reviewed and merged.
+
+If you're not used to this workflow with git, you can start with some [basic docs from GitHub](https://help.github.com/articles/fork-a-repo/).
+
 
 ## NOTE
 - After making any contribution, make sure to run all tests and ensure they all pass before making a pull request
