@@ -145,7 +145,7 @@ git clone https://github.com/<your-github-username>/MOOCs.git
    git checkout -b <new-branch-name>
 
 ```
-Your branch name should be descriptive enough, an exmaple is `feat-signpup` or `fix-failed-login`
+Your branch name should be descriptive enough, an example is `feat-signpup` or `fix-failed-login`
 
 6. Make the necessary changes and additions / subtractions within your forked repository.
 
