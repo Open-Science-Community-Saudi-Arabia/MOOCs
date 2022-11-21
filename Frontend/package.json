@@ -17,15 +17,18 @@
         "lint-staged": "lint-staged --config lint-staged.config.js"
     },
     "dependencies": {
+        "@vitejs/plugin-react": "^2.1.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-icons": "^4.6.0",
-        "react-router-dom": "^6.4.2"
+        "react-router-dom": "^6.4.2",
+        "react-slick": "^0.29.0",
+        "slick-carousel": "^1.8.1",
+        "vite": "^3.1.0",
+        "react-icons": "^4.6.0"
     },
     "devDependencies": {
         "@types/react": "^18.0.17",
         "@types/react-dom": "^18.0.6",
-        "@vitejs/plugin-react": "^2.1.0",
         "eslint": "^7.32.0 || ^8.2.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-prettier": "^8.5.0",
@@ -36,7 +39,6 @@
         "eslint-plugin-react-hooks": "^4.3.0",
         "husky": "^8.0.1",
         "lint-staged": "^13.0.3",
-        "prettier": "^2.7.1",
-        "vite": "^3.1.0"
+        "prettier": "^2.7.1"
     }
 }

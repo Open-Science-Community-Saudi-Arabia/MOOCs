@@ -1,0 +1,42 @@
+.learningwidget {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3.5625rem;
+}
+
+.Icon--wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon--container {
+    display: grid;
+    place-content: center;
+}
+
+.details h1 {
+    font-size: 1.5rem;
+    font: 700;
+    margin-bottom: 10px;
+}
+
+.details p {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+}
+
+@media (max-width:700px) {
+
+    .learningwidget {
+        display: block;
+        text-align: center;
+
+    }
+
+}

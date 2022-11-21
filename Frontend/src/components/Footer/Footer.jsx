@@ -1,9 +1,10 @@
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPhoneAlt } from "react-icons/fa";
+import React from "react";
+import { FaFacebook, FaTwitter, FaInstagram} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import "./footer.css";
 
-const Footer = () => {
+function Footer() {
 	return (
 		<footer className="footer">
 			<div className="footer-wrapper">
@@ -40,19 +41,19 @@ const Footer = () => {
 					<h2>Contact Us</h2>
 					<div className="contact-links">
 						<FaFacebook />
-						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank">
+						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank" rel="noreferrer">
 							Facebook
 						</a>
 					</div>
 					<div className="contact-links">
 						<FaTwitter />
-						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank">
+						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank" rel="noreferrer">
 							Twitter
 						</a>
 					</div>
 					<div className="contact-links">
 						<FaInstagram />
-						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank">
+						<a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs" target="_blank" rel="noreferrer">
 							Instagram
 						</a>
 					</div>
@@ -67,6 +68,6 @@ const Footer = () => {
 			</div>
 		</footer>
 	);
-};
+}
 
 export default Footer;
