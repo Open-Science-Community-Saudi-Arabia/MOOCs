@@ -34,7 +34,7 @@ function Signup() {
                   await signUp(formData)
                   toast.success("Sucessful!", {
                     position: toast.POSITION.TOP_CENTER,
-                    autoClose:10000,
+                    autoClose:5000,
                     theme: "colored" 
                 });
                    event.target.reset();
@@ -43,7 +43,7 @@ function Signup() {
             catch (error) {
                 toast.error(error.message, {
                     position: toast.POSITION.TOP_CENTER,
-                    autoClose:10000,
+                    autoClose:5000,
                      theme: "colored" 
                 });
               } finally{
