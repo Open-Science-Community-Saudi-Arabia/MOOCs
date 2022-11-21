@@ -1,7 +1,7 @@
 # Contributing Guidelines:
 
-We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be an [issue report](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues)
-or a [pull request](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/pulls).
+We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be an [issue report](https://github.com/MOOCs/issues)
+or a [pull request](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls).
 
 ## BACKEND API for MOOCs platform
 

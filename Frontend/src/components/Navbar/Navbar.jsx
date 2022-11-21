@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { TfiWorld } from "react-icons/tfi";
 import { BiCaretDown, BiSearchAlt } from "react-icons/bi";
 import { HiBars3 } from "react-icons/hi2";
@@ -6,7 +6,7 @@ import { FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 
-const Navbar = () => {
+function Navbar() {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -16,8 +16,7 @@ const Navbar = () => {
 				<Link to="/" className="logo">
 					OSCSA
 				</Link>
-				<>
-					<button className="category-btn">
+				<button className="category-btn">
 						Categories
 						<BiCaretDown />
 					</button>
@@ -40,7 +39,6 @@ const Navbar = () => {
 					<button className="icon-btn">
 						<TfiWorld />
 					</button>
-				</>
 				<div className={isOpen ? "navbar-mobile open" : "navbar-mobile"}>
 					<Link to="#" className={isOpen ? "nav-links mobile" : "nav-links"}>
 						Resources
@@ -71,6 +69,6 @@ const Navbar = () => {
 			</nav>
 		</header>
 	);
-};
+}
 
 export default Navbar;

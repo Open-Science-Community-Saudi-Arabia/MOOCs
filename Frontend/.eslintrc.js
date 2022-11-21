@@ -20,6 +20,8 @@ module.exports = {
         "react/self-closing-comp": "warn",
         "import/newline-after-import": "warn",
         "import/order": "warn",
-        "no-console": "warn"
+        "no-console": "warn",
+        'react/jsx-props-no-spreading': 'off',
+        'react/no-array-index-key':'off'
     }
 }
