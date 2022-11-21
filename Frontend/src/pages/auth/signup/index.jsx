@@ -34,7 +34,7 @@ function Signup() {
                   await signUp(formData)
                   toast.success("Sucessful!", {
                     position: toast.POSITION.TOP_CENTER,
-                    autoClose:5000,
+                    autoClose:3000,
                     theme: "colored" 
                 });
                    event.target.reset();
