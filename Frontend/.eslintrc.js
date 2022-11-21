@@ -22,6 +22,9 @@ module.exports = {
         "import/order": "warn",
         "no-console": "warn",
         'react/jsx-props-no-spreading': 'off',
-        'react/no-array-index-key':'off'
+        'react/no-array-index-key':'off',
+        'import/prefer-default-export':'off',
+        'jsx-a11y/click-events-have-key-events':'off',
+        'jsx-a11y/no-static-element-interactions':'off',
     }
 }
