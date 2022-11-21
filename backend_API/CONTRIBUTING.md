@@ -132,7 +132,7 @@ git clone https://github.com/<your-github-username>/Open-Science-Community-in-Sa
 
     git remote add upstream https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi.git
     git fetch upstream
-    git pull upstream master
+    git pull upstream main
     git push
 
 ```
