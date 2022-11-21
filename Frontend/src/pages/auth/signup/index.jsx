@@ -79,7 +79,7 @@ function Signup() {
                           {toggleVisibility ? <MdOutlineVisibility /> : <MdOutlineVisibilityOff />}</span>   
                         </div>
                         <div className="field input-field">
-                            <input type={toggleVisibility?"text":"password"} placeholder="Confirm Password" minLength={8} className={`${checkpassword && "password-check" }`}  name="confirmpassword"/>
+                            <input type={toggleVisibility?"text":"password"} placeholder="Confirm Password" minLength={8} className={`${checkpassword && "password-check" }`}  required name="confirmpassword"/>
                             {checkpassword && <p className="error"> <BiErrorCircle/> password does not match!</p>} 
                         </div>
                         <div className="field button-field">
