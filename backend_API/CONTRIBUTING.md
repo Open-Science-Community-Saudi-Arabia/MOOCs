@@ -1,6 +1,6 @@
 # Contributing Guidelines:
 
-We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be an [issue report](https://github.com/MOOCs/issues)
+We welcome all contributions to the Open Science Community in Saudi Arabia. The contribution can be an [issue report](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues)
 or a [pull request](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls).
 
 ## BACKEND API for MOOCs platform
@@ -113,11 +113,11 @@ npm test
 
 ### CONTRIBUTING WORKFLOW
 
-1. Check that there isn't [already an issue](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/issues) about your idea to avoid duplicating work.
+1. Check that there isn't [already an issue](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues) about your idea to avoid duplicating work.
 
    - If there isn't one already, please create one so that others know you're working on it.
 
-2. Fork the [Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi](https://github.com/Open-Science-Community-Saudi-Arabia/Open-Science-Community-in-Saudi/) to your GitHub account.
+2. Fork the [Open-Science-Community-Saudi-Arabia/MOOCs](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/) to your GitHub account.
 
 3. Clone the forked repository on your local machine.
 
