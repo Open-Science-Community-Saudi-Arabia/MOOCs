@@ -8,11 +8,13 @@ import Spinner from "../../../components/Spinner"
 
 function Login() {
     const [toggleVisibility, setToggleVisibility] = useState(false);
+    const [IsError, setError] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
     const location = useLocation()
 
     const loginHandler = async (event) => {
+        setError(false)
         event.preventDefault();
         try {
             const formData = {
@@ -25,6 +27,7 @@ function Login() {
             navigate((location.state )?.redirect || '/dashboard')
         }
         catch (error) {
+            setError(true)
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 5000,
@@ -57,7 +60,7 @@ function Login() {
 
                         <form onSubmit={loginHandler} method="POST">
                             <div className="field input-field">
-                                <input type="email" name="email" placeholder="Email" required />
+                                <input type="email" name="email" placeholder="Email" required className={`${IsError && "error-input"}`} />
                             </div>
 
                             <div className="field input-field">
@@ -65,6 +68,7 @@ function Login() {
                                     placeholder="Password"
                                     required
                                     name="password"
+                                    className={`${IsError && "error-input"}`}
                                 />
                                 <span className="eye-icon" onClick={() => setToggleVisibility(!toggleVisibility)}>
                                     {toggleVisibility ? <MdOutlineVisibility /> : <MdOutlineVisibilityOff />}</span>

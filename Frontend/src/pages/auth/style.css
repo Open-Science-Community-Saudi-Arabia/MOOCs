@@ -188,11 +188,11 @@ a.google span {
     color: var(--gray-72);
 }
 
-.field .password-check {
+.field .password-check , .error-input{
     border: 1px solid var(--error) !important
 }
 
-.field .error {
+.field .error  {
     color: var(--error);
     font-size: 13px;
     align-items: center;
