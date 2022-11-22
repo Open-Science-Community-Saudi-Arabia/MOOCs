@@ -72,8 +72,6 @@ export function AppProvider({ children }) {
     useEffect(() => {
         async function initialize() {
             try {
-                // const token = getToken()
-
                 if (token) {
                     const isLoggedIn = true
 
