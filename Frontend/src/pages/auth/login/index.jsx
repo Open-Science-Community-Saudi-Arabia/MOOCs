@@ -79,7 +79,7 @@ function Login() {
 
                             </div>
                         </form>
-
+<a href="/forgot-password"> forgot password?</a>
                         <div className="form-link">
                             <span>
                                 Don't have an account?{" "}

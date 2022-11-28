@@ -188,17 +188,20 @@ a.google span {
     color: var(--gray-72);
 }
 
-.field .password-check , .error-input{
+.field .password-check,
+.error-input {
     border: 1px solid var(--error) !important
 }
 
-.field .error  {
+.field .error {
     color: var(--error);
     font-size: 13px;
     align-items: center;
-    display:flex;
-    gap:5px
+    display: flex;
+    gap: 5px
 }
+
+
 
 @media screen and (max-width: 400px) {
     .form {
