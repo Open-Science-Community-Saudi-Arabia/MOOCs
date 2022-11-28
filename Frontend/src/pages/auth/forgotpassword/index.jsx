@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./style.css"
+import "./style.scss"
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import Spinner from '../../../components/Spinner'
