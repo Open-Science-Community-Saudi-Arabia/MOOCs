@@ -1,5 +1,5 @@
 const MONGO_URI = process.env.MONGO_URI
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5555
 
 /* JWT TOKENS */
 const JWT_SECRET = process.env.JWT_ACCESS_SECRET,
