@@ -8,6 +8,7 @@ import Signup from "./pages/auth/signup"
 import Dashboard from "./pages/Dashboard"
 import {AppProvider} from "./context";
 import ResetPassword from "./pages/auth/reset-password";
+import ForgotPassword from "./pages/auth/forgotpassword/index";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/dashboard"
             element={ <AppProvider><Dashboard /></AppProvider>}
             />
@@ -25,3 +27,4 @@ function App() {
 }
 
 export default App
+
