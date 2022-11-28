@@ -1,5 +1,5 @@
 import React from "react"
-import "./GlobalStyles.css"
+import "./styles/GlobalStyles.scss"
 import { Routes, Route } from "react-router-dom"
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from "./pages/landing-page/LandingPage"

@@ -4,7 +4,7 @@ import { BiCaretDown, BiSearchAlt } from "react-icons/bi";
 import { HiBars3 } from "react-icons/hi2";
 import { FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import "./navbar.css";
+import "./navbar.scss";
 
 function Navbar() {
 	const navigate = useNavigate();
