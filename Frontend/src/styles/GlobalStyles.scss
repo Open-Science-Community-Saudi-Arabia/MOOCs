@@ -23,7 +23,7 @@ html,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Lato", sans-serif;
+  font-family: "Inter" ,"Lato", sans-serif;
   
 }
 body{
@@ -31,6 +31,10 @@ body{
   height:100%;
   overflow-y: auto;
 }
+
+
+
+
 
 .Toastify__toast-theme--colored.Toastify__toast--success {
   background-color: hsl(122, 39%, 58%)!important;

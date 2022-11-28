@@ -1,5 +1,5 @@
 import React ,{useState}from "react"
-import "../style.css"
+import "../style.scss"
 import { Link } from "react-router-dom"
 import { MdOutlineVisibilityOff, MdOutlineVisibility} from "react-icons/md";
 import {BiErrorCircle} from "react-icons/bi";

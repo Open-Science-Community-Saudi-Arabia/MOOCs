@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "../style.css"
+import "../style.scss"
 import { ToastContainer, toast } from 'react-toastify';
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { Link, useNavigate, useLocation } from 'react-router-dom'

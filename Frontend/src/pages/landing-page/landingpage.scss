@@ -1,12 +1,3 @@
-.landing-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: #eee;
-  gap: 4em;
-}
-
 .hero--container {
   height: 50em;
 }
@@ -28,10 +19,6 @@
   margin: 0px auto;
 }
 
-.landingpage {
-  display: flex;
-  flex-direction: column;
-}
 
 .img--wrapper img {
   width: 100%;
@@ -106,14 +93,14 @@
   margin-bottom: 1rem;
 }
 
-.landing-page a {
-  color: #222ba4;
-  text-decoration: none;
-}
+// .landing-page a {
+//   color: #222ba4;
+//   text-decoration: none;
+// }
 
-.landing-page a:hover {
-  text-decoration: underline;
-}
+// .landing-page a:hover {
+//   text-decoration: underline;
+// }
 
 .links {
   display: flex;

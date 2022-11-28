@@ -2,7 +2,7 @@ import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram} from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
-import "./footer.css";
+import "./footer.scss";
 
 function Footer() {
 	return (
