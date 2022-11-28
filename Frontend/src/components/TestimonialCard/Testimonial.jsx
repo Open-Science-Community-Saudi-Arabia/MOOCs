@@ -1,7 +1,7 @@
 import React from 'react'
-import './Testimonial.css'
+import './Testimonial.scss'
 
-const Testimonial = ({img, name, desc}) => {
+function Testimonial({img, name, desc}) {
   return (
     <div className='testimonial'>
         <img src={img} alt=""  className='img'/>

@@ -1,7 +1,7 @@
 import React from 'react'
-import './RecordStyle.css'
+import './RecordStyle.scss'
 
-const Records = ({icon:Icon, value, desc}) => {
+function Records({icon:Icon, value, desc}) {
   return (
     <div className='record-wrapper'>
             <Icon/>
