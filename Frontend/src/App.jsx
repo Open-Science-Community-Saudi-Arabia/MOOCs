@@ -7,6 +7,7 @@ import Login from "./pages/auth/login"
 import Signup from "./pages/auth/signup"
 import Dashboard from "./pages/Dashboard"
 import {AppProvider} from "./context";
+import ResetPassword from "./pages/auth/reset-password";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/dashboard"
             element={ <AppProvider><Dashboard /></AppProvider>}
             />
