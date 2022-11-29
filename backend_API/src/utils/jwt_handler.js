@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken');
 const { UnauthorizedError } = require('./custom_errors')
 const config = require('./config')
 
-const decodeJWT = (jwtToken, jwtSecret) => {
+const decodeJWT = (jwtToken, jwtSecret = null) => {
     try {
         let access;
         if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
         try {
+            console.log(jwtSecret)
             access = jwt.verify(jwtToken, jwtSecret);
             return access
         } catch (error) {
@@ -17,7 +18,7 @@ const decodeJWT = (jwtToken, jwtSecret) => {
             throw error
         }
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         throw new UnauthorizedError('JWT Token expired')
     }
 };
