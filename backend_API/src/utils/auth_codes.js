@@ -16,12 +16,8 @@ const getAuthCodes = async (user_id, code_type = 'password_reset') => {
     const code = Math.floor(100000 + Math.random() * 900000).toString;
 
     // 3. Check if code exists
-    const auth_code = await AuthCode.findOneAndUpdate({ user: user_id }, { [code_type]: code }, { new: true, upsert: true });
+    const authCodes = await AuthCode.findOneAndUpdate({ user: user_id }, { [code_type]: code }, { new: true, upsert: true });
 
-    const authCodes = await AuthCode.findOne({ user: user._id });
-    if (!authCodes) {
-        throw new CustomAPIError('No auth codes found', 404);
-    }
     return authCodes;
 };
 
