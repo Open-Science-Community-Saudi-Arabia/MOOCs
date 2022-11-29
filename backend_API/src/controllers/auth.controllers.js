@@ -14,7 +14,7 @@ const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
 const User = require('../models/user.models')
 const TestToken = require('../models/test_token.models')
 
-//Function to sign token - should add expiration date, should be moved to utils
+//Function to sign token - should be moved to utils
 const signToken = (id, role, expiry = null ) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN
 
@@ -154,7 +154,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
         message: `This is your password reset code ${password_reset_code}`
     })
 
-    const access_token = signToken(current_user.id, current_user.role)  // should specify expiration time
+    const access_token = signToken(current_user.id, current_user.role, config.JWT_PASSWORDRESET_EXPIRES_IN) 
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
