@@ -7,6 +7,7 @@ const asyncWrapper = require('./../utils/async_wrapper')
 const sendEmail = require('./../utils/email')
 const { CustomAPIError, BadRequestError } = require('./../utils/custom_errors')
 const { getAuthCodes } = require('../utils/auth_codes')
+const { decodeJWT } = require('../utils/jwt_handler')
 
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
@@ -15,10 +16,11 @@ const User = require('../models/user.models')
 const TestToken = require('../models/test_token.models')
 
 //Function to sign token - should be moved to utils
-const signToken = (id, role, expiry = null ) => {
+const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN
+    if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
 
-    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+    return jwt.sign({ id, role }, jwtSecret, {
         expiresIn: expiryDate,
     })
 }
@@ -61,6 +63,8 @@ exports.signup = asyncWrapper(async (req, res, next) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
     })
+
+    console.log(currentUser)
 
     //2. Create email verification Token
     const ver_token = currentUser.createHashedToken('email_verification')
@@ -154,7 +158,9 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
         message: `This is your password reset code ${password_reset_code}`
     })
 
-    const access_token = signToken(current_user.id, current_user.role, config.JWT_PASSWORDRESET_EXPIRES_IN) 
+    const access_token =
+        signToken(current_user.id, current_user.role,
+            config.JWT_PASSWORDRESET_SECRET, config.JWT_PASSWORDRESET_EXPIRES_IN)
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
@@ -163,30 +169,55 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
 })
 
 exports.resetPassword = asyncWrapper(async (req, res, next) => {
-    //1. Get User from token from query params
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(req.params.token)
-        .digest('hex')
+    const { new_password, password_reset_code } = req.body
 
-    const user = await User.findOne({
-        passwordResetToken: hashedToken,
-        passwordResetTokenExpires: { $gt: Date.now() },
-    })
-
-    //2. If token is invalid or token has expired
-    if (!user) {
-        return next(
-            new CustomAPIError(
-                'Token Invalid or Token Expired, Request for a new reset token',
-                404,
-            ),
-        )
+    if (!new_password || !password_reset_code) {
+        throw new BadRequestError('Missing required parameter in request body')
     }
 
-    await user.changePassword(req.body.password)
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        throw new UnauthorizedError('Authentication invalid');
+    }
 
-    //3. Log in the user and send JWT Token
+    const jwtToken = authHeader.split(' ')[1];
+    // console.log(config.JWT_PASSWORDRESET_SECRET)
+    const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
+    const currUserReset = await Token.findOne({
+        user: payload._id
+    });
+    if (!currUserReset) {
+        throw new UnauthorizedError('Access token expired');
+    }
+
+    const current_user = await (await User.findOne({ _id: req.user.id })).populate('auth_codes')
+
+    console.log(current_user)
+
+    // //1. Get User from token from query params
+    // const hashedToken = crypto
+    //     .createHash('sha256')
+    //     .update(req.params.token)
+    //     .digest('hex')
+
+    // const user = await User.findOne({
+    //     passwordResetToken: hashedToken,
+    //     passwordResetTokenExpires: { $gt: Date.now() },
+    // })
+
+    // //2. If token is invalid or token has expired
+    // if (!user) {
+    //     return next(
+    //         new CustomAPIError(
+    //             'Token Invalid or Token Expired, Request for a new reset token',
+    //             404,
+    //         ),
+    //     )
+    // }
+
+    // await user.changePassword(req.body.password)
+
+    // //3. Log in the user and send JWT Token
     createToken(user, 200, res)
 })
 
