@@ -7,7 +7,7 @@ const decodeJWT = (jwtToken, jwtSecret = null) => {
         let access;
         if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
         try {
-            console.log(jwtSecret)
+            // console.log(jwtSecret)
             access = jwt.verify(jwtToken, jwtSecret);
             return access
         } catch (error) {
