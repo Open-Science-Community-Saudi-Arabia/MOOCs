@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken');
 const { UnauthorizedError } = require('./custom_errors')
 const config = require('./config')
 
-const decodeJWT = (jwtToken) => {
+const decodeJWT = (jwtToken, jwtSecret) => {
     try {
         let access;
+        if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
         try {
-            access = jwt.verify(jwtToken, config.JWT_ACCESS_SECRET);
+            access = jwt.verify(jwtToken, jwtSecret);
             return access
         } catch (error) {
             // If the error is due to invalid signature, then the token is a refresh token
