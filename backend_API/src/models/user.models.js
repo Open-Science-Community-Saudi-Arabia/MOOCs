@@ -42,8 +42,9 @@ const user_schema = new Schema(
         },
         emailVerificationToken: { type: String, select: false },
         isVerified: { type: Boolean, default: false, select: false },
-        passwordResetToken: { type: String, select: false },
-        passwordResetTokenExpires: { type: Date, select: false },
+        auth_codes: { type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode' },
+        // passwordResetToken: { type: String, select: false },
+        // passwordResetTokenExpires: { type: Date, select: false },
         enrolled_courses: [
             {
                 type: Schema.Types.ObjectId,
