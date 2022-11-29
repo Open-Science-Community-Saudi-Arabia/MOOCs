@@ -57,10 +57,10 @@ function Signup() {
 
     return (
         <>
-        <section className="container forms">
-            <div className="form login">
+        <section className=" forms-container forms">
+
                 <div className="form-content">
-                    <header>Sign Up to OSCSA</header>
+                    <h1>Sign Up to OSCSA</h1>
 
                     <form  onSubmit={signupHandler}  method="POST">
                         <div className="field input-field">
@@ -108,7 +108,7 @@ function Signup() {
                         </span>
                     </div>
                 </div>
-            </div>
+
         </section>
         <ToastContainer/>
        </>

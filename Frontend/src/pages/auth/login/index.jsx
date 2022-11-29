@@ -41,10 +41,10 @@ function Login() {
     return (
         <>
         <div>
-            <section className="container forms">
-                <div className="form login">
+            <section className="forms-container forms">
+         
                     <div className="form-content">
-                        <header>Login to MOOCs</header>
+                        <h1>Login to MOOCs</h1>
 
                         <div className="media-options">
                             <a href="#" className="field google">
@@ -79,17 +79,21 @@ function Login() {
 
                             </div>
                         </form>
-<a href="/forgot-password"> forgot password?</a>
+                        <div className="form-bottom">
+                        <Link to="/forgot-password"  className="link "> forgot password?</Link>
                         <div className="form-link">
                             <span>
                                 Don't have an account?{" "}
-                                <Link to="/signup" className="link signup-link">
+                                <Link to="/signup">
                                     Sign Up
                                 </Link>
                             </span>
                         </div>
+                        </div>
+
+
                     </div>
-                </div>
+      
             </section>
         </div>
         <ToastContainer/>
