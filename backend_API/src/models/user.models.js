@@ -3,6 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const { BadRequestError } = require('../utils/custom_errors')
+const AuthCode = require('./authcode.models')
 const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
@@ -42,7 +43,12 @@ const user_schema = new Schema(
         },
         emailVerificationToken: { type: String, select: false },
         isVerified: { type: Boolean, default: false, select: false },
-        auth_codes: { type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode' },
+        auth_codes: {
+            type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode',
+            default: new AuthCode({
+                user: this._id,
+            })
+        },
         // passwordResetToken: { type: String, select: false },
         // passwordResetTokenExpires: { type: Date, select: false },
         enrolled_courses: [
