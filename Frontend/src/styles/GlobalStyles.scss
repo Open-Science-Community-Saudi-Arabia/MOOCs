@@ -31,8 +31,78 @@ body{
   height:100%;
   overflow-y: auto;
 }
+a{
+  text-decoration: none;
+  color: var(--black-52);
+}
+button{
+  font-weight: bold;
+}
 
+// Input field
+form {
+  margin-top: 8px;
+  .field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 6px;
+  }
+  .field input,
+.field button {
+  height: 100%;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 6px;
+}
 
+.field input {
+  outline: none;
+  padding: 0 15px;
+  border: 1px solid var(--gray-203);
+&:focus {
+    border-bottom-width: 2px;
+  }
+}
+.button-field {
+  margin-top: 30px !important;
+  button {
+    color: var(--white-255);
+    background-color: var(--skyblue-190);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+ .password-check,
+.error-input {
+    border: 1px solid var(--error) !important
+}
+
+ .error {
+    color: var(--error);
+    font-size: 13px;
+    align-items: center;
+    display: flex;
+    gap: 5px
+}
+.eye-icon {
+  position: absolute;
+  top: 58%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--gray-72);
+  cursor: pointer;
+  padding: 5px;
+}
+
+}
 
 
 

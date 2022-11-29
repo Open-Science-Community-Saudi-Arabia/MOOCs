@@ -57,18 +57,21 @@ function Signup() {
 
     return (
         <>
-        <section className="container forms">
-            <div className="form login">
+        <section className=" forms-container forms">
+
                 <div className="form-content">
-                    <header>Sign Up to OSCSA</header>
+                    <h1>Sign Up to MOOCs</h1>
 
                     <form  onSubmit={signupHandler}  method="POST">
+                        <div className="name-input">
                         <div className="field input-field">
                             <input type="text" placeholder="First Name" name="firstname"  required  />
                         </div>
                         <div className="field input-field">
                             <input type="text" placeholder="Last Name"  name="lastname" required />
                         </div>
+                        </div>
+                       
 
                         <div className="field input-field">
                             <input type="email" placeholder="Email"  name="email"  required />
@@ -108,7 +111,7 @@ function Signup() {
                         </span>
                     </div>
                 </div>
-            </div>
+
         </section>
         <ToastContainer/>
        </>
