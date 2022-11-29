@@ -23,6 +23,12 @@
         a:hover {
             text-decoration: underline;
         }
+        .name-input{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap:10px
+        }
 
         .line {
             position: relative;
@@ -102,7 +108,7 @@
     .forms-container {
         .form-content {
             width: 90%;
-            padding: 20px
+            padding: 15px
         }
 
     }
