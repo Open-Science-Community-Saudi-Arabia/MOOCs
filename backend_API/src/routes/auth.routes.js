@@ -6,7 +6,7 @@ router.post('/signup', authController.signup)
 router.post('/login', authController.login)
 
 router.post('/forgotpassword', authController.forgetPassword)
-router.patch('/resetpassword/:token', authController.resetPassword)
+router.patch('/resetpassword/', authController.resetPassword)
 router.post('/googlesignin', authController.googleSignin)
 router.get('/verifyemail/:token', authController.verifyEmail)
 
