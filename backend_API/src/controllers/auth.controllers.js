@@ -65,8 +65,6 @@ exports.signup = asyncWrapper(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm,
     })).populate('auth_codes')
 
-    console.log(currentUser)
-
     //2. Create email verification Token
     const ver_token = currentUser.createHashedToken('email_verification')
     currentUser.save({ validateBeforeSave: false })
@@ -191,31 +189,17 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     const current_user = await (await User.findOne({ _id: payload.id })).populate("auth_codes")
     console.log(current_user)
 
-    // //1. Get User from token from query params
-    // const hashedToken = crypto
-    //     .createHash('sha256')
-    //     .update(req.params.token)
-    //     .digest('hex')
+    if (!current_user) { throw new BadRequestError('User does not exist') }
 
-    // const user = await User.findOne({
-    //     passwordResetToken: hashedToken,
-    //     passwordResetTokenExpires: { $gt: Date.now() },
-    // })
+    if (password_reset_code !== currUserReset.password_reset) {
+        throw new BadRequestError('Invalid password reset code')
+    }
 
-    // //2. If token is invalid or token has expired
-    // if (!user) {
-    //     return next(
-    //         new CustomAPIError(
-    //             'Token Invalid or Token Expired, Request for a new reset token',
-    //             404,
-    //         ),
-    //     )
-    // }
+    await current_user.updateOne({ password: new_password, passwordConfirm: new_password })
 
-    // await user.changePassword(req.body.password)
-
-    // //3. Log in the user and send JWT Token
-    createToken(user, 200, res)
+    return res.status(200).send({
+        message: "Successful, Password reset code sent to users email",
+    })
 })
 
 exports.googleSignin = asyncWrapper(async (req, res, next) => {
