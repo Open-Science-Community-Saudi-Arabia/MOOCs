@@ -183,15 +183,15 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     const jwtToken = authHeader.split(' ')[1];
     const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
 
-    const currUserReset = await AuthCode.findOne({ user: payload.id });
-    if (!currUserReset) { throw new UnauthorizedError('Access token expired') }
+    const authCode = await AuthCode.findOne({ user: payload.id });
+    if (!authCode) { throw new UnauthorizedError('Access token expired') }
 
     const current_user = await (await User.findOne({ _id: payload.id })).populate("auth_codes")
     console.log(current_user)
 
     if (!current_user) { throw new BadRequestError('User does not exist') }
 
-    if (password_reset_code !== currUserReset.password_reset) {
+    if (password_reset_code !== authCode.password_reset) {
         throw new BadRequestError('Invalid password reset code')
     }
 
