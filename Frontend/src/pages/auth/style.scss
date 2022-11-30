@@ -23,11 +23,12 @@
         a:hover {
             text-decoration: underline;
         }
-        .name-input{
+
+        .name-input {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap:10px
+            gap: 10px
         }
 
         .line {
@@ -48,34 +49,12 @@
                 padding: 0 15px;
             }
         }
-
-        .media-options a {
+          #buttonDiv{
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--gray-203);
-            position: relative;
-            height: 50px;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 6px;
-
-            img.google-img {
-                position: absolute;
-                top: 50%;
-                left: 15px;
-                transform: translateY(-50%);
-                height: 20px;
-                width: 20px;
-                object-fit: cover;
-            }
-
-            span {
-                font-weight: 500;
-                opacity: 0.6;
-                color: var(--gray-72);
-            }
-        }
+    justify-content: center;
+    margin: 26px 0em;
+           
+          }
 
         .link {
             color: var(--skyblue-190);

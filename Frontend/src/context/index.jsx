@@ -35,8 +35,7 @@ function useAuthChanged() {
         if (event.key === LOGOUT_KEY) {
             return <Navigate to="/login" state={{ redirect: location }} />
         } 
-            return null
-        
+            return null   
 
     }
 
