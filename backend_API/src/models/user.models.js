@@ -44,10 +44,7 @@ const user_schema = new Schema(
         emailVerificationToken: { type: String, select: false },
         isVerified: { type: Boolean, default: false, select: false },
         auth_codes: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode',
-            default: new AuthCode({
-                user: this._id,
-            })
+            type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode'
         },
         // passwordResetToken: { type: String, select: false },
         // passwordResetTokenExpires: { type: Date, select: false },
@@ -89,6 +86,12 @@ user_schema.pre('save', function (next) {
                 return reject(new BadRequestError('Email already exists please user another email'))
             }
 
+            const auth_code = await AuthCode.create({
+                user: this._id,
+            })
+
+            this.auth_codes = auth_code._id
+            
             resolve(this)
         } catch (error) {
             reject(error)
