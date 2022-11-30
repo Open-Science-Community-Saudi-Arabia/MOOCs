@@ -9,10 +9,10 @@ const authcode_schema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    password_reset_code: {
+    password_reset: {
         type: String,
     },
-    verification_code: {
+    verification: {
         type: String,
     },
     expires: {
