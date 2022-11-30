@@ -10,6 +10,7 @@ import {AppProvider} from "./context";
 import ForgotPassword from "./pages/auth/forgotpassword/index";
 
 function App() {
+    
     return (
 
         <Routes>
