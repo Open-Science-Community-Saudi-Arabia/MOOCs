@@ -198,7 +198,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     await current_user.updateOne({ password: new_password, passwordConfirm: new_password })
 
     return res.status(200).send({
-        message: "Successful, Password reset code sent to users email",
+        message: "Successfully reset password",
     })
 })
 
