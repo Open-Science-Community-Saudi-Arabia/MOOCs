@@ -2,16 +2,20 @@ import React, { useState } from "react"
 import "../style.scss"
 import { ToastContainer, toast } from 'react-toastify';
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from "../../../utils/api/auth"
+import GoogleLogin from "../../../utils/api/google"
 import Spinner from "../../../components/Spinner"
+
+
 
 function Login() {
     const [toggleVisibility, setToggleVisibility] = useState(false);
     const [IsError, setError] = useState(false);
     const [isLoading, setLoading] = useState(false);
+    const [loadingBoard, setLoadingBoard] = useState(false);
+
     const navigate = useNavigate()
-    const location = useLocation()
 
     const loginHandler = async (event) => {
         setError(false)
@@ -20,11 +24,10 @@ function Login() {
             const formData = {
                 email: event.target.email.value,
                 password: event.target.password.value,
-
             }
             setLoading(true)
             await login(formData)
-            navigate((location.state )?.redirect || '/dashboard')
+            navigate( '/dashboard')
         }
         catch (error) {
             setError(true)
@@ -40,22 +43,14 @@ function Login() {
     }
     return (
         <>
-        <div>
-            <section className="forms-container forms">
-         
-                    <div className="form-content">
-                        <h1>Login to MOOCs</h1>
 
-                        <div className="media-options">
-                            <a href="#" className="field google">
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-                                    alt=""
-                                    className="google-img"
-                                />
-                                <span>Login with Google</span>
-                            </a>
-                        </div>
+
+            <section className="forms-container forms">
+
+                {loadingBoard ?
+                    <Spinner loadingBoard={loadingBoard} /> : <div className="form-content">
+                        <h1>Login to MOOCs</h1>
+                        <div id="buttonDiv" />
                         <div className="line" />
 
                         <form onSubmit={loginHandler} method="POST">
@@ -64,7 +59,7 @@ function Login() {
                             </div>
 
                             <div className="field input-field">
-                            <input type={toggleVisibility?"text":"password"}
+                                <input type={toggleVisibility ? "text" : "password"}
                                     placeholder="Password"
                                     required
                                     name="password"
@@ -80,23 +75,26 @@ function Login() {
                             </div>
                         </form>
                         <div className="form-bottom">
-                        <Link to="/forgot-password"  className="link "> forgot password?</Link>
-                        <div className="form-link">
-                            <span>
-                                Don't have an account?{" "}
-                                <Link to="/signup">
-                                    Sign Up
-                                </Link>
-                            </span>
-                        </div>
+                            <Link to="/forgot-password" className="link "> forgot password?</Link>
+                            <div className="form-link">
+                                <span>
+                                    Don't have an account?{" "}
+                                    <Link to="/signup">
+                                        Sign Up
+                                    </Link>
+                                </span>
+                            </div>
                         </div>
 
 
                     </div>
-      
+                }
             </section>
-        </div>
-        <ToastContainer/>
+
+
+            <ToastContainer />
+            <GoogleLogin setLoadingBoard={setLoadingBoard} />
+
         </>
 
     )
