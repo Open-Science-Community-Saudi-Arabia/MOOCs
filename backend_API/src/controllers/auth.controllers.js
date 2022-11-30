@@ -233,3 +233,19 @@ exports.googleSignin = asyncWrapper(async (req, res, next) => {
     createToken(existing_user, 200, res)
 });
 
+exports.getLoggedInUser = asyncWrapper(async (req, res, next) => {
+    const auth = req.headers.authorization;
+    const token = auth.split(' ')[1];
+
+    const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
+    const user = await User.findById(payload.id);
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    })
+})
+
+
