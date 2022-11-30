@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const config = require('../utils/config')
 const asyncWrapper = require('./../utils/async_wrapper')
 const sendEmail = require('./../utils/email')
-const { CustomAPIError, BadRequestError } = require('./../utils/custom_errors')
+const { CustomAPIError, BadRequestError, UnauthorizedError } = require('./../utils/custom_errors')
 const { getAuthCodes } = require('../utils/auth_codes')
 const { decodeJWT } = require('../utils/jwt_handler')
 
@@ -14,12 +14,13 @@ const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
 
 const User = require('../models/user.models')
 const TestToken = require('../models/test_token.models')
+const AuthCode = require('../models/authcode.models')
 
 //Function to sign token - should be moved to utils
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN
     if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
-
+    console.log(jwtSecret)
     return jwt.sign({ id, role }, jwtSecret, {
         expiresIn: expiryDate,
     })
@@ -27,7 +28,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
 
 //Create token and send to client 
 const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id, user.role)
+    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_EXPIRES_IN)
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
@@ -55,14 +56,14 @@ const createToken = (user, statusCode, res) => {
 
 exports.signup = asyncWrapper(async (req, res, next) => {
     //1. Grab Values from req.body & Store Values in database
-    const currentUser = await User.create({
+    const currentUser = await(await User.create({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
         role: req.body.role,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-    })
+    })).populate('auth_codes')
 
     console.log(currentUser)
 
@@ -148,19 +149,20 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     }
 
     const current_user = await (await User.findOne({ email })).populate('auth_codes')
+    console.log(current_user)
     if (!current_user) { throw new BadRequestError('User does not exist') }
 
-    const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
+    const { password_reset_code } = await getAuthCodes(current_user._id, 'password_reset')
 
     sendEmail({
         email: current_user.email,
         subject: "Password reset",
         message: `This is your password reset code ${password_reset_code}`
     })
-
     const access_token =
         signToken(current_user.id, current_user.role,
             config.JWT_PASSWORDRESET_SECRET, config.JWT_PASSWORDRESET_EXPIRES_IN)
+        
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
@@ -181,17 +183,12 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     }
 
     const jwtToken = authHeader.split(' ')[1];
-    // console.log(config.JWT_PASSWORDRESET_SECRET)
     const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
-    const currUserReset = await Token.findOne({
-        user: payload._id
-    });
-    if (!currUserReset) {
-        throw new UnauthorizedError('Access token expired');
-    }
 
-    const current_user = await (await User.findOne({ _id: req.user.id })).populate('auth_codes')
+    const currUserReset = await AuthCode.findOne({ user: payload.id });
+    if (!currUserReset) { throw new UnauthorizedError('Access token expired') }
 
+    const current_user = await (await User.findOne({ _id: payload.id })).populate("auth_codes")
     console.log(current_user)
 
     // //1. Get User from token from query params
