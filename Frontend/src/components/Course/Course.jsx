@@ -1,9 +1,9 @@
 import React from 'react'
 import PlayIcon from '../vectors/Play'
 import RatingsIcon from '../vectors/Ratings'
-import './CourseStyle.css'
+import './CourseStyle.scss'
 
-const Course = ({img, title, desc, lessons, ratings}, index) => {
+function Course({img, title, desc, lessons, ratings}) {
   return (
     <div className='course'>
         <div className='imgwrapper'>

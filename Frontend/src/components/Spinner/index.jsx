@@ -1,8 +1,13 @@
 import React from 'react'
-import "./spinner.css"
+import "./spinner.scss"
 
-function Spinner() {
-  return <div className="loader" />
+function Spinner({ loadingBoard }) {
+  return (
+    <div className='loader-container'>
+      <div className="loader" />
+      {loadingBoard && <p className='loading-content'> loading dashboard</p>}
+    </div>)
+
 }
 
 export default Spinner;
