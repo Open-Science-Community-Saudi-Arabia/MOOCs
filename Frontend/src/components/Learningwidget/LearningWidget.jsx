@@ -1,7 +1,7 @@
 import React from 'react'
-import './LearningWidget.css'
+import './LearningWidget.scss'
 
-const LearningWidget = ({title, desc, icon:Icon}) => {
+function LearningWidget({title, desc, icon:Icon}) {
   return (
     <div className='learningwidget'>
        <div className='icon--container'>

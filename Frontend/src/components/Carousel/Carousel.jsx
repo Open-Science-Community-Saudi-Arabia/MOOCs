@@ -1,10 +1,12 @@
-import './Carousel.css'
+import React from "react";
+import './Carousel.scss'
 import  Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import LeftArrow from '../vectors/LeftArrow'
 import RightArrow from '../vectors/RightArrow'
-const Carousel = ({children}) => {
+
+function Carousel({children}) {
   const  settings = {
         infinite:true,
         speed: 500,
@@ -49,9 +51,9 @@ const Carousel = ({children}) => {
 
 export default Carousel
 
-const SampleNextArrow = ({
+function SampleNextArrow({
     onClick,
-  }) => {
+  }) {
     return (
       <div
         className=" next "
@@ -61,11 +63,11 @@ const SampleNextArrow = ({
         <RightArrow/>
       </div>
     );
-  };
+  }
   
-  const SamplePreviousArrow = ({
+  function SamplePreviousArrow({
     onClick,
-  }) => {
+  }) {
     return (
       <div
         className="prev"
@@ -74,5 +76,5 @@ const SampleNextArrow = ({
         <LeftArrow/>
       </div>
     );
-  };
+  }
   

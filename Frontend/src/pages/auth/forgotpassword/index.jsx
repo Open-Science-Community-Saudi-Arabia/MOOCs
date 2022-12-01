@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./style.css"
+import "./style.scss"
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import Spinner from '../../../components/Spinner'
@@ -34,12 +34,11 @@ export default function ForgotPassword() {
         } finally {
             setLoading(false)
         }
-
     }
     return (
         <>
             <div className="forgotpassword-container">
-                <div className='item-left'>
+                <div className='content-left'>
                     <img src="/images/ring1.png" alt="backgroundimage" className="ring2" />
                     <img src="/images/ring2.png" className="ring1" alt="backgroundimage" />
                     <h1>
@@ -47,19 +46,19 @@ export default function ForgotPassword() {
                     </h1>
                 </div>
 
-                <div className="field input-field item-right ">
-                    <div className="item-right__content">
+                <div className="content-right">
+                    <div className="content-right__item">
                         <h1>Forgot Password</h1>
                         <p>Enter the email associated with your account and we will send a link to reset your password.</p>
                         <form onSubmit={forgotPasswordHandler}>
-                            <input type="email" name="email" placeholder="Email" required />
+                        <div className="field input-field">
+                        <input type="email" name="email" placeholder="Email" required />
+                        </div>
                             <div className="field button-field">
                                 <button>{isLoading ? <Spinner /> : "Submit"}</button>
 
                             </div>
-                        </form>
-
-                        <div className="form-link">
+                            <div className="form-link">
                             <span>
                                 Don't have an account?{" "}
                                 <Link to="/signup" className="link signup-link">
@@ -67,6 +66,8 @@ export default function ForgotPassword() {
                                 </Link>
                             </span>
                         </div>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
