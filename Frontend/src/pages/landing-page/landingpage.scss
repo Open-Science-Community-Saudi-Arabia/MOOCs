@@ -1,0 +1,378 @@
+.hero--container {
+  height: 50em;
+}
+
+.hero--wrapper {
+  height: 40em;
+  position: relative;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 96.71%),
+    #03c4eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cont {
+  max-width: 90%;
+  margin: 0px auto;
+}
+
+
+.img--wrapper img {
+  width: 100%;
+}
+
+.hero--content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 85%;
+  margin: 0 auto;
+  gap: 6.375rem;
+  position: relative;
+
+}
+
+.record--wrapper {
+  position: absolute;
+  display: flex;
+  column-gap: 9.1875rem;
+  bottom: -24%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.button-wrapper {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.hero--content--wrapper {
+  max-width: 30.0625rem;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.hero--title {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.hero--desc {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 1.3125rem;
+  text-align: left;
+}
+
+
+.heading--wrapper {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.heading--wrapper .course--desc {
+  max-width: 30.5625rem;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.course--title {
+  font-weight: 900;
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+// .landing-page a {
+//   color: #222ba4;
+//   text-decoration: none;
+// }
+
+// .landing-page a:hover {
+//   text-decoration: underline;
+// }
+
+.links {
+  display: flex;
+  font-size: 2rem;
+}
+
+.hero {
+  background-color: green;
+  height: 100vh;
+}
+
+.carosel {
+  max-width: 100%;
+  margin: 5rem 2rem;
+
+}
+
+.online--learning {
+  background-color: #03c4eb;
+  /* height: 80vh; */
+  position: relative;
+  margin-top: 5rem;
+}
+
+.ring1 {
+  position: absolute;
+  top: -60px;
+  left: 0;
+}
+
+.ring2 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.online--learning--wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.learning--content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 3em 5em;
+  align-items: center;
+  height: 100%;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+.learning--content h1 {
+  font-size: 7rem;
+  font-weight: 700;
+  color: white;
+}
+
+.learning--benefit {
+  max-width: 32.4375rem;
+}
+
+.learning--benefit h3 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+
+  margin-bottom: 3.8125rem;
+}
+
+.learning {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.5625rem;
+}
+
+.instructor-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0em 5em;
+  align-items: center;
+
+}
+
+.instructor {
+  display: flex;
+  flex-direction: column;
+  max-width: 30rem;
+}
+
+.instructor h1 {
+  font-weight: 900;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.instructor>p {
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin-bottom: 1.375rem;
+}
+
+.instruction--img {
+  width: 30rem
+}
+
+
+.testimonial-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 80%;
+  margin: 6rem auto;
+
+}
+
+.testimonial--card--wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.testimonial-header {
+
+  margin-bottom: 4rem;
+}
+
+.testimonial-header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.testimonial-header p {
+  font-size: 1.125rem;
+  font-weight: 400;
+  text-align: center;
+  width: 80%;
+  margin: auto;
+}
+
+.Buttton--wrapper button {
+  width: 100%;
+  height: 60px;
+  border: none;
+  outline: none;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.375rem;
+
+  cursor: pointer;
+  color: white;
+  background-color: #03C4EB;
+}
+
+.Buttton--wrapper button:hover {
+  border: 1px solid #03C4EB;
+  background-color: white;
+  color: #03C4EB;
+}
+
+
+@media (max-width: 1024px) {
+  .carosel {
+    margin: 5rem 0rem;
+  }
+
+  .learning--content {
+    padding: 3em;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 991px) {
+  .instructor-container {
+    justify-content: center;
+    padding: 2em 5em;
+  }
+
+  .instructor-container img {
+    display: none;
+  }
+
+  .hero--content {
+    gap: 0rem;
+    justify-content: center;
+    flex-wrap: wrap-reverse;
+  }
+
+  .img--wrapper img {
+    width: 50%;
+  }
+
+  .img--wrapper {
+    text-align: center;
+  }
+
+  .record--wrapper {
+    column-gap: 3rem;
+  }
+
+  .instructor-container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width:700px) {
+  .record--wrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1em;
+    row-gap: 1em;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    justify-content: center;
+  }
+
+  .hero--content {
+    margin-top: 4em;
+  }
+
+  .hero--title {
+    font-size: 2rem;
+  }
+
+  .hero--wrapper {
+    height: auto;
+  }
+
+  .course--title {
+    font-size: 2rem;
+  }
+
+  .learning--content h1 {
+    font-size: 5rem;
+  }
+
+  .learning--benefit h3 {
+    font-size: 2rem;
+  }
+
+  .instructor-container {
+    padding: 2em 2em;
+  }
+
+  .testimonial-header p {
+    width: 100%;
+  }
+
+  .testimonial-wrapper {
+    max-width: auto;
+  }
+
+  .instructor h1,
+  .testimonial-header h1 {
+    font-size: 2rem;
+  }
+
+  .online--learning {
+    margin-top: 0em;
+  }
+
+  .testimonial-wrapper {
+    margin: 2rem auto;
+  }
+
+}
