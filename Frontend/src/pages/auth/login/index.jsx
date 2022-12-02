@@ -75,7 +75,7 @@ function Login() {
                             </div>
                         </form>
                         <div className="form-bottom">
-                            <Link to="/forgot-password" className="link "> forgot password?</Link>
+                            <Link to="/forgotpassword" className="link "> forgot password?</Link>
                             <div className="form-link">
                                 <span>
                                     Don't have an account?{" "}
@@ -92,7 +92,7 @@ function Login() {
             </section>
 
 
-            <ToastContainer />
+
             <GoogleLogin setLoadingBoard={setLoadingBoard} />
 
         </>

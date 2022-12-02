@@ -1,14 +1,13 @@
 import React from "react"
 import "./styles/GlobalStyles.scss"
 import { Routes, Route } from "react-router-dom"
-import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from "./pages/landing-page/LandingPage"
 import Login from "./pages/auth/login"
 import Signup from "./pages/auth/signup"
 import Dashboard from "./pages/Dashboard"
 import {AppProvider} from "./context";
-import ResetPassword from "./pages/auth/reset-password";
-import ForgotPassword from "./pages/auth/forgotpassword/index";
+import ResetPassword from "./pages/auth/password/reset-password";
+import ForgotPassword from "./pages/auth/password/forgotpassword";
 
 function App() {
     
