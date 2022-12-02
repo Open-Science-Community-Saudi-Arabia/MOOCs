@@ -44,6 +44,7 @@ const createToken = (user, statusCode, res) => {
     user.emailVerificationToken = undefined
     user.passwordResetToken = undefined
     user.isVerified = undefined
+    user.auth_code = undefined
 
     res.status(statusCode).json({
         status: 'success',
@@ -150,8 +151,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     console.log(current_user)
     if (!current_user) { throw new BadRequestError('User does not exist') }
 
-    const { password_reset_code } = await getAuthCodes(current_user._id, 'password_reset')
-
+    const password_reset_code  = (await getAuthCodes(current_user._id, 'password_reset')).password_reset
     sendEmail({
         email: current_user.email,
         subject: "Password reset",
