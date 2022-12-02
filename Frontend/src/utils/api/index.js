@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { TOKEN_KEY } from '../constants'
 
-
 const token = localStorage.getItem(TOKEN_KEY)
 const baseURL = import.meta.env.VITE_API_BASEURL
 
@@ -27,10 +26,10 @@ try{
     if (error.response) {
       const serverMessage = error.response?.data?.message
 
-      if (error.response.status === 401) {
-        localStorage.removeItem(TOKEN_KEY)
-        window.location.assign('/signin')
-      }
+      // if (error.response.status === 401) {
+      //   localStorage.removeItem(TOKEN_KEY)
+      //   window.location.assign('/login')
+      // }
 
       throw new Error(serverMessage)
     }
