@@ -1,16 +1,16 @@
 import React, { useState } from "react"
-import "./style.scss"
-import { Link } from 'react-router-dom'
+import "../style.scss"
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
-import Spinner from '../../../components/Spinner'
-import { forgotpassword } from "../../../utils/api/auth"
+import { setToken } from "../../../../utils";
+import Spinner from '../../../../components/Spinner'
+import { forgotpassword } from "../../../../utils/api/auth"
 
 export default function ForgotPassword() {
     const [isLoading, setLoading] = useState(false);
-
+    const navigate = useNavigate()
 
     const forgotPasswordHandler = async (event) => {
-
         event.preventDefault();
         try {
             const formData = {
@@ -18,13 +18,17 @@ export default function ForgotPassword() {
             }
             setLoading(true)
             const response = await forgotpassword(formData)
-            toast.success(<p>{response.status}! {response.message}</p>, {
+            setToken(response.access_token)
+            toast.success(<p> {response.message}!</p>, {
                 // message should be " link sent to email not token"
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
-                theme: "colored"
+                theme: "colored",
+                onClose: () => navigate('/resetpassword')
             });
+          
         }
+        // error when not existing password used
         catch (error) {
             toast.error(error.message, {
                 position: toast.POSITION.TOP_CENTER,
@@ -36,8 +40,7 @@ export default function ForgotPassword() {
         }
     }
     return (
-        <>
-            <div className="forgotpassword-container">
+        <div className="forgotpassword-container">
                 <div className='content-left'>
                     <img src="/images/ring1.png" alt="backgroundimage" className="ring2" />
                     <img src="/images/ring2.png" className="ring1" alt="backgroundimage" />
@@ -71,7 +74,6 @@ export default function ForgotPassword() {
                     </div>
                 </div>
             </div>
-            <ToastContainer /></>
 
     )
 }
