@@ -13,7 +13,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
 
 const User = require('../models/user.models')
-const TestToken = require('../models/token.models')
+const { TestToken, BlacklistedToken } = require('../models/token.models')
 const AuthCode = require('../models/authcode.models')
 
 //Function to sign token - should be moved to utils
@@ -57,7 +57,7 @@ const createToken = (user, statusCode, res) => {
 
 exports.signup = asyncWrapper(async (req, res, next) => {
     //1. Grab Values from req.body & Store Values in database
-    const currentUser = await(await User.create({
+    const currentUser = await (await User.create({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
@@ -103,7 +103,7 @@ exports.login = asyncWrapper(async (req, res, next) => {
     }
     //check if email exists
     const currentUser = await User.findOne({ email }).select('+password')
-console.log(currentUser)
+    console.log(currentUser)
     //Check if email and password matches
     if (
         !currentUser ||
@@ -152,7 +152,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     console.log(current_user)
     if (!current_user) { throw new BadRequestError('User does not exist') }
 
-    const password_reset_code  = (await getAuthCodes(current_user._id, 'password_reset')).password_reset
+    const password_reset_code = (await getAuthCodes(current_user._id, 'password_reset')).password_reset
     sendEmail({
         email: current_user.email,
         subject: "Password reset",
@@ -161,7 +161,7 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     const access_token =
         signToken(current_user.id, current_user.role,
             config.JWT_PASSWORDRESET_SECRET, config.JWT_PASSWORDRESET_EXPIRES_IN)
-        
+
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
@@ -197,7 +197,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     }
 
     await current_user.changePassword(new_password, current_user.password)
-    
+
     BlacklistedToken.create({ token: jwtToken })
     // BlacklistToken.create({ token: jwtToken })
 
