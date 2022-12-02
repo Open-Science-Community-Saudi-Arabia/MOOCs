@@ -20,8 +20,36 @@ class UnauthorizedError extends CustomAPIError {
     }
 }
 
+class ForbiddenError extends CustomAPIError {
+    constructor (message) {
+        super(message)
+        this.statusCode = 403
+    }
+}
+
+class NotFoundError extends CustomAPIError {
+    constructor (message) {
+        super(message)
+        this.statusCode = 404
+    }
+}
+
+class ConflictError extends CustomAPIError {
+    constructor (message) {
+        super(message)
+        this.statusCode = 409
+    }
+}
+
+const UnauthenticatedError = UnauthorizedError;
+
+
 module.exports = {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
+    UnauthenticatedError,
+    ForbiddenError,
+    NotFoundError,
+    ConflictError
 }
