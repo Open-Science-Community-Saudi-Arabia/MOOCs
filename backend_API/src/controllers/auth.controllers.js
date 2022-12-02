@@ -13,7 +13,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
 
 const User = require('../models/user.models')
-const TestToken = require('../models/test_token.models')
+const TestToken = require('../models/token.models')
 const AuthCode = require('../models/authcode.models')
 
 //Function to sign token - should be moved to utils
@@ -103,6 +103,7 @@ exports.login = asyncWrapper(async (req, res, next) => {
     }
     //check if email exists
     const currentUser = await User.findOne({ email }).select('+password')
+console.log(currentUser)
     //Check if email and password matches
     if (
         !currentUser ||
@@ -195,7 +196,10 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
         throw new BadRequestError('Invalid password reset code')
     }
 
-    await current_user.updateOne({ password: new_password, passwordConfirm: new_password })
+    await current_user.changePassword(new_password, current_user.password)
+    
+    BlacklistedToken.create({ token: jwtToken })
+    // BlacklistToken.create({ token: jwtToken })
 
     return res.status(200).send({
         message: "Successfully reset password",
