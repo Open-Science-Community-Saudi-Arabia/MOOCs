@@ -1,3 +1,4 @@
+const { config } = require('dotenv')
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
@@ -27,6 +28,21 @@ const test_token_schema = new Schema({
     }
 })
 
-const TestToken = mongoose.model('TestToken', test_token_schema)
+const blacklisted_token_schema = new Schema({
+    token: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        expires: 3600
+    }
+}, { timestamps: true, expires: config.JWT_REFRESH_TOKEN_EXPIRES_IN })
 
-module.exports = TestToken
+
+const TestToken = mongoose.model('TestToken', test_token_schema)
+const BlacklistedToken = mongoose.model('BlacklistedToken', blacklisted_token_schema)
+
+module.exports = { TestToken, BlacklistedToken }

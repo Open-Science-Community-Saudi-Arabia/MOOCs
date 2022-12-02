@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const { BlacklistedToken } = require('../models/token.models');
 const User = require('../models/user.models');
 
 const asyncWrapper = require('../utils/async_wrapper')
 
 const config = require('../utils/config');
-const { CustomAPIError } = require('../utils/custom_errors');
+const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/custom_errors');
 
 const issueVerificationToken = async (user) => {
     const token = user.createHashedToken('email_verification');
@@ -25,7 +26,13 @@ const basicAuth = asyncWrapper(async (req, res, next) => {
     if (!token) {
         return next(new CustomAPIError('Unauthenticated, Please Login', 403))
     }
+
     try {
+        const blacklisted = await BlacklistedToken.findOne({ token });
+        if (blacklisted) {
+            throw new UnauthenticatedError('Access Denied, Please Login');
+        }
+
         const data = jwt.verify(token, config.JWT_SECRET);
         req.user = { id: data.id, role: data.role }
 

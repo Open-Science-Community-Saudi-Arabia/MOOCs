@@ -118,6 +118,8 @@ user_schema.methods.changePassword = async function (newPassword) {
                 passwordResetTokenExpires: undefined
             })
 
+            await AuthCode.deleteMany({ user: this._id })
+
             resolve(this)
         } catch (error) {
             reject(error)
