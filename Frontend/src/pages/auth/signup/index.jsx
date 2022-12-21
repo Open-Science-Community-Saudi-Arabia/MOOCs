@@ -110,7 +110,7 @@ function Signup() {
                 }
 
             </section>
-            <ToastContainer />
+         
             <GoogleLogin setLoadingBoard={setLoadingBoard} />
         </>
     )

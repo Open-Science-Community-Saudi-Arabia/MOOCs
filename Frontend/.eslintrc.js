@@ -21,6 +21,7 @@ module.exports = {
         "import/newline-after-import": "warn",
         "import/order": "warn",
         "no-console": "warn",
+        "camelcase":"off",
         'react/jsx-props-no-spreading': 'off',
         'react/no-array-index-key':'off',
         'import/prefer-default-export':'off',

@@ -1,5 +1,5 @@
 const User = require('../models/user.models');
-const TestToken = require('../models/test_token.models');
+const TestToken = require('../models/token.models');
 const AuthCode = require('../models/authcode.models');
 const { sendEmail } = require('../utils/email');
 
