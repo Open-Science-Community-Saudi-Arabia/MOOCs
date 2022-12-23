@@ -26,7 +26,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
     })
 }
 
-//Create token and send to client 
+// Create token and send to client 
 const createToken = (user, statusCode, res) => {
     const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_EXPIRES_IN)
     const cookieOptions = {
@@ -55,6 +55,7 @@ const createToken = (user, statusCode, res) => {
     })
 }
 
+// Sign up a new user
 exports.signup = asyncWrapper(async (req, res, next) => {
     //1. Grab Values from req.body & Store Values in database
     const currentUser = await (await User.create({
@@ -94,6 +95,7 @@ exports.signup = asyncWrapper(async (req, res, next) => {
 
 })
 
+// Login a user
 exports.login = asyncWrapper(async (req, res, next) => {
     const { email, password } = req.body
 
@@ -115,6 +117,7 @@ exports.login = asyncWrapper(async (req, res, next) => {
     createToken(currentUser, 200, res)
 })
 
+// Email Verification for new users
 exports.verifyEmail = asyncWrapper(async (req, res, next) => {
     //1. Get email verification token from query params
     const hashedToken = crypto
@@ -141,6 +144,7 @@ exports.verifyEmail = asyncWrapper(async (req, res, next) => {
     return res.status(201).send({ status: 'success' })
 })
 
+// Forgot Password - Should be called first before reset password
 exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     const { email } = req.body
 
@@ -169,35 +173,42 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     })
 })
 
+// Reset Password
 exports.resetPassword = asyncWrapper(async (req, res, next) => {
     const { new_password, password_reset_code } = req.body
 
+    // Check if new password and password reset code are provided
     if (!new_password || !password_reset_code) {
         throw new BadRequestError('Missing required parameter in request body')
     }
 
+    // Check for valid authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer')) {
         throw new UnauthorizedError('Authentication invalid');
     }
 
+    // Check if token is valid
     const jwtToken = authHeader.split(' ')[1];
     const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
 
     const authCode = await AuthCode.findOne({ user: payload.id });
     if (!authCode) { throw new UnauthorizedError('Access token expired') }
 
+    // Check if user exists
     const current_user = await (await User.findOne({ _id: payload.id })).populate("auth_codes")
     console.log(current_user)
-
     if (!current_user) { throw new BadRequestError('User does not exist') }
 
+    // Check if password reset code is valid
     if (password_reset_code !== authCode.password_reset) {
         throw new BadRequestError('Invalid password reset code')
     }
 
+    // Change password
     await current_user.changePassword(new_password, current_user.password)
 
+    // Delete auth code, blacklist jwt token
     BlacklistedToken.create({ token: jwtToken })
     // BlacklistToken.create({ token: jwtToken })
 
@@ -206,6 +217,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     })
 })
 
+// Google Signin
 exports.googleSignin = asyncWrapper(async (req, res, next) => {
     const authorization = req.headers.authorization;
     const token = authorization.split(' ')[1];
@@ -237,10 +249,13 @@ exports.googleSignin = asyncWrapper(async (req, res, next) => {
     createToken(existing_user, 200, res)
 });
 
+// Get details of logged in user
 exports.getLoggedInUser = asyncWrapper(async (req, res, next) => {
+    // Check for valid authorization header
     const auth = req.headers.authorization;
     const token = auth.split(' ')[1];
 
+    // Check if token is valid
     const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
     const user = await User.findById(payload.id);
 
