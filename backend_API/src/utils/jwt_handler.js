@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { UnauthorizedError } = require('./custom_errors')
 const config = require('./config')
 
+// Function to decode JWT token
 const decodeJWT = (jwtToken, jwtSecret = null) => {
     try {
         let access;
