@@ -5,6 +5,7 @@ const { sendEmail } = require('../utils/email');
 
 const { CustomAPIError, BadRequestError } = require('../utils/custom_errors');
 
+// Function to generate random code for password reset
 const getAuthCodes = async (user_id, code_type = 'password_reset') => {
 
     // 1. Check if user exists
