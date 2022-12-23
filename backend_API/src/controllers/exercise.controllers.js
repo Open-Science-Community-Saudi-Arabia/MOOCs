@@ -2,6 +2,7 @@ const { Question, Exercise, Video, Course } = require("../models/course.models")
 const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError } = require("../utils/custom_errors");
 
+// Create a new exercise
 exports.createExercise = asyncWrapper(
     async (req, res, next) => {
         const newExercise = new Exercise(req.body);
@@ -25,6 +26,7 @@ exports.getExercises = asyncWrapper(
     }
 )
 
+// Update data for a particular exercise
 exports.updateExercise = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.params.id);
@@ -39,6 +41,7 @@ exports.updateExercise = asyncWrapper(
     }
 )
 
+// Delete a particular exercise
 exports.deleteExercise = asyncWrapper(
     async (req, res, next) => {
         const exerciseId = req.params.exerciseId
@@ -47,7 +50,8 @@ exports.deleteExercise = asyncWrapper(
         res.status(200).send({ message: "exercise has been deleted successfully" })
     }
 )
-    
+
+// Add a question to an exercise
 exports.addQuestion = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
@@ -60,6 +64,7 @@ exports.addQuestion = asyncWrapper(
     }
 )
 
+// Remove a question from an exercise
 exports.removeQuestion = asyncWrapper(
     async (req, res, next) => {
         const exerciseId = req.body.exerciseId
