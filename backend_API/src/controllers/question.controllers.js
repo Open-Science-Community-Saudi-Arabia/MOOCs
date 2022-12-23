@@ -3,7 +3,7 @@ const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError } = require('../utils/custom_errors')
 
 
-
+// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question to
 exports.createQuestion = asyncWrapper(
     async (req, res, next) => {
         const newQuestion = new Question(req.body);
@@ -27,6 +27,7 @@ exports.getQuestions = asyncWrapper(
     }
 )
 
+// Update data for a particular question
 exports.updateQuestion = asyncWrapper(
     async (req, res, next) => {
         const question = await Question.findById(req.params.id);
@@ -41,6 +42,7 @@ exports.updateQuestion = asyncWrapper(
     }
 )
 
+// Delete a particular question
 exports.deleteQuestion = asyncWrapper(
     async (req, res, next) => {
         const questionId = req.params.questionId
@@ -50,6 +52,7 @@ exports.deleteQuestion = asyncWrapper(
     }
 )
 
+// Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
 exports.scoreAnswers = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
