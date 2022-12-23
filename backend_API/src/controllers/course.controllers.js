@@ -5,6 +5,7 @@ const { BadRequestError } = require("../utils/custom_errors");
 
 /* COURSES */
 
+// Create a new course
 exports.createCourse = asyncWrapper(
     async (req, res, next) => {
         const newCourse = new Course(req.body);
@@ -28,6 +29,7 @@ exports.getCourses = asyncWrapper(
     }
 )
 
+// Update data for a particular course
 exports.updateCourse = asyncWrapper(
     async (req, res, next) => {
         const course = await Course.findById(req.params.id);
@@ -42,6 +44,7 @@ exports.updateCourse = asyncWrapper(
     }
 )
 
+// Delete a particular course
 exports.deleteCourse = asyncWrapper(
     async (req, res, next) => {
         const courseId = req.params.courseId
@@ -51,6 +54,7 @@ exports.deleteCourse = asyncWrapper(
     }
 )
 
+// Enroll a user in a course
 exports.enrollCourse = asyncWrapper(
     async (req, res, next) => {
         const course = await Course.findById(req.body.course_id)
@@ -66,6 +70,7 @@ exports.enrollCourse = asyncWrapper(
     }
 )
 
+// Cancel enrollment of a user in a course
 exports.cancelEnrollment = asyncWrapper(
     async (req, res, next) => {
         const course = await Course.findById(req.body.course_id)
@@ -81,6 +86,7 @@ exports.cancelEnrollment = asyncWrapper(
     }
 )
 
+// Get all enrolled courses for a particular user
 exports.getEnrolledCourses = asyncWrapper(
     async (req, res, next) => {
         const user = await User.findById(req.body.user_id)
@@ -90,6 +96,7 @@ exports.getEnrolledCourses = asyncWrapper(
     }
 )
 
+// Get all enrolled users for a particular course
 exports.getEnrolledUsers = asyncWrapper(
     async (req, res, next) => {
         const course = await Course.findById(req.body.course_id)
@@ -102,6 +109,7 @@ exports.getEnrolledUsers = asyncWrapper(
 
 /* VIDEOS */
 
+// Upload a video
 exports.uploadVideo = asyncWrapper(
     async (req, res, next) => {
         const { video } = req.files
@@ -139,6 +147,7 @@ exports.getVideo = asyncWrapper(
     }
 )
 
+// Update data for a particular video
 exports.updateVideo = asyncWrapper(
     async (req, res, next) => {
         const video = await Video.findById(req.params.id);
@@ -153,6 +162,7 @@ exports.updateVideo = asyncWrapper(
     }
 )
 
+// Delete a particular video
 exports.deleteVideo = asyncWrapper(
     async (req, res, next) => {
 
