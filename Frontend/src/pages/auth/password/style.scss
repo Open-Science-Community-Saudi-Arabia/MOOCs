@@ -1,0 +1,76 @@
+.forgotpassword-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    .content-left {
+        background-color: var(--blue-208);
+        height: 100%;
+        width: 40%;
+        position: relative;
+        h1 {
+            font-size: 70px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white
+        }
+    }
+
+    .content-right {
+        width: 60%;
+        &__item {
+            width: 50%;
+            margin: auto;
+            text-align: left;
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: var(--black-52);
+            }
+            p {
+                text-align: center;
+                margin-bottom: 20px;
+                color: var(--black-52);
+            }
+            form {
+                .form-link {
+                    text-align: center;
+                    margin-top: 10px;
+                    span,
+                    a {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: var(--black-52);
+                    }
+                    a {
+                        color: var(--skyblue-190);
+                    }
+
+                }
+
+            }
+        }
+    }
+}
+
+
+@media (max-width:800px) {
+    .forgotpassword-container {
+        .content-left {
+            display: none;
+        }
+
+        .content-right {
+            width: 100%;
+
+            &__item {
+                width: 90%;
+            }
+        }
+    }
+
+
+}

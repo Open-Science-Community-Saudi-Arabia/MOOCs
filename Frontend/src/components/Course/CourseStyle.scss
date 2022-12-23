@@ -1,0 +1,111 @@
+.course {
+    border-radius: 0.5rem 0.5rem 0 0;
+    overflow: hidden;
+}
+
+.imgwrapper {
+    position: relative;
+    height: 13.875rem;
+}
+
+.imgwrapper img {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.creative {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border-radius: 11px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.rating--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course--content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+.course--content .title {
+    color: #0B036B;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.course--content .desc {
+    max-width: 19rem;
+    text-align: center;
+    font-size: 14px;
+    color: #484848;
+    align-self: center;
+}
+
+.play {
+    display: flex;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    background-color: #03C4EB;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5625rem;
+    gap: 0.5rem;
+}
+
+.rating p {
+    color: white;
+}
+
+.lessons {
+    color: #0B036B;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.play {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carosel {
+    position: relative;
+}
+
+.next {
+    position: absolute;
+    right: -20px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.prev {
+    cursor: pointer;
+    position: absolute;
+    left: -20px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
