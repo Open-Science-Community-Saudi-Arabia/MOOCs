@@ -1,0 +1,33 @@
+.dropdown-menu {
+    position: static;
+    display: block;
+    width: auto;
+    /* margin: 4rem auto; */
+}
+
+.dropdown-item {
+    font-size: 1.7em;
+    border-radius: 5px;
+    /* width: 100%; */
+    overflow: hidden;
+}
+
+#passwordsection {
+    display: none;
+}
+
+.btn-hover-light {
+    text-align: left;
+    background-color: var(--bs-white);
+    border-radius: 0.25rem;
+    border-color: black;
+}
+
+.btn-hover-light:hover,
+.btn-hover-light:focus {
+    color: var(--bs-blue);
+    background-color: var(--bs-light);
+}
+section{
+    margin-bottom: 20%;
+}

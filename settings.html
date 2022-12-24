@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet" />
+
+        <link rel="stylesheet" href="fonts/icomoon/style.css" />
+
+        <link rel="stylesheet" href="css/owl.carousel.min.css" />
+
+        <!-- Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+        <link id="pagestyle" href="css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+        <script src="https://kit.fontawesome.com/e9de02addb.js" crossorigin="anonymous"></script>
+
+    </head>
+
+    <body>
+        <section>
+
+            <div class="site-mobile-menu site-navbar-target">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
+                    </div>
+                </div>
+                <div class="site-mobile-menu-body"></div>
+            </div>
+            <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-6 col-xl-2">
+                            <h1 class="mb-0 site-logo">
+                                <a href="index.html">OSCA<span class="text-primary">.</span> </a>
+                            </h1>
+                        </div>
+
+                        <div class="col-12 col-md-10 d-none d-xl-block">
+                            <nav class="site-navigation position-relative text-right" role="navigation">
+                                <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                                    <li><a href="#home-section" class="nav-link">Home</a></li>
+                                    <li class="has-children">
+                                        <a href="#about-section" class="nav-link">About Us</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#team-section" class="nav-link">Team</a></li>
+                                            <li>
+                                                <a href="#pricing-section" class="nav-link">Pricing</a>
+                                            </li>
+                                            <li><a href="#faq-section" class="nav-link">FAQ</a></li>
+                                            <li>
+                                                <a href="#gallery-section" class="nav-link">Gallery</a>
+                                            </li>
+                                            <li>
+                                                <a href="#services-section" class="nav-link">Services</a>
+                                            </li>
+                                            <li>
+                                                <a href="#testimonials-section" class="nav-link">Testimonials</a>
+                                            </li>
+                                            <li class="has-children">
+                                                <a href="#">More Links</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="#">Menu One</a></li>
+                                                    <li><a href="#">Menu Two</a></li>
+                                                    <li><a href="#">Menu Three</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="blog-section" class="nav-link">Blog</a></li>
+                                    <li><a href="#contact-section" class="nav-link">Contact</a></li>
+                                    <li class="social">
+                                        <a href="#contact-section" class="nav-link"><span
+                                                class="icon-facebook"></span></a>
+                                    </li>
+                                    <li class="social">
+                                        <a href="#contact-section" class="nav-link"><span
+                                                class="icon-twitter"></span></a>
+                                    </li>
+                                    <li class="social">
+                                        <a href="#contact-section" class="nav-link"><span
+                                                class="icon-linkedin"></span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="col-4 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px; right: -25%;">
+                            <a href="#" class="site-menu-toggle js-menu-toggle float-right"><span
+                                    class="icon-menu h3"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h4>Settings</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 mb-5">
+                    <div class="card shadow-lg bg-body rounded">
+                        <div class="card-header">
+                            <h4 class="label">Profile Settings</h4>
+                        </div>
+
+                        <div class="c card-body">
+                            <ul class="dropdown-menu" id="dropdownIcons">
+                                <li><button onclick="acc()" class="dropdown-item" selected>Account</button></li>
+                                <li><button onclick="acc()" class="dropdown-item">Password</button></li>
+                                <li>
+                                    <button class="dropdown-item">Privacy and safety</button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item">Email notifications</button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item">Web notifications</button>
+                                </li>
+                                <li><button class="dropdown-item">Widgets</button></li>
+                                <li><button class="dropdown-item">Your data</button></li>
+                                <li><button class="dropdown-item">Delete account</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mainCol" class="col-lg-8 mb-5">
+
+                    <section id="accountsection">
+                        <div class="card shadow-lg bg-body rounded mb-5">
+                            <div class="card-header">
+                                <h4 class="label">Public info</h4>
+                                <div class="settings-a material-icons">expand_more</div>
+                            </div>
+
+                            <div class="card-body">
+                                <div id="publicInfoContainer" class="row d-flex">
+                                    <div class="col-md-8 order-2 order-md-1">
+                                        <div class="mb-3">
+                                            <label id="userNameLabel">Username</label>
+                                            <input id="userNameInput" class="w-100 form-control" placeholder="Username">
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label id="biographyLabel">Biography</label>
+
+                                            <textarea id="biographyInput" class="w-100 form-control"
+                                                placeholder="Share something here..."></textarea>
+                                        </div>
+
+                                        <a class="btn btn-primary">Save changes</a>
+                                    </div>
+
+                                    <div class="col-md-4 order-1 order-md-2 text-center">
+                                        <div class="avatar-holder mb-3">
+                                            <div class="img-as-background w-80px square rounded-circle mx-auto">
+                                                <img src="../../images/phonebook/mark.png" />
+                                            </div>
+                                        </div>
+                                        <!-- <input type="file" name="" id=""> -->
+                                        <div class="mb-3">
+                                            <a id="uploada" class=" btn btn-primary"><span
+                                                    class="material-icons">cloud_upload</span>
+                                                Upload</a>
+                                        </div>
+
+                                        <small>Choose an image no <br />larger than 3MB</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow-lg bg-body rounded mb-5">
+                            <div class="card-header">
+                                <h4 class="label">Private info</h4>
+                                <div class="settings-a material-icons">expand_more</div>
+                            </div>
+
+                            <div class="card-body">
+                                <div id="privateInfoContainer">
+                                    <div class="row mb-3">
+                                        <div class="mb-3 col-sm-6">
+                                            <label id="firstNameLabel">First name</label>
+                                            <input id="firstNameInput" class="w-100 form-control"
+                                                placeholder="First name">
+                                        </div>
+                                        <div class="mb-3 col-sm-6 ">
+                                            <label id="lastNameLabel">Last name</label>
+                                            <input id="lastNameInput" class="w-100  form-control"
+                                                placeholder="Last name">
+                                        </div>
+                                        <div class="mb-3 col-sm-12">
+                                            <label id="emailLabel">Email</label>
+                                            <input id="emailInput" class="w-100  form-control" placeholder="Email">
+                                        </div>
+                                        <div class="mb-3 col-sm-12">
+                                            <label id="addressLabel">Address</label>
+                                            <input id="addressInput" class="w-100  form-control"
+                                                placeholder="9581 Lovers Ln">
+                                        </div>
+                                        <div class="mb-3 col-sm-12">
+                                            <label id="address2Label">Address 2</label>
+                                            <input id="address2Input" class="w-100  form-control"
+                                                placeholder="7118 Spring St">
+                                        </div>
+                                        <div class="mb-3 col-sm-4">
+                                            <label id="cityLabel">City</label>
+                                            <input id="cityInput" class="  form-control w-100">
+                                        </div>
+                                        <div class="mb-3 col-sm-4">
+                                            <label id="stateLabel">State</label>
+                                            <input id="stateInput" class="w-100 form-control"
+                                                placeholder="Select a state..." drop-down-a-position="right"
+                                                data-source='["Andhra Pradesh", "Manipur", "Tamil Nadu"]'>
+                                        </div>
+                                        <div class="mb-3 col-sm-4">
+                                            <label id="zipLabel">ZIP</label>
+                                            <input id="zipInput" class="w-100 form-control">
+                                        </div>
+                                    </div>
+
+                                    <a href="#" class="btn btn-primary">Save changes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="passwordsection">
+                        <div class="card shadow-lg bg-body rounded mb-5">
+                            <div class="card-header">
+                                <h4 class="label">Password</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="passwordInfoContainer">
+                                    <div class="mb-3">
+                                        <label>Current password</label>
+                                        <input class="w-100 form-control">
+                                        <a href="#" class="styled forgot">
+                                            Forgot your password?
+                                        </a>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>New password</label>
+                                        <input class="w-100 form-control">
+                                    </div>
+
+                                    <div class="mb-5">
+                                        <label>Verify password</label>
+                                        <input class="w-100 form-control">
+                                    </div>
+
+                                    <a href="" class="btn btn-primary">Save changes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <style>
+
+
+
+        </style>
+        <script>
+            let div = document.getElementById('accountsection');
+            let display = 0;
+            let div2 = document.getElementById('passwordsection');
+
+            function acc() {
+                if (display == 1) {
+                    div.style.display = 'block';
+                    div2.style.display = 'none';
+                    display = 0;
+                } else {
+                    div.style.display = 'none';
+                    div2.style.display = 'block';
+                    display = 1;
+                }
+            }
+
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+
+</html>
