@@ -187,6 +187,7 @@
 
 .instructor {
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   max-width: 30rem;
 }
@@ -202,11 +203,6 @@
   font-weight: 400;
   margin-bottom: 1.375rem;
 }
-
-.instruction--img {
-  width: 30rem
-}
-
 
 .testimonial-wrapper {
   display: flex;
