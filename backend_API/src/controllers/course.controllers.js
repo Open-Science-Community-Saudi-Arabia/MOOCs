@@ -173,7 +173,18 @@ exports.getEnrolledUsers = async (req, res, next) => {
 
 /* VIDEOS */
 
-// Upload a video
+/**
+ * Upload video
+ * 
+ * @param {string} course_id
+ * @param {string} title
+ * @param {string} description
+ * @param {string} author
+ * 
+ * @returns {object} savedVideo
+ * 
+ * @throws {error} if an error occured
+ */
 exports.uploadVideo = asyncWrapper(async (req, res, next) => {
   const { video } = req.files;
   const { course_id } = req.body;
@@ -197,16 +208,36 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
   res.status(200).json(savedVideo);
 });
 
-// Get data for particular video - req.body._id = video_id
-// Get data for all videos - req.body._id = null
-// Get videos for a particular course - req.body.course_id = course_id
-// Get all videos - req.body = null
+/**
+ * Get video data
+ * 
+ * Get data for all videos - req.body._id = null
+ * Get data for particular video - req.body._id = video_id
+ * Get videos for a particular course - req.body.course_id = course_id
+ * Get all videos - req.body = null
+ * 
+ * @param {string} video_id
+ * 
+ * @returns {object} videos
+ * 
+ * @throws {error} if an error occured
+ */
 exports.getVideo = asyncWrapper(async (req, res, next) => {
   const videos = await Video.find(req.body);
   res.status(200).json(videos);
 });
 
-// Update data for a particular video
+/**
+ * Update video data
+ * 
+ * @param {string} video_id
+ * @param {object} req.body
+ * 
+ * @returns {object} video
+ * 
+ * @throws {error} if an error occured
+ * @throws {BadRequestError} if video not found
+ */
 exports.updateVideo = asyncWrapper(async (req, res, next) => {
   const video = await Video.findById(req.params.id);
 
@@ -219,7 +250,21 @@ exports.updateVideo = asyncWrapper(async (req, res, next) => {
   next(new BadRequestError("Video not found"));
 });
 
-// Delete a particular video
+/**
+ * Delete video
+ * 
+ * @param {string} video_id
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * @throws {BadRequestError} if video not found
+ * 
+ * @todo delete video from cloudinary
+ * @todo delete video from database
+ * @todo delete video from course
+ * @todo delete video from user
+ * */
 exports.deleteVideo = asyncWrapper(async (req, res, next) => {
   const videoId = req.params.videoId;
   await Video.findByIdAndDelete(videoId);
