@@ -11,16 +11,34 @@ const User = require("../models/user.models");
 
 /* COURSES */
 
-// Create a new course
+/**
+ * Create new course
+ * 
+ * @param {string} title - Course title
+ * @param {string} author - Course author
+ * @param {string} description - Course description
+ * 
+ * @returns {MongooseObject} savedCourse
+ * 
+ * @throws {error} if an error occured
+ */
 exports.createCourse = async (req, res, next) => {
   const newCourse = new Course(req.body);
   const savedCourse = await newCourse.save();
   res.status(200).json(savedCourse);
 };
 
-// Get data for all course - req.body._id = null
-// Get all data for a particular course - req.body._id = the id of the course you want to get data for
-// Get all courses - req.body = null
+/**
+ * Get courses
+ * 
+ * To get data for all course set req.body._id = null
+ * To get data for a particular course set req.body._id - id of the course
+ * To get data for all courses set req.body = null
+ * 
+ * @param {string} id - Course id
+ * 
+ * @returns {object} courses
+ */
 exports.getCourses = async (req, res, next) => {
   if (req.body) {
     const courses = await Course.find(req.body);
@@ -31,7 +49,18 @@ exports.getCourses = async (req, res, next) => {
   return res.status(200).send({ courses: courses });
 };
 
-// Update data for a particular course
+/**
+ * Update course data
+ * 
+ * @private
+ * 
+ * @param {string} id
+ * 
+ * @returns {string} message
+ * @returns {object} course
+ * 
+ * @throws {BadRequestError} if Course not found
+ */
 exports.updateCourse = async (req, res, next) => {
   const course = await Course.findById(req.params.id);
 
@@ -44,7 +73,15 @@ exports.updateCourse = async (req, res, next) => {
   next(new BadRequestError("Course not found"));
 };
 
-// Delete a particular course
+/** 
+ * Delete course
+ * 
+ * @private 
+ * 
+ * @param {string} id - Id of the course
+ * 
+ * @returns {string} message
+ */
 exports.deleteCourse = async (req, res, next) => {
   const courseId = req.params.courseId;
   await Course.findByIdAndDelete(courseId);
@@ -52,7 +89,18 @@ exports.deleteCourse = async (req, res, next) => {
   res.status(200).send({ message: "course has been deleted successfully" });
 };
 
-// Enroll a user in a course
+/**
+ * Enroll for a course
+ * 
+ * @private
+ * 
+ * @param {string} course_id - id of course to enroll for 
+ * @param {string} user_id - id of user to enroll
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ */
 exports.enrollCourse = async (req, res, next) => {
   const course = await Course.findById(req.body.course_id);
   const user = await User.findById(req.body.user_id);
@@ -68,7 +116,14 @@ exports.enrollCourse = async (req, res, next) => {
     .send({ message: "user has been enrolled in course successfully" });
 };
 
-// Cancel enrollment of a user in a course
+/**
+ * Cancel course enrollment 
+ * 
+ * @param {string} course_id
+ * @param {string} user_id
+ * 
+ * @returns {string} message
+ */
 exports.cancelEnrollment = async (req, res, next) => {
   const course = await Course.findById(req.body.course_id);
   const user = await User.findById(req.body.user_id);
@@ -84,7 +139,13 @@ exports.cancelEnrollment = async (req, res, next) => {
     .send({ message: "user has been unenrolled from course successfully" });
 };
 
-// Get all enrolled courses for a particular user
+/**
+ * Get enrolled courses for a particular user
+ * 
+ * @param {string} user_id
+ * 
+ * @returns {object} enrolledCourses 
+ */
 exports.getEnrolledCourses = async (req, res, next) => {
   const user = await User.findById(req.body.user_id);
   const enrolledCourses = await Course.find({
@@ -94,7 +155,13 @@ exports.getEnrolledCourses = async (req, res, next) => {
   res.status(200).send({ enrolledCourses: enrolledCourses });
 };
 
-// Get all enrolled users for a particular course
+/**
+ * Get Enrolled users 
+ * 
+ * @param {string} course_id
+ * 
+ * @returns {object} enrolledUsers
+ */
 exports.getEnrolledUsers = async (req, res, next) => {
   const course = await Course.findById(req.body.course_id);
   const enrolledUsers = await User.find({
