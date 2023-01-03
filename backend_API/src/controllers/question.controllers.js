@@ -15,13 +15,13 @@ const { BadRequestError } = require('../utils/custom_errors')
  * 
  * @throws {error} if an error occured 
  */
-exports.createQuestion = asyncWrapper(
+exports.createQuestion =
     async (req, res, next) => {
         const newQuestion = new Question(req.body);
         const savedQuestion = await newQuestion.save();
         res.status(200).json(savedQuestion);
     }
-)
+
 
 // Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
 // Get questions for all exercises - req.body = {} // empty
@@ -33,7 +33,7 @@ exports.createQuestion = asyncWrapper(
  * 
  * @returns {MongooseObject} questions
  */
-exports.getQuestions = asyncWrapper(
+exports.getQuestions =
     async (req, res, next) => {
         if (req.body) {
             const questions = await Question.find(req.body)
@@ -43,7 +43,7 @@ exports.getQuestions = asyncWrapper(
 
         return res.status(200).send({ questions: questions })
     }
-)
+
 
 // Update data for a particular question
 /**
@@ -55,7 +55,7 @@ exports.getQuestions = asyncWrapper(
  * 
  * @throws {BadRequestError} if question not found
  */
-exports.updateQuestion = asyncWrapper(
+exports.updateQuestion =
     async (req, res, next) => {
         const question = await Question.findById(req.params.id);
 
@@ -67,7 +67,7 @@ exports.updateQuestion = asyncWrapper(
 
         next(new BadRequestError("Question not found"));
     }
-)
+
 
 // Delete a particular question
 /**
@@ -77,14 +77,14 @@ exports.updateQuestion = asyncWrapper(
  * 
  * @throws {error} if an error occured
  */
-exports.deleteQuestion = asyncWrapper(
+exports.deleteQuestion =
     async (req, res, next) => {
         const questionId = req.params.questionId
         await Question.findByIdAndDelete(questionId)
 
         res.status(200).send({ message: "question has been deleted successfully" })
     }
-)
+
 
 // Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
 /**
@@ -96,7 +96,7 @@ exports.deleteQuestion = asyncWrapper(
  * 
  * @throws {error} if an error occured
  */
-exports.scoreAnswers = asyncWrapper(
+exports.scoreAnswers =
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
 
@@ -112,5 +112,5 @@ exports.scoreAnswers = asyncWrapper(
 
         res.status(200).send({ score: score })
     }
-)
+
 
