@@ -2,6 +2,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require('cors');
+require('express-async-errors')
 const cookieParser = require('cookie-parser')
 const errorHandler = require("./middlewares/error_handler");
 const app = express();
