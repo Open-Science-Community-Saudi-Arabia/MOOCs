@@ -3,7 +3,18 @@ const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError } = require('../utils/custom_errors')
 
 
-// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question to
+// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
+/**
+ * Create Question
+ * 
+ * @param {string} question
+ * @param {string} correct_answer
+ * @param {Array} options
+ * 
+ * @returns {MongooseObject} savedQuestion
+ * 
+ * @throws {error} if an error occured 
+ */
 exports.createQuestion = asyncWrapper(
     async (req, res, next) => {
         const newQuestion = new Question(req.body);
@@ -15,6 +26,13 @@ exports.createQuestion = asyncWrapper(
 // Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
 // Get questions for all exercises - req.body = {} // empty
 // Get data for a particular question - req.body._id = question._id
+/**
+ * Get Questions
+ * 
+ * @param {string} id
+ * 
+ * @returns {MongooseObject} questions
+ */
 exports.getQuestions = asyncWrapper(
     async (req, res, next) => {
         if (req.body) {
@@ -28,6 +46,15 @@ exports.getQuestions = asyncWrapper(
 )
 
 // Update data for a particular question
+/**
+ * Update Question data
+ * 
+ * @param {string} id - Id of the question
+ * 
+ * @returns {MongooseObject} - question
+ * 
+ * @throws {BadRequestError} if question not found
+ */
 exports.updateQuestion = asyncWrapper(
     async (req, res, next) => {
         const question = await Question.findById(req.params.id);
@@ -43,6 +70,13 @@ exports.updateQuestion = asyncWrapper(
 )
 
 // Delete a particular question
+/**
+ * Delete a particular questions
+ * 
+ * @param {string} id - Id of the question
+ * 
+ * @throws {error} if an error occured
+ */
 exports.deleteQuestion = asyncWrapper(
     async (req, res, next) => {
         const questionId = req.params.questionId
@@ -53,6 +87,15 @@ exports.deleteQuestion = asyncWrapper(
 )
 
 // Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
+/**
+ * Score anwers
+ * 
+ * @param {string} exercise_id
+ * 
+ * @returns {number} score
+ * 
+ * @throws {error} if an error occured
+ */
 exports.scoreAnswers = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
