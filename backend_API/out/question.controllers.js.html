@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: question.controllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: question.controllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { Question, Exercise, Video, Course } = require('../models/course.models')
+const asyncWrapper = require('../utils/async_wrapper')
+const { BadRequestError } = require('../utils/custom_errors')
+
+
+// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
+/**
+ * Create Question
+ * 
+ * @param {string} question
+ * @param {string} correct_answer
+ * @param {Array} options
+ * 
+ * @returns {MongooseObject} savedQuestion
+ * 
+ * @throws {error} if an error occured 
+ */
+exports.createQuestion =
+    async (req, res, next) => {
+        const newQuestion = new Question(req.body);
+        const savedQuestion = await newQuestion.save();
+        res.status(200).json(savedQuestion);
+    }
+
+
+// Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
+// Get questions for all exercises - req.body = {} // empty
+// Get data for a particular question - req.body._id = question._id
+/**
+ * Get Questions
+ * 
+ * @param {string} id
+ * 
+ * @returns {MongooseObject} questions
+ */
+exports.getQuestions =
+    async (req, res, next) => {
+        if (req.body) {
+            const questions = await Question.find(req.body)
+            res.status(200).json(questions);
+        }
+        const questions = await Question.find().sort({ _id: -1 })
+
+        return res.status(200).send({ questions: questions })
+    }
+
+
+// Update data for a particular question
+/**
+ * Update Question data
+ * 
+ * @param {string} id - Id of the question
+ * 
+ * @returns {MongooseObject} - question
+ * 
+ * @throws {BadRequestError} if question not found
+ */
+exports.updateQuestion =
+    async (req, res, next) => {
+        const question = await Question.findById(req.params.id);
+
+        if (question) {
+            await question.updateOne({ $set: req.body });
+
+            return res.status(200).json({ message: "Question Updated", question: question });
+        }
+
+        next(new BadRequestError("Question not found"));
+    }
+
+
+// Delete a particular question
+/**
+ * Delete a particular questions
+ * 
+ * @param {string} id - Id of the question
+ * 
+ * @throws {error} if an error occured
+ */
+exports.deleteQuestion =
+    async (req, res, next) => {
+        const questionId = req.params.questionId
+        await Question.findByIdAndDelete(questionId)
+
+        res.status(200).send({ message: "question has been deleted successfully" })
+    }
+
+
+// Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
+/**
+ * Score anwers
+ * 
+ * @param {string} exercise_id
+ * 
+ * @returns {number} score
+ * 
+ * @throws {error} if an error occured
+ */
+exports.scoreAnswers =
+    async (req, res, next) => {
+        const exercise = await Exercise.findById(req.body.exercise_id)
+
+        const studentAnswers = req.body.studentAnswers
+        const correctAnswers = exercise.questions.map(question => question.correct_answer)
+
+        let score = 0
+        for (let i = 0; i &lt; studentAnswers.length; i++) {
+            if (studentAnswers[i] === correctAnswers[i]) {
+                score++
+            }
+        }
+
+        res.status(200).send({ score: score })
+    }
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#cancelEnrollment">cancelEnrollment</a></li><li><a href="global.html#createCourse">createCourse</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createQuestion">createQuestion</a></li><li><a href="global.html#createToken">createToken</a></li><li><a href="global.html#deleteQuestion">deleteQuestion</a></li><li><a href="global.html#deleteVideo">deleteVideo</a></li><li><a href="global.html#forgetPassword">forgetPassword</a></li><li><a href="global.html#getCourses">getCourses</a></li><li><a href="global.html#getEnrolledCourses">getEnrolledCourses</a></li><li><a href="global.html#getEnrolledUsers">getEnrolledUsers</a></li><li><a href="global.html#getExercises">getExercises</a></li><li><a href="global.html#getLoggedInUser">getLoggedInUser</a></li><li><a href="global.html#getQuestions">getQuestions</a></li><li><a href="global.html#getVideo">getVideo</a></li><li><a href="global.html#googleSignin">googleSignin</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#resetPassword">resetPassword</a></li><li><a href="global.html#scoreAnswers">scoreAnswers</a></li><li><a href="global.html#signToken">signToken</a></li><li><a href="global.html#signup">signup</a></li><li><a href="global.html#updateQuestion">updateQuestion</a></li><li><a href="global.html#updateVideo">updateVideo</a></li><li><a href="global.html#uploadVideo">uploadVideo</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Tue Jan 03 2023 17:27:59 GMT+0100 (West Africa Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
