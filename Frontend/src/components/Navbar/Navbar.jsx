@@ -55,7 +55,7 @@ function Navbar() {
 						onClick={() => navigate("/login")}
 					>
 						Log In
-					</button>
+					</button>ariaHidden
 					<button
 						className={isOpen ? "auth-btns mobile" : "auth-btns"}
 						onClick={() => navigate("/signup")}

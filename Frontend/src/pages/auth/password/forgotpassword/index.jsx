@@ -10,6 +10,11 @@ export default function ForgotPassword() {
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
 
+    /**
+ * handles forget password
+ * @param   {event} targets the submit event
+ * 
+ */
     const forgotPasswordHandler = async (event) => {
         event.preventDefault();
         try {

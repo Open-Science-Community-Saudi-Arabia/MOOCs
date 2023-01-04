@@ -14,12 +14,16 @@
         "format:fix": "yarn prettier -- --write",
         "format:check": "yarn prettier -- --check",
         "prepare": "cd .. && husky install Frontend/.husky",
-        "lint-staged": "lint-staged --config lint-staged.config.js"
+        "lint-staged": "lint-staged --config lint-staged.config.js",
+        "docs": "jsdoc -c jsdoc.conf.json"
     },
     "dependencies": {
         "@vitejs/plugin-react": "^2.1.0",
         "axios": "^1.1.3",
+        "better-docs": "^2.7.2",
         "gapi-script": "^1.2.0",
+        "jsdocs": "^1.0.0",
+        "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-google-login": "^5.2.2",

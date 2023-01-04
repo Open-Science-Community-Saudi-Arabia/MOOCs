@@ -8,7 +8,6 @@ import GoogleLogin from "../../../utils/api/google"
 import Spinner from "../../../components/Spinner"
 
 
-
 function Login() {
     const [toggleVisibility, setToggleVisibility] = useState(false);
     const [IsError, setError] = useState(false);
@@ -17,6 +16,11 @@ function Login() {
 
     const navigate = useNavigate()
 
+    /**
+ * handles user login
+ * @param   {event} targets the submit event
+ * 
+ */
     const loginHandler = async (event) => {
         setError(false)
         event.preventDefault();
