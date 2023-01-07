@@ -43,6 +43,7 @@ const googleStrategy = new GoogleStrategy(
                 role: 'EndUser',
                 password: password,
                 passwordConfirm: password,
+                isVerified: true,
             };
 
         const result = await createUser(user_data);
@@ -73,6 +74,7 @@ const githubStrategy = new GitHubStrategy(
                 role: 'EndUser',
                 password: password,
                 passwordConfirm: password,
+                isVerified: true,
             };
 
         const result = await createUser(user_data);
