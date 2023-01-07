@@ -20,7 +20,6 @@ const AuthCode = require('../models/authcode.models')
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN
     if (!jwtSecret) { jwtSecret = config.JWT_ACCESS_SECRET }
-    console.log(jwtSecret)
     return jwt.sign({ id, role }, jwtSecret, {
         expiresIn: expiryDate,
     })
