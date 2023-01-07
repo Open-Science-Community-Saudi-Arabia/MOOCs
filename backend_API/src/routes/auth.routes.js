@@ -3,9 +3,13 @@ const { basicAuth } = require('../middlewares/auth');
 const authController = require('./../controllers/auth.controllers');
 const router = express.Router();
 const passport = require('passport');
-const googleStrategy = require('../utils/passport').googleStrategy;
+const { googleStrategy, githubStrategy } = require('../utils/passport');
 
+/**
+ * @todo - Improve modularity for passport
+ */
 passport.use(googleStrategy);
+passport.use(githubStrategy)
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
@@ -32,7 +36,9 @@ router.get(
     }),
     authController.googleCallback
 );
-router.post('/googlesignin', authController.googleSignin);
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get('/github/callback', passport.authenticate('github'), authController.githubCallback);
+router.post('/google/callback', authController.googleSignin);
 router.get('/verifyemail/:token', authController.verifyEmail);
 router.get('/user', authController.getLoggedInUser);
 
