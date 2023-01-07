@@ -1,4 +1,5 @@
 const GoogleStrategy = require('passport-google-oidc').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
 
 const config = require('./config');
 const User = require('../models/user.models');
@@ -6,7 +7,7 @@ const UUID = require('uuid').v4;
 
 const createUser = async (data) => {
     try {
-        let existing_user = await User.findOne({ email: data.email })
+        let existing_user = await User.findOne({ email: data.email });
         if (existing_user) return existing_user;
 
         let user;
@@ -47,7 +48,7 @@ const googleStrategy = new GoogleStrategy(
 
         const result = await createUser(user_data);
 
-        if (result instanceof Error){
+        if (result instanceof Error) {
             return cb(result, false, { message: result.message });
         }
 
@@ -76,13 +77,12 @@ const githubStrategy = new GitHubStrategy(
 
         const result = await createUser(user_data);
 
-        if (result instanceof Error){
+        if (result instanceof Error) {
             return cb(result, false, { message: result.message });
         }
-        
+
         return cb(null, result);
     }
 );
 
-
-module.exports = { googleStrategy}
+module.exports = { googleStrategy, githubStrategy };
