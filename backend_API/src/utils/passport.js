@@ -30,7 +30,7 @@ const googleStrategy = new GoogleStrategy(
     {
         clientID: config.OAUTH_CLIENT_ID,
         clientSecret: config.OAUTH_CLIENT_SECRET,
-        callbackURL: 'http://localhost:5000/api/v1/auth/google/callback',
+        callbackURL: `${req.protocol}://${req.get('host')}/api/v1/auth/google/callback`,
     },
     async function (issuer, profile, cb) {
         const password = UUID();
