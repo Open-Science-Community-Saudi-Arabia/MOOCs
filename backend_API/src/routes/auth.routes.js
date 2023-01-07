@@ -34,10 +34,10 @@ router.get(
         failureRedirect: '/login',
         failureMessage: true,
     }),
-    authController.googleCallback
+    authController.passportOauthCallback
 );
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
-router.get('/github/callback', passport.authenticate('github'), authController.githubCallback);
+router.get('/github/callback', passport.authenticate('github'), authController.passportOauthCallback);
 router.post('/google/callback', authController.googleSignin);
 router.get('/verifyemail/:token', authController.verifyEmail);
 router.get('/user', authController.getLoggedInUser);

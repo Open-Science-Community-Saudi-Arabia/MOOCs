@@ -15,6 +15,7 @@ const client = new OAuth2Client(config.GOOGLE_SIGNIN_CLIENT_ID);
 const User = require('../models/user.models')
 const { TestToken, BlacklistedToken } = require('../models/token.models')
 const AuthCode = require('../models/authcode.models')
+const e = require('express')
 
 //Function to sign token - should be moved to utils
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
@@ -26,7 +27,8 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
 }
 
 // Create token and send to client
-const createToken = (user, statusCode, res) => {
+const createToken = (...args) => {
+    const [user, statusCode, res] = args
     const token = signToken(
         user._id,
         user.role,
@@ -59,7 +61,7 @@ const createToken = (user, statusCode, res) => {
     })
 }
 
-exports.googleCallback = function (req, res) {
+exports.passportOauthCallback = function (req, res) {
     createToken(req.user, 200, res);
 };
 
