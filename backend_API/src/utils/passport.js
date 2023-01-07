@@ -34,17 +34,16 @@ const googleStrategy = new GoogleStrategy(
         callbackURL: `${config.SERVER_URL}/api/v1/auth/google/callback`,
     },
     async function (issuer, profile, cb) {
-        const password = UUID();
-
-        let user_data = {
-            firstname: profile.name.givenName,
-            lastname: profile.name.familyName,
-            email: profile.emails[0].value,
-            googleId: profile.id,
-            role: 'EndUser',
-            password: password,
-            passwordConfirm: password,
-        };
+        const password = UUID(),
+            user_data = {
+                firstname: profile.name.givenName,
+                lastname: profile.name.familyName,
+                email: profile.emails[0].value,
+                googleId: profile.id,
+                role: 'EndUser',
+                password: password,
+                passwordConfirm: password,
+            };
 
         const result = await createUser(user_data);
 
@@ -63,17 +62,18 @@ const githubStrategy = new GitHubStrategy(
         callbackURL: `${config.SERVER_URL}/api/v1/auth/github/callback`,
     },
     async function (accessToken, refreshToken, profile, cb) {
-        const password = UUID();
-
-        let user_data = {
-            firstname: profile.name.givenName,
-            lastname: profile.name.familyName,
-            email: profile.emails[0].value,
-            githubId: profile.id,
-            role: 'EndUser',
-            password: password,
-            passwordConfirm: password,
-        };
+        const password = UUID(),
+            user_data = {
+                firstname: profile._json.name,
+                lastname: profile._json.name,
+                email: profile._json.email
+                    ? profile._json.email
+                    : profile._json.login + '@github.com',
+                githubId: profile.id,
+                role: 'EndUser',
+                password: password,
+                passwordConfirm: password,
+            };
 
         const result = await createUser(user_data);
 
