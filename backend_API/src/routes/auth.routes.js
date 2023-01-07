@@ -3,7 +3,7 @@ const { basicAuth } = require('../middlewares/auth');
 const authController = require('./../controllers/auth.controllers');
 const router = express.Router();
 const passport = require('passport');
-const googleStrategy = require('../utils/passportStrategy').googleStrategy;
+const googleStrategy = require('../utils/passport').googleStrategy;
 
 passport.use(googleStrategy);
 passport.serializeUser(function (user, done) {
