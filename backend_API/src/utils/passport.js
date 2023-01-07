@@ -55,4 +55,34 @@ const googleStrategy = new GoogleStrategy(
     }
 );
 
+const githubStrategy = new GitHubStrategy(
+    {
+        clientID: config.GITHUB_CLIENT_ID,
+        clientSecret: config.GITHUB_CLIENT_SECRET,
+        callbackURL: `${config.SERVER_URL}/api/v1/auth/github/callback`,
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+        const password = UUID();
+
+        let user_data = {
+            firstname: profile.name.givenName,
+            lastname: profile.name.familyName,
+            email: profile.emails[0].value,
+            githubId: profile.id,
+            role: 'EndUser',
+            password: password,
+            passwordConfirm: password,
+        };
+
+        const result = await createUser(user_data);
+
+        if (result instanceof Error){
+            return cb(result, false, { message: result.message });
+        }
+        
+        return cb(null, result);
+    }
+);
+
+
 module.exports = { googleStrategy}
