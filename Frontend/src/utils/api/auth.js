@@ -1,38 +1,43 @@
+
 import makeApiCall from "."
 import { setToken } from '..'
 
 /**
-* handle signup api call and update current token 
- * @param   {any} payload  `request data`         
+*- handle signup api call and update current token 
+ * @param  {object} payload  `request data`  
+ * @return {Promise<object>} `response data`      
 */
-export async function signUp(payload) {
+ async function signUp(payload) {
   const response = await makeApiCall('/auth/signup', 'post', payload)
   setToken(response.token)
 
 }
 /**
-* handle login api call and update current token 
-* @param   {any} payload  `request data`         
+*- handle login api call and update current token 
+* @param  {object} payload  `request data` 
+* @return {Promise<object>} `response data`         
 */
-export async function login(payload) {
+ async function login(payload) {
   const response = await makeApiCall('/auth/login', 'post', payload)
   setToken(response.token)
 }
 /**
-* handle forgot-password api call
- * @param   {any} payload  `request data`    
- * @return {any} response data       
+*- handle forgot-password api call
+ * @param   {object} payload  `request data`    
+ * @return {Promise<object>} `response data`       
 */
-export async function forgotpassword(payload) {
+ async function forgotpassword(payload) {
   const response = await makeApiCall('/auth/forgotpassword', 'post', payload)
   return response
 }
 /**
-* handle reset-password api call
-* @param   {any} payload  `request data`   
-* @return {any} response data      
+*- handle reset-password api call
+* @param   {object} payload  `request data`   
+* @return {object} `response data`      
 */
-export async function resetpassword(payload) {
+ async function resetpassword(payload) {
   const response = await makeApiCall(`/auth/resetpassword`, 'patch', payload)
   return response
 }
+
+export {forgotpassword ,resetpassword,login,signUp}

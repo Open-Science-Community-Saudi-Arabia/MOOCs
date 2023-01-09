@@ -14,9 +14,10 @@ export default function ResetPassword() {
 
         /**
  * handles password reset
- * @param   {event} targets the submit event
+ * @param   {event} event the submit event
  * 
  */
+    /** */
     const resetPasswordHandler = async (event) => {
 
         event.preventDefault();

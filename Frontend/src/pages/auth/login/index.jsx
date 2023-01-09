@@ -13,14 +13,12 @@ function Login() {
     const [IsError, setError] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [loadingBoard, setLoadingBoard] = useState(false);
-
     const navigate = useNavigate()
 
+
     /**
- * handles user login
- * @param   {event} targets the submit event
- * 
- */
+     * @param {event} event the submit event
+     */
     const loginHandler = async (event) => {
         setError(false)
         event.preventDefault();
@@ -45,6 +43,7 @@ function Login() {
         }
 
     }
+   
     return (
         <>
 

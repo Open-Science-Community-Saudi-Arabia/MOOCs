@@ -11,7 +11,13 @@ if (token) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
-
+ /**
+  * Api request configuration
+     * @param {string} url the submit event
+     * @param {} method 
+     * @param {object} payload
+     * @param {} axiosRequestConfig 
+     */
 async function makeApiCall(url, method, payload, axiosRequestConfig) {
   try {
     if (!baseURL || typeof baseURL !== 'string') {

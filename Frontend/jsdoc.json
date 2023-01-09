@@ -5,8 +5,8 @@
   },
   "source": {
     "include": ["src"],
-    "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|jsdoc)"
   },
   "plugins": ["plugins/markdown", "better-docs/component"],
   "templates": {
@@ -15,7 +15,7 @@
     }
   },
   "opts": {
-    "destination": "docs",
+    "destination": "./jsdocs",
     "recurse": true,
     "readme": "README.md"
   }

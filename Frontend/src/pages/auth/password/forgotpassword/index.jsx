@@ -1,3 +1,4 @@
+
 import React, { useState } from "react"
 import "../style.scss"
 import { Link, useNavigate } from 'react-router-dom'
@@ -12,10 +13,12 @@ export default function ForgotPassword() {
 
     /**
  * handles forget password
- * @param   {event} targets the submit event
+ * @param   {event} event the submit event
  * 
  */
+
     const forgotPasswordHandler = async (event) => {
+        
         event.preventDefault();
         try {
             const formData = {
