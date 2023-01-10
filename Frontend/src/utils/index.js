@@ -1,11 +1,21 @@
 import axios from 'axios'
 import { TOKEN_KEY } from './constants'
 
-export function getToken() {
-    return localStorage.getItem(TOKEN_KEY)
-  }
+/**
+* get user token from local storage
+ * @param {}
+* @return {string} response data
+*/
 
-  export function setToken(token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`
-    localStorage.setItem(TOKEN_KEY, token)
-  }
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY)
+}
+/**
+ *  @param {}
+* set header Authorization with token
+* set token in local storage
+*/
+export function setToken(token) {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`
+  localStorage.setItem(TOKEN_KEY, token)
+}

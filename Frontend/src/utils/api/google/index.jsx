@@ -1,11 +1,13 @@
 
 import { useEffect } from "react"
 import axios from 'axios'
+import PropTypes from "prop-types"
 import { setToken } from '../../index'
 
 const baseURL = import.meta.env.VITE_API_BASEURL
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
+ 
 function GoogleLogin({ setLoadingBoard }) {
   async function handleGoogle(response) {
     try {
@@ -44,7 +46,10 @@ function GoogleLogin({ setLoadingBoard }) {
 
 
 }
-
+// GoogleLogin.propTypes = {
+//  setLoadingBoard: PropTypes.bool.isRequired
+ 
+// }
 export default GoogleLogin
 
 
