@@ -41,6 +41,8 @@ const user_schema = new Schema(
             },
             select: false,
         },
+        googleId: { type: String, select: false },
+        githubId: { type: String, select: false },
         emailVerificationToken: { type: String, select: false },
         isVerified: { type: Boolean, default: false, select: false },
         auth_codes: {
