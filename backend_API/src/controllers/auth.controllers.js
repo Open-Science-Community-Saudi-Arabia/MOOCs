@@ -298,7 +298,7 @@ exports.getLoggedInUser = asyncWrapper(async (req, res, next) => {
     const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
     const user = await User.findById(payload.id);
 
-    res.status(200).json({
+    return res.status(200).json({
         status: 'success',
         data: {
             user,
