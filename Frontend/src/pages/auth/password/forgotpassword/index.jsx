@@ -12,11 +12,13 @@ export default function ForgotPassword() {
     const navigate = useNavigate()
 
     /**
- * handles forget password
- * @param   {event} event the submit event
+ * @function Forgot Password
+ */
+    /**
+ * handles forget password 
+ * @param {HTMLElement} event `Event`
  * 
  */
-
     const forgotPasswordHandler = async (event) => {
         
         event.preventDefault();

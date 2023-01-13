@@ -3,6 +3,9 @@ import makeApiCall from "."
 import { setToken } from '..'
 
 /**
+ * @module API
+ */
+/**
 *- handle signup api call and update current token 
  * @param  {object} payload  `request data`  
  * @return {Promise<object>} `response data`      

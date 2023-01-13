@@ -15,9 +15,11 @@ function Login() {
     const [loadingBoard, setLoadingBoard] = useState(false);
     const navigate = useNavigate()
 
-
+/**
+ * @function Login
+ */
     /**
-     * @param {event} event the submit event
+     * @param {HTMLElement} event `Event`
      */
     const loginHandler = async (event) => {
         setError(false)
@@ -43,6 +45,9 @@ function Login() {
         }
 
     }
+   const loadingBoardHandler=(status)=>{
+setLoadingBoard(status)
+   }
    
     return (
         <>
@@ -96,7 +101,7 @@ function Login() {
 
 
 
-            <GoogleLogin setLoadingBoard={setLoadingBoard} />
+            <GoogleLogin loadingBoardHandler={loadingBoardHandler} />
 
         </>
 
