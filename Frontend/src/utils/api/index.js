@@ -5,18 +5,18 @@ const token = localStorage.getItem(TOKEN_KEY)
 const baseURL = import.meta.env.VITE_API_BASEURL
 
 /**
-* set Authorization header with current token
-*/
+ * @module RequestConfig
+ */
 if (token) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
  /**
   * Api request configuration
-     * @param {string} url the submit event
-     * @param {} method 
-     * @param {object} payload
-     * @param {} axiosRequestConfig 
+     * @param {string} url `request url`
+     * @param {string} method `request method`
+     * @param {object} payload `request data`
+     * @param {AxiosRequestConfig} axiosRequestConfig  `axiosRequestConfig`
      */
 async function makeApiCall(url, method, payload, axiosRequestConfig) {
   try {

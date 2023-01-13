@@ -37,10 +37,10 @@
 </div>
 
 ## Deployment
-Frontend: https://oscsa-moocs.netlify.app/
-
+Frontend:  <a href="https://oscsa-moocs.netlify.app/">https://oscsa-moocs.netlify.app/</a>
+<br/>
+<br/>
 ## Technologies
-
 ### Frontend Technologies
 
 | Technology         | Version | Use                  |
@@ -50,21 +50,25 @@ Frontend: https://oscsa-moocs.netlify.app/
 | `NodeJs`           | v14     | Environment          |
 | `EsLint`           | v8.2.0  | Code Linting         |
 | `Vite`             | v2.6.8  | Code Bundler         |
+<br />
 
 ### Backend Technologies
-
 | Technology              | Version | Use                         |
 | ----------------------- | ------- | --------------------------- |
 | `NodeJS`                | v4.3    | Backend Environment         |
 | `ExpressJS`             | v3.10   | Framework for building APIs |
-| `MongoDB`               |    -    | Non-Relational Database     |
+| `MongoDB`               | v6      | Non-Relational Database     |
 
+<br/>
+<br/>
 
-## Contributing :two_hearts:
-- If you like it, leave your star in this project :star2:
+## Contributing
+- If you like it, leave your star in this project.
 - If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
 - Please follow our [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
 - This is the guide to how the UI Design should look when implementing any frontend pages. [Click this link to see the figma design](https://www.figma.com/file/mkhBuJAS2arzy3wrbTZp2D/Simple-Landing-page-for-OSCSA%2C-with-Log-In-and-Sign-Up-Pages?node-id=0%3A1) 
+<br/>
+<br/>
 
 ## Getting Started
 
@@ -77,13 +81,6 @@ node -v
 ```
 
 - If the output is not the version of your nodejs installation, install nodejs from [here](https://nodejs.org/en/download/)
-
-*Things to note*
-- Linting has been set up for staged commits in the repository.
-- We're using `eslint` for js linting, and `prettier` for code formating.
-- Please make it a point to install `eslint` and `prettier` plugins on vscode to aid in your coding process.
-- Your code has to be properly formatted and have the correct syntax for you to be able to commit your changes.
-- Make sure you attend to all warnings and errors before you commit your code
 
 ### Setting up the Frontend
 
@@ -146,9 +143,11 @@ yarn lint:check
 ```bash
 yarn lint:fix
 ```
-
-## Things to note as you contribute
-
+**Things to note**
+- Linting has been set up for staged commits in the repository.
+- We're using `eslint` for js linting, and `prettier` for code formatting.
+- Please make it a point to install `eslint` and `prettier` plugins on vscode to aid in your coding process.
+- Your code has to be properly formatted and have the correct syntax for you to be able to commit your changes.
 - Any page you code has to be responsive.
 - Write clear and concise commit messages.
 - Always run `yarn` after pulling code from the upstream repository.
@@ -156,6 +155,7 @@ yarn lint:fix
 - Please, always test your code and make sure it works correctly before making a pull request
 - Run `prettier --check "input name of file here"` to check if your code is well formatted before you commit
 - Run `eslint input name of file here --color` to check if the files you edited con form to the standards required for this project
+- Make sure you attend to all warnings and errors before you commit your code
 
 ### Setting up Backend
 
@@ -186,6 +186,8 @@ npm run dev
 
 - Open your browser on localhost with the port you specified to see the result.
 - You're all set and ready to code😁
+<br/>
+<br/>
 
 ## License
 
@@ -193,6 +195,8 @@ This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
 
 [![CC BY 4.0][cc-by-image]][cc-by]
+<br/>
+<br/>
 
 ## Contributors ✨
 
