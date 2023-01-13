@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 - Added JsDoc pages for deployment, deployment [link](https://moocs-jsdocs.netlify.app/) #157
-- Added code documentation using JsDocs #154
+- Added code documentation using JsDocs #155
 
 ### `Fixed`
 
