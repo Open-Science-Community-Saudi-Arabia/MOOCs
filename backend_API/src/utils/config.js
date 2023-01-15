@@ -1,4 +1,8 @@
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI,
+    MONGO_URI_TEST = process.env.MONGO_URI_TEST,
+    MONGO_URI_DEV = process.env.MONGO_URI_DEV,
+    MONGO_URI_PROD = process.env.MONGO_URI_PROD;
+    
 const PORT = process.env.PORT || 5555;
 
 /* JWT TOKENS */
