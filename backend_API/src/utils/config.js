@@ -1,4 +1,8 @@
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI,
+    MONGO_URI_TEST = process.env.MONGO_URI_TEST,
+    MONGO_URI_DEV = process.env.MONGO_URI_DEV,
+    MONGO_URI_PROD = process.env.MONGO_URI_PROD;
+    
 const PORT = process.env.PORT || 5555;
 
 /* JWT TOKENS */
@@ -32,8 +36,16 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 module.exports = {
+    // MongoDB URI
     MONGO_URI,
+    MONGO_URI_TEST,
+    MONGO_URI_DEV,
+    MONGO_URI_PROD,
+
+    // Server Port
     PORT,
+
+    // JWT Tokens
     JWT_SECRET,
     JWT_SECRET_EXPIRES_IN,
     JWT_ACCESS_SECRET,
@@ -44,9 +56,13 @@ module.exports = {
     JWT_PASSWORDRESET_EXPIRES_IN,
     JWT_EMAILVERIFICATION_SECRET,
     JWT_EMAILVERIFICATION_EXPIRES_IN,
+
+    // Email
     EMAIL_HOST,
     EMAIL_PORT,
     EMAIL_HOST_ADDRESS,
+
+    // OAUTH2
     OAUTH_CLIENT_ID,
     OAUTH_CLIENT_SECRET,
     OAUTH_REFRESH_TOKEN,
@@ -54,5 +70,7 @@ module.exports = {
     GOOGLE_SIGNIN_CLIENT_ID,
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
+
+    // Server
     SERVER_URL,
 };
