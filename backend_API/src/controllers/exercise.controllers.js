@@ -3,6 +3,17 @@ const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError } = require("../utils/custom_errors");
 
 // Create a new exercise
+/**
+ * Create new exercise
+ * 
+ * @param {string} title - Exercise title
+ * @param {string} description - Exercise description
+ * @param {string} course_id - Course id
+ * 
+ * @returns {MongooseObject} savedExercise
+ * 
+ * @throws {error} if an error occured
+ */
 exports.createExercise = asyncWrapper(
     async (req, res, next) => {
         const newExercise = new Exercise(req.body);
@@ -14,6 +25,16 @@ exports.createExercise = asyncWrapper(
 // Get exercises for a particular course - req.body.course_id = the id of the course you want to get exercises for
 // Get exercises for all courses - req.body = {} // empty
 // Get data for a particular exercise - req.body._id = exercise._id
+/**
+ * Get Exercises
+ * 
+ * @param {string} course_id - Course id
+ * @param {string} _id - Exercise id
+ * 
+ * @returns {object} exercises
+ * 
+ * @throws {error} if an error occured
+ */
 exports.getExercises = asyncWrapper(
     async (req, res, next) => {
         if (req.body) {
@@ -27,6 +48,19 @@ exports.getExercises = asyncWrapper(
 )
 
 // Update data for a particular exercise
+/**
+ * Update exercise data
+ * 
+ * @access private
+ * 
+ * @param {string} id
+ * 
+ * @returns {string} message
+ * @returns {object} exercise
+ * 
+ * @throws {error} if an error occured
+ * @throws {BadRequestError} if exercise not found
+ */
 exports.updateExercise = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.params.id);
@@ -42,6 +76,24 @@ exports.updateExercise = asyncWrapper(
 )
 
 // Delete a particular exercise
+/**
+ * Delete exercise
+ * 
+ * @access private
+ * 
+ * @param {string} exerciseId
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * @throws {BadRequestError} if exercise not found
+ * 
+ * @todo delete all questions associated with the exercise
+ * @todo delete all videos associated with the exercise
+ * @todo delete all courses associated with the exercise
+ * @todo delete all submissions associated with the exercise
+ * @todo delete all submissions associated with the questions associated with the exercise
+ * */
 exports.deleteExercise = asyncWrapper(
     async (req, res, next) => {
         const exerciseId = req.params.exerciseId
@@ -52,6 +104,18 @@ exports.deleteExercise = asyncWrapper(
 )
 
 // Add a question to an exercise
+/**
+ * Add question to exercise
+ * 
+ * @access private
+ * 
+ * @param {string} exercise_id
+ * @param {string} question_id
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * */
 exports.addQuestion = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
@@ -65,6 +129,18 @@ exports.addQuestion = asyncWrapper(
 )
 
 // Remove a question from an exercise
+/**
+ * Remove question from exercise
+ * 
+ * @access private
+ * 
+ * @param {string} exerciseId
+ * @param {string} questionId
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * */
 exports.removeQuestion = asyncWrapper(
     async (req, res, next) => {
         const exerciseId = req.body.exerciseId
