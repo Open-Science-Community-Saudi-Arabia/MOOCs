@@ -20,7 +20,18 @@ const { TestToken, BlacklistedToken } = require('../models/token.models');
 const AuthCode = require('../models/authcode.models');
 const e = require('express');
 
-//Function to sign token - should be moved to utils
+/**
+ * Sign a token with the given payload and secret
+ * 
+ * @param {string} id 
+ * @param {string} role 
+ * @param {string} jwtSecret 
+ * @param {string} expiry 
+ * 
+ * @returns {string} token
+ * 
+ * @throws {Error} if jwtSecret is not provided 
+ */
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
     if (!jwtSecret) {
@@ -31,15 +42,17 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
     });
 };
 
-// Create token and send to client
-const createToken = (...args) => {
-    const [user, statusCode, res] = args;
-    const token = signToken(
-        user._id,
-        user.role,
-        config.JWT_ACCESS_SECRET,
-        config.JWT_ACCESS_EXP
-    );
+/**
+ * Create a token and send it to the client
+ * 
+ * @param {MongooseDocument} user 
+ * @param {number} statusCode 
+ * @param {ExpressResponseObject} res 
+ * 
+ * @returns {void}
+ */
+const createToken = (user, statusCode, res) => {
+    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_EXPIRES_IN)
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -70,8 +83,21 @@ exports.passportOauthCallback = function (req, res) {
     createToken(req.user, 200, res);
 };
 
-// Sign up a new user
-exports.signup = asyncWrapper(async (req, res, next) => {
+/**
+ * Signup a new user
+ * 
+ * @param {string} role
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordConfirm
+ * @param {string} firstname
+ * @param {string} lastname
+ * 
+ * @returns {object} user
+ * @returns {string} token
+ * @returns {string} status
+ */
+exports.signup = async (req, res, next) => {
     //1. Grab Values from req.body & Store Values in database
     const currentUser = await (
         await User.create({
@@ -111,12 +137,27 @@ exports.signup = asyncWrapper(async (req, res, next) => {
         message,
     });
 
-    createToken(currentUser, 200, res);
-});
+    createToken(currentUser, 200, res)
+}
 
 // Login a user
-exports.login = asyncWrapper(async (req, res, next) => {
-    const { email, password } = req.body;
+/**
+ * Login a user
+ * 
+ * @param {string} email
+ * @param {string} password
+ * 
+ * @returns {object} user
+ * @returns {string} token
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if email or password is not provided
+ * @throws {CustomAPIError} if email or password is incorrect
+ * @throws {CustomAPIError} if email is not verified
+ * @throws {Error} if error occurs
+ */
+exports.login = async (req, res, next) => {
+    const { email, password } = req.body
 
     //Check if fields are provided
     if (!email || !password) {
@@ -135,11 +176,21 @@ exports.login = asyncWrapper(async (req, res, next) => {
         return next(new CustomAPIError('Incorrect Email or Password', 400));
     }
     //Send token to client
-    createToken(currentUser, 200, res);
-});
+    createToken(currentUser, 200, res)
+}
 
 // Email Verification for new users
-exports.verifyEmail = asyncWrapper(async (req, res, next) => {
+/**
+ * Verify a user's email
+ * 
+ * @param {string} token
+ * 
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if token is invalid or token has expired
+ * @throws {Error} if error occurs
+ */
+exports.verifyEmail = async (req, res, next) => {
     //1. Get email verification token from query params
     const hashedToken = crypto
         .createHash('sha256')
@@ -163,12 +214,19 @@ exports.verifyEmail = asyncWrapper(async (req, res, next) => {
     user.emailVerificationToken = undefined;
     await user.save({ validateBeforeSave: false });
 
-    return res.status(201).send({ status: 'success' });
-});
+    return res.status(201).send({ status: 'success' })
+}
 
-// Forgot Password - Should be called first before reset password
-exports.forgetPassword = asyncWrapper(async (req, res, next) => {
-    const { email } = req.body;
+/**
+ * Send a password reset code to a user's email
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} message
+ * @returns {string} access_token
+ */
+exports.forgetPassword = async (req, res, next) => {
+    const { email } = req.body
 
     if (!email) {
         throw new BadRequestError('Missing required parameter in request body');
@@ -198,14 +256,30 @@ exports.forgetPassword = asyncWrapper(async (req, res, next) => {
     );
 
     return res.status(200).send({
-        message: 'Successful, Password reset code sent to users email',
-        access_token,
-    });
-});
+        message: "Successful, Password reset code sent to users email",
+        access_token
+    })
+}
 
 // Reset Password
-exports.resetPassword = asyncWrapper(async (req, res, next) => {
-    const { new_password, password_reset_code } = req.body;
+/**
+ * Reset a user's password
+ * 
+ * @param {string} new_password
+ * @param {string} password_reset_code
+ * 
+ * @returns {string} status
+ * 
+ * @throws {Error} if error occurs
+ * @throws {BadRequestError} if user does not exist
+ * @throws {BadRequestError} if Missing required parameter in request body
+ * @throws {UnauthorizedError} if Authentication invalid
+ * @throws {BadRequestError} if Password reset code is incorrect
+ * @throws {BadRequestError} if Password reset code has expired
+ * @throws {UnauthorizedError} if Access token expired
+ */
+exports.resetPassword = async (req, res, next) => {
+    const { new_password, password_reset_code } = req.body
 
     // Check if new password and password reset code are provided
     if (!new_password || !password_reset_code) {
@@ -249,12 +323,26 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
     // BlacklistToken.create({ token: jwtToken })
 
     return res.status(200).send({
-        message: 'Successfully reset password',
-    });
-});
+        message: "Successfully reset password",
+    })
+}
 
 // Google Signin
-exports.googleSignin = asyncWrapper(async (req, res, next) => {
+/**
+ * Signin a user with google
+ * 
+ * @param {string} token
+ * 
+ * @returns {string} status
+ * @returns {string} access_token
+ * @returns {string} refresh_token
+ * 
+ * @throws {Error} if error occurs
+ * @throws {BadRequestError} if Missing required parameter in request body
+ * @throws {BadRequestError} if User does not exist
+ * @throws {BadRequestError} if User is not verified
+ */
+exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
     const token = authorization.split(' ')[1];
 
@@ -285,11 +373,21 @@ exports.googleSignin = asyncWrapper(async (req, res, next) => {
         createToken(new_user, 200, res);
     }
 
-    createToken(existing_user, 200, res);
-});
+    createToken(existing_user, 200, res)
+};
 
 // Get details of logged in user
-exports.getLoggedInUser = asyncWrapper(async (req, res, next) => {
+/**
+ * Get data for logged in user
+ * 
+ * @param {string} token
+ * 
+ * @returns {string} success
+ * @returns {object} user
+ * 
+ * @throws {error} if error occured 
+ */
+exports.getLoggedInUser = async (req, res, next) => {
     // Check for valid authorization header
     const auth = req.headers.authorization;
     const token = auth.split(' ')[1];
@@ -301,7 +399,9 @@ exports.getLoggedInUser = asyncWrapper(async (req, res, next) => {
     return res.status(200).json({
         status: 'success',
         data: {
-            user,
-        },
-    });
-});
+            user
+        }
+    })
+}
+
+
