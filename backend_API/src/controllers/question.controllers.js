@@ -3,37 +3,19 @@ const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError } = require('../utils/custom_errors')
 
 
-// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
-/**
- * Create Question
- * 
- * @param {string} question
- * @param {string} correct_answer
- * @param {Array} options
- * 
- * @returns {MongooseObject} savedQuestion
- * 
- * @throws {error} if an error occured 
- */
-exports.createQuestion =
+// Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question to
+exports.createQuestion = asyncWrapper(
     async (req, res, next) => {
         const newQuestion = new Question(req.body);
         const savedQuestion = await newQuestion.save();
         res.status(200).json(savedQuestion);
     }
-
+)
 
 // Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
 // Get questions for all exercises - req.body = {} // empty
 // Get data for a particular question - req.body._id = question._id
-/**
- * Get Questions
- * 
- * @param {string} id
- * 
- * @returns {MongooseObject} questions
- */
-exports.getQuestions =
+exports.getQuestions = asyncWrapper(
     async (req, res, next) => {
         if (req.body) {
             const questions = await Question.find(req.body)
@@ -43,19 +25,10 @@ exports.getQuestions =
 
         return res.status(200).send({ questions: questions })
     }
-
+)
 
 // Update data for a particular question
-/**
- * Update Question data
- * 
- * @param {string} id - Id of the question
- * 
- * @returns {MongooseObject} - question
- * 
- * @throws {BadRequestError} if question not found
- */
-exports.updateQuestion =
+exports.updateQuestion = asyncWrapper(
     async (req, res, next) => {
         const question = await Question.findById(req.params.id);
 
@@ -67,36 +40,20 @@ exports.updateQuestion =
 
         next(new BadRequestError("Question not found"));
     }
-
+)
 
 // Delete a particular question
-/**
- * Delete a particular questions
- * 
- * @param {string} id - Id of the question
- * 
- * @throws {error} if an error occured
- */
-exports.deleteQuestion =
+exports.deleteQuestion = asyncWrapper(
     async (req, res, next) => {
         const questionId = req.params.questionId
         await Question.findByIdAndDelete(questionId)
 
         res.status(200).send({ message: "question has been deleted successfully" })
     }
-
+)
 
 // Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
-/**
- * Score anwers
- * 
- * @param {string} exercise_id
- * 
- * @returns {number} score
- * 
- * @throws {error} if an error occured
- */
-exports.scoreAnswers =
+exports.scoreAnswers = asyncWrapper(
     async (req, res, next) => {
         const exercise = await Exercise.findById(req.body.exercise_id)
 
@@ -112,5 +69,5 @@ exports.scoreAnswers =
 
         res.status(200).send({ score: score })
     }
-
+)
 
