@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### `Added`
+- Added code documentation for backend src code [#150](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/150)
+- Added feature for sign-in with Google and Github [#153](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/153)
 
 ### `Fixed`
 
