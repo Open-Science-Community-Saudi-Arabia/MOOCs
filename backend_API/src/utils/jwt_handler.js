@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { UnauthorizedError } = require('./custom_errors')
+const { UnauthorizedError } = require('./errors')
 const config = require('./config')
 
 // Function to decode JWT token
