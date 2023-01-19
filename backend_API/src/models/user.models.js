@@ -8,6 +8,12 @@ const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
 
+const status = new Schema({
+    user: { type: String, required: true, ref: 'User' },
+    isActive: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
+})
+
 const user_schema = new Schema(
     {
         firstname: { type: String, required: true },
@@ -23,23 +29,6 @@ const user_schema = new Schema(
             required: true,
             enum: ['EndUser', 'Admin'],
             default: 'EndUser',
-        },
-        password: {
-            type: String,
-            required: [true, 'Please provide your password'],
-            minlength: 8,
-            select: false,
-        },
-        passwordConfirm: {
-            type: String,
-            required: [true, 'Please confirm your password'],
-            validate: {
-                validator: function (el) {
-                    return el === this.password
-                },
-                message: 'Password do not match',
-            },
-            select: false,
         },
         googleId: { type: String, select: false },
         githubId: { type: String, select: false },
@@ -93,7 +82,7 @@ user_schema.pre('save', function (next) {
             })
 
             this.auth_codes = auth_code._id
-            
+
             resolve(this)
         } catch (error) {
             reject(error)
@@ -148,5 +137,6 @@ user_schema.pre('save', function (next) {
 // }
 
 const User = mongoose.model('User', user_schema)
+const Status = mongoose.model('Status', status)
 
-module.exports = User
+module.exports = { User, Status }
