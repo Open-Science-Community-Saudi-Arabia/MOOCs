@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('../utils/config');
+const mongoose = require('mongoose')
+const schema = mongoose.Schema
+const { JWT_REFRESH_EXP } = require('../utils/config')
 
-const authcode_schema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+const blacklistedTokenSchema = new schema(
+    {
+        token: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
     },
-    password_reset: {
-        type: String,
+    { timestamps: true, expires: JWT_REFRESH_EXP }
+)
+
+const authCodeSchema = new schema(
+    {
+        user: { type: schema.Types.ObjectId, ref: 'User', required: true },
+        verification_code: { type: String },
+        password_reset_code: { type: String },
+        activation_code: { type: String },
+        createdAt: { type: Date, default: Date.now },
     },
-    verification: {
-        type: String,
-    },
-    expires: {
-        type: Date,
-        required: true,
-        default: Date.now() + 10 * 60 * 1000,
-    },
-});
+    { timestamps: true, expires: JWT_REFRESH_EXP }
+)
 
-const AuthCode = mongoose.model('AuthCode', authcode_schema);
+const AuthCode = mongoose.model('AuthCode', authCodeSchema)
 
-module.exports = AuthCode;
+const BlacklistedToken = mongoose.model(
+    'BlacklistedToken',
+    blacklistedTokenSchema
+)
 
-
-
-
+module.exports = { BlacklistedToken, AuthCode }
