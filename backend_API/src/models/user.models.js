@@ -67,20 +67,20 @@ const user_schema = new Schema(
 )
 
 // Virtual Property to get user password from Password collection
-// user_schema.virtual('password', {
-//     ref: "Password",
-//     localField: "_id",
-//     foreignField: "user_id",
-//     justOne: true
-// })
+user_schema.virtual('password', {
+    ref: "Password",
+    localField: "_id",
+    foreignField: "user_id",
+    justOne: true
+})
 
 
 user_schema.pre('save', function (next) {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!this.isModified('password')) return next()
-            this.password = await bcrypt.hash(this.password, 12)
-            this.passwordConfirm = undefined
+            // if (!this.isModified('password')) return next()
+            // this.password = await bcrypt.hash(this.password, 12)
+            // this.passwordConfirm = undefined
 
             // Extra check incase mongodb index for email is not created
             const email_exists = await User.findOne({ email: this.email })
@@ -101,51 +101,51 @@ user_schema.pre('save', function (next) {
     })
 })
 
-user_schema.methods.comparePassword = async function (
-    candidatePassword,
-    userPassword,
-) {
-    return await bcrypt.compare(candidatePassword, userPassword)
-}
+// user_schema.methods.comparePassword = async function (
+//     candidatePassword,
+//     userPassword,
+// ) {
+//     return await bcrypt.compare(candidatePassword, userPassword)
+// }
 
-user_schema.methods.changePassword = async function (newPassword) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const new_hash = await bcrypt.hash(newPassword, 12)
+// user_schema.methods.changePassword = async function (newPassword) {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             const new_hash = await bcrypt.hash(newPassword, 12)
 
-            await this.updateOne({
-                password: new_hash,
-                passwordConfirm: new_hash,
-                passwordResetToken: undefined,
-                passwordResetTokenExpires: undefined
-            })
+//             await this.updateOne({
+//                 password: new_hash,
+//                 passwordConfirm: new_hash,
+//                 passwordResetToken: undefined,
+//                 passwordResetTokenExpires: undefined
+//             })
 
-            await AuthCode.deleteMany({ user: this._id })
+//             await AuthCode.deleteMany({ user: this._id })
 
-            resolve(this)
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
+//             resolve(this)
+//         } catch (error) {
+//             reject(error)
+//         }
+//     })
+// }
 
-user_schema.methods.createHashedToken = function (token_type) {
-    const resetToken = crypto.randomBytes(32).toString('hex')
+// user_schema.methods.createHashedToken = function (token_type) {
+//     const resetToken = crypto.randomBytes(32).toString('hex')
 
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex')
+//     const hashedToken = crypto
+//         .createHash('sha256')
+//         .update(resetToken)
+//         .digest('hex')
 
-    if (token_type == 'password_reset') {
-        this.passwordResetToken = hashedToken
-        this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
-    }
+//     if (token_type == 'password_reset') {
+//         this.passwordResetToken = hashedToken
+//         this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
+//     }
 
-    if (token_type == 'email_verification') { this.emailVerificationToken = hashedToken };
+//     if (token_type == 'email_verification') { this.emailVerificationToken = hashedToken };
 
-    return resetToken
-}
+//     return resetToken
+// }
 
 const User = mongoose.model('User', user_schema)
 
