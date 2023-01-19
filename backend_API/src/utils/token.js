@@ -7,7 +7,8 @@ const config = require('./config');
 const { v4: UUID } = require('uuid');
 
 /**
- *
+ * Gets the secret and expiry for the specified token type
+ * 
  * @param {string} type - Type of token to generate
  * @returns secret and expiry for the specified token type
  */
@@ -41,6 +42,7 @@ const getRequiredConfigVars = (type) => {
 
 /**
  * Generates a JWT token
+ * 
  * @param {string} type - Type of token to generate
  * @param {UUID} user_id - ID of the user to generate token for
  * @returns JWT token

@@ -9,7 +9,7 @@ const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
-} = require('./../utils/custom_errors');
+} = require('../utils/errors');
 const { getAuthCodes } = require('../utils/auth_codes');
 const { decodeJWT } = require('../utils/jwt_handler');
 
@@ -79,329 +79,338 @@ const createToken = (user, statusCode, res) => {
     });
 };
 
-exports.passportOauthCallback = function (req, res) {
-    createToken(req.user, 200, res);
-};
+const handleExistingUser = async (user) => {
+    //  Check if user is verified
+    user.populate('status')
+    if (user.status.isVerified) return user;
 
-/**
- * Signup a new user
- * 
- * @param {string} role
- * @param {string} email
- * @param {string} password
- * @param {string} passwordConfirm
- * @param {string} firstname
- * @param {string} lastname
- * 
- * @returns {object} user
- * @returns {string} token
- * @returns {string} status
- */
-exports.signup = async (req, res, next) => {
-    //1. Grab Values from req.body & Store Values in database
-    const currentUser = await (
-        await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            role: req.body.role,
-            password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm,
-        })
-    ).populate('auth_codes');
+    // Get verification code
 
-    //2. Create email verification Token
-    const ver_token = currentUser.createHashedToken('email_verification');
-    currentUser.save({ validateBeforeSave: false });
 
-    //3. Save to test token collection -- aids in running unit tests
-    if (
-        process.env.NODE_ENV === 'development' ||
-        process.env.NODE_ENV === 'test'
-    ) {
-        await TestToken.create({
-            user: currentUser._id,
-            email_verification: ver_token,
+
+    exports.passportOauthCallback = function (req, res) {
+        createToken(req.user, 200, res);
+    };
+
+    /**
+     * Signup a new user
+     * 
+     * @param {string} role
+     * @param {string} email
+     * @param {string} password
+     * @param {string} passwordConfirm
+     * @param {string} firstname
+     * @param {string} lastname
+     * 
+     * @returns {object} user
+     * @returns {string} token
+     * @returns {string} status
+     */
+    exports.signup = async (req, res, next) => {
+        //1. Grab Values from req.body & Store Values in database
+        const currentUser = await (
+            await User.create({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                role: req.body.role,
+                password: req.body.password,
+                passwordConfirm: req.body.passwordConfirm,
+            })
+        ).populate('auth_codes');
+
+        //2. Create email verification Token
+        const ver_token = currentUser.createHashedToken('email_verification');
+        currentUser.save({ validateBeforeSave: false });
+
+        //3. Save to test token collection -- aids in running unit tests
+        if (
+            process.env.NODE_ENV === 'development' ||
+            process.env.NODE_ENV === 'test'
+        ) {
+            await TestToken.create({
+                user: currentUser._id,
+                email_verification: ver_token,
+            });
+        }
+
+        //4. Send email to user
+        const url = `${req.protocol}://${req.get(
+            'host'
+        )}/api/v1/auth/verifyemail/${ver_token}`;
+
+        const message = `Please click on the link below to verify your email address: ${url}`;
+        await sendEmail({
+            email: currentUser.email,
+            subject: 'Your email verification token link',
+            message,
         });
+
+        createToken(currentUser, 200, res)
     }
 
-    //4. Send email to user
-    const url = `${req.protocol}://${req.get(
-        'host'
-    )}/api/v1/auth/verifyemail/${ver_token}`;
+    // Login a user
+    /**
+     * Login a user
+     * 
+     * @param {string} email
+     * @param {string} password
+     * 
+     * @returns {object} user
+     * @returns {string} token
+     * @returns {string} status
+     * 
+     * @throws {CustomAPIError} if email or password is not provided
+     * @throws {CustomAPIError} if email or password is incorrect
+     * @throws {CustomAPIError} if email is not verified
+     * @throws {Error} if error occurs
+     */
+    exports.login = async (req, res, next) => {
+        const { email, password } = req.body
 
-    const message = `Please click on the link below to verify your email address: ${url}`;
-    await sendEmail({
-        email: currentUser.email,
-        subject: 'Your email verification token link',
-        message,
-    });
+        //Check if fields are provided
+        if (!email || !password) {
+            return next(
+                new CustomAPIError('Please Provide Email and Password', 400)
+            );
+        }
+        //check if email exists
+        const currentUser = await User.findOne({ email }).select('+password');
+        console.log(currentUser);
+        //Check if email and password matches
+        if (
+            !currentUser ||
+            !(await currentUser.comparePassword(password, currentUser.password))
+        ) {
+            return next(new CustomAPIError('Incorrect Email or Password', 400));
+        }
+        //Send token to client
+        createToken(currentUser, 200, res)
+    }
 
-    createToken(currentUser, 200, res)
-}
+    // Email Verification for new users
+    /**
+     * Verify a user's email
+     * 
+     * @param {string} token
+     * 
+     * @returns {string} status
+     * 
+     * @throws {CustomAPIError} if token is invalid or token has expired
+     * @throws {Error} if error occurs
+     */
+    exports.verifyEmail = async (req, res, next) => {
+        //1. Get email verification token from query params
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(req.params.token)
+            .digest('hex');
 
-// Login a user
-/**
- * Login a user
- * 
- * @param {string} email
- * @param {string} password
- * 
- * @returns {object} user
- * @returns {string} token
- * @returns {string} status
- * 
- * @throws {CustomAPIError} if email or password is not provided
- * @throws {CustomAPIError} if email or password is incorrect
- * @throws {CustomAPIError} if email is not verified
- * @throws {Error} if error occurs
- */
-exports.login = async (req, res, next) => {
-    const { email, password } = req.body
+        //2. If token is invalid or token has expired
+        const user = await User.findOne({
+            emailVerificationToken: hashedToken,
+        }).select('+emailVerificationToken');
+        if (!user) {
+            return next(
+                new CustomAPIError(
+                    'Token Invalid or Token Expired, Request for a new reset token',
+                    404
+                )
+            );
+        }
 
-    //Check if fields are provided
-    if (!email || !password) {
-        return next(
-            new CustomAPIError('Please Provide Email and Password', 400)
+        user.isVerified = true;
+        user.emailVerificationToken = undefined;
+        await user.save({ validateBeforeSave: false });
+
+        return res.status(201).send({ status: 'success' })
+    }
+
+    /**
+     * Send a password reset code to a user's email
+     * 
+     * @param {string} email
+     * 
+     * @returns {string} message
+     * @returns {string} access_token
+     */
+    exports.forgetPassword = async (req, res, next) => {
+        const { email } = req.body
+
+        if (!email) {
+            throw new BadRequestError('Missing required parameter in request body');
+        }
+
+        const current_user = await (
+            await User.findOne({ email })
+        ).populate('auth_codes');
+        console.log(current_user);
+        if (!current_user) {
+            throw new BadRequestError('User does not exist');
+        }
+
+        const password_reset_code = (
+            await getAuthCodes(current_user._id, 'password_reset')
+        ).password_reset;
+        sendEmail({
+            email: current_user.email,
+            subject: 'Password reset',
+            message: `This is your password reset code ${password_reset_code}`,
+        });
+        const access_token = signToken(
+            current_user.id,
+            current_user.role,
+            config.JWT_PASSWORDRESET_SECRET,
+            config.JWT_PASSWORDRESET_EXPIRES_IN
         );
-    }
-    //check if email exists
-    const currentUser = await User.findOne({ email }).select('+password');
-    console.log(currentUser);
-    //Check if email and password matches
-    if (
-        !currentUser ||
-        !(await currentUser.comparePassword(password, currentUser.password))
-    ) {
-        return next(new CustomAPIError('Incorrect Email or Password', 400));
-    }
-    //Send token to client
-    createToken(currentUser, 200, res)
-}
 
-// Email Verification for new users
-/**
- * Verify a user's email
- * 
- * @param {string} token
- * 
- * @returns {string} status
- * 
- * @throws {CustomAPIError} if token is invalid or token has expired
- * @throws {Error} if error occurs
- */
-exports.verifyEmail = async (req, res, next) => {
-    //1. Get email verification token from query params
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(req.params.token)
-        .digest('hex');
-
-    //2. If token is invalid or token has expired
-    const user = await User.findOne({
-        emailVerificationToken: hashedToken,
-    }).select('+emailVerificationToken');
-    if (!user) {
-        return next(
-            new CustomAPIError(
-                'Token Invalid or Token Expired, Request for a new reset token',
-                404
-            )
-        );
+        return res.status(200).send({
+            message: "Successful, Password reset code sent to users email",
+            access_token
+        })
     }
 
-    user.isVerified = true;
-    user.emailVerificationToken = undefined;
-    await user.save({ validateBeforeSave: false });
+    // Reset Password
+    /**
+     * Reset a user's password
+     * 
+     * @param {string} new_password
+     * @param {string} password_reset_code
+     * 
+     * @returns {string} status
+     * 
+     * @throws {Error} if error occurs
+     * @throws {BadRequestError} if user does not exist
+     * @throws {BadRequestError} if Missing required parameter in request body
+     * @throws {UnauthorizedError} if Authentication invalid
+     * @throws {BadRequestError} if Password reset code is incorrect
+     * @throws {BadRequestError} if Password reset code has expired
+     * @throws {UnauthorizedError} if Access token expired
+     */
+    exports.resetPassword = async (req, res, next) => {
+        const { new_password, password_reset_code } = req.body
 
-    return res.status(201).send({ status: 'success' })
-}
+        // Check if new password and password reset code are provided
+        if (!new_password || !password_reset_code) {
+            throw new BadRequestError('Missing required parameter in request body');
+        }
 
-/**
- * Send a password reset code to a user's email
- * 
- * @param {string} email
- * 
- * @returns {string} message
- * @returns {string} access_token
- */
-exports.forgetPassword = async (req, res, next) => {
-    const { email } = req.body
+        // Check for valid authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer')) {
+            throw new UnauthorizedError('Authentication invalid');
+        }
 
-    if (!email) {
-        throw new BadRequestError('Missing required parameter in request body');
+        // Check if token is valid
+        const jwtToken = authHeader.split(' ')[1];
+        const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
+
+        const authCode = await AuthCode.findOne({ user: payload.id });
+        if (!authCode) {
+            throw new UnauthorizedError('Access token expired');
+        }
+
+        // Check if user exists
+        const current_user = await (
+            await User.findOne({ _id: payload.id })
+        ).populate('auth_codes');
+        console.log(current_user);
+        if (!current_user) {
+            throw new BadRequestError('User does not exist');
+        }
+
+        // Check if password reset code is valid
+        if (password_reset_code !== authCode.password_reset) {
+            throw new BadRequestError('Invalid password reset code');
+        }
+
+        // Change password
+        await current_user.changePassword(new_password, current_user.password);
+
+        // Delete auth code, blacklist jwt token
+        BlacklistedToken.create({ token: jwtToken });
+        // BlacklistToken.create({ token: jwtToken })
+
+        return res.status(200).send({
+            message: "Successfully reset password",
+        })
     }
 
-    const current_user = await (
-        await User.findOne({ email })
-    ).populate('auth_codes');
-    console.log(current_user);
-    if (!current_user) {
-        throw new BadRequestError('User does not exist');
-    }
+    // Google Signin
+    /**
+     * Signin a user with google
+     * 
+     * @param {string} token
+     * 
+     * @returns {string} status
+     * @returns {string} access_token
+     * @returns {string} refresh_token
+     * 
+     * @throws {Error} if error occurs
+     * @throws {BadRequestError} if Missing required parameter in request body
+     * @throws {BadRequestError} if User does not exist
+     * @throws {BadRequestError} if User is not verified
+     */
+    exports.googleSignin = async (req, res, next) => {
+        const authorization = req.headers.authorization;
+        const token = authorization.split(' ')[1];
 
-    const password_reset_code = (
-        await getAuthCodes(current_user._id, 'password_reset')
-    ).password_reset;
-    sendEmail({
-        email: current_user.email,
-        subject: 'Password reset',
-        message: `This is your password reset code ${password_reset_code}`,
-    });
-    const access_token = signToken(
-        current_user.id,
-        current_user.role,
-        config.JWT_PASSWORDRESET_SECRET,
-        config.JWT_PASSWORDRESET_EXPIRES_IN
-    );
+        const client = new OAuth2Client(config.OAUTH_CLIENT_ID);
 
-    return res.status(200).send({
-        message: "Successful, Password reset code sent to users email",
-        access_token
-    })
-}
-
-// Reset Password
-/**
- * Reset a user's password
- * 
- * @param {string} new_password
- * @param {string} password_reset_code
- * 
- * @returns {string} status
- * 
- * @throws {Error} if error occurs
- * @throws {BadRequestError} if user does not exist
- * @throws {BadRequestError} if Missing required parameter in request body
- * @throws {UnauthorizedError} if Authentication invalid
- * @throws {BadRequestError} if Password reset code is incorrect
- * @throws {BadRequestError} if Password reset code has expired
- * @throws {UnauthorizedError} if Access token expired
- */
-exports.resetPassword = async (req, res, next) => {
-    const { new_password, password_reset_code } = req.body
-
-    // Check if new password and password reset code are provided
-    if (!new_password || !password_reset_code) {
-        throw new BadRequestError('Missing required parameter in request body');
-    }
-
-    // Check for valid authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
-        throw new UnauthorizedError('Authentication invalid');
-    }
-
-    // Check if token is valid
-    const jwtToken = authHeader.split(' ')[1];
-    const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
-
-    const authCode = await AuthCode.findOne({ user: payload.id });
-    if (!authCode) {
-        throw new UnauthorizedError('Access token expired');
-    }
-
-    // Check if user exists
-    const current_user = await (
-        await User.findOne({ _id: payload.id })
-    ).populate('auth_codes');
-    console.log(current_user);
-    if (!current_user) {
-        throw new BadRequestError('User does not exist');
-    }
-
-    // Check if password reset code is valid
-    if (password_reset_code !== authCode.password_reset) {
-        throw new BadRequestError('Invalid password reset code');
-    }
-
-    // Change password
-    await current_user.changePassword(new_password, current_user.password);
-
-    // Delete auth code, blacklist jwt token
-    BlacklistedToken.create({ token: jwtToken });
-    // BlacklistToken.create({ token: jwtToken })
-
-    return res.status(200).send({
-        message: "Successfully reset password",
-    })
-}
-
-// Google Signin
-/**
- * Signin a user with google
- * 
- * @param {string} token
- * 
- * @returns {string} status
- * @returns {string} access_token
- * @returns {string} refresh_token
- * 
- * @throws {Error} if error occurs
- * @throws {BadRequestError} if Missing required parameter in request body
- * @throws {BadRequestError} if User does not exist
- * @throws {BadRequestError} if User is not verified
- */
-exports.googleSignin = async (req, res, next) => {
-    const authorization = req.headers.authorization;
-    const token = authorization.split(' ')[1];
-
-    const client = new OAuth2Client(config.OAUTH_CLIENT_ID);
-
-    // Verify id token
-    const ticket = await client.verifyIdToken({
+        // Verify id token
+        const ticket = await client.verifyIdToken({
             idToken: token,
             audience: config.GOOGLE_SIGNIN_CLIENT_ID,
         }),
-        payload = ticket.getPayload(),
-        existing_user = await User.findOne({ email: payload.email });
+            payload = ticket.getPayload(),
+            existing_user = await User.findOne({ email: payload.email });
 
-    // Create new user in db
-    const random_str = UUID(); // Random unique str as password, won't be needed for authentication
-    if (!existing_user) {
-        const user_data = {
-            firstname: payload.given_name,
-            lastname: payload.family_name,
-            email: payload.email,
-            role: 'EndUser',
-            password: random_str,
-            passwordConfirm: random_str,
-            googleId: payload.sub,
-        };
+        // Create new user in db
+        const random_str = UUID(); // Random unique str as password, won't be needed for authentication
+        if (!existing_user) {
+            const user_data = {
+                firstname: payload.given_name,
+                lastname: payload.family_name,
+                email: payload.email,
+                role: 'EndUser',
+                password: random_str,
+                passwordConfirm: random_str,
+                googleId: payload.sub,
+            };
 
-        const new_user = await User.create(user_data);
-        createToken(new_user, 200, res);
-    }
-
-    createToken(existing_user, 200, res)
-};
-
-// Get details of logged in user
-/**
- * Get data for logged in user
- * 
- * @param {string} token
- * 
- * @returns {string} success
- * @returns {object} user
- * 
- * @throws {error} if error occured 
- */
-exports.getLoggedInUser = async (req, res, next) => {
-    // Check for valid authorization header
-    const auth = req.headers.authorization;
-    const token = auth.split(' ')[1];
-
-    // Check if token is valid
-    const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
-    const user = await User.findById(payload.id);
-
-    return res.status(200).json({
-        status: 'success',
-        data: {
-            user
+            const new_user = await User.create(user_data);
+            createToken(new_user, 200, res);
         }
-    })
-}
+
+        createToken(existing_user, 200, res)
+    };
+
+    // Get details of logged in user
+    /**
+     * Get data for logged in user
+     * 
+     * @param {string} token
+     * 
+     * @returns {string} success
+     * @returns {object} user
+     * 
+     * @throws {error} if error occured 
+     */
+    exports.getLoggedInUser = async (req, res, next) => {
+        // Check for valid authorization header
+        const auth = req.headers.authorization;
+        const token = auth.split(' ')[1];
+
+        // Check if token is valid
+        const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
+        const user = await User.findById(payload.id);
+
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                user
+            }
+        })
+    }
 
 
