@@ -1,8 +1,7 @@
-const { User } = require('../models/users.model');
-const { AuthCode } = require('../models/token.model');
+const { User } = require('../models/user.models');
+const { AuthCode } = require('../models/token.models');
 const { NotFoundError } = require('./errors');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const config = require('./config');
 const { v4: UUID } = require('uuid');
 
@@ -87,6 +86,14 @@ const getAuthTokens = async (user_id, token_type = null) => {
     }
 };
 
+/**
+ * 
+ * @param {string} user_id 
+ * @param {string} code_type 
+ * 
+ * @returns verification_code, password_reset_code, 
+ * @returns activation_code1, activation_code2, activation_code3
+ */
 const getAuthCodes = async (user_id, code_type) => {
     return new Promise(async (resolve, reject) => {
         try {
