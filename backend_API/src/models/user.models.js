@@ -3,7 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const { BadRequestError } = require('../utils/custom_errors')
-const AuthCode = require('./authcode.models')
+const AuthCode = require('./token.models')
 const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
@@ -32,13 +32,6 @@ const user_schema = new Schema(
         },
         googleId: { type: String, select: false },
         githubId: { type: String, select: false },
-        emailVerificationToken: { type: String, select: false },
-        isVerified: { type: Boolean, default: false, select: false },
-        auth_codes: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode'
-        },
-        // passwordResetToken: { type: String, select: false },
-        // passwordResetTokenExpires: { type: Date, select: false },
         enrolled_courses: [
             {
                 type: Schema.Types.ObjectId,
@@ -60,6 +53,20 @@ user_schema.virtual('password', {
     ref: "Password",
     localField: "_id",
     foreignField: "user_id",
+    justOne: true
+})
+
+user_schema.virtual('auth_codes', {
+    ref: "AuthCode",
+    localField: "_id",
+    foreignField: "user",
+    justOne: true
+})
+
+user_schema.virtual('status', {
+    ref: "Status",
+    localField: "_id",
+    foreignField: "user",
     justOne: true
 })
 
@@ -89,52 +96,6 @@ user_schema.pre('save', function (next) {
         }
     })
 })
-
-// user_schema.methods.comparePassword = async function (
-//     candidatePassword,
-//     userPassword,
-// ) {
-//     return await bcrypt.compare(candidatePassword, userPassword)
-// }
-
-// user_schema.methods.changePassword = async function (newPassword) {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const new_hash = await bcrypt.hash(newPassword, 12)
-
-//             await this.updateOne({
-//                 password: new_hash,
-//                 passwordConfirm: new_hash,
-//                 passwordResetToken: undefined,
-//                 passwordResetTokenExpires: undefined
-//             })
-
-//             await AuthCode.deleteMany({ user: this._id })
-
-//             resolve(this)
-//         } catch (error) {
-//             reject(error)
-//         }
-//     })
-// }
-
-// user_schema.methods.createHashedToken = function (token_type) {
-//     const resetToken = crypto.randomBytes(32).toString('hex')
-
-//     const hashedToken = crypto
-//         .createHash('sha256')
-//         .update(resetToken)
-//         .digest('hex')
-
-//     if (token_type == 'password_reset') {
-//         this.passwordResetToken = hashedToken
-//         this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
-//     }
-
-//     if (token_type == 'email_verification') { this.emailVerificationToken = hashedToken };
-
-//     return resetToken
-// }
 
 const User = mongoose.model('User', user_schema)
 const Status = mongoose.model('Status', status)
