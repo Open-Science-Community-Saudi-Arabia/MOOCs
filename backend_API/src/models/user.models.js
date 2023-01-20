@@ -1,9 +1,5 @@
 const mongoose = require('mongoose')
-const validator = require('validator')
-const bcrypt = require('bcryptjs')
-const crypto = require('crypto')
-const { BadRequestError } = require('../utils/custom_errors')
-const AuthCode = require('./token.models')
+const { BadRequestError } = require('../utils/errors')
 const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
@@ -48,7 +44,7 @@ const user_schema = new Schema(
     { timestamp: true },
 )
 
-// Virtual Property to get user password from Password collection
+// Get users password from Password collection
 user_schema.virtual('password', {
     ref: "Password",
     localField: "_id",
@@ -56,6 +52,7 @@ user_schema.virtual('password', {
     justOne: true
 })
 
+// Get authentication codes from AuthCode collection
 user_schema.virtual('auth_codes', {
     ref: "AuthCode",
     localField: "_id",
@@ -63,6 +60,7 @@ user_schema.virtual('auth_codes', {
     justOne: true
 })
 
+// Get user users account status from Status collection
 user_schema.virtual('status', {
     ref: "Status",
     localField: "_id",
