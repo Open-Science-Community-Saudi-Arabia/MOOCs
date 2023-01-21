@@ -70,11 +70,13 @@ user_schema.virtual('status', {
 })
 
 
-user_schema.pre('save', async function (next) {
+user_schema.pre('save', async function (next, { skipValidation }) {
+    if (skipValidation) return next();
+    console.log(this)
     // Check if user already exists - Incase index is not created
     const email_exists = await User.findOne({ email: this.email })
     if (email_exists) {
-        return reject(new BadRequestError('Email already exists please user another email'))
+        throw new BadRequestError('Email already exists please user another email')
     }
 })
 

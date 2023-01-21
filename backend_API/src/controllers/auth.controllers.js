@@ -9,7 +9,7 @@ const {
     BadRequestError,
     UnauthorizedError,
 } = require('../utils/errors');
-const { getAuthCodes } = require('../utils/auth_codes');
+const { getAuthCodes, getAuthTokens, decodeJWT } = require('../utils/token.js');
 
 const { OAuth2Client } = require('google-auth-library');
 
@@ -84,27 +84,21 @@ const createToken = (user, statusCode, res) => {
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
  */
-const handleUnverifiedUser = async function (user) {
-    // Get verification code
-    const { verification_code } = await getAuthCodes(
-        user.id,
-        'verification',
-    );
+const handleUnverifiedUser = function (user) {
+    return async function (req) {
+        // Generate email verification link 
+        const { access_token } = await getAuthTokens(user, 'verification');
 
-    // Send verification email
-    sendEmail({
-        email: user.email,
-        subject: 'Account Verification',
-        message: 'This is your verification code: ' + verification_code,
-    });
+        const verification_url = `${req.protocol}://${req.get(
+            'host')}/api/v1/auth/verifyemail/${access_token}`;
 
-    // Get access token
-    const { access_token } = await getAuthTokens(
-        user._id,
-        'verification',
-    );
-
-    return { access_token };
+        // Send verification email
+        await sendEmail({
+            email: user.email,
+            subject: 'Verify your email address',
+            message: `Please click on the following link to verify your email address: ${verification_url}`,
+        });
+    }
 };
 
 /**
@@ -121,10 +115,19 @@ const handleExistingUser = function (user) {
         console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
-            const { access_token } = await handleUnverifiedUser(existing_user);
+            await handleUnverifiedUser(existing_user)(req);
 
             // Return access token
-            res.status(200).json({ success: true, data: { access_token } });
+            res.status(200).json({
+                success: true, data: {
+                    user: {
+                        _id: existing_user._id,
+                        firstname: existing_user.firstname,
+                        lastname: existing_user.lastname,
+                        email: existing_user.email,
+                    }
+                }
+            });
         } else {
             next(new BadRequestError('User already exists'));
         }
@@ -179,10 +182,10 @@ exports.signup = async (req, res, next) => {
     await Password.create({ user: new_user._id, password });
 
     // Handle user verification
-    const { access_token } = await handleUnverifiedUser(new_user);
+    await handleUnverifiedUser(new_user)(req);
 
     // Return access token
-    return res.status(200).json({ success: true, data: { access_token, user: new_user } });
+    return res.status(200).json({ success: true, data: { user: new_user } });
 }
 
 // Login a user
@@ -236,30 +239,29 @@ exports.login = async (req, res, next) => {
  * @throws {Error} if error occurs
  */
 exports.verifyEmail = async (req, res, next) => {
-    //1. Get email verification token from query params
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(req.params.token)
-        .digest('hex');
+    //  Get token from url
+    const { token } = req.params;
 
-    //2. If token is invalid or token has expired
-    const user = await User.findOne({
-        emailVerificationToken: hashedToken,
-    }).select('+emailVerificationToken');
+    //  Verify token
+    const payload = jwt.verify(token, config.JWT_EMAILVERIFICATION_SECRET);
+
+    //  Check if token is blacklisted
+    const blacklisted_token = await BlacklistedToken.findOne({ token });
+    if (blacklisted_token) return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
+
+    //  Get user from token
+    const user = await User.findById(payload.id).populate('status');
+
     if (!user) {
-        return next(
-            new CustomAPIError(
-                'Token Invalid or Token Expired, Request for a new reset token',
-                404
-            )
-        );
+        return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
     }
 
-    user.isVerified = true;
-    user.emailVerificationToken = undefined;
-    await user.save({ validateBeforeSave: false });
+    user.status.isVerified = true;
+    await user.status.save();
 
-    return res.status(201).send({ status: 'success' })
+    await BlacklistedToken.create({ token });
+
+    return res.status(201).send({ success: true, data: { status: 'Email Verified' } })
 }
 
 /**
