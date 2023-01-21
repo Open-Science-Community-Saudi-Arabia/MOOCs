@@ -22,7 +22,7 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
 router.post('/forgotpassword', authController.forgetPassword);
-router.patch('/resetpassword/', authController.resetPassword);
+router.patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword);
 router.get('/google', authController.googleSignin);
 router.get(
     '/github',

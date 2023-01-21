@@ -333,21 +333,6 @@ exports.resetPassword = async (req, res, next) => {
         throw new BadRequestError('Missing required parameter in request body');
     }
 
-    // Check for valid authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
-        throw new UnauthorizedError('Authentication invalid');
-    }
-
-    // Check if token is valid
-    const jwtToken = authHeader.split(' ')[1];
-    const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
-
-    const authCode = await AuthCode.findOne({ user: payload.id });
-    if (!authCode) {
-        throw new UnauthorizedError('Access token expired');
-    }
-
     // Check if user exists
     const current_user = await (
         await User.findOne({ _id: payload.id })
