@@ -13,9 +13,10 @@ const { getAuthCodes } = require('../utils/auth_codes');
 
 const { OAuth2Client } = require('google-auth-library');
 
-const { User } = require('../models/user.models');
-const { BlacklistedToken } = require('../models/auth.models');
+const { User, Status } = require('../models/user.models');
+const { BlacklistedToken } = require('../models/token.models');
 const e = require('express');
+const Password = require('../models/password.models');
 
 /**
  * Sign a token with the given payload and secret
@@ -150,46 +151,38 @@ exports.passportOauthCallback = function (req, res) {
  * @returns {string} status
  */
 exports.signup = async (req, res, next) => {
-    //1. Grab Values from req.body & Store Values in database
-    const currentUser = await (
-        await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            role: req.body.role,
-            password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm,
-        })
-    ).populate('auth_codes');
+    const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
 
-    //2. Create email verification Token
-    const ver_token = currentUser.createHashedToken('email_verification');
-    currentUser.save({ validateBeforeSave: false });
-
-    //3. Save to test token collection -- aids in running unit tests
-    if (
-        process.env.NODE_ENV === 'development' ||
-        process.env.NODE_ENV === 'test'
-    ) {
-        await TestToken.create({
-            user: currentUser._id,
-            email_verification: ver_token,
-        });
+    // Check if all required fields are provided
+    if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
+        return next(new BadRequestError('Please provide all required fields'));
     }
 
-    //4. Send email to user
-    const url = `${req.protocol}://${req.get(
-        'host'
-    )}/api/v1/auth/verifyemail/${ver_token}`;
+    if (!role) role = 'enduser';
 
-    const message = `Please click on the link below to verify your email address: ${url}`;
-    await sendEmail({
-        email: currentUser.email,
-        subject: 'Your email verification token link',
-        message,
-    });
+    // Check if role is superadmin
+    if (role === 'superadmin') return next(new BadRequestError('You cannot create a superadmin account'));
 
-    createToken(currentUser, 200, res)
+    // Check if user already exists
+    const existing_user = await User.findOne({ email }).populate('status')
+    if (existing_user) return handleExistingUser(existing_user)(req, res, next);
+
+    // Create new user
+    const new_user = await User.create({
+        firstname, lastname, email, role, password,
+    })
+
+    // Create users account status
+    await Status.create({ user: new_user._id });
+
+    // Create users password 
+    await Password.create({ user: new_user._id, password });
+
+    // Handle user verification
+    const { access_token } = await handleUnverifiedUser(new_user);
+
+    // Return access token
+    return res.status(200).json({ success: true, data: { access_token, user: new_user } });
 }
 
 // Login a user
