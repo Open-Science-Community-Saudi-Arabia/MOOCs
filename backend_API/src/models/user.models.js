@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { BadRequestError } = require('../utils/errors')
+const validator = require('validator')
 const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
@@ -93,6 +94,13 @@ user_schema.pre('save', function (next) {
             reject(error)
         }
     })
+})
+
+status.pre('save', async function (next) {
+    const user = await User.findById(this.user)
+    if (user.role == 'enduser') this.isActive = true;
+
+    next()
 })
 
 const User = mongoose.model('User', user_schema)
