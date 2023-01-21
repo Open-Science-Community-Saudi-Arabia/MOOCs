@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 - Added code documentation for backend src code [#150](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/150)
 - Added feature for sign-in with Google and Github [#153](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/153)
-- Add MongoURI for all working environments [#164](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/161)
+- Add MongoURI for all working environments [#161](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/161)
 - Improved code documentation for API [#165](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/161)
 
 ### `Fixed`
