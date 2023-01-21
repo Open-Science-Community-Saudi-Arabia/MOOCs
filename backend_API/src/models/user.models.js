@@ -1,12 +1,15 @@
 const mongoose = require('mongoose')
+const { BadRequestError } = require('../utils/errors')
 const validator = require('validator')
-const bcrypt = require('bcryptjs')
-const crypto = require('crypto')
-const { BadRequestError } = require('../utils/custom_errors')
-const AuthCode = require('./authcode.models')
 const Schema = mongoose.Schema
 
 const options = { toObject: { virtuals: true } }
+
+const status = new Schema({
+    user: { type: String, required: true, ref: 'User' },
+    isActive: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
+})
 
 const user_schema = new Schema(
     {
@@ -24,32 +27,8 @@ const user_schema = new Schema(
             enum: ['EndUser', 'Admin'],
             default: 'EndUser',
         },
-        password: {
-            type: String,
-            required: [true, 'Please provide your password'],
-            minlength: 8,
-            select: false,
-        },
-        passwordConfirm: {
-            type: String,
-            required: [true, 'Please confirm your password'],
-            validate: {
-                validator: function (el) {
-                    return el === this.password
-                },
-                message: 'Password do not match',
-            },
-            select: false,
-        },
         googleId: { type: String, select: false },
         githubId: { type: String, select: false },
-        emailVerificationToken: { type: String, select: false },
-        isVerified: { type: Boolean, default: false, select: false },
-        auth_codes: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'AuthCode'
-        },
-        // passwordResetToken: { type: String, select: false },
-        // passwordResetTokenExpires: { type: Date, select: false },
         enrolled_courses: [
             {
                 type: Schema.Types.ObjectId,
@@ -66,87 +45,49 @@ const user_schema = new Schema(
     { timestamp: true },
 )
 
-// Virtual Property to get user password from Password collection
-// user_schema.virtual('password', {
-//     ref: "Password",
-//     localField: "_id",
-//     foreignField: "user_id",
-//     justOne: true
-// })
-
-
-user_schema.pre('save', function (next) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            if (!this.isModified('password')) return next()
-            this.password = await bcrypt.hash(this.password, 12)
-            this.passwordConfirm = undefined
-
-            // Extra check incase mongodb index for email is not created
-            const email_exists = await User.findOne({ email: this.email })
-            if (email_exists) {
-                return reject(new BadRequestError('Email already exists please user another email'))
-            }
-
-            const auth_code = await AuthCode.create({
-                user: this._id,
-            })
-
-            this.auth_codes = auth_code._id
-            
-            resolve(this)
-        } catch (error) {
-            reject(error)
-        }
-    })
+// Get users password from Password collection
+user_schema.virtual('password', {
+    ref: "Password",
+    localField: "_id",
+    foreignField: "user_id",
+    justOne: true
 })
 
-user_schema.methods.comparePassword = async function (
-    candidatePassword,
-    userPassword,
-) {
-    return await bcrypt.compare(candidatePassword, userPassword)
-}
+// Get authentication codes from AuthCode collection
+user_schema.virtual('auth_codes', {
+    ref: "AuthCode",
+    localField: "_id",
+    foreignField: "user",
+    justOne: true
+})
 
-user_schema.methods.changePassword = async function (newPassword) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const new_hash = await bcrypt.hash(newPassword, 12)
+// Get user users account status from Status collection
+user_schema.virtual('status', {
+    ref: "Status",
+    localField: "_id",
+    foreignField: "user",
+    justOne: true
+})
 
-            await this.updateOne({
-                password: new_hash,
-                passwordConfirm: new_hash,
-                passwordResetToken: undefined,
-                passwordResetTokenExpires: undefined
-            })
 
-            await AuthCode.deleteMany({ user: this._id })
-
-            resolve(this)
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
-user_schema.methods.createHashedToken = function (token_type) {
-    const resetToken = crypto.randomBytes(32).toString('hex')
-
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(resetToken)
-        .digest('hex')
-
-    if (token_type == 'password_reset') {
-        this.passwordResetToken = hashedToken
-        this.passwordResetTokenExpires = Date.now() + 1 * 60 * 1000
+user_schema.pre('save', async function (next, { skipValidation }) {
+    if (skipValidation) return next();
+    console.log(this)
+    // Check if user already exists - Incase index is not created
+    const email_exists = await User.findOne({ email: this.email })
+    if (email_exists) {
+        throw new BadRequestError('Email already exists please user another email')
     }
+})
 
-    if (token_type == 'email_verification') { this.emailVerificationToken = hashedToken };
+status.pre('save', async function (next) {
+    const user = await User.findById(this.user)
+    if (user.role == 'enduser') this.isActive = true;
 
-    return resetToken
-}
+    next()
+})
 
 const User = mongoose.model('User', user_schema)
+const Status = mongoose.model('Status', status)
 
-module.exports = User
+module.exports = { User, Status }

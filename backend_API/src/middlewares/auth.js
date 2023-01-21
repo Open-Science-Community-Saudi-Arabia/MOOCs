@@ -5,7 +5,7 @@ const User = require('../models/user.models');
 const asyncWrapper = require('../utils/async_wrapper')
 
 const config = require('../utils/config');
-const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/custom_errors');
+const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/errors');
 
 const issueVerificationToken = async (user) => {
     const token = user.createHashedToken('email_verification');

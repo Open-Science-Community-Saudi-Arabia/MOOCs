@@ -1,5 +1,5 @@
 const asyncWrapper = require("../utils/async_wrapper");
-const { UnauthorizedError } = require("../utils/custom_errors");
+const { UnauthorizedError } = require("../utils/errors");
 const config = require("../utils/config");
 const jwt = require("jsonwebtoken");
 

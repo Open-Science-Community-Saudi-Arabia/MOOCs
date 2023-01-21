@@ -3,22 +3,20 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const asyncWrapper = require('./../utils/async_wrapper');
 const sendEmail = require('./../utils/email');
 const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
-} = require('./../utils/custom_errors');
-const { getAuthCodes } = require('../utils/auth_codes');
-const { decodeJWT } = require('../utils/jwt_handler');
+} = require('../utils/errors');
+const { getAuthCodes, getAuthTokens, decodeJWT } = require('../utils/token.js');
 
 const { OAuth2Client } = require('google-auth-library');
 
-const User = require('../models/user.models');
-const { TestToken, BlacklistedToken } = require('../models/token.models');
-const AuthCode = require('../models/authcode.models');
+const { User, Status } = require('../models/user.models');
+const { BlacklistedToken } = require('../models/token.models');
 const e = require('express');
+const Password = require('../models/password.models');
 
 /**
  * Sign a token with the given payload and secret
@@ -79,6 +77,64 @@ const createToken = (user, statusCode, res) => {
     });
 };
 
+/**
+ * Handle existing unverified user.
+ * 
+ * It sends new verification email to user
+ * @param {MongooseObject} user - Mongoose user object
+ * @returns {string} access_token, refresh_token - JWT tokens
+ */
+const handleUnverifiedUser = function (user) {
+    return async function (req) {
+        // Generate email verification link 
+        const { access_token } = await getAuthTokens(user, 'verification');
+
+        const verification_url = `${req.protocol}://${req.get(
+            'host')}/api/v1/auth/verifyemail/${access_token}`;
+
+        // Send verification email
+        await sendEmail({
+            email: user.email,
+            subject: 'Verify your email address',
+            message: `Please click on the following link to verify your email address: ${verification_url}`,
+        });
+    }
+};
+
+/**
+ * Handle existing user
+ *
+ * @param {MongooseObject} user - Mongoose user object
+ * @returns {function} - Express middleware function
+ * @throws {BadRequestError} - If user is already verified
+ * */
+const handleExistingUser = function (user) {
+    return async function (req, res, next) {
+        const existing_user = user.toJSON({ virtuals: true });
+
+        console.log(existing_user);
+        // If user is not verified - send verification email
+        if (!existing_user.status.isVerified) {
+            await handleUnverifiedUser(existing_user)(req);
+
+            // Return access token
+            res.status(200).json({
+                success: true, data: {
+                    user: {
+                        _id: existing_user._id,
+                        firstname: existing_user.firstname,
+                        lastname: existing_user.lastname,
+                        email: existing_user.email,
+                    }
+                }
+            });
+        } else {
+            next(new BadRequestError('User already exists'));
+        }
+    };
+};
+
+
 exports.passportOauthCallback = function (req, res) {
     createToken(req.user, 200, res);
 };
@@ -98,46 +154,38 @@ exports.passportOauthCallback = function (req, res) {
  * @returns {string} status
  */
 exports.signup = async (req, res, next) => {
-    //1. Grab Values from req.body & Store Values in database
-    const currentUser = await (
-        await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            role: req.body.role,
-            password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm,
-        })
-    ).populate('auth_codes');
+    const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
 
-    //2. Create email verification Token
-    const ver_token = currentUser.createHashedToken('email_verification');
-    currentUser.save({ validateBeforeSave: false });
-
-    //3. Save to test token collection -- aids in running unit tests
-    if (
-        process.env.NODE_ENV === 'development' ||
-        process.env.NODE_ENV === 'test'
-    ) {
-        await TestToken.create({
-            user: currentUser._id,
-            email_verification: ver_token,
-        });
+    // Check if all required fields are provided
+    if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
+        return next(new BadRequestError('Please provide all required fields'));
     }
 
-    //4. Send email to user
-    const url = `${req.protocol}://${req.get(
-        'host'
-    )}/api/v1/auth/verifyemail/${ver_token}`;
+    if (!role) role = 'enduser';
 
-    const message = `Please click on the link below to verify your email address: ${url}`;
-    await sendEmail({
-        email: currentUser.email,
-        subject: 'Your email verification token link',
-        message,
-    });
+    // Check if role is superadmin
+    if (role === 'superadmin') return next(new BadRequestError('You cannot create a superadmin account'));
 
-    createToken(currentUser, 200, res)
+    // Check if user already exists
+    const existing_user = await User.findOne({ email }).populate('status')
+    if (existing_user) return handleExistingUser(existing_user)(req, res, next);
+
+    // Create new user
+    const new_user = await User.create({
+        firstname, lastname, email, role, password,
+    })
+
+    // Create users account status
+    await Status.create({ user: new_user._id });
+
+    // Create users password 
+    await Password.create({ user: new_user._id, password });
+
+    // Handle user verification
+    await handleUnverifiedUser(new_user)(req);
+
+    // Return access token
+    return res.status(200).json({ success: true, data: { user: new_user } });
 }
 
 // Login a user
@@ -191,30 +239,29 @@ exports.login = async (req, res, next) => {
  * @throws {Error} if error occurs
  */
 exports.verifyEmail = async (req, res, next) => {
-    //1. Get email verification token from query params
-    const hashedToken = crypto
-        .createHash('sha256')
-        .update(req.params.token)
-        .digest('hex');
+    //  Get token from url
+    const { token } = req.params;
 
-    //2. If token is invalid or token has expired
-    const user = await User.findOne({
-        emailVerificationToken: hashedToken,
-    }).select('+emailVerificationToken');
+    //  Verify token
+    const payload = jwt.verify(token, config.JWT_EMAILVERIFICATION_SECRET);
+
+    //  Check if token is blacklisted
+    const blacklisted_token = await BlacklistedToken.findOne({ token });
+    if (blacklisted_token) return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
+
+    //  Get user from token
+    const user = await User.findById(payload.id).populate('status');
+
     if (!user) {
-        return next(
-            new CustomAPIError(
-                'Token Invalid or Token Expired, Request for a new reset token',
-                404
-            )
-        );
+        return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
     }
 
-    user.isVerified = true;
-    user.emailVerificationToken = undefined;
-    await user.save({ validateBeforeSave: false });
+    user.status.isVerified = true;
+    await user.status.save();
 
-    return res.status(201).send({ status: 'success' })
+    await BlacklistedToken.create({ token });
+
+    return res.status(201).send({ success: true, data: { status: 'Email Verified' } })
 }
 
 /**
@@ -350,9 +397,9 @@ exports.googleSignin = async (req, res, next) => {
 
     // Verify id token
     const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: config.GOOGLE_SIGNIN_CLIENT_ID,
-        }),
+        idToken: token,
+        audience: config.GOOGLE_SIGNIN_CLIENT_ID,
+    }),
         payload = ticket.getPayload(),
         existing_user = await User.findOne({ email: payload.email });
 
