@@ -1,6 +1,6 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
 const asyncWrapper = require('../utils/async_wrapper')
-const { BadRequestError } = require('../utils/custom_errors')
+const { BadRequestError } = require('../utils/errors')
 
 
 // Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \

@@ -1,48 +1,31 @@
-const { config } = require('dotenv')
 const mongoose = require('mongoose')
-const { Schema } = mongoose
+const schema = mongoose.Schema
+const { JWT_REFRESH_EXP } = require('../utils/config')
 
-const test_token_schema = new Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-        unique: true,
+const blacklistedTokenSchema = new schema(
+    {
+        token: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
     },
-    password_reset: {
-        type: String,
-        required: false
-    },
-    email_verification: {
-        type: String,
-        required: false
-    },
-    verification: {
-        type: String,
-        required: false
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        expires: 3600
-    }
-})
+    { timestamps: true, expires: JWT_REFRESH_EXP }
+)
 
-const blacklisted_token_schema = new Schema({
-    token: {
-        type: String,
-        required: true,
-        unique: true
+const authCodeSchema = new schema(
+    {
+        user: { type: schema.Types.ObjectId, ref: 'User', required: true },
+        verification_code: { type: String },
+        password_reset_code: { type: String },
+        activation_code: { type: String },
+        createdAt: { type: Date, default: Date.now },
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        expires: 3600
-    }
-}, { timestamps: true, expires: config.JWT_REFRESH_TOKEN_EXPIRES_IN })
+    { timestamps: true, expires: JWT_REFRESH_EXP }
+)
 
+const AuthCode = mongoose.model('AuthCode', authCodeSchema)
 
-const TestToken = mongoose.model('TestToken', test_token_schema)
-const BlacklistedToken = mongoose.model('BlacklistedToken', blacklisted_token_schema)
+const BlacklistedToken = mongoose.model(
+    'BlacklistedToken',
+    blacklistedTokenSchema
+)
 
-module.exports = { TestToken, BlacklistedToken }
+module.exports = { BlacklistedToken, AuthCode }

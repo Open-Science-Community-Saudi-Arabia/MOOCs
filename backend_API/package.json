@@ -6,8 +6,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./src/test/ --timeout 40000",
     "dev": "cross-env NODE_ENV=dev nodemon ./src/server.js",
-    "start": "node ./src/server",
-    "docs:api": "jsdoc2md --configure tooling/docs/jsdoc.json --files src/**/*.js > docs/api.md",
+    "start": "node ./src/server/",
+    "docs:api": "jsdoc2md --conf/igure tooling/docs/jsdoc.json --files src/**/*.js > docs/api.md",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && npm run docs:api && gitbook build",
     "docs:serve": "npm run docs:prepare && npm run docs:api && gitbook serve",

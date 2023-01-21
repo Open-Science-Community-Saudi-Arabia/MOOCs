@@ -1,6 +1,6 @@
 const { Question, Exercise, Video, Course } = require("../models/course.models")
 const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError } = require("../utils/custom_errors");
+const { BadRequestError } = require("../utils/errors");
 
 // Create a new exercise
 /**
@@ -123,7 +123,7 @@ exports.addQuestion = asyncWrapper(
 
         exercise.questions.push(question)
         await exercise.save()
-        
+
         res.status(200).send({ message: "question has been added to exercise successfully" })
     }
 )

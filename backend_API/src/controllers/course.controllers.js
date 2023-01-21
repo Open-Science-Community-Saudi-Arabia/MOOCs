@@ -1,12 +1,12 @@
 const {
-  Video,
-  Course,
-  Exercise,
-  Question,
+    Video,
+    Course,
+    Exercise,
+    Question,
 } = require("../models/course.models");
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError } = require("../utils/custom_errors");
+const { BadRequestError } = require("../utils/errors");
 const User = require("../models/user.models");
 
 /* COURSES */
@@ -23,9 +23,9 @@ const User = require("../models/user.models");
  * @throws {error} if an error occured
  */
 exports.createCourse = async (req, res, next) => {
-  const newCourse = new Course(req.body);
-  const savedCourse = await newCourse.save();
-  res.status(200).json(savedCourse);
+    const newCourse = new Course(req.body);
+    const savedCourse = await newCourse.save();
+    res.status(200).json(savedCourse);
 };
 
 /**
@@ -40,13 +40,13 @@ exports.createCourse = async (req, res, next) => {
  * @returns {object} courses
  */
 exports.getCourses = async (req, res, next) => {
-  if (req.body) {
-    const courses = await Course.find(req.body);
-    res.status(200).json(courses);
-  }
-  const courses = await Course.find().sort({ _id: -1 });
+    if (req.body) {
+        const courses = await Course.find(req.body);
+        res.status(200).json(courses);
+    }
+    const courses = await Course.find().sort({ _id: -1 });
 
-  return res.status(200).send({ courses: courses });
+    return res.status(200).send({ courses: courses });
 };
 
 /**
@@ -62,15 +62,15 @@ exports.getCourses = async (req, res, next) => {
  * @throws {BadRequestError} if Course not found
  */
 exports.updateCourse = async (req, res, next) => {
-  const course = await Course.findById(req.params.id);
+    const course = await Course.findById(req.params.id);
 
-  if (course) {
-    await course.updateOne({ $set: req.body });
+    if (course) {
+        await course.updateOne({ $set: req.body });
 
-    return res.status(200).json({ message: "Course Updated", course: course });
-  }
+        return res.status(200).json({ message: "Course Updated", course: course });
+    }
 
-  next(new BadRequestError("Course not found"));
+    next(new BadRequestError("Course not found"));
 };
 
 /** 
@@ -83,10 +83,10 @@ exports.updateCourse = async (req, res, next) => {
  * @returns {string} message
  */
 exports.deleteCourse = async (req, res, next) => {
-  const courseId = req.params.courseId;
-  await Course.findByIdAndDelete(courseId);
+    const courseId = req.params.courseId;
+    await Course.findByIdAndDelete(courseId);
 
-  res.status(200).send({ message: "course has been deleted successfully" });
+    res.status(200).send({ message: "course has been deleted successfully" });
 };
 
 /**
@@ -102,18 +102,18 @@ exports.deleteCourse = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.enrollCourse = async (req, res, next) => {
-  const course = await Course.findById(req.body.course_id);
-  const user = await User.findById(req.body.user_id);
+    const course = await Course.findById(req.body.course_id);
+    const user = await User.findById(req.body.user_id);
 
-  course.enrolled_users.push(user);
-  await course.save();
+    course.enrolled_users.push(user);
+    await course.save();
 
-  user.enrolled_courses.push(course);
-  await user.save();
+    user.enrolled_courses.push(course);
+    await user.save();
 
-  res
-    .status(200)
-    .send({ message: "user has been enrolled in course successfully" });
+    res
+        .status(200)
+        .send({ message: "user has been enrolled in course successfully" });
 };
 
 /**
@@ -125,18 +125,18 @@ exports.enrollCourse = async (req, res, next) => {
  * @returns {string} message
  */
 exports.cancelEnrollment = async (req, res, next) => {
-  const course = await Course.findById(req.body.course_id);
-  const user = await User.findById(req.body.user_id);
+    const course = await Course.findById(req.body.course_id);
+    const user = await User.findById(req.body.user_id);
 
-  course.enrolled_users.pull(user);
-  await course.save();
+    course.enrolled_users.pull(user);
+    await course.save();
 
-  user.enrolled_courses.pull(course);
-  await user.save();
+    user.enrolled_courses.pull(course);
+    await user.save();
 
-  res
-    .status(200)
-    .send({ message: "user has been unenrolled from course successfully" });
+    res
+        .status(200)
+        .send({ message: "user has been unenrolled from course successfully" });
 };
 
 /**
@@ -147,12 +147,12 @@ exports.cancelEnrollment = async (req, res, next) => {
  * @returns {object} enrolledCourses 
  */
 exports.getEnrolledCourses = async (req, res, next) => {
-  const user = await User.findById(req.body.user_id);
-  const enrolledCourses = await Course.find({
-    _id: { $in: user.enrolled_courses },
-  });
+    const user = await User.findById(req.body.user_id);
+    const enrolledCourses = await Course.find({
+        _id: { $in: user.enrolled_courses },
+    });
 
-  res.status(200).send({ enrolledCourses: enrolledCourses });
+    res.status(200).send({ enrolledCourses: enrolledCourses });
 };
 
 /**
@@ -163,12 +163,12 @@ exports.getEnrolledCourses = async (req, res, next) => {
  * @returns {object} enrolledUsers
  */
 exports.getEnrolledUsers = async (req, res, next) => {
-  const course = await Course.findById(req.body.course_id);
-  const enrolledUsers = await User.find({
-    _id: { $in: course.enrolled_users },
-  });
+    const course = await Course.findById(req.body.course_id);
+    const enrolledUsers = await User.find({
+        _id: { $in: course.enrolled_users },
+    });
 
-  res.status(200).send({ enrolledUsers: enrolledUsers });
+    res.status(200).send({ enrolledUsers: enrolledUsers });
 };
 
 /* VIDEOS */
@@ -186,26 +186,26 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.uploadVideo = asyncWrapper(async (req, res, next) => {
-  const { video } = req.files;
-  const { course_id } = req.body;
+    const { video } = req.files;
+    const { course_id } = req.body;
 
-  const result = await v2.uploader.upload(video.tempFilePath, {
-    resource_type: "video",
-    folder: "videos",
-  });
+    const result = await v2.uploader.upload(video.tempFilePath, {
+        resource_type: "video",
+        folder: "videos",
+    });
 
-  const newVideo = new Video({
-    video_url: result.secure_url,
-    video_id: result.public_id,
-    ...req.body,
-    //     course: course_id,
-    //     description: req.body.description,
-    //     title: req.body.title,
-    //     author: req.body.author
-  });
+    const newVideo = new Video({
+        video_url: result.secure_url,
+        video_id: result.public_id,
+        ...req.body,
+        //     course: course_id,
+        //     description: req.body.description,
+        //     title: req.body.title,
+        //     author: req.body.author
+    });
 
-  const savedVideo = await newVideo.save();
-  res.status(200).json(savedVideo);
+    const savedVideo = await newVideo.save();
+    res.status(200).json(savedVideo);
 });
 
 /**
@@ -223,8 +223,8 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.getVideo = asyncWrapper(async (req, res, next) => {
-  const videos = await Video.find(req.body);
-  res.status(200).json(videos);
+    const videos = await Video.find(req.body);
+    res.status(200).json(videos);
 });
 
 /**
@@ -239,15 +239,15 @@ exports.getVideo = asyncWrapper(async (req, res, next) => {
  * @throws {BadRequestError} if video not found
  */
 exports.updateVideo = asyncWrapper(async (req, res, next) => {
-  const video = await Video.findById(req.params.id);
+    const video = await Video.findById(req.params.id);
 
-  if (video) {
-    await video.updateOne({ $set: req.body });
+    if (video) {
+        await video.updateOne({ $set: req.body });
 
-    return res.status(200).json({ message: "Video Updated", video: video });
-  }
+        return res.status(200).json({ message: "Video Updated", video: video });
+    }
 
-  next(new BadRequestError("Video not found"));
+    next(new BadRequestError("Video not found"));
 });
 
 /**
@@ -266,10 +266,10 @@ exports.updateVideo = asyncWrapper(async (req, res, next) => {
  * @todo delete video from user
  * */
 exports.deleteVideo = asyncWrapper(async (req, res, next) => {
-  const videoId = req.params.videoId;
-  await Video.findByIdAndDelete(videoId);
+    const videoId = req.params.videoId;
+    await Video.findByIdAndDelete(videoId);
 
-  return res
-    .status(200)
-    .send({ message: "video has been deleted successfully" });
+    return res
+        .status(200)
+        .send({ message: "video has been deleted successfully" });
 });
