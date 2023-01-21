@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const asyncWrapper = require('./../utils/async_wrapper');
 const sendEmail = require('./../utils/email');
 const {
     CustomAPIError,
@@ -11,13 +10,11 @@ const {
     UnauthorizedError,
 } = require('../utils/errors');
 const { getAuthCodes } = require('../utils/auth_codes');
-const { decodeJWT } = require('../utils/jwt_handler');
 
 const { OAuth2Client } = require('google-auth-library');
 
-const User = require('../models/user.models');
-const { TestToken, BlacklistedToken } = require('../models/token.models');
-const AuthCode = require('../models/authcode.models');
+const { User } = require('../models/user.models');
+const { BlacklistedToken } = require('../models/auth.models');
 const e = require('express');
 
 /**
