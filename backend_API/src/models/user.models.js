@@ -70,30 +70,12 @@ user_schema.virtual('status', {
 })
 
 
-user_schema.pre('save', function (next) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            // if (!this.isModified('password')) return next()
-            // this.password = await bcrypt.hash(this.password, 12)
-            // this.passwordConfirm = undefined
-
-            // Extra check incase mongodb index for email is not created
-            const email_exists = await User.findOne({ email: this.email })
-            if (email_exists) {
-                return reject(new BadRequestError('Email already exists please user another email'))
-            }
-
-            const auth_code = await AuthCode.create({
-                user: this._id,
-            })
-
-            this.auth_codes = auth_code._id
-
-            resolve(this)
-        } catch (error) {
-            reject(error)
-        }
-    })
+user_schema.pre('save', async function (next) {
+    // Check if user already exists - Incase index is not created
+    const email_exists = await User.findOne({ email: this.email })
+    if (email_exists) {
+        return reject(new BadRequestError('Email already exists please user another email'))
+    }
 })
 
 status.pre('save', async function (next) {
