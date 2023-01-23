@@ -93,7 +93,7 @@ const handleUnverifiedUser = function (user) {
             'host')}/api/v1/auth/verifyemail/${access_token}`;
 
         // Send verification email
-        await sendEmail({
+        sendEmail({
             email: user.email,
             subject: 'Verify your email address',
             message: `Please click on the following link to verify your email address: ${verification_url}`,
@@ -271,36 +271,34 @@ exports.verifyEmail = async (req, res, next) => {
  * 
  * @returns {string} message
  * @returns {string} access_token
+ * 
+ * @throws {BadRequestError} If missing required parameter in request body
+ * @throws {BadRequestError} If User does not exist
  */
 exports.forgetPassword = async (req, res, next) => {
     const { email } = req.body
 
-    if (!email) {
-        throw new BadRequestError('Missing required parameter in request body');
-    }
+    //  Check for missing required field in request body
+    if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
-    const current_user = await (
-        await User.findOne({ email })
-    ).populate('auth_codes');
+    const current_user = await User.findOne({ email })
     console.log(current_user);
-    if (!current_user) {
-        throw new BadRequestError('User does not exist');
-    }
 
-    const password_reset_code = (
-        await getAuthCodes(current_user._id, 'password_reset')
-    ).password_reset;
+    //  Check if user exists
+    if (!current_user) return next(new BadRequestError('User does not exist'));
+
+    //  Get password reset code
+    const { password_reset_code } = await getAuthCodes('password_reset')
+
+    //  Send password reset code to user
     sendEmail({
         email: current_user.email,
-        subject: 'Password reset',
-        message: `This is your password reset code ${password_reset_code}`,
-    });
-    const access_token = signToken(
-        current_user.id,
-        current_user.role,
-        config.JWT_PASSWORDRESET_SECRET,
-        config.JWT_PASSWORDRESET_EXPIRES_IN
-    );
+        subject: 'Password reset for User',
+        message: `Password reset code is ${password_reset_code}`
+    })
+
+    //  Get access token
+    const { access_token } = getAuthTokens('password_reset')
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
