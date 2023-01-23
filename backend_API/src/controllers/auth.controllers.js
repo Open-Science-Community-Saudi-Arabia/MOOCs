@@ -275,7 +275,7 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
 
     // Generate activation codes
-    const {activation_code1, activation_code2, activation_code3} = await getAuthCodes('su_activation')
+    const {activation_code1, activation_code2, activation_code3} = await getAuthCodes(super_admin._id, 'su_activation')
 
     // Send activation codes to HOSTs
     sendEmail({
@@ -297,7 +297,7 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     })
 
     // Get activation access token
-    const {access_token} = getAuthTokens('su_activation')
+    const {access_token} = await getAuthTokens(super_admin._id, 'su_activation')
     
     // Send response to client
     return res.status(200)
@@ -348,7 +348,7 @@ exports.forgetPassword = async (req, res, next) => {
     })
 
     //  Get access token
-    const { access_token } = getAuthTokens('password_reset')
+    const { access_token } = getAuthTokens(current_user._id, 'password_reset')
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
