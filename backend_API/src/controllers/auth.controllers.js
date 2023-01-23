@@ -264,6 +264,24 @@ exports.verifyEmail = async (req, res, next) => {
     return res.status(201).send({ success: true, data: { status: 'Email Verified' } })
 }
 
+exports.requestSuperAdminAccountActivation = async (req, res, next) => {
+    // Check if a super admin account exists, and it's not active
+
+    // Generate activation codes
+
+    // Send activation codes to HOSTs
+
+    // Send activation code to user
+
+    // Get activation access token
+    
+    // Send response to client
+}
+
+exports.activateSuperAdminAccount = async (req, res, next) => {
+
+}
+
 /**
  * Send a password reset code to a user's email
  * 
@@ -327,9 +345,8 @@ exports.resetPassword = async (req, res, next) => {
     const { new_password, password_reset_code } = req.body
 
     // Check if new password and password reset code are provided
-    if (!new_password || !password_reset_code) {
-        throw new BadRequestError('Missing required parameter in request body');
-    }
+    if (!new_password || !password_reset_code) 
+        return next(new BadRequestError('Missing required parameter in request body'));
 
     // Check if user exists
     const current_user = await (
