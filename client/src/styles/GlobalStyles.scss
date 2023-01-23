@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap");
+@import "./mixins.scss";
+
+:root {
+  --black: hsla(0, 0%, 11%, 1);
+  --white: hsl(0, 0%, 100%);
+  --blue: hsla(240, 100%, 55%, 1);
+  --gray: hsla(0, 0%, 62%, 1);
+}
+
+body,
+html,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+a {
+  text-decoration: none;
+  color: var(--black-0);
+}
+button,
+input {
+  outline: none;
+  border-radius: 8px;
+
+  background-color: transparent;
+  cursor: pointer;
+}

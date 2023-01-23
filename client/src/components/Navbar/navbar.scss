@@ -1,0 +1,46 @@
+@import "../../styles/mixins.scss";
+
+.header {
+  @include flex(space-between, center);
+  padding: 1em 5em;
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  .navbar {
+    @include flex(space-around, center);
+    gap: 3em;
+    .navlink {
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
+  .auth-btn {
+    @include flex(space-around, center);
+    gap: 1em;
+
+    .auth-btn-signup {
+      border: 1px solid var(--black);
+      padding: 13px 30px;
+      background-color: var(--black);
+      color: var(--white);
+      &:hover {
+        background-color: var(--white);
+        color: var(--black);
+      }
+    }
+    .auth-btn-login {
+      border: 1px solid var(--black);
+      padding: 13px 30px;
+      &:hover {
+        background-color: var(--black);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+// @media screen and (min-width: 1025px) {
+
+// }

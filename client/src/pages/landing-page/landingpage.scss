@@ -1,0 +1,57 @@
+@import "../../styles/mixins.scss";
+
+.hero--container {
+  @include flex(space-between, center);
+  padding: 2em 2em 2em 5em;
+  .left {
+    flex-basis: 50%;
+    h1 {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 72px;
+    }
+    p {
+      font-size: 18px;
+      margin: 2em 0em;
+      line-height: 22px;
+    }
+    .btns {
+      @include flex(start, center);
+      gap: 1.5em;
+      button {
+        background-color: var(--blue);
+        color: var(--white);
+        font-weight: 700;
+        border: none;
+        padding: 1.2em;
+        width: 150px;
+        border: 1px solid var(--blue);
+        &:hover{
+         
+          background-color: white;
+          color:var(--blue)
+        }
+      }
+      .all-plans-link {
+        padding-bottom: 5px;
+        border-bottom: 2px solid var(--black);
+        font-weight: 700;
+      }
+    }
+  }
+  .right {
+    // flex-basis: 50%;
+    // .illustration {
+    //   background-image: url("../../assets/landing-page/Illustration.svg");
+    //   background-repeat: no-repeat;
+    //   background-size: contain;
+    //   height: 500px;
+    //   width: 100%;
+    //   background-position: center;
+    // }
+    img {
+      height: 500px;
+      width: 100%;
+    }
+  }
+}
