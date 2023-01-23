@@ -36,6 +36,12 @@ const getRequiredConfigVars = (type) => {
                 secret: config.JWT_EMAILVERIFICATION_SECRET,
                 expiry: config.JWT_EMAILVERIFICATION_EXP,
             };
+        
+        case 'su_activation': 
+            return {
+                secret: config.JWT_SUPERADMINACTIVATION_SECRET,
+                expiry: config.JWT_SUPERADMINACTIVATION_EXP
+            }
     }
 };
 
