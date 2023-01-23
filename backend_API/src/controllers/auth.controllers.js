@@ -265,17 +265,49 @@ exports.verifyEmail = async (req, res, next) => {
 }
 
 exports.requestSuperAdminAccountActivation = async (req, res, next) => {
+    const email = req.params.email
+
     // Check if a super admin account exists, and it's not active
+    const super_admin = await User.findOne({email, role: 'superadmin'})
+    if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
+
+    // Check if account is active 
+    if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
 
     // Generate activation codes
+    const {activation_code1, activation_code2, activation_code3} = await getAuthCodes('su_activation')
 
     // Send activation codes to HOSTs
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL1,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code1}`
+    })
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL2,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code2}`
+    })
 
     // Send activation code to user
+    sendEmail({
+        email: super_admin.email,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code3}`
+    })
 
     // Get activation access token
+    const {access_token} = getAuthTokens('su_activation')
     
     // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                access_token,
+                message: "Activation codes sent to users email"
+            }
+        })
 }
 
 exports.activateSuperAdminAccount = async (req, res, next) => {
