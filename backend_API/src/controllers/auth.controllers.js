@@ -264,6 +264,20 @@ exports.verifyEmail = async (req, res, next) => {
     return res.status(201).send({ success: true, data: { status: 'Email Verified' } })
 }
 
+/**
+ * Request for super admin account activation
+ * 
+ * Sends an email to the super admin with one of the activation codes
+ * Sends an email to the project hosts with the other activation codes
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if super admin account does not exist
+ * @throws {CustomAPIError} if super admin account is already active
+ * @throws {Error} if error occurs
+ */
 exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     const email = req.params.email
 
@@ -310,6 +324,20 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
         })
 }
 
+/**
+ * Activate super admin account
+ * 
+ * @param {string} activation_code1
+ * @param {string} activation_code2
+ * @param {string} activation_code3
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if activation codes are not provided
+ * @throws {BadRequestError} if token is invalid or token has expired
+ * @throws {BadRequestError} if token is blacklisted
+ * @throws {Error} if error occurs
+ */
 exports.activateSuperAdminAccount = async (req, res, next) => {
     const { activation_code1, activation_code2, activation_code3 } = req.body
 
