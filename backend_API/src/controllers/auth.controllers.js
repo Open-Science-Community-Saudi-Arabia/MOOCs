@@ -461,17 +461,52 @@ exports.activateUserAccount = async (req, res, next) => {
         })
 }
 
-    /**
- * Send a password reset code to a user's email
+/**
+ * Deactivate user account
  * 
  * @param {string} email
  * 
- * @returns {string} message
- * @returns {string} access_token
+ * @returns {string} status
  * 
- * @throws {BadRequestError} If missing required parameter in request body
- * @throws {BadRequestError} If User does not exist
- */
+ * @throws {BadRequestError} if user account does not exist
+ * */
+exports.deactivateUserAccount = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a user account exists, and it's not active
+    const user = await User.findOne({ email }).populate('status')
+
+    // Check if user exists
+    if (!user) return next(new BadRequestError('User account does not exist'))
+
+    // Check if account is active
+    if (!user.status.isActive) return next(new BadRequestError('Account is already deactivated'))
+
+    // Deactivate user
+    user.status.isActive = false;
+    await user.status.save();
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "User account deactivated"
+            }
+        })
+}
+
+/**
+* Send a password reset code to a user's email
+* 
+* @param {string} email
+* 
+* @returns {string} message
+* @returns {string} access_token
+* 
+* @throws {BadRequestError} If missing required parameter in request body
+* @throws {BadRequestError} If User does not exist
+*/
 exports.forgetPassword = async (req, res, next) => {
     const { email } = req.body
 
