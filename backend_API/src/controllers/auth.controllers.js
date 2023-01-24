@@ -428,6 +428,69 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
 }
 
 /**
+ * Request for super admin account deactivation
+ * 
+ * Sends an email to the super admin with one of the deactivation codes
+ * Sends an email to the project hosts with the other deactivation codes
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if super admin account does not exist
+ * @throws {CustomAPIError} if super admin account is already active
+ * @throws {Error} if error occurs
+ */
+exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a super admin account exists, and it's not active
+    const super_admin = await User.findOne({ email, role: 'superadmin' })
+    if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
+
+    // Check if account is active 
+    if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
+
+    // Generate activation codes
+    const { activation_code1, activation_code2, activation_code3 } = await getAuthCodes(super_admin._id, 'su_activation')
+
+    // Send activation codes to HOSTs
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL1,
+        subject: `New super admin deactivation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation activation code ${activation_code1}`
+    })
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL2,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation code ${activation_code2}`
+    })
+
+    // Send activation code to user
+    sendEmail({
+        email: super_admin.email,
+        subject: `New super admin deactivation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation code ${activation_code3}`
+    })
+
+    // Get activation access token
+    const { access_token } = await getAuthTokens(super_admin._id, 'su_activation')
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                access_token,
+                message: "Deactivation codes sent to users email"
+            }
+        })
+}
+
+
+
+
+/**
  * Activate user account
  * 
  * @param {string} email
