@@ -161,10 +161,10 @@ exports.signup = async (req, res, next) => {
         return next(new BadRequestError('Please provide all required fields'));
     }
 
-    if (!role) role = 'enduser';
+    if (!role) role = 'EndUser';
 
     // Check if role is superadmin
-    if (role === 'superadmin') return next(new BadRequestError('You cannot create a superadmin account'));
+    if (role === 'SuperAdmin') return next(new BadRequestError('You cannot create a superadmin account'));
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
@@ -175,17 +175,30 @@ exports.signup = async (req, res, next) => {
         firstname, lastname, email, role, password,
     })
 
-    // Create users account status
-    await Status.create({ user: new_user._id });
-
     // Create users password 
     await Password.create({ user: new_user._id, password });
+
+    // Check if request was made by a superadmin
+    if (req.user.role = 'SuperAdmin') {
+        // Activate and verify user
+        await Status.create({ user: new_user._id, isActive: true, isVerified: true });
+
+        return res.status(200).json({ success: true, data: { user: new_user } });
+    }
+
+    // Create users account status
+    await Status.create({ user: new_user._id });
 
     // Handle user verification
     await handleUnverifiedUser(new_user)(req);
 
     // Return access token
     return res.status(200).json({ success: true, data: { user: new_user } });
+}
+
+exports.addAdmin = async (req, res, next) => {
+    req.body.role = 'Admin';
+    this.signup(req, res, next);
 }
 
 // Login a user
