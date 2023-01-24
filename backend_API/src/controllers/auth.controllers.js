@@ -165,8 +165,8 @@ exports.signup = async (req, res, next) => {
 
     if (!role) role = 'EndUser';
 
-    // Check if role is superadmin
-    if (role === 'SuperAdmin') return next(new BadRequestError('You cannot create a superadmin account'));
+    // Check if superAdmin tries to create another superadmin from - addAdmin route
+    if (role === 'SuperAdmin' && req.user.role == 'SuperAdmin') return next(new BadRequestError('You cannot create a superadmin account'));
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
@@ -181,7 +181,7 @@ exports.signup = async (req, res, next) => {
     await Password.create({ user: new_user._id, password });
 
     // Check if request was made by a superadmin
-    if (req.user.role = 'SuperAdmin') {
+    if (req.user.role = 'SuperAdmin' && role != 'SuperAdmin') {
         // Activate and verify user
         await Status.create({ user: new_user._id, isActive: true, isVerified: true });
 
