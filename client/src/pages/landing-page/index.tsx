@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import "./landingpage.scss";
-import illustration from "../../assets/illustration.svg"
+import illustration from "../../images/Illustration.svg"
 import { Link } from "react-router-dom";
 
 
