@@ -25,6 +25,7 @@ router
     .get('/superadmin/reqactivate', authController.requestSuperAdminAccountActivation)
     .post('/superadmin/activate', authController.activateSuperAdminAccount)
     .get('/user/activate', authController.activateUserAccount)
+    .get('/user/deactivate', authController.deactivateUserAccount)
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
     .patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword)
