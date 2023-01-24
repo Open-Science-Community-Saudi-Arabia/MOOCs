@@ -427,6 +427,41 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
 }
 
 /**
+ * Activate user account
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if user account does not exist
+ * @throws {BadRequestError} if user account is already active
+ * @throws {Error} if error occurs
+ */
+exports.activateUserAccount = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a user account exists, and it's not active
+    const user = await User.findOne({ email }).populate('status')
+    if (!user) return next(new BadRequestError('User account does not exist'))
+
+    // Check if account is active
+    if (user.status.isActive) return next(new BadRequestError('Account is already active'))
+
+    // Activate user
+    user.status.isActive = true;
+    await user.status.save();
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "User account activated"
+            }
+        })
+}
+
+    /**
  * Send a password reset code to a user's email
  * 
  * @param {string} email
