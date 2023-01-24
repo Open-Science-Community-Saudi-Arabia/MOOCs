@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/landing-page/oscsalogo.jpg";
+import logo from "../../assets/oscsalogo.jpg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 
