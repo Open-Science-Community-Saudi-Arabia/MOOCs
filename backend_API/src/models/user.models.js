@@ -24,7 +24,7 @@ const user_schema = new Schema(
         role: {
             type: String,
             required: true,
-            enum: ['EndUser', 'Admin'],
+            enum: ['EndUser', 'Admin', 'SuperAdmin'],
             default: 'EndUser',
         },
         googleId: { type: String, select: false },
