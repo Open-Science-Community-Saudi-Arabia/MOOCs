@@ -181,4 +181,4 @@ const decodeJWT = (token) => {
     }
 };
 
-module.exports = { getAuthTokens, getAuthCodes, decodeJWT };
+module.exports = { getAuthTokens, getAuthCodes, decodeJWT, getRequiredConfigVars };
