@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved code documentation for API [#165](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/161)
 
 ### `Fixed`
-- Fixed API deployment from returning `cb.apply not a function` error [#168]
+- Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
 
 ### `Dependencies`
 
