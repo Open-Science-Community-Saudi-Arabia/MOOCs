@@ -487,8 +487,75 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
         })
 }
 
+/**
+ * Deactivate super admin account
+ * 
+ * @param {string} activation_code1
+ * @param {string} activation_code2
+ * @param {string} activation_code3
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if activation codes are not provided
+ * @throws {BadRequestError} if token is invalid or token has expired
+ * @throws {BadRequestError} if token is blacklisted
+ * @throws {Error} if error occurs
+ */
+exports.dedeactivateSuperAdminAccount = async (req, res, next) => {
+    const { deactivation_code1, deactivation_code2, deactivation_code3 } = req.body
 
+    // Check if all activation codes are provided
+    if (!deactivation_code1 || !deactivation_code2 || !deactivation_code3) {
+        return next(new BadRequestError('Missing required parameter in request body'));
+    }
 
+    // Get bearer token
+    const token = req.headers.authorization.split(' ')[1],
+        secret = getRequiredConfigVars('su_activation').secret;
+
+    // Check if token is deBlacklisted
+    const blacklisted_token = await BlacklistedToken.findOne({ token })
+    if (blacklisted_token) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Verify token and get user from payload
+    const decoded = jwt.verify(token, secret)
+    const admin = await User.findOne({ _id: decoded.id, role: 'SuperAdmin' }).populate('status')
+
+    // Check if user exists
+    if (!admin) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Find activation code document
+    const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`
+    const auth_code = await AuthCode.findOne({ user: admin._id, activation_code: deactivation_code })
+
+    // Check if activation code exists
+    if (!auth_code) { throw new BadRequestError('Invalid activation code') }
+
+    // Check if activation code has expired
+    if (auth_code.expiresIn < Date.now()) {
+        throw new BadRequestError('Activation code has expired, request for a new activation code')
+    }
+
+    // Activate user
+    admin.status.isActive = false;
+    await admin.status.save();
+
+    // Blacklist token
+    await BlacklistedToken.create({ token })
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "Super admin account activated"
+            }
+        })
+}
 
 /**
  * Activate user account
