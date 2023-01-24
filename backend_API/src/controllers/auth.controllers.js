@@ -134,7 +134,6 @@ const handleExistingUser = function (user) {
     };
 };
 
-
 exports.passportOauthCallback = function (req, res) {
     createToken(req.user, 200, res);
 };
@@ -152,6 +151,8 @@ exports.passportOauthCallback = function (req, res) {
  * @returns {object} user
  * @returns {string} token
  * @returns {string} status
+ * 
+ * // TODO: Add super admin signup
  */
 exports.signup = async (req, res, next) => {
     const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
