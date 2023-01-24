@@ -501,7 +501,7 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
  * @throws {BadRequestError} if token is blacklisted
  * @throws {Error} if error occurs
  */
-exports.dedeactivateSuperAdminAccount = async (req, res, next) => {
+exports.deactivateSuperAdminAccount = async (req, res, next) => {
     const { deactivation_code1, deactivation_code2, deactivation_code3 } = req.body
 
     // Check if all activation codes are provided
