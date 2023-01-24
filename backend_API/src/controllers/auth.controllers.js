@@ -8,13 +8,14 @@ const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
+    ForbiddenError,
 } = require('../utils/errors');
-const { getAuthCodes, getAuthTokens, decodeJWT } = require('../utils/token.js');
+const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
 
 const { OAuth2Client } = require('google-auth-library');
 
 const { User, Status } = require('../models/user.models');
-const { BlacklistedToken } = require('../models/token.models');
+const { BlacklistedToken, AuthCode } = require('../models/token.models');
 const e = require('express');
 const Password = require('../models/password.models');
 
@@ -93,7 +94,7 @@ const handleUnverifiedUser = function (user) {
             'host')}/api/v1/auth/verifyemail/${access_token}`;
 
         // Send verification email
-        await sendEmail({
+        sendEmail({
             email: user.email,
             subject: 'Verify your email address',
             message: `Please click on the following link to verify your email address: ${verification_url}`,
@@ -134,7 +135,6 @@ const handleExistingUser = function (user) {
     };
 };
 
-
 exports.passportOauthCallback = function (req, res) {
     createToken(req.user, 200, res);
 };
@@ -152,6 +152,8 @@ exports.passportOauthCallback = function (req, res) {
  * @returns {object} user
  * @returns {string} token
  * @returns {string} status
+ * 
+ * // TODO: Add super admin signup
  */
 exports.signup = async (req, res, next) => {
     const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
@@ -161,10 +163,10 @@ exports.signup = async (req, res, next) => {
         return next(new BadRequestError('Please provide all required fields'));
     }
 
-    if (!role) role = 'enduser';
+    if (!role) role = 'EndUser';
 
-    // Check if role is superadmin
-    if (role === 'superadmin') return next(new BadRequestError('You cannot create a superadmin account'));
+    // Check if superAdmin tries to create another superadmin from - addAdmin route
+    if (role === 'SuperAdmin' && req.user.role == 'SuperAdmin') return next(new BadRequestError('You cannot create a superadmin account'));
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
@@ -175,17 +177,48 @@ exports.signup = async (req, res, next) => {
         firstname, lastname, email, role, password,
     })
 
-    // Create users account status
-    await Status.create({ user: new_user._id });
-
     // Create users password 
     await Password.create({ user: new_user._id, password });
+
+    // Check if request was made by a superadmin
+    if (req.user.role = 'SuperAdmin' && role != 'SuperAdmin') {
+        // Activate and verify user
+        await Status.create({ user: new_user._id, isActive: true, isVerified: true });
+
+        return res.status(200).json({ success: true, data: { user: new_user } });
+    }
+
+    // Create users account status
+    await Status.create({ user: new_user._id });
 
     // Handle user verification
     await handleUnverifiedUser(new_user)(req);
 
     // Return access token
     return res.status(200).json({ success: true, data: { user: new_user } });
+}
+
+/**
+ * Create new admin account
+ * 
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordConfirm
+ * @param {string} firstname
+ * @param {string} lastname
+ *  
+ * @returns {object} user
+ * @returns {string} token
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if email or password is not provided
+ * @throws {BadRequestError} if email or password is incorrect
+ * @throws {BadRequestError} if email is not verified
+ * @throws {Error} if error occurs
+ */
+exports.addAdmin = async (req, res, next) => {
+    req.body.role = 'Admin';
+    this.signup(req, res, next);
 }
 
 // Login a user
@@ -265,42 +298,377 @@ exports.verifyEmail = async (req, res, next) => {
 }
 
 /**
- * Send a password reset code to a user's email
+ * Request for super admin account activation
+ * 
+ * Sends an email to the super admin with one of the activation codes
+ * Sends an email to the project hosts with the other activation codes
  * 
  * @param {string} email
  * 
- * @returns {string} message
- * @returns {string} access_token
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if super admin account does not exist
+ * @throws {CustomAPIError} if super admin account is already active
+ * @throws {Error} if error occurs
  */
+exports.requestSuperAdminAccountActivation = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a super admin account exists, and it's not active
+    const super_admin = await User.findOne({ email, role: 'superadmin' })
+    if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
+
+    // Check if account is active 
+    if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
+
+    // Generate activation codes
+    const { activation_code1, activation_code2, activation_code3 } = await getAuthCodes(super_admin._id, 'su_activation')
+
+    // Send activation codes to HOSTs
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL1,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code1}`
+    })
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL2,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code2}`
+    })
+
+    // Send activation code to user
+    sendEmail({
+        email: super_admin.email,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required activation code ${activation_code3}`
+    })
+
+    // Get activation access token
+    const { access_token } = await getAuthTokens(super_admin._id, 'su_activation')
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                access_token,
+                message: "Activation codes sent to users email"
+            }
+        })
+}
+
+/**
+ * Activate super admin account
+ * 
+ * @param {string} activation_code1
+ * @param {string} activation_code2
+ * @param {string} activation_code3
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if activation codes are not provided
+ * @throws {BadRequestError} if token is invalid or token has expired
+ * @throws {BadRequestError} if token is blacklisted
+ * @throws {Error} if error occurs
+ */
+exports.activateSuperAdminAccount = async (req, res, next) => {
+    const { activation_code1, activation_code2, activation_code3 } = req.body
+
+    // Check if all activation codes are provided
+    if (!activation_code1 || !activation_code2 || !activation_code3) {
+        return next(new BadRequestError('Missing required parameter in request body'));
+    }
+
+    // Get bearer token
+    const token = req.headers.authorization.split(' ')[1],
+        secret = getRequiredConfigVars('su_activation').secret;
+
+    // Check if token is Blacklisted
+    const blacklisted_token = await BlacklistedToken.findOne({ token })
+    if (blacklisted_token) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Verify token and get user from payload
+    const decoded = jwt.verify(token, secret)
+    const admin = await User.findOne({ _id: decoded.id, role: 'SuperAdmin' }).populate('status')
+
+    // Check if user exists
+    if (!admin) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Find activation code document
+    const activation_code = `${activation_code1}-${activation_code2}-${activation_code3}`
+    const auth_code = await AuthCode.findOne({ user: admin._id, activation_code })
+
+    // Check if activation code exists
+    if (!auth_code) { throw new BadRequestError('Invalid activation code') }
+
+    // Check if activation code has expired
+    if (auth_code.expiresIn < Date.now()) {
+        throw new BadRequestError('Activation code has expired, request for a new activation code')
+    }
+
+    // Activate user
+    admin.status.isActive = true;
+    await admin.status.save();
+
+    // Blacklist token
+    await BlacklistedToken.create({ token })
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "Super admin account activated"
+            }
+        })
+}
+
+/**
+ * Request for super admin account deactivation
+ * 
+ * Sends an email to the super admin with one of the deactivation codes
+ * Sends an email to the project hosts with the other deactivation codes
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {CustomAPIError} if super admin account does not exist
+ * @throws {CustomAPIError} if super admin account is already active
+ * @throws {Error} if error occurs
+ */
+exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a super admin account exists, and it's not active
+    const super_admin = await User.findOne({ email, role: 'superadmin' })
+    if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
+
+    // Check if account is active 
+    if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
+
+    // Generate activation codes
+    const { activation_code1, activation_code2, activation_code3 } = await getAuthCodes(super_admin._id, 'su_activation')
+
+    // Send activation codes to HOSTs
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL1,
+        subject: `New super admin deactivation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation activation code ${activation_code1}`
+    })
+    sendEmail({
+        email: config.HOST_ADMIN_EMAIL2,
+        subject: `New super admin activation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation code ${activation_code2}`
+    })
+
+    // Send activation code to user
+    sendEmail({
+        email: super_admin.email,
+        subject: `New super admin deactivation request for ${super_admin.email}`,
+        message: `This is your part of the required deactivation code ${activation_code3}`
+    })
+
+    // Get activation access token
+    const { access_token } = await getAuthTokens(super_admin._id, 'su_activation')
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                access_token,
+                message: "Deactivation codes sent to users email"
+            }
+        })
+}
+
+/**
+ * Deactivate super admin account
+ * 
+ * @param {string} activation_code1
+ * @param {string} activation_code2
+ * @param {string} activation_code3
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if activation codes are not provided
+ * @throws {BadRequestError} if token is invalid or token has expired
+ * @throws {BadRequestError} if token is blacklisted
+ * @throws {Error} if error occurs
+ */
+exports.deactivateSuperAdminAccount = async (req, res, next) => {
+    const { deactivation_code1, deactivation_code2, deactivation_code3 } = req.body
+
+    // Check if all activation codes are provided
+    if (!deactivation_code1 || !deactivation_code2 || !deactivation_code3) {
+        return next(new BadRequestError('Missing required parameter in request body'));
+    }
+
+    // Get bearer token
+    const token = req.headers.authorization.split(' ')[1],
+        secret = getRequiredConfigVars('su_activation').secret;
+
+    // Check if token is deBlacklisted
+    const blacklisted_token = await BlacklistedToken.findOne({ token })
+    if (blacklisted_token) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Verify token and get user from payload
+    const decoded = jwt.verify(token, secret)
+    const admin = await User.findOne({ _id: decoded.id, role: 'SuperAdmin' }).populate('status')
+
+    // Check if user exists
+    if (!admin) {
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+    }
+
+    // Find activation code document
+    const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`
+    const auth_code = await AuthCode.findOne({ user: admin._id, activation_code: deactivation_code })
+
+    // Check if activation code exists
+    if (!auth_code) { throw new BadRequestError('Invalid activation code') }
+
+    // Check if activation code has expired
+    if (auth_code.expiresIn < Date.now()) {
+        throw new BadRequestError('Activation code has expired, request for a new activation code')
+    }
+
+    // Activate user
+    admin.status.isActive = false;
+    await admin.status.save();
+
+    // Blacklist token
+    await BlacklistedToken.create({ token })
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "Super admin account activated"
+            }
+        })
+}
+
+/**
+ * Activate user account
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if user account does not exist
+ * @throws {BadRequestError} if user account is already active
+ * @throws {Error} if error occurs
+ */
+exports.activateUserAccount = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a user account exists, and it's not active
+    const user = await User.findOne({ email }).populate('status')
+    if (!user) return next(new BadRequestError('User account does not exist'))
+
+    // Check if account is active
+    if (user.status.isActive) return next(new BadRequestError('Account is already active'))
+
+    // Check if user is a super admin
+    if (user.role === 'superadmin') return next(new ForbiddenError('You cannot activate a super admin account'))
+
+    // Activate user
+    user.status.isActive = true;
+    await user.status.save();
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "User account activated"
+            }
+        })
+}
+
+// TODO: Add deactivate super admin account
+/**
+ * Deactivate user account
+ * 
+ * @param {string} email
+ * 
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if user account does not exist
+ * */
+exports.deactivateUserAccount = async (req, res, next) => {
+    const email = req.params.email
+
+    // Check if a user account exists, and it's not active
+    const user = await User.findOne({ email }).populate('status')
+
+    // Check if user exists
+    if (!user) return next(new BadRequestError('User account does not exist'))
+
+    // Check if users role is SuperAdmin
+    if (user.role === 'SuperAdmin') return next(new ForbiddenError('You cannot deactivate a SuperAdmin account'))
+
+    // Check if account is active
+    if (!user.status.isActive) return next(new BadRequestError('Account is already deactivated'))
+
+    // Deactivate user
+    user.status.isActive = false;
+    await user.status.save();
+
+    // Send response to client
+    return res.status(200)
+        .send({
+            success: true,
+            data: {
+                message: "User account deactivated"
+            }
+        })
+}
+
+/**
+* Send a password reset code to a user's email
+* 
+* @param {string} email
+* 
+* @returns {string} message
+* @returns {string} access_token
+* 
+* @throws {BadRequestError} If missing required parameter in request body
+* @throws {BadRequestError} If User does not exist
+*/
 exports.forgetPassword = async (req, res, next) => {
     const { email } = req.body
 
-    if (!email) {
-        throw new BadRequestError('Missing required parameter in request body');
-    }
+    //  Check for missing required field in request body
+    if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
-    const current_user = await (
-        await User.findOne({ email })
-    ).populate('auth_codes');
+    const current_user = await User.findOne({ email })
     console.log(current_user);
-    if (!current_user) {
-        throw new BadRequestError('User does not exist');
-    }
 
-    const password_reset_code = (
-        await getAuthCodes(current_user._id, 'password_reset')
-    ).password_reset;
+    //  Check if user exists
+    if (!current_user) return next(new BadRequestError('User does not exist'));
+
+    //  Get password reset code
+    const { password_reset_code } = await getAuthCodes('password_reset')
+
+    //  Send password reset code to user
     sendEmail({
         email: current_user.email,
-        subject: 'Password reset',
-        message: `This is your password reset code ${password_reset_code}`,
-    });
-    const access_token = signToken(
-        current_user.id,
-        current_user.role,
-        config.JWT_PASSWORDRESET_SECRET,
-        config.JWT_PASSWORDRESET_EXPIRES_IN
-    );
+        subject: 'Password reset for User',
+        message: `Password reset code is ${password_reset_code}`
+    })
+
+    //  Get access token
+    const { access_token } = getAuthTokens(current_user._id, 'password_reset')
 
     return res.status(200).send({
         message: "Successful, Password reset code sent to users email",
@@ -329,24 +697,8 @@ exports.resetPassword = async (req, res, next) => {
     const { new_password, password_reset_code } = req.body
 
     // Check if new password and password reset code are provided
-    if (!new_password || !password_reset_code) {
-        throw new BadRequestError('Missing required parameter in request body');
-    }
-
-    // Check for valid authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
-        throw new UnauthorizedError('Authentication invalid');
-    }
-
-    // Check if token is valid
-    const jwtToken = authHeader.split(' ')[1];
-    const payload = jwt.verify(jwtToken, config.JWT_PASSWORDRESET_SECRET);
-
-    const authCode = await AuthCode.findOne({ user: payload.id });
-    if (!authCode) {
-        throw new UnauthorizedError('Access token expired');
-    }
+    if (!new_password || !password_reset_code)
+        return next(new BadRequestError('Missing required parameter in request body'));
 
     // Check if user exists
     const current_user = await (
