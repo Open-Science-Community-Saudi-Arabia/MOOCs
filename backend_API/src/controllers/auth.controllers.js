@@ -196,6 +196,24 @@ exports.signup = async (req, res, next) => {
     return res.status(200).json({ success: true, data: { user: new_user } });
 }
 
+/**
+ * Create new admin account
+ * 
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordConfirm
+ * @param {string} firstname
+ * @param {string} lastname
+ *  
+ * @returns {object} user
+ * @returns {string} token
+ * @returns {string} status
+ * 
+ * @throws {BadRequestError} if email or password is not provided
+ * @throws {BadRequestError} if email or password is incorrect
+ * @throws {BadRequestError} if email is not verified
+ * @throws {Error} if error occurs
+ */
 exports.addAdmin = async (req, res, next) => {
     req.body.role = 'Admin';
     this.signup(req, res, next);
