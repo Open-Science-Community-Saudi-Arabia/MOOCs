@@ -22,10 +22,17 @@ passport.deserializeUser(function (id, done) {
 router
     .post('/signup', authController.signup)
     .post('/addadmin', rbac('SuperAdmin'), authController.addAdmin)
+
+    // SuperAdmin Account Activation/Deactivation
     .get('/superadmin/reqactivate', authController.requestSuperAdminAccountActivation)
     .post('/superadmin/activate', authController.activateSuperAdminAccount)
+    .get('/superadmin/reqdeactivate', authController.requestSuperAdminAccountDeactivation)
+    .post('/superadmin/deactivate', authController.deactivateSuperAdminAccount)
+
+    // User Account Activation/Deactivation
     .get('/user/activate', rbac('SuperAdmin'), authController.activateUserAccount)
     .get('/user/deactivate', rbac('SuperAdmin'), authController.deactivateUserAccount)
+
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
     .patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword)
