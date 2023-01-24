@@ -8,6 +8,7 @@ const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
+    ForbiddenError,
 } = require('../utils/errors');
 const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
 
@@ -447,6 +448,9 @@ exports.activateUserAccount = async (req, res, next) => {
     // Check if account is active
     if (user.status.isActive) return next(new BadRequestError('Account is already active'))
 
+    // Check if user is a super admin
+    if (user.role === 'superadmin') return next(new ForbiddenError('You cannot activate a super admin account'))
+
     // Activate user
     user.status.isActive = true;
     await user.status.save();
@@ -478,6 +482,9 @@ exports.deactivateUserAccount = async (req, res, next) => {
 
     // Check if user exists
     if (!user) return next(new BadRequestError('User account does not exist'))
+
+    // Check if users role is SuperAdmin
+    if (user.role === 'SuperAdmin') return next(new ForbiddenError('You cannot deactivate a SuperAdmin account'))
 
     // Check if account is active
     if (!user.status.isActive) return next(new BadRequestError('Account is already deactivated'))
