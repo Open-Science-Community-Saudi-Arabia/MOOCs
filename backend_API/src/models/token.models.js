@@ -17,6 +17,7 @@ const authCodeSchema = new schema(
         password_reset_code: { type: String },
         activation_code: { type: String },
         createdAt: { type: Date, default: Date.now },
+        expiresIn: { type: Date, default: Date.now + JWT_REFRESH_EXP },
     },
     { timestamps: true, expires: JWT_REFRESH_EXP }
 )
