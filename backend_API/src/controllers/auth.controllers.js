@@ -465,6 +465,7 @@ exports.activateUserAccount = async (req, res, next) => {
         })
 }
 
+// TODO: Add deactivate super admin account
 /**
  * Deactivate user account
  * 
