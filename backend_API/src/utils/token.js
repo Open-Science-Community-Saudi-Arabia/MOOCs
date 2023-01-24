@@ -36,6 +36,12 @@ const getRequiredConfigVars = (type) => {
                 secret: config.JWT_EMAILVERIFICATION_SECRET,
                 expiry: config.JWT_EMAILVERIFICATION_EXP,
             };
+        
+        case 'su_activation': 
+            return {
+                secret: config.JWT_SUPERADMINACTIVATION_SECRET,
+                expiry: config.JWT_SUPERADMINACTIVATION_EXP
+            }
     }
 };
 
@@ -135,7 +141,7 @@ const getAuthCodes = async (user_id, code_type) => {
 
                 const autho = await AuthCode.findOneAndUpdate(
                     { user: user_id },
-                    { activation_code },
+                    { activation_code, expiresIn: 60 * 60 * 24 },
                     { new: true, upsert: true }
                 );
 
@@ -175,4 +181,4 @@ const decodeJWT = (token) => {
     }
 };
 
-module.exports = { getAuthTokens, getAuthCodes, decodeJWT };
+module.exports = { getAuthTokens, getAuthCodes, decodeJWT, getRequiredConfigVars };
