@@ -24,6 +24,7 @@ router
     .post('/addadmin', rbac('SuperAdmin'), authController.addAdmin)
     .get('/superadmin/reqactivate', authController.requestSuperAdminAccountActivation)
     .post('/superadmin/activate', authController.activateSuperAdminAccount)
+    .get('/user/activate', authController.activateUserAccount)
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
     .patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword)
