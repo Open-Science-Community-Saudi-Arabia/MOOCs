@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### `Added`
-- Added code documentation for backend src code [#150](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/150)
 - `12/01/2023` Added feature for sign-in with Google and Github [#153](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/153)
 - `16/01/2023` Add MongoURI for all working environments [#161](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/161)
 - `18/01/2023`Improved code documentation for API [#165](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/165)
