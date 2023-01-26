@@ -19,18 +19,13 @@
       @include flex(start, center);
       gap: 1.5em;
       button {
-        background-color: var(--blue);
-        color: var(--white);
-        font-weight: 700;
-        border: none;
-        padding: 1.2em;
-        width: 150px;
-        border: 1px solid var(--blue);
-        &:hover{
-         
-          background-color: white;
-          color:var(--blue)
-        }
+        @include button(
+          150px,
+          var(--blue),
+          var(--white),
+          var(--white),
+          var(--blue)
+        );
       }
       .all-plans-link {
         padding-bottom: 5px;
@@ -40,18 +35,258 @@
     }
   }
   .right {
-    // flex-basis: 50%;
-    // .illustration {
-    //   background-image: url("../../assets/landing-page/Illustration.svg");
-    //   background-repeat: no-repeat;
-    //   background-size: contain;
-    //   height: 500px;
-    //   width: 100%;
-    //   background-position: center;
-    // }
     img {
       height: 500px;
       width: 100%;
+    }
+  }
+}
+
+// section Courses section ------
+.courses-section {
+  width: 60%;
+  margin: 4em auto;
+  h1 {
+    font-size: 30px;
+    text-align: center;
+  }
+  .course-container {
+    @include flex(space-between, center);
+    gap: 25px;
+    margin-top: 4rem;
+    .course {
+      cursor: pointer;
+      width: 380px;
+      height: 450px;
+      padding: 2.5em;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      border-radius: 20px;
+      .icon-content {
+        padding: 1.5rem 1rem;
+        text-align: center;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        margin-bottom: 1rem;
+        .icon {
+          width: 60px;
+        }
+      }
+      .name {
+        font-size: 20px;
+        font-size: 700;
+        text-align: left;
+        line-height: 30px;
+      }
+      .member {
+        font-size: 14px;
+        margin: 0.3rem 0;
+        font-weight: 600;
+        color: var(--gray);
+      }
+      .description {
+        margin: 1.5rem 0;
+        font-weight: 400;
+        color: var(--gray);
+      }
+      .btn {
+        @include button(
+          150px,
+          var(--blue),
+          var(--white),
+          var(--white),
+          var(--blue)
+        );
+        border-radius: 50px;
+      }
+      &:hover {
+        background-color: hsl(240deg 100% 55% / 12%);
+        .icon-content {
+          background-color: var(--white);
+        }
+      }
+    }
+  }
+  .course-list {
+    width: 70%;
+    margin: 6rem auto;
+    @include flex(space-between, center);
+    gap: 5px;
+    div {
+      cursor: pointer;
+      text-align: center;
+      .course-icon {
+        font-size: 3em;
+        color: var(--gray);
+        opacity: 40%;
+      }
+      .course-name {
+        font-size: 15px;
+        color: var(--gray);
+        opacity: 60%;
+        font-weight: 700;
+        margin-top: 17px;
+      }
+      .react-tooltip {
+        width: 90px;
+        font-weight: 600;
+        font-size: 11px;
+        padding: 7px 3px;
+        top: 1335px !important;
+      }
+      &:hover {
+        .course-icon {
+          color: var(--black);
+          opacity: 100%;
+        }
+      }
+    }
+  }
+  .more-courses {
+    @include flex(center, center);
+    position: relative;
+    font-weight: 700;
+    width: 250px;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid var(--blue);
+    text-align: center;
+    border-radius: 20px;
+    color: var(--blue);
+    .arrow {
+      font-size: 18px;
+      position: absolute;
+      top: 35%;
+      left: 80%;
+    }
+    &:hover {
+      background-color: hsl(240deg 100% 55% / 12%);
+      // Add arrow animation instead
+    }
+  }
+}
+
+// Open science practice section
+.open-science-section {
+  background-color: var(--white);
+  padding: 0em 12em;
+  margin: 7em auto;
+  h1 {
+    font-size: 30px;
+    text-align: center;
+  }
+  .__container {
+    margin: 3rem 0em;
+    .practices {
+      @include flex(initial, center);
+      margin: 3rem 0rem;
+      gap: 40px;
+      .icon-box {
+        padding: 3rem;
+        border-radius: 20px;
+        width: 250px;
+        height: 250px;
+        background-color: var(--white);
+        box-shadow: #9494cc 0px 3px 8px;
+        .icon {
+          text-align: center;
+          font-size: 166px;
+          color: var(--light-blue);
+        }
+      }
+      .description {
+        flex-basis: 60%;
+        @include flex(space-between, start);
+        flex-direction: column;
+
+        .__name {
+          font-size: 20px;
+          font-weight: 700;
+        }
+        .__content {
+          font-size: 17px;
+          font-weight: 400;
+          color: var(--gray);
+          margin: 1rem 0;
+          line-height: 1.5rem;
+        }
+        a {
+          .arrow {
+            width: 70px;
+            padding: 0.5rem;
+            // border: 1px solid var(--blue);
+            //  box-shadow: #9494cc 0px 3px 8px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 20px;
+            font-size: 40px;
+            color: var(--blue);
+            &:hover {
+              background-color: var(--blue);
+              color: var(--white);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// collaboration-section
+.collaboration-section {
+  background-color: var(--gray-100);
+  .__container {
+    width: 60%;
+    padding: 4em 0em;
+    text-align: center;
+    margin: auto;
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .icon__content {
+      margin-top: 4em;
+      @include flex(space-between, center);
+      .icon {
+        width: 30%;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// Participants
+.join-class {
+  background-image: url("../../images/Maskgroup.svg");
+  width: 100%;
+  background-repeat: no-repeat;
+  height: 400px;
+  background-position: center;
+  background-size: cover;
+  background-color: var(--blue);
+  div {
+    width: 60%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 430px;
+    h1 {
+      font-size: 30px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--white);
+    }
+    button {
+      @include button(
+        200px,
+        var(--white),
+        var(--black),
+        var(--black),
+        var(--white)
+      );
+      margin-top: 2rem;
+      font-size: 16px;
+      font-weight: 700;
     }
   }
 }

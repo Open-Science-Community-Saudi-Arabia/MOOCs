@@ -1,0 +1,73 @@
+@import "../../styles/mixins.scss";
+
+// Footer
+
+.footer {
+  .__container {
+    @include flex(start, center);
+
+    padding: 4em 8em 2em 8em;
+    gap: 20px;
+    .__logo {
+      flex-basis: 30%;
+      img {
+        width: 200px;
+      }
+    }
+    .right {
+      flex-basis: 100%;
+      @include flex(space-around, start);
+      gap: 10px;
+      .quicklinks,
+      .community {
+        h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+        a {
+          @include flex(start, center);
+          padding-top: 0.5rem;
+          padding-bottom: 0.4rem;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--gray);
+          &:hover {
+            color: var(--blue);
+          }
+        }
+      }
+      .sociallinks,
+      .info {
+        h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+        a {
+          margin-right: 1rem;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--gray);
+          img {
+            margin-top: 0.8rem;
+            width: 20px;
+            margin-right: 5px;
+            &:hover {
+              transform: scale(1.5);
+            }
+          }
+          &:hover {
+            color: var(--blue);
+          }
+        }
+      }
+    }
+  }
+  p {
+    text-align: center;
+    font-size: 15px;
+    color: var(--gray);
+    margin-bottom: 2rem;
+  }
+}

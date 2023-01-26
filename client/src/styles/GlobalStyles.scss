@@ -4,8 +4,11 @@
 :root {
   --black: hsla(0, 0%, 11%, 1);
   --white: hsl(0, 0%, 100%);
-  --blue: hsla(240, 100%, 55%, 1);
-  --gray: hsla(0, 0%, 62%, 1);
+  --blue: hsl(240, 100%, 55%);
+  --light-blue:#419dda;
+  --gray: #666;
+  --light-gray: hsl(0deg 0% 96%);
+  --gray-100: #F5F8FE
 }
 
 body,
@@ -29,7 +32,6 @@ button,
 input {
   outline: none;
   border-radius: 8px;
-
   background-color: transparent;
   cursor: pointer;
 }
