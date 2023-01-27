@@ -1,35 +1,35 @@
 name: Weekly PR from CICD dev to main
 
-# on:
-  # schedule:
-    # - cron: ' * * * *' # every 2 minutes
+on:
+  schedule:
+    - cron: '*/1 * * * *' # every 2 minutes
     # - cron: '0 0 * * 1' # every Monday at 00:00
 
-# jobs:
-#   create_pr:
-#     runs-on: ubuntu-latest
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout repository
-#       uses: actions/checkout@v2
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-#     - name: Get the current date
-#       id: date
-#       run: echo "date=$(date)" >> $GITHUB_STATE
+    - name: Get the current date
+      id: date
+      run: echo "date=$(date)" >> $GITHUB_STATE
 
-#     - name: Commit and push changes
-#       run: |
-#         git config --local user.email "moocsprbot@oscsa.com"
-#         git config --local user.name "PR Bot"
-#         git add .
-#         git commit -m "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-#         git push origin cicd_dev
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "moocsprbot@oscsa.com"
+        git config --local user.name "PR Bot"
+        git add .
+        git commit -m "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
+        git push origin cicd_dev
       
-#     - name: Create pull request
-#       uses: peter-evans/create-pull-request@v3
-#       with:
-#         token: ${{ secrets.REPO_TOKEN }}
-#         commit-message: "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-#         title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-#         head: backend_dev
-#         base: cicd_dev
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        commit-message: "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
+        title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
+        head: backend_dev
+        base: cicd_dev
