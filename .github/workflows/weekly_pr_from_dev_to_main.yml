@@ -33,3 +33,4 @@ jobs:
         title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         head: backend_dev
         base: cicd_dev
+
