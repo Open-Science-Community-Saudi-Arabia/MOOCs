@@ -9,7 +9,9 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+          token: ${{ secrets.ADD_TO_PROJECT_PAT2 }}
 
     - name: Get the current date
       id: date
