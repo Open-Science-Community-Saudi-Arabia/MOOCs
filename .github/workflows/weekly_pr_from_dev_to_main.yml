@@ -1,9 +1,7 @@
 name: Weekly PR from CICD dev to main
 
 on:
-  schedule:
-    - cron: '*/1 * * * *' # every 2 minutes
-    # - cron: '0 0 * * 1' # every Monday at 00:00
+  workflow_dispatch: 
 
 jobs:
   create_pr:
@@ -11,7 +9,9 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+          token: ${{ secrets.ADD_TO_PROJECT_PAT2 }}
 
     - name: Get the current date
       id: date
@@ -33,3 +33,4 @@ jobs:
         title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         head: backend_dev
         base: cicd_dev
+
