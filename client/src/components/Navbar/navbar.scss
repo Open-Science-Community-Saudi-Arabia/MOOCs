@@ -11,36 +11,56 @@
     @include flex(space-around, center);
     gap: 3em;
     .navlink {
+      font-size: 16px;
       &:hover {
         color: var(--blue);
       }
     }
   }
+  
   .auth-btn {
     @include flex(space-around, center);
-    gap: 1em;
+    gap: 2em;
 
-    .auth-btn-signup {
-      border: 1px solid var(--black);
-      padding: 13px 30px;
-      background-color: var(--black);
-      color: var(--white);
-      &:hover {
-        background-color: var(--white);
-        color: var(--black);
+    .language{
+      select{
+        padding:0.5rem;
+        border-radius:8px;
+        border:1px solid var(--black) !important;
+        &:focus-visible{
+          border: none;
+          outline: none
+        }
       }
     }
-    .auth-btn-login {
-      border: 1px solid var(--black);
-      padding: 13px 30px;
-      &:hover {
+    .btns{
+      @include flex(space-around, center);
+      gap: 1em;
+      .auth-btn-signup {
+        border: 1px solid var(--black);
+        padding: 13px 30px;
         background-color: var(--black);
         color: var(--white);
+        &:hover {
+          background-color: var(--white);
+          color: var(--black);
+        }
+      }
+      .auth-btn-login {
+        border: 1px solid var(--black);
+        padding: 13px 30px;
+        &:hover {
+          background-color: var(--black);
+          color: var(--white);
+        }
       }
     }
+   
   }
 }
 
 // @media screen and (min-width: 1025px) {
 
 // }
+
+// header

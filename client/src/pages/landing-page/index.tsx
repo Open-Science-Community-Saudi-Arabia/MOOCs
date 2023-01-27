@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/Navbar";
+import {Navbar }from "../../components/Navbar";
 import "./landingpage.scss";
 import illustration from "../../images/Illustration.svg";
 import { Link } from "react-router-dom";
