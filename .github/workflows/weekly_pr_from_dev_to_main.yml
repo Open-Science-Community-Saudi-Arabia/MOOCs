@@ -17,10 +17,18 @@ jobs:
       id: date
       run: echo "date=$(date)" >> $GITHUB_STATE
 
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "moocsprbot@oscsa.com"
+        git config --local user.name "PR Bot"
+        git add .
+        git commit -m "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
+        git push origin cicd_dev
+      
     - name: Create pull request
       uses: peter-evans/create-pull-request@v3
       with:
-        token: ${{ secrets.REPO_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         head: backend_dev
