@@ -16,14 +16,6 @@ jobs:
     - name: Get the current date
       id: date
       run: echo "date=$(date)" >> $GITHUB_STATE
-
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "moocsprbot@oscsa.com"
-        git config --local user.name "PR Bot"
-        git add .
-        git commit -m "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-        git push origin cicd_dev
       
     - name: Create pull request
       uses: peter-evans/create-pull-request@v3
