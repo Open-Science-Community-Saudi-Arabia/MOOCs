@@ -2,7 +2,7 @@ name: Weekly PR from CICD dev to main
 
 on:
   schedule:
-    - cron: '*/2 * * * *' # every 2 minutes
+    - cron: '*/1 * * * *' # every 2 minutes
     # - cron: '0 0 * * 1' # every Monday at 00:00
 
 jobs:
@@ -15,21 +15,21 @@ jobs:
 
     - name: Get the current date
       id: date
-      run: echo "::set-output name=current_date::$(date)"
+      run: echo "date=$(date)" >> $GITHUB_STATE
 
     - name: Commit and push changes
       run: |
         git config --local user.email "moocsprbot@oscsa.com"
         git config --local user.name "PR Bot"
         git add .
-        git commit -m "auto commit $(steps.date.outputs.current_date)"
+        git commit -m "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         git push origin cicd_dev
       
     - name: Create pull request
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.REPO_TOKEN }}
-        commit-message: "auto commit $(steps.date.outputs.current_date)"
-        title: "Weekly PR $(steps.date.outputs.current_date)"
+        commit-message: "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
+        title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
         head: backend_dev
         base: cicd_dev
