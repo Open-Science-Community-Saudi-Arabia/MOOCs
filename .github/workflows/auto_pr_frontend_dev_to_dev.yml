@@ -1,4 +1,4 @@
-name: Weekly PR from CICD dev to main
+name: Weekly PR from frontend_dev to dev
 
 on:
   schedule:

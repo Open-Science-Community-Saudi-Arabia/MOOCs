@@ -1,4 +1,4 @@
-name: Weekly PR from CICD dev to main
+name: Bi-Weekly RP from dev to main
 
 on:
   schedule:
