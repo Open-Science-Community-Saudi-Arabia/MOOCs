@@ -8,24 +8,24 @@ on:
 # Set up the Continuous Integration job
 
 jobs:
-  pull-request:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v3
-      - name: pull-request
+  main:
+    name: Create PR Release to Main
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ADD_TO_PROJECT_PAT2 }}
+
+      # https://github.com/marketplace/actions/github-pull-request-action
+      - name: create pull request
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: "cicd_dev"                                 # If blank, default: triggered branch
-          destination_branch: "backend_dev"                      # If blank, default: master
-          pr_title: "Pulling ${{ github.ref }} into backend_dev" # Title of pull request
-          pr_body: |                                        # Full markdown support, requires pr_title to be set
-            :crown: *An automated PR*
-
-            _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
-          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
-          pr_reviewer: "wei,worker"                         # Comma-separated list (no spaces)
-          pr_assignee: "wei,worker"                         # Comma-separated list (no spaces)
+          destination_repository: ""        # If blank, default: checked out repository or triggered repository
+          source_branch: "dev"
+          github_token: ${{ secrets.ADD_TO_PROJECT_PAT2 }}
+          destination_branch: "main"
+          pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+          pr_body: "Automated Pull Request"
           pr_label: "auto-pr"                               # Comma-separated list (no spaces)
-          pr_draft: true                                    # Creates pull request as draft
-          pr_allow_empty: true                              # Creates pull request even if there are no changes
-          github_token: ${{ secrets.REPO_TOKEN }}      # If blank, default: secrets.GITHUB_TOKEN
+          pr_milestone: "Milestone 1"                       # Milestone name

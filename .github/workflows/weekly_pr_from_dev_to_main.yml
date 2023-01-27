@@ -4,25 +4,24 @@ on:
   workflow_dispatch: 
 
 jobs:
-  create_pr:
-    runs-on: ubuntu-latest
+  pull-request:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "cicd_dev"                                 # If blank, default: triggered branch
+          destination_branch: "backend_dev"                      # If blank, default: master
+          pr_title: "Pulling ${{ github.ref }} into backend_dev" # Title of pull request
+          pr_body: |                                        # Full markdown support, requires pr_title to be set
+            :crown: *An automated PR*
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-          token: ${{ secrets.ADD_TO_PROJECT_PAT2 }}
-
-    - name: Get the current date
-      id: date
-      run: echo "date=$(date)" >> $GITHUB_STATE
-      
-    - name: Create pull request
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "auto commit date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-        title: "Weekly PR date: $(cat $GITHUB_STATE | grep date | cut -d '=' -f 2)"
-        head: backend_dev
-        base: cicd_dev
-
+            _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
+          pr_reviewer: "wei,worker"                         # Comma-separated list (no spaces)
+          pr_assignee: "wei,worker"                         # Comma-separated list (no spaces)
+          pr_label: "auto-pr"                               # Comma-separated list (no spaces)
+          pr_draft: true                                    # Creates pull request as draft
+          pr_allow_empty: true                              # Creates pull request even if there are no changes
+          github_token: ${{ secrets.REPO_TOKEN }}      # If blank, default: secrets.GITHUB_TOKEN
