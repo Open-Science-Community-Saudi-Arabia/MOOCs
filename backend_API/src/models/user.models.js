@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { BadRequestError } = require('../utils/errors')
 const validator = require('validator')
 const Schema = mongoose.Schema
+const { AuthCode } = require('./token.models')
 
 const options = { toObject: { virtuals: true } }
 
@@ -42,7 +43,7 @@ const user_schema = new Schema(
 
     },
     options,
-    { timestamp: true },
+    { timestamp: true, toObject: { virtuals: true } },
 )
 
 // Get users password from Password collection
@@ -81,22 +82,26 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 
 })
 
-user_schema.post('save', async function (doc, next) {
-    if (!this.status) {
-        const status = new Status({ user: this._id })
-        await status.save()
-    }
-    next()
-})
+
+// user_schema.post('save', async function (doc, next) {
+//     // Check if session is active
+//     console.log('post save')
+//     console.log(this)
+//     let session;
+//     console.log(session)
+//     if (this.session) { session = this.sesssion }
+
+//     next()
+// });
 
 status.pre('save', async function (next) {
-    const user = await User.findById(this.user)
-    if (user.role == 'enduser') this.isActive = true;
+    this.populate('user')
+    if (this.user?.role == 'enduser') this.isActive = true;
 
     next()
 })
 
-const User = mongoose.model('User', user_schema)
 const Status = mongoose.model('Status', status)
+const User = mongoose.model('User', user_schema)
 
 module.exports = { User, Status }
