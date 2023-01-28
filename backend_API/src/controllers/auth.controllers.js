@@ -18,6 +18,7 @@ const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode } = require('../models/token.models');
 const e = require('express');
 const Password = require('../models/password.models');
+const { default: mongoose } = require('mongoose');
 
 /**
  * Sign a token with the given payload and secret
@@ -166,20 +167,25 @@ exports.signup = async (req, res, next) => {
     if (!role) role = 'EndUser';
 
     // Check if superAdmin tries to create another superadmin from - addAdmin route
-    if (role === 'SuperAdmin' && req.user.role == 'SuperAdmin') return next(new BadRequestError('You cannot create a superadmin account'));
+    if (role === 'SuperAdmin' && req.user.role == 'SuperAdmin')
+        return next(new BadRequestError('You cannot create a superadmin account'));
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
     console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
-    // Create new user
-    const new_user = await User.create({
-        firstname, lastname, email, role, password,
-    })
+    let new_user;
+    const session = await mongoose.startSession();
+    await session.withTransaction(async () => {
+        await User.create([{ firstname, lastname, email, role, }], { session, context: 'query' }).then((user) => { new_user = user[0] });
+        await Password.create([{ user: new_user._id, password }], { session, context: 'query' });
+        await Status.create([{ user: new_user._id }], { session, context: 'query' })
+        await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
 
-    // Create users password 
-    await Password.create({ user: new_user._id, password });
+        await session.commitTransaction()
+        session.endSession()
+    })
 
     // Check if request was made by a superadmin
     if (req.user?.role == 'SuperAdmin' && role != 'SuperAdmin') {
