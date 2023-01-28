@@ -36,8 +36,14 @@ const getRequiredConfigVars = (type) => {
                 secret: config.JWT_EMAILVERIFICATION_SECRET,
                 expiry: config.JWT_EMAILVERIFICATION_EXP,
             };
-        
-        case 'su_activation': 
+
+        case 'su_activation':
+            return {
+                secret: config.JWT_SUPERADMINACTIVATION_SECRET,
+                expiry: config.JWT_SUPERADMINACTIVATION_EXP
+            }
+
+        case 'su_deactivation':
             return {
                 secret: config.JWT_SUPERADMINACTIVATION_SECRET,
                 expiry: config.JWT_SUPERADMINACTIVATION_EXP
@@ -108,7 +114,10 @@ const getAuthCodes = async (user_id, code_type) => {
                 password_reset_code,
                 activation_code1,
                 activation_code2,
-                activation_code3;
+                activation_code3,
+                deactivation_code1,
+                deactivation_code2,
+                deactivation_code3;
 
             if (code_type == 'verification') {
                 verification_code = random_code;
@@ -148,6 +157,21 @@ const getAuthCodes = async (user_id, code_type) => {
                 console.log(autho);
             }
 
+            // If code_type is 'su_deactivation', generate 3 codes - SuperAdminAccountDeactivation
+            if (code_type == 'su_deactivation') {
+                deactivation_code1 = UUID(); // Will be sent to user
+                deactivation_code2 = UUID(); // Will be sent to first admin
+                deactivation_code3 = UUID(); // Will be sent to second admin
+
+                const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`;
+
+                await AuthCode.findOneAndUpdate(
+                    { user: user_id },
+                    { deactivation_code },
+                    { new: true, upsert: true }
+                );
+            }
+
             if (process.env.NODE_ENV === 'dev') {
                 console.log(
                     'getAuthCodes',
@@ -155,7 +179,10 @@ const getAuthCodes = async (user_id, code_type) => {
                     password_reset_code,
                     activation_code1,
                     activation_code2,
-                    activation_code3
+                    activation_code3,
+                    deactivation_code1,
+                    deactivation_code2,
+                    deactivation_code3
                 );
             }
 
@@ -165,6 +192,9 @@ const getAuthCodes = async (user_id, code_type) => {
                 activation_code1,
                 activation_code2,
                 activation_code3,
+                deactivation_code1,
+                deactivation_code2,
+                deactivation_code3,
             });
         } catch (error) {
             reject(error);
