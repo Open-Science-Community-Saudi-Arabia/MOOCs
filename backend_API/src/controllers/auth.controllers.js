@@ -687,7 +687,7 @@ exports.forgetPassword = async (req, res, next) => {
     if (!current_user) return next(new BadRequestError('User does not exist'));
 
     //  Get password reset code
-    const { password_reset_code } = await getAuthCodes('password_reset')
+    const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
 
     //  Send password reset code to user
     sendEmail({
@@ -697,7 +697,7 @@ exports.forgetPassword = async (req, res, next) => {
     })
 
     //  Get access token
-    const { access_token } = getAuthTokens(current_user._id, 'password_reset')
+    const { access_token } = await getAuthTokens(current_user._id, 'password_reset')
 
     return res.status(200).send({
         success: true,
