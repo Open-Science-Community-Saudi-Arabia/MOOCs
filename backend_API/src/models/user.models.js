@@ -95,8 +95,13 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 // });
 
 status.pre('save', async function (next) {
-    this.populate('user')
-    if (this.user?.role == 'enduser') this.isActive = true;
+    // Check if it is a new document
+    if (!this.isModified('user')) {
+        await this.populate('user')
+        // Check if user is an enduser
+        if (this.user.role == 'EndUser') this.isActive = true;
+        else this.isActive = false;
+    }
 
     next()
 })
