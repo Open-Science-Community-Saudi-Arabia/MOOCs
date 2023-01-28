@@ -494,7 +494,7 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     })
 
     // Get activation access token
-    const { access_token } = await getAuthTokens(super_admin._id, 'su_dectivation')
+    const { access_token } = await getAuthTokens(super_admin._id, 'su_deactivation')
 
     // Send response to client
     return res.status(200)
@@ -529,19 +529,7 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
         return next(new BadRequestError('Missing required parameter in request body'));
     }
 
-    // Get bearer token
-    const token = req.headers.authorization.split(' ')[1],
-        secret = getRequiredConfigVars('su_activation').secret;
-
-    // Check if token is deBlacklisted
-    const blacklisted_token = await BlacklistedToken.findOne({ token })
-    if (blacklisted_token) {
-        throw new BadRequestError('Token Invalid or Token Expired, Request for a new deactivation token');
-    }
-
-    // Verify token and get user from payload
-    const decoded = jwt.verify(token, secret)
-    const admin = await User.findOne({ _id: decoded.id, role: 'SuperAdmin' }).populate('status')
+    const admin = await User.findOne({ _id: req.user.id, role: 'SuperAdmin' }).populate('status')
 
     // Check if user exists
     if (!admin) {
@@ -565,7 +553,7 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
     await admin.status.save();
 
     // Blacklist token
-    await BlacklistedToken.create({ token })
+    await BlacklistedToken.create({ token: req.token })
 
     // Send response to client
     return res.status(200)
