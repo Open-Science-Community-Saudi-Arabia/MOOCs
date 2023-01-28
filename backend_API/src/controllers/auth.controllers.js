@@ -52,7 +52,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @returns {void}
  */
 const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_EXPIRES_IN)
+    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -94,6 +94,7 @@ const handleUnverifiedUser = function (user) {
         const verification_url = `${req.protocol}://${req.get(
             'host')}/api/v1/auth/verifyemail/${access_token}`;
 
+        console.log(verification_url)
         // Send verification email
         sendEmail({
             email: user.email,
@@ -167,7 +168,7 @@ exports.signup = async (req, res, next) => {
     if (!role) role = 'EndUser';
 
     // Check if superAdmin tries to create another superadmin from - addAdmin route
-    if (role === 'SuperAdmin' && req.user.role == 'SuperAdmin')
+    if (role === 'SuperAdmin' && req.user?.role == 'SuperAdmin')
         return next(new BadRequestError('You cannot create a superadmin account'));
 
     // Check if user already exists
@@ -248,22 +249,44 @@ exports.login = async (req, res, next) => {
 
     //Check if fields are provided
     if (!email || !password) {
-        return next(
-            new CustomAPIError('Please Provide Email and Password', 400)
-        );
+        return next(new BadRequestError('Please provide email and password'))
     }
     //check if email exists
-    const currentUser = await User.findOne({ email }).select('+password');
+    const currentUser = await User.findOne({ email }).populate('password status')
     console.log(currentUser);
+
     //Check if email and password matches
     if (
         !currentUser ||
-        !(await currentUser.comparePassword(password, currentUser.password))
+        !(await currentUser.password.comparePassword(password, currentUser.password))
     ) {
-        return next(new CustomAPIError('Incorrect Email or Password', 400));
+        return next(new BadRequestError('Incorrect email or password'));
     }
-    //Send token to client
-    createToken(currentUser, 200, res)
+
+    // Check if user is verified
+    if (!currentUser.status.isVerified) {
+        return next(new BadRequestError('Please verify your email'));
+    }
+
+    // Check if user account in acivted
+    if (!currentUser.status.isActive) {
+        return next(new BadRequestError('Please activate your account'));
+    }
+
+    // Get access and refresh token
+    const { access_token, refresh_token } = await getAuthTokens(currentUser, 'access');
+    
+    currentUser.enrolled_courses = undefined
+    
+    // Return access token
+    return res.status(200).json({
+        success: true,
+        data: {
+            user: currentUser,
+            access_token,
+            refresh_token
+        }
+    });
 }
 
 // Email Verification for new users
@@ -321,7 +344,7 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     const email = req.params.email
 
     // Check if a super admin account exists, and it's not active
-    const super_admin = await User.findOne({ email, role: 'superadmin' })
+    const super_admin = await User.findOne({ email, role: 'SuperAdmin' })
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
 
     // Check if account is active 
