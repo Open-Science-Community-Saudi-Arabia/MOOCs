@@ -734,23 +734,23 @@ exports.resetPassword = async (req, res, next) => {
 
     // Check if user exists
     const current_user = await (
-        await User.findOne({ _id: payload.id })
-    ).populate('auth_codes');
-    console.log(current_user);
+        await User.findOne({ _id: req.user.id })
+    ).populate('auth_codes password');
+
     if (!current_user) {
         throw new BadRequestError('User does not exist');
     }
 
     // Check if password reset code is valid
-    if (password_reset_code !== authCode.password_reset) {
+    if (password_reset_code !== current_user.auth_codes.password_reset_code) {
         throw new BadRequestError('Invalid password reset code');
     }
 
     // Change password
-    await current_user.changePassword(new_password, current_user.password);
+    await current_user.password.updatePassword(new_password, current_user.password);
 
     // Delete auth code, blacklist jwt token
-    BlacklistedToken.create({ token: jwtToken });
+    BlacklistedToken.create({ token: req.token });
     // BlacklistToken.create({ token: jwtToken })
 
     return res.status(200).send({
