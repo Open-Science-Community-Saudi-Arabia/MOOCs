@@ -700,8 +700,11 @@ exports.forgetPassword = async (req, res, next) => {
     const { access_token } = getAuthTokens(current_user._id, 'password_reset')
 
     return res.status(200).send({
-        message: "Successful, Password reset code sent to users email",
-        access_token
+        success: true,
+        data: {
+            message: "Successful, Password reset code sent to users email",
+            access_token
+        }
     })
 }
 
@@ -817,12 +820,7 @@ exports.googleSignin = async (req, res, next) => {
  */
 exports.getLoggedInUser = async (req, res, next) => {
     // Check for valid authorization header
-    const auth = req.headers.authorization;
-    const token = auth.split(' ')[1];
-
-    // Check if token is valid
-    const payload = jwt.verify(token, config.JWT_ACCESS_SECRET);
-    const user = await User.findById(payload.id);
+    const user = await User.findById(req.user.id);
 
     return res.status(200).json({
         status: 'success',
