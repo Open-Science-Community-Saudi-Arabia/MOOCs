@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { BadRequestError } = require('../utils/errors')
 const validator = require('validator')
 const Schema = mongoose.Schema
+const { AuthCode } = require('./token.models')
 
 const options = { toObject: { virtuals: true } }
 
@@ -42,14 +43,14 @@ const user_schema = new Schema(
 
     },
     options,
-    { timestamp: true },
+    { timestamp: true, toObject: { virtuals: true } },
 )
 
 // Get users password from Password collection
 user_schema.virtual('password', {
     ref: "Password",
     localField: "_id",
-    foreignField: "user_id",
+    foreignField: "user",
     justOne: true
 })
 
@@ -72,22 +73,41 @@ user_schema.virtual('status', {
 
 user_schema.pre('save', async function (next, { skipValidation }) {
     if (skipValidation) return next();
-    console.log(this)
+
     // Check if user already exists - Incase index is not created
     const email_exists = await User.findOne({ email: this.email })
     if (email_exists) {
         throw new BadRequestError('Email already exists please user another email')
     }
+
 })
 
+
+// user_schema.post('save', async function (doc, next) {
+//     // Check if session is active
+//     console.log('post save')
+//     console.log(this)
+//     let session;
+//     console.log(session)
+//     if (this.session) { session = this.sesssion }
+
+//     next()
+// });
+
 status.pre('save', async function (next) {
-    const user = await User.findById(this.user)
-    if (user.role == 'enduser') this.isActive = true;
+    // Check if it is a new document
+    if (this.isNew) {
+        console.log('Not modified')
+        await this.populate('user')
+        // Check if user is an enduser
+        if (this.user.role == 'EndUser') this.isActive = true;
+        else this.isActive = false;
+    }
 
     next()
 })
 
-const User = mongoose.model('User', user_schema)
 const Status = mongoose.model('Status', status)
+const User = mongoose.model('User', user_schema)
 
 module.exports = { User, Status }

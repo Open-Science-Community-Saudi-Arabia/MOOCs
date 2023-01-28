@@ -24,14 +24,14 @@ router
     .post('/addadmin', rbac('SuperAdmin'), authController.addAdmin)
 
     // SuperAdmin Account Activation/Deactivation
-    .get('/superadmin/reqactivate', authController.requestSuperAdminAccountActivation)
-    .post('/superadmin/activate', authController.activateSuperAdminAccount)
-    .get('/superadmin/reqdeactivate', authController.requestSuperAdminAccountDeactivation)
-    .post('/superadmin/deactivate', authController.deactivateSuperAdminAccount)
+    .get('/superadmin/reqactivation/:email', authController.requestSuperAdminAccountActivation)
+    .post('/superadmin/activate', basicAuth('su_activation'), authController.activateSuperAdminAccount)
+    .get('/superadmin/reqdeactivation/:email', authController.requestSuperAdminAccountDeactivation)
+    .post('/superadmin/deactivate', basicAuth('su_deactivation'), authController.deactivateSuperAdminAccount)
 
     // User Account Activation/Deactivation
-    .get('/user/activate', rbac('SuperAdmin'), authController.activateUserAccount)
-    .get('/user/deactivate', rbac('SuperAdmin'), authController.deactivateUserAccount)
+    .get('/user/activate/:email', basicAuth(), rbac('SuperAdmin'), authController.activateUserAccount)
+    .get('/user/deactivate/:email', basicAuth(), rbac('SuperAdmin'), authController.deactivateUserAccount)
 
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
@@ -48,6 +48,6 @@ router
     )
     .post('/google/callback', authController.googleSignin)
     .get('/verifyemail/:token', authController.verifyEmail)
-    .get('/user', authController.getLoggedInUser)
+    .get('/user', basicAuth(), authController.getLoggedInUser)
 
 module.exports = router;
