@@ -275,9 +275,9 @@ exports.login = async (req, res, next) => {
 
     // Get access and refresh token
     const { access_token, refresh_token } = await getAuthTokens(currentUser, 'access');
-    
+
     currentUser.enrolled_courses = undefined
-    
+
     // Return access token
     return res.status(200).json({
         success: true,
@@ -624,7 +624,6 @@ exports.activateUserAccount = async (req, res, next) => {
         })
 }
 
-// TODO: Add deactivate super admin account
 /**
  * Deactivate user account
  * 
@@ -754,7 +753,10 @@ exports.resetPassword = async (req, res, next) => {
     // BlacklistToken.create({ token: jwtToken })
 
     return res.status(200).send({
-        message: "Successfully reset password",
+        success: true,
+        data: {
+            message: "Successfully reset password",
+        }
     })
 }
 
