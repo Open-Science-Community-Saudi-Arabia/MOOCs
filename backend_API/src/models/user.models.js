@@ -50,7 +50,7 @@ const user_schema = new Schema(
 user_schema.virtual('password', {
     ref: "Password",
     localField: "_id",
-    foreignField: "user_id",
+    foreignField: "user",
     justOne: true
 })
 
