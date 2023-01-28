@@ -344,8 +344,9 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     const email = req.params.email
 
     // Check if a super admin account exists, and it's not active
-    const super_admin = await User.findOne({ email, role: 'SuperAdmin' })
+    const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
+    console.log(super_admin)
 
     // Check if account is active 
     if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
@@ -408,19 +409,8 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
         return next(new BadRequestError('Missing required parameter in request body'));
     }
 
-    // Get bearer token
-    const token = req.headers.authorization.split(' ')[1],
-        secret = getRequiredConfigVars('su_activation').secret;
-
-    // Check if token is Blacklisted
-    const blacklisted_token = await BlacklistedToken.findOne({ token })
-    if (blacklisted_token) {
-        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
-    }
-
-    // Verify token and get user from payload
-    const decoded = jwt.verify(token, secret)
-    const admin = await User.findOne({ _id: decoded.id, role: 'SuperAdmin' }).populate('status')
+    const admin = await User.findOne({ _id: req.user.id, role: 'SuperAdmin' }).populate('status')
+    console.log(admin)
 
     // Check if user exists
     if (!admin) {
@@ -441,7 +431,7 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
 
     // Activate user
     admin.status.isActive = true;
-    await admin.status.save();
+    await admin.status.save()
 
     // Blacklist token
     await BlacklistedToken.create({ token })
@@ -474,9 +464,10 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     const email = req.params.email
 
     // Check if a super admin account exists, and it's not active
-    const super_admin = await User.findOne({ email, role: 'superadmin' })
+    const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
 
+    console.log(super_admin)
     // Check if account is active 
     if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
 
