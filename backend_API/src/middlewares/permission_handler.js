@@ -18,15 +18,7 @@ module.exports = function (roles) {
     return asyncWrapper(async (req, res, next) => {
         const allowed_roles = roles.split(" ");
 
-        const token = req.cookies.access_token;
-        if (!token) {
-            throw new UnauthorizedError("Authentication required");
-        }
-
-        const data = jwt.verify(token, config.JWT_SECRET);
-        req.user = { id: data.id, role: data.role };
-
-        if (!allowed_roles.includes(payload.role)) {
+        if (!allowed_roles.includes(req.user.role)) {
             throw new ForbiddenError("Unauthorized access");
         }
 

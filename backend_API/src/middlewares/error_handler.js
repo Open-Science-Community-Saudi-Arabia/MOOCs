@@ -22,6 +22,10 @@ const errorHandler = (err, req, res, next) => {
     if (error._message == 'User validation failed')
         error = handleValidationErr(error)
 
+    if (error.name == 'TokenExpiredError') {
+        return res.status(401).send({ message: 'Token Expired' })
+    }
+
     if (error instanceof CustomAPIError || err instanceof CustomAPIError) {
         return res
             .status(error.statusCode || err.statusCode)
