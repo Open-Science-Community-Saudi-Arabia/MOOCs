@@ -170,6 +170,7 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
+    console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     // Create new user
@@ -181,15 +182,14 @@ exports.signup = async (req, res, next) => {
     await Password.create({ user: new_user._id, password });
 
     // Check if request was made by a superadmin
-    if (req.user.role = 'SuperAdmin' && role != 'SuperAdmin') {
+    if (req.user?.role == 'SuperAdmin' && role != 'SuperAdmin') {
         // Activate and verify user
-        await Status.create({ user: new_user._id, isActive: true, isVerified: true });
+        new_user.status.isActive = true;
+        new_user.status.isVerified = true;
+        await new_user.status.save();
 
         return res.status(200).json({ success: true, data: { user: new_user } });
     }
-
-    // Create users account status
-    await Status.create({ user: new_user._id });
 
     // Handle user verification
     await handleUnverifiedUser(new_user)(req);
