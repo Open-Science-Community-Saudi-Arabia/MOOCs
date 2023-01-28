@@ -434,7 +434,7 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
     await admin.status.save()
 
     // Blacklist token
-    await BlacklistedToken.create({ token })
+    // await BlacklistedToken.create({ token: req.token })
 
     // Send response to client
     return res.status(200)
@@ -472,29 +472,29 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
 
     // Generate activation codes
-    const { activation_code1, activation_code2, activation_code3 } = await getAuthCodes(super_admin._id, 'su_activation')
+    const { deactivation_code1, deactivation_code2, deactivation_code3 } = await getAuthCodes(super_admin._id, 'su_deactivation')
 
     // Send activation codes to HOSTs
     sendEmail({
         email: config.HOST_ADMIN_EMAIL1,
         subject: `New super admin deactivation request for ${super_admin.email}`,
-        message: `This is your part of the required deactivation activation code ${activation_code1}`
+        message: `This is your part of the required deactivation activation code ${deactivation_code1}`
     })
     sendEmail({
         email: config.HOST_ADMIN_EMAIL2,
         subject: `New super admin activation request for ${super_admin.email}`,
-        message: `This is your part of the required deactivation code ${activation_code2}`
+        message: `This is your part of the required deactivation code ${deactivation_code2}`
     })
 
     // Send activation code to user
     sendEmail({
         email: super_admin.email,
         subject: `New super admin deactivation request for ${super_admin.email}`,
-        message: `This is your part of the required deactivation code ${activation_code3}`
+        message: `This is your part of the required deactivation code ${deactivation_code3}`
     })
 
     // Get activation access token
-    const { access_token } = await getAuthTokens(super_admin._id, 'su_activation')
+    const { access_token } = await getAuthTokens(super_admin._id, 'su_dectivation')
 
     // Send response to client
     return res.status(200)
@@ -536,7 +536,7 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
     // Check if token is deBlacklisted
     const blacklisted_token = await BlacklistedToken.findOne({ token })
     if (blacklisted_token) {
-        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new deactivation token');
     }
 
     // Verify token and get user from payload
@@ -545,19 +545,19 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
 
     // Check if user exists
     if (!admin) {
-        throw new BadRequestError('Token Invalid or Token Expired, Request for a new activation token');
+        throw new BadRequestError('Token Invalid or Token Expired, Request for a new deactivation token');
     }
 
     // Find activation code document
     const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`
-    const auth_code = await AuthCode.findOne({ user: admin._id, activation_code: deactivation_code })
+    const auth_code = await AuthCode.findOne({ user: admin._id, deactivation_code: deactivation_code })
 
     // Check if activation code exists
-    if (!auth_code) { throw new BadRequestError('Invalid activation code') }
+    if (!auth_code) { throw new BadRequestError('Invalid deactivation code') }
 
     // Check if activation code has expired
     if (auth_code.expiresIn < Date.now()) {
-        throw new BadRequestError('Activation code has expired, request for a new activation code')
+        throw new BadRequestError('Deactivation code has expired, request for a new deactivation code')
     }
 
     // Activate user
@@ -572,7 +572,7 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
         .send({
             success: true,
             data: {
-                message: "Super admin account activated"
+                message: "Super admin account Deactivated"
             }
         })
 }

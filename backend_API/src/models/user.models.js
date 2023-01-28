@@ -96,7 +96,8 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 
 status.pre('save', async function (next) {
     // Check if it is a new document
-    if (!this.isModified('user')) {
+    if (this.isNew) {
+        console.log('Not modified')
         await this.populate('user')
         // Check if user is an enduser
         if (this.user.role == 'EndUser') this.isActive = true;
