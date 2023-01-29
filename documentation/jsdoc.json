@@ -6,29 +6,15 @@
   },
   "plugins": ["plugins/markdown"],
   "templates": {
-    "cleverLinks": false,
-    "monospaceLinks": false,
-    "default": {
-      "outputSourceFiles": true
-    }
+    "theme": "yeti",
+    "syntaxTheme": "dark"
   },
   "opts": {
     "destination": "./docs/",
     "recurse": true,
     "verbose": true,
-    "template": "node_modules/docdash/",
-    "readme": "README.md"
-  },
-  "docdash": {
-    "static": true,
-    "sort": true,
-    "collapse": true,
-    "search": true,
-    "lineNumbers": true,
-    "meta": {
-      "title": "Backend API",
-      "description": "Backend API",
-      "url": "https://github.com/Realrichi3"
-    }
+    "template": "node_modules/ink-docstrap/template",
+    "readme": "README.md",
+    "tutorials": "./docs/tutorials"
   }
 }
