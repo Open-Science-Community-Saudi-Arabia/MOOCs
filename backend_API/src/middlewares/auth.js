@@ -5,7 +5,8 @@ const User = require('../models/user.models');
 const asyncWrapper = require('../utils/async_wrapper')
 
 const config = require('../utils/config');
-const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/custom_errors');
+const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/errors');
+const { getRequiredConfigVars } = require('../utils/token');
 
 const issueVerificationToken = async (user) => {
     const token = user.createHashedToken('email_verification');
@@ -21,19 +22,21 @@ const issueVerificationToken = async (user) => {
     return token;
 }
 
-const basicAuth = asyncWrapper(async (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
-    }
+const basicAuth = function (token_type) {
+    return async (req, res, next) => {
 
-    try {
+        const token = req.cookies.token;
+        if (!token) {
+            return next(new CustomAPIError('Unauthenticated, Please Login', 403))
+        }
+
         const blacklisted = await BlacklistedToken.findOne({ token });
         if (blacklisted) {
             throw new UnauthenticatedError('Access Denied, Please Login');
         }
 
-        const data = jwt.verify(token, config.JWT_SECRET);
+        let secret = token_type ? getRequiredConfigVars(token_type).secret : config.JWT_ACCESS_SECRET;
+        const data = jwt.verify(token, secret);
         req.user = { id: data.id, role: data.role }
 
         const curr_user = await User.findById(req.user.id);
@@ -49,11 +52,9 @@ const basicAuth = asyncWrapper(async (req, res, next) => {
             return next(new CustomAPIError('Please verify your email', 403))
         }
 
-        return next();
-    } catch {
-        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
+        next();
     }
-});
+}
 
 module.exports = {
     basicAuth
