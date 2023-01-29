@@ -16,6 +16,19 @@
     "destination": "./docs/",
     "recurse": true,
     "verbose": true,
-    "template": "node_modules/better-docs/"
+    "template": "node_modules/docdash/",
+    "readme": "README.md"
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "collapse": true,
+    "search": true,
+    "lineNumbers": true,
+    "meta": {
+      "title": "Backend API",
+      "description": "Backend API",
+      "url": "https://github.com/Realrichi3"
+    }
   }
 }
