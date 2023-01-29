@@ -1,5 +1,5 @@
 const asyncWrapper = require("../utils/async_wrapper");
-const { UnauthorizedError } = require("../utils/custom_errors");
+const { UnauthorizedError, ForbiddenError } = require("../utils/errors");
 const config = require("../utils/config");
 const jwt = require("jsonwebtoken");
 
@@ -18,20 +18,10 @@ module.exports = function (roles) {
     return asyncWrapper(async (req, res, next) => {
         const allowed_roles = roles.split(" ");
 
-        const token = req.cookies.access_token;
-        if (!token) {
-            console.log('user is not logged in');
-            throw new UnauthorizedError("Authentication required");
+        if (!allowed_roles.includes(req.user.role)) {
+            throw new ForbiddenError("Unauthorized access");
         }
 
-        const data = jwt.verify(token, config.JWT_SECRET);
-        req.user = { id: data.id, role: data.role };
-
-        if (!allowed_roles.includes(payload.role)) {
-            throw new UnauthorizedError("Unauthorized access");
-        }
-
-        console.log('exit')
         next();
     });
 };

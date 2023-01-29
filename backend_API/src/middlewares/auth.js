@@ -1,60 +1,77 @@
+const asyncWrapper = require('../utils/async_wrapper');
+const {
+    CustomAPIError,
+    BadRequestError,
+    UnauthenticatedError,
+} = require('../utils/errors');
 const jwt = require('jsonwebtoken');
 const { BlacklistedToken } = require('../models/token.models');
-const User = require('../models/user.models');
-
-const asyncWrapper = require('../utils/async_wrapper')
+const { getAuthTokens, getRequiredConfigVars } = require('../utils/token');
 
 const config = require('../utils/config');
-const { CustomAPIError, UnauthorizedError, UnauthenticatedError } = require('../utils/custom_errors');
 
-const issueVerificationToken = async (user) => {
-    const token = user.createHashedToken('email_verification');
-    await user.save({ validateBeforeSave: false });
+/**
+ * Middleware to check if the request has a valid authorization header
+ * and if the token is valid
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ * @returns {Promise<void>}
+ * @throws {BadRequestError} if the request has an invalid authorization header
+ * @throws {UnauthenticatedError} if the token is invalid
+ * @throws {UnauthenticatedError} if the token has been blacklisted
+ * @throws {UnauthenticatedError} if the user's account is not active
+ */
+const basicAuth = function (token_type = null) {
+    return async (req, res, next) => {
+        // Check if the request has a valid authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return next(new BadRequestError('Invalid authorization header'));
+        }
 
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-        await TestToken.create({
-            user: currentUser._id,
-            email_verification: ver_token
-        })
-    }
+        let secret = config.JWT_ACCESS_SECRET;
 
-    return token;
-}
+        // If token type is specified, check if the token is of the specified type
+        if (token_type) {
+            secret = getRequiredConfigVars(token_type).secret;
+        }
 
-const basicAuth = asyncWrapper(async (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
-    }
+        // Verify the token
+        const jwtToken = authHeader.split(' ')[1]; console.log(jwtToken)
+        const payload = jwt.verify(jwtToken, secret);
+        req.user = payload;
+        req.token = jwtToken;
 
-    try {
-        const blacklisted = await BlacklistedToken.findOne({ token });
+        // Check if access token has been blacklisted
+        const blacklisted = await BlacklistedToken.findOne({ token: jwtToken });
         if (blacklisted) {
-            throw new UnauthenticatedError('Access Denied, Please Login');
+            return next(new UnauthenticatedError('JWT token expired'));
         }
 
-        const data = jwt.verify(token, config.JWT_SECRET);
-        req.user = { id: data.id, role: data.role }
+        // To get new access token
+        if (req.method == 'GET' && req.path == '/authtoken') {
+            const new_access_token = (await getAuthTokens(payload.id))
+                .access_token;
 
-        const curr_user = await User.findById(req.user.id);
-        if (!curr_user.isVerified) {
-            const ver_token = await issueVerificationToken(curr_user);
-            const verificationURL = `${req.protocol}://${req.get('host')}/api/v1/auth/verify-email/${ver_token}`;
-            await sendEmail({
-                email: curr_user.email,
-                subject: 'Email Verification',
-                message: `Please click on the link below to verify your email address: ${verificationURL}`
-            })
-
-            return next(new CustomAPIError('Please verify your email', 403))
+            return res
+                .status(200)
+                .send({ message: 'success', access_token: new_access_token });
         }
 
-        return next();
-    } catch {
-        return next(new CustomAPIError('Unauthenticated, Please Login', 403))
-    }
-});
+        if (!req.user.status.isActive && !token_type) {
+            return next(
+                new UnauthenticatedError(
+                    'Unauthorized access, users account is not active'
+                )
+            );
+        }
+
+        // If all is well, proceed to the next middleware
+        next();
+    };
+};
 
 module.exports = {
-    basicAuth
+    basicAuth,
 };
