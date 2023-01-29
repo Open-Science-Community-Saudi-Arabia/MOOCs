@@ -19,10 +19,10 @@
   <p align="center" style="font-size:30px; margin-top: 10px; margin-left: 10px">OSCSA</p>
 </div>
 
-<h1 align="center">Massive Open Online Courses (MOOCs) for Open Science in Arabic</h1>
+<h1 align="center">Open Innovation Lab</h1>
 
 <div align="center">
-    Massive Open Online Courses (MOOCs) for Open Science in Arabic that include videos, MCQ questions and written resources!
+    Massive Open Online Courses (MOOCs) for Open Science in Arabic
 </div>
 <br />
 
@@ -39,6 +39,11 @@
   </p>
 </div>
 
+## Introduction
+[Open Science Community Saudi Arabia (OSCSA)](https://osc-ksa.com) was establised in line with Saudi Arabia's Vision 2030, which focuses on installing values, enhancing knowledge and improving equal access to education. It aims to provide a placec where new comers and experienced peers interact, inspire each other to embed open science practives and values in their workflows and provide feedback on policies, infrastructures and support services. Our community is part of the [International Network of Open Science & Scholarship Communities (INOSC)](https://osc-international.com).
+
+Open Innovation lab is a Massive Open Online Courses (MOOCs) platfor, where free online courses and materials are available to enrol. We have developed our own materials and will also include materials from Open Life Sciences and Turing Way. 
+The platform is similar to [Udemy](https://udemy.com), where a user can view videos and written materials as lessons.
 ## Deployment
 Frontend: https://oscsa-moocs.netlify.app/
 
