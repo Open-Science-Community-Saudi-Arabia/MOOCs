@@ -41,6 +41,8 @@
   </p>
 </div>
 
+<div align="justify">
+
 ## Introduction
 [Open Science Community Saudi Arabia (OSCSA)](https://osc-ksa.com) was establised in line with Saudi Arabia's Vision 2030, which focuses on installing values, enhancing knowledge and improving equal access to education. It aims to provide a placec where new comers and experienced peers interact, inspire each other to embed open science practives and values in their workflows and provide feedback on policies, infrastructures and support services. Our community is part of the [International Network of Open Science & Scholarship Communities (INOSC)](https://osc-international.com).
 
@@ -50,27 +52,59 @@ The platform is similar to [Udemy](https://udemy.com), where a user can view vid
 ## Getting Started
 This documentation is built using the [JSDoc](https://github.com/jsdoc/jsdoc) tool, an API documentation generator for JavaScript and [DocStrap](https://github.com/docstrap/docstrap) theme was used for the style. For more information about using JSDoc, see the [documentation](https://jsdoc.app/) guide or the [Get Started guide](https://jsdoc.app/about-getting-started.html)
 
-#### Prerequisites
+### Prerequisites
 To get started with contributing to Open Innovation Lab, you will need;
 - A Github [account](https://github.com/)
 - A basic understanding of Markdown is recommended but not necessary. Here is a [guide](https://www.markdownguide.org/cheat-sheet/)
 
-#### Installation
+### Installation
 The project repository is distributed into two main directories `CLIENT` and `API`. The setup process for the Client and API are quite similar.
 
 Follow these steps:
 1. Create a fork of the [Open Innovation Lab github repository](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs) to your github account.
-2. Clone the forked repository to your local machine
+2. Clone the forked repository to your local machine.
    To do this run:
    ```bash
    git  clone https://github.com/<your-github-username>/MOOCs
    ```
 3. Now you can make your contributions, commit them, push and raise a Pull request for the changes.
+   <i><b>NOTE:</b> Before making any contributions, make sure to go through the [Contribution guidelines](), it covers project specific rules for creating issues, and raising pull requests or any other form of contribution. </i>
 
-<b>NOTE:</b> Before making any contributions, make sure to go through the [Contribution guidelines](), it covers project specific rules for creating issues, and raising pull requests or any other form of contribution. 
+To setup the Client app locally follow these steps;
+#### Frontend
+1. Open your terminal inside the project's root directory
+2. Make sure to have node installed by running the following command
+    ```bash
+    node -v 
+    ```
+    This should display your current node version if it exists
+3. Install [yarn](https://www.npmjs.com/package/yarn) if you don't have it. Follow the installation guide [here](https://classic.yarnpkg.com/en/docs/install)
+4. From the projects root directory, navigate to the `Frontend` folder
+   ```bash
+   cd Frontend
+   ```
+5. Install necessary dependencies, run
+   ```bash
+   yarn install
+   ```
+6. To start the server, run
+   ```bash
+   yarn dev
+   ```
+    You're all set, open http://localhost:5173 to view the hosted project
+
+
+
 
 #### Usage
+- Logi2
+- Uploading courses
+- Enrolling for courses
+- Canceling enrollments
+- Searching for courses
 
+#### Changelog
+This is a brief preview of the project's changelog history, view the full version [here](../CHANGELOG.md)
 
 
 - Introduction
@@ -253,7 +287,7 @@ This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
 
 [![CC BY 4.0][cc-by-image]][cc-by]
-
+</div>
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
