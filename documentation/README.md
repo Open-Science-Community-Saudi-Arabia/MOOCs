@@ -123,7 +123,7 @@ You're all set, all http requests can be sent to http://localhost:5000, except y
 You can refer to the detailed guide in the [Environment Setup Guide]()
 
 
-#### Usage
+### Usage
 - Logi2
 - Uploading courses
 - Enrolling for courses
