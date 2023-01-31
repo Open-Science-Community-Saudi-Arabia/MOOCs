@@ -1,4 +1,7 @@
 {
-    "home": "Home",
-    "page2": "Page 2"
-  }
+  "home": "Home",
+  "courses": "Courses",
+  "about": "About",
+  "faq": "Faq",
+  "blog": "Blog"
+}

@@ -1,10 +1,12 @@
+// flex
 @mixin flex($justify-content, $align-items) {
   display: flex;
   justify-content: $justify-content;
   align-items: $align-items;
 }
 
-@mixin button($width,$bg-color, $color,$hover-bg, $hover-color) {
+// button
+@mixin button($width, $bg-color, $color, $hover-bg, $hover-color) {
   background-color: $bg-color;
   color: $color;
   font-weight: 700;
@@ -15,5 +17,36 @@
   &:hover {
     background-color: $hover-bg;
     color: $hover-color;
+  }
+}
+
+// responsiveness
+@mixin small-screen {
+  @media only screen and (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin meduim-screen {
+  @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin ipad {
+  @media only screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media only screen and (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin xl-screen {
+  @media only screen and (min-width: 1800px) {
+    @content;
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {Navbar }from "../../components/Navbar";
+import { Navbar } from "../../components/Navbar";
 import "./landingpage.scss";
 import illustration from "../../images/Illustration.svg";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ import Footer from "../../components/Footer";
 export default function index() {
   return (
     <>
-    {/* Navbar */}
+      {/* Navbar */}
       <Navbar />
       <section className="hero--container">
         <div className="left">
@@ -82,9 +82,9 @@ export default function index() {
             >
               <div
                 style={{ backgroundColor: option.color }}
-                className="icon-box"
+                className={`${i % 2 && `rev`} icon-box`}
               >
-                <div className="icon">{<option.icon />}</div>
+                {<option.icon />}
               </div>
               <div
                 style={{
@@ -95,10 +95,6 @@ export default function index() {
               >
                 <p className="__name">{option.name} </p>
                 <span className="__content">{option.content} </span>
-                <Link to="">
-                  {" "}
-                  <MdArrowForward className="arrow" />
-                </Link>
               </div>
             </div>
           ))}
@@ -123,8 +119,9 @@ export default function index() {
       </section>
 
       {/* Participants */}
-      <section className="join-class">
-        <div>
+      <section className="participants">
+        <div className="join-class"></div>
+        <div className="text-content">
           {" "}
           <h1>Join Over 1000+ participants to learn high demand Courses.</h1>
           <button>Join Us</button>

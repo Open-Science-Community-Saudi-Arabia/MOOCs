@@ -1,29 +1,46 @@
 @import "../../styles/mixins.scss";
 
 // Footer
-
 .footer {
   .__container {
-    @include flex(start, center);
+    @include ipad {
+      @include flex(space-between, center);
+      gap: 80px;
+    }
+    @include laptop {
+      width: 90%;
+      margin: auto;
+    }
 
-    padding: 4em 8em 2em 8em;
-    gap: 20px;
+    @include xl-screen {
+      width: 60%;
+      margin: auto;
+    }
+    padding: 1.5em;
+  
     .__logo {
-      flex-basis: 30%;
+      text-align: center;
       img {
         width: 200px;
       }
     }
     .right {
-      flex-basis: 100%;
+      flex-basis: 90%;
       @include flex(space-around, start);
-      gap: 10px;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      @include ipad {
+        @include flex(space-between, start);
+        text-align: left;
+        gap: 50px;
+      }
+
       .quicklinks,
       .community {
         h3 {
           font-size: 18px;
           font-weight: 600;
-          margin-bottom: 0.5rem;
         }
         a {
           @include flex(start, center);
@@ -42,7 +59,6 @@
         h3 {
           font-size: 18px;
           font-weight: 600;
-          margin-bottom: 0.5rem;
         }
         a {
           margin-right: 1rem;

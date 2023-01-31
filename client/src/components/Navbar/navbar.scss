@@ -2,65 +2,113 @@
 
 .header {
   @include flex(space-between, center);
-  padding: 1em 5em;
-  .logo {
-    width: 70px;
-    height: 70px;
+  padding: 1em;
+  @include ipad {
+    padding: 2em 5em;
   }
-  .navbar {
-    @include flex(space-around, center);
-    gap: 3em;
-    .navlink {
-      font-size: 16px;
-      &:hover {
-        color: var(--blue);
-      }
-    }
+  @include xl-screen {
+    width: 70%;
+    margin: auto;
   }
-  
-  .auth-btn {
-    @include flex(space-around, center);
-    gap: 2em;
-
-    .language{
-      select{
-        padding:0.5rem;
-        border-radius:8px;
-        border:1px solid var(--black) !important;
-        &:focus-visible{
-          border: none;
-          outline: none
-        }
-      }
+  .navbar_container {
+    width: 80%;
+    @include flex(space-between, center);
+    @include ipad {
+      width: 90%;
     }
-    .btns{
+    .navbar {
       @include flex(space-around, center);
-      gap: 1em;
-      .auth-btn-signup {
-        border: 1px solid var(--black);
-        padding: 13px 30px;
-        background-color: var(--black);
-        color: var(--white);
-        &:hover {
-          background-color: var(--white);
-          color: var(--black);
-        }
-      }
-      .auth-btn-login {
-        border: 1px solid var(--black);
-        padding: 13px 30px;
-        &:hover {
-          background-color: var(--black);
-          color: var(--white);
-        }
-      }
+      gap: 3em;
     }
-   
   }
 }
 
-// @media screen and (min-width: 1025px) {
+.sidebar_container {
+  z-index: 1;
+  position: fixed;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  width: 100%;
+  padding: 1em 2em;
+  background-color: var(--white);
+  .sidebar-logo {
+    @include flex(space-between, center);
+    margin-bottom: 2em;
+    .close_icon {
+      font-size: 30px;
+      color: var(--black);
+    }
+  }
+  nav,
+  .auth-btn,
+  .btns {
+    @include flex(space-around, start);
+    flex-direction: column;
+    gap: 25px;
+  }
+}
 
-// }
+.logo {
+  width: 50px;
+  height: 50px;
+}
 
-// header
+.navlink {
+  font-size: 16px;
+
+  &:hover {
+    color: var(--blue);
+  }
+}
+
+.auth-btn {
+  @include flex(space-around, center);
+  gap: 2em;
+  margin-top: 1.5rem;
+  @include ipad {
+    margin-top: 0;
+  }
+  .language {
+    select {
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--black) !important;
+
+      &:focus-visible {
+        border: none;
+        outline: none;
+      }
+    }
+  }
+
+  .btns {
+    @include flex(space-around, start);
+    gap: 1em;
+    @include ipad {
+      @include flex(space-around, center);
+    }
+
+    .auth-btn-signup {
+      border: 1px solid var(--black);
+      padding: 13px 30px;
+      background-color: var(--black);
+      color: var(--white);
+
+      &:hover {
+        background-color: var(--white);
+        color: var(--black);
+      }
+    }
+
+    .auth-btn-login {
+      border: 1px solid var(--black);
+      padding: 13px 30px;
+
+      &:hover {
+        background-color: var(--black);
+        color: var(--white);
+      }
+    }
+  }
+}

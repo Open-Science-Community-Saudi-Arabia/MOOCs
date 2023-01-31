@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-// import 'react-i18next';
 import ns1 from './locales/en/translations.json';
 import ns2 from './locales/es/translations.json';
 
