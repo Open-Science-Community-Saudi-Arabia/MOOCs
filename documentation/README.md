@@ -119,7 +119,8 @@ To setup the Client app locally follow these steps;
     ```bash
     npm run dev
     ```
-    You're all set, all http requests can be sent to http://localhost:5000, except you specify the PORT variable in the `.env.dev` file
+You're all set, all http requests can be sent to http://localhost:5000, except you specify the PORT variable in the `.env.dev` file
+You can refer to the detailed guide in the [Environment Setup Guide]()
 
 
 #### Usage
