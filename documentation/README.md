@@ -103,6 +103,23 @@ To setup the Client app locally follow these steps;
    This should display your current node version if it's already installed.
    If you don't have [NodeJs](https://nodejs.org/) already installed follow the instructions [here](https://nodejs.org/en/download/)
 3. Install [npm](https://docs.npmjs.com/about-npm), if you don't have npm installed follow the installation guide [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+4. Navigate to the `backend_API` folder
+   ```bash
+   cd backend_API  
+   ```
+5. Install necessary dependencies, run
+   ```bash
+   npm install
+   ```
+6. There are different environments, each environment has an independent configuration file withing the `/backend_API/src/` directory
+   `.env` will be used when you use the `production` environment
+   `.env.dev` will be used when you use the `dev` environment
+   `.env.test` will be used when you use the `test` environment
+7. To start the development server, run
+    ```bash
+    npm run dev
+    ```
+    You're all set, all http requests can be sent to http://localhost:5000, except you specify the PORT variable in the `.env.dev` file
 
 
 #### Usage
