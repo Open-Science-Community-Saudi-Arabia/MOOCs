@@ -77,7 +77,8 @@ To setup the Client app locally follow these steps;
     ```bash
     node -v 
     ```
-    This should display your current node version if it exists
+    This should display your current node version if it exists.
+    If you don't have [NodeJs](https://nodejs.org/) already installed follow the instructions [here](https://nodejs.org/en/download/)
 3. Install [yarn](https://www.npmjs.com/package/yarn) if you don't have it. Follow the installation guide [here](https://classic.yarnpkg.com/en/docs/install)
 4. From the projects root directory, navigate to the `Frontend` folder
    ```bash
@@ -91,9 +92,17 @@ To setup the Client app locally follow these steps;
    ```bash
    yarn dev
    ```
-    You're all set, open http://localhost:5173 to view the hosted project
+    You're all set, open http://localhost:5173 to view the hosted proj
 
-
+#### Backend
+1. Open your terminal inside the project's root directory
+2. Make sure to have node installed, you can check by running
+   ```bash
+   node -v
+   ```
+   This should display your current node version if it's already installed.
+   If you don't have [NodeJs](https://nodejs.org/) already installed follow the instructions [here](https://nodejs.org/en/download/)
+3. Install [npm](https://docs.npmjs.com/about-npm), if you don't have npm installed follow the installation guide [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 
 #### Usage
