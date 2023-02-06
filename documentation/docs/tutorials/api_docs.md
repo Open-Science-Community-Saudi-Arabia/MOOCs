@@ -9,11 +9,11 @@
 This is a brief preview of the project's changelog history, view the full version [here](../CHANGELOG.md)
 
 
-- Introduction
+<!-- - Introduction
 - Getting started
   - Prerequisites
   - Installation Guide
-  - Usage
+  - Usage -->
 - Changelog (short preview of the milestones achieved in the project)
 - Design and architecture
 - Project Folder structure
