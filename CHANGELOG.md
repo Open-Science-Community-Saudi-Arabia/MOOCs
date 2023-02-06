@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `21/01/2023` Improved login, signup auth flow, access token management [#166](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/166)
 - `24/01/2023` Add superAdmin authentication, activateAccount, deactivateAccount feature for superadmin and user [#170](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/170)
 - `03/02/2023` Add github action to schedule PR from sub branches to main [#180](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/180)
-- `
+- `29/01/2023` Combined `client` and `API` documentation [#182](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/182)
   
 ### `Fixed`
 - `21/01/2023` Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
