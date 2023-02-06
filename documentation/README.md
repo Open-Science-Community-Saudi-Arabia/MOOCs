@@ -1,7 +1,4 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-```
-
-```
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -214,7 +211,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-<button class="next"> <a href="./docs/tutorials/api_docs.md"> Next </a> <button>
+<button class="next"> <a href="./tutorial-changelog.html"> Next </a> <button>
 </div>
 
 <!-- MARKDOWN LINKS & IMAGES -->
