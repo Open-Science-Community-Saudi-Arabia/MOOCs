@@ -5,6 +5,8 @@ All notable changes to this project will be documented in here. The content will
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<!-- Add wider spacing between paragraph -->
+<p>&nbsp;</p>
 
 #### Added
 - `10/01/2023` Added code documentation using JsDocs [#155](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/155)
@@ -17,25 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `29/01/2023` Combined `client` and `API` documentation [#182](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/182)
 - `03/02/2023` Add github action to schedule PR from sub branches to main [#180](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/180)
   
-#
+<p>&nbsp;</p>
 
 #### Fixed
 - `21/01/2023` Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
 - `28/01/2023` Review and fixed bugs in auth API [#181](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/181)
 
-#
+<p>&nbsp;</p>
 
 #### Dependencies
 
-#
+<p>&nbsp;</p>
 
 #### Deprecated
 
-#
+<p>&nbsp;</p>
 
 #### Security
 
-#
+<p>&nbsp;</p>
 
 #### Contributors ✨
 
