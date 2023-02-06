@@ -811,4 +811,3 @@ exports.getLoggedInUser = async (req, res, next) => {
     })
 }
 
-
