@@ -1,0 +1,30 @@
+name: Weekly PR from frontend_dev to dev
+
+on:
+  schedule:
+    # minute (0 - 59), hour (0 - 23), day of month (1 - 31), month(1 - 12 or JAN-DEC), day of week (0 - 6 or SUN-SAT)
+    - cron: "00 00 * * SUN"
+  workflow_dispatch: 
+
+jobs:
+  pull-request:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: "frontend_dev"                                              # If blank, default: triggered branch
+          destination_branch: "dev"                                                 # If blank, default: master
+          pr_title: "Weekly auto PR from ${{ github.ref }} into `dev` branch"       # Title of pull request
+          pr_body: |                                                                # Full markdown support, requires pr_title to be set
+            :crown: *An automated PR*
+
+            _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"                           # Path to pull request template, requires pr_title to be set, excludes pr_body
+          pr_reviewer: "@BatoolMM, @sandygudie"                                     # Comma-separated list (no spaces)
+          pr_assignee: "@sandygudie"                                                # Comma-separated list (no spaces)
+          pr_label: "auto-pr, front-end"                                                       # Comma-separated list (no spaces)
+          pr_draft: false                                                           # Creates pull request as draft
+          pr_allow_empty: true                                                      # Creates pull request even if there are no changes
+          github_token: ${{ secrets.REPO_TOKEN }}                                   # If blank, default: secrets.GITHUB_TOKEN
