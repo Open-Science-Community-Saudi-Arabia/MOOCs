@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: `${__dirname}/.env`})
 const connect = require('connect');
 const serveStatic = require('serve-static')
 const PORT = process.env.PORT || 8080
