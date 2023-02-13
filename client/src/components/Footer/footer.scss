@@ -41,6 +41,7 @@
         h3 {
           font-size: 18px;
           font-weight: 600;
+          margin-bottom: 0.5rem
         }
         a {
           @include flex(start, center);
@@ -50,7 +51,7 @@
           font-weight: 500;
           color: var(--gray);
           &:hover {
-            color: var(--blue);
+            color: var(--green);
           }
         }
       }
@@ -59,6 +60,7 @@
         h3 {
           font-size: 18px;
           font-weight: 600;
+          margin-bottom: 0.5rem
         }
         a {
           margin-right: 1rem;
@@ -74,7 +76,7 @@
             }
           }
           &:hover {
-            color: var(--blue);
+            color: var(--green);
           }
         }
       }

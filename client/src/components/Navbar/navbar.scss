@@ -1,20 +1,20 @@
 @import "../../styles/mixins.scss";
 
 .header {
-  @include flex(space-between, center);
+  @include flex(space-between, baseline);
   padding: 1em;
   @include ipad {
-    padding: 2em 5em;
+    padding: 1em 5em;
   }
   @include xl-screen {
     width: 70%;
     margin: auto;
   }
   .navbar_container {
-    width: 80%;
+    width: 75%;
     @include flex(space-between, center);
     @include ipad {
-      width: 90%;
+      // width: 90%;
     }
     .navbar {
       @include flex(space-around, center);
@@ -50,15 +50,21 @@
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  // width: 600px;
+  // height: 80px;
+  // object-fit: contain;
 }
 
 .navlink {
   font-size: 16px;
+  font-weight: 500;
+  color: var(--gray);
+  font-weight: 600;
+
+
 
   &:hover {
-    color: var(--blue);
+    color: var(--green);
   }
 }
 
@@ -73,7 +79,8 @@
     select {
       padding: 0.5rem;
       border-radius: 8px;
-      border: 1px solid var(--black) !important;
+      border: 1px solid var(--green) !important;
+    color: var(--green);
 
       &:focus-visible {
         border: none;
@@ -88,27 +95,17 @@
     @include ipad {
       @include flex(space-around, center);
     }
-
-    .auth-btn-signup {
-      border: 1px solid var(--black);
+    .auth-btn-signup, .auth-btn-login  {
+      @include button(
+        auto,
+        var(--green),
+        var(--white),
+        var(--white),
+        var(--green),
+        var(--green)
+      );
       padding: 13px 30px;
-      background-color: var(--black);
-      color: var(--white);
-
-      &:hover {
-        background-color: var(--white);
-        color: var(--black);
-      }
     }
-
-    .auth-btn-login {
-      border: 1px solid var(--black);
-      padding: 13px 30px;
-
-      &:hover {
-        background-color: var(--black);
-        color: var(--white);
-      }
-    }
+    
   }
 }

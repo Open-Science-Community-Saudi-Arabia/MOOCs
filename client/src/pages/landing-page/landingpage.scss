@@ -4,28 +4,34 @@
 
 .hero--container {
   width: 90%;
-  margin: 2rem auto;
+  margin: 1em auto;
   @include ipad {
     @include flex(space-between, center);
-    margin: 4rem auto;
   }
   @include xl-screen {
     width: 60%;
   }
   .left {
-    flex-basis: 50%;
+
+    @include ipad {
+      flex-basis: 100%;
+    }
+    @include laptop {
+      flex-basis: 50%;
+    }
     h1 {
-      font-size: 34px;
+      font-size: 25px;
       font-weight: 700;
       @include ipad {
-        font-size: 64px;
+        font-size: 63px;
         line-height: 72px;
       }
     }
     p {
       font-size: 18px;
-      margin: 2em 0em;
-      line-height: 22px;
+      margin: 1em 0em;
+      font-weight: 500;
+      color: var(--gray);
     }
     .btns {
       @include flex(start, center);
@@ -33,10 +39,11 @@
       button {
         @include button(
           150px,
-          var(--blue),
+          var(--green),
           var(--white),
           var(--white),
-          var(--blue)
+          var(--green),
+          var(--green)
         );
       }
       .all-plans-link {
@@ -48,8 +55,10 @@
   }
   .right {
     img {
-      height: 500px;
       width: 100%;
+      @include ipad {
+        height: 500px;
+      }
     }
   }
 }
@@ -57,31 +66,34 @@
 // section Courses section ------
 .courses-section {
   width: 90%;
-  margin: 1em auto;
-  @include ipad {
-    margin: 4em auto;
-  }
+  margin: 4em auto;
   h1 {
-    font-size: 30px;
+    font-size: 25px;
     text-align: center;
+    @include ipad {
+      font-size: 30px;
+    }
   }
   .course-container {
     @include ipad {
       @include flex(center, center);
       gap: 60px;
+      margin-top: 3rem;
     }
-    margin-top: 4rem;
+    margin-top: 2rem;
     .course {
+      position: relative;
       cursor: pointer;
+      height: 400px;
       @include ipad {
         width: 400px;
-        height: 450px;
+        padding: 2.5em;
       }
       @include xl-screen {
         width: 32%;
         height: 450px;
       }
-      padding: 2.5em;
+      padding: 2em;
       margin: 1rem 0rem;
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       border-radius: 20px;
@@ -96,31 +108,37 @@
         }
       }
       .name {
-        font-size: 20px;
-        font-size: 700;
+        font-size: 17px;
         text-align: left;
-        line-height: 30px;
-      }
-      .member {
-        font-size: 14px;
-        margin: 0.3rem 0;
-        font-weight: 600;
-        color: var(--gray);
+        @include xl-screen {
+          font-size: 20px;
+        }
       }
       .description {
-        margin: 1.5rem 0;
-        font-weight: 400;
+        margin: 1rem 0;
+        font-weight: 500;
         color: var(--gray);
+        line-height: 23px;
+        @include xl-screen {
+          margin: 1.5rem 0;
+        }
       }
       .btn {
+        position: absolute;
+        bottom: 20px;
+        left: 30px;
         @include button(
           150px,
-          var(--blue),
+          var(--green),
           var(--white),
           var(--white),
-          var(--blue)
+          var(--green),
+          var(--green)
         );
         border-radius: 50px;
+        @include ipad {
+          bottom: 40px;
+        }
       }
       &:hover {
         background-color: hsl(240deg 100% 55% / 12%);
@@ -131,30 +149,31 @@
     }
   }
   .course-list {
-    margin: 6rem auto;
     @include flex(center, center);
     flex-wrap: wrap;
     gap: 20px;
     @include meduim-screen {
       justify-content: space-around;
     }
+    @include ipad {
+      margin: 4rem auto;
+    }
     @include laptop {
-      width: 60%;
+      width: 70%;
     }
     div {
       cursor: pointer;
       text-align: center;
       .course-icon {
-        font-size: 3em;
-        color: var(--gray);
-        opacity: 40%;
+        width: 150px;
+        height: 100px;
+        object-fit: contain;
       }
       .course-name {
         font-size: 15px;
         color: var(--gray);
         opacity: 60%;
         font-weight: 700;
-        margin-top: 17px;
       }
       .react-tooltip {
         width: 90px;
@@ -162,7 +181,6 @@
         font-size: 11px;
         padding: 7px 3px;
         @include laptop {
-          top: 1200px !important;
         }
       }
       &:hover {
@@ -180,10 +198,10 @@
     width: 250px;
     margin: auto;
     padding: 1rem;
-    border: 1px solid var(--blue);
+    border: 1px solid var(--green);
     text-align: center;
     border-radius: 20px;
-    background-color: var(--blue);
+    background-color: var(--green);
     color: var(--white);
     .arrow {
       font-size: 18px;
@@ -193,7 +211,7 @@
     }
     &:hover {
       background-color: var(--white);
-      color: var(--blue);
+      color: var(--green);
       // Add arrow animation instead
     }
   }
@@ -306,7 +324,7 @@
 .participants {
   height: 400px;
   position: relative;
-  background-color: var(--blue);
+  background-color: var(--green);
   .join-class {
     background-image: url("../../images/radial.png");
     width: 100%;
@@ -338,8 +356,10 @@
         var(--white),
         var(--black),
         var(--black),
-        var(--white)
+        var(--white),
+        var(--green)
       );
+      border: none;
       margin-top: 2rem;
       font-size: 16px;
       font-weight: 700;

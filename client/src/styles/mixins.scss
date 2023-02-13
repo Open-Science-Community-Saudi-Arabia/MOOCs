@@ -6,14 +6,14 @@
 }
 
 // button
-@mixin button($width, $bg-color, $color, $hover-bg, $hover-color) {
+@mixin button($width, $bg-color, $color, $hover-bg, $hover-color,$border-color) {
   background-color: $bg-color;
   color: $color;
   font-weight: 700;
-  border: none;
+ font-size: 15px;
   padding: 1.2em;
   width: $width;
-  border: 1px solid var(--blue);
+  border: 1px solid $border-color;
   &:hover {
     background-color: $hover-bg;
     color: $hover-color;

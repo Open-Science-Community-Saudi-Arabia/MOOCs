@@ -49,7 +49,7 @@ export default function index() {
           </div>
         </div>
       </div>
-      <p>Copyright © OSCSA 2023</p>
+      <p>Copyright © OSCSA MOOCS {new Date().getFullYear()}</p>
     </div>
   );
 }

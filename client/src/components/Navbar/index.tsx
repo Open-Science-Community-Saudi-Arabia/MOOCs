@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../images/oscsalogo.jpg";
+import logo from "../../images/Black-Logo3.png";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ export function Navbar() {
   const [open, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
-  let mediascreen = window.matchMedia("(min-width: 1024px)").matches;
+  let mediascreen = window.matchMedia("(min-width: 1250px)").matches;
 
   function changeLanguage(e: any) {
     setLanguage(e.target.value);

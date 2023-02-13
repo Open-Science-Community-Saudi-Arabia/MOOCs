@@ -3,6 +3,12 @@ import JavaScript from "../images/javascript.png";
 import Outreachy from "../images/outreachy.png";
 import Unesco from "../images/unesco.webp";
 import CSS from "../images/css.png";
+import creativecommon from "../images/creative-common.png";
+import githublogo from "../images/github-logo.png";
+import nextflow from "../images/nextflow.png";
+import rlogo from "../images/r-logo.png";
+import web3 from "../images/web3.png";
+
 import {
   SiHtml5,
   SiCss3,
@@ -24,17 +30,17 @@ import { RiCreativeCommonsFill } from "react-icons/ri";
 export const Courses = [
   {
     id: 0,
-    name: " Learn Git and GitHub for team collaboration",
+    name: "Unlock the secrets of Open Science.",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Proin amet ac nunc portavolutpat semper donec eget.",
+      "A beginner-friendly course to introduce the concepts and practices of Open Science.",
     icon: Github,
     members: "5000",
   },
   {
     id: 2,
-    name: "Javascript fundamentals for software development",
+    name: "Your Open Science Journey Begins Here.",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Proin amet ac nunc portavolutpat semper donec eget.",
+      "Learn the basics of Open Science and start your journey towards more open and transparent research and education.",
     icon: JavaScript,
     members: "660",
   },
@@ -44,28 +50,28 @@ export const Courses = [
 export const CourseList = [
   {
     id: 0,
-    icon: SiHtml5,
-    name: "HTML",
+    icon: creativecommon,
+    name: "creative-common",
   },
   {
     id: 1,
-    icon: SiCss3,
-    name: "CSS",
+    icon: githublogo,
+    name: "github",
   },
   {
     id: 2,
-    icon: SiReact,
-    name: "REACT",
+    icon: nextflow,
+    name: "nextflow",
   },
   {
     id: 3,
-    icon: SiTypescript,
-    name: "TYPESCRIPT",
+    icon: rlogo,
+    name: "rlogo",
   },
   {
     id: 4,
-    icon: SiNextdotjs,
-    name: "NEXTJS",
+    icon: web3,
+    name: "web3",
   },
 ];
 
@@ -93,7 +99,7 @@ export const OpenPractice = [
     name: "OPEN HARDWARE",
     color: "#d4f1ff",
     content:
-      "Open source hardware is a hardware that is built based on principles analogous to open source software",
+      "Open source hardware is a hardware that is built based on principles analogous to open source software.",
   },
   {
     id: 3,
@@ -126,16 +132,16 @@ export const Supporter = [
   {
     id: 0,
     icon: Unesco,
-    name: "UNESCO"
+    name: "UNESCO",
   },
   {
     id: 1,
     icon: Outreachy,
-    name: "Outreachy"
+    name: "Outreachy",
   },
   {
     id: 2,
     icon: CSS,
-    name: "CSS"
+    name: "CSS",
   },
 ];

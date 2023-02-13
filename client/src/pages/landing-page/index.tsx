@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "../../components/Navbar";
 import "./landingpage.scss";
-import illustration from "../../images/Illustration.svg";
+import illustration from "../../images/hero-image.svg";
 import { Link } from "react-router-dom";
 import { CourseList, Courses, OpenPractice, Supporter } from "../../data";
 import { Tooltip } from "react-tooltip";
@@ -15,17 +15,17 @@ export default function index() {
       <Navbar />
       <section className="hero--container">
         <div className="left">
-          <h1 className="">Search and find your best courses with easy way</h1>
+          <h1 className="">
+            {" "}
+            <span>Learning with Open Innovation MOOCs </span>
+            <br />
+          </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur. Proin amet ac nunc porta
-            volutpat semper donec eget. Bibendum gravida sagittis tortor eu sit.
-            Tempor molestie eget sit lorem.
+            Revolutionize your research and education journey with Open
+            Innovation MOOCs. Innovate with Open Science today.
           </p>
           <div className="btns">
             <button>Join us now!</button>
-            <Link className="all-plans-link" to="/">
-              See all plans
-            </Link>
           </div>
         </div>
         <div className="right">
@@ -43,17 +43,21 @@ export default function index() {
                 <img src={option.icon} className="icon" alt="icon" />
               </div>
               <h3 className="name">{option.name}</h3>
-              <p className="member">{option.members}+ enrolled</p>
+              {/* <p className="member">{option.members}+ enrolled</p> */}
               <p className="description">{option.description}</p>
               <button className="btn">Start Learning</button>
             </div>
           ))}
         </div>
+
         <div className="course-list">
           {CourseList.map((course) => (
             <div key={course.id} id={course.name}>
-              <course.icon key={course.id} className="course-icon" />
-              <p className="course-name">{course.name}</p>
+              <img
+                src={course.icon}
+                className="course-icon"
+                alt={course.name}
+              />
               <Tooltip
                 anchorId={course.name}
                 place="top"
@@ -62,6 +66,7 @@ export default function index() {
             </div>
           ))}
         </div>
+
         <Link to="" className="more-courses">
           <span> See All Courses</span>
           <MdArrowForward className="arrow" />
