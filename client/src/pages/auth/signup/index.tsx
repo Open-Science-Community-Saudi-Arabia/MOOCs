@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { BiErrorCircle } from "react-icons/bi";
@@ -7,31 +7,7 @@ import { signUp } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { SignUpRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-
-const baseURL = import.meta.env.VITE_API_BASEURL;
-const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-declare const window: {
-  google: {
-    accounts: {
-      id: {
-        initialize: (arg0: {
-          client_id: any;
-          callback: (response: any) => Promise<unknown>;
-        }) => void;
-        renderButton: (
-          arg0: HTMLElement | null,
-          arg1: {
-            type: "standard",
-            theme: string;
-            size: string;
-            text: string;
-            shape: string;
-          }
-        ) => void;
-      };
-    };
-  };
-};
+import { GoogleLogin } from "@react-oauth/google";
 
 function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
@@ -39,27 +15,7 @@ function Signup() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { handleGoogle, loading, error } = useFetch(baseURL);
-
-  useEffect(() => {
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: googleID,
-        callback: handleGoogle,
-      });
-
-      window.google.accounts.id.renderButton(
-        document.getElementById("signUpDiv"),
-        {
-          type: "standard",
-          theme: "outline",
-          size: "large",
-          text: "continue_with",
-          shape: "pill",
-        }
-      );
-    }
-  }, [handleGoogle]);
+  const { handleGoogle, loading } = useFetch();
 
   const signupHandler = async (event: any) => {
     setCheckPassword(false);
@@ -104,7 +60,20 @@ function Signup() {
         <div className="form-content">
           <h1>Sign Up to MOOCs</h1>
 
-          <div id="signUpDiv"> </div>
+          <div className="loginDiv">
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                handleGoogle(credentialResponse);
+              }}
+              onError={() => {
+                toast.error("login failed", {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                  theme: "colored",
+                });
+              }}
+            />{" "}
+          </div>
           <p className="or">OR</p>
 
           <form onSubmit={signupHandler} method="POST">

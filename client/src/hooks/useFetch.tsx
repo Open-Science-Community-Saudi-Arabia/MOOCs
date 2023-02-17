@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { setToken } from "../utils";
 
-const useFetch = (baseURL: string) => {
+const baseURL = import.meta.env.VITE_API_BASEURL;
+const useFetch = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(" ");
 
   const handleGoogle = async (response: any) => {
     try {
@@ -26,7 +26,7 @@ const useFetch = (baseURL: string) => {
       return error;
     }
   };
-  return { loading, error, handleGoogle };
+  return { loading, handleGoogle };
 };
 
 export default useFetch;
