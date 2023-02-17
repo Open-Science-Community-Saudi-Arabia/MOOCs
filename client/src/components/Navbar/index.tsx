@@ -62,8 +62,8 @@ export function Navbar() {
                   </select>
                 </div>
                 <div className="btns">
-                  <button className="auth-btn-login">Log In</button>
-                  <button className="auth-btn-signup">Sign Up</button>
+                  <Link to="/login" className="auth-btn-login">Log In</Link>
+                  <Link to="/signup" className="auth-btn-signup">Sign Up</Link>
                 </div>
               </div>
             </div>

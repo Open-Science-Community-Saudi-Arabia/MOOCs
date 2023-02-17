@@ -12,7 +12,6 @@
     width: 60%;
   }
   .left {
-
     @include ipad {
       flex-basis: 100%;
     }
@@ -137,11 +136,11 @@
         );
         border-radius: 50px;
         @include ipad {
-          bottom: 40px;
+          bottom: 20px;
         }
       }
       &:hover {
-        background-color: hsl(240deg 100% 55% / 12%);
+        background-color: hsl(172deg 55% 82% / 38%);
         .icon-content {
           background-color: var(--white);
         }

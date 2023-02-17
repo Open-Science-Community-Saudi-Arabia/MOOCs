@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import ns1 from './locales/en/translations.json';
-import ns2 from './locales/es/translations.json';
+import ns1 from './locales/en.json';
+import ns2 from './locales/es.json';
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
