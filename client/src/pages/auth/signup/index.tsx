@@ -1,50 +1,63 @@
 import React, { useEffect, useState } from "react";
-// import "../style.scss"
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { BiErrorCircle } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import { signUp } from "../../../utils/api/auth";
-// import GoogleLogin from "../../../utils/api/google"
 import Spinner from "../../../components/Spinner";
 import { SignUpRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
 
-
-
 const baseURL = import.meta.env.VITE_API_BASEURL;
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-declare const google: any;
+declare const window: {
+  google: {
+    accounts: {
+      id: {
+        initialize: (arg0: {
+          client_id: any;
+          callback: (response: any) => Promise<unknown>;
+        }) => void;
+        renderButton: (
+          arg0: HTMLElement | null,
+          arg1: {
+            type: "standard",
+            theme: string;
+            size: string;
+            text: string;
+            shape: string;
+          }
+        ) => void;
+      };
+    };
+  };
+};
+
 function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [loadingBoard, setLoadingBoard] = useState(false);
   const navigate = useNavigate();
 
-
-  
-  const { handleGoogle, loading, error } = useFetch(
-    baseURL
-  );
+  const { handleGoogle, loading, error } = useFetch(baseURL);
 
   useEffect(() => {
-    /* global google */
-    if (google) {
-      google.accounts.id.initialize({
+    if (window.google) {
+      window.google.accounts.id.initialize({
         client_id: googleID,
         callback: handleGoogle,
       });
 
-      google.accounts.id.renderButton(document.getElementById("signUpDiv"), {
-        // type: "standard",
-        theme: "filled_black",
-        // size: "small",
-        text: "continue_with",
-        shape: "pill",
-      });
-
-      // google.accounts.id.prompt()
+      window.google.accounts.id.renderButton(
+        document.getElementById("signUpDiv"),
+        {
+          type: "standard",
+          theme: "outline",
+          size: "large",
+          text: "continue_with",
+          shape: "pill",
+        }
+      );
     }
   }, [handleGoogle]);
 
@@ -85,14 +98,14 @@ function Signup() {
 
   return (
     <>
-      {/* <section className=" forms-container forms"> */}
-      {loadingBoard ? (
-        <Spinner loadingBoard={loadingBoard} />
+      {loading ? (
+        <Spinner loading={loading} />
       ) : (
         <div className="form-content">
           <h1>Sign Up to MOOCs</h1>
 
-          <div id="buttonDiv" />
+          <div id="signUpDiv"> </div>
+          <p className="or">OR</p>
 
           <form onSubmit={signupHandler} method="POST">
             <div className="name-input">
@@ -166,10 +179,6 @@ function Signup() {
           </div>
         </div>
       )}
-
-      {/* </section> */}
-      <div id="signUpDiv"> </div>
-      {/* <GoogleLogin setLoadingBoard={setLoadingBoard} /> */}
     </>
   );
 }

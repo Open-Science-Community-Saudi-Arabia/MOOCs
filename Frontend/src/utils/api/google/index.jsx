@@ -6,6 +6,7 @@ import { setToken } from '../../index'
 const baseURL = import.meta.env.VITE_API_BASEURL
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
+
 function GoogleLogin({ setLoadingBoard }) {
   async function handleGoogle(response) {
     try {

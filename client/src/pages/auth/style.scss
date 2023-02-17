@@ -4,13 +4,24 @@
   max-width: 450px;
   width: 80%;
   margin: auto;
-  padding: 30px;
+  padding: 0px 30px;
   border-radius: 6px;
   text-align: center;
+
   h1 {
     margin: 1em 0em;
     font-size: 28px;
-    text-align: center;
+  }
+
+  .or {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  #signUpDiv,
+  #loginDiv {
+    width: 60%;
+    margin: 1em auto;
   }
 
   a:hover {
@@ -23,24 +34,29 @@
     justify-content: space-between;
     gap: 10px;
   }
+
   #buttonDiv {
     display: flex;
     justify-content: center;
     margin: 26px 0em;
   }
+
   .form-bottom {
     margin-top: 10px;
+
     a {
       font-size: 14px;
       color: var(--green);
       font-weight: 500;
     }
+
     .forgotpassword-link {
       width: 90%;
       display: block;
       margin-left: auto;
       text-align: right;
     }
+
     .form-link {
       text-align: center;
       margin-top: 15px;
@@ -50,7 +66,6 @@
 
 // Input field
 form {
-  margin-top: 8px;
   .field {
     position: relative;
     height: 50px;
@@ -58,6 +73,7 @@ form {
     margin-top: 25px;
     border-radius: 6px;
   }
+
   .field input,
   .field button {
     height: 100%;
@@ -72,12 +88,15 @@ form {
     outline: none;
     padding: 0 15px;
     border: 1px solid var(--gray-203);
+
     &:focus {
       border-bottom-width: 2px;
     }
   }
+
   .button-field {
     margin-top: 30px !important;
+
     button {
       color: var(--white);
       font-weight: 700;
@@ -87,15 +106,18 @@ form {
       display: flex;
       justify-content: center;
       align-items: center;
+
       &:hover {
         opacity: 50%;
       }
     }
   }
+
   .password-check,
   .error-input {
     border: 1px solid var(--error) !important;
   }
+
   .error {
     color: var(--error);
     font-size: 13px;
@@ -103,6 +125,7 @@ form {
     display: flex;
     gap: 5px;
   }
+
   .eye-icon {
     position: absolute;
     top: 58%;
@@ -118,6 +141,7 @@ form {
 .Toastify__toast-theme--colored.Toastify__toast--success {
   background-color: hsl(122, 39%, 58%) !important;
 }
+
 @media screen and (max-width: 400px) {
   .form-content {
     width: 90%;
