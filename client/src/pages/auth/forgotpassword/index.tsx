@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { setToken } from "../../../utils";
 import Spinner from "../../../components/Spinner";
 import { forgotpassword } from "../../../utils/api/auth";
+import { ForgetPasswordReqPayload } from "../../../types";
 
 export default function ForgotPassword() {
   const [isLoading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ export default function ForgotPassword() {
   const forgotPasswordHandler = async (event: any) => {
     event.preventDefault();
     try {
-      const formData = {
+      const formData: ForgetPasswordReqPayload = {
         email: event.target.email.value,
       };
       setLoading(true);

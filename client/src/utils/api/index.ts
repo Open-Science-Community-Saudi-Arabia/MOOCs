@@ -1,27 +1,29 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { TOKEN_KEY } from '../constants'
 
 const token = localStorage.getItem(TOKEN_KEY)
 const baseURL = import.meta.env.VITE_API_BASEURL
 
-if (token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`
-  }
-  async function makeApiCall(url,method,payload,axiosRequestConfig){
-try{
+async function makeApiCall<T = any>(
+  url: string,
+  method: AxiosRequestConfig['method'] = 'get',
+  payload?: AxiosRequestConfig['data'],
+  axiosRequestConfig?: Omit<AxiosRequestConfig, 'url' | 'method' | 'data'>
+): Promise<T> {
+  try {
     if (!baseURL || typeof baseURL !== 'string') {
-        throw new Error('VITE_API_BASEURL is not defined')
-      }
-      const { data } = await axios({
-        url,
-        method,
-        data: payload,
-        baseURL,
-        ...axiosRequestConfig,
-      })
-  
+      throw new Error('VITE_API_BASEURL is not defined')
+    }
+    const { data } = await axios({
+      url,
+      method,
+      data: payload,
+      baseURL,
+      ...axiosRequestConfig,
+    })
+
       return data
-} catch (error) {
+} catch (error:any) {
     // use the server error response if available
     if (error.response) {
       const serverMessage = error.response?.data?.message

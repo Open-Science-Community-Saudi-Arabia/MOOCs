@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import Spinner from "../../../components/Spinner";
 import { resetpassword } from "../../../utils/api/auth";
+import { ResetPasswordReqPayload } from "../../../types";
 
 export default function ResetPassword() {
   const [isLoading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export default function ResetPassword() {
   const resetPasswordHandler = async (event: any) => {
     event.preventDefault();
     try {
-      const formData = {
+      const formData:ResetPasswordReqPayload = {
         password_reset_code: event.target.resetcode.value,
         new_password: event.target.password.value,
       };

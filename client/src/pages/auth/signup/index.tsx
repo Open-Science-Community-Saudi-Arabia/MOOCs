@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import "../style.scss"
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
@@ -7,13 +7,46 @@ import { ToastContainer, toast } from "react-toastify";
 import { signUp } from "../../../utils/api/auth";
 // import GoogleLogin from "../../../utils/api/google"
 import Spinner from "../../../components/Spinner";
+import { SignUpRequestPayload } from "../../../types";
+import useFetch from "../../../hooks/useFetch";
 
+
+
+const baseURL = import.meta.env.VITE_API_BASEURL;
+const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+declare const google: any;
 function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [loadingBoard, setLoadingBoard] = useState(false);
   const navigate = useNavigate();
+
+
+  
+  const { handleGoogle, loading, error } = useFetch(
+    baseURL
+  );
+
+  useEffect(() => {
+    /* global google */
+    if (google) {
+      google.accounts.id.initialize({
+        client_id: googleID,
+        callback: handleGoogle,
+      });
+
+      google.accounts.id.renderButton(document.getElementById("signUpDiv"), {
+        // type: "standard",
+        theme: "filled_black",
+        // size: "small",
+        text: "continue_with",
+        shape: "pill",
+      });
+
+      // google.accounts.id.prompt()
+    }
+  }, [handleGoogle]);
 
   const signupHandler = async (event: any) => {
     setCheckPassword(false);
@@ -23,7 +56,7 @@ function Signup() {
       setCheckPassword(true);
     } else {
       try {
-        const formData = {
+        const formData: SignUpRequestPayload = {
           firstname: event.target.firstname.value,
           lastname: event.target.lastname.value,
           email: event.target.email.value,
@@ -125,19 +158,17 @@ function Signup() {
           </form>
           <div className="form-bottom">
             <div className="form-link">
-           
-                Already have an Account?
-                <Link to="/login" className="link signup-link">
-                  &nbsp; Login
-                </Link>
-             
+              Already have an Account?
+              <Link to="/login" className="link signup-link">
+                &nbsp; Login
+              </Link>
             </div>
           </div>
         </div>
       )}
 
       {/* </section> */}
-
+      <div id="signUpDiv"> </div>
       {/* <GoogleLogin setLoadingBoard={setLoadingBoard} /> */}
     </>
   );
