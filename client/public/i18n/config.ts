@@ -13,7 +13,6 @@ i18n
       addPath: "i18n/locales/add/{{lng}}",
     },
     interpolation: { escapeValue: false },
-    debug: true,
   });
 
 export default i18n;
