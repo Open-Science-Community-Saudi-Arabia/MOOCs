@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./styles/GlobalStyles.scss";
 import "react-tooltip/dist/react-tooltip.css";
-import "../public/i18n/config.ts";
+import "./i18n/config";
 import LandingPage from "./pages/landing-page";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
@@ -14,7 +14,7 @@ import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
 function App() {
   return (
-    <Suspense fallback={<Spinner/>}>
+    <Suspense fallback={<Spinner />}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route element={<Layout />}>
@@ -23,7 +23,6 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Route>
-
         <Route
           path="/dashboard"
           element={
