@@ -75,20 +75,7 @@
   @include ipad {
     margin-top: 0;
   }
-  .language {
-    select {
-      padding: 0.5rem;
-      border-radius: 8px;
-      border: 1px solid var(--green) !important;
-    color: var(--green);
-
-      &:focus-visible {
-        border: none;
-        outline: none;
-      }
-    }
-  }
-
+  
   .btns {
     @include flex(space-around, start);
     gap: 1em;

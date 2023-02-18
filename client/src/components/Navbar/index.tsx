@@ -1,22 +1,62 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../../images/Black-Logo3.png";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IoMdCloseCircle } from "react-icons/io";
+import Select from "react-select";
 
 export function Navbar() {
-  const [language, setLanguage] = useState("");
   const [open, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
   let mediascreen = window.matchMedia("(min-width: 1250px)").matches;
 
-  function changeLanguage(e: any) {
-    setLanguage(e.target.value);
-    i18n.changeLanguage(e.target.value);
+  function changeLanguage(selectedOption: any) {
+    i18n.changeLanguage(selectedOption.value);
   }
+  const options = [
+    { value: "en", label: "English" },
+    { value: "es", label: "Arabic" },
+  ];
+  const customStyles = {
+    option: (defaultStyles: any, state: any) => ({
+      ...defaultStyles,
+      padding: "5px 12px",
+      color: state.isSelected ? "#ffff" : "#009985",
+      backgroundColor: state.isSelected ? "#009985" : "#ffff",
+      ":active": {
+        ...defaultStyles[":active"],
+        backgroundColor: "#ffff",
+      },
+    }),
+
+    control: (defaultStyles: any) => ({
+      ...defaultStyles,
+      padding: "2px",
+      border: "0.5px solid #009985",
+      boxShadow: "none",
+      borderRadius: "8px",
+      ":hover": {
+        ...defaultStyles[":hover"],
+        border: "0.5px solid #009985",
+      },
+    }),
+    singleValue: (defaultStyles: any) => ({
+      ...defaultStyles,
+      color: "#009985",
+    }),
+    dropdownIndicator: (defaultStyles: any) => ({
+      ...defaultStyles,
+      color: "#009985 !important",
+    }),
+    menuList: (defaultStyles: any) => ({
+      ...defaultStyles,
+      padding: "0",
+      borderRadius: "5px",
+    }),
+  };
   return (
     <>
       <header className="header">
@@ -55,15 +95,21 @@ export function Navbar() {
               </nav>
 
               <div className="auth-btn">
-                <div className="language">
-                  <select value={language} onChange={(e) => changeLanguage(e)}>
-                    <option value="en">English</option>
-                    <option value="es">Arabic</option>
-                  </select>
-                </div>
+                <Select
+                  onChange={changeLanguage}
+                  defaultValue={options[0]}
+                  options={options}
+                  styles={customStyles}
+                  isSearchable={false}
+                />
+
                 <div className="btns">
-                  <Link to="/login" className="auth-btn-login">Log In</Link>
-                  <Link to="/signup" className="auth-btn-signup">Sign Up</Link>
+                  <Link to="/login" className="auth-btn-login">
+                    Log In
+                  </Link>
+                  <Link to="/signup" className="auth-btn-signup">
+                    Sign Up
+                  </Link>
                 </div>
               </div>
             </div>

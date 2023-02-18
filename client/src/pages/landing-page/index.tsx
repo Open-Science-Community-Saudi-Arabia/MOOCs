@@ -43,7 +43,6 @@ export default function index() {
                 <img src={option.icon} className="icon" alt="icon" />
               </div>
               <h3 className="name">{option.name}</h3>
-              {/* <p className="member">{option.members}+ enrolled</p> */}
               <p className="description">{option.description}</p>
               <button className="btn">Start Learning</button>
             </div>
