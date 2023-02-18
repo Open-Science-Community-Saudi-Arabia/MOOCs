@@ -18,6 +18,6 @@
     "jsx": "react-jsx",
     
   },
-  "include": ["src"],
+  "include": ["src", "public/i18n"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -9,8 +9,8 @@ i18n
     fallbackLng: "en",
     lng: "en",
     backend: {
-      loadPath: "src/i18n/locales/{{lng}}.json",
-      addPath: "src/i18n/locales/add/{{lng}}",
+      loadPath: "i18n/locales/{{lng}}.json",
+      addPath: "i18n/locales/add/{{lng}}",
     },
     interpolation: { escapeValue: false },
     debug: true,
