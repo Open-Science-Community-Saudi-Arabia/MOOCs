@@ -10,6 +10,7 @@ i18n
     lng: "en",
     backend: { loadPath: "/src/i18n/locales/{{lng}}.json" },
     interpolation: { escapeValue: false },
+    debug: true,
   });
 
 export default i18n;
