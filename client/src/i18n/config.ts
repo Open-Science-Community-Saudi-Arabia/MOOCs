@@ -8,7 +8,10 @@ i18n
   .init({
     fallbackLng: "en",
     lng: "en",
-    backend: { loadPath: "src/i18n/locales/{{lng}}.json" },
+    backend: {
+      loadPath: "src/i18n/locales/{{lng}}.json",
+      addPath: "src/i18n/locales/add/{{lng}}",
+    },
     interpolation: { escapeValue: false },
     debug: true,
   });
