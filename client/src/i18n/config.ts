@@ -9,7 +9,8 @@ i18n
     fallbackLng: "en",
     lng: "en",
     backend: { loadPath: "/src/i18n/locales/{{lng}}.json" },
-    interpolation: { escapeValue: false }
+    interpolation: { escapeValue: false },
+    debug: true,
   });
 
 export default i18n;
