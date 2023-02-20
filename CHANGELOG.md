@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `21/01/2023` Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
 - `28/01/2023` Review and fixed bugs in auth API [#181](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/181)
 - `06/02/2023` Fixed title of schedule PR to match source branch [#188](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/188)
+- `20/02/2023` Fixed documentation deployment not rendering html docs [#196](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/196)
 
 
 ### `Dependencies`
