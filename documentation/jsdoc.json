@@ -9,7 +9,7 @@
     "syntaxTheme": "dark"
   },
   "opts": {
-    "destination": "./docs/",
+    "destination": "./",
     "recurse": true,
     "verbose": true,
     "template": "node_modules/ink-docstrap/template",
