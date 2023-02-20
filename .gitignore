@@ -39,7 +39,7 @@ vignettes/*.pdf
 .Renviron
 
 # Backend API sensitive files
-/backend_API/src/.env*
+/API/src/.env*
 *node_modules/
 
 # History files
@@ -83,9 +83,9 @@ vignettes/*.pdf
 .Renviron
 
 # Backend API sensitive files
-/backend_API/src/*.env
+/API/src/*.env
 *node_modules/
-./backend_API/out
+./API/out
 
 # Frontend 
 # Logs
