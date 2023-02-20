@@ -18,7 +18,7 @@ export function Navbar() {
   }
   const options = [
     { value: "en", label: "English" },
-    { value: "es", label: "Arabic" },
+    { value: "ar", label: "Arabic" },
   ];
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
