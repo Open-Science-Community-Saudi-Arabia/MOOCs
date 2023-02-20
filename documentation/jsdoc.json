@@ -1,5 +1,6 @@
 {
   "source": {
+    "include": ["../backend_API/src", "../Frontend/src"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
@@ -9,7 +10,7 @@
     "syntaxTheme": "dark"
   },
   "opts": {
-    "destination": "./",
+    "destination": "./docs/",
     "recurse": true,
     "verbose": true,
     "template": "node_modules/ink-docstrap/template",
