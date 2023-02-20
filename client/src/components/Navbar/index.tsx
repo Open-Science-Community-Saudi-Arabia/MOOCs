@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../images/Black-Logo3.png";
+import logo from "../../images/logo-MOOCs.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";

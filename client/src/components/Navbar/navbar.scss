@@ -1,7 +1,7 @@
 @import "../../styles/mixins.scss";
 
 .header {
-  @include flex(space-between, baseline);
+  @include flex(space-between, center);
   padding: 1em;
   @include ipad {
     padding: 1em 5em;
@@ -51,9 +51,8 @@
 }
 
 .logo {
-  // width: 600px;
-  // height: 80px;
-  // object-fit: contain;
+  width: 150px;
+  height: 100px;
 }
 
 .navlink {
@@ -61,8 +60,6 @@
   font-weight: 500;
   color: var(--gray);
   font-weight: 600;
-
-
 
   &:hover {
     color: var(--green);
@@ -76,14 +73,15 @@
   @include ipad {
     margin-top: 0;
   }
-  
+
   .btns {
     @include flex(space-around, start);
     gap: 1em;
     @include ipad {
       @include flex(space-around, center);
     }
-    .auth-btn-signup, .auth-btn-login  {
+    .auth-btn-signup,
+    .auth-btn-login {
       @include button(
         auto,
         var(--green),
@@ -93,8 +91,6 @@
         var(--green)
       );
       padding: 13px 30px;
-  
     }
-    
   }
 }
