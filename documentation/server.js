@@ -1,9 +1,12 @@
 require('dotenv').config({ path: `${__dirname}/.env`})
+console.log(__dirname)
 const PORT = process.env.PORT
 
 const express = require('express');
 const app = express();
+const morgan = require('morgan')
 
+app.use(morgan('dev'))
 app.use(express.static('./docs'));
 
 app.listen(PORT, () => {
