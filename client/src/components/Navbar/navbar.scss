@@ -7,8 +7,9 @@
     padding: 1em 5em;
   }
   @include xl-screen {
-    width: 70%;
+    width: 60%;
     margin: auto;
+    padding: 0;
   }
   .navbar_container {
     width: 75%;

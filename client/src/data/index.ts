@@ -8,23 +8,9 @@ import githublogo from "../images/github-logo.png";
 import nextflow from "../images/nextflow.png";
 import rlogo from "../images/r-logo.png";
 import web3 from "../images/web3.png";
-
-import {
-  SiHtml5,
-  SiCss3,
-  SiReact,
-  SiTypescript,
-  SiNextdotjs,
-} from "react-icons/si";
-
-import {
-  FaOsi,
-  FaMicrochip,
-  FaLockOpen,
-  FaDatabase,
-  FaChalkboardTeacher,
-} from "react-icons/fa";
-import { RiCreativeCommonsFill } from "react-icons/ri";
+import openbook from "../images/openbook.svg";
+import knowledge from "../images/knowledge.svg";
+import brain from "../images/brain.svg";
 
 // Display Course List
 export const Courses = [
@@ -79,7 +65,7 @@ export const CourseList = [
 export const OpenPractice = [
   {
     id: 0,
-    icon: FaOsi,
+    icon: openbook,
     name: "OPEN SOURCE",
     color: "#ededed",
     content:
@@ -87,7 +73,7 @@ export const OpenPractice = [
   },
   {
     id: 1,
-    icon: RiCreativeCommonsFill,
+    icon: knowledge,
     name: "OPEN LICENSE",
     color: "#fff3d4",
     content:
@@ -95,35 +81,11 @@ export const OpenPractice = [
   },
   {
     id: 2,
-    icon: FaMicrochip,
+    icon: brain,
     name: "OPEN HARDWARE",
     color: "#d4f1ff",
     content:
       "Open source hardware is a hardware that is built based on principles analogous to open source software.",
-  },
-  {
-    id: 3,
-    icon: FaDatabase,
-    name: "FAIR PRINCIPLES",
-    color: "#ffe0d4",
-    content:
-      "The FAIR principles describe how research outputs should be organised so they can be more easily accessed, understood, exchanged and reused.",
-  },
-  {
-    id: 4,
-    icon: FaChalkboardTeacher,
-    name: "OPEN EDUCATIONAL RESOURCES",
-    color: "#ededed",
-    content:
-      "They are any learning and research materials that reside in the public domain or under an open license",
-  },
-  {
-    id: 5,
-    icon: FaLockOpen,
-    name: "OPEN ACCESS",
-    color: "#d4f1ff",
-    content:
-      "Open Access refers to online, free of cost access to peer reviewed scientific content with limited copyright and licensing restrictions.",
   },
 ];
 

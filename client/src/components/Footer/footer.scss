@@ -6,15 +6,16 @@
     @include ipad {
       @include flex(space-between, center);
       gap: 80px;
+      margin: 3em auto;
     }
     @include laptop {
       width: 90%;
-      margin: auto;
+      
     }
 
     @include xl-screen {
       width: 60%;
-      margin: auto;
+
     }
     padding: 1.5em;
   
@@ -45,8 +46,7 @@
         }
         a {
           @include flex(start, center);
-          padding-top: 0.5rem;
-          padding-bottom: 0.4rem;
+          padding:0.8em 0em;
           font-size: 15px;
           font-weight: 500;
           color: var(--gray);

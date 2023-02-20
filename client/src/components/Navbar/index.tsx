@@ -23,9 +23,10 @@ export function Navbar() {
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
       ...defaultStyles,
-      padding: "5px 12px",
+      padding: "12px 12px",
       color: state.isSelected ? "#ffff" : "#009985",
       backgroundColor: state.isSelected ? "#009985" : "#ffff",
+      fontSize: "14px",
       ":active": {
         ...defaultStyles[":active"],
         backgroundColor: "#ffff",
@@ -38,6 +39,7 @@ export function Navbar() {
       border: "0.5px solid #009985",
       boxShadow: "none",
       borderRadius: "8px",
+      width: "117px",
       ":hover": {
         ...defaultStyles[":hover"],
         border: "0.5px solid #009985",

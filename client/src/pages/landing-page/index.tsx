@@ -74,34 +74,33 @@ export default function index() {
 
       {/* Open science practice section */}
       <section className="open-science-section">
-        <h1>Open Science Practices</h1>
         <div className="__container">
-          {OpenPractice.map((option, i) => (
-            <div
-              key={option.id}
-              style={{
-                flexDirection: i % 2 ? "row-reverse" : "row",
-              }}
-              className="practices"
-            >
+          <h1>Open Science Practices</h1>
+          <div className="__content">
+            {OpenPractice.map((option, i) => (
               <div
-                style={{ backgroundColor: option.color }}
-                className={`${i % 2 && `rev`} icon-box`}
+                key={option.id}
+                // style={{
+                //   flexDirection: i % 2 ? "row-reverse" : "row",
+                // }}
+                className="practices"
               >
-                {<option.icon />}
+                {/* <div className={`${i % 2 && `rev`}`}> */}
+                <img src={option.icon} alt="image" />
+                {/* </div> */}
+                <div
+                  // style={{
+                  //   alignItems: i % 2 ? "end" : "start",
+                  //   textAlign: i % 2 ? "right" : "initial",
+                  // }}
+                  className="description"
+                >
+                  <p className="__name">{option.name} </p>
+                  <span className="__content">{option.content} </span>
+                </div>
               </div>
-              <div
-                style={{
-                  alignItems: i % 2 ? "end" : "start",
-                  textAlign: i % 2 ? "right" : "initial",
-                }}
-                className="description"
-              >
-                <p className="__name">{option.name} </p>
-                <span className="__content">{option.content} </span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
