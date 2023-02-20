@@ -10,6 +10,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsdoc": "^4.0.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "serve-static": "^1.15.0",
     "taffydb": "^2.7.3"
@@ -17,7 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "jsdoc -c jsdoc.json",
-    "serve:docs": "nodemon ./server.js"
+    "serve:docs": "node ./server.js"
   },
   "keywords": [],
   "author": "",
