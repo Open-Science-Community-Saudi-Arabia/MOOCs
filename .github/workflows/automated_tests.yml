@@ -19,10 +19,10 @@ jobs:
       - name: Create env file for test environment
         run: |
           cd ./API/src
-          touch .env.test
+          touch ./env.test
           pwd
           ls -lf
-          echo `${{ secrets.ENV_TEST }}` >> .env.test
+          echo `${{ secrets.ENV_TEST }}` >> ./env.test
           cat .env.test
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -31,6 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
+          cat ./app.js
           pwd
           npm install
           npm run test
