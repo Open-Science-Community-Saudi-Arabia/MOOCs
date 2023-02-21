@@ -21,8 +21,4 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd API/src 
-      - run: pwd 
-      - run: ls -lf
-      - run: npm ci
-      - run: npm run test
+      - run: cd ./API/src && npm install && npm run test
