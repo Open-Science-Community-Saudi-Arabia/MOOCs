@@ -23,7 +23,7 @@ jobs:
       - run: |
           cd ./API/src
           touch .env.test 
-          echo "${{secrets.ENV_TEST}}" > .env.test
+          echo ${{ secrets.ENV_TEST }} > .env.test
           pwd
           cat ./.env.test
           npm install
