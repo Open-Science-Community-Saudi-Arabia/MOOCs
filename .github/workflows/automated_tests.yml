@@ -22,7 +22,7 @@ jobs:
           touch ./.env.test
           pwd
           ls -lf
-          echo `${{ secrets.ENV_TEST }}` >> ./env.test
+          echo "this is a test sdlkfal;sdjflas;dkjf" >> ./env.test
           cat .env.test
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -31,7 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
-          cat ./app.js
+          cat ./.env.test
           pwd
           npm install
           npm run test
