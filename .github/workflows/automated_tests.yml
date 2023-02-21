@@ -23,10 +23,10 @@ jobs:
           pwd
           ls -lf
           echo "lfasjdf;lkajsdflkjasdf" >> ./.env.test
-          echo "${{secrets.ENV_TEST}}" >> ./.env.test
+          echo ${{ secrets.ENV_TEST }} >> ./.env.test
           cat .env.test
           pwd
-          
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
