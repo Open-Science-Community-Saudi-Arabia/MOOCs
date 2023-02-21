@@ -1,15 +1,19 @@
 
 import { useEffect } from "react"
 import axios from 'axios'
+import PropTypes from "prop-types"
 import { setToken } from '../../index'
 
 const baseURL = import.meta.env.VITE_API_BASEURL
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-function GoogleLogin({ setLoadingBoard }) {
+ /**
+ * @function Google Login
+ */
+function GoogleLogin({ loadingBoardHandler }) {
   async function handleGoogle(response) {
     try {
-      setLoadingBoard(true)
+      loadingBoardHandler(true)
       await axios(
         {
           method: "post",
@@ -24,7 +28,7 @@ function GoogleLogin({ setLoadingBoard }) {
           return window.location.assign('/dashboard')
         })
     } catch (error) {
-      setLoadingBoard(false)
+      loadingBoardHandler(false)
       return error
     }
 
@@ -44,7 +48,10 @@ function GoogleLogin({ setLoadingBoard }) {
 
 
 }
-
+// GoogleLogin.propTypes = {
+//  setLoadingBoard: PropTypes.bool.isRequired
+ 
+// }
 export default GoogleLogin
 
 

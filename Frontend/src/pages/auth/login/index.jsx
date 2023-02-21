@@ -8,15 +8,19 @@ import GoogleLogin from "../../../utils/api/google"
 import Spinner from "../../../components/Spinner"
 
 
-
 function Login() {
     const [toggleVisibility, setToggleVisibility] = useState(false);
     const [IsError, setError] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [loadingBoard, setLoadingBoard] = useState(false);
-
     const navigate = useNavigate()
 
+/**
+ * @function Login
+ */
+    /**
+     * @param {HTMLElement} event `Event`
+     */
     const loginHandler = async (event) => {
         setError(false)
         event.preventDefault();
@@ -41,6 +45,10 @@ function Login() {
         }
 
     }
+   const loadingBoardHandler=(status)=>{
+setLoadingBoard(status)
+   }
+   
     return (
         <>
 
@@ -93,7 +101,7 @@ function Login() {
 
 
 
-            <GoogleLogin setLoadingBoard={setLoadingBoard} />
+            <GoogleLogin loadingBoardHandler={loadingBoardHandler} />
 
         </>
 
