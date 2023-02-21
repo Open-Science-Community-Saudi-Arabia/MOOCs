@@ -40,6 +40,9 @@ vignettes/*.pdf
 
 # Backend API sensitive files
 /API/src/.env*
+/API/src/.env
+/API/src/.env.dev
+/API/src/.env.test
 *node_modules/
 
 # History files
