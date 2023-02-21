@@ -85,7 +85,7 @@ describe('User Authentication for Signup, Email verification, login and password
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.be.a('object')
 
-            expect(res.body.message).to.be.a('string').to.include('already exists please user another email')
+            expect(res.body.message).to.be.a('string').to.include('User account exists already, verification mail sent to user')
         })
     })
 

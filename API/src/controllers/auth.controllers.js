@@ -121,8 +121,10 @@ const handleExistingUser = function (user) {
             await handleUnverifiedUser(existing_user)(req);
 
             // Return access token
-            res.status(200).json({
-                success: true, data: {
+            res.status(400).json({
+                success: true,
+                message: 'User account exists already, verification mail sent to user', 
+                data: {
                     user: {
                         _id: existing_user._id,
                         firstname: existing_user.firstname,
@@ -132,7 +134,7 @@ const handleExistingUser = function (user) {
                 }
             });
         } else {
-            next(new BadRequestError('User already exists'));
+            return next(new BadRequestError('User already exists'));
         }
     };
 };
@@ -165,7 +167,7 @@ exports.signup = async (req, res, next) => {
     // if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
     //     return next(new BadRequestError('Please provide all required fields'));
     // }
-    
+
     if (!passwordConfirm) { return next (new BadRequestError('Path `passwordConfirm` is required., Try again'))}
     if (!role) role = 'EndUser';
 
