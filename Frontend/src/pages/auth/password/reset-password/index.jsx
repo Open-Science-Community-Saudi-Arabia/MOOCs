@@ -12,6 +12,15 @@ export default function ResetPassword() {
     const [toggleVisibility, setToggleVisibility] = useState(false);
     const navigate = useNavigate()
 
+/**
+ * @function Reset Password
+ */
+        /**
+ * handles password reset
+ * @param {HTMLElement} event `Event`
+ * 
+ */
+    /** */
     const resetPasswordHandler = async (event) => {
 
         event.preventDefault();
