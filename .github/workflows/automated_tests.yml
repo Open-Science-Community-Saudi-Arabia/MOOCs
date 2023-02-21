@@ -22,7 +22,8 @@ jobs:
           touch ./.env.test
           pwd
           ls -lf
-          echo `${{ secrets.ENV_TEST }}` >> ./.env.test
+          echo "lfasjdf;lkajsdflkjasdf" >> ./.env.test
+          echo `${{secrets.ENV_TEST}}` >> ./.env.test
           cat .env.test
 
       - name: Use Node.js ${{ matrix.node-version }}
