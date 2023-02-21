@@ -94,7 +94,7 @@ const handleUnverifiedUser = function (user) {
         const verification_url = `${req.protocol}://${req.get(
             'host')}/api/v1/auth/verifyemail/${access_token}`;
 
-        console.log(verification_url)
+        //console.log(verification_url)
         // Send verification email
         sendEmail({
             email: user.email,
@@ -115,7 +115,7 @@ const handleExistingUser = function (user) {
     return async function (req, res, next) {
         const existing_user = user.toJSON({ virtuals: true });
 
-        console.log(existing_user);
+        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
@@ -158,13 +158,15 @@ exports.passportOauthCallback = function (req, res) {
  * // TODO: Add super admin signup
  */
 exports.signup = async (req, res, next) => {
-    const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
+    let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
 
+    // NOTE: Will be handled by mongoose schema validation
     // Check if all required fields are provided
-    if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
-        return next(new BadRequestError('Please provide all required fields'));
-    }
-
+    // if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
+    //     return next(new BadRequestError('Please provide all required fields'));
+    // }
+    
+    if (!passwordConfirm) { return next (new BadRequestError('Path `passwordConfirm` is required., Try again'))}
     if (!role) role = 'EndUser';
 
     // Check if superAdmin tries to create another superadmin from - addAdmin route
@@ -173,7 +175,7 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    console.log(existing_user)
+    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
@@ -253,7 +255,7 @@ exports.login = async (req, res, next) => {
     }
     //check if email exists
     const currentUser = await User.findOne({ email }).populate('password status')
-    console.log(currentUser);
+    //console.log(currentUser);
 
     //Check if email and password matches
     if (
@@ -346,7 +348,7 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     // Check if a super admin account exists, and it's not active
     const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
-    console.log(super_admin)
+    //console.log(super_admin)
 
     // Check if account is active 
     if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
@@ -410,7 +412,7 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
     }
 
     const admin = await User.findOne({ _id: req.user.id, role: 'SuperAdmin' }).populate('status')
-    console.log(admin)
+    //console.log(admin)
 
     // Check if user exists
     if (!admin) {
@@ -467,7 +469,7 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
 
-    console.log(super_admin)
+    //console.log(super_admin)
     // Check if account is active 
     if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
 
@@ -659,7 +661,7 @@ exports.forgetPassword = async (req, res, next) => {
     if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
     const current_user = await User.findOne({ email })
-    console.log(current_user);
+    //console.log(current_user);
 
     //  Check if user exists
     if (!current_user) return next(new BadRequestError('User does not exist'));
