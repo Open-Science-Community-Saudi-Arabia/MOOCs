@@ -5,6 +5,7 @@ const config = require('./config');
 const User = require('../models/user.models');
 const UUID = require('uuid').v4;
 
+console.log(__dirname)
 console.log(process.env)
 
 const createUser = async (data) => {
