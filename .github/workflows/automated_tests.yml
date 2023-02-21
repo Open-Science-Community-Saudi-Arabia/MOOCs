@@ -22,6 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src 
+          pwd
           echo "${{secrets.ENV_TEST}}" > .env.test
           cat ./.env.test
           npm install
