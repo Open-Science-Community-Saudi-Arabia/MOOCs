@@ -24,7 +24,5 @@ jobs:
           cd ./API/src 
           echo "${{secrets.ENV_TEST}}" > .env.test
           cat ./.env.test
-          # ls -lf
-          # pwd
           npm install
           npm run test
