@@ -8,7 +8,7 @@ const fs = require('fs')
 
 console.log(__dirname)
 // console.log(config)
-var buffer = new Buffer(fs.readFileSync(__dirname + '\\..\\.env.test','utf8'));
+var buffer = new Buffer(fs.readFileSync(__dirname + '/../env.test','utf8'));
 console.log(buffer.toString())
 
 const createUser = async (data) => {
