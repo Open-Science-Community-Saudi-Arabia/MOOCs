@@ -85,10 +85,10 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 
 // user_schema.post('save', async function (doc, next) {
 //     // Check if session is active
-//     console.log('post save')
-//     console.log(this)
+//     //console.log('post save')
+//     //console.log(this)
 //     let session;
-//     console.log(session)
+//     //console.log(session)
 //     if (this.session) { session = this.sesssion }
 
 //     next()
@@ -97,7 +97,7 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 status.pre('save', async function (next) {
     // Check if it is a new document
     if (this.isNew) {
-        console.log('Not modified')
+        //console.log('Not modified')
         await this.populate('user')
         // Check if user is an enduser
         if (this.user.role == 'EndUser') this.isActive = true;
