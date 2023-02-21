@@ -4,9 +4,12 @@ const GitHubStrategy = require('passport-github').Strategy;
 const config = require('./config');
 const User = require('../models/user.models');
 const UUID = require('uuid').v4;
+const fs = require('fs')
 
 console.log(__dirname)
-console.log(process.env)
+// console.log(config)
+var buffer = new Buffer(fs.readFileSync(__dirname + '\\..\\.env.test','utf8'));
+console.log(buffer.toString())
 
 const createUser = async (data) => {
     try {
