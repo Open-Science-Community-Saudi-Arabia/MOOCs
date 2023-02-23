@@ -85,7 +85,14 @@ describe('User Authentication for Signup, Email verification, login and password
             expect(message).to.be.a('string').to.equal('Please Provide a valid Email, Try again')
         })
 
-        it('should return statuscode 200 for successful signup', async () => {
+        it('should return statuscode 200 for successful signup', async () => {f
+            /*
+             Should test for successuful signup request
+             - check statuscode
+             - check response body and it's properties
+             - ensure necessary user data are present in response body
+             */
+
             const res = await app.post(url).send(signup_data)
             expect(res.statusCode).to.equal(200)
 
@@ -106,6 +113,13 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for duplicate signup', async () => {
+            /*
+             Should return BadRequestError (400) for duplicate signup request
+             without complete required fields in request body
+             - check statusCode, should be equal to 400
+             - check response message
+             */
+            
             const res = await app.post(url).send(signup_data)
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.be.a('object')
