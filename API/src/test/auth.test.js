@@ -176,21 +176,26 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for unverified user', async () => {
+            /*
+             Should return BadRequestError (400) for login request
+             from an unverified user
+             
+             - check statuscode
+             - check message property in response body
+             */
             await app.post('/api/v1/auth/signup').send(signup_data)
             const res = await app.post(url).send(login_data)
 
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Please verify your email')
-
-            const user_data = await User.findOne({ email: login_data.email }).populate('status')
-            // await user_data.status.update({ isVerified: true })
-            user_data.status.isVerified = true
-            await user_data.status.save()
         })
 
         it('should return status code 200 for successful login', async () => {
+            const user_data = await User.findOne({ email: login_data.email }).populate('status')
+            user_data.status.isVerified = true
+            await user_data.status.save()
+
             const res = await app.post(url).send(login_data)
-            console.log(res.body)
 
             expect(res.body).to.have.a.property('success').to.be.a('boolean').to.equal(true)
             expect(res.statusCode).to.equal(200)
