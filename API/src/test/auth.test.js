@@ -8,7 +8,7 @@ const request = require('supertest'),
     app = request.agent(server)
 
 // const TestToken = require('../models/test_token.models')
-const User = require('../models/user.models')
+const { User, Status } = require('../models/user.models')
 
 
 
@@ -45,7 +45,7 @@ describe('User Authentication for Signup, Email verification, login and password
             const res = await app.post(url).send(signup_data)
 
             expect(res.statusCode).to.equal(400)
-            
+
             const request_message = res.body.message
             expect(request_message).to.be.a('string').to.include("Path")
             expect(request_message).to.be.a('string').to.include("is required")
@@ -89,42 +89,55 @@ describe('User Authentication for Signup, Email verification, login and password
         })
     })
 
-    // describe('POST /login', () => {
-    //     const url = '/api/v1/auth/login'
-    //     let user;
+    describe('POST /login', () => {
+        const url = '/api/v1/auth/login'
+        let user;
 
-    //     it('should return status code 400 for missing parameter in request body', async () => {
-    //         const res = await app.post(url).send({ email: login_data.email })
+        it('should return status code 400 for missing parameter in request body', async () => {
+            const res = await app.post(url).send({ email: login_data.email })
 
-    //         expect(res.statusCode).to.equal(400)
-    //         expect(res.body.message).to.be.a('string').to.equal("Please Provide Email and Password")
-    //     })
+            expect(res.statusCode).to.equal(400)
+            expect(res.body.message).to.be.a('string').to.equal("Please provide email and password")
+        })
 
-    //     it('should return status code 400 for invalid login credentials', async () => {
-    //         const res = await app.post(url).send({ email: login_data.email, password: 'thisisnotthecorrectpassword' })
+        it('should return status code 400 for invalid login credentials', async () => {
+            const res = await app.post(url).send({ email: login_data.email, password: 'thisisnotthecorrectpassword' })
 
-    //         expect(res.statusCode).to.equal(400)
-    //         expect(res.body.message).to.be.a('string').to.equal('Incorrect Email or Password')
-    //     })
+            expect(res.statusCode).to.equal(400)
+            expect(res.body.message).to.be.a('string').to.equal('Incorrect email or password')
+        })
 
+        it('should return status code 400 for unverified user', async () => {
+            await app.post('/api/v1/auth/signup').send(signup_data)
+            const res = await app.post(url).send(login_data)
 
-    //     it('should return status code 200 for successful login', async () => {
-    //         await app.post('/api/v1/auth/signup').send(signup_data)
-    //         const res = await app.post(url).send(login_data)
+            expect(res.statusCode).to.equal(400)
+            expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Please verify your email')
 
-    //         expect(res.body).to.have.a.property('token').to.be.a('string')
-    //         expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
-    //         expect(res.statusCode).to.equal(200)
+            const user_data = await User.findOne({ email: login_data.email }).populate('status')
+            // await user_data.status.update({ isVerified: true })
+            user_data.status.isVerified = true
+            await user_data.status.save()
+        })
 
-    //         expect(res.body).to.have.a.property('data').to.be.a('object')
-    //         expect(res.body.data).to.have.a.property('user').to.be.a('object')
-    //         expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
-    //         expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
-    //         expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
-    //         expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
-    //     })
+        it('should return status code 200 for successful login', async () => {
+            const res = await app.post(url).send(login_data)
+            console.log(res.body)
 
-    // })
+            expect(res.body).to.have.a.property('success').to.be.a('boolean').to.equal(true)
+            expect(res.statusCode).to.equal(200)
+
+            expect(res.body).to.have.a.property('data').to.be.a('object')
+            expect(res.body.data).to.have.a.property('access_token').to.be.a('string')
+            expect(res.body.data).to.have.a.property('refresh_token').to.be.a('string')
+            expect(res.body.data).to.have.a.property('user').to.be.a('object')
+            expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
+            expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
+            expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
+            expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
+        })
+
+    })
 
     // describe('POST /forgotPassword', () => {
     //     const url = '/api/v1/auth/forgotPassword'
