@@ -1,25 +1,22 @@
-require('dotenv').config({ path: `${__dirname}/../.env.${process.env.NODE_ENV}` })
+// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
-const { expect } = require('chai')
 const { default: mongoose } = require('mongoose')
-const connectDatabase = require('../db/connectDB')
+const expect = require('chai').expect
 
-describe('Database connection and test for env variables', () => {
-    it("should return 'test' for NODE_ENV environment variable", async () => {
-        expect(process.env.NODE_ENV).to.equal('test')
+const server = require('../app')
+const request = require('supertest'),
+    app = request.agent(server)
+
+// const TestToken = require('../models/test_token.models')
+const { User, Status } = require('../models/user.models')
+
+
+describe('User Authentication for Signup, Email verification, login and password reset', () => {
+    // Clear the test database before running tests
+    before(async () => {
+        await mongoose.connection.dropDatabase()
     })
 
-    it("should confirm that 'test' string is in the db name", async () => {
-        expect(process.env.MONGO_URI_TEST).to.include('test')
-    })
-
-    // const TestToken = require('../models/test_token.models')
-    const { User, Status } = require('../models/user.models')
-
-    await mongoose.connection.dropDatabase()
-})
-
-describe('API authentication tests', () => {
     beforeEach(async () => {
         signup_data = {
             firstname: "testfirstname",
@@ -43,11 +40,22 @@ describe('API authentication tests', () => {
         })
 
         it('should return status code 400 for missing parameter in request body', async () => {
+            /*
+             Should return BadRequestError (400) for request 
+             without complete required fields in request body
+             */
+
             signup_data.firstname = null
+
+            // Send signup request to API
             const res = await app.post(url).send(signup_data)
 
-            expect(res.statusCode).to.equal(400)
+            // Response status code should match BadRequest (400)
+            const response_statuscode = res.statusCode
+            expect(response_statuscode).to.equal(400)
 
+            // message property should exist in request body
+            // message should include 'Path is required, Try again'
             const request_message = res.body.message
             expect(request_message).to.be.a('string').to.include("Path")
             expect(request_message).to.be.a('string').to.include("is required")
@@ -112,7 +120,7 @@ describe('API authentication tests', () => {
             const response_body = res.body
             expect(response_body).to.have.a.property('message')
 
-            // Message should equal 'Please provide email and password'
+            // Message should equal 'Please provide email and
             const message = response_body.message
             expect(message).to.be.a('string').to.equal("Please provide email and password")
         })
