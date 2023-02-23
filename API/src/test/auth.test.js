@@ -5,20 +5,21 @@ const { default: mongoose } = require('mongoose')
 const connectDatabase = require('../db/connectDB')
 
 describe('Database connection and test for env variables', () => {
-    it("should return 'test' for NODE_ENV environment variable", async() => {
+    it("should return 'test' for NODE_ENV environment variable", async () => {
         expect(process.env.NODE_ENV).to.equal('test')
     })
-    
-    it("should confirm that 'test' string is in the db name", async() => {
+
+    it("should confirm that 'test' string is in the db name", async () => {
         expect(process.env.MONGO_URI_TEST).to.include('test')
     })
 
-// const TestToken = require('../models/test_token.models')
-const { User, Status } = require('../models/user.models')
+    // const TestToken = require('../models/test_token.models')
+    const { User, Status } = require('../models/user.models')
 
-        await mongoose.connection.dropDatabase()
-    })
+    await mongoose.connection.dropDatabase()
+})
 
+describe('API authentication tests', () => {
     beforeEach(async () => {
         signup_data = {
             firstname: "testfirstname",
@@ -95,10 +96,25 @@ const { User, Status } = require('../models/user.models')
         let user;
 
         it('should return status code 400 for missing parameter in request body', async () => {
+            /*
+             Should return BadRequestError (400) for request 
+             without complete required fields in request body
+             */
+
+            // Send login request
             const res = await app.post(url).send({ email: login_data.email })
 
-            expect(res.statusCode).to.equal(400)
-            expect(res.body.message).to.be.a('string').to.equal("Please provide email and password")
+            // Status code for api resposne should be 400 for BadRequest
+            const response_statuscode = res.statusCode
+            expect(response_statuscode).to.equal(400)
+
+            // Request body should have a message property
+            const response_body = res.body
+            expect(response_body).to.have.a.property('message')
+
+            // Message should equal 'Please provide email and password'
+            const message = response_body.message
+            expect(message).to.be.a('string').to.equal("Please provide email and password")
         })
 
         it('should return status code 400 for invalid login credentials', async () => {
