@@ -85,9 +85,11 @@ describe('User Authentication for Signup, Email verification, login and password
             expect(message).to.be.a('string').to.equal('Please Provide a valid Email, Try again')
         })
 
-        it('should return statuscode 200 for successful signup', async () => {f
+        it('should return statuscode 200 for successful signup', async () => {
+            f
             /*
              Should test for successuful signup request
+
              - check statuscode
              - check response body and it's properties
              - ensure necessary user data are present in response body
@@ -116,10 +118,11 @@ describe('User Authentication for Signup, Email verification, login and password
             /*
              Should return BadRequestError (400) for duplicate signup request
              without complete required fields in request body
+
              - check statusCode, should be equal to 400
              - check response message
              */
-            
+
             const res = await app.post(url).send(signup_data)
             expect(res.statusCode).to.equal(400)
             expect(res.body).to.be.a('object')
@@ -155,7 +158,18 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for invalid login credentials', async () => {
-            const res = await app.post(url).send({ email: login_data.email, password: 'thisisnotthecorrectpassword' })
+            /*
+             Should return BadRequestError (400) for request 
+             login request with invalid credentials
+
+             - check status code
+             - check messgae property in response body
+             */
+            const res = await app.post(url).send(
+                {
+                    email: login_data.email,
+                    password: 'thisisnotthecorrectpassword'
+                })
 
             expect(res.statusCode).to.equal(400)
             expect(res.body.message).to.be.a('string').to.equal('Incorrect email or password')
