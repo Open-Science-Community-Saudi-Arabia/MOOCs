@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 async function connectDatabase(url) {
     return new Promise((resolve, reject) => {
+        mongoose.set('strictQuery', false)
         mongoose.connect(url)
             .then((response) => {
                 if (process.env.NODE_ENV != 'test') {

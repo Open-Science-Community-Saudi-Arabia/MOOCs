@@ -38,7 +38,7 @@ const basicAuth = function (token_type = null) {
         }
 
         // Verify the token
-        const jwtToken = authHeader.split(' ')[1]; console.log(jwtToken)
+        const jwtToken = authHeader.split(' ')[1]; //console.log(jwtToken)
         const payload = jwt.verify(jwtToken, secret);
         req.user = payload;
         req.token = jwtToken;

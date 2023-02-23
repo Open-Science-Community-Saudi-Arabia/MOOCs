@@ -7,6 +7,8 @@ if (process.env.NODE_ENV) {
 const config = require('./utils/config');
 const app = require('./app');
 
+console.log(config)
+
 const connectDatabase = require('./db/connectDB');
 
 function getMongoURI() {
