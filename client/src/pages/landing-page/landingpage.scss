@@ -4,12 +4,12 @@
 
 .hero--container {
   width: 90%;
-  margin: 1em auto;
+  margin: 3em auto;
   @include ipad {
     @include flex(space-between, center);
   }
   @include xl-screen {
-    width: 60%;
+    width: 70%;
   }
   .left {
     @include ipad {
@@ -185,8 +185,6 @@
         font-weight: 600;
         font-size: 11px;
         padding: 7px 3px;
-       
-       
       }
       &:hover {
         .course-icon {
@@ -241,14 +239,15 @@
       text-align: center;
     }
     .__content {
-      // margin: 3rem 0em;
       .practices {
+        margin: 5rem 0em;
         @include ipad {
           @include flex(center, center);
-          // gap: 40px;
+          gap: 60px;
         }
         img {
-          height: 300px;
+          height: 230px;
+          width:230px
         }
         .description {
           flex-basis: 60%;
@@ -294,7 +293,7 @@
     .icon__content {
       margin-top: 4em;
       @include flex(center, center);
-      gap: 30px;
+      gap: 100px;
       flex-wrap: wrap;
       .icon {
         width: 40%;
@@ -345,7 +344,7 @@
       @include button(
         200px,
         var(--white),
-        var(--black),
+        var(--green),
         var(--black),
         var(--white),
         var(--green)
@@ -353,7 +352,7 @@
       border: none;
       margin-top: 2rem;
       font-size: 16px;
-      font-weight: 700;
+      font-weight: bold;
     }
   }
 }
