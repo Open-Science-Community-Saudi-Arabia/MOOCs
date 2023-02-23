@@ -63,11 +63,26 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 400 for invalid email format', async () => {
+            /*
+             Should test for format for email in request body
+             */
+
             signup_data.email = 'testemail@'
+
+            // Send signup request
             const res = await app.post(url).send(signup_data)
 
-            expect(res.statusCode).to.equal(400)
-            expect(res.body.message).to.be.a('string').to.equal('Please Provide a valid Email, Try again')
+            // Response status code should equal 400 for BadRequest
+            const response_statuscode = res.statusCode
+            expect(response_statuscode).to.equal(400)
+
+            // Response body should have a message property
+            const response_body = res.body
+            expect(response_body).to.have.property('message')
+
+            // message should equal - Please provide a valid email, Try again
+            const message = res.body.message
+            expect(message).to.be.a('string').to.equal('Please Provide a valid Email, Try again')
         })
 
         it('should return statuscode 200 for successful signup', async () => {
