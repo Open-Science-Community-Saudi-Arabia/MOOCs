@@ -1,20 +1,21 @@
-// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+require('dotenv').config({ path: `${__dirname}/../.env.${process.env.NODE_ENV}` })
 
+const { expect } = require('chai')
 const { default: mongoose } = require('mongoose')
-const expect = require('chai').expect
+const connectDatabase = require('../db/connectDB')
 
-const server = require('../app')
-const request = require('supertest'),
-    app = request.agent(server)
+describe('Database connection and test for env variables', () => {
+    it("should return 'test' for NODE_ENV environment variable", async() => {
+        expect(process.env.NODE_ENV).to.equal('test')
+    })
+    
+    it("should confirm that 'test' string is in the db name", async() => {
+        expect(process.env.MONGO_URI_TEST).to.include('test')
+    })
 
 // const TestToken = require('../models/test_token.models')
 const { User, Status } = require('../models/user.models')
 
-
-
-describe('User Authentication for Signup, Email verification, login and password reset', () => {
-    // Clear the test database before running tests
-    before(async () => {
         await mongoose.connection.dropDatabase()
     })
 
