@@ -86,7 +86,6 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return statuscode 200 for successful signup', async () => {
-            f
             /*
              Should test for successuful signup request
 
@@ -191,6 +190,14 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 200 for successful login', async () => {
+            /*
+             Should return 200 for successful login request
+             
+             - check statuscode
+             - check message property in response body
+             - check for JWT authentication tokens in response body
+             - check for users data in response body
+             */
             const user_data = await User.findOne({ email: login_data.email }).populate('status')
             user_data.status.isVerified = true
             await user_data.status.save()
