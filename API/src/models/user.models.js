@@ -20,7 +20,7 @@ const user_schema = new Schema(
             type: String,
             required: true,
             unique: true,
-            validate: [validator.isEmail, 'Please Provide a valid Email'],
+        validate: [validator.isEmail, 'Please Provide a valid Email'],
         },
         role: {
             type: String,
