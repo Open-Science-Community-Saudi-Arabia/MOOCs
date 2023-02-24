@@ -223,7 +223,14 @@ describe('User Authentication for Signup, Email verification, login and password
         const url = '/api/v1/auth/forgotPassword'
         let user;
 
-        it('should return status code 404 for none matching user email', async () => {
+        it('should return status code 400 for none matching user email', async () => {
+            /*
+             Should return BadRequestError (400) for request 
+             made with non existing users email
+             
+             - check statuscode
+             - check message property in response body
+             */
             const res = await app.post(url).send({ email: "thisisthewrongemail" })
 
             expect(res.statusCode).to.equal(400)
@@ -231,6 +238,12 @@ describe('User Authentication for Signup, Email verification, login and password
         })
 
         it('should return status code 200 for successful forgot password request', async () => {
+            /*
+             Should return 200 for successful forgot password request
+             
+             - check statuscode
+             - check message property in response body
+             */
             const res = await app.post(url).send(login_data)
 
             expect(res.statusCode).to.equal(200)
