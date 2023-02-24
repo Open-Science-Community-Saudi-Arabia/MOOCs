@@ -15,9 +15,11 @@ const passwordSchema = new schema({
 });
 
 passwordSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+    if (this.isNew) {
+        const salt = await bcrypt.genSalt();
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    }
 })
 
 passwordSchema.methods.updatePassword = async function (newPassword) {
