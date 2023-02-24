@@ -219,32 +219,24 @@ describe('User Authentication for Signup, Email verification, login and password
 
     })
 
-    // describe('POST /forgotPassword', () => {
-    //     const url = '/api/v1/auth/forgotPassword'
-    //     let user;
+    describe('POST /forgotPassword', () => {
+        const url = '/api/v1/auth/forgotPassword'
+        let user;
 
-    //     it('should return status code 404 for none matching user email', async () => {
-    //         const res = await app.post(url).send({ email: "thisisthewrongemail" })
+        it('should return status code 404 for none matching user email', async () => {
+            const res = await app.post(url).send({ email: "thisisthewrongemail" })
 
-    //         expect(res.statusCode).to.equal(404)
-    //         expect(res.body.message).to.be.a('string').to.equal("No User Found With That Email")
-    //     })
+            expect(res.statusCode).to.equal(400)
+            expect(res.body.message).to.be.a('string').to.equal("User does not exist")
+        })
 
-    //     it('should return status code 200 for successful forgot password request', async () => {
-    //         const res = await app.post(url).send(login_data)
+        it('should return status code 200 for successful forgot password request', async () => {
+            const res = await app.post(url).send(login_data)
 
-    //         expect(res.statusCode).to.equal(200)
-    //         expect(res.body.message).to.be.a('string').to.equal("Token sent to email")
-    //     })
-
-    //     it("test token collection should have record of unhashed token", async () => {
-    //         const user = await User.findOne({ email: login_data.email })
-    //         const token = await TestToken.findOne({ user: user._id })
-
-    //         expect(token).to.be.a('object')
-    //         expect(token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
-    //     })
-    // })
+            expect(res.statusCode).to.equal(200)
+            expect(res.body.data.message).to.be.a('string').to.equal("Successful, Password reset code sent to users email")
+        })
+    })
 
     // describe('PATCH /resetpassword/:token', async () => {
     //     let url;
