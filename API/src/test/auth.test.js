@@ -219,6 +219,7 @@ describe('User Authentication for Signup, Email verification, login and password
 
     })
 
+    let JWT_password_reset;
     describe('POST /forgotPassword', () => {
         const url = '/api/v1/auth/forgotPassword'
         let user;
@@ -248,57 +249,92 @@ describe('User Authentication for Signup, Email verification, login and password
 
             expect(res.statusCode).to.equal(200)
             expect(res.body.data.message).to.be.a('string').to.equal("Successful, Password reset code sent to users email")
+            expect(res.body.data).to.have.property('access_token').to.be.a('string')
+
+            JWT_password_reset = res.body.data.access_token
         })
     })
 
-    // describe('PATCH /resetpassword/:token', async () => {
-    //     let url;
-    //     before(() => {
-    //         new_password = 'thisisthenewpassword'
-    //     })
+    describe('PATCH /resetpassword', async () => {
+        let url;
+        before(() => {
+            new_password = 'thisisthenewpassword'
+        })
 
-    //     it("should return status 404 invalid or missing password reset token", async () => {
-    //         url = '/api/v1/auth/resetpassword/' + 'thisisnotthevalidtoken'
-    //         const res = await app.patch(url)
+        it("should return status 400 invalid or missing password reset code", async () => {
+            /*
+             Should return 400 for missing required field in request body
+             
+             - check statuscode
+             - check message property in response body
+             */
+            url = '/api/v1/auth/resetpassword/'
+            const res = await app.patch(url)
+                .send(
+                    {
+                        password_reset_code: '000000000',
+                        new_password: 'newpassword'
+                    })
+                .set('Authorization', `Bearer ${JWT_password_reset}`)
 
-    //         expect(res.statusCode).to.equal(404)
-    //         expect(res.body).to.have.property('message').to.equal('Token Invalid or Token Expired, Request for a new reset token')
-    //     })
+            expect(res.statusCode).to.equal(400)
+            expect(res.body).to.have.property('message').to.equal('Invalid password reset code')
+        })
 
-    //     it("should return status 200 for successful password reset", async () => {
-    //         const user = await User.findOne({ email: login_data.email }).select('+passwordResetToken')
-    //         expect(user).to.have.property('passwordResetToken')
-    //         expect(user.passwordResetToken).not.to.equal(undefined)
-    //         expect(user.passwordResetToken).to.be.a('string')
+        it("should return status 200 for successful password reset", async () => {
+            /*
+             Should return 200 for successful password request
+             
+             - check statuscode
+             - check message property in response body
+             */
+            const user = await User.findOne({ email: login_data.email }).populate('auth_codes')
+            expect(user).to.have.property('auth_codes').to.be.a('object')
 
-    //         const test_token = await TestToken.findOne({ user: user._id })
-    //         expect(test_token).to.be.a('object')
-    //         expect(test_token).to.have.property('password_reset').to.be.a('string').not.to.equal(null)
+            const password_reset_code = user.auth_codes.password_reset_code
+            expect(password_reset_code).to.be.a('string')
 
-    //         const token = test_token.password_reset
 
-    //         url = '/api/v1/auth/resetpassword/' + token
-    //         const res = await app.patch(url).send({ password: new_password })
+            url = '/api/v1/auth/resetpassword'
+            const res = await app.patch(url)
+                .send(
+                    {
+                        password_reset_code,
+                        new_password
+                    })
+                .set('Authorization', `Bearer ${JWT_password_reset}`)
 
-    //         expect(res.statusCode).to.equal(200)
-    //         expect(res.body).to.have.property('status').to.equal('success')
-    //     })
+            expect(res.statusCode).to.equal(200)
+            expect(res.body).to.have.property('success').to.equal(true)
+        })
 
-    //     it('should return status code 200 for successful login with new password', async () => {
-    //         const res = await app.post('/api/v1/auth/login').send({ email: login_data.email, password: new_password })
+        it('should return status code 200 for successful login with new password', async () => {
+            /*
+             Should return 200 for successful login request
+             
+             - check statuscode
+             - check if new password works
+             - check message property in response body
+             - check for JWT authentication tokens in response body
+             - check for users data in response body
+             */
+            
+            const res = await app.post('/api/v1/auth/login').send({ email: login_data.email, password: new_password })
 
-    //         expect(res.body).to.have.a.property('token').to.be.a('string')
-    //         expect(res.body).to.have.a.property('status').to.be.a('string').to.equal('success')
-    //         expect(res.statusCode).to.equal(200)
+            expect(res.body).to.have.a.property('success').to.be.a('boolean').to.equal(true)
+            expect(res.statusCode).to.equal(200)
 
-    //         expect(res.body).to.have.a.property('data').to.be.a('object')
-    //         expect(res.body.data).to.have.a.property('user').to.be.a('object')
-    //         expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
-    //         expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
-    //         expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
-    //         expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
-    //     })
-    // })
+            expect(res.body).to.have.a.property('data').to.be.a('object')
+            expect(res.body.data).to.have.a.property('access_token').to.be.a('string')
+            expect(res.body.data).to.have.a.property('refresh_token').to.be.a('string')
+
+            expect(res.body.data).to.have.a.property('user').to.be.a('object')
+            expect(res.body.data.user).to.have.a.property('firstname').to.be.a('string').to.equal(signup_data.firstname)
+            expect(res.body.data.user).to.have.a.property('lastname').to.be.a('string').to.equal(signup_data.lastname)
+            expect(res.body.data.user).to.have.a.property('email').to.be.a('string').to.equal(signup_data.email)
+            expect(res.body.data.user).to.have.a.property('role').to.be.a('string').to.equal(signup_data.role)
+        })
+    })
 
     // describe('Auth Middleware', () => {
     //     let url = '/api/v1/course';
