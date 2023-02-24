@@ -7,7 +7,9 @@ import { signUp } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { SignUpRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+
 
 function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
@@ -16,6 +18,19 @@ function Signup() {
   const navigate = useNavigate();
 
   const { handleGoogle, loading } = useFetch();
+
+
+  const googlelogin = useGoogleLogin({
+   
+    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onError: () =>
+      toast.error("login failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      }),
+  });
+
 
   const signupHandler = async (event: any) => {
     setCheckPassword(false);
@@ -60,22 +75,17 @@ function Signup() {
         <div className="form-content">
           <h1>Sign Up to MOOCs</h1>
 
-          <div className="loginDiv">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                handleGoogle(credentialResponse);
-              }}
-              onError={() => {
-                toast.error("login failed", {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                  theme: "colored",
-                });
-              }}
-            />{" "}
+            <div className="loginDiv">
+            <div className="login-btn" onClick={() => googlelogin()}>
+              Sign in with Google <FcGoogle />
+            </div>
           </div>
-          <p className="or">OR</p>
-
+          <div className="hr-line">
+            {" "}
+            <hr/>
+            <p className="or">OR</p>
+            <hr/>
+          </div>
           <form onSubmit={signupHandler} method="POST">
             <div className="name-input">
               <div className="field input-field">

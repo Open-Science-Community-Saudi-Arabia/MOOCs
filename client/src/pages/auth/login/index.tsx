@@ -2,12 +2,13 @@ import { useState } from "react";
 import "../style.scss";
 import { ToastContainer, toast } from "react-toastify";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [toggleVisibility, setToggleVisibility] = useState(false);
@@ -15,6 +16,17 @@ function Login() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { handleGoogle, loading } = useFetch();
+
+  const googlelogin = useGoogleLogin({
+   
+    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onError: () =>
+      toast.error("login failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      }),
+  });
 
   const loginHandler = async (event: any) => {
     setError(false);
@@ -47,20 +59,17 @@ function Login() {
         <div className="form-content">
           <h1>Login to MOOCs</h1>
           <div className="loginDiv">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                handleGoogle(credentialResponse);
-              }}
-              onError={() => {
-                toast.error("login failed", {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                  theme: "colored",
-                });
-              }}
-            />
+            <div className="login-btn" onClick={() => googlelogin()}>
+              Sign in with Google <FcGoogle />
+            </div>
           </div>
-          <p className="or">OR</p>
+          <div className="hr-line">
+            {" "}
+            <hr/>
+            <p className="or">OR</p>
+            <hr/>
+          </div>
+
           <form onSubmit={loginHandler} method="POST">
             <div className="field input-field">
               <input
