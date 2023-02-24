@@ -83,7 +83,7 @@ function Signup() {
           <div className="hr-line">
             {" "}
             <hr/>
-            <p className="or">OR</p>
+            <span className="or">OR</span>
             <hr/>
           </div>
           <form onSubmit={signupHandler} method="POST">

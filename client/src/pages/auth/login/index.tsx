@@ -66,7 +66,7 @@ function Login() {
           <div className="hr-line">
             {" "}
             <hr/>
-            <p className="or">OR</p>
+            <span className="or">OR</span>
             <hr/>
           </div>
 

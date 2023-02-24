@@ -14,11 +14,11 @@
     margin-bottom: 1em;
   }
   .hr-line {
-    margin: 20px 0;
+    margin: 30px 0;
     @include flex(center, center);
     gap: 10px;
     .or {
-      font-size: 16px;
+      font-size: 14px;
       color: #46404082;
     }
     hr {
