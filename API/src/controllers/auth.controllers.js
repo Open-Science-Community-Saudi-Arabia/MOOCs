@@ -313,7 +313,7 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-    const { token } = req.params;
+const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -338,7 +338,7 @@ exports.verifyEmail = async (req, res, next) => {
 
     await BlacklistedToken.create({ token });
 
-    return res.status(200).send({ success: true, data: { success: true, message: 'Email Verified' } })
+    return res.status(200).send({ success: true, message: 'Email Verified' })
 }
 
 /**
