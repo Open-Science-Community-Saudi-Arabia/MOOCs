@@ -21,10 +21,10 @@ jobs:
           GITHUB_ENV_TEST: ${{ secrets.ENV_TEST }}
         
         run: |
-          touch ./.env.test
           cd ./API/src
-          pwd
+          touch ./.env.test
           cat $GITHUB_ENV_TEST 
+          pwd
           ls -lf
           echo $GITHUB_ENV_TEST base64 --decode ./.env.test
           cat .env.test
