@@ -24,6 +24,7 @@ jobs:
           cd ./API/src
           touch ./.env.test
           pwd
+          cat $GITHUB_ENV_TEST
           ls -lf
           echo $GITHUB_ENV_TEST base64 --decode ./.env.test
           cat .env.test
