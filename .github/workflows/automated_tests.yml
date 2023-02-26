@@ -23,7 +23,7 @@ jobs:
         run: |
           cd ./API/src
           touch ./.env.test
-          cat $GITHUB_ENV_TEST 
+          cat ${{ secrets.ENV_TEST }}
           pwd
           ls -lf
           echo $GITHUB_ENV_TEST base64 --decode ./.env.test
