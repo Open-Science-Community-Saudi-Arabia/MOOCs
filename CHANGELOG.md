@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `08/02/2023` Add Changelog section to project documentation [#189](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/189)
 - `08/02/2023` Add server setup to render documentation [#190](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/190)
 - `23/02/2023` Add github action to automate running of tests [#201](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/201)
+- `24/02/2023` Update tests for `/forgotpassword` and `/resetpassword` routes [#204](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/204)
 
 ### `Fixed`
 - `21/01/2023` Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
