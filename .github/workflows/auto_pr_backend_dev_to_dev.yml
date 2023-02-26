@@ -16,7 +16,7 @@ jobs:
         with:
           source_branch: "backend_dev"                                              # If blank, default: triggered branch
           destination_branch: "dev"                                                 # If blank, default: master
-          pr_title: "Weekly auto PR from ${{ github.ref }} into `dev` branch"       # Title of pull request
+          pr_title: "Weekly auto PR from `backend_dev` into `dev` branch"       # Title of pull request
           pr_body: |                                                                # Full markdown support, requires pr_title to be set
             :crown: *An automated PR*
 
