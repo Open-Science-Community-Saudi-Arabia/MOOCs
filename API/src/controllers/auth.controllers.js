@@ -15,8 +15,7 @@ const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = requir
 const { OAuth2Client } = require('google-auth-library');
 
 const { User, Status } = require('../models/user.models');
-const { BlacklistedToken, AuthCode } = require('../models/token.models');
-const e = require('express');
+const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
 const Password = require('../models/password.models');
 const { default: mongoose } = require('mongoose');
 
@@ -93,6 +92,13 @@ const handleUnverifiedUser = function (user) {
 
         const verification_url = `${req.protocol}://${req.get(
             'host')}/api/v1/auth/verifyemail/${access_token}`;
+        
+        if (process.env.NODE_ENV == 'test') {
+            await TestAuthToken.create({
+                user: user._id,
+                access_token
+            })
+        }
 
         //console.log(verification_url)
         // Send verification email
@@ -308,12 +314,16 @@ exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
     const { token } = req.params;
 
+    if (!token) {
+        return next(BadRequestError('No authentication token provided'))
+    }
+
     //  Verify token
     const payload = jwt.verify(token, config.JWT_EMAILVERIFICATION_SECRET);
 
     //  Check if token is blacklisted
     const blacklisted_token = await BlacklistedToken.findOne({ token });
-    if (blacklisted_token) return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
+    if (blacklisted_token) return next(new UnauthorizedError('Token Invalid or Token Expired, Request for a new verification token'))
 
     //  Get user from token
     const user = await User.findById(payload.id).populate('status');
