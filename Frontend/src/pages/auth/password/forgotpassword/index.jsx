@@ -1,3 +1,4 @@
+
 import React, { useState } from "react"
 import "../style.scss"
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,7 +11,16 @@ export default function ForgotPassword() {
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
 
+    /**
+ * @function Forgot Password
+ */
+    /**
+ * handles forget password 
+ * @param {HTMLElement} event `Event`
+ * 
+ */
     const forgotPasswordHandler = async (event) => {
+        
         event.preventDefault();
         try {
             const formData = {

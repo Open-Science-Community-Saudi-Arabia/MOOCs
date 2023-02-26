@@ -85,7 +85,6 @@ vignettes/*.pdf
 # Backend API sensitive files
 /backend_API/src/*.env
 *node_modules/
-./backend_API/out
 
 # Frontend 
 # Logs
@@ -101,6 +100,7 @@ node_modules
 dist
 dist-ssr
 *.local
+jsdocs
 
 # Editor directories and files
 .vscode/*
