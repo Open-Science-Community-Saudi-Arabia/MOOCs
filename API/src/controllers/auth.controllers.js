@@ -338,7 +338,7 @@ const { token } = req.params;
 
     await BlacklistedToken.create({ token });
 
-    return res.status(200).send({ success: true, message: 'Email Verified' })
+    return res.status(200).send({ success: true, message: 'Email verified' })
 }
 
 /**
