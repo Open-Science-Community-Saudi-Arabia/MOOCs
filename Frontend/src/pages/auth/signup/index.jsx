@@ -16,6 +16,14 @@ function Signup() {
     const [loadingBoard, setLoadingBoard] = useState(false);
     const navigate = useNavigate()
 
+      /**
+ * @function SignUp
+ */
+        /**
+ * handles user Sign up 
+ * @param {HTMLElement} event `Event`
+ * 
+ */
     const signupHandler = async (event) => {
         setCheckPassword(false)
         event.preventDefault();

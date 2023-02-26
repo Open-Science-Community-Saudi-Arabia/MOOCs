@@ -15,8 +15,7 @@ const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = requir
 const { OAuth2Client } = require('google-auth-library');
 
 const { User, Status } = require('../models/user.models');
-const { BlacklistedToken, AuthCode } = require('../models/token.models');
-const e = require('express');
+const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
 const Password = require('../models/password.models');
 const { default: mongoose } = require('mongoose');
 
@@ -94,7 +93,15 @@ const handleUnverifiedUser = function (user) {
         const verification_url = `${req.protocol}://${req.get(
             'host')}/api/v1/auth/verifyemail/${access_token}`;
 
-        console.log(verification_url)
+        if (process.env.NODE_ENV == 'test') {
+            await TestAuthToken.findOneAndUpdate(
+                { user: user._id },
+                { access_token },
+                { upsert: true }
+            )
+        }
+
+        //console.log(verification_url)
         // Send verification email
         sendEmail({
             email: user.email,
@@ -115,14 +122,16 @@ const handleExistingUser = function (user) {
     return async function (req, res, next) {
         const existing_user = user.toJSON({ virtuals: true });
 
-        console.log(existing_user);
+        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
 
             // Return access token
-            res.status(200).json({
-                success: true, data: {
+            res.status(400).json({
+                success: true,
+                message: 'User account exists already, verification mail sent to user',
+                data: {
                     user: {
                         _id: existing_user._id,
                         firstname: existing_user.firstname,
@@ -132,7 +141,7 @@ const handleExistingUser = function (user) {
                 }
             });
         } else {
-            next(new BadRequestError('User already exists'));
+            return next(new BadRequestError('User already exists'));
         }
     };
 };
@@ -158,13 +167,15 @@ exports.passportOauthCallback = function (req, res) {
  * // TODO: Add super admin signup
  */
 exports.signup = async (req, res, next) => {
-    const { firstname, lastname, email, role, password, passwordConfirm } = req.body;
+    let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
 
+    // NOTE: Will be handled by mongoose schema validation
     // Check if all required fields are provided
-    if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
-        return next(new BadRequestError('Please provide all required fields'));
-    }
+    // if (!firstname || !lastname || !email || !role || !password || !passwordConfirm) {
+    //     return next(new BadRequestError('Please provide all required fields'));
+    // }
 
+    if (!passwordConfirm) { return next(new BadRequestError('Path `passwordConfirm` is required., Try again')) }
     if (!role) role = 'EndUser';
 
     // Check if superAdmin tries to create another superadmin from - addAdmin route
@@ -173,7 +184,7 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    console.log(existing_user)
+    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
@@ -253,7 +264,7 @@ exports.login = async (req, res, next) => {
     }
     //check if email exists
     const currentUser = await User.findOne({ email }).populate('password status')
-    console.log(currentUser);
+    //console.log(currentUser);
 
     //Check if email and password matches
     if (
@@ -302,14 +313,18 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-    const { token } = req.params;
+const { token } = req.params;
+
+    if (!token) {
+        return next(BadRequestError('No authentication token provided'))
+    }
 
     //  Verify token
     const payload = jwt.verify(token, config.JWT_EMAILVERIFICATION_SECRET);
 
     //  Check if token is blacklisted
     const blacklisted_token = await BlacklistedToken.findOne({ token });
-    if (blacklisted_token) return next(new BadRequestError('Token Invalid or Token Expired, Request for a new verification token'))
+    if (blacklisted_token) return next(new UnauthorizedError('Token Invalid or Token Expired, Request for a new verification token'))
 
     //  Get user from token
     const user = await User.findById(payload.id).populate('status');
@@ -323,7 +338,7 @@ exports.verifyEmail = async (req, res, next) => {
 
     await BlacklistedToken.create({ token });
 
-    return res.status(201).send({ success: true, data: { status: 'Email Verified' } })
+    return res.status(200).send({ success: true, message: 'Email verified' })
 }
 
 /**
@@ -346,7 +361,7 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     // Check if a super admin account exists, and it's not active
     const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
-    console.log(super_admin)
+    //console.log(super_admin)
 
     // Check if account is active 
     if (super_admin.status.isActive) return next(new BadRequestError('Account is already active'))
@@ -410,7 +425,7 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
     }
 
     const admin = await User.findOne({ _id: req.user.id, role: 'SuperAdmin' }).populate('status')
-    console.log(admin)
+    //console.log(admin)
 
     // Check if user exists
     if (!admin) {
@@ -467,7 +482,7 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     const super_admin = await User.findOne({ email, role: 'SuperAdmin' }).populate('status')
     if (!super_admin) return next(new BadRequestError('Superadmin account does not exist'))
 
-    console.log(super_admin)
+    //console.log(super_admin)
     // Check if account is active 
     if (!super_admin.status.isActive) return next(new BadRequestError('Account is already inactive'))
 
@@ -659,7 +674,7 @@ exports.forgetPassword = async (req, res, next) => {
     if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
     const current_user = await User.findOne({ email })
-    console.log(current_user);
+    //console.log(current_user);
 
     //  Check if user exists
     if (!current_user) return next(new BadRequestError('User does not exist'));
