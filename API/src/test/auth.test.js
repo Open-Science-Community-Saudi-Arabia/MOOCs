@@ -422,9 +422,9 @@ describe('User Authentication for Signup, Email verification, login and password
             }
         })
 
-        it('should return status code 401 for wrong auth token in request params', async () => {
+        it('should return status code 400 for wrong auth token in request params', async () => {
             /*
-             Should return 401 for wrong auth token in request params
+             Should return 400 for wrong auth token in request params
              
              - check statuscode
              - check message property in response body
