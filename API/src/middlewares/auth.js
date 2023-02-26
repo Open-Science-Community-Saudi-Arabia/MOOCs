@@ -27,7 +27,7 @@ const basicAuth = function (token_type = null) {
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return next(new BadRequestError('Invalid authorization header'));
+            return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
         let secret = config.JWT_ACCESS_SECRET;
