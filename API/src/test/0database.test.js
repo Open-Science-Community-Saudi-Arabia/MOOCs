@@ -1,5 +1,4 @@
 require('dotenv').config({ path: `${__dirname}/../.env.${process.env.NODE_ENV}` })
-
 const { expect } = require('chai')
 const { default: mongoose } = require('mongoose')
 const connectDatabase = require('../db/connectDB')

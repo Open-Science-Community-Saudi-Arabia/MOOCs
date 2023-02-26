@@ -9,6 +9,7 @@ const request = require('supertest'),
 
 // const TestToken = require('../models/test_token.models')
 const { User, Status } = require('../models/user.models')
+const { AuthCode, TestAuthToken } = require('../models/token.models')
 
 
 describe('User Authentication for Signup, Email verification, login and password reset', () => {
@@ -400,79 +401,70 @@ describe('User Authentication for Signup, Email verification, login and password
             const res = await app.delete('/api/v1/course/delete/null')
 
             expect(res.statusCode).to.equal(401)
-            expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Unauthenticated, Please Login')
+            expect(res.body).to.have.a.property('message').to.be.a('string').to.equal('Invalid authorization header')
         })
 
     })
 
-    // describe('POST /verify', () => {
-    //     const url = '/api/v1/auth/verify'
-    //     let user, bearer_token, ver_token;
+    describe('GET /verify', async () => {
+        let url = '/api/v1/auth/verifyemail/'
+        let user, bearer_token, ver_token;
 
-    //     beforeEach(() => {
-    //         user_email = 'testemail@gmail.com'
-    //         signup_data = {
-    //             firstname: "testfirstname",
-    //             lastname: "testlastname",
-    //             email: "testemail@gmail.com",
-    //             phonenumber: "132434432324",
-    //             password: "testpassword",
-    //             role: "EndUser"
-    //         }
-    //     })
+        beforeEach(() => {
+            user_email = 'testemail@gmail.com'
+            signup_data = {
+                firstname: "testfirstname",
+                lastname: "testlastname",
+                email: "testemail@gmail.com",
+                phonenumber: "132434432324",
+                password: "testpassword",
+                role: "EndUser"
+            }
+        })
 
-    //     it('should return status code 400 for Missing required parameter in request body', async () => {
-    //         const res = await app.post(url)
+        it('should return status code 400 for wrong auth token in request params', async () => {
+            /*
+             Should return 400 for wrong auth token in request params
+             
+             - check statuscode
+             - check message property in response body
+             */
+            const wrong_url = url + 'sdfasdf'
+            const res = await app.get(wrong_url)
 
-    //         expect(res.statusCode).to.equal(400)
-    //         expect(res.body.message).to.be.a('string').to.equal("Missing required parameter: Validation failed")
-    //     })
+            expect(res.statusCode).to.equal(401)
+            expect(res.body.message).to.be.a('string').to.equal("Invalid authentication token")
+        })
 
-    //     it('should return status code 401 for no Bearer Token in authorization header', async () => {
-    //         const res = await app.post(url).send({ verification_token: '12323' })
+        it('should return status code 200 for successful email verification', async () => {
+            /*
+             Should return 200 for successful email verification request
+             
+             - check statuscode
+             - check message property in response body
+             */
+            user = await User.findOne({ email: user_email })
+            let user_token = await TestAuthToken.findOne({ user: user._id })
+            url += `${user_token.access_token}`
 
-    //         expect(res.statusCode).to.equal(401)
-    //         expect(res.body.message).to.be.a('string').to.equal("Authentication invalid")
-    //     })
+            const res = await app.get(url)
 
-    //     it('should return status code 401 for expired authorization JWT token', async () => {
-    //         bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzI3NDFiODc1MGVmMzc0YzJhNWE1NzYiLCJlbWFpbCI6ImJvYXlhbnRlbmR1c2VyQGdtYWlsLmNvbSIsInJvbGUiOiJFbmRVc2VyIiwicmVzZXRfdG9rZW4iOm51bGwsImlhdCI6MTY2MzcyOTIyMCwiZXhwIjoxNjYzNzM2NDIwfQ.w-i1fhLiOhWCvvVamdQRww-euf5XYRizkVUEIxhj3O0"
-    //         const res = await app.post(url).send({ verification_token: '12323' }).set("Authorization", `Bearer ${bearer_token}`)
+            expect(res.statusCode).to.equal(200)
+            expect(res.body.message).to.be.a('string').to.equal("Email verified")
 
-    //         expect(res.statusCode).to.equal(401)
-    //         expect(res.body.message).to.be.a('string').to.equal("JWT Token expired")
-    //     })
+        })
 
-    //     it('should return status code 400 for wrong verification code', async () => {
-    //         bearer_token = await app.post('/api/v1/auth/signup').send(signup_data).then((response) => { return response.body.access_token })
-    //         user = await User.findOne({ email: signup_data.email })
+        it('should return status code 401 for already used access token', async () => {
+            /*
+             Should return 401 for  already used access token
+             
+             - check statuscode
+             - check message property in response body
+             */
+            const res = await app.get(url)
 
-    //         const res = await app.post(url).send({ verification_token: 'thisisnottheverificationtoken' }).set("Authorization", `Bearer ${bearer_token}`)
-
-    //         expect(res.statusCode).to.equal(400)
-    //         expect(res.body.message).to.be.a('string').to.equal("Invalid verification code")
-    //     })
-
-    //     it('should return status code 200 for successful email verification', async () => {
-    //         ver_token = await Token.findOne({ user })
-
-    //         const res = await app.post(url).send({ verification_token: ver_token.verification }).set("Authorization", `Bearer ${bearer_token}`)
-
-    //         expect(bearer_token).to.be.a('string')
-
-    //         expect(res.statusCode).to.equal(200)
-    //         expect(res.body.message).to.be.a('string').to.equal("Successful")
-
-    //     })
-
-    //     it('should return status code 401 for already used access token', async () => {
-    //         const res = await app.post(url).send({ verification_token: ver_token.verification }).set("Authorization", `Bearer ${bearer_token}`)
-
-
-    //         expect(res.statusCode).to.equal(401)
-    //         expect(res.body.message).to.be.a('string').to.equal("JWT token expired")
-    //     })
-
-
-    // })
+            expect(res.statusCode).to.equal(401)
+            expect(res.body.message).to.be.a('string').to.equal("Token Invalid or Token Expired, Request for a new verification token")
+        })
+    })
 })
