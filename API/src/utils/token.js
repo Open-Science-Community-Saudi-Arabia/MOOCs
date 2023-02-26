@@ -137,7 +137,7 @@ const getAuthCodes = async (user_id, code_type) => {
                     { new: true, upsert: true }
                 );
 
-                console.log(autho);
+                // console.log(autho);
             }
 
             // If code_type is 'su_activation', generate 3 codes - SuperAdminAccountActivation
@@ -154,7 +154,7 @@ const getAuthCodes = async (user_id, code_type) => {
                     { new: true, upsert: true }
                 );
 
-                console.log(autho);
+                // console.log(autho);
             }
 
             // If code_type is 'su_deactivation', generate 3 codes - SuperAdminAccountDeactivation

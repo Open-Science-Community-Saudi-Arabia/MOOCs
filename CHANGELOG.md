@@ -21,10 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `24/01/2023` Add superAdmin authentication, activateAccount, deactivateAccount feature for superadmin and user [#170](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/170)
 - `29/01/2023` Combined `client` and `API` documentation [#182](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/182)
 - `03/02/2023` Add github action to schedule PR from sub branches to main [#180](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/180)
-  
+- `08/02/2023` Add setup/introduction guide to project documentation [#184](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/184)
+- `08/02/2023` Add Changelog section to project documentation [#189](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/189)
+- `08/02/2023` Add server setup to render documentation [#190](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/190)
+
 ### `Fixed`
 - `21/01/2023` Fixed API deployment from returning `cb.apply not a function` error [#168](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/168)
 - `28/01/2023` Review and fixed bugs in auth API [#181](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/181)
+- `06/02/2023` Fixed title of schedule PR to match source branch [#188](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/188)
+- `20/02/2023` Fixed documentation deployment not rendering html docs [#196](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pull/196)
+
 
 ### `Dependencies`
 
