@@ -20,7 +20,7 @@ jobs:
 
       - name: Create env file for test environment        
         run: |
-          echo $GITHUB_ENV_TEST
+          echo $GITHUB_ENV_TEST 
           echo ${{secrets.ENV_TEST}}
           echo ${{secrets.REPO_TOKEN}}
           echo ${{secrets.ADD_TO_PROJECT_PAT2}}
