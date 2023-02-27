@@ -25,6 +25,7 @@ jobs:
           echo $GITHUB_ENV_TEST >> ./.env.test
           cat .env.test
           printf "${{secrets.ENV_TEST}}" >> ./.env.test
+          echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
           pwd
         shell: bash
