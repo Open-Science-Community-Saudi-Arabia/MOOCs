@@ -1,4 +1,4 @@
-name: Bi-Weekly PR from `dev` to `main`
+# name: Bi-Weekly PR from `dev` to `main`
 
 on:
   schedule:
