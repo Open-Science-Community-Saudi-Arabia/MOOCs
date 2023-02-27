@@ -7,7 +7,7 @@ on:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
-  build:
+  build: 
     runs-on: ubuntu-22.04
 
     strategy:
