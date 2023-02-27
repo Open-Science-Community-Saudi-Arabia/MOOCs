@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create env file for test environment        
+      # - name: Create env file for test environment        
         with:
           GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
         run: |
