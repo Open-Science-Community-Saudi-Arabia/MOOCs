@@ -19,6 +19,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create env file for test environment        
+        with:
+          GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
         run: |
           echo $GITHUB_ENV_TEST 
           echo ${{secrets.ENV_TEST}}
@@ -36,8 +38,8 @@ jobs:
           cat .env.test
           pwd
         shell: bash
-        with:
-          GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
+        # env:
+        #   GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
