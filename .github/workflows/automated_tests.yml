@@ -1,9 +1,11 @@
 name: Node.js CI
 
 on:
-  push:
+  pull_request:
     branches: [main, dev, backend_dev, frontend_dev]
   pull_request_target:
+    branches: [main, dev, backend_dev, frontend_dev]
+  push:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
