@@ -24,6 +24,7 @@ jobs:
           cd ./API/src
           touch ./.env.test
           echo "${{secrets.ENV_TEST}}" >> ./.env.test
+          echo "${{vars.ENV_TEST}}" >> ./.env.test
           echo $GITHUB_ENV_TEST >> ./.env.test
           echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
