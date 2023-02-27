@@ -3,7 +3,7 @@ name: Node.js CI
 on:
   push:
     branches: [main, dev, backend_dev, frontend_dev]
-  pull_request:
+  pull_request_target:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [15.x, 16.x, 17.x, 18.x]
+        node-version: [15.x, 16.x, 17.x, 18.x] 
 
     steps:
       - name: Checkout
