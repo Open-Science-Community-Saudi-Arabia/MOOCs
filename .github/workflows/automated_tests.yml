@@ -24,15 +24,11 @@ jobs:
           cd ./API/src
           touch ./.env.test
           echo $GITHUB_ENV_TEST base64 --decode ./.env.test
-          cat .env.test
-          pwd
-          printf "${{ secrets.ENV_TEST}}" >> ./.env.test
-
-      - run: |
-          cd ./API/src
           printf "${{ secrets.ENV_TEST}}" >> ./.env.test
           cat ./.env.test
           pwd
+          
+        shell: bash
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
