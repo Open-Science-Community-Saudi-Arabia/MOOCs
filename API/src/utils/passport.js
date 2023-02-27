@@ -27,6 +27,7 @@ const createUser = async (data) => {
     }
 };
 
+console.log(config)
 const googleStrategy = new GoogleStrategy(
     {
         clientID: config.OAUTH_CLIENT_ID,
