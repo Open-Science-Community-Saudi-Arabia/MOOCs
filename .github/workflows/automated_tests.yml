@@ -28,7 +28,11 @@ jobs:
           pwd
           printf "${{ secrets.ENV_TEST}}" >> ./.env.test
 
-      - run: printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+      - run: |
+          cd ./API/src
+          printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+          cat ./.env.test
+          pwd
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
