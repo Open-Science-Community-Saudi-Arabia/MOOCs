@@ -26,9 +26,9 @@ jobs:
           echo ${{secrets.ADD_TO_PROJECT_PAT2}}
           cd ./API/src
           touch ./.env.test
-          echo ${{secrets.ENV_TEST}} >> ./.env.test
-          echo ${{secrets.REPO_TOKEN}} >> ./.env.test
-          echo ${{secrets.ADD_TO_PROJECT_PAT2}} >> ./.env.test
+          echo "${{secrets.ENV_TEST}}" >> ./.env.test
+          echo "${{secrets.REPO_TOKEN}}" >> ./.env.test
+          echo "${{secrets.ADD_TO_PROJECT_PAT2}}" >> ./.env.test
           cat .env.test
           printf "${{secrets.ENV_TEST}}" >> ./.env.test
           echo $GITHUB_ENV_TEST >> ./.env.test
