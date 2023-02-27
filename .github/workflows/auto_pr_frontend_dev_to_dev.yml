@@ -16,12 +16,13 @@ jobs:
         with:
           source_branch: "frontend_dev"                                              # If blank, default: triggered branch
           destination_branch: "dev"                                                 # If blank, default: master
-          pr_title: "Weekly auto PR from ${{ github.ref }} into `dev` branch"       # Title of pull request
+          pr_title: "Weekly auto PR from `frontend_dev` into `dev` branch"       # Title of pull request
           pr_body: |                                                                # Full markdown support, requires pr_title to be set
             :crown: *An automated PR*
 
+            Weekly automated PR from `frontend_dev` to `dev` branch
+
             _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
-          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"                           # Path to pull request template, requires pr_title to be set, excludes pr_body
           pr_reviewer: "@BatoolMM, @sandygudie"                                     # Comma-separated list (no spaces)
           pr_assignee: "@sandygudie"                                                # Comma-separated list (no spaces)
           pr_label: "auto-pr, front-end"                                                       # Comma-separated list (no spaces)
