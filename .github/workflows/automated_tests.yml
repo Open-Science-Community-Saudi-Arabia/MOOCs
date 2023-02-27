@@ -36,7 +36,7 @@ jobs:
           cat .env.test
           pwd
         shell: bash
-        env:
+        with:
           GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
 
       - name: Use Node.js ${{ matrix.node-version }}
