@@ -7,7 +7,7 @@ on:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
-  build:
+  pull-request-target:
     runs-on: ubuntu-22.04
 
     strategy:
@@ -20,18 +20,11 @@ jobs:
 
       - name: Create env file for test environment        
         run: |
-          echo $GITHUB_ENV_TEST 
           cd ./API/src
-          touch ./.env.test
+          touch ./.env.test          
           echo "${{secrets.ENV_TEST}}" >> ./.env.test
-          echo "${{vars.ENV_TEST}}" >> ./.env.test
-          echo $GITHUB_ENV_TEST >> ./.env.test
-          echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
-          pwd
         shell: bash
-        env:
-          GITHUB_ENV_TEST: ${{secrets.ENV_TEST}}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -39,7 +32,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
-          cat .env.test
-          pwd
           npm install
           npm run test
