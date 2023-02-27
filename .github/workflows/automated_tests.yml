@@ -1,0 +1,41 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main, dev, backend_dev, frontend_dev]
+  pull_request:
+    branches: [main, dev, backend_dev, frontend_dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x, 16.x, 17.x, 18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create env file for test environment
+        env:
+          GITHUB_ENV_TEST: ${{ secrets.ENV_TEST }}
+        
+        run: |
+          cd ./API/src
+          touch ./.env.test
+          echo $GITHUB_ENV_TEST base64 --decode ./.env.test
+          cat .env.test
+          pwd
+          printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+
+      - run: printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: |
+          cd ./API/src
+          pwd
+          npm install
+          npm run test
