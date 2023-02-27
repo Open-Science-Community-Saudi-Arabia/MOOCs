@@ -23,11 +23,12 @@ jobs:
         run: |
           cd ./API/src
           touch ./.env.test
-          pwd
-          ls -lf
           echo $GITHUB_ENV_TEST base64 --decode ./.env.test
           cat .env.test
           pwd
+          printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+
+      - run: printf "${{ secrets.ENV_TEST}}" >> ./.env.test
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -35,7 +36,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
-          cat ./.env.test
           pwd
           npm install
           npm run test
