@@ -13,6 +13,7 @@ const handleValidationErr = (err) => {
 }
 
 const errorHandler = (err, req, res, next) => {
+    // console.log(err)
     if (process.env.NODE_ENV != 'test') {
         console.log(err)
     }
@@ -24,6 +25,10 @@ const errorHandler = (err, req, res, next) => {
 
     if (error.name == 'TokenExpiredError') {
         return res.status(401).send({ message: 'Token Expired' })
+    }
+
+    if (error.name = 'JsonWebTokenError' && error.message == 'jwt malformed') {
+        return res.status(401).send({ message: 'Invalid authentication token'})
     }
 
     if (error instanceof CustomAPIError || err instanceof CustomAPIError) {

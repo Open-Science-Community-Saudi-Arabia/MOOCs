@@ -27,7 +27,7 @@ const basicAuth = function (token_type = null) {
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return next(new BadRequestError('Invalid authorization header'));
+            return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
         let secret = config.JWT_ACCESS_SECRET;
@@ -38,7 +38,7 @@ const basicAuth = function (token_type = null) {
         }
 
         // Verify the token
-        const jwtToken = authHeader.split(' ')[1]; console.log(jwtToken)
+        const jwtToken = authHeader.split(' ')[1]; //console.log(jwtToken)
         const payload = jwt.verify(jwtToken, secret);
         req.user = payload;
         req.token = jwtToken;
