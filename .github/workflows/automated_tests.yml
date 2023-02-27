@@ -3,11 +3,11 @@ name: Node.js CI
 on:
   push:
     branches: [main, dev, backend_dev, frontend_dev]
-  pull_request:
+  pull_request_target:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
-  pull-request-target:
+  build:
     runs-on: ubuntu-22.04
 
     strategy:
