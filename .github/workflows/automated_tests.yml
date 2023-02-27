@@ -20,7 +20,7 @@ jobs:
 
       - name: Create env file for test environment        
         run: |
-          echo $GITHUB_ENV_TEST
+          echo $GITHUB_ENV_TEST 
           cd ./API/src
           touch ./.env.test
           cat .env.test
