@@ -36,10 +36,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
-<<<<<<< HEAD
-=======
-          cat ./.env.test
->>>>>>> 45e1e0d5b4634516ce1ded100d0cda0cb56f7b9f
           pwd
           npm install
           npm run test
