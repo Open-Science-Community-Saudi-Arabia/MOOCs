@@ -1,31 +1,31 @@
-name: Bi-Weekly PR from `dev` to `main`
+# name: Bi-Weekly PR from `dev` to `main`
 
-on:
-  schedule:
-    # minute (0 - 59), hour (0 - 23), day of month (1 - 31), month(1 - 12 or JAN-DEC), day of week (0 - 6 or SUN-SAT)
-    - cron: "00 00 * * SUN"
-  workflow_dispatch: 
+# on:
+#   schedule:
+#     # minute (0 - 59), hour (0 - 23), day of month (1 - 31), month(1 - 12 or JAN-DEC), day of week (0 - 6 or SUN-SAT)
+#     - cron: "00 00 * * SUN"
+#   workflow_dispatch: 
 
-jobs:
-  pull-request:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v3
-      - name: pull-request
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: "dev"                                                      # If blank, default: triggered branch
-          destination_branch: "main"                                                 # If blank, default: master
-          pr_title: "Bi-weekly auto PR from `dev` into `main` branch "       # Title of pull request
-         pr_body: |                                                                # Full markdown support, requires pr_title to be set
-            :crown: *An automated PR*
+# jobs:
+#   pull-request:
+#       runs-on: ubuntu-latest
+#       steps:
+#       - uses: actions/checkout@v3
+#       - name: pull-request
+#         uses: repo-sync/pull-request@v2
+#         with:
+#           source_branch: "dev"                                                      # If blank, default: triggered branch
+#           destination_branch: "main"                                                 # If blank, default: master
+#           pr_title: "Bi-weekly auto PR from `dev` into `main` branch "       # Title of pull request
+#          pr_body: |                                                                # Full markdown support, requires pr_title to be set
+#             :crown: *An automated PR*
 
-            Bi-weekly automated PR from `dev` to `main` branch
+#             Bi-weekly automated PR from `dev` to `main` branch
 
-            _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
-          pr_reviewer: "@BatoolMM, @sandygudie, @RealRichi3"                                     # Comma-separated list (no spaces)
-          pr_assignee: "@sandygudie, @sandygudie, @RealRichi3"                                                # Comma-separated list (no spaces)
-          pr_label: "auto-pr"                                                       # Comma-separated list (no spaces)
-          pr_draft: false                                                           # Creates pull request as draft
-          pr_allow_empty: true                                                      # Creates pull request even if there are no changes
-          github_token: ${{ secrets.REPO_TOKEN }}                                   # If blank, default: secrets.GITHUB_TOKEN
+#             _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
+#           pr_reviewer: "@BatoolMM, @sandygudie, @RealRichi3"                                     # Comma-separated list (no spaces)
+#           pr_assignee: "@sandygudie, @sandygudie, @RealRichi3"                                                # Comma-separated list (no spaces)
+#           pr_label: "auto-pr"                                                       # Comma-separated list (no spaces)
+#           pr_draft: false                                                           # Creates pull request as draft
+#           pr_allow_empty: true                                                      # Creates pull request even if there are no changes
+#           github_token: ${{ secrets.REPO_TOKEN }}                                   # If blank, default: secrets.GITHUB_TOKEN
