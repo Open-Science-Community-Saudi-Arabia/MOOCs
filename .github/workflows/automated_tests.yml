@@ -23,7 +23,6 @@ jobs:
           cd ./API/src
           touch ./.env.test
           printf "${{secrets.ENV_TEST}}" > .env.test
-          # echo "${{ secrets.ENV_TEST }}" | while read line; do echo "$line" >> .env.test; done
           echo 'testasdfasdfasdf' >> ./.env.test
           pwd
 
