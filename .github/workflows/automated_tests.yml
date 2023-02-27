@@ -36,3 +36,4 @@ jobs:
           pwd
           npm install
           npm run test
+ 
