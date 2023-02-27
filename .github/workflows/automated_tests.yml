@@ -22,7 +22,7 @@ jobs:
         run: |
           cd ./API/src
           touch ./.env.test
-          printf "${{secrets.ENV_TEST}}" >> ./.env.test
+          printf "${{secrets.ENV_TEST}}" >> ./.env.test 
           echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
           pwd
