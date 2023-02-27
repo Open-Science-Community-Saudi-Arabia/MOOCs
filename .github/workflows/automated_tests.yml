@@ -3,7 +3,7 @@ name: Node.js CI
 on:
   push:
     branches: [main, dev, backend_dev, frontend_dev]
-  pull_request:
+  pull_request_target:
     branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
@@ -15,15 +15,15 @@ jobs:
         node-version: [15.x, 16.x, 17.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Create env file for test environment
-        env:
-          GITHUB_ENV_TEST: ${{ secrets.ENV_TEST }}
-        
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create env file for test environment        
         run: |
           cd ./API/src
           touch ./.env.test
-          echo $GITHUB_ENV_TEST base64 --decode ./.env.test
+          printf "${{secrets.ENV_TEST}}" >> ./.env.test
+          echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
           pwd
           printf "${{ secrets.ENV_TEST}}" >> ./.env.test
@@ -36,6 +36,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           cd ./API/src
+          cat .env.test
           pwd
           npm install
           npm run test
