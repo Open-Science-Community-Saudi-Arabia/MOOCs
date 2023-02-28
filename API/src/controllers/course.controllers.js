@@ -72,6 +72,10 @@ exports.getCourses = async (req, res, next) => {
  * @throws {BadRequestError} if Course not found
  */
 exports.updateCourse = async (req, res, next) => {
+    if (!req.params.id || req.params.id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
     const course = await Course.findById(req.params.id);
 
     if (course) {
@@ -81,7 +85,7 @@ exports.updateCourse = async (req, res, next) => {
             success: true,
             data: {
                 message: "Course Updated",
-                course
+                updated_course: course
             }
         })
     };
