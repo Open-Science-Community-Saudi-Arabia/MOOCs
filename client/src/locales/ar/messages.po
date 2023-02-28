@@ -8,7 +8,7 @@ msgstr ""
 "Language: ar\n"
 "Project-Id-Version: open-science-moocs\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-02-28 18:47\n"
+"PO-Revision-Date: 2023-02-28 19:49\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
@@ -22,16 +22,65 @@ msgstr ""
 msgid "About"
 msgstr ""
 
+#: src/components/Footer/index.tsx:27
 #: src/components/Navbar/index.tsx:99
 msgid "Blog"
+msgstr ""
+
+#: src/components/Footer/index.tsx:69
+msgid "Contact Info"
+msgstr ""
+
+#: src/components/Footer/index.tsx:76
+msgid "Copyright © OSCSA MOOCS"
+msgstr ""
+
+#: src/components/Footer/index.tsx:24
+msgid "Courses"
 msgstr ""
 
 #: src/components/Navbar/index.tsx:96
 msgid "Faq"
 msgstr ""
 
+#: src/components/Footer/index.tsx:51
+msgid "Follow Us"
+msgstr ""
+
+#: src/components/Footer/index.tsx:30
+msgid "Guidelines"
+msgstr ""
+
 #: src/components/Navbar/index.tsx:87
 msgid "Home"
+msgstr ""
+
+#: src/components/Navbar/index.tsx:114
+msgid "Log In"
+msgstr ""
+
+#: src/components/Footer/index.tsx:39
+msgid "OSCSA"
+msgstr ""
+
+#: src/components/Footer/index.tsx:45
+msgid "Partnership"
+msgstr ""
+
+#: src/components/Footer/index.tsx:21
+msgid "Quick Links"
+msgstr ""
+
+#: src/components/Footer/index.tsx:33
+msgid "Resources"
+msgstr ""
+
+#: src/components/Navbar/index.tsx:117
+msgid "Sign Up"
+msgstr ""
+
+#: src/components/Footer/index.tsx:42
+msgid "Turing Way"
 msgstr ""
 
 #: src/components/Navbar/index.tsx:90
