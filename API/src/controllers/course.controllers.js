@@ -25,7 +25,12 @@ const User = require("../models/user.models");
 exports.createCourse = async (req, res, next) => {
     const newCourse = new Course(req.body);
     const savedCourse = await newCourse.save();
-    res.status(200).json(savedCourse);
+    return res.status(200).json({
+        success: true,
+        data: {
+            course: savedCourse
+        }
+    });
 };
 
 /**
@@ -38,11 +43,11 @@ exports.createCourse = async (req, res, next) => {
  * @param {string} id - Course id
  * 
  * @returns {object} courses
- */
+ **/
 exports.getCourses = async (req, res, next) => {
     if (req.body) {
         const courses = await Course.find(req.body);
-        res.status(200).json(courses);
+        return res.status(200).json(courses);
     }
     const courses = await Course.find().sort({ _id: -1 });
 
@@ -86,7 +91,7 @@ exports.deleteCourse = async (req, res, next) => {
     const courseId = req.params.courseId;
     await Course.findByIdAndDelete(courseId);
 
-    res.status(200).send({ message: "course has been deleted successfully" });
+    return res.status(200).send({ message: "course has been deleted successfully" });
 };
 
 /**
@@ -152,7 +157,7 @@ exports.getEnrolledCourses = async (req, res, next) => {
         _id: { $in: user.enrolled_courses },
     });
 
-    res.status(200).send({ enrolledCourses: enrolledCourses });
+    return res.status(200).send({ enrolledCourses: enrolledCourses });
 };
 
 /**
@@ -168,7 +173,7 @@ exports.getEnrolledUsers = async (req, res, next) => {
         _id: { $in: course.enrolled_users },
     });
 
-    res.status(200).send({ enrolledUsers: enrolledUsers });
+    return res.status(200).send({ enrolledUsers: enrolledUsers });
 };
 
 /* VIDEOS */
@@ -205,7 +210,7 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
     });
 
     const savedVideo = await newVideo.save();
-    res.status(200).json(savedVideo);
+    return res.status(200).json(savedVideo);
 });
 
 /**
@@ -224,7 +229,7 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
  */
 exports.getVideo = asyncWrapper(async (req, res, next) => {
     const videos = await Video.find(req.body);
-    res.status(200).json(videos);
+    return res.status(200).json(videos);
 });
 
 /**
