@@ -6,20 +6,35 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IoMdCloseCircle } from "react-icons/io";
 import Select from "react-select";
+import { locales, dynamicActivate } from "../../i18n";
+import { Trans } from "@lingui/macro";
 
 export function Navbar() {
   const [open, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const options = [
+    { value: "en", label: locales.en },
+    { value: "ar", label: locales.ar },
+  ];
+  const [currentLocale, setCurrentLocale] = useState(options[0]);
 
   let mediascreen = window.matchMedia("(min-width: 1250px)").matches;
 
+  // function changeLocale(locale) {
+  //   setCurrentLocale(locale);
+  //   dynamicActivate(locale);
+  // }
+
   function changeLanguage(selectedOption: any) {
-    i18n.changeLanguage(selectedOption.value);
+    setCurrentLocale(selectedOption);
+    dynamicActivate(selectedOption.value);
+    // i18n.changeLanguage(selectedOption.value);
   }
-  const options = [
-    { value: "en", label: "English" },
-    { value: "ar", label: "Arabic" },
-  ];
+
+  // const options = [
+  //   { value: "en", label: locales.en },
+  //   { value: "fr", label: locales.fr },
+  // ];
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
       ...defaultStyles,
@@ -80,26 +95,26 @@ export function Navbar() {
               )}
               <nav className="navbar">
                 <Link className="navlink" to="/">
-                  {t("home")}
+                  <Trans>Home</Trans>
                 </Link>
                 <Link className="navlink" to="/">
-                  {t("courses")}
+                  <Trans>courses</Trans>
                 </Link>
                 <Link className="navlink" to="/">
-                  {t("about")}
+                  <Trans>About</Trans>
                 </Link>
                 <Link className="navlink" to="/">
-                  {t("faq")}
+                  <Trans>Faq</Trans>
                 </Link>
                 <Link className="navlink" to="/">
-                  {t("blog")}
+                  <Trans>Blog</Trans>
                 </Link>
               </nav>
 
               <div className="auth-btn">
                 <Select
                   onChange={changeLanguage}
-                  defaultValue={options[0]}
+                  defaultValue={currentLocale}
                   options={options}
                   styles={customStyles}
                   isSearchable={false}

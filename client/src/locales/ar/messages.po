@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-02-27 22:14+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ar\n"
+
+#: src/components/Navbar/index.tsx:105
+msgid "About"
+msgstr "من نحن"
+
+#: src/components/Navbar/index.tsx:111
+msgid "Blog"
+msgstr "العنوان"
+
+#: src/components/Navbar/index.tsx:108
+msgid "Faq"
+msgstr "فاق"
+
+#: src/components/Navbar/index.tsx:99
+msgid "Home"
+msgstr "الرئيسية"
+
+#: src/components/Navbar/index.tsx:102
+msgid "courses"
+msgstr "الدورات"
