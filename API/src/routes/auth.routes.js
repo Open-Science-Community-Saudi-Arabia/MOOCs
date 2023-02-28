@@ -30,8 +30,8 @@ router
     .post('/superadmin/deactivate', basicAuth('su_deactivation'), authController.deactivateSuperAdminAccount)
 
     // User Account Activation/Deactivation
-    .get('/user/activate/:email', basicAuth(), rbac('SuperAdmin'), authController.activateUserAccount)
-    .get('/user/deactivate/:email', basicAuth(), rbac('SuperAdmin'), authController.deactivateUserAccount)
+    .post('/user/activate/:email', basicAuth(), rbac('SuperAdmin'), authController.activateUserAccount)
+    .post('/user/deactivate/:email', basicAuth(), rbac('SuperAdmin'), authController.deactivateUserAccount)
 
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
