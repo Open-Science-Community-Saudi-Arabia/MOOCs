@@ -1,15 +1,15 @@
 import { i18n } from "@lingui/core";
-import { en, ar} from "make-plural/plurals";
+import { en, fr} from "make-plural/plurals";
 
 export const locales = {
   en: "English",
-  ar: "Arabic",
+  fr: "French",
 };
 export const defaultLocale = "en";
 
 i18n.loadLocaleData({
   en: { plurals: en },
-  ar: { plurals: ar },
+  fr: { plurals: fr },
 });
 
 // We have to load and activate the default locale before dynamic loading
@@ -21,3 +21,4 @@ export async function dynamicActivate(locale: string) {
   i18n.load(locale, messages);
   i18n.activate(locale);
 }
+

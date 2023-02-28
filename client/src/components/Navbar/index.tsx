@@ -14,7 +14,7 @@ export function Navbar() {
   const { t, i18n } = useTranslation();
   const options = [
     { value: "en", label: locales.en },
-    { value: "ar", label: locales.ar },
+    { value: "fr", label: locales.fr },
   ];
   const [currentLocale, setCurrentLocale] = useState(options[0]);
 
