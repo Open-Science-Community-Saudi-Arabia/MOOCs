@@ -51,7 +51,12 @@ exports.getCourses = async (req, res, next) => {
     }
     const courses = await Course.find().sort({ _id: -1 });
 
-    return res.status(200).send({ courses: courses });
+    return res.status(200).send({
+        success: true,
+        data: {
+            courses
+        }
+    });
 };
 
 /**
@@ -72,11 +77,17 @@ exports.updateCourse = async (req, res, next) => {
     if (course) {
         await course.updateOne({ $set: req.body });
 
-        return res.status(200).json({ message: "Course Updated", course: course });
-    }
+        return res.status(200).json({
+            success: true,
+            data: {
+                message: "Course Updated",
+                course
+            }
+        })
+    };
 
-    next(new BadRequestError("Course not found"));
-};
+    return next(new BadRequestError("Course not found"));
+}
 
 /** 
  * Delete course
