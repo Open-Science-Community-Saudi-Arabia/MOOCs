@@ -250,6 +250,25 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
     });
 });
 
+exports.addVideoToCourse = async (req, res, next) => {
+    const { video_id, course_id } = req.body
+
+    const course = await Course.findByIdAndUpdate(
+        course_id,
+        { $push: { videos: video_id } },
+        { new: true })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: 'Success',
+            data: {
+                course
+            }
+        }
+    })
+}
+
 exports.getCourseVideos = asyncWrapper(async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
         return next(new BadRequestError('Missing param `id` in request params'))
