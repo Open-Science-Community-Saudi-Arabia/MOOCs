@@ -39,7 +39,7 @@ const videoSchema = new mongoose.Schema({
     },
     video_url: { type: String, required: true },
     description: { type: String, required: true },
-    duration: { type: Number, required: true },
+    duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
     category: {
         type: String,
