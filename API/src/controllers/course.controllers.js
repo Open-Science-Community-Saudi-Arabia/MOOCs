@@ -221,36 +221,33 @@ exports.getEnrolledUsers = async (req, res, next) => {
 /**
  * Upload video
  * 
- * @param {string} course_id
  * @param {string} title
  * @param {string} description
  * @param {string} author
+ * @param {string} duration | 00:00
+ * @param {string} category 
+ * @param {string} course  id of course to add video to
  * 
- * @returns {object} savedVideo
+ * @returns {object} video
  * 
  * @throws {error} if an error occured
  */
 exports.uploadVideo = asyncWrapper(async (req, res, next) => {
-    const { video } = req.files;
-    const { course_id } = req.body;
+    const { title, author,
+        video_url, description,
+        duration, category, course } = req.body;
 
-    const result = await v2.uploader.upload(video.tempFilePath, {
-        resource_type: "video",
-        folder: "videos",
+    const video = await Video.create({
+        title, author, video_url, description,
+        duration, category, course
     });
 
-    const newVideo = new Video({
-        video_url: result.secure_url,
-        video_id: result.public_id,
-        ...req.body,
-        //     course: course_id,
-        //     description: req.body.description,
-        //     title: req.body.title,
-        //     author: req.body.author
+    return res.status(200).json({
+        success: true,
+        data: {
+            video
+        }
     });
-
-    const savedVideo = await newVideo.save();
-    return res.status(200).json(savedVideo);
 });
 
 /**
@@ -318,3 +315,7 @@ exports.deleteVideo = asyncWrapper(async (req, res, next) => {
         .status(200)
         .send({ message: "video has been deleted successfully" });
 });
+
+exports.addVideoToCourse = async (req, res, next) => {
+
+}
