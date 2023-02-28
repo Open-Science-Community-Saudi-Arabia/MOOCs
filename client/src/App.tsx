@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./styles/GlobalStyles.scss";
 import "react-tooltip/dist/react-tooltip.css";
-import "./i18n/config";
 import LandingPage from "./pages/landing-page";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";

@@ -3,7 +3,6 @@ import logo from "../../images/logo-MOOCs.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { IoMdCloseCircle } from "react-icons/io";
 import Select from "react-select";
 import { locales, dynamicActivate } from "../../i18n";
@@ -11,7 +10,7 @@ import { Trans } from "@lingui/macro";
 
 export function Navbar() {
   const [open, setIsOpen] = useState(false);
-  const { t, i18n } = useTranslation();
+
   const options = [
     { value: "en", label: locales.en },
     { value: "ar", label: locales.ar },
@@ -20,21 +19,11 @@ export function Navbar() {
 
   let mediascreen = window.matchMedia("(min-width: 1250px)").matches;
 
-  // function changeLocale(locale) {
-  //   setCurrentLocale(locale);
-  //   dynamicActivate(locale);
-  // }
-
   function changeLanguage(selectedOption: any) {
     setCurrentLocale(selectedOption);
     dynamicActivate(selectedOption.value);
-    // i18n.changeLanguage(selectedOption.value);
   }
 
-  // const options = [
-  //   { value: "en", label: locales.en },
-  //   { value: "fr", label: locales.fr },
-  // ];
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
       ...defaultStyles,
