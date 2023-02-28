@@ -14,25 +14,25 @@ msgstr ""
 "X-Crowdin-File-ID: 1793\n"
 "Project-Id-Version: open-science-moocs\n"
 "Language-Team: Arabic\n"
-"PO-Revision-Date: 2023-02-28 10:07\n"
+"PO-Revision-Date: 2023-02-28 10:11\n"
 
 #: src/components/Navbar/index.tsx:104
 msgid "About"
-msgstr ""
+msgstr "من نحن"
 
 #: src/components/Navbar/index.tsx:110
 msgid "Blog"
-msgstr ""
+msgstr "العنوان"
 
 #: src/components/Navbar/index.tsx:107
 msgid "Faq"
-msgstr ""
+msgstr "فاق"
 
 #: src/components/Navbar/index.tsx:98
 msgid "Home"
-msgstr ""
+msgstr "الرئيسية"
 
 #: src/components/Navbar/index.tsx:101
 msgid "courses"
-msgstr ""
+msgstr "الدورات"
 
