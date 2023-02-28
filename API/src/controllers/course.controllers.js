@@ -59,6 +59,22 @@ exports.getCourses = async (req, res, next) => {
     });
 };
 
+exports.getCourseData = async (req, res, next) => {
+    if (!req.params.id || req.params.id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const course = await Course.findById(req.params.id);
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Success",
+            course
+        }
+    })
+}
+
 /**
  * Update course data
  * 
@@ -103,10 +119,19 @@ exports.updateCourse = async (req, res, next) => {
  * @returns {string} message
  */
 exports.deleteCourse = async (req, res, next) => {
-    const courseId = req.params.courseId;
+    if (!req.params.id || req.params.id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const courseId = req.params.id;
     await Course.findByIdAndDelete(courseId);
 
-    return res.status(200).send({ message: "course has been deleted successfully" });
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "course has been deleted successfully"
+        }
+    });
 };
 
 /**
