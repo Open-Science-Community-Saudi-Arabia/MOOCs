@@ -251,6 +251,7 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
 });
 
 exports.addVideoToCourse = async (req, res, next) => {
+    console.log(req.body)
     const { video_id, course_id } = req.body
 
     const course = await Course.findByIdAndUpdate(
