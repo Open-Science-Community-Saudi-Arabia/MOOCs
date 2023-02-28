@@ -250,24 +250,37 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
     });
 });
 
-/**
- * Get video data
- * 
- * Get data for all videos - req.body._id = null
- * Get data for particular video - req.body._id = video_id
- * Get videos for a particular course - req.body.course_id = course_id
- * Get all videos - req.body = null
- * 
- * @param {string} video_id
- * 
- * @returns {object} videos
- * 
- * @throws {error} if an error occured
- */
-exports.getVideo = asyncWrapper(async (req, res, next) => {
-    const videos = await Video.find(req.body);
-    return res.status(200).json(videos);
+exports.getCourseVideos = asyncWrapper(async (req, res, next) => {
+    if (!req.params.courseId || req.params.id == ':courseId') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const courseId = req.params.courseId;
+    const course_videos = await Course.findById(courseId).populate('videos');
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            course_videos
+        }
+    })
 });
+
+exports.getVideoData = async (req, res, next) => {
+    if (!req.params.id || req.params.id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const videoId = req.params.id;
+    const video = await Video.findById(videoId).populate('course')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            video
+        }
+    })
+}
 
 /**
  * Update video data
