@@ -6,23 +6,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
-#: src/components/Navbar/index.tsx:104
+#: src/components/Navbar/index.tsx:93
 msgid "About"
 msgstr "About"
 
-#: src/components/Navbar/index.tsx:110
+#: src/components/Navbar/index.tsx:99
 msgid "Blog"
 msgstr "Blog"
 
-#: src/components/Navbar/index.tsx:107
+#: src/components/Navbar/index.tsx:96
 msgid "Faq"
 msgstr "Faq"
 
-#: src/components/Navbar/index.tsx:98
+#: src/components/Navbar/index.tsx:87
 msgid "Home"
 msgstr "Home"
 
-#: src/components/Navbar/index.tsx:101
+#: src/components/Navbar/index.tsx:90
 msgid "courses"
 msgstr "courses"

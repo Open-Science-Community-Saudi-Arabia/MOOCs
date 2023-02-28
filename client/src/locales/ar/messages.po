@@ -15,24 +15,25 @@ msgstr ""
 "Project-Id-Version: open-science-moocs\n"
 "Language-Team: Arabic\n"
 "PO-Revision-Date: 2023-02-28 10:11\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
 
-#: src/components/Navbar/index.tsx:104
+#: src/components/Navbar/index.tsx:93
 msgid "About"
 msgstr "من نحن"
 
-#: src/components/Navbar/index.tsx:110
+#: src/components/Navbar/index.tsx:99
 msgid "Blog"
 msgstr "العنوان"
 
-#: src/components/Navbar/index.tsx:107
+#: src/components/Navbar/index.tsx:96
 msgid "Faq"
 msgstr "فاق"
 
-#: src/components/Navbar/index.tsx:98
+#: src/components/Navbar/index.tsx:87
 msgid "Home"
 msgstr "الرئيسية"
 
-#: src/components/Navbar/index.tsx:101
+#: src/components/Navbar/index.tsx:90
 msgid "courses"
 msgstr "الدورات"
-
