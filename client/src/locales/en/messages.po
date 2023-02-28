@@ -17,17 +17,66 @@ msgstr ""
 msgid "About"
 msgstr "About"
 
+#: src/components/Footer/index.tsx:27
 #: src/components/Navbar/index.tsx:99
 msgid "Blog"
 msgstr "Blog"
+
+#: src/components/Footer/index.tsx:69
+msgid "Contact Info"
+msgstr "Contact Info"
+
+#: src/components/Footer/index.tsx:76
+msgid "Copyright © OSCSA MOOCS"
+msgstr "Copyright © OSCSA MOOCS"
+
+#: src/components/Footer/index.tsx:24
+msgid "Courses"
+msgstr "Courses"
 
 #: src/components/Navbar/index.tsx:96
 msgid "Faq"
 msgstr "Faq"
 
+#: src/components/Footer/index.tsx:51
+msgid "Follow Us"
+msgstr "Follow Us"
+
+#: src/components/Footer/index.tsx:30
+msgid "Guidelines"
+msgstr "Guidelines"
+
 #: src/components/Navbar/index.tsx:87
 msgid "Home"
 msgstr "Home"
+
+#: src/components/Navbar/index.tsx:114
+msgid "Log In"
+msgstr "Log In"
+
+#: src/components/Footer/index.tsx:39
+msgid "OSCSA"
+msgstr "OSCSA"
+
+#: src/components/Footer/index.tsx:45
+msgid "Partnership"
+msgstr "Partnership"
+
+#: src/components/Footer/index.tsx:21
+msgid "Quick Links"
+msgstr "Quick Links"
+
+#: src/components/Footer/index.tsx:33
+msgid "Resources"
+msgstr "Resources"
+
+#: src/components/Navbar/index.tsx:117
+msgid "Sign Up"
+msgstr "Sign Up"
+
+#: src/components/Footer/index.tsx:42
+msgid "Turing Way"
+msgstr "Turing Way"
 
 #: src/components/Navbar/index.tsx:90
 msgid "courses"

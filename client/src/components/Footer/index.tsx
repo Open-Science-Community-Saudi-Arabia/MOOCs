@@ -72,7 +72,9 @@ export default function index() {
           </div>
         </div>
       </div>
-      <p><Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}</p>
+      <p>
+        <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}
+      </p>
     </div>
   );
 }
