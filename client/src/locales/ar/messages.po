@@ -6,33 +6,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ar\n"
+"Project-Id-Version: open-science-moocs\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-02-28 18:47\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: open-science-moocs\n"
 "X-Crowdin-Project-ID: 560613\n"
 "X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /[Open-Science-Community-Saudi-Arabia.MOOCs] frontend-ui/client/src/locales/en/messages.po\n"
 "X-Crowdin-File-ID: 1801\n"
-"Project-Id-Version: open-science-moocs\n"
-"Language-Team: Arabic\n"
-"PO-Revision-Date: 2023-02-28 17:22\n"
 
-#: src/components/Navbar/index.tsx:104
+#: src/components/Navbar/index.tsx:93
 msgid "About"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:110
+#: src/components/Navbar/index.tsx:99
 msgid "Blog"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:107
+#: src/components/Navbar/index.tsx:96
 msgid "Faq"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:98
+#: src/components/Navbar/index.tsx:87
 msgid "Home"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:101
+#: src/components/Navbar/index.tsx:90
 msgid "courses"
 msgstr ""
 
