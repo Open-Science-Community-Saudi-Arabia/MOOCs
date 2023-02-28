@@ -1,4 +1,3 @@
-import React from "react";
 import { Navbar } from "../../components/Navbar";
 import "./landingpage.scss";
 import illustration from "../../images/hero-image.svg";

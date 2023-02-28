@@ -6,6 +6,7 @@ import LinkedIn from "../../images/linkedin.png";
 import Twitter from "../../images/twitter.png";
 import Facebook from "../../images/facebook.png";
 import "./footer.scss";
+import { Trans } from "@lingui/macro";
 
 export default function index() {
   return (
@@ -16,20 +17,39 @@ export default function index() {
         </div>
         <div className="right">
           <div className="quicklinks">
-            <h3>Quick Links</h3>
-            <Link to=""> Courses</Link>
-            <Link to="">Blog</Link>
-            <Link to="">Guidelines </Link>
-            <Link to="">Resources</Link>
+            <h3>
+              <Trans>Quick Links</Trans>
+            </h3>
+            <Link to="">
+              <Trans>Courses</Trans>
+            </Link>
+            <Link to="">
+              <Trans>Blog</Trans>
+            </Link>
+            <Link to="">
+              <Trans>Guidelines</Trans>{" "}
+            </Link>
+            <Link to="">
+              <Trans>Resources</Trans>
+            </Link>
           </div>
           <div className="community">
             <h3>Communities</h3>
-            <Link to="">OSCSA</Link>
-            <Link to="">Turing Way </Link>
-            <Link to="">Partnership </Link>
+            <Link to="">
+              <Trans>OSCSA</Trans>
+            </Link>
+            <Link to="">
+              <Trans>Turing Way</Trans>{" "}
+            </Link>
+            <Link to="">
+              <Trans>Partnership </Trans>
+            </Link>
           </div>
           <div className="sociallinks">
-            <h3> Follow Us</h3>
+            <h3>
+              {" "}
+              <Trans>Follow Us</Trans>
+            </h3>
             <Link to="">
               <img src={Twitter} alt="twitter" />
             </Link>
@@ -44,12 +64,15 @@ export default function index() {
             </Link>
           </div>
           <div className="info">
-            <h3> Contact Info</h3>
+            <h3>
+              {" "}
+              <Trans>Contact Info</Trans>
+            </h3>
             <Link to=""> admin@openscisaudi.com</Link>
           </div>
         </div>
       </div>
-      <p>Copyright © OSCSA MOOCS {new Date().getFullYear()}</p>
+      <p><Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}</p>
     </div>
   );
 }

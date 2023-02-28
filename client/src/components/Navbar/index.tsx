@@ -111,10 +111,10 @@ export function Navbar() {
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">
-                    Log In
+                    <Trans>Log In</Trans>
                   </Link>
                   <Link to="/signup" className="auth-btn-signup">
-                    Sign Up
+                    <Trans> Sign Up</Trans>
                   </Link>
                 </div>
               </div>
