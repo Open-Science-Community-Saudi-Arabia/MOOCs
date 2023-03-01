@@ -6,7 +6,7 @@ const { createCourse, getCourses, getCourseData,
     uploadVideo, getVideoData, getCourseVideos,
     updateVideo, enrollCourse, cancelEnrollment,
     getEnrolledCourses, getEnrolledUsers,
-    addVideoToCourse, removeVideoFromCourse } = require("../controllers/course.controllers")
+    addVideoToCourse, removeVideoFromCourse, deleteVideo } = require("../controllers/course.controllers")
 
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
@@ -23,14 +23,15 @@ router
     .post("/cancelenrollment", permit("Admin EndUser SuperAdmin"), cancelEnrollment)
     .get("/enrolledcourses", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
     .get("/enrolledusers", permit("Admin EndUser SuperAdmin"), getEnrolledUsers)
-    
-    router
+
+router
     .post("/video/link", permit("Admin SuperAdmin"), addVideoToCourse)
     .delete("/video/removelink", permit("Admin SuperAdmin"), removeVideoFromCourse)
     .post("/video/upload", permit("Admin SuperAdmin"), uploadVideo)
     .get("/video/:id", permit("Admin EndUser SuperAdmin"), getVideoData)
     .get("/videos/:courseId", permit("Admin EndUser SuperAdmin"), getCourseVideos)
     .patch("/video/update/:id", permit("Admin SuperAdmin"), updateVideo)
+    .delete("/video/delete/:videoId", permit("Admin SuperAdmin"), deleteVideo)
 
 
 
