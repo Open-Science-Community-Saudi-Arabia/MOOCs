@@ -124,7 +124,7 @@ exports.deleteCourse = async (req, res, next) => {
     }
 
     const courseId = req.params.id;
-    await Course.findByIdAndDelete(courseId);
+    await Course.findByIdAndUpdate(courseId, { isAvailable: false });
 
     return res.status(200).send({
         success: true,
