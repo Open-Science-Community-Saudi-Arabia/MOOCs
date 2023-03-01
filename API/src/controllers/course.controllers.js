@@ -236,7 +236,7 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  */
-exports.uploadVideo = asyncWrapper(async (req, res, next) => {
+exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
         duration, category, course } = req.body;
@@ -252,7 +252,7 @@ exports.uploadVideo = asyncWrapper(async (req, res, next) => {
             video
         }
     });
-});
+}
 
 exports.addVideoToCourse = async (req, res, next) => {
     console.log(req.body)
@@ -293,7 +293,7 @@ exports.removeVideoFromCourse = async (req, res, next) => {
     })
 }
 
-exports.getCourseVideos = asyncWrapper(async (req, res, next) => {
+exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
@@ -301,13 +301,16 @@ exports.getCourseVideos = asyncWrapper(async (req, res, next) => {
     const courseId = req.params.courseId;
     const course_videos = await Course.findById(courseId).populate('videos');
 
+    // Remove unavailable videos
+    course_videos.videos = course_videos.videos.filter((video) => video.isAvailable)
+
     return res.status(200).send({
         success: true,
         data: {
             course_videos
         }
     })
-});
+}
 
 exports.getVideoData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
@@ -320,7 +323,7 @@ exports.getVideoData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            video
+            video: video.isAvailable ? video : null // check if video is available
         }
     })
 }
@@ -336,7 +339,7 @@ exports.getVideoData = async (req, res, next) => {
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
  */
-exports.updateVideo = asyncWrapper(async (req, res, next) => {
+exports.updateVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
 
     if (video) {
@@ -346,10 +349,13 @@ exports.updateVideo = asyncWrapper(async (req, res, next) => {
     }
 
     next(new BadRequestError("Video not found"));
-});
+}
 
 /**
  * Delete video
+ * 
+ * Doesn't actually delete the video, it only updates its available status
+ * if a videos `isAvailable` status is set to false, it wont be added when making requests
  * 
  * @param {string} video_id
  * 
@@ -363,11 +369,16 @@ exports.updateVideo = asyncWrapper(async (req, res, next) => {
  * @todo delete video from course
  * @todo delete video from user
  * */
-exports.deleteVideo = asyncWrapper(async (req, res, next) => {
+exports.deleteVideo = async (req, res, next) => {
     const videoId = req.params.videoId;
-    await Video.findByIdAndDelete(videoId);
+    await Video.findByIdAndUpdate(videoId, { isAvailable: false });
 
     return res
         .status(200)
-        .send({ message: "video has been deleted successfully" });
-});
+        .send({
+            success: true,
+            data: {
+                message: "video has been deleted successfully"
+            }
+        });
+}
