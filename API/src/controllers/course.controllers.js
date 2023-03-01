@@ -49,7 +49,11 @@ exports.getCourses = async (req, res, next) => {
         const courses = await Course.find(req.body);
         return res.status(200).json(courses);
     }
-    const courses = await Course.find().sort({ _id: -1 });
+
+    // Get all available courses
+    const courses = (
+        await Course.find().populate('videos').sort({ _id: -1 })
+    ).filter((course) => course.isAvailable);
 
     return res.status(200).send({
         success: true,
@@ -277,7 +281,7 @@ exports.removeVideoFromCourse = async (req, res, next) => {
         course_id,
         { $pull: { videos: video_id } },
         { new: true }).populate('videos').populate('')
- 
+
     return res.status(200).send({
         success: true,
         data: {
