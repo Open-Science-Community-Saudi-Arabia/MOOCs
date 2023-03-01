@@ -70,7 +70,7 @@ exports.getCourseData = async (req, res, next) => {
         success: true,
         data: {
             message: "Success",
-            course
+            course: course.isAvailable ? course : null
         }
     })
 }

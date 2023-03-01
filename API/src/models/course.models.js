@@ -60,9 +60,10 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    videos: [{ type: mongoose.Types.ObjectId, ref: "Video" }],
-    exercises: [{ type: mongoose.Types.ObjectId, ref: "Exercise" }],
-    enrolled_users: [{ type: mongoose.Types.ObjectId, ref: "User" }]
+    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    isAvailable: { types: Schema.Types.boolean, default: true}
 }, { timestamps: true })
 
 const Question = mongoose.model("Question", questionSchema)
