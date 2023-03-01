@@ -44,7 +44,8 @@ const videoSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true
-    }
+    },
+    isAvailable: { type: Boolean, default: true }
 }, { timestamps: true })
 
 const courseSchema = new mongoose.Schema({
@@ -63,7 +64,7 @@ const courseSchema = new mongoose.Schema({
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    isAvailable: { type: Boolean, default: true}
+    isAvailable: { type: Boolean, default: true }
 }, { timestamps: true })
 
 const Question = mongoose.model("Question", questionSchema)
