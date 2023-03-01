@@ -257,7 +257,7 @@ exports.addVideoToCourse = async (req, res, next) => {
     const course = await Course.findByIdAndUpdate(
         course_id,
         { $push: { videos: video_id } },
-        { new: true })
+        { new: true }).populate('videos')
 
     return res.status(200).send({
         success: true,
@@ -348,7 +348,3 @@ exports.deleteVideo = asyncWrapper(async (req, res, next) => {
         .status(200)
         .send({ message: "video has been deleted successfully" });
 });
-
-exports.addVideoToCourse = async (req, res, next) => {
-
-}
