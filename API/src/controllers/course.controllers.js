@@ -256,9 +256,28 @@ exports.addVideoToCourse = async (req, res, next) => {
 
     const course = await Course.findByIdAndUpdate(
         course_id,
-        { $push: { videos: video_id } },
+        { $addToSet: { videos: video_id } },
         { new: true }).populate('videos')
 
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: 'Success',
+            data: {
+                course
+            }
+        }
+    })
+}
+
+exports.removeVideoFromCourse = async (req, res, next) => {
+    const { video_id, course_id } = req.body
+
+    const course = await Course.findByIdAndUpdate(
+        course_id,
+        { $pull: { videos: video_id } },
+        { new: true }).populate('videos').populate('')
+ 
     return res.status(200).send({
         success: true,
         data: {
