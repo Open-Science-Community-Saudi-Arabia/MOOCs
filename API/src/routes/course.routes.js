@@ -1,11 +1,12 @@
 
 const router = require("express").Router();
 
-const { createCourse, getCourses,
+const { createCourse, getCourses, getCourseData,
     deleteCourse, updateCourse,
-    uploadVideo, getVideo, updateVideo,
-    enrollCourse, cancelEnrollment, 
-    getEnrolledCourses, getEnrolledUsers } = require("../controllers/course.controllers")
+    uploadVideo, getVideoData, getCourseVideos,
+    updateVideo, enrollCourse, cancelEnrollment,
+    getEnrolledCourses, getEnrolledUsers,
+    addVideoToCourse, removeVideoFromCourse, deleteVideo } = require("../controllers/course.controllers")
 
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
@@ -13,19 +14,24 @@ const { basicAuth } = require("../middlewares/auth")
 router.use(basicAuth())
 
 router
-    .post("/new", permit("Admin"), createCourse)
-    .get("/", permit("Admin EndUser"), getCourses)
-    .patch("/update/:id", permit("Admin"), updateCourse)
-    .delete("/delete/:courseId", permit("Admin"), deleteCourse)
-    .post("/enroll", permit("Admin EndUser"), enrollCourse)
-    .post("/cancelenrollment", permit("Admin EndUser"), cancelEnrollment)
-    .get("/enrolledcourses", permit("Admin EndUser"), getEnrolledCourses)
-    .get("/enrolledusers", permit("Admin EndUser"), getEnrolledUsers)
+    .post("/new", permit("Admin SuperAdmin"), createCourse)
+    .get("/", permit("Admin EndUser SuperAdmin"), getCourses)
+    .get("/:id", permit("Admin EndUser SuperAdmin"), getCourseData)
+    .patch("/update/:id", permit("Admin SuperAdmin"), updateCourse)
+    .delete("/delete/:id", permit("Admin SuperAdmin"), deleteCourse)
+    .post("/enroll", permit("Admin EndUser SuperAdmin"), enrollCourse)
+    .post("/cancelenrollment", permit("Admin EndUser SuperAdmin"), cancelEnrollment)
+    .get("/enrolledcourses", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
+    .get("/enrolledusers", permit("Admin EndUser SuperAdmin"), getEnrolledUsers)
 
 router
-    .post("/video/upload", permit("Admin"), uploadVideo)
-    .get("/course/video", permit("Admin EndUser"), getVideo)
-    .patch("/video/update/:id", permit("Admin"), updateVideo)
+    .post("/video/link", permit("Admin SuperAdmin"), addVideoToCourse)
+    .delete("/video/removelink", permit("Admin SuperAdmin"), removeVideoFromCourse)
+    .post("/video/upload", permit("Admin SuperAdmin"), uploadVideo)
+    .get("/video/:id", permit("Admin EndUser SuperAdmin"), getVideoData)
+    .get("/videos/:courseId", permit("Admin EndUser SuperAdmin"), getCourseVideos)
+    .patch("/video/update/:id", permit("Admin SuperAdmin"), updateVideo)
+    .delete("/video/delete/:videoId", permit("Admin SuperAdmin"), deleteVideo)
 
 
 

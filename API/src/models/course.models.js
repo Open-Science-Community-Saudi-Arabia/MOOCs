@@ -31,21 +31,21 @@ const exerciseSchema = new Schema({
 const videoSchema = new mongoose.Schema({
     title: {
         type: String,
-        // required: true
+        required: true
     },
     author: {
         type: String,
         required: true
     },
-    video_id: { type: String, required: true },
     video_url: { type: String, required: true },
     description: { type: String, required: true },
-    duration: { type: Number, required: true },
+    duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
     category: {
         type: String,
         required: true
-    }
+    },
+    isAvailable: { type: Boolean, default: true }
 }, { timestamps: true })
 
 const courseSchema = new mongoose.Schema({
@@ -61,9 +61,10 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    videos: [{ type: mongoose.Types.ObjectId, ref: "Video" }],
-    exercises: [{ type: mongoose.Types.ObjectId, ref: "Exercise" }],
-    enrolled_users: [{ type: mongoose.Types.ObjectId, ref: "User" }]
+    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
+    enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    isAvailable: { type: Boolean, default: true }
 }, { timestamps: true })
 
 const Question = mongoose.model("Question", questionSchema)
