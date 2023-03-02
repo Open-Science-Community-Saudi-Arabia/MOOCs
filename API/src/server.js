@@ -1,4 +1,5 @@
-if (process.env.NODE_ENV) {
+const environments = ['dev', 'test', 'prod']
+if (environments.includes(process.env.NODE_ENV)) {
     require('dotenv').config({ path: `${__dirname}/.env.${process.env.NODE_ENV}` });
 } else {
     require('dotenv').config({ path: `${__dirname}/.env` });
