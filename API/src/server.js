@@ -12,7 +12,7 @@ const app = require('./app');
 const connectDatabase = require('./db/connectDB');
 
 function getMongoURI() {
-    return config['MONGO_URI' + (process.env.NODE_ENV ? `_${process.env.NODE_ENV.toUpperCase()}` : '')];
+    return config['MONGO_URI' + (environments.includes(process.env.NODE_ENV) ? `_${process.env.NODE_ENV.toUpperCase()}` : '')];
 }
 
 const PORT = config.PORT;
