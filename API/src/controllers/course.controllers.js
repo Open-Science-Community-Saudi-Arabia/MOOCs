@@ -63,6 +63,15 @@ exports.getCourses = async (req, res, next) => {
     });
 };
 
+/**
+ * Get course data
+ * Gets all the content of a course, including videos,
+ * author, description
+ * 
+ * @param {string} id - id of the course 
+ * 
+ * @returns course
+ */
 exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -254,8 +263,15 @@ exports.uploadVideo = async (req, res, next) => {
     });
 }
 
+/**
+ * Add vidoe to course
+ * 
+ * @param {string} video_id - id of the video 
+ * @param {string} course_id - id of the course to add the video
+ * 
+ * @returns {Object} course 
+ */
 exports.addVideoToCourse = async (req, res, next) => {
-    console.log(req.body)
     const { video_id, course_id } = req.body
 
     const course = await Course.findByIdAndUpdate(
@@ -274,6 +290,14 @@ exports.addVideoToCourse = async (req, res, next) => {
     })
 }
 
+/**
+ * Remove vidoe from course
+ * 
+ * @param {string} video_id - id of the video 
+ * @param {string} course_id - id of the course 
+ * 
+ * @returns {Object} course 
+ */
 exports.removeVideoFromCourse = async (req, res, next) => {
     const { video_id, course_id } = req.body
 
@@ -293,6 +317,14 @@ exports.removeVideoFromCourse = async (req, res, next) => {
     })
 }
 
+/**
+ * Get Course videos
+ * Gets all the videos linked to a particular course
+ * 
+ * @param {courseId} - id of the course to get 
+ *  
+ * @returns {Array} - Array of all the videos within the course
+ */
 exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -312,6 +344,13 @@ exports.getCourseVideos = async (req, res, next) => {
     })
 }
 
+/**
+ * Get video data
+ * 
+ * @param {string} id - id of the video 
+ * 
+ * @returns {Object} video 
+ */
 exports.getVideoData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
