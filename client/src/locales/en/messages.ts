@@ -1,1 +1,0 @@
-/*eslint-disable*/export const messages=JSON.parse("{\"About\":\"About\",\"Blog\":\"Blog\",\"Faq\":\"Faq\",\"Home\":\"Home\",\"courses\":\"courses\"}");
