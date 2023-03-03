@@ -8,7 +8,7 @@ msgstr ""
 "Language: ar\n"
 "Project-Id-Version: open-science-moocs\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-02-28 19:49\n"
+"PO-Revision-Date: 2023-03-03 08:04\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
@@ -55,12 +55,32 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+#: src/pages/landing-page/index.tsx:138
+msgid "Join Over 1000+ participants to learn high demand Courses."
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:143
+msgid "Join Us"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:34
+msgid "Join us now!"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:21
+msgid "Learning with Open Innovation MOOCs"
+msgstr ""
+
 #: src/components/Navbar/index.tsx:114
 msgid "Log In"
 msgstr ""
 
 #: src/components/Footer/index.tsx:39
 msgid "OSCSA"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:46
+msgid "Our best courses for you"
 msgstr ""
 
 #: src/components/Footer/index.tsx:45
@@ -75,8 +95,28 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
+#: src/pages/landing-page/index.tsx:26
+msgid "Revolutionize your research and education journey with Open Innovation MOOCs. Innovate with Open Science today."
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:93
+msgid "Science Practices"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:83
+msgid "See All Courses"
+msgstr ""
+
 #: src/components/Navbar/index.tsx:117
 msgid "Sign Up"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:57
+msgid "Start Learning"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:117
+msgid "Support and collaboration from leading organizations"
 msgstr ""
 
 #: src/components/Footer/index.tsx:42
@@ -85,5 +125,10 @@ msgstr ""
 
 #: src/components/Navbar/index.tsx:90
 msgid "courses"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:101
+#: src/pages/landing-page/index.tsx:104
+msgid "{0}"
 msgstr ""
 
