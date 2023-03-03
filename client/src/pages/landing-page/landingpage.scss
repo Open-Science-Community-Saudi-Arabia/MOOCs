@@ -248,8 +248,7 @@
           height: 230px;
           width: 100%;
           @include ipad {
-         
-          width:230px;
+            width: 230px;
           }
         }
         .description {
@@ -296,16 +295,13 @@
     .icon__content {
       margin-top: 4em;
       @include flex(center, center);
-      gap: 30px;
-      @include ipad {
-        gap: 100px;
-      }
+      gap: 34px;
       flex-wrap: wrap;
       .icon {
-        width: 40%;
+        width: 180px;
         display: inline-block;
         @include ipad {
-          width: 25%;
+          // width: 25%;
           display: inline-block;
         }
       }

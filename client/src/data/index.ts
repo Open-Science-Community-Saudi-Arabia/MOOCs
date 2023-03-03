@@ -12,6 +12,9 @@ import openbook from "../images/openbook.svg";
 import knowledge from "../images/knowledge.svg";
 import brain from "../images/brain.svg";
 import youtube from "../images/dashboard/youtube.png";
+import capenteries from "../images/capenteries.svg";
+import openscience from "../images/open-science.svg";
+import ttw from "../images/ttw.svg";
 
 // Display Course List
 export const Courses = [
@@ -106,6 +109,21 @@ export const Supporter = [
     id: 2,
     icon: CSS,
     name: "CSS",
+  },
+  {
+    id: 3,
+    icon: capenteries,
+    name: "carpenteries",
+  },
+  {
+    id: 4,
+    icon: ttw,
+    name: "the turning way",
+  },
+  {
+    id: 5,
+    icon: openscience,
+    name: "open science",
   },
 ];
 
