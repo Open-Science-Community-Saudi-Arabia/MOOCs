@@ -1,29 +1,27 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-02-28 10:48+0100\n"
+"POT-Creation-Date: 2023-03-03 11:29+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ar\n"
-"Project-Id-Version: open-science-moocs\n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-03-03 08:04\n"
-"Last-Translator: \n"
-"Language-Team: Arabic\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: open-science-moocs\n"
 "X-Crowdin-Project-ID: 560613\n"
 "X-Crowdin-Language: ar\n"
 "X-Crowdin-File: /[Open-Science-Community-Saudi-Arabia.MOOCs] frontend-ui/client/src/locales/en/messages.po\n"
 "X-Crowdin-File-ID: 1801\n"
+"Project-Id-Version: open-science-moocs\n"
+"Language-Team: Arabic\n"
+"PO-Revision-Date: 2023-03-03 10:32\n"
 
-#: src/components/Navbar/index.tsx:93
+#: src/components/Navbar/index.tsx:92
 msgid "About"
 msgstr ""
 
 #: src/components/Footer/index.tsx:27
-#: src/components/Navbar/index.tsx:99
+#: src/components/Navbar/index.tsx:98
 msgid "Blog"
 msgstr ""
 
@@ -39,7 +37,7 @@ msgstr ""
 msgid "Courses"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:96
+#: src/components/Navbar/index.tsx:95
 msgid "Faq"
 msgstr ""
 
@@ -51,27 +49,27 @@ msgstr ""
 msgid "Guidelines"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:87
+#: src/components/Navbar/index.tsx:86
 msgid "Home"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:138
+#: src/pages/landing-page/index.tsx:139
 msgid "Join Over 1000+ participants to learn high demand Courses."
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:143
+#: src/pages/landing-page/index.tsx:144
 msgid "Join Us"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:34
+#: src/pages/landing-page/index.tsx:35
 msgid "Join us now!"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:21
+#: src/pages/landing-page/index.tsx:22
 msgid "Learning with Open Innovation MOOCs"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:114
+#: src/components/Navbar/index.tsx:113
 msgid "Log In"
 msgstr ""
 
@@ -79,7 +77,11 @@ msgstr ""
 msgid "OSCSA"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:46
+#: src/pages/landing-page/index.tsx:94
+msgid "Open Science Practices"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:47
 msgid "Our best courses for you"
 msgstr ""
 
@@ -95,27 +97,23 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:26
+#: src/pages/landing-page/index.tsx:27
 msgid "Revolutionize your research and education journey with Open Innovation MOOCs. Innovate with Open Science today."
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:93
-msgid "Science Practices"
-msgstr ""
-
-#: src/pages/landing-page/index.tsx:83
+#: src/pages/landing-page/index.tsx:84
 msgid "See All Courses"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:117
+#: src/components/Navbar/index.tsx:116
 msgid "Sign Up"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:57
+#: src/pages/landing-page/index.tsx:58
 msgid "Start Learning"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:117
+#: src/pages/landing-page/index.tsx:118
 msgid "Support and collaboration from leading organizations"
 msgstr ""
 
@@ -123,12 +121,15 @@ msgstr ""
 msgid "Turing Way"
 msgstr ""
 
-#: src/components/Navbar/index.tsx:90
+#: src/components/Navbar/index.tsx:89
 msgid "courses"
 msgstr ""
 
-#: src/pages/landing-page/index.tsx:101
-#: src/pages/landing-page/index.tsx:104
-msgid "{0}"
+#: src/pages/landing-page/index.tsx:105
+msgid "{content}"
+msgstr ""
+
+#: src/pages/landing-page/index.tsx:102
+msgid "{name}"
 msgstr ""
 
