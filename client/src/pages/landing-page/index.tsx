@@ -6,7 +6,8 @@ import { CourseList, Courses, OpenPractice, Supporter } from "../../data";
 import { Tooltip } from "react-tooltip";
 import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
-import { Trans } from "@lingui/macro";
+import { Trans,t } from "@lingui/macro";
+
 
 export default function index() {
   return (
@@ -46,13 +47,13 @@ export default function index() {
           <Trans>Our best courses for you</Trans>
         </h1>
         <div className="course-container">
-          {Courses.map((option) => (
-            <div key={option.id} className="course">
+          {Courses.map(({id,name,icon,description}) => (
+            <div key={id} className="course">
               <div className="icon-content">
-                <img src={option.icon} className="icon" alt="icon" />
+                <img src={icon} className="icon" alt="icon" />
               </div>
-              <h3 className="name">{option.name}</h3>
-              <p className="description">{option.description}</p>
+              <h3 className="name">{name}</h3>
+              <p className="description">{description}</p>
               <button className="btn">
                 <Trans>Start Learning</Trans>
               </button>
@@ -90,18 +91,18 @@ export default function index() {
       <section className="open-science-section">
         <div className="__container">
           <h1>
-            <Trans>Science Practices</Trans>
+            <Trans>Open Science Practices</Trans>
           </h1>
           <div className="__content">
-            {OpenPractice.map((option, i) => (
-              <div key={option.id} className="practices">
-                <img src={option.icon} alt="image" />
+            {OpenPractice.map(({id,content,name,icon}) => (
+              <div key={id} className="practices">
+                <img src={icon} alt="image" />
                 <div className="description">
                   <p className="__name">
-                    <Trans>{option.name}</Trans>
+                    <Trans>{name}</Trans>
                   </p>
                   <span className="__content">
-                    <Trans>{option.content}</Trans>
+                    <Trans>{content}</Trans>
                   </span>
                 </div>
               </div>
