@@ -18,14 +18,7 @@ function Login() {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-   
     onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
-    onError: () =>
-      toast.error("login failed", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        theme: "colored",
-      }),
   });
 
   const loginHandler = async (event: any) => {
@@ -65,9 +58,9 @@ function Login() {
           </div>
           <div className="hr-line">
             {" "}
-            <hr/>
+            <hr />
             <span className="or">OR</span>
-            <hr/>
+            <hr />
           </div>
 
           <form onSubmit={loginHandler} method="POST">

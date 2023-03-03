@@ -1,5 +1,5 @@
 import { useState } from "react";
-import logo from "../../images/logo-MOOCs.svg";
+import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
@@ -67,7 +67,6 @@ export function Navbar() {
     <>
       <header className="header">
         <img className="logo" src={logo} alt="logo" />
-
         {mediascreen || open ? (
           <>
             <div className={!open ? "navbar_container" : "sidebar_container"}>

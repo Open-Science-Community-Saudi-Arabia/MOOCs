@@ -100,7 +100,6 @@
       .icon-content {
         padding: 1.5rem 1rem;
         text-align: center;
-        // background-color: var(--light-gray);
         background-color: var(--gray-100);
         border-radius: 20px;
         margin-bottom: 1rem;
@@ -142,7 +141,7 @@
         }
       }
       &:hover {
-        background-color: hsl(172deg 100% 30% / 11%);
+        background-color: var(--green-light);
         .icon-content {
           background-color: var(--white);
         }

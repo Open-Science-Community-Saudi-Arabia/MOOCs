@@ -6,6 +6,7 @@ import { CourseList, Courses, OpenPractice, Supporter } from "../../data";
 import { Tooltip } from "react-tooltip";
 import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
+import { Trans } from "@lingui/macro";
 
 export default function index() {
   return (
@@ -16,15 +17,22 @@ export default function index() {
         <div className="left">
           <h1 className="">
             {" "}
-            <span>Learning with Open Innovation MOOCs </span>
+            <span>
+              <Trans>Learning with Open Innovation MOOCs</Trans>
+            </span>
             <br />
           </h1>
           <p>
-            Revolutionize your research and education journey with Open
-            Innovation MOOCs. Innovate with Open Science today.
+            <Trans>
+              {" "}
+              Revolutionize your research and education journey with Open
+              Innovation MOOCs. Innovate with Open Science today.
+            </Trans>
           </p>
           <div className="btns">
-            <button>Join us now!</button>
+            <button>
+              <Trans>Join us now!</Trans>
+            </button>
           </div>
         </div>
         <div className="right">
@@ -34,7 +42,9 @@ export default function index() {
 
       {/* section Courses section ------  */}
       <section className="courses-section">
-        <h1>Our best courses for you</h1>
+        <h1>
+          <Trans>Our best courses for you</Trans>
+        </h1>
         <div className="course-container">
           {Courses.map((option) => (
             <div key={option.id} className="course">
@@ -43,7 +53,9 @@ export default function index() {
               </div>
               <h3 className="name">{option.name}</h3>
               <p className="description">{option.description}</p>
-              <button className="btn">Start Learning</button>
+              <button className="btn">
+                <Trans>Start Learning</Trans>
+              </button>
             </div>
           ))}
         </div>
@@ -59,14 +71,17 @@ export default function index() {
               <Tooltip
                 anchorId={course.name}
                 place="top"
-                content="Coming Soon"
+                html={"<Trans>Coming Soon</Trans>"}
               />
             </div>
           ))}
         </div>
 
         <Link to="" className="more-courses">
-          <span> See All Courses</span>
+          <span>
+            {" "}
+            <Trans>See All Courses</Trans>
+          </span>
           <MdArrowForward className="arrow" />
         </Link>
       </section>
@@ -74,28 +89,20 @@ export default function index() {
       {/* Open science practice section */}
       <section className="open-science-section">
         <div className="__container">
-          <h1>Open Science Practices</h1>
+          <h1>
+            <Trans>Science Practices</Trans>
+          </h1>
           <div className="__content">
             {OpenPractice.map((option, i) => (
-              <div
-                key={option.id}
-                // style={{
-                //   flexDirection: i % 2 ? "row-reverse" : "row",
-                // }}
-                className="practices"
-              >
-                {/* <div className={`${i % 2 && `rev`}`}> */}
+              <div key={option.id} className="practices">
                 <img src={option.icon} alt="image" />
-                {/* </div> */}
-                <div
-                  // style={{
-                  //   alignItems: i % 2 ? "end" : "start",
-                  //   textAlign: i % 2 ? "right" : "initial",
-                  // }}
-                  className="description"
-                >
-                  <p className="__name">{option.name} </p>
-                  <span className="__content">{option.content} </span>
+                <div className="description">
+                  <p className="__name">
+                    <Trans>{option.name}</Trans>
+                  </p>
+                  <span className="__content">
+                    <Trans>{option.content}</Trans>
+                  </span>
                 </div>
               </div>
             ))}
@@ -106,7 +113,9 @@ export default function index() {
       {/* Colloboration */}
       <section className="collaboration-section">
         <div className="__container">
-          <h1>Support and collaboration from leading organizations</h1>
+          <h1>
+            <Trans>Support and collaboration from leading organizations</Trans>
+          </h1>
           <div className="icon__content">
             {Supporter.map((option) => (
               <img
@@ -125,8 +134,14 @@ export default function index() {
         <div className="join-class"></div>
         <div className="text-content">
           {" "}
-          <h1>Join Over 1000+ participants to learn high demand Courses.</h1>
-          <button>Join Us</button>
+          <h1>
+            <Trans>
+              Join Over 1000+ participants to learn high demand Courses.
+            </Trans>
+          </h1>
+          <button>
+            <Trans>Join Us</Trans>
+          </button>
         </div>
       </section>
       {/* Footer */}

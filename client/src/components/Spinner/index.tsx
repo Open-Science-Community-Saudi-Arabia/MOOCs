@@ -9,7 +9,7 @@ function Spinner({ loading }: ISpinnerProps) {
       {loading ? (
         <>
           <div className="loader" />
-          <p className="loading-content"> Loading dashboard</p>
+          <p className="loading-content"> Loading board</p>
         </>
       ) : (
         <div className="btn-spinner" />

@@ -11,6 +11,7 @@ import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgotpassword";
 import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
+import Lesson from "./pages/Dashboard/lesson";
 function App() {
   return (
     <Suspense fallback={<Spinner />}>
@@ -22,14 +23,17 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Route>
-        <Route
-          path="/dashboard"
-          element={
-            <AppProvider>
-              <Dashboard />
-            </AppProvider>
-          }
-        />
+        <Route path="/dashboard">
+          <Route
+            index
+            element={
+              // <AppProvider>
+                <Dashboard />
+            //  </AppProvider>
+            }
+          />
+          <Route path=":id" element={<Lesson />} />
+        </Route>
       </Routes>
     </Suspense>
   );

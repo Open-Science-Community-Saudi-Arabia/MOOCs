@@ -11,6 +11,7 @@
   --light-gray: hsl(0deg 0% 96%);
   --gray-100: #F5F8FE;
   --green: #009985;
+  --green-light: hsl(172deg 100% 30% / 11%);
   --gray-203: rgb(203, 213, 225);
   --error: hsl(0, 79%, 63%);
 }
@@ -22,11 +23,11 @@ html,
   padding: 0;
   box-sizing: border-box;
   font-family: "Plus Jakarta Sans", sans-serif;
+ 
 }
-body {
+body,html {
   width: 100%;
   height: 100%;
-  overflow-y: auto;
 }
 a {
   text-decoration: none;
@@ -43,9 +44,6 @@ input {
 .css-1u9des2-indicatorSeparator {
   display: none;
 }
-// .css-1xc3v61-indicatorContainer{
-// color: var(--green) !important;
-// :active{
-//   color: var(--green) !important;
-// }
-// }
+
+
+

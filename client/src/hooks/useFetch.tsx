@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { setToken } from "../utils";
+import { toast } from "react-toastify";
 
 const baseURL = import.meta.env.VITE_API_BASEURL;
 const useFetch = () => {
@@ -21,9 +22,14 @@ const useFetch = () => {
         setToken(tokenAccess);
         return window.location.assign("/dashboard");
       });
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        theme: "colored",
+      });
       setLoading(false);
-      return error;
+
     }
   };
   return { loading, handleGoogle };

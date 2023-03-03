@@ -1,6 +1,6 @@
 @import "../../styles/mixins.scss";
 
-.header {
+header {
   @include flex(space-between, center);
   padding: 1em;
   @include ipad {
@@ -52,7 +52,7 @@
 
 .logo {
   width: 150px;
-  height: 100px;
+  height: 80px;
 }
 
 .navlink {

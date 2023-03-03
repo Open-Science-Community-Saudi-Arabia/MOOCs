@@ -11,6 +11,7 @@ import web3 from "../images/web3.png";
 import openbook from "../images/openbook.svg";
 import knowledge from "../images/knowledge.svg";
 import brain from "../images/brain.svg";
+import youtube from "../images/dashboard/youtube.png";
 
 // Display Course List
 export const Courses = [
@@ -105,5 +106,33 @@ export const Supporter = [
     id: 2,
     icon: CSS,
     name: "CSS",
+  },
+];
+
+export const Videocontent = [
+  {
+    id: 0,
+    url: "https://www.youtube.com/embed/xcTwm7D1XsQ",
+    description:
+      "This is an intro to Open Life Sciences program by Malvika Sharon in OLS3. The Open Life Science (OLS) program is a mentoring & training program for Open Science ambassadors.",
+    title: "Introduction to Open Life Sciences",
+    language: "English",
+    duration: "7 mins",
+    skillslevel: " All Levels",
+    Students: "425149",
+    image: youtube,
+    author: "Malvika Sharan, Hao Ye",
+    quiz: {
+      completed: false,
+      quiz_no: 10,
+      questions: [
+        {
+          id: 0,
+          question: "What is open science",
+          options: ["incorrect", "incorrect", "incorrect", "correct"],
+          correct_answer: "correct",
+        },
+      ],
+    },
   },
 ];
