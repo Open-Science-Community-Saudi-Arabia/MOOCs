@@ -128,6 +128,9 @@ exports.getQuestionData = async (req, res, next) => {
     }
 
     const question = await Question.findById(question_id)
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
+    }
 
     return res.status(200).send({
         success: true,
