@@ -14,8 +14,8 @@ router
     .get("/", getExercises)
     .get("/:id", getExerciseData)
     .post("/new", permit('Admin SuperAdmin'), createExercise)
-    .patch("/update", permit('Admin SuperAdmin'), updateExercise)
-    .delete("/delete", permit('Admin SuperAdmin'), deleteExercise)
+    .patch("/update/:id", permit('Admin SuperAdmin'), updateExercise)
+    .delete("/delete/:id", permit('Admin SuperAdmin'), deleteExercise)
     .post("/question/link", permit('Admin SuperAdmin'), addQuestionToExercise)
     .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
