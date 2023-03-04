@@ -45,11 +45,25 @@ exports.createExercise = async (req, res, next) => {
 exports.getExercises = async (req, res, next) => {
     if (req.body) {
         const exercises = await Exercise.find(req.body)
-        res.status(200).json(exercises);
-    }
-    const exercises = await Exercise.find().sort({ _id: -1 })
 
-    return res.status(200).send({ exercises: exercises })
+        return res.status(200).json({
+            success: true,
+            data: {
+                exercises
+            }
+        });
+    }
+
+
+    const exercises = await Exercise.find().sort({ _id: -1 })
+    const available_courses = exercises.filter((exercise) => exercise.isAvailable)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            exercises: available_courses
+        }
+    });
 }
 
 
