@@ -146,9 +146,10 @@ exports.getQuestionData = async (req, res, next) => {
  * @returns {MongooseObject} - question
  * 
  * @throws {NotFoundError} if question not found
+ * //TODO: Add feat to handle updating options and correct option
  */
 exports.updateQuestion = async (req, res, next) => {
-    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body });
+    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
 
     if (!question) {
         return next(new NotFoundError('Question not found'))
@@ -173,10 +174,24 @@ exports.updateQuestion = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.deleteQuestion = async (req, res, next) => {
-    const questionId = req.params.questionId
-    await Question.findByIdAndDelete(questionId)
+    const question_id = req.params.id
 
-    res.status(200).send({ message: "question has been deleted successfully" })
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const question = await Question.findByIdAndDelete(question_id)
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been deleted successfully",
+            question
+        }
+    })
 }
 
 
