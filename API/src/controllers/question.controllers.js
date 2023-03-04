@@ -22,12 +22,10 @@ exports.createQuestion = async (req, res, next) => {
         correct_answer, options
     } = req.body
 
-    if (exercise_id) {
-        const exercise = await Exercise.findById(exercise_id)
+    let exercise = await Exercise.findById(exercise_id)
 
-        if (!exercise) {
-            return next(new NotFoundError("Exercise not found"))
-        }
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
     }
 
     // Convert options from array to map
@@ -43,16 +41,17 @@ exports.createQuestion = async (req, res, next) => {
     const index_of_correct_answer = options.indexOf(correct_answer)
 
     // Check if correct answer is among the options given
-    if (!index_of_correct_answer) {
+    if (index_of_correct_answer == -1) {
         return next(new BadRequestError('Correct answer is not in options'))
     }
 
     let options_map = new Map()
-    for (let i; i < options.length; i++) {
+    let correct_option;
+    for (let i = 0; i < options.length; i++) {
         options_map.set(alphabets[i], options[i])
 
         if (i == index_of_correct_answer) {
-            const correct_option = alphabets[i]
+            correct_option = alphabets[i]
         }
     }
 
@@ -60,7 +59,7 @@ exports.createQuestion = async (req, res, next) => {
         exercise: exercise?._id,
         question,
         correct_option,
-        options
+        options: options_map
     })
 
     return res.status(200).send({
@@ -123,7 +122,7 @@ exports.getQuestions = async (req, res, next) => {
  */
 exports.getQuestionData = async (req, res, next) => {
     const question_id = req.params.id
-    
+
     if (!question_id || question_id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
