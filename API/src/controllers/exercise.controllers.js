@@ -14,9 +14,18 @@ const { BadRequestError } = require("../utils/errors");
  * @throws {error} if an error occured
  */
 exports.createExercise = async (req, res, next) => {
-    const newExercise = new Exercise(req.body);
-    const savedExercise = await newExercise.save();
-    res.status(200).json(savedExercise);
+    const { title, description, duration, date } = req.body
+
+    const saved_exercise = await Exercise.create({
+        title, description, duration, date
+    });
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            exercise: saved_exercise
+        }
+    });
 }
 
 
