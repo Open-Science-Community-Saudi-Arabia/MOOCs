@@ -146,8 +146,6 @@ exports.deleteExercise = async (req, res, next) => {
 /**
  * Add question to exercise
  * 
- * @access private
- * 
  * @param {string} exercise_id
  * @param {string} question_id
  * 
@@ -184,13 +182,11 @@ exports.addQuestionToExercise = async (req, res, next) => {
 /**
  * Remove question from exercise
  * 
- * @access private
- * 
- * @param {string} exerciseId
- * @param {string} questionId
+ * @param {string} question_id
  * 
  * @returns {string} message
  * 
+ * @throws {NotFoundError} if Questin not found
  * @throws {error} if an error occured
  * */
 exports.removeQuestionFromExercise = async (req, res, next) => {
