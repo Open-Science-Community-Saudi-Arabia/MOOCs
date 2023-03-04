@@ -67,13 +67,21 @@ exports.createQuestion = async (req, res, next) => {
 }
 
 
-// Get questions for a particular exercise - req.body.exercise_id = the id of the course
-// Get questions for all exercises - req.body = {} // empty
-// Get data for a particular question - req.body._id = question._id
 /**
  * Get Questions
  * 
- * @returns {MongooseObject} questions
+ * @description 
+ * By default it gets all available questions, 
+ * if req.body is provided it'll be used as query params
+ * to make a more streamlined query result
+ * 
+ * @param {string} exercise_id - Course id
+ * @param {string} _id - questions id
+ * @param {string} correct_option - Correct option to question ['A', 'B', 'C' ...]
+ * 
+ * @returns {ArrayObject} Questions
+ * 
+ * @throws {error} if an error occured
  */
 exports.getQuestions = async (req, res, next) => {
     // if any specifi query was added
@@ -87,12 +95,13 @@ exports.getQuestions = async (req, res, next) => {
             }
         });
     }
+    
     const questions = await Question.find().sort({ _id: -1 })
 
     return res.status(200).json({
         success: true,
         data: {
-            exercises
+            questions
         }
     });
 }
