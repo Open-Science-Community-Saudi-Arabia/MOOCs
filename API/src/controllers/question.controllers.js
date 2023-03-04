@@ -1,6 +1,7 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
+const { arrayOfCapitalLetters } = require('../utils/alphabets')
 const asyncWrapper = require('../utils/async_wrapper')
-const { BadRequestError } = require('../utils/errors')
+const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
 // Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
@@ -10,19 +11,63 @@ const { BadRequestError } = require('../utils/errors')
  * @param {string} question
  * @param {string} correct_answer
  * @param {Array} options
+ * @param {string} exercise_id 
  * 
  * @returns {MongooseObject} savedQuestion
  * 
  * @throws {error} if an error occured 
  */
 exports.createQuestion = async (req, res, next) => {
-    const newQuestion = new Question(req.body);
-    const savedQuestion = await newQuestion.save();
-    res.status(200).json(savedQuestion);
+    const {
+        exercise_id, question,
+        correct_answer, options
+    } = req.body
+
+    if (exercise_id) {
+        const exercise = await Exercise.findById(exercise_id)
+
+        if (!exercise) {
+            return next(new NotFoundError("Exercise not found"))
+        }
+    }
+
+    // Convert options from array to map
+    // use the alphabets as keys
+    /*
+        i.e
+            A - option[0]
+            B - option[1]
+            C - option[2]
+            D - option[3]
+    */
+    const alphabets = arrayOfCapitalLetters()
+    const index_of_correct_answer = options.indexOf(correct_answer)
+    let options_map = new Map()
+    for (let i; i < options.length; i++) {
+        options_map.set(alphabets[i], options[i])
+
+        if (i == index_of_correct_answer) {
+            const correct_option = alphabets[i]
+        }
+    }
+
+    const question_obj = await Question.create({
+        exercise: exercise?._id,
+        question,
+        correct_option,
+        options
+    })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question: question_obj
+        }
+    })
 }
 
 
-// Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
+// Get questions for a particular exercise - req.body.exercise_id = the id of the course
 // Get questions for all exercises - req.body = {} // empty
 // Get data for a particular question - req.body._id = question._id
 /**
