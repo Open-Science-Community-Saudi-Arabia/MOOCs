@@ -1,52 +1,73 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-
+const { arrayOfCapitalLetters } = require('../utils/alphabets')
 
 const questionSchema = new Schema({
     // Assuming questions are in quiz format
+    exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
         type: String,
         required: true
     },
-    correct_answer: {
+    correct_option: {
         type: String,
-        required: true
+        required: true,
+        enum: arrayOfCapitalLetters()
     },
     options: {
-        type: Array,
+        type: Map,
+        of: String,
+        enum: arrayOfCapitalLetters(),
         required: true
     }
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
 const exerciseSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
+    // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
     duration: { type: Number, required: true },
-    date: { type: Date, required: true },
+    date: { type: Date, default: Date.now() },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    isAvailable: { type: Boolean, default: true }
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
+exerciseSchema.virtual('questions', {
+    localField: 'questions',
+    foreignField: 'exercise',
+    ref: 'Question'
 })
 
 const videoSchema = new mongoose.Schema({
     title: {
         type: String,
-        // required: true
+        required: true
     },
     author: {
         type: String,
         required: true
     },
-    video_id: { type: String, required: true },
     video_url: { type: String, required: true },
     description: { type: String, required: true },
-    duration: { type: Number, required: true },
+    duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
     category: {
         type: String,
         required: true
-    }
-}, { timestamps: true })
+    },
+    isAvailable: { type: Boolean, default: true }
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
 
 const courseSchema = new mongoose.Schema({
     author: {
@@ -61,10 +82,18 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    videos: [{ type: mongoose.Types.ObjectId, ref: "Video" }],
-    exercises: [{ type: mongoose.Types.ObjectId, ref: "Exercise" }],
-    enrolled_users: [{ type: mongoose.Types.ObjectId, ref: "User" }]
-}, { timestamps: true })
+    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    isAvailable: { type: Boolean, default: true }
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
+courseSchema.virtual('exercises', {
+    localField: '_id',
+    foreignField: 'course'
+})
 
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)

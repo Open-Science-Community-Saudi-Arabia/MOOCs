@@ -1,6 +1,7 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
+const { arrayOfCapitalLetters } = require('../utils/alphabets')
 const asyncWrapper = require('../utils/async_wrapper')
-const { BadRequestError } = require('../utils/errors')
+const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
 // Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
@@ -10,39 +11,100 @@ const { BadRequestError } = require('../utils/errors')
  * @param {string} question
  * @param {string} correct_answer
  * @param {Array} options
+ * @param {string} exercise_id 
  * 
  * @returns {MongooseObject} savedQuestion
  * 
  * @throws {error} if an error occured 
  */
-exports.createQuestion =
-    async (req, res, next) => {
-        const newQuestion = new Question(req.body);
-        const savedQuestion = await newQuestion.save();
-        res.status(200).json(savedQuestion);
+exports.createQuestion = async (req, res, next) => {
+    const {
+        exercise_id, question,
+        correct_answer, options
+    } = req.body
+
+    if (exercise_id) {
+        const exercise = await Exercise.findById(exercise_id)
+
+        if (!exercise) {
+            return next(new NotFoundError("Exercise not found"))
+        }
     }
 
+    // Convert options from array to map
+    // use the alphabets as keys
+    /*
+        i.e
+            A - option[0]
+            B - option[1]
+            C - option[2]
+            D - option[3]
+    */
+    const alphabets = arrayOfCapitalLetters()
+    const index_of_correct_answer = options.indexOf(correct_answer)
+    let options_map = new Map()
+    for (let i; i < options.length; i++) {
+        options_map.set(alphabets[i], options[i])
 
-// Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
-// Get questions for all exercises - req.body = {} // empty
-// Get data for a particular question - req.body._id = question._id
+        if (i == index_of_correct_answer) {
+            const correct_option = alphabets[i]
+        }
+    }
+
+    const question_obj = await Question.create({
+        exercise: exercise?._id,
+        question,
+        correct_option,
+        options
+    })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question: question_obj
+        }
+    })
+}
+
+
 /**
  * Get Questions
  * 
- * @param {string} id
+ * @description 
+ * By default it gets all available questions, 
+ * if req.body is provided it'll be used as query params
+ * to make a more streamlined query result
  * 
- * @returns {MongooseObject} questions
+ * @param {string} exercise_id - Course id
+ * @param {string} _id - questions id
+ * @param {string} correct_option - Correct option to question ['A', 'B', 'C' ...]
+ * 
+ * @returns {ArrayObject} Questions
+ * 
+ * @throws {error} if an error occured
  */
-exports.getQuestions =
-    async (req, res, next) => {
-        if (req.body) {
-            const questions = await Question.find(req.body)
-            res.status(200).json(questions);
-        }
-        const questions = await Question.find().sort({ _id: -1 })
+exports.getQuestions = async (req, res, next) => {
+    // if any specific query was added
+    if (req.body) {
+        const questions = await Question.find(req.body)
 
-        return res.status(200).send({ questions: questions })
+        return res.status(200).json({
+            success: true,
+            data: {
+                questions
+            }
+        });
     }
+
+    const questions = await Question.find().sort({ _id: -1 })
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            questions
+        }
+    });
+}
 
 
 // Update data for a particular question
@@ -53,20 +115,23 @@ exports.getQuestions =
  * 
  * @returns {MongooseObject} - question
  * 
- * @throws {BadRequestError} if question not found
+ * @throws {NotFoundError} if question not found
  */
-exports.updateQuestion =
-    async (req, res, next) => {
-        const question = await Question.findById(req.params.id);
+exports.updateQuestion = async (req, res, next) => {
+    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body });
 
-        if (question) {
-            await question.updateOne({ $set: req.body });
-
-            return res.status(200).json({ message: "Question Updated", question: question });
-        }
-
-        next(new BadRequestError("Question not found"));
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
     }
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Question Updated",
+            question
+        }
+    });
+}
 
 
 // Delete a particular question
@@ -77,13 +142,12 @@ exports.updateQuestion =
  * 
  * @throws {error} if an error occured
  */
-exports.deleteQuestion =
-    async (req, res, next) => {
-        const questionId = req.params.questionId
-        await Question.findByIdAndDelete(questionId)
+exports.deleteQuestion = async (req, res, next) => {
+    const questionId = req.params.questionId
+    await Question.findByIdAndDelete(questionId)
 
-        res.status(200).send({ message: "question has been deleted successfully" })
-    }
+    res.status(200).send({ message: "question has been deleted successfully" })
+}
 
 
 // Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
@@ -96,21 +160,20 @@ exports.deleteQuestion =
  * 
  * @throws {error} if an error occured
  */
-exports.scoreAnswers =
-    async (req, res, next) => {
-        const exercise = await Exercise.findById(req.body.exercise_id)
+exports.scoreAnswers = async (req, res, next) => {
+    const exercise = await Exercise.findById(req.body.exercise_id)
 
-        const studentAnswers = req.body.studentAnswers
-        const correctAnswers = exercise.questions.map(question => question.correct_answer)
+    const studentAnswers = req.body.studentAnswers
+    const correctAnswers = exercise.questions.map(question => question.correct_answer)
 
-        let score = 0
-        for (let i = 0; i < studentAnswers.length; i++) {
-            if (studentAnswers[i] === correctAnswers[i]) {
-                score++
-            }
+    let score = 0
+    for (let i = 0; i < studentAnswers.length; i++) {
+        if (studentAnswers[i] === correctAnswers[i]) {
+            score++
         }
-
-        res.status(200).send({ score: score })
     }
+
+    res.status(200).send({ score: score })
+}
 
 

@@ -1,20 +1,22 @@
 const router = require("express").Router();
 
-const permission = require("../middlewares/permission_handler")
+const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
-const { createExercise, getExercises,
-    deleteExercise, addQuestion,
-    removeQuestion, updateExercise } = require("../controllers/exercise.controllers")
+const {
+    createExercise, getExercises, getExerciseData, updateExercise,
+    deleteExercise, addQuestionToExercise, removeQuestionFromExercise,
+} = require("../controllers/exercise.controllers")
 
-router.all('/', basicAuth)
+router.use(basicAuth())
 
 router
-    .post('/new', permission('Admin'), createExercise)
-    .get('/get', permission('Admin EndUser'), getExercises)
-    .patch('/update/:id', permission('Admin'), updateExercise)
-    .delete('/delete/:id', permission('Admin'), deleteExercise)
-    .patch('/question/add', permission('Admin'), addQuestion)
-    .patch('/question/remove', permission('Admin'), removeQuestion)
+    .get("/", getExercises)
+    .get("/:id", getExerciseData)
+    .post("/new", permit('Admin SuperAdmin'), createExercise)
+    .patch("/update", permit('Admin SuperAdmin'), updateExercise)
+    .delete("/delete", permit('Admin SuperAdmin'), deleteExercise)
+    .post("/question/link", permit('Admin SuperAdmin'), addQuestionToExercise)
+    .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
 module.exports = router
