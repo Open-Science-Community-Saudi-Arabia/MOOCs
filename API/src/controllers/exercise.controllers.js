@@ -1,5 +1,5 @@
 const { Question, Exercise, Video, Course } = require("../models/course.models")
-const { BadRequestError } = require("../utils/errors");
+const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 // Create a new exercise
 /**
@@ -86,6 +86,9 @@ exports.getExercises = async (req, res, next) => {
  */
 exports.updateExercise = async (req, res, next) => {
     const exercise = await Exercise.findById(req.params.id);
+    if (!exercise) {
+        return next(new NotFoundError('Exercise not found'))
+    }
 
     if (exercise) {
         await exercise.updateOne({ $set: req.body });
