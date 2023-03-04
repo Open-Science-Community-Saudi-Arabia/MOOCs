@@ -41,6 +41,12 @@ exports.createQuestion = async (req, res, next) => {
     */
     const alphabets = arrayOfCapitalLetters()
     const index_of_correct_answer = options.indexOf(correct_answer)
+
+    // Check if correct answer is among the options given
+    if (!index_of_correct_answer) {
+        return next(new BadRequestError('Correct answer is not in options'))
+    }
+
     let options_map = new Map()
     for (let i; i < options.length; i++) {
         options_map.set(alphabets[i], options[i])
