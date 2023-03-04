@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const permission = require("../middlewares/permission_handler")
+const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
 const {
@@ -12,10 +12,10 @@ router.use(basicAuth())
 
 router
     .get("/exercise", getExercises)
-    .post("/exercise/new", createExercise)
-    .patch("/exercise/update", updateExercise)
-    .delete("/exercise/delete", deleteExercise)
-    .post("/exercise/question/link", addQuestionToExercise)
-    .delete("/exercise/question/removelink", removeQuestionFromExercise)
+    .post("/exercise/new", permit('Admin SuperAdmin'), createExercise)
+    .patch("/exercise/update", permit('Admin SuperAdmin'), updateExercise)
+    .delete("/exercise/delete", permit('Admin SuperAdmin'), deleteExercise)
+    .post("/exercise/question/link", permit('Admin SuperAdmin'), addQuestionToExercise)
+    .delete("/exercise/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
 module.exports = router
