@@ -15,12 +15,11 @@ const { BadRequestError } = require('../utils/errors')
  * 
  * @throws {error} if an error occured 
  */
-exports.createQuestion =
-    async (req, res, next) => {
-        const newQuestion = new Question(req.body);
-        const savedQuestion = await newQuestion.save();
-        res.status(200).json(savedQuestion);
-    }
+exports.createQuestion = async (req, res, next) => {
+    const newQuestion = new Question(req.body);
+    const savedQuestion = await newQuestion.save();
+    res.status(200).json(savedQuestion);
+}
 
 
 // Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
@@ -33,16 +32,15 @@ exports.createQuestion =
  * 
  * @returns {MongooseObject} questions
  */
-exports.getQuestions =
-    async (req, res, next) => {
-        if (req.body) {
-            const questions = await Question.find(req.body)
-            res.status(200).json(questions);
-        }
-        const questions = await Question.find().sort({ _id: -1 })
-
-        return res.status(200).send({ questions: questions })
+exports.getQuestions = async (req, res, next) => {
+    if (req.body) {
+        const questions = await Question.find(req.body)
+        res.status(200).json(questions);
     }
+    const questions = await Question.find().sort({ _id: -1 })
+
+    return res.status(200).send({ questions: questions })
+}
 
 
 // Update data for a particular question
@@ -55,18 +53,17 @@ exports.getQuestions =
  * 
  * @throws {BadRequestError} if question not found
  */
-exports.updateQuestion =
-    async (req, res, next) => {
-        const question = await Question.findById(req.params.id);
+exports.updateQuestion = async (req, res, next) => {
+    const question = await Question.findById(req.params.id);
 
-        if (question) {
-            await question.updateOne({ $set: req.body });
+    if (question) {
+        await question.updateOne({ $set: req.body });
 
-            return res.status(200).json({ message: "Question Updated", question: question });
-        }
-
-        next(new BadRequestError("Question not found"));
+        return res.status(200).json({ message: "Question Updated", question: question });
     }
+
+    next(new BadRequestError("Question not found"));
+}
 
 
 // Delete a particular question
@@ -77,13 +74,12 @@ exports.updateQuestion =
  * 
  * @throws {error} if an error occured
  */
-exports.deleteQuestion =
-    async (req, res, next) => {
-        const questionId = req.params.questionId
-        await Question.findByIdAndDelete(questionId)
+exports.deleteQuestion = async (req, res, next) => {
+    const questionId = req.params.questionId
+    await Question.findByIdAndDelete(questionId)
 
-        res.status(200).send({ message: "question has been deleted successfully" })
-    }
+    res.status(200).send({ message: "question has been deleted successfully" })
+}
 
 
 // Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
@@ -96,21 +92,20 @@ exports.deleteQuestion =
  * 
  * @throws {error} if an error occured
  */
-exports.scoreAnswers =
-    async (req, res, next) => {
-        const exercise = await Exercise.findById(req.body.exercise_id)
+exports.scoreAnswers = async (req, res, next) => {
+    const exercise = await Exercise.findById(req.body.exercise_id)
 
-        const studentAnswers = req.body.studentAnswers
-        const correctAnswers = exercise.questions.map(question => question.correct_answer)
+    const studentAnswers = req.body.studentAnswers
+    const correctAnswers = exercise.questions.map(question => question.correct_answer)
 
-        let score = 0
-        for (let i = 0; i < studentAnswers.length; i++) {
-            if (studentAnswers[i] === correctAnswers[i]) {
-                score++
-            }
+    let score = 0
+    for (let i = 0; i < studentAnswers.length; i++) {
+        if (studentAnswers[i] === correctAnswers[i]) {
+            score++
         }
-
-        res.status(200).send({ score: score })
     }
+
+    res.status(200).send({ score: score })
+}
 
 
