@@ -87,6 +87,13 @@ exports.getExercises = async (req, res, next) => {
     });
 }
 
+/**
+ * Get exercise data
+ * 
+ * @param {string} id - id of the exercise 
+ * 
+ * @returns {Object} exercise 
+ */
 exports.getExerciseData = async (req, res, next) => {
     const exercise_id = req.params.id
 
