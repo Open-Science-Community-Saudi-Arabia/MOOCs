@@ -25,7 +25,8 @@ const exerciseSchema = new Schema({
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
     duration: { type: Number, required: true },
     date: { type: Date, required: true },
-    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true }
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    isAvailable: { type: Boolean, default: true }
 }, {
     timestamps: true,
 })
