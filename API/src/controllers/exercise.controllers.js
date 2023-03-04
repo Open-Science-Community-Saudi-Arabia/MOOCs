@@ -43,6 +43,7 @@ exports.createExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.getExercises = async (req, res, next) => {
+    // If any specific query was added 
     if (req.body) {
         const exercises = await Exercise.find(req.body)
 
@@ -54,8 +55,10 @@ exports.getExercises = async (req, res, next) => {
         });
     }
 
-
+    // Sort the exercises according to how they where added
     const exercises = await Exercise.find().sort({ _id: -1 })
+
+    // Get only the available courses
     const available_courses = exercises.filter((exercise) => exercise.isAvailable)
 
     return res.status(200).json({
