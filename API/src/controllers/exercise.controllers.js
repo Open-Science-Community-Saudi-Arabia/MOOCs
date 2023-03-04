@@ -111,7 +111,7 @@ exports.deleteExercise = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * */
-exports.addQuestion = async (req, res, next) => {
+exports.addQuestionToExercise = async (req, res, next) => {
     const exercise = await Exercise.findById(req.body.exercise_id)
     const question = await Question.findById(req.body.question_id)
 
@@ -135,7 +135,7 @@ exports.addQuestion = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * */
-exports.removeQuestion = async (req, res, next) => {
+exports.removeQuestionFromExercise = async (req, res, next) => {
     const exerciseId = req.body.exerciseId
     const questionId = req.body.questionId
     const exercise = await Exercise.findById(exerciseId)
