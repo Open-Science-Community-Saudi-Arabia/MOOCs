@@ -1,6 +1,5 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
 const { arrayOfCapitalLetters } = require('../utils/alphabets')
-const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
@@ -106,6 +105,22 @@ exports.getQuestions = async (req, res, next) => {
     });
 }
 
+exports.getQuestionData = async (req, res, next) => {
+    const question_id = req.params.id
+    
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const question = await Question.findById(question_id)
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question
+        }
+    })
+}
 
 // Update data for a particular question
 /**
