@@ -121,24 +121,16 @@ exports.updateExercise = async (req, res, next) => {
 /**
  * Delete exercise
  * 
- * @access private
- * 
  * @param {string} exerciseId
  * 
  * @returns {string} message
  * 
  * @throws {error} if an error occured
- * @throws {BadRequestError} if exercise not found
- * 
- * @todo delete all questions associated with the exercise
- * @todo delete all videos associated with the exercise
- * @todo delete all courses associated with the exercise
- * @todo delete all submissions associated with the exercise
- * @todo delete all submissions associated with the questions associated with the exercise
+ * @throws {NotFoundError} if exercise not found
  * */
 exports.deleteExercise = async (req, res, next) => {
     // Make exercise unavailable
-    await Exercise.findByIdAndUpdate({ isAvailable: false })
+    await Exercise.findByIdAndUpdate(req.body.exercise_id, { isAvailable: false })
 
     return res.status(200).send({
         success: true,
