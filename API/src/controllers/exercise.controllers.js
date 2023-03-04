@@ -93,6 +93,9 @@ exports.getExercises = async (req, res, next) => {
  * @param {string} id - id of the exercise 
  * 
  * @returns {Object} exercise 
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if exercise not found
  */
 exports.getExerciseData = async (req, res, next) => {
     const exercise_id = req.params.id
