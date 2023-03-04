@@ -86,7 +86,7 @@ exports.getExercises = async (req, res, next) => {
  */
 exports.updateExercise = async (req, res, next) => {
     const exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: req.body });
-    
+
     if (!exercise) {
         return next(new NotFoundError('Exercise not found'))
     }
@@ -121,10 +121,15 @@ exports.updateExercise = async (req, res, next) => {
  * @todo delete all submissions associated with the questions associated with the exercise
  * */
 exports.deleteExercise = async (req, res, next) => {
-    const exerciseId = req.params.exerciseId
-    await Exercise.findByIdAndDelete(exerciseId)
+    // Make exercise unavailable
+    await Exercise.findByIdAndUpdate({ isAvailable: false })
 
-    res.status(200).send({ message: "exercise has been deleted successfully" })
+    res.status(200).send({ 
+        success: true,
+        data: {
+            message: "Exercise deleted successfully"
+        }
+     })
 }
 
 
