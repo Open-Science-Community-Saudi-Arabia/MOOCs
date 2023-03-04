@@ -11,10 +11,10 @@ const {
 router.use(basicAuth())
 
 router
-    .get("/", permit('EndUser'), getQuestions)
-    .get("/:id", permit('EndUser'), getQuestionData)
-    .post("/new", createQuestion)
-    .patch("/update/:id", updateQuestion)
-    .delete("/delete/:id", deleteQuestion)
+    .get("/", getQuestions)
+    .get("/:id", getQuestionData)
+    .post("/new", permit('Admin SuperAdmin'), createQuestion)
+    .patch("/update/:id", permit('Admin SuperAdmin'), updateQuestion)
+    .delete("/delete/:id", permit('Admin SuperAdmin'), deleteQuestion)
 
 module.exports = router
