@@ -24,7 +24,7 @@ const exerciseSchema = new Schema({
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
     duration: { type: Number, required: true },
-    date: { type: Date, required: true },
+    date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     isAvailable: { type: Boolean, default: true }
 }, {
