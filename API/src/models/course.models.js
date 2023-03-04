@@ -20,6 +20,10 @@ const questionSchema = new Schema({
         enum: arrayOfCapitalLetters(),
         required: true
     }
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
 const exerciseSchema = new Schema({
@@ -32,6 +36,8 @@ const exerciseSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 exerciseSchema.virtual('questions', {
     localField: 'questions',
@@ -57,7 +63,11 @@ const videoSchema = new mongoose.Schema({
         required: true
     },
     isAvailable: { type: Boolean, default: true }
-}, { timestamps: true })
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
 
 const courseSchema = new mongoose.Schema({
     author: {
@@ -75,7 +85,11 @@ const courseSchema = new mongoose.Schema({
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     isAvailable: { type: Boolean, default: true }
-}, { timestamps: true })
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
 courseSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course'
