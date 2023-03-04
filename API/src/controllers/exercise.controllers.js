@@ -183,13 +183,20 @@ exports.addQuestionToExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  * */
 exports.removeQuestionFromExercise = async (req, res, next) => {
-    const exerciseId = req.body.exerciseId
-    const questionId = req.body.questionId
-    const exercise = await Exercise.findById(exerciseId)
-    exercise.questions.pull(questionId)
-    await exercise.save()
-    // await Question.findByIdAndDelete(questionId)
-    res.status(200).send({ message: "question has been deleted from exercise successfully" })
+    const { question_id } = req.body
+
+    const question = await Question.findByIdAndUpdate(question_id, { exercise: null })
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been removed from exercise",
+            question
+        }
+    })
 }
 
 
