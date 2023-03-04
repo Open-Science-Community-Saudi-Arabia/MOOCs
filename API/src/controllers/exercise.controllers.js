@@ -8,16 +8,26 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
  * @param {string} title - Exercise title
  * @param {string} description - Exercise description
  * @param {string} course_id - Course id
+ * @param {string} duration - Course duration in time
  * 
- * @returns {MongooseObject} savedExercise
+ * @returns {MongooseObject} saved_exercise
  * 
  * @throws {error} if an error occured
+ * @throws {NotFoundError} if course_id provided and it doesn't match any course in DB
  */
 exports.createExercise = async (req, res, next) => {
-    const { title, description, duration, date } = req.body
+    const { title, description, duration , course_id } = req.body
+
+    // If user provided a course to link the exercise to
+    if (course_id) {
+        const course = await Course.findById(course_id)
+        if (!course) {
+            return next(new NotFoundError('Course not found'))
+        }
+    }
 
     const saved_exercise = await Exercise.create({
-        title, description, duration, date
+        title, description, duration, course: course?._id
     });
 
     return res.status(200).json({
