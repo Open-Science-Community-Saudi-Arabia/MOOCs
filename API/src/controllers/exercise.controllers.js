@@ -115,7 +115,7 @@ exports.getExerciseData = async (req, res, next) => {
 /**
  * Update exercise data
  * 
- * @param {string} id
+ * @param {string} id - id of exercise
  * 
  * @returns {string} message
  * @returns {object} exercise
@@ -124,7 +124,13 @@ exports.getExerciseData = async (req, res, next) => {
  * @throws {NotFoundError} if exercise not found
  */
 exports.updateExercise = async (req, res, next) => {
-    const exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: req.body });
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findByIdAndUpdate(exercise_id, { $set: req.body });
 
     if (!exercise) {
         return next(new NotFoundError('Exercise not found'))
@@ -147,14 +153,20 @@ exports.updateExercise = async (req, res, next) => {
  * Doesn't literally delete the exercise, it only
  * makes it unavailable
  * 
- * @param {string} exercise_id
+ * @param {string} id - id of exercise
  * 
  * @throws {error} if an error occured
  * @throws {NotFoundError} if exercise not found
  * */
 exports.deleteExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
     // Make exercise unavailable
-    await Exercise.findByIdAndUpdate(req.body.exercise_id, { isAvailable: false })
+    await Exercise.findByIdAndUpdate(exercise_id, { isAvailable: false })
 
     return res.status(200).send({
         success: true,
