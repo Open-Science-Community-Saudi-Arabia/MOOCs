@@ -14,8 +14,8 @@ const { basicAuth } = require("../middlewares/auth")
 router.use(basicAuth())
 
 router
-    .post("/new", permit("Admin SuperAdmin"), createCourse)
     .get("/", permit("Admin EndUser SuperAdmin"), getCourses)
+    .post("/new", permit("Admin SuperAdmin"), createCourse)
     .get("/:id", permit("Admin EndUser SuperAdmin"), getCourseData)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateCourse)
     .delete("/delete/:id", permit("Admin SuperAdmin"), deleteCourse)

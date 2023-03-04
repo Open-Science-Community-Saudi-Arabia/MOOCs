@@ -73,18 +73,28 @@ exports.createQuestion = async (req, res, next) => {
 /**
  * Get Questions
  * 
- * @param {string} id
- * 
  * @returns {MongooseObject} questions
  */
 exports.getQuestions = async (req, res, next) => {
+    // if any specifi query was added
     if (req.body) {
         const questions = await Question.find(req.body)
-        res.status(200).json(questions);
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                questions
+            }
+        });
     }
     const questions = await Question.find().sort({ _id: -1 })
 
-    return res.status(200).send({ questions: questions })
+    return res.status(200).json({
+        success: true,
+        data: {
+            exercises
+        }
+    });
 }
 
 
