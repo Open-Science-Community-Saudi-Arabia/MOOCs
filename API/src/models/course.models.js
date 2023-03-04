@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+function arrayOfCapitalLetters() {
+    return [...Array(26)].map((_, i) => String.fromCharCode(i + 65))
+}
 
 const questionSchema = new Schema({
     // Assuming questions are in quiz format
@@ -14,7 +17,9 @@ const questionSchema = new Schema({
         required: true
     },
     options: {
-        type: Array,
+        type: Map,
+        of: String,
+        enum: arrayOfCapitalLetters(),
         required: true
     }
 })
