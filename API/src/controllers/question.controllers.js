@@ -105,6 +105,16 @@ exports.getQuestions = async (req, res, next) => {
     });
 }
 
+/**
+ * Get qustion data
+ * 
+ * @param {string} id - id of question
+ * 
+ * @returns {Object} question
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if question not found
+ */
 exports.getQuestionData = async (req, res, next) => {
     const question_id = req.params.id
     
