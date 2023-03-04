@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const questionSchema = new Schema({
     // Assuming questions are in quiz format
-    exercise: { type: Schema.mongoose.ObjectId, ref: 'Exercise', required: true },
+    exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
         type: String,
         required: true
@@ -25,7 +25,7 @@ const exerciseSchema = new Schema({
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
     duration: { type: Number, required: true },
     date: { type: Date, required: true },
-    course: { type: Schema.mongoose.ObjectId, ref: 'Course', required: true }
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true }
 }, {
     timestamps: true,
 })
