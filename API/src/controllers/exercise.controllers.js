@@ -87,6 +87,22 @@ exports.getExercises = async (req, res, next) => {
     });
 }
 
+exports.getExerciseData = async (req, res, next) => {
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findById(exercise_id).populate('questions')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            exercise: exercise.isAvailable ? exercise : null // return exercise only if it's available
+        }
+    })
+}
 
 // Update data for a particular exercise
 /**
