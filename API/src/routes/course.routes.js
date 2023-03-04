@@ -10,7 +10,7 @@ const { createCourse, getCourses, getCourseData,
 
 const {
     createExercise, getExercises, updateExercise, 
-    deleteExercise, addQuestion, removeQuestion,
+    deleteExercise, addQuestionToExercise, removeQuestionFromExercise,
 } = require("../controllers/exercise.controllers")
 
 const permit = require("../middlewares/permission_handler")
@@ -39,7 +39,12 @@ router
     .delete("/video/delete/:videoId", permit("Admin SuperAdmin"), deleteVideo)
 
 router 
-    .post("/question/new", )
+    .post("/exercise/new", createExercise)
+    .get("/exercise", getExercises)
+    .patch("/exercise/update", updateExercise)
+    .delete("/exercise/delete", deleteExercise)
+    .post("/exercise/question/link", addQuestionToExercise)
+    .delete("/exercise/question/removelink", removeQuestionFromExercise)
 
 
 
