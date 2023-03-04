@@ -84,7 +84,7 @@ exports.createQuestion = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.getQuestions = async (req, res, next) => {
-    // if any specifi query was added
+    // if any specific query was added
     if (req.body) {
         const questions = await Question.find(req.body)
 
@@ -95,7 +95,7 @@ exports.getQuestions = async (req, res, next) => {
             }
         });
     }
-    
+
     const questions = await Question.find().sort({ _id: -1 })
 
     return res.status(200).json({
@@ -115,18 +115,22 @@ exports.getQuestions = async (req, res, next) => {
  * 
  * @returns {MongooseObject} - question
  * 
- * @throws {BadRequestError} if question not found
+ * @throws {NotFoundError} if question not found
  */
 exports.updateQuestion = async (req, res, next) => {
-    const question = await Question.findById(req.params.id);
+    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body });
 
-    if (question) {
-        await question.updateOne({ $set: req.body });
-
-        return res.status(200).json({ message: "Question Updated", question: question });
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
     }
 
-    next(new BadRequestError("Question not found"));
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Question Updated",
+            question
+        }
+    });
 }
 
 
