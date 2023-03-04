@@ -92,15 +92,13 @@ exports.getExercises = async (req, res, next) => {
 /**
  * Update exercise data
  * 
- * @access private
- * 
  * @param {string} id
  * 
  * @returns {string} message
  * @returns {object} exercise
  * 
  * @throws {error} if an error occured
- * @throws {BadRequestError} if exercise not found
+ * @throws {NotFoundError} if exercise not found
  */
 exports.updateExercise = async (req, res, next) => {
     const exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: req.body });
