@@ -121,9 +121,10 @@ exports.updateExercise = async (req, res, next) => {
 /**
  * Delete exercise
  * 
- * @param {string} exerciseId
+ * Doesn't literally delete the exercise, it only
+ * makes it unavailable
  * 
- * @returns {string} message
+ * @param {string} exercise_id
  * 
  * @throws {error} if an error occured
  * @throws {NotFoundError} if exercise not found
@@ -153,6 +154,8 @@ exports.deleteExercise = async (req, res, next) => {
  * @returns {string} message
  * 
  * @throws {error} if an error occured
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {NotFoundError} if Course not found
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
     const { exercise_id, question_id } = req.body
