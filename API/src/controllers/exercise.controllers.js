@@ -124,12 +124,12 @@ exports.deleteExercise = async (req, res, next) => {
     // Make exercise unavailable
     await Exercise.findByIdAndUpdate({ isAvailable: false })
 
-    res.status(200).send({ 
+    return res.status(200).send({
         success: true,
         data: {
             message: "Exercise deleted successfully"
         }
-     })
+    })
 }
 
 
@@ -147,13 +147,25 @@ exports.deleteExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
-    const exercise = await Exercise.findById(req.body.exercise_id)
-    const question = await Question.findById(req.body.question_id)
+    const { exercise_id, question_id } = req.body
+    const exercise = await Exercise.findById(exercise_id)
 
-    exercise.questions.push(question)
-    await exercise.save()
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
+    }
 
-    res.status(200).send({ message: "question has been added to exercise successfully" })
+    const question = await Question.findByIdAndUpdate(question_id, { exercise: exercise_id })
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been added to exercise",
+            question
+        }
+    })
 }
 
 
