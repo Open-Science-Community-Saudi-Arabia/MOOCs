@@ -45,10 +45,18 @@ exports.createExercise = async (req, res, next) => {
 /**
  * Get Exercises
  * 
+ * @description 
+ * By default it gets all available exercises, 
+ * if req.body is provided it'll be used as query params
+ * to make a more streamlined query result
+ * 
  * @param {string} course_id - Course id
  * @param {string} _id - Exercise id
+ * @param {string} title - Exercise title
+ * @param {string} description - Exercise description
+ * @param {string} duration - Exercise duration
  * 
- * @returns {object} exercises
+ * @returns {ArrayObject} exercises
  * 
  * @throws {error} if an error occured
  */
