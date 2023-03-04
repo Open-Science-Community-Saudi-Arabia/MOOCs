@@ -85,18 +85,19 @@ exports.getExercises = async (req, res, next) => {
  * @throws {BadRequestError} if exercise not found
  */
 exports.updateExercise = async (req, res, next) => {
-    const exercise = await Exercise.findById(req.params.id);
+    const exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: req.body });
+    
     if (!exercise) {
         return next(new NotFoundError('Exercise not found'))
     }
 
-    if (exercise) {
-        await exercise.updateOne({ $set: req.body });
-
-        return res.status(200).json({ message: "Exercise Updated", exercise: exercise });
-    }
-
-    next(new BadRequestError("Exercise not found"));
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Exercise Updated",
+            exercise
+        }
+    });
 }
 
 
