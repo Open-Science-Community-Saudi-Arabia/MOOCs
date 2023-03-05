@@ -327,7 +327,7 @@ exports.getPreviousSubmissionsForExercise = async (req, res, next) => {
     }
 
     const exercise_submissions = await ExerciseSubmission.find(
-        { exercise: exercise._id, user: req.user.id })
+        { exercise: exercise._id, user: req.user.id }).populate('submission.question')
 
     return res.status(200).send({
         success: true,
