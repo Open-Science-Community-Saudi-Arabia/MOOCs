@@ -16,14 +16,12 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
  * @throws {NotFoundError} if course_id provided and it doesn't match any course in DB
  */
 exports.createExercise = async (req, res, next) => {
-    const { title, description, duration , course_id } = req.body
+    const { title, description, duration, course_id } = req.body
 
     // If user provided a course to link the exercise to
-    if (course_id) {
-        const course = await Course.findById(course_id)
-        if (!course) {
-            return next(new NotFoundError('Course not found'))
-        }
+    let course = await Course.findById(course_id)
+    if (!course) {
+        return next(new NotFoundError('Course not found'))
     }
 
     const saved_exercise = await Exercise.create({
@@ -61,28 +59,24 @@ exports.createExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.getExercises = async (req, res, next) => {
+    let exercises;
     // If any specific query was added 
     if (req.body) {
-        const exercises = await Exercise.find(req.body)
-
-        return res.status(200).json({
-            success: true,
-            data: {
-                exercises
-            }
-        });
+        exercises = await Exercise.find(req.body)
     }
 
     // Sort the exercises according to how they where added
-    const exercises = await Exercise.find().sort({ _id: -1 })
+    exercises = exercises ? await Exercise.find().populate('questions') : exercises
 
     // Get only the available courses
-    const available_courses = exercises.filter((exercise) => exercise.isAvailable)
+    const available_exercises = exercises.filter((exercise) => {
+        if (exercise.isAvailable) return exercise.toJSON();
+    })
 
     return res.status(200).json({
         success: true,
         data: {
-            exercises: available_courses
+            exercises: available_exercises
         }
     });
 }
@@ -109,7 +103,7 @@ exports.getExerciseData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            exercise: exercise.isAvailable ? exercise : null // return exercise only if it's available
+            exercise: exercise.isAvailable ? exercise.toJSON() : null // return exercise only if it's available
         }
     })
 }
