@@ -16,14 +16,12 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
  * @throws {NotFoundError} if course_id provided and it doesn't match any course in DB
  */
 exports.createExercise = async (req, res, next) => {
-    const { title, description, duration , course_id } = req.body
+    const { title, description, duration, course_id } = req.body
 
     // If user provided a course to link the exercise to
-    if (course_id) {
-        const course = await Course.findById(course_id)
-        if (!course) {
-            return next(new NotFoundError('Course not found'))
-        }
+    let course = await Course.findById(course_id)
+    if (!course) {
+        return next(new NotFoundError('Course not found'))
     }
 
     const saved_exercise = await Exercise.create({
@@ -61,28 +59,24 @@ exports.createExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.getExercises = async (req, res, next) => {
+    let exercises;
     // If any specific query was added 
     if (req.body) {
-        const exercises = await Exercise.find(req.body)
-
-        return res.status(200).json({
-            success: true,
-            data: {
-                exercises
-            }
-        });
+        exercises = await Exercise.find(req.body)
     }
 
     // Sort the exercises according to how they where added
-    const exercises = await Exercise.find().sort({ _id: -1 })
+    exercises = exercises ? await Exercise.find().populate('questions') : exercises
 
     // Get only the available courses
-    const available_courses = exercises.filter((exercise) => exercise.isAvailable)
+    const available_exercises = exercises.filter((exercise) => {
+        if (exercise.isAvailable) return exercise.toJSON();
+    })
 
     return res.status(200).json({
         success: true,
         data: {
-            exercises: available_courses
+            exercises: available_exercises
         }
     });
 }
@@ -93,6 +87,9 @@ exports.getExercises = async (req, res, next) => {
  * @param {string} id - id of the exercise 
  * 
  * @returns {Object} exercise 
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if exercise not found
  */
 exports.getExerciseData = async (req, res, next) => {
     const exercise_id = req.params.id
@@ -106,7 +103,7 @@ exports.getExerciseData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            exercise: exercise.isAvailable ? exercise : null // return exercise only if it's available
+            exercise: exercise.isAvailable ? exercise.toJSON() : null // return exercise only if it's available
         }
     })
 }
@@ -115,7 +112,7 @@ exports.getExerciseData = async (req, res, next) => {
 /**
  * Update exercise data
  * 
- * @param {string} id
+ * @param {string} id - id of exercise
  * 
  * @returns {string} message
  * @returns {object} exercise
@@ -124,10 +121,20 @@ exports.getExerciseData = async (req, res, next) => {
  * @throws {NotFoundError} if exercise not found
  */
 exports.updateExercise = async (req, res, next) => {
-    const exercise = await Exercise.findByIdAndUpdate(req.params.id, { $set: req.body });
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findByIdAndUpdate(
+        exercise_id,
+        { $set: req.body },
+        { new: true }
+    );
 
     if (!exercise) {
-        return next(new NotFoundError('Exercise not found'))
+        return next(new NotFoundError("Exercise not found"));
     }
 
     return res.status(200).json({
@@ -147,14 +154,20 @@ exports.updateExercise = async (req, res, next) => {
  * Doesn't literally delete the exercise, it only
  * makes it unavailable
  * 
- * @param {string} exercise_id
+ * @param {string} id - id of exercise
  * 
  * @throws {error} if an error occured
  * @throws {NotFoundError} if exercise not found
  * */
 exports.deleteExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
     // Make exercise unavailable
-    await Exercise.findByIdAndUpdate(req.body.exercise_id, { isAvailable: false })
+    await Exercise.findByIdAndUpdate(exercise_id, { isAvailable: false })
 
     return res.status(200).send({
         success: true,
@@ -176,7 +189,7 @@ exports.deleteExercise = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {NotFoundError} if Exercise not found
- * @throws {NotFoundError} if Course not found
+ * @throws {NotFoundError} if Question not found
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
     const { exercise_id, question_id } = req.body

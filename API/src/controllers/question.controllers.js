@@ -1,6 +1,5 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
 const { arrayOfCapitalLetters } = require('../utils/alphabets')
-const asyncWrapper = require('../utils/async_wrapper')
 const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
@@ -23,12 +22,10 @@ exports.createQuestion = async (req, res, next) => {
         correct_answer, options
     } = req.body
 
-    if (exercise_id) {
-        const exercise = await Exercise.findById(exercise_id)
+    let exercise = await Exercise.findById(exercise_id)
 
-        if (!exercise) {
-            return next(new NotFoundError("Exercise not found"))
-        }
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
     }
 
     // Convert options from array to map
@@ -42,12 +39,19 @@ exports.createQuestion = async (req, res, next) => {
     */
     const alphabets = arrayOfCapitalLetters()
     const index_of_correct_answer = options.indexOf(correct_answer)
+
+    // Check if correct answer is among the options given
+    if (index_of_correct_answer == -1) {
+        return next(new BadRequestError('Correct answer is not in options'))
+    }
+
     let options_map = new Map()
-    for (let i; i < options.length; i++) {
+    let correct_option;
+    for (let i = 0; i < options.length; i++) {
         options_map.set(alphabets[i], options[i])
 
         if (i == index_of_correct_answer) {
-            const correct_option = alphabets[i]
+            correct_option = alphabets[i]
         }
     }
 
@@ -55,7 +59,7 @@ exports.createQuestion = async (req, res, next) => {
         exercise: exercise?._id,
         question,
         correct_option,
-        options
+        options: options_map
     })
 
     return res.status(200).send({
@@ -106,6 +110,35 @@ exports.getQuestions = async (req, res, next) => {
     });
 }
 
+/**
+ * Get qustion data
+ * 
+ * @param {string} id - id of question
+ * 
+ * @returns {Object} question
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if question not found
+ */
+exports.getQuestionData = async (req, res, next) => {
+    const question_id = req.params.id
+
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const question = await Question.findById(question_id)
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question
+        }
+    })
+}
 
 // Update data for a particular question
 /**
@@ -116,9 +149,10 @@ exports.getQuestions = async (req, res, next) => {
  * @returns {MongooseObject} - question
  * 
  * @throws {NotFoundError} if question not found
+ * //TODO: Add feat to handle updating options and correct option
  */
 exports.updateQuestion = async (req, res, next) => {
-    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body });
+    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
 
     if (!question) {
         return next(new NotFoundError('Question not found'))
@@ -143,10 +177,24 @@ exports.updateQuestion = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.deleteQuestion = async (req, res, next) => {
-    const questionId = req.params.questionId
-    await Question.findByIdAndDelete(questionId)
+    const question_id = req.params.id
 
-    res.status(200).send({ message: "question has been deleted successfully" })
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const question = await Question.findByIdAndDelete(question_id)
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been deleted successfully",
+            question
+        }
+    })
 }
 
 
