@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+const Schema = Schema
 const { arrayOfCapitalLetters } = require('../utils/alphabets')
 
 const questionSchema = new Schema({
@@ -45,7 +45,7 @@ exerciseSchema.virtual('questions', {
     ref: 'Question'
 })
 
-const videoSchema = new mongoose.Schema({
+const videoSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -69,7 +69,7 @@ const videoSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 })
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new Schema({
     author: {
         type: String,
         required: true
@@ -96,6 +96,9 @@ courseSchema.virtual('exercises', {
     ref: 'Exercise'
 })
 
+const submissionSchema = new Schema({
+    exercise: { types: }
+})
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
