@@ -243,9 +243,10 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
 }
 
 
-// Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
 /**
  * Score anwers
+ * 
+ * @description Score answers for a particular exercise
  * 
  * @param {string} id - exercise id
  * @param {Object} submission Object where keys are question_id's and values are selected option
@@ -311,4 +312,5 @@ exports.scoreExercise = async (req, res, next) => {
         }
     })
 }
+
 
