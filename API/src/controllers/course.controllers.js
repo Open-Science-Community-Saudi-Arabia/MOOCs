@@ -6,7 +6,7 @@ const {
 } = require("../models/course.models");
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError } = require("../utils/errors");
+const { BadRequestError, NotFoundError } = require("../utils/errors");
 const User = require("../models/user.models");
 
 /* COURSES */
@@ -77,13 +77,13 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id);
+    const course = await Course.findById(req.params.id).populate('exercises');
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course.isAvailable ? course : null
+            course: course.isAvailable ? course.toJSON() : null
         }
     })
 }
@@ -437,7 +437,7 @@ exports.deleteVideo = async (req, res, next) => {
  * */
 exports.addExerciseToCourse = async (req, res, next) => {
     const { exercise_id, course_id } = req.body
-    const course = await Course.findById(exercise_id)
+    const course = await Course.findById(course_id)
 
     if (!course) {
         return next(new NotFoundError("Course not found"))
