@@ -313,4 +313,26 @@ exports.scoreExercise = async (req, res, next) => {
     })
 }
 
+exports.getPreviousSubmissionsForExercise = async (req, res, next) => {
+    console.log(req.params)
+    const exercise_id = req.params.exerciseId
 
+    if (!exercise_id || exercise_id == ':exerciseId') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findById(exercise_id)
+    if (!exercise) {
+        return next(new NotFoundError('Exercise not found'))
+    }
+
+    const exercise_submissions = await ExerciseSubmission.find(
+        { exercise: exercise._id, user: req.user.id })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            submissions: exercise_submissions
+        }
+    })
+}
