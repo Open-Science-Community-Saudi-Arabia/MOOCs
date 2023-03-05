@@ -189,7 +189,7 @@ exports.deleteExercise = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {NotFoundError} if Exercise not found
- * @throws {NotFoundError} if Course not found
+ * @throws {NotFoundError} if Question not found
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
     const { exercise_id, question_id } = req.body
