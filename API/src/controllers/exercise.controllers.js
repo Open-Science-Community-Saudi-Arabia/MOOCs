@@ -313,8 +313,19 @@ exports.scoreExercise = async (req, res, next) => {
     })
 }
 
+/**
+ * Get previous submissions for exercise
+ * 
+ * @description Get result for previously submitted exercises
+ * 
+ * @param {string} exerciseId - id of the exercise
+ * 
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {BadRequestError} if exerciseId not provided in request params
+ * 
+ * @returns {MongooseObject} submission
+ */
 exports.getPreviousSubmissionsForExercise = async (req, res, next) => {
-    console.log(req.params)
     const exercise_id = req.params.exerciseId
 
     if (!exercise_id || exercise_id == ':exerciseId') {
