@@ -254,7 +254,13 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.scoreExercise = async (req, res, next) => {
-    const { exercise_id, questions } = req.body
+    const exercise_id = req.params.id
+    
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const { questions } = req.body
 
     // Check if exercise exists
     const exercise_obj = await Exercise.findById(exercise_id).populate('questions')
