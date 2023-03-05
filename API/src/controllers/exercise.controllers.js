@@ -1,4 +1,4 @@
-const { Question, Exercise, Video, Course } = require("../models/course.models")
+const { Question, Exercise, Video, Course, ExerciseSubmission } = require("../models/course.models")
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 // Create a new exercise
@@ -253,19 +253,51 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  */
-exports.scoreAnswers = async (req, res, next) => {
-    const exercise = await Exercise.findById(req.body.exercise_id)
+exports.scoreExercise = async (req, res, next) => {
+    const { exercise_id, questions } = req.body
 
-    const studentAnswers = req.body.studentAnswers
-    const correctAnswers = exercise.questions.map(question => question.correct_answer)
-
-    let score = 0
-    for (let i = 0; i < studentAnswers.length; i++) {
-        if (studentAnswers[i] === correctAnswers[i]) {
-            score++
-        }
+    // Check if exercise exists
+    const exercise_obj = await Exercise.findById(exercise_id).populate('questions')
+    if (!exercise_obj) {
+        return next(new NotFoundError("Exercise not found"))
     }
 
-    res.status(200).send({ score: score })
+    if (!questions) {
+        return next(new BadRequestError("Missing required param in request body"))
+    }
+    const submitted_questions = questions
+
+    const exercise = exercise_obj.toJSON()
+
+    // Grade users submission
+    let score = 0;
+    let submission = new ExerciseSubmission({ user: req.user._id, exercise: exercise._id })
+    exercise.questions.forEach(question => {
+        const submitted_option = submitted_questions.get(question._id)
+
+        // Check if submitted option is correct. If yes, increment score
+        if (question.correct_option == submitted_option) {
+            submission.submission.push({
+                question: question._id,
+                submitted_option: submitted_option
+            })
+
+            score++
+        } else {
+            submission.submission.push({
+                question: question._id
+            })
+        }
+    });
+
+    submission.score = score
+    submission = await submission.save()
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            report: submission
+        }
+    })
 }
 
