@@ -255,54 +255,57 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  */
 exports.scoreExercise = async (req, res, next) => {
     const exercise_id = req.params.id
-    
+
     if (!exercise_id || exercise_id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const { questions } = req.body
+    const students_submission = req.body.submission;
+    if (!students_submission) {
+        return next(
+            new BadRequestError(
+                "Missing required param `submission` in request body"
+            )
+        );
+    }
 
     // Check if exercise exists
-    const exercise_obj = await Exercise.findById(exercise_id).populate('questions')
+    const exercise_obj = await Exercise.findById(exercise_id).populate({
+        path: "questions",
+        select: "correct_option",
+    });
     if (!exercise_obj) {
-        return next(new NotFoundError("Exercise not found"))
+        return next(new NotFoundError("Exercise not found"));
     }
-
-    if (!questions) {
-        return next(new BadRequestError("Missing required param in request body"))
-    }
-    const submitted_questions = questions
-
-    const exercise = exercise_obj.toJSON()
-
-    // Grade users submission
+    
+    const exercise = exercise_obj.toJSON();
     let score = 0;
-    let submission = new ExerciseSubmission({ user: req.user._id, exercise: exercise._id })
-    exercise.questions.forEach(question => {
-        const submitted_option = submitted_questions.get(question._id)
+    let exercise_submission = new ExerciseSubmission({
+        user: req.user.id,
+        exercise: exercise._id,
+    });
+    
+    // Grade users submission
+    exercise.questions.forEach((question) => {
+        const submitted_option = students_submission[question._id.toString()];
 
         // Check if submitted option is correct. If yes, increment score
-        if (question.correct_option == submitted_option) {
-            submission.submission.push({
-                question: question._id,
-                submitted_option: submitted_option
-            })
+        if (question.correct_option == submitted_option) score++;
 
-            score++
-        } else {
-            submission.submission.push({
-                question: question._id
-            })
-        }
+        exercise_submission.submission.push({
+            question: question._id,
+            submitted_option: submitted_option,
+        });
     });
 
-    submission.score = score
-    submission = await submission.save()
+    exercise_submission.score = score
+    exercise_submission = await exercise_submission.save()
+    exercise_submission = await exercise_submission.populate('submission.question')
 
     return res.status(200).send({
         success: true,
         data: {
-            report: submission
+            report: exercise_submission
         }
     })
 }
