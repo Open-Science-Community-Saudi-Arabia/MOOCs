@@ -52,8 +52,10 @@ exports.getCourses = async (req, res, next) => {
 
     // Get all available courses
     const courses = (
-        await Course.find().populate('videos').sort({ _id: -1 })
-    ).filter((course) => course.isAvailable);
+        await Course.find().populate('videos exercises').sort({ _id: -1 })
+    ).filter((course) => {
+        if (course.isAvailable) return course.toJSON();
+    });
 
     return res.status(200).send({
         success: true,
