@@ -40,7 +40,7 @@ const exerciseSchema = new Schema({
     toObject: { virtuals: true }
 })
 exerciseSchema.virtual('questions', {
-    localField: 'questions',
+    localField: '_id',
     foreignField: 'exercise',
     ref: 'Question'
 })
@@ -92,7 +92,8 @@ const courseSchema = new mongoose.Schema({
 })
 courseSchema.virtual('exercises', {
     localField: '_id',
-    foreignField: 'course'
+    foreignField: 'course',
+    ref: 'Exercise'
 })
 
 const Question = mongoose.model("Question", questionSchema)
