@@ -110,12 +110,15 @@ const submissionSchema = new Schema({
 })
 submissionSchema.pre('validate', async function () {
     if (this.isNew) {
-        // Add correct option to users submission
-        this.submission.forEach((submission) => {
-            submission.correct_option = submission.question.correct_option
-        })
+      // Add correct option to users submission
+      await this.populate('submission.question')
+      
+      for (const submission of this.submission) {
+        submission.correct_option = submission.question.correct_option;
+      }
     }
-})
+  });
+  
 
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
