@@ -248,10 +248,10 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  * Score anwers
  * 
  * @param {string} id - exercise id
- * @param {ArrayObject} submission
- * @param {MongooseObjectId}
+ * @param {Object} submission Object where keys are question_id's and values are selected option
  * 
- * @returns {number} score
+ * @returns {Object} report
+ * @returns {string} report.exercise report.user report.score submission
  * 
  * @throws {error} if an error occured
  */
