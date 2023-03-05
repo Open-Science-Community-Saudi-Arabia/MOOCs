@@ -12,7 +12,8 @@ const questionSchema = new Schema({
     correct_option: {
         type: String,
         required: true,
-        enum: arrayOfCapitalLetters()
+        enum: arrayOfCapitalLetters(),
+        select: false
     },
     options: {
         type: Map,
@@ -45,7 +46,7 @@ exerciseSchema.virtual('questions', {
     ref: 'Question'
 })
 
-const videoSchema = new mongoose.Schema({
+const videoSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -69,7 +70,7 @@ const videoSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 })
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new Schema({
     author: {
         type: String,
         required: true
@@ -96,9 +97,23 @@ courseSchema.virtual('exercises', {
     ref: 'Exercise'
 })
 
+const submissionSchema = new Schema({
+    exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    submission: [{
+        type: new Schema({
+            question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
+            submitted_option: { type: String, enum: arrayOfCapitalLetters() },
+            correct_option: { type: String, enum: arrayOfCapitalLetters(), select: false }
+        })
+    }],
+    score: { type: Number, default: 0 }
+})
+
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
 const Course = mongoose.model("Course", courseSchema)
+const ExerciseSubmission = mongoose.model('ExerciseSubmission', submissionSchema)
 
-module.exports = { Video, Course, Question, Exercise }
+module.exports = { Video, Course, Question, Exercise, ExerciseSubmission }

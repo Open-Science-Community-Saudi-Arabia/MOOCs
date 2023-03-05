@@ -1,5 +1,5 @@
-const { Question, Exercise, Video, Course } = require("../models/course.models")
-const { BadRequestError, NotFoundError } = require("../utils/errors");
+const { Question, Exercise, Video, Course, ExerciseSubmission } = require("../models/course.models")
+const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 // Create a new exercise
 /**
@@ -243,4 +243,150 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
 }
 
 
+/**
+ * Score anwers
+ * 
+ * @description Score answers for a particular exercise
+ * 
+ * @param {string} id - exercise id
+ * @param {Object} submission Object where keys are question_id's and values are selected option
+ * 
+ * @returns {Object} report
+ * @returns {string} report.exercise report.user report.score submission
+ * 
+ * @throws {error} if an error occured
+ */
+exports.scoreExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
 
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const students_submission = req.body.submission;
+    if (!students_submission) {
+        return next(
+            new BadRequestError(
+                "Missing required param `submission` in request body"
+            )
+        );
+    }
+
+    // Check if exercise exists
+    const exercise_obj = await Exercise.findById(exercise_id).populate({
+        path: "questions",
+        select: "correct_option",
+    });
+    if (!exercise_obj) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    const exercise = exercise_obj.toJSON();
+    let score = 0;
+    let exercise_submission = new ExerciseSubmission({
+        user: req.user.id,
+        exercise: exercise._id,
+    });
+
+    // Grade users submission
+    exercise.questions.forEach((question) => {
+        const submitted_option = students_submission[question._id.toString()];
+
+        // Check if submitted option is correct. If yes, increment score
+        if (question.correct_option == submitted_option) score++;
+
+        exercise_submission.submission.push({
+            question: question._id,
+            submitted_option: submitted_option,
+        });
+    });
+
+    exercise_submission.score = score
+    exercise_submission = await exercise_submission.save()
+    exercise_submission = await exercise_submission.populate('submission.question')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            report: exercise_submission
+        }
+    })
+}
+
+/**
+ * Get previous submissions for exercise
+ * 
+ * @description Get result for previously submitted exercises
+ * 
+ * @param {string} exerciseId - id of the exercise
+ * 
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {BadRequestError} if exerciseId not provided in request params
+ * 
+ * @returns {MongooseObject} submission
+ */
+exports.getPreviousSubmissionsForExercise = async (req, res, next) => {
+    const exercise_id = req.params.exerciseId
+
+    if (!exercise_id || exercise_id == ':exerciseId') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findById(exercise_id)
+    if (!exercise) {
+        return next(new NotFoundError('Exercise not found'))
+    }
+
+    const exercise_submissions = await ExerciseSubmission.find(
+        { exercise: exercise._id, user: req.user.id }).populate('submission.question')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            submissions: exercise_submissions
+        }
+    })
+}
+
+/**
+ * Get submission data
+ * 
+ * @description get data for ealier submitted quiz 
+ * 
+ * @param {string} id - id of exercise submission
+ * 
+ * @throws {BadRequestError} if submission id not in request param
+ * @throws {NotFoundError} if Submission not found
+ * @throws {ForbiddenError} if user didn't make submission earlier
+ * 
+ * @return {Object} submission
+ */
+exports.getSubmissionData = async (req, res, next) => {
+    const submitted_quiz_id = req.params.id;
+
+    // Check for required parameters
+    if (!submitted_quiz_id || submitted_quiz_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
+    }
+
+    const submission = await ExerciseSubmission.findById(
+        submitted_quiz_id
+    ).populate("submission.question");
+    
+    // Check if submission record exists
+    if (!submission) {
+        return next(new NotFoundError('Submission not found'))
+    }
+
+    // Check if initial exercise submission was made by user
+    if (submission.user.toString() != req.user.id) {
+        return next(new ForbiddenError("Submission doesn't belong to user"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            submission
+        }
+    })
+}
