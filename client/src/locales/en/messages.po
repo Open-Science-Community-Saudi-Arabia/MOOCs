@@ -6,69 +6,80 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
-#: src/components/Navbar/index.tsx:92
+#: src/components/Navbar/index.tsx:119
 msgid "About"
 msgstr "About"
 
-#: src/components/Footer/index.tsx:27
-#: src/components/Navbar/index.tsx:98
+#: src/components/Footer/index.tsx:32
+#: src/components/Navbar/index.tsx:125
 msgid "Blog"
 msgstr "Blog"
 
-#: src/components/Footer/index.tsx:69
+#: src/components/Footer/index.tsx:74
 msgid "Contact Info"
 msgstr "Contact Info"
 
-#: src/components/Footer/index.tsx:76
+#: src/components/Footer/index.tsx:84
 msgid "Copyright © OSCSA MOOCS"
 msgstr "Copyright © OSCSA MOOCS"
 
-#: src/components/Footer/index.tsx:24
+#: src/components/Footer/index.tsx:29
+#: src/components/Navbar/index.tsx:116
 msgid "Courses"
 msgstr "Courses"
 
-#: src/components/Navbar/index.tsx:95
+#: src/components/Navbar/index.tsx:122
 msgid "Faq"
 msgstr "Faq"
 
-#: src/components/Footer/index.tsx:51
+#: src/components/Footer/index.tsx:56
 msgid "Follow Us"
 msgstr "Follow Us"
 
-#: src/components/Footer/index.tsx:30
+#: src/components/Footer/index.tsx:35
 msgid "Guidelines"
 msgstr "Guidelines"
 
-#: src/components/Navbar/index.tsx:86
+#: src/components/Navbar/index.tsx:113
 msgid "Home"
 msgstr "Home"
 
 #: src/pages/landing-page/index.tsx:139
-msgid "Join Over 1000+ participants to learn high demand Courses."
-msgstr "Join Over 1000+ participants to learn high demand Courses."
+#~ msgid "Join Over 1000+ participants to learn high demand Courses."
+#~ msgstr "Join Over 1000+ participants to learn high demand Courses."
 
-#: src/pages/landing-page/index.tsx:144
+#: src/pages/landing-page/index.tsx:158
+msgid "Join Over 1000+ participants to learn high demand courses."
+msgstr "Join Over 1000+ participants to learn high demand courses."
+
+#: src/pages/landing-page/index.tsx:163
 msgid "Join Us"
 msgstr "Join Us"
 
-#: src/pages/landing-page/index.tsx:35
+#: src/pages/landing-page/index.tsx:31
 msgid "Join us now!"
 msgstr "Join us now!"
 
-#: src/pages/landing-page/index.tsx:22
+#: src/pages/landing-page/index.tsx:19
 msgid "Learning with Open Innovation MOOCs"
 msgstr "Learning with Open Innovation MOOCs"
 
-#: src/components/Navbar/index.tsx:113
+#: src/components/Navbar/index.tsx:140
 msgid "Log In"
 msgstr "Log In"
 
-#: src/components/Footer/index.tsx:39
+#: src/components/Footer/index.tsx:44
 msgid "OSCSA"
 msgstr "OSCSA"
 
-#: src/pages/landing-page/index.tsx:94
+#: src/pages/landing-page/index.tsx:109
 msgid "Open Science Practices"
 msgstr "Open Science Practices"
 
@@ -76,50 +87,50 @@ msgstr "Open Science Practices"
 msgid "Our best courses for you"
 msgstr "Our best courses for you"
 
-#: src/components/Footer/index.tsx:45
+#: src/components/Footer/index.tsx:50
 msgid "Partnership"
 msgstr "Partnership"
 
-#: src/components/Footer/index.tsx:21
+#: src/components/Footer/index.tsx:26
 msgid "Quick Links"
 msgstr "Quick Links"
 
-#: src/components/Footer/index.tsx:33
+#: src/components/Footer/index.tsx:38
 msgid "Resources"
 msgstr "Resources"
 
-#: src/pages/landing-page/index.tsx:27
+#: src/pages/landing-page/index.tsx:23
 msgid "Revolutionize your research and education journey with Open Innovation MOOCs. Innovate with Open Science today."
 msgstr "Revolutionize your research and education journey with Open Innovation MOOCs. Innovate with Open Science today."
 
-#: src/pages/landing-page/index.tsx:84
+#: src/pages/landing-page/index.tsx:99
 msgid "See All Courses"
 msgstr "See All Courses"
 
-#: src/components/Navbar/index.tsx:116
+#: src/components/Navbar/index.tsx:143
 msgid "Sign Up"
 msgstr "Sign Up"
 
-#: src/pages/landing-page/index.tsx:58
+#: src/pages/landing-page/index.tsx:69
 msgid "Start Learning"
 msgstr "Start Learning"
 
-#: src/pages/landing-page/index.tsx:118
+#: src/pages/landing-page/index.tsx:137
 msgid "Support and collaboration from leading organizations"
 msgstr "Support and collaboration from leading organizations"
 
-#: src/components/Footer/index.tsx:42
+#: src/components/Footer/index.tsx:47
 msgid "Turing Way"
 msgstr "Turing Way"
 
 #: src/components/Navbar/index.tsx:89
-msgid "courses"
-msgstr "courses"
+#~ msgid "courses"
+#~ msgstr "courses"
 
-#: src/pages/landing-page/index.tsx:105
+#: src/pages/landing-page/index.tsx:124
 msgid "{content}"
 msgstr "{content}"
 
-#: src/pages/landing-page/index.tsx:102
+#: src/pages/landing-page/index.tsx:121
 msgid "{name}"
 msgstr "{name}"

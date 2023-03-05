@@ -32,64 +32,93 @@ export default function Lesson() {
   }, []);
 
   return (
-    <div className="lesson-container">
-      <div className="header">
-        <p>Title: {lesson?.title}</p>
+    <section className="lesson-container">
+      <div className="lesson-container__header">
+        <h1 className="lesson-container__header-heading">
+          Title: {lesson?.title}
+        </h1>
         {!displaycontent && (
-          <div
+          <button
             onClick={() => setDisplayContent(true)}
-            className="course-content-btn"
+            className="lesson-container__header-heading__btn"
           >
             {" "}
             Course Content
-          </div>
+          </button>
         )}
       </div>
-      <div className="video-content">
+      <div className="lesson-container__content">
         {displayVideo ? (
           <iframe
+            title={lesson?.title}
             width="100%"
             height="450"
             src={lesson?.url}
             allowFullScreen
             style={{ width: displaycontent ? "80%" : "100%" }}
+            className="lesson-container__content-iframe"
           ></iframe>
         ) : (
           <Quiz />
         )}
         {displaycontent && (
-          <div className="course-content">
-            <div className="__heading">
+          <div className="lesson-container__content-course">
+            <div className="lesson-container__content-course-display">
               {" "}
-              <p>Course content</p>
-              <IoMdClose onClick={() => setDisplayContent(false)} />
+              <p className="lesson-container__content-course-display-text">
+                Course content
+              </p>
+              <button
+                aria-label="close"
+                className="lesson-container__content-course-display-btn icon-button"
+                onClick={() => setDisplayContent(false)}
+              >
+                <IoMdClose />
+              </button>
             </div>
-            <div onClick={() => setDisplayVideo(true)} className="__content">
-              <div className="__title">
+
+            <button
+              aria-label="Watch video"
+              className="lesson-container__content-course-video-btn"
+              onClick={() => setDisplayVideo(true)}
+            >
+              <div className="lesson-container__content-course-video-btn__title">
                 <p>1. </p>
-                <p className="__text">{lesson?.title}</p>
+                <p className="lesson-container__content-course-video-btn__text">
+                  {lesson?.title}
+                </p>
               </div>
-              <div className="__duration">
+              <div className="lesson-container__content-course-video-btn__duration">
                 {" "}
                 <WiTime4 />
                 {lesson?.duration}
               </div>
-            </div>
+            </button>
 
-            <div onClick={() => setDisplayVideo(false)} className="__quiz">
-            <p>  2. Take Quiz</p>
-            <span >not completed</span>
-            </div>
+            <button
+              aria-label="Take quiz"
+              onClick={() => setDisplayVideo(false)}
+              className="lesson-container__content-course-quiz-btn"
+            >
+              <p> 2. Take Quiz</p>
+              <span className="lesson-container__content-course-quiz-btn__status">
+                not completed
+              </span>
+            </button>
           </div>
         )}
       </div>
-      <div className="note-content">
-        <div className="tab-heading">
+      <div className="lesson-container__tab-container">
+        <div className="lesson-container__tab-container-tab">
           {tabitem.map((item) => {
             return (
               <p
                 key={item.id}
-                className={`${activeTab === item.tab && "active-tab"} tab-item`}
+                className={`${
+                  activeTab === item.tab &&
+                  "lesson-container__tab-container-tab__active-tab"
+                } 
+                lesson-container__tab-container-tab__tabitem`}
                 onClick={() => {
                   setActiveTab(item.tab);
                 }}
@@ -99,10 +128,12 @@ export default function Lesson() {
             );
           })}
         </div>
-        <div className="tab-content">
+        <div className="lesson-container__tab-container__tab-content">
           {activeTab === "tab1" ? (
             <div>
-              <p>Course description</p>
+              <p className="lesson-container__tab-container__tab-content-text">
+                Course description
+              </p>
               {lesson?.description}
             </div>
           ) : (
@@ -114,6 +145,6 @@ export default function Lesson() {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

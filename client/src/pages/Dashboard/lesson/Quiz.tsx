@@ -1,10 +1,8 @@
-import React from "react";
-
 export default function Quiz() {
   return (
-    <div className="quiz">
+    <section className="quiz-section">
       <h1>Quiz</h1>
       <p> Pick the right option.</p>
-    </div>
+    </section>
   );
 }

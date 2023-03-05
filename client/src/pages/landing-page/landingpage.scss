@@ -1,63 +1,49 @@
 @import "../../styles/mixins.scss";
 
 // mobile first
-
-.hero--container {
+.hero-container {
   width: 90%;
-  margin: 3em auto;
+  margin: 5em auto;
   @include ipad {
     @include flex(space-between, center);
   }
   @include xl-screen {
-    width: 70%;
+    width: 60%;
   }
-  .left {
-    @include ipad {
-      flex-basis: 100%;
-    }
-    @include laptop {
-      flex-basis: 50%;
-    }
-    h1 {
+  &__left {
+    &-heading {
       font-size: 25px;
       font-weight: 700;
       @include ipad {
+        width: 13ch;
         font-size: 63px;
         line-height: 72px;
       }
     }
-    p {
+    &-text {
       font-size: 18px;
       margin: 1em 0em;
       font-weight: 500;
       color: var(--gray);
       line-height: 30px;
+      @include ipad {
+        width: 45ch;
+      }
     }
-    .btns {
+    &-signup {
       @include flex(start, center);
       gap: 1.5em;
-      button {
-        @include button(
-          150px,
-          var(--green),
-          var(--white),
-          var(--white),
-          var(--green),
-          var(--green)
-        );
-      }
-      .all-plans-link {
-        padding-bottom: 5px;
-        border-bottom: 2px solid var(--black);
-        font-weight: 700;
+      &__link {
+        @include button(auto, var(--green), var(--white));
       }
     }
   }
-  .right {
-    img {
-      width: 100%;
+  &__right {
+    &-img {
+      display: none;
       @include ipad {
-        height: 500px;
+        display: block;
+        height: 450px;
       }
     }
   }
@@ -66,55 +52,66 @@
 // section Courses section ------
 .courses-section {
   width: 90%;
-  margin: 4em auto;
-  h1 {
+  margin: 6em auto 3em auto;
+  @include ipad {
+    margin: 6em auto 7em auto;
+  }
+  &__heading {
     font-size: 25px;
     text-align: center;
+    font-weight: 700;
     @include ipad {
       font-size: 30px;
     }
   }
-  .course-container {
+  &__container {
+    margin-top: 2rem;
     @include ipad {
       @include flex(center, center);
       gap: 60px;
       margin-top: 3rem;
     }
-    margin-top: 2rem;
-    .course {
+
+    &-course {
       position: relative;
       cursor: pointer;
       height: 420px;
+      padding: 2em;
+      margin: 1rem 0rem;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      border-radius: 20px;
+      &:hover {
+        background-color: var(--green-light);
+        &__icon-content {
+          background-color: var(--white);
+        }
+      }
       @include ipad {
         width: 400px;
         padding: 2.5em;
       }
       @include xl-screen {
-        width: 32%;
+        // width: 400px;
         height: 450px;
       }
-      padding: 2em;
-      margin: 1rem 0rem;
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-      border-radius: 20px;
-      .icon-content {
+      &__icon-content {
         padding: 1.5rem 1rem;
         text-align: center;
         background-color: var(--gray-100);
         border-radius: 20px;
         margin-bottom: 1rem;
-        .icon {
+        &-icon {
           width: 60px;
         }
       }
-      .name {
+      &__name {
         font-size: 17px;
         text-align: left;
         @include xl-screen {
           font-size: 20px;
         }
       }
-      .description {
+      &__description {
         margin: 1rem 0;
         font-weight: 500;
         color: var(--gray);
@@ -123,32 +120,19 @@
           margin: 1.5rem 0;
         }
       }
-      .btn {
+      &__link {
         position: absolute;
         bottom: 25px;
         left: 30px;
-        @include button(
-          150px,
-          var(--green),
-          var(--white),
-          var(--white),
-          var(--green),
-          var(--green)
-        );
+        @include button(auto, var(--green), var(--white));
         border-radius: 50px;
         @include ipad {
           bottom: 20px;
         }
       }
-      &:hover {
-        background-color: var(--green-light);
-        .icon-content {
-          background-color: var(--white);
-        }
-      }
     }
   }
-  .course-list {
+  &__courses {
     @include flex(center, center);
     flex-wrap: wrap;
     gap: 20px;
@@ -160,24 +144,21 @@
       margin: 4rem auto;
     }
     @include laptop {
-      width: 70%;
+      width: 60%;
     }
-    div {
+    @include xl-screen {
+      width: 40%;
+    }
+    &-list {
       cursor: pointer;
       text-align: center;
-      .course-icon {
-        width: 100px;
+      &__icon-img {
+        width: 80px;
         height: 100px;
         object-fit: contain;
         @include ipad {
-          width: 150px;
+          width: 120px;
         }
-      }
-      .course-name {
-        font-size: 15px;
-        color: var(--gray);
-        opacity: 60%;
-        font-weight: 700;
       }
       .react-tooltip {
         width: 90px;
@@ -185,27 +166,24 @@
         font-size: 11px;
         padding: 7px 3px;
       }
-      &:hover {
-        .course-icon {
-          color: var(--black);
-          opacity: 100%;
-        }
-      }
     }
   }
-  .more-courses {
+  &__link {
     @include flex(center, center);
     position: relative;
     font-weight: 700;
     width: 250px;
-    margin: auto;
+    margin: 2em auto;
     padding: 1rem;
     border: 1px solid var(--green);
     text-align: center;
     border-radius: 20px;
     background-color: var(--green);
     color: var(--white);
-    .arrow {
+    @include ipad {
+      margin: auto;
+    }
+    &-arrow {
       font-size: 18px;
       position: absolute;
       top: 35%;
@@ -214,17 +192,15 @@
     &:hover {
       background-color: var(--white);
       color: var(--green);
-      // Add arrow animation instead
     }
   }
 }
 
 // Open science practice section
-.open-science-section {
+.open-science {
   background-color: var(--gray-100);
-  // background-color: var(--light-gray);
-  .__container {
-    padding: 3em 2em;
+  &__article {
+    padding: 4em 2em;
     @include ipad {
       margin: auto;
       width: 90%;
@@ -233,39 +209,58 @@
     @include xl-screen {
       width: 50%;
     }
-    h1 {
-      font-size: 30px;
+    &-heading {
+      font-size: 25px;
       text-align: center;
+      font-weight: 700;
+      @include ipad {
+        font-size: 30px;
+      }
     }
-    .__content {
-      .practices {
+    &-content {
+      &__list {
         margin: 5rem 0em 3rem 0em;
         @include ipad {
           @include flex(center, center);
           gap: 60px;
         }
-        img {
-          height: 230px;
+        &-img {
+          height: 150px;
           width: 100%;
           @include ipad {
-            width: 230px;
+            width: 200px;
+            height: 200px;
           }
         }
-        .description {
+        &-item {
           flex-basis: 60%;
-          @include flex(space-between, start);
+          @include flex(space-between, center);
+          text-align: center;
           flex-direction: column;
-          .__name {
-            font-size: 22px;
-            font-weight: 700;
-            // margin-top: 1rem;
+          margin-top: 1em;
+          @include ipad {
+            @include flex(space-between, start);
+            text-align: left;
+            margin-top: 0em;
           }
-          .__content {
+          &-name {
+            font-size: 18px;
+
+            font-weight: 700;
+            @include ipad {
+              font-size: 22px;
+            }
+          }
+          &-description {
             font-size: 18px;
             font-weight: 500;
             color: var(--gray);
-            margin: 1rem 0;
             line-height: 30px;
+            @include ipad {
+              @include ipad {
+                margin-top: 1em;
+              }
+            }
           }
         }
       }
@@ -275,8 +270,7 @@
 
 // collaboration-section
 .collaboration-section {
-  // background-color: var(--gray-100);
-  .__container {
+  &__container {
     padding: 2em 0em;
     text-align: center;
     margin: auto;
@@ -284,24 +278,24 @@
       width: 60%;
       padding: 6em 0em;
     }
-    h1 {
+    &-heading {
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 700;
       @include ipad {
         font-size: 28px;
-        font-weight: 700;
+
       }
     }
-    .icon__content {
+    &-icon {
       margin-top: 4em;
       @include flex(center, center);
       gap: 34px;
       flex-wrap: wrap;
-      .icon {
-        width: 180px;
+      &-img {
+        width: 130px;
         display: inline-block;
         @include ipad {
-          // width: 25%;
+          width: 180px;
           display: inline-block;
         }
       }
@@ -314,7 +308,7 @@
   height: 400px;
   position: relative;
   background-color: var(--green);
-  .join-class {
+  &__background-image {
     background-image: url("../../images/radial.png");
     width: 100%;
     background-repeat: no-repeat;
@@ -323,7 +317,7 @@
     background-size: cover;
     opacity: 10%;
   }
-  .text-content {
+  &__content {
     width: 90%;
     text-align: center;
     position: absolute;
@@ -333,7 +327,7 @@
     @include ipad {
       width: 60%;
     }
-    h1 {
+    &-heading {
       font-size: 25px;
       font-weight: 700;
       text-align: center;
@@ -342,19 +336,18 @@
         font-size: 30px;
       }
     }
-    button {
-      @include button(
-        200px,
-        var(--white),
-        var(--green),
-        var(--black),
-        var(--white),
-        var(--green)
-      );
+    &-link {
+      @include button(200px, var(--black), var(--white));
+      margin: auto;
       border: none;
       margin-top: 2rem;
       font-size: 16px;
       font-weight: bold;
+      &:hover {
+        background-color: var(--white);
+        color: var(--green);
+        opacity: 100%;
+      }
     }
   }
 }

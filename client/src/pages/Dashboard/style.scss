@@ -1,24 +1,21 @@
 @import "../../styles/mixins.scss";
 .dashboard {
-  // background-color: hsla(172, 70%, 87%, 0.16);
   height: 100vh;
-  .container {
+  &-container {
     width: 100%;
     margin: auto;
     padding: 2em 0;
-    .header {
+    .dashboard-header {
       background-color: hsla(172, 70%, 87%, 0.16);
       position: fixed;
       width: 100%;
       top: 0;
       padding: 0.5em 3em;
       @include flex(space-between, center);
-      p {
-        font-size: 25px;
-        font-weight: 700;
-        color: var(--green);
+      &__logo {
+        height: 80px;
       }
-      input {
+      &-inputfield__input {
         cursor: auto;
         height: 50px;
         width: 500px;
@@ -30,32 +27,33 @@
         border: 1px solid var(--gray-203);
         color: var(--gray);
       }
-      .profile {
+      &-profile {
         position: relative;
         cursor: pointer;
-        @include flex(space-between, center);
-        p {
-          font-size: 20px;
-          background-color: var(--green);
-          color: white;
-          border-radius: 100%;
-          padding: 0.5em;
+        &__btn {
+          @include flex(space-between, center);
+          &-text {
+            font-size: 20px;
+            background-color: var(--green);
+            color: white;
+            border-radius: 100%;
+            padding: 0.5em;
+          }
+          svg {
+            font-size: 30px;
+          }
         }
-        svg {
-          font-size: 30px;
-        }
-        button{
+        &__logout-btn {
           position: absolute;
-          box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px; 
-          top:32px;
-          right:-23px;
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+          top: 32px;
+          right: -23px;
           background-color: var(--white);
-          padding:1em;
-          color:var(--green);
+          padding: 1em;
+          color: var(--green);
           font-weight: 600;
-          width:auto;
-          border:none;
-          
+          width: auto;
+          border: none;
         }
       }
       // @include ipad {
@@ -67,37 +65,36 @@
       //   padding: 0;
       // }
     }
-    .lesson {
+    &__lesson {
       // width: 80%;
       margin: 6em auto;
-      padding: 4em 3em ;
+      padding: 4em 3em;
       background-color: var(--white);
-      p {
+      &-heading {
         font-weight: 600;
         font-size: 20px;
       }
-      .courses {
+      &-courses {
         margin: 2em 0em;
-        .content {
+        &-content {
           padding: 1.5em;
           border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
           width: 30%;
-          // height:300px;
           cursor: pointer;
           object-fit: cover;
-          img {
+          &__img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 10px;
           }
-          p {
+          &__text {
             padding-top: 1em;
             font-size: 17px;
             font-weight: 700;
           }
-          .__duration {
+          &__duration {
             padding-top: 10px;
             gap: 5px;
             @include flex(start, center);

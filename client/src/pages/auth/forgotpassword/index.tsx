@@ -39,27 +39,38 @@ export default function ForgotPassword() {
     }
   };
   return (
-    <div className="form-content">
-      <h1>Forgot Password</h1>
-      <p>
+    <section className="login-signup">
+      <h1 className="login-signup__heading">Forgot Password</h1>
+      <p className="login-signup__text">
         Enter the email associated with your account.
       </p>
-      <form onSubmit={forgotPasswordHandler}>
-        <div className="field input-field">
-          <input type="email" name="email" placeholder="Email" required />
+      <form className="login-signup__form" onSubmit={forgotPasswordHandler}>
+        <div className="field">
+          <label className="sr-only" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
         </div>
         <div className="field button-field">
-          <button>{isLoading ? <Spinner /> : "Submit"}</button>
+          <button>
+            {isLoading ? <Spinner width="30px" height="30px" /> : "Submit"}
+          </button>
         </div>
       </form>
-      <div className="form-bottom">
-        <div className="form-link">
+      <div className="login-signup__bottom">
+        <div className="login-signup__bottom-content">
           Don't have an account?{" "}
-          <Link to="/signup" className="link signup-link">
+          <Link to="/signup" className="login-signup__bottom-content__link">
             Sign Up
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

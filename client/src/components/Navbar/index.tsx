@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
@@ -7,9 +7,10 @@ import { IoMdCloseCircle } from "react-icons/io";
 import Select from "react-select";
 import { locales, dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
+import useMediaQuery from "../../hooks/usemediaQuery";
 
 export function Navbar() {
-  const [open, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const options = [
     { value: "en", label: locales.en },
@@ -17,7 +18,7 @@ export function Navbar() {
   ];
   const [currentLocale, setCurrentLocale] = useState(options[0]);
 
-  let mediascreen = window.matchMedia("(min-width: 1250px)").matches;
+  const isDesktop = useMediaQuery("(min-width: 1250px)");
 
   function changeLanguage(selectedOption: any) {
     setCurrentLocale(selectedOption);
@@ -31,6 +32,7 @@ export function Navbar() {
       color: state.isSelected ? "#ffff" : "#009985",
       backgroundColor: state.isSelected ? "#009985" : "#ffff",
       fontSize: "14px",
+      cursor: "pointer",
       ":active": {
         ...defaultStyles[":active"],
         backgroundColor: "#ffff",
@@ -44,6 +46,7 @@ export function Navbar() {
       boxShadow: "none",
       borderRadius: "8px",
       width: "117px",
+      cursor: "pointer",
       ":hover": {
         ...defaultStyles[":hover"],
         border: "0.5px solid #009985",
@@ -66,19 +69,43 @@ export function Navbar() {
   return (
     <>
       <header className="header">
-        <img className="logo" src={logo} alt="logo" />
-        {mediascreen || open ? (
+        <Link to={"/"}>
+          {" "}
+          <img
+            className="header__logo"
+            src={logo}
+            alt="Open source community Saudia Arabia logo"
+          />
+        </Link>
+
+        {isDesktop || isOpen ? (
           <>
-            <div className={!open ? "navbar_container" : "sidebar_container"}>
-              {open && (
+            <div
+              className={
+                !isOpen
+                  ? "header__navbar-container"
+                  : "header__sidebar-container"
+              }
+            >
+              {isOpen && (
                 <div className="sidebar-logo">
-                  <img className="logo" src={logo} alt="logo" />
-                  <IoMdCloseCircle
-                    className="close_icon"
+                  <Link to={"/"}>
+                    {" "}
+                    <img
+                      className="sidebar-logo__image"
+                      src={logo}
+                      alt="Open source community Saudia Arabia logo"
+                    />
+                  </Link>
+                  <button
+                    aria-label="close"
                     onClick={() => {
                       setIsOpen(false);
                     }}
-                  />
+                    className="icon-button"
+                  >
+                    <IoMdCloseCircle className="sidebar-logo__close-icon" />
+                  </button>
                 </div>
               )}
               <nav className="navbar">
@@ -86,7 +113,7 @@ export function Navbar() {
                   <Trans>Home</Trans>
                 </Link>
                 <Link className="navlink" to="/">
-                  <Trans>courses</Trans>
+                  <Trans>Courses</Trans>
                 </Link>
                 <Link className="navlink" to="/">
                   <Trans>About</Trans>
@@ -120,13 +147,15 @@ export function Navbar() {
             </div>
           </>
         ) : (
-          <img
-            src={dropdownBar}
-            alt="dropdown"
+          <button
+            aria-label="menu"
             onClick={() => {
               setIsOpen(true);
             }}
-          />
+            className="icon-button"
+          >
+            <img src={dropdownBar} alt="menu" />
+          </button>
         )}
       </header>
     </>

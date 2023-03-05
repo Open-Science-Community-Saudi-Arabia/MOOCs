@@ -6,18 +6,19 @@
 }
 
 // button
-@mixin button($width, $bg-color, $color, $hover-bg, $hover-color,$border-color) {
+@mixin button($width, $bg-color, $color) {
   background-color: $bg-color;
   color: $color;
   font-weight: 700;
- font-size: 15px;
-  padding: 1.2em;
+  font-size: 15px;
   border-radius: 8px;
   width: $width;
-  border: 1px solid $border-color;
+  border: none;
+  padding: 16px 30px;
+
+  @include flex(center, center);
   &:hover {
-    background-color: $hover-bg;
-    color: $hover-color;
+    opacity: 60%;
   }
 }
 

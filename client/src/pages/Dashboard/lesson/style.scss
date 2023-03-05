@@ -3,34 +3,31 @@
 .lesson-container {
   height: 100%;
   z-index: 1;
-  .header {
+  &__header {
     background-color: var(--black);
     padding: 1.5em;
-    // position: sticky;
-    // top:0;
     @include flex(space-between, start);
     width: 100%;
     color: var(--white);
-    p {
+    &-heading {
       font-size: 20px;
       font-weight: 700;
-    }
-    .course-content-btn {
-      cursor: pointer;
-      border: 1px solid gray;
-      padding: 0.5em;
-      border-radius: 5px;
+      &__btn {
+        @include button(auto, transparent, var(--white));
+        border: 1px solid gray !important;
+        padding: 0.8em;
+      }
     }
   }
-  .video-content {
+  &__content {
     z-index: -1;
     @include flex(space-between, start);
-    iframe {
+    &-iframe {
       border: none;
       width: 80%;
       // border-radius: 20px;
     }
-    .quiz {
+    .quiz-section {
       text-align: center;
       width: 80%;
       padding: 1em 0em;
@@ -38,39 +35,42 @@
         font-size: 30px;
       }
     }
-    .course-content {
+    &-course {
       background-color: var(--white);
       border-left: 1px solid var(--green-light);
-
-      width: 20%;
-      .__heading {
+      width: 23%;
+      &-display {
         @include flex(space-between, center);
-        padding: 1em;
-        p {
+        padding: 1em 1.5em;
+        &-text {
           font-size: 16px;
           font-weight: 600;
         }
-        svg {
-          font-size: 18px;
-          cursor: pointer;
-          &:hover {
-            color: var(--gray);
+        &-btn {
+          svg {
+            font-size: 18px;
+            cursor: pointer;
+            &:hover {
+              color: var(--gray);
+            }
           }
         }
       }
-      .__content {
-        cursor: pointer;
+      &-video-btn {
+        text-align: left;
         font-size: 14px;
-        padding: 1em;
+        border: none;
+        padding: 1em 1.5em;
         border-top: 1px solid var(--green-light);
         border-bottom: 1px solid var(--green-light);
         &:hover {
           background-color: var(--green-light);
         }
-        .__title {
+        &__title {
           @include flex(space-between, center);
+          gap: 4px;
         }
-        .__duration {
+        &__duration {
           padding-top: 10px;
           gap: 5px;
           @include flex(start, center);
@@ -79,29 +79,30 @@
           }
         }
       }
-      .__quiz {
-        cursor: pointer;
+      &-quiz-btn {
+        width: 100%;
         font-size: 14px;
-        padding: 1em;
+        padding: 1em 1.5em;
+        border: none;
         border-bottom: 1px solid var(--green-light);
         &:hover {
           background-color: var(--green-light);
         }
         @include flex(space-between, center);
-        span{
-            font-size: 11px;
-            font-style: italic;
+        &__status {
+          font-size: 11px;
+          font-style: italic;
         }
       }
     }
   }
-  .note-content {
+  &__tab-container {
     padding: 3em 4em;
-    .tab-heading {
+    &-tab {
       border-bottom: 1px solid var(--gray-203);
       @include flex(start, center);
       gap: 60px;
-      .tab-item {
+      &__tabitem {
         cursor: pointer;
         font-size: 18px;
         padding-bottom: 0.5em;
@@ -111,17 +112,17 @@
           color: var(--green);
         }
       }
-      .active-tab {
+      &__active-tab {
         color: var(--green);
         border-bottom: 2px solid var(--green);
       }
     }
-    .tab-content {
+    &__tab-content {
       //   height: 200px;
       margin-top: 2em;
       line-height: 30px;
 
-      p {
+      &-text {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 1em;
@@ -129,7 +130,7 @@
       .certificate {
         @include flex(center, center);
         text-align: center;
-        p {
+        &__text {
           margin-top: 3em;
           width: fit-content;
           font-size: 20px;

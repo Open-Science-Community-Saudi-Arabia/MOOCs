@@ -16,7 +16,7 @@ export default function ResetPassword() {
   const resetPasswordHandler = async (event: any) => {
     event.preventDefault();
     try {
-      const formData:ResetPasswordReqPayload = {
+      const formData: ResetPasswordReqPayload = {
         password_reset_code: event.target.resetcode.value,
         new_password: event.target.password.value,
       };
@@ -41,28 +41,37 @@ export default function ResetPassword() {
     }
   };
   return (
-    <div className="form-content">
-      <h1>Reset Password</h1>
-      <p>Enter new password.</p>
-      <form onSubmit={resetPasswordHandler}>
-        <div className="field input-field">
+    <section className="login-signup">
+      <h1 className="login-signup__heading">Reset Password</h1>
+      <p className="login-signup__text">Enter new password.</p>
+      <form className="login-signup__form" onSubmit={resetPasswordHandler}>
+        <div className="field">
+          <label className="sr-only" htmlFor="resetcode">
+            Reset Code
+          </label>
           <input
             type="text"
             name="resetcode"
+            id="resetcode"
             placeholder="Reset Code"
             required
           />
         </div>
-        <div className="field input-field">
+        <div className="field">
+          <label className="sr-only" htmlFor="password">
+            Password
+          </label>
           <input
             type={toggleVisibility ? "text" : "password"}
             placeholder="Password"
             minLength={8}
             name="password"
+            id="password"
             required
           />
-          <span
-            className="eye-icon"
+          <button
+            aria-label="toggle password"
+            className="icon-button eye-icon"
             onClick={() => setToggleVisibility(!toggleVisibility)}
           >
             {toggleVisibility ? (
@@ -70,21 +79,23 @@ export default function ResetPassword() {
             ) : (
               <MdOutlineVisibilityOff />
             )}
-          </span>
+          </button>
         </div>
 
         <div className="field button-field">
-          <button>{isLoading ? <Spinner /> : "Submit"}</button>
+          <button>
+            {isLoading ? <Spinner width="30px" height="30px" /> : "Submit"}
+          </button>
         </div>
       </form>
-      <div className="form-bottom">
-        <div className="form-link">
+      <div className="login-signup__bottom">
+        <div className="login-signup__bottom-content">
           Don't have an account?{" "}
-          <Link to="/signup" className="link signup-link">
+          <Link to="/signup" className="login-signup__bottom-content__link">
             Sign Up
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

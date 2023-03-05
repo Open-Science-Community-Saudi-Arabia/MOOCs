@@ -6,7 +6,7 @@ interface IProps {
 export default function Certificate({ handleOpenContent }: IProps) {
   return (
     <div className="certificate">
-      <p onClick={() => handleOpenContent()}>
+      <p className="certificate__text" onClick={() => handleOpenContent()}>
         {" "}
         Complete quiz to get a certificate
       </p>

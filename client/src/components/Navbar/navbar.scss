@@ -1,96 +1,88 @@
 @import "../../styles/mixins.scss";
-
-header {
+.header {
   @include flex(space-between, center);
   padding: 1em;
   @include ipad {
     padding: 1em 5em;
   }
   @include xl-screen {
-    width: 70%;
-    margin: auto;
+    width: 60%;
+    margin: 1em auto;
     padding: 0;
   }
-  .navbar_container {
+  &__logo {
+    height: 80px;
+  }
+  &__navbar-container {
     width: 75%;
     @include flex(space-between, center);
-    @include ipad {
-      // width: 90%;
-    }
     .navbar {
       @include flex(space-around, center);
       gap: 3em;
     }
   }
-}
-
-.sidebar_container {
-  z-index: 1;
-  position: fixed;
-  height: 100vh;
-  right: 0;
-  top: 0;
-  width: 100%;
-  padding: 1em 2em;
-  background-color: var(--white);
-  .sidebar-logo {
-    @include flex(space-between, center);
-    margin-bottom: 2em;
-    .close_icon {
-      font-size: 30px;
-      color: var(--black);
+  &__sidebar-container {
+    z-index: 1;
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    width: 100%;
+    padding: 1em 2em;
+    background-color: var(--white);
+    .sidebar-logo {
+      @include flex(space-between, center);
+      margin-bottom: 2em;
+      &__image {
+        height: 84px;
+      }
+      &__close-icon {
+        font-size: 30px;
+        color: var(--black);
+      }
+    }
+    .navbar {
+      @include flex(space-around, start);
+      flex-direction: column;
+      gap: 25px;
     }
   }
-  nav,
-  .auth-btn,
-  .btns {
+
+  .navlink {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gray);
+    font-weight: 600;
+    &:hover {
+      color: var(--green);
+    }
+  }
+
+  .auth-btn {
     @include flex(space-around, start);
     flex-direction: column;
     gap: 25px;
-  }
-}
-
-.logo {
-  width: 150px;
-  height: 80px;
-}
-
-.navlink {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--gray);
-  font-weight: 600;
-
-  &:hover {
-    color: var(--green);
-  }
-}
-
-.auth-btn {
-  @include flex(space-around, center);
-  gap: 2em;
-  margin-top: 1.5rem;
-  @include ipad {
-    margin-top: 0;
-  }
-
-  .btns {
-    @include flex(space-around, start);
-    gap: 1em;
-    @include ipad {
+    margin-top: 20px;
+    @include laptop {
+      flex-direction: row;
+      margin-top: 0;
       @include flex(space-around, center);
+      gap: 2em;
+      margin-top: 1.5rem;
     }
-    .auth-btn-signup,
-    .auth-btn-login {
-      @include button(
-        auto,
-        var(--green),
-        var(--white),
-        var(--white),
-        var(--green),
-        var(--green)
-      );
-      padding: 13px 30px;
+
+    .btns {
+      @include flex(space-around, start);
+      flex-direction: column;
+      gap: 20px;
+      @include laptop {
+        flex-direction: row;
+        @include flex(space-around, center);
+      }
+      .auth-btn-signup,
+      .auth-btn-login {
+        @include button(auto, var(--green), var(--white));
+      }
     }
   }
 }

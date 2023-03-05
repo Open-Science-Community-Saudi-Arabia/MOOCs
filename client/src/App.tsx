@@ -12,9 +12,10 @@ import ForgotPassword from "./pages/auth/forgotpassword";
 import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
 import Lesson from "./pages/Dashboard/lesson";
+import ErrorPage from "./pages/error";
 function App() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Spinner width="30px" height="30px" />}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route element={<Layout />}>
@@ -28,15 +29,20 @@ function App() {
             index
             element={
               // <AppProvider>
-                <Dashboard />
-            //  </AppProvider>
+              <Dashboard />
+              //  </AppProvider>
             }
           />
           <Route path=":id" element={<Lesson />} />
         </Route>
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Suspense>
   );
 }
 
 export default App;
+
+// Todo
+// install elint husky and pretty
+// try the json format but check the compliing first

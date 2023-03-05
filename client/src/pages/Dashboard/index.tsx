@@ -16,22 +16,31 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="dashboard">
-      <div className="container">
+    <section className="dashboard">
+      <div className="dashboard-container">
         <Header />
-        <div className="lesson">
-          <p>Available Courses</p>
-          <div className="courses">
+        <div className="dashboard-container__lesson">
+          <h1 className="dashboard-container__lesson-heading">
+            Available Courses
+          </h1>
+          <div className="dashboard-container__lesson-courses">
             {Videocontent.map((item) => {
               return (
-                <Link key={item.id} to={`/dashboard/${item.id}`}>
-                  <div className="content">
-                  
-                    <img src={item.image} alt="" />
-                  
-                    <p>{item.title}</p>
-                    {/* <span>{item.language}</span> */}
-                    <div className="__duration">
+                <Link
+                  aria-label="course"
+                  key={item.id}
+                  to={`/dashboard/${item.id}`}
+                >
+                  <div className="dashboard-container__lesson-courses-content">
+                    <img
+                      className="dashboard-container__lesson-courses-content__img"
+                      src={item.image}
+                      alt="course video"
+                    />
+                    <p className="dashboard-container__lesson-courses-content__text">
+                      {item.title}
+                    </p>
+                    <div className="dashboard-container__lesson-courses-content__duration">
                       {" "}
                       <WiTime4 />
                       {item.duration}
@@ -43,12 +52,10 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-
 // handle error when video is not loading
-// 
 
 export default Dashboard;

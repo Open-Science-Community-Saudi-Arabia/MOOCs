@@ -1,4 +1,4 @@
-.forgotpassword-container {
+.layout-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,7 +8,7 @@
     height: 100%;
     width: 40%;
     position: relative;
-   .home-link {
+    &__home-link {
       font-size: 70px;
       height: 100%;
       display: flex;
@@ -18,12 +18,12 @@
       color: white;
       font-weight: bold;
     }
-    .ring2 {
+    &__ring2 {
       position: absolute;
       bottom: 0;
       right: 0;
     }
-    .ring1 {
+    &__ring1 {
       position: absolute;
       top: 0;
       left: 0;
@@ -31,16 +31,16 @@
   }
   .content-right {
     width: 60%;
-    height:100%;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 
 @media (max-width: 800px) {
-  .forgotpassword-container {
+  .layout-container {
     .content-left {
       display: none;
     }

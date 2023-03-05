@@ -47,24 +47,34 @@ function Login() {
   return (
     <>
       {loading ? (
-        <Spinner loading={loading} />
+        <Spinner width="30px" height="30px" />
       ) : (
-        <div className="form-content">
-          <h1>Login to MOOCs</h1>
-          <div className="loginDiv">
-            <div className="login-btn" onClick={() => googlelogin()}>
+        <section className="login-signup">
+          <h1 className="login-signup__heading">Login to MOOCs</h1>
+          <div className="login-signup__google">
+            <button
+              className="login-signup__google__login-btn"
+              onClick={() => googlelogin()}
+            >
               Sign in with Google <FcGoogle />
-            </div>
+            </button>
           </div>
-          <div className="hr-line">
+          <div className="login-signup__hr-line">
             {" "}
             <hr />
-            <span className="or">OR</span>
+            <h2 className="login-signup__hr-line__or">OR</h2>
             <hr />
           </div>
 
-          <form onSubmit={loginHandler} method="POST">
-            <div className="field input-field">
+          <form
+            className="login-signup__form"
+            onSubmit={loginHandler}
+            method="POST"
+          >
+            <div className="field">
+              <label className="sr-only" htmlFor="email">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
@@ -74,7 +84,10 @@ function Login() {
               />
             </div>
 
-            <div className="field input-field">
+            <div className="field">
+              <label className="sr-only" htmlFor="password">
+                Password
+              </label>
               <input
                 type={toggleVisibility ? "text" : "password"}
                 placeholder="Password"
@@ -82,8 +95,9 @@ function Login() {
                 name="password"
                 className={`${IsError && "error-input"}`}
               />
-              <span
-                className="eye-icon"
+              <button
+                aria-label="toggle password"
+                className="icon-button eye-icon"
                 onClick={() => setToggleVisibility(!toggleVisibility)}
               >
                 {toggleVisibility ? (
@@ -91,23 +105,31 @@ function Login() {
                 ) : (
                   <MdOutlineVisibilityOff />
                 )}
-              </span>
+              </button>
             </div>
 
             <div className="field button-field">
-              <button>{isLoading ? <Spinner /> : "Login"}</button>
+              <button>
+                {isLoading ? <Spinner width="30px" height="30px" /> : "Login"}
+              </button>
             </div>
           </form>
-          <div className="form-bottom">
-            <Link to="/forgotpassword" className="forgotpassword-link ">
+          <div className="login-signup__bottom">
+            <Link
+              to="/forgotpassword"
+              className="login-signup__bottom-forgotpassword-link "
+            >
               {" "}
               forgot password?
             </Link>
-            <div className="form-link">
-              Don't have an account? <Link to="/signup">Sign Up</Link>
+            <div className="login-signup__bottom-content">
+              Don't have an account?{" "}
+              <Link to="/signup" className="login-signup__bottom-content__link">
+                Sign Up
+              </Link>
             </div>
           </div>
-        </div>
+        </section>
       )}
     </>
   );

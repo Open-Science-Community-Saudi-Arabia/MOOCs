@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/oscsalogo.jpg";
 import Github from "../../images/github-image.png";
@@ -10,71 +9,80 @@ import { Trans } from "@lingui/macro";
 
 export default function index() {
   return (
-    <div className="footer">
-      <div className="__container">
-        <div className="__logo">
-          <img src={logo} alt="logo" />
-        </div>
-        <div className="right">
-          <div className="quicklinks">
-            <h3>
+    <section className="footer-container">
+      <div className="footer">
+        <Link to={"/"} className="footer__logo">
+          {" "}
+          <img
+            className="logo-image"
+            src={logo}
+            alt="Open source community Saudia Arabia logo"
+          />
+        </Link>
+
+        <div className="footer__content">
+          <div className="footer__content-quicklinks">
+            <h3 className="heading">
               <Trans>Quick Links</Trans>
             </h3>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Courses</Trans>
             </Link>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Blog</Trans>
             </Link>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Guidelines</Trans>{" "}
             </Link>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Resources</Trans>
             </Link>
           </div>
-          <div className="community">
-            <h3>Communities</h3>
-            <Link to="">
+          <div className="footer__content-communities">
+            <h3 className="heading">Communities</h3>
+            <Link className="nav-link" to="">
               <Trans>OSCSA</Trans>
             </Link>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Turing Way</Trans>{" "}
             </Link>
-            <Link to="">
+            <Link className="nav-link" to="">
               <Trans>Partnership </Trans>
             </Link>
           </div>
-          <div className="sociallinks">
-            <h3>
+          <div className="footer__content-sociallinks">
+            <h3 className="heading">
               {" "}
               <Trans>Follow Us</Trans>
             </h3>
-            <Link to="">
-              <img src={Twitter} alt="twitter" />
+            <Link className="nav-link" to="">
+              <img className="nav-link__image" src={Twitter} alt="twitter" />
             </Link>
-            <Link to="">
-              <img src={LinkedIn} alt="linkedin" />
+            <Link className="nav-link" to="">
+              <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
             </Link>
-            <Link to="">
-              <img src={Github} alt="github" />
+            <Link className="nav-link" to="">
+              <img className="nav-link__image" src={Github} alt="github" />
             </Link>
-            <Link to="">
-              <img src={Facebook} alt="facebook" />
+            <Link className="nav-link" to="">
+              <img className="nav-link__image" src={Facebook} alt="facebook" />
             </Link>
           </div>
-          <div className="info">
-            <h3>
+          <div className="footer__content-info">
+            <h3 className="heading">
               {" "}
               <Trans>Contact Info</Trans>
             </h3>
-            <Link to=""> admin@openscisaudi.com</Link>
+            <Link className="nav-link" to="">
+              {" "}
+              admin@openscisaudi.com
+            </Link>
           </div>
         </div>
       </div>
-      <p>
+      <p className="footer-container__copyright">
         <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}
       </p>
-    </div>
+    </section>
   );
 }

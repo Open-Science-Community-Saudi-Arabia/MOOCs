@@ -1,19 +1,15 @@
-import React from "react";
 import "./spinner.scss";
 interface ISpinnerProps {
-  loading?: boolean;
+  height: string;
+  width: string;
 }
-function Spinner({ loading }: ISpinnerProps) {
+function Spinner({ width, height }: ISpinnerProps) {
   return (
-    <div className="loader-container">
-      {loading ? (
-        <>
-          <div className="loader" />
-          <p className="loading-content"> Loading board</p>
-        </>
-      ) : (
-        <div className="btn-spinner" />
-      )}
+    <div aria-label="loading" className="spinner">
+      <div
+        style={{ width: width, height: height }}
+        className="spinner__animate"
+      />
     </div>
   );
 }

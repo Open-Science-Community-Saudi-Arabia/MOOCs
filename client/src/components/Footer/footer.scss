@@ -1,8 +1,10 @@
 @import "../../styles/mixins.scss";
 
 // Footer
-.footer {
-  .__container {
+.footer-container {
+  .footer {
+    padding: 1.5em;
+    text-align: center;
     @include ipad {
       @include flex(space-between, center);
       gap: 80px;
@@ -10,22 +12,17 @@
     }
     @include laptop {
       width: 90%;
-      
     }
-
     @include xl-screen {
-      width: 70%;
-
+      width: 60%;
     }
-    padding: 1.5em;
-  
-    .__logo {
+    &__logo {
       text-align: center;
-      img {
+      .logo-image {
         width: 200px;
       }
     }
-    .right {
+    &__content {
       flex-basis: 90%;
       @include flex(space-around, start);
       text-align: center;
@@ -36,17 +33,16 @@
         text-align: left;
         gap: 50px;
       }
-
-      .quicklinks,
-      .community {
-        h3 {
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 0.5rem
+      &-quicklinks,
+      &-communities {
+        .heading {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
         }
-        a {
+        .nav-link {
           @include flex(start, center);
-          padding:0.8em 0em;
+          padding: 0.8em 0em;
           font-size: 15px;
           font-weight: 500;
           color: var(--gray);
@@ -55,19 +51,19 @@
           }
         }
       }
-      .sociallinks,
-      .info {
-        h3 {
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 0.5rem
+      &-sociallinks,
+      &-info {
+        .heading {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
         }
-        a {
+        .nav-link {
           margin-right: 1rem;
           font-size: 15px;
           font-weight: 500;
           color: var(--gray);
-          img {
+          &__image {
             margin-top: 0.8rem;
             width: 20px;
             margin-right: 5px;
@@ -82,10 +78,11 @@
       }
     }
   }
-  p {
+  &__copyright {
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--gray);
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
   }
 }

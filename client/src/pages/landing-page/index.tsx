@@ -6,68 +6,83 @@ import { CourseList, Courses, OpenPractice, Supporter } from "../../data";
 import { Tooltip } from "react-tooltip";
 import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
-import { Trans,t } from "@lingui/macro";
-
+import { Trans } from "@lingui/macro";
 
 export default function index() {
   return (
     <>
-      {/* Navbar */}
       <Navbar />
-      <section className="hero--container">
-        <div className="left">
-          <h1 className="">
+      <section className="hero-container">
+        <div className="hero-container__left">
+          <h1 className="hero-container__left-heading">
             {" "}
-            <span>
-              <Trans>Learning with Open Innovation MOOCs</Trans>
-            </span>
+            <Trans>Learning with Open Innovation MOOCs</Trans>
             <br />
           </h1>
-          <p>
+          <p className="hero-container__left-text">
             <Trans>
               {" "}
               Revolutionize your research and education journey with Open
               Innovation MOOCs. Innovate with Open Science today.
             </Trans>
           </p>
-          <div className="btns">
-            <button>
+          <div className="hero-container__left-signup">
+            <Link to={"/signup"} className="hero-container__left-signup__link">
               <Trans>Join us now!</Trans>
-            </button>
+            </Link>
           </div>
         </div>
-        <div className="right">
-          <img src={illustration} alt="illustration" />
+        <div className="hero-container__right">
+          <img
+            className="hero-container__right-img"
+            src={illustration}
+            alt=" Artifical intelligence illustration"
+          />
         </div>
       </section>
 
       {/* section Courses section ------  */}
       <section className="courses-section">
-        <h1>
+        <h2 className="courses-section__heading">
           <Trans>Our best courses for you</Trans>
-        </h1>
-        <div className="course-container">
-          {Courses.map(({id,name,icon,description}) => (
-            <div key={id} className="course">
-              <div className="icon-content">
-                <img src={icon} className="icon" alt="icon" />
+        </h2>
+        <div className="courses-section__container">
+          {Courses.map(({ id, name, icon, description }) => (
+            <div key={id} className="courses-section__container-course">
+              <div className="courses-section__container-course__icon-content">
+                <img
+                  src={icon}
+                  className="courses-section__container-course__icon-content-icon"
+                  alt={`${name} icon`}
+                />
               </div>
-              <h3 className="name">{name}</h3>
-              <p className="description">{description}</p>
-              <button className="btn">
+              <h3 className="courses-section__container-course__name">
+                {name}
+              </h3>
+              <p className="courses-section__container-course__description">
+                {description}
+              </p>
+              <Link
+                to={"/login"}
+                className="courses-section__container-course__link"
+              >
                 <Trans>Start Learning</Trans>
-              </button>
+              </Link>
             </div>
           ))}
         </div>
 
-        <div className="course-list">
+        <div className="courses-section__courses">
           {CourseList.map((course) => (
-            <div key={course.id} id={course.name}>
+            <div
+              className="courses-section__courses-list"
+              key={course.id}
+              id={course.name}
+            >
               <img
                 src={course.icon}
-                className="course-icon"
-                alt={course.name}
+                className="courses-section__courses-list__icon-img"
+                alt={`${course.name} icon`}
               />
               <Tooltip
                 anchorId={course.name}
@@ -78,52 +93,56 @@ export default function index() {
           ))}
         </div>
 
-        <Link to="" className="more-courses">
+        <Link to={"/login"} className="courses-section__link">
           <span>
             {" "}
             <Trans>See All Courses</Trans>
           </span>
-          <MdArrowForward className="arrow" />
+          <MdArrowForward className="courses-section__link-arrow" />
         </Link>
       </section>
 
       {/* Open science practice section */}
-      <section className="open-science-section">
-        <div className="__container">
-          <h1>
+      <section className="open-science">
+        <article className="open-science__article">
+          <h2 className="open-science__article-heading">
             <Trans>Open Science Practices</Trans>
-          </h1>
-          <div className="__content">
-            {OpenPractice.map(({id,content,name,icon}) => (
-              <div key={id} className="practices">
-                <img src={icon} alt="image" />
-                <div className="description">
-                  <p className="__name">
+          </h2>
+          <div className="open-science__article-content">
+            {OpenPractice.map(({ id, content, name, icon }) => (
+              <div key={id} className="open-science__article-content__list">
+                <img
+                  src={icon}
+                  alt={`${name}icon`}
+                  className="open-science__article-content__list-img"
+                />
+                <div className="open-science__article-content__list-item">
+                  <h3 className="open-science__article-content__list-item-name">
                     <Trans>{name}</Trans>
-                  </p>
-                  <span className="__content">
+                  </h3>
+                  <span className="open-science__article-content__list-item-description">
                     <Trans>{content}</Trans>
                   </span>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </article>
       </section>
 
       {/* Colloboration */}
       <section className="collaboration-section">
-        <div className="__container">
-          <h1>
+        <div className="collaboration-section__container">
+          <h2 className="collaboration-section__container-heading">
             <Trans>Support and collaboration from leading organizations</Trans>
-          </h1>
-          <div className="icon__content">
+          </h2>
+          <div className="collaboration-section__container-icon">
             {Supporter.map((option) => (
               <img
                 key={option.id}
                 src={option.icon}
-                alt={option.name}
-                className="icon"
+                alt={`${option.name}icon`}
+                className="collaboration-section__container-icon-img"
               />
             ))}
           </div>
@@ -132,17 +151,17 @@ export default function index() {
 
       {/* Participants */}
       <section className="participants">
-        <div className="join-class"></div>
-        <div className="text-content">
+        <div className="participants__background-image"></div>
+        <div className="participants__content">
           {" "}
-          <h1>
+          <h2 className="participants__content-heading">
             <Trans>
-              Join Over 1000+ participants to learn high demand Courses.
+              Join Over 1000+ participants to learn high demand courses.
             </Trans>
-          </h1>
-          <button>
+          </h2>
+          <Link className="participants__content-link" to={"/login"}>
             <Trans>Join Us</Trans>
-          </button>
+          </Link>
         </div>
       </section>
       {/* Footer */}
