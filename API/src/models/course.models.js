@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Schema = Schema
+const Schema = mongoose.Schema
 const { arrayOfCapitalLetters } = require('../utils/alphabets')
 
 const questionSchema = new Schema({
@@ -97,11 +97,20 @@ courseSchema.virtual('exercises', {
 })
 
 const submissionSchema = new Schema({
-    exercise: { types: }
+    exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
+    submission: [{
+        type: new Schema({
+            question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
+            submitted_option: { type: String, enum: arrayOfCapitalLetters() },
+            correct_option: { type: String, enum: arrayOfCapitalLetters() }
+        })
+    }]
 })
+
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
 const Course = mongoose.model("Course", courseSchema)
+const ExerciseSubmission = mongoose.model('ExerciseSubmission', submissionSchema)
 
-module.exports = { Video, Course, Question, Exercise }
+module.exports = { Video, Course, Question, Exercise, ExerciseSubmission }
