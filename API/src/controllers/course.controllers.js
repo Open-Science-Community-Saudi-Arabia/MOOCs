@@ -6,7 +6,7 @@ const {
 } = require("../models/course.models");
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError } = require("../utils/errors");
+const { BadRequestError, NotFoundError } = require("../utils/errors");
 const User = require("../models/user.models");
 
 /* COURSES */
@@ -52,8 +52,10 @@ exports.getCourses = async (req, res, next) => {
 
     // Get all available courses
     const courses = (
-        await Course.find().populate('videos').sort({ _id: -1 })
-    ).filter((course) => course.isAvailable);
+        await Course.find().populate('videos exercises').sort({ _id: -1 })
+    ).filter((course) => {
+        if (course.isAvailable) return course.toJSON();
+    });
 
     return res.status(200).send({
         success: true,
@@ -77,13 +79,13 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id);
+    const course = await Course.findById(req.params.id).populate('exercises');
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course.isAvailable ? course : null
+            course: course.isAvailable ? course.toJSON() : null
         }
     })
 }
@@ -420,4 +422,39 @@ exports.deleteVideo = async (req, res, next) => {
                 message: "video has been deleted successfully"
             }
         });
+}
+
+// Add a question to an exercise
+/**
+ * Add question to exercise
+ * 
+ * @param {string} exercise_id
+ * @param {string} question_id
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {NotFoundError} if Course not found
+ * */
+exports.addExerciseToCourse = async (req, res, next) => {
+    const { exercise_id, course_id } = req.body
+    const course = await Course.findById(course_id)
+
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    const exercise = await Exercise.findByIdAndUpdate(exercise_id, { course: course_id })
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Exercise has been added to course",
+            exercise
+        }
+    })
 }
