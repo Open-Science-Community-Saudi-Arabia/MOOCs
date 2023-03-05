@@ -247,7 +247,9 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
 /**
  * Score anwers
  * 
- * @param {string} exercise_id
+ * @param {string} id - exercise id
+ * @param {ArrayObject} submission
+ * @param {MongooseObjectId}
  * 
  * @returns {number} score
  * 
@@ -277,14 +279,14 @@ exports.scoreExercise = async (req, res, next) => {
     if (!exercise_obj) {
         return next(new NotFoundError("Exercise not found"));
     }
-    
+
     const exercise = exercise_obj.toJSON();
     let score = 0;
     let exercise_submission = new ExerciseSubmission({
         user: req.user.id,
         exercise: exercise._id,
     });
-    
+
     // Grade users submission
     exercise.questions.forEach((question) => {
         const submitted_option = students_submission[question._id.toString()];
