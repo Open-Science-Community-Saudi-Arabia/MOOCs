@@ -12,7 +12,8 @@ const questionSchema = new Schema({
     correct_option: {
         type: String,
         required: true,
-        enum: arrayOfCapitalLetters()
+        enum: arrayOfCapitalLetters(),
+        select: false
     },
     options: {
         type: Map,
@@ -103,22 +104,11 @@ const submissionSchema = new Schema({
         type: new Schema({
             question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
             submitted_option: { type: String, enum: arrayOfCapitalLetters() },
-            correct_option: { type: String, enum: arrayOfCapitalLetters() }
+            correct_option: { type: String, enum: arrayOfCapitalLetters(), select: false }
         })
     }],
     score: { type: Number, default: 0 }
 })
-submissionSchema.pre('validate', async function () {
-    if (this.isNew) {
-      // Add correct option to users submission
-      await this.populate('submission.question')
-      
-      for (const submission of this.submission) {
-        submission.correct_option = submission.question.correct_option;
-      }
-    }
-  });
-  
 
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
