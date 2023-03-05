@@ -6,7 +6,7 @@ const { basicAuth } = require("../middlewares/auth")
 const {
     createExercise, getExercises, getExerciseData, updateExercise,
     deleteExercise, addQuestionToExercise, removeQuestionFromExercise,
-    scoreExercise, getPreviousSubmissionsForExercise
+    scoreExercise, getPreviousSubmissionsForExercise, getSubmissionData
 } = require("../controllers/exercise.controllers")
 
 router.use(basicAuth())
@@ -19,7 +19,8 @@ router
     .delete("/delete/:id", permit('Admin SuperAdmin'), deleteExercise)
     .post("/question/link", permit('Admin SuperAdmin'), addQuestionToExercise)
     .post("/score/:id", scoreExercise)
-    .get("/submission/:exerciseId", getPreviousSubmissionsForExercise)
+    .get("/submission/:id", getSubmissionData)
+    .get("/submission/prev/:exerciseId", getPreviousSubmissionsForExercise)
     // .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
 module.exports = router
