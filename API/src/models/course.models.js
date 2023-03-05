@@ -98,13 +98,23 @@ courseSchema.virtual('exercises', {
 
 const submissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     submission: [{
         type: new Schema({
             question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
             submitted_option: { type: String, enum: arrayOfCapitalLetters() },
             correct_option: { type: String, enum: arrayOfCapitalLetters() }
         })
-    }]
+    }],
+    score: { type: Number, default: 0 }
+})
+submissionSchema.pre('validate', async function () {
+    if (this.isNew) {
+        // Add correct option to users submission
+        this.submission.forEach((submission) => {
+            submission.correct_option = submission.question.correct_option
+        })
+    }
 })
 
 const Question = mongoose.model("Question", questionSchema)
