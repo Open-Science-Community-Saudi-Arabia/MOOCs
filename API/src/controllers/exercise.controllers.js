@@ -127,10 +127,14 @@ exports.updateExercise = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const exercise = await Exercise.findByIdAndUpdate(exercise_id, { $set: req.body });
+    const exercise = await Exercise.findByIdAndUpdate(
+        exercise_id,
+        { $set: req.body },
+        { new: true }
+    );
 
     if (!exercise) {
-        return next(new NotFoundError('Exercise not found'))
+        return next(new NotFoundError("Exercise not found"));
     }
 
     return res.status(200).json({
