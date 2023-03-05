@@ -17,6 +17,6 @@ router
     .patch("/update/:id", permit('Admin SuperAdmin'), updateExercise)
     .delete("/delete/:id", permit('Admin SuperAdmin'), deleteExercise)
     .post("/question/link", permit('Admin SuperAdmin'), addQuestionToExercise)
-    .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
+    // .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
 module.exports = router
