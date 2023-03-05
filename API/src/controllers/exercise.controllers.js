@@ -1,6 +1,5 @@
-const { Question, Exercise, Video, Course } = require("../models/course.models")
-const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError } = require("../utils/errors");
+const { Question, Exercise, Video, Course, ExerciseSubmission } = require("../models/course.models")
+const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 // Create a new exercise
 /**
@@ -9,18 +8,34 @@ const { BadRequestError } = require("../utils/errors");
  * @param {string} title - Exercise title
  * @param {string} description - Exercise description
  * @param {string} course_id - Course id
+ * @param {string} duration - Course duration in time
  * 
- * @returns {MongooseObject} savedExercise
+ * @returns {MongooseObject} saved_exercise
  * 
  * @throws {error} if an error occured
+ * @throws {NotFoundError} if course_id provided and it doesn't match any course in DB
  */
-exports.createExercise = asyncWrapper(
-    async (req, res, next) => {
-        const newExercise = new Exercise(req.body);
-        const savedExercise = await newExercise.save();
-        res.status(200).json(savedExercise);
+exports.createExercise = async (req, res, next) => {
+    const { title, description, duration, course_id } = req.body
+
+    // If user provided a course to link the exercise to
+    let course = await Course.findById(course_id)
+    if (!course) {
+        return next(new NotFoundError('Course not found'))
     }
-)
+
+    const saved_exercise = await Exercise.create({
+        title, description, duration, course: course?._id
+    });
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            exercise: saved_exercise
+        }
+    });
+}
+
 
 // Get exercises for a particular course - req.body.course_id = the id of the course you want to get exercises for
 // Get exercises for all courses - req.body = {} // empty
@@ -28,86 +43,144 @@ exports.createExercise = asyncWrapper(
 /**
  * Get Exercises
  * 
+ * @description 
+ * By default it gets all available exercises, 
+ * if req.body is provided it'll be used as query params
+ * to make a more streamlined query result
+ * 
  * @param {string} course_id - Course id
  * @param {string} _id - Exercise id
+ * @param {string} title - Exercise title
+ * @param {string} description - Exercise description
+ * @param {string} duration - Exercise duration
  * 
- * @returns {object} exercises
+ * @returns {ArrayObject} exercises
  * 
  * @throws {error} if an error occured
  */
-exports.getExercises = asyncWrapper(
-    async (req, res, next) => {
-        if (req.body) {
-            const exercises = await Exercise.find(req.body)
-            res.status(200).json(exercises);
-        }
-        const exercises = await Exercise.find().sort({ _id: -1 })
-
-        return res.status(200).send({ exercises: exercises })
+exports.getExercises = async (req, res, next) => {
+    let exercises;
+    // If any specific query was added 
+    if (req.body) {
+        exercises = await Exercise.find(req.body)
     }
-)
+
+    // Sort the exercises according to how they where added
+    exercises = exercises ? await Exercise.find().populate('questions') : exercises
+
+    // Get only the available courses
+    const available_exercises = exercises.filter((exercise) => {
+        if (exercise.isAvailable) return exercise.toJSON();
+    })
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            exercises: available_exercises
+        }
+    });
+}
+
+/**
+ * Get exercise data
+ * 
+ * @param {string} id - id of the exercise 
+ * 
+ * @returns {Object} exercise 
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if exercise not found
+ */
+exports.getExerciseData = async (req, res, next) => {
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findById(exercise_id).populate('questions')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            exercise: exercise.isAvailable ? exercise.toJSON() : null // return exercise only if it's available
+        }
+    })
+}
 
 // Update data for a particular exercise
 /**
  * Update exercise data
  * 
- * @access private
- * 
- * @param {string} id
+ * @param {string} id - id of exercise
  * 
  * @returns {string} message
  * @returns {object} exercise
  * 
  * @throws {error} if an error occured
- * @throws {BadRequestError} if exercise not found
+ * @throws {NotFoundError} if exercise not found
  */
-exports.updateExercise = asyncWrapper(
-    async (req, res, next) => {
-        const exercise = await Exercise.findById(req.params.id);
+exports.updateExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
 
-        if (exercise) {
-            await exercise.updateOne({ $set: req.body });
-
-            return res.status(200).json({ message: "Exercise Updated", exercise: exercise });
-        }
-
-        next(new BadRequestError("Exercise not found"));
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
     }
-)
+
+    const exercise = await Exercise.findByIdAndUpdate(
+        exercise_id,
+        { $set: req.body },
+        { new: true }
+    );
+
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Exercise Updated",
+            exercise
+        }
+    });
+}
+
 
 // Delete a particular exercise
 /**
  * Delete exercise
  * 
- * @access private
+ * Doesn't literally delete the exercise, it only
+ * makes it unavailable
  * 
- * @param {string} exerciseId
- * 
- * @returns {string} message
+ * @param {string} id - id of exercise
  * 
  * @throws {error} if an error occured
- * @throws {BadRequestError} if exercise not found
- * 
- * @todo delete all questions associated with the exercise
- * @todo delete all videos associated with the exercise
- * @todo delete all courses associated with the exercise
- * @todo delete all submissions associated with the exercise
- * @todo delete all submissions associated with the questions associated with the exercise
+ * @throws {NotFoundError} if exercise not found
  * */
-exports.deleteExercise = asyncWrapper(
-    async (req, res, next) => {
-        const exerciseId = req.params.exerciseId
-        await Exercise.findByIdAndDelete(exerciseId)
+exports.deleteExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
 
-        res.status(200).send({ message: "exercise has been deleted successfully" })
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
     }
-)
+
+    // Make exercise unavailable
+    await Exercise.findByIdAndUpdate(exercise_id, { isAvailable: false })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Exercise deleted successfully"
+        }
+    })
+}
+
 
 // Add a question to an exercise
 /**
  * Add question to exercise
- * 
- * @access private
  * 
  * @param {string} exercise_id
  * @param {string} question_id
@@ -115,42 +188,205 @@ exports.deleteExercise = asyncWrapper(
  * @returns {string} message
  * 
  * @throws {error} if an error occured
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {NotFoundError} if Question not found
  * */
-exports.addQuestion = asyncWrapper(
-    async (req, res, next) => {
-        const exercise = await Exercise.findById(req.body.exercise_id)
-        const question = await Question.findById(req.body.question_id)
+exports.addQuestionToExercise = async (req, res, next) => {
+    const { exercise_id, question_id } = req.body
+    const exercise = await Exercise.findById(exercise_id)
 
-        exercise.questions.push(question)
-        await exercise.save()
-
-        res.status(200).send({ message: "question has been added to exercise successfully" })
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
     }
-)
+
+    const question = await Question.findByIdAndUpdate(question_id, { exercise: exercise_id })
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been added to exercise",
+            question
+        }
+    })
+}
+
 
 // Remove a question from an exercise
 /**
  * Remove question from exercise
  * 
- * @access private
- * 
- * @param {string} exerciseId
- * @param {string} questionId
+ * @param {string} question_id
  * 
  * @returns {string} message
  * 
+ * @throws {NotFoundError} if Questin not found
  * @throws {error} if an error occured
  * */
-exports.removeQuestion = asyncWrapper(
-    async (req, res, next) => {
-        const exerciseId = req.body.exerciseId
-        const questionId = req.body.questionId
-        const exercise = await Exercise.findById(exerciseId)
-        exercise.questions.pull(questionId)
-        await exercise.save()
-        // await Question.findByIdAndDelete(questionId)
-        res.status(200).send({ message: "question has been deleted from exercise successfully" })
+exports.removeQuestionFromExercise = async (req, res, next) => {
+    const { question_id } = req.body
+
+    const question = await Question.findByIdAndUpdate(question_id, { exercise: null })
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
     }
-)
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been removed from exercise",
+            question
+        }
+    })
+}
 
 
+/**
+ * Score anwers
+ * 
+ * @description Score answers for a particular exercise
+ * 
+ * @param {string} id - exercise id
+ * @param {Object} submission Object where keys are question_id's and values are selected option
+ * 
+ * @returns {Object} report
+ * @returns {string} report.exercise report.user report.score submission
+ * 
+ * @throws {error} if an error occured
+ */
+exports.scoreExercise = async (req, res, next) => {
+    const exercise_id = req.params.id
+
+    if (!exercise_id || exercise_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const students_submission = req.body.submission;
+    if (!students_submission) {
+        return next(
+            new BadRequestError(
+                "Missing required param `submission` in request body"
+            )
+        );
+    }
+
+    // Check if exercise exists
+    const exercise_obj = await Exercise.findById(exercise_id).populate({
+        path: "questions",
+        select: "correct_option",
+    });
+    if (!exercise_obj) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    const exercise = exercise_obj.toJSON();
+    let score = 0;
+    let exercise_submission = new ExerciseSubmission({
+        user: req.user.id,
+        exercise: exercise._id,
+    });
+
+    // Grade users submission
+    exercise.questions.forEach((question) => {
+        const submitted_option = students_submission[question._id.toString()];
+
+        // Check if submitted option is correct. If yes, increment score
+        if (question.correct_option == submitted_option) score++;
+
+        exercise_submission.submission.push({
+            question: question._id,
+            submitted_option: submitted_option,
+        });
+    });
+
+    exercise_submission.score = score
+    exercise_submission = await exercise_submission.save()
+    exercise_submission = await exercise_submission.populate('submission.question')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            report: exercise_submission
+        }
+    })
+}
+
+/**
+ * Get previous submissions for exercise
+ * 
+ * @description Get result for previously submitted exercises
+ * 
+ * @param {string} exerciseId - id of the exercise
+ * 
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {BadRequestError} if exerciseId not provided in request params
+ * 
+ * @returns {MongooseObject} submission
+ */
+exports.getPreviousSubmissionsForExercise = async (req, res, next) => {
+    const exercise_id = req.params.exerciseId
+
+    if (!exercise_id || exercise_id == ':exerciseId') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const exercise = await Exercise.findById(exercise_id)
+    if (!exercise) {
+        return next(new NotFoundError('Exercise not found'))
+    }
+
+    const exercise_submissions = await ExerciseSubmission.find(
+        { exercise: exercise._id, user: req.user.id }).populate('submission.question')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            submissions: exercise_submissions
+        }
+    })
+}
+
+/**
+ * Get submission data
+ * 
+ * @description get data for ealier submitted quiz 
+ * 
+ * @param {string} id - id of exercise submission
+ * 
+ * @throws {BadRequestError} if submission id not in request param
+ * @throws {NotFoundError} if Submission not found
+ * @throws {ForbiddenError} if user didn't make submission earlier
+ * 
+ * @return {Object} submission
+ */
+exports.getSubmissionData = async (req, res, next) => {
+    const submitted_quiz_id = req.params.id;
+
+    // Check for required parameters
+    if (!submitted_quiz_id || submitted_quiz_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
+    }
+
+    const submission = await ExerciseSubmission.findById(
+        submitted_quiz_id
+    ).populate("submission.question");
+    
+    // Check if submission record exists
+    if (!submission) {
+        return next(new NotFoundError('Submission not found'))
+    }
+
+    // Check if initial exercise submission was made by user
+    if (submission.user.toString() != req.user.id) {
+        return next(new ForbiddenError("Submission doesn't belong to user"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            submission
+        }
+    })
+}

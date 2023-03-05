@@ -1,6 +1,6 @@
 const { Question, Exercise, Video, Course } = require('../models/course.models')
-const asyncWrapper = require('../utils/async_wrapper')
-const { BadRequestError } = require('../utils/errors')
+const { arrayOfCapitalLetters } = require('../utils/alphabets')
+const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
 // Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
@@ -10,40 +10,135 @@ const { BadRequestError } = require('../utils/errors')
  * @param {string} question
  * @param {string} correct_answer
  * @param {Array} options
+ * @param {string} exercise_id 
  * 
  * @returns {MongooseObject} savedQuestion
  * 
  * @throws {error} if an error occured 
  */
-exports.createQuestion =
-    async (req, res, next) => {
-        const newQuestion = new Question(req.body);
-        const savedQuestion = await newQuestion.save();
-        res.status(200).json(savedQuestion);
+exports.createQuestion = async (req, res, next) => {
+    const {
+        exercise_id, question,
+        correct_answer, options
+    } = req.body
+
+    let exercise = await Exercise.findById(exercise_id)
+
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
     }
 
+    // Convert options from array to map
+    // use the alphabets as keys
+    /*
+        i.e
+            A - option[0]
+            B - option[1]
+            C - option[2]
+            D - option[3]
+    */
+    const alphabets = arrayOfCapitalLetters()
+    const index_of_correct_answer = options.indexOf(correct_answer)
 
-// Get questions for a particular exercise - req.body.exercise_id = the id of the course you want to get questions for 
-// Get questions for all exercises - req.body = {} // empty
-// Get data for a particular question - req.body._id = question._id
+    // Check if correct answer is among the options given
+    if (index_of_correct_answer == -1) {
+        return next(new BadRequestError('Correct answer is not in options'))
+    }
+
+    let options_map = new Map()
+    let correct_option;
+    for (let i = 0; i < options.length; i++) {
+        options_map.set(alphabets[i], options[i])
+
+        if (i == index_of_correct_answer) {
+            correct_option = alphabets[i]
+        }
+    }
+
+    const question_obj = await Question.create({
+        exercise: exercise?._id,
+        question,
+        correct_option,
+        options: options_map
+    })
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question: question_obj
+        }
+    })
+}
+
+
 /**
  * Get Questions
  * 
- * @param {string} id
+ * @description 
+ * By default it gets all available questions, 
+ * if req.body is provided it'll be used as query params
+ * to make a more streamlined query result
  * 
- * @returns {MongooseObject} questions
+ * @param {string} exercise_id - Course id
+ * @param {string} _id - questions id
+ * @param {string} correct_option - Correct option to question ['A', 'B', 'C' ...]
+ * 
+ * @returns {ArrayObject} Questions
+ * 
+ * @throws {error} if an error occured
  */
-exports.getQuestions =
-    async (req, res, next) => {
-        if (req.body) {
-            const questions = await Question.find(req.body)
-            res.status(200).json(questions);
-        }
-        const questions = await Question.find().sort({ _id: -1 })
+exports.getQuestions = async (req, res, next) => {
+    // if any specific query was added
+    if (req.body) {
+        const questions = await Question.find(req.body)
 
-        return res.status(200).send({ questions: questions })
+        return res.status(200).json({
+            success: true,
+            data: {
+                questions
+            }
+        });
     }
 
+    const questions = await Question.find().sort({ _id: -1 })
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            questions
+        }
+    });
+}
+
+/**
+ * Get qustion data
+ * 
+ * @param {string} id - id of question
+ * 
+ * @returns {Object} question
+ * 
+ * @throws {BadRequestError} if missing required param in request
+ * @throws {NotFoundError} if question not found
+ */
+exports.getQuestionData = async (req, res, next) => {
+    const question_id = req.params.id
+
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
+    }
+
+    const question = await Question.findById(question_id)
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            question
+        }
+    })
+}
 
 // Update data for a particular question
 /**
@@ -53,20 +148,24 @@ exports.getQuestions =
  * 
  * @returns {MongooseObject} - question
  * 
- * @throws {BadRequestError} if question not found
+ * @throws {NotFoundError} if question not found
+ * //TODO: Add feat to handle updating options and correct option
  */
-exports.updateQuestion =
-    async (req, res, next) => {
-        const question = await Question.findById(req.params.id);
+exports.updateQuestion = async (req, res, next) => {
+    const question = await Question.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
 
-        if (question) {
-            await question.updateOne({ $set: req.body });
-
-            return res.status(200).json({ message: "Question Updated", question: question });
-        }
-
-        next(new BadRequestError("Question not found"));
+    if (!question) {
+        return next(new NotFoundError('Question not found'))
     }
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Question Updated",
+            question
+        }
+    });
+}
 
 
 // Delete a particular question
@@ -77,40 +176,23 @@ exports.updateQuestion =
  * 
  * @throws {error} if an error occured
  */
-exports.deleteQuestion =
-    async (req, res, next) => {
-        const questionId = req.params.questionId
-        await Question.findByIdAndDelete(questionId)
+exports.deleteQuestion = async (req, res, next) => {
+    const question_id = req.params.id
 
-        res.status(200).send({ message: "question has been deleted successfully" })
+    if (!question_id || question_id == ':id') {
+        return next(new BadRequestError('Missing param `id` in request params'))
     }
 
+    const question = await Question.findByIdAndDelete(question_id)
+    if (!question) {
+        return next(new NotFoundError("Question not found"))
+    }
 
-// Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
-/**
- * Score anwers
- * 
- * @param {string} exercise_id
- * 
- * @returns {number} score
- * 
- * @throws {error} if an error occured
- */
-exports.scoreAnswers =
-    async (req, res, next) => {
-        const exercise = await Exercise.findById(req.body.exercise_id)
-
-        const studentAnswers = req.body.studentAnswers
-        const correctAnswers = exercise.questions.map(question => question.correct_answer)
-
-        let score = 0
-        for (let i = 0; i < studentAnswers.length; i++) {
-            if (studentAnswers[i] === correctAnswers[i]) {
-                score++
-            }
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Question has been deleted successfully",
+            question
         }
-
-        res.status(200).send({ score: score })
-    }
-
-
+    })
+}
