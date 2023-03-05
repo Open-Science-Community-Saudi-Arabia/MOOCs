@@ -3,12 +3,12 @@
 .login-signup {
   max-width: 450px;
   width: 100%;
-  margin: auto;
+  margin: 0em auto 1em;
   padding: 0px 30px;
   border-radius: 6px;
   text-align: center;
   &__heading {
-    margin: 1em 0em;
+    margin-bottom: 1em;
     font-size: 28px;
   }
   &__google {
