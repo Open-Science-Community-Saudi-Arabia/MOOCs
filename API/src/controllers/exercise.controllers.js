@@ -243,4 +243,29 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
 }
 
 
+// Score answers for a particular exercise - req.body.exercise_id = the id of the exercise you want to score answers for
+/**
+ * Score anwers
+ * 
+ * @param {string} exercise_id
+ * 
+ * @returns {number} score
+ * 
+ * @throws {error} if an error occured
+ */
+exports.scoreAnswers = async (req, res, next) => {
+    const exercise = await Exercise.findById(req.body.exercise_id)
+
+    const studentAnswers = req.body.studentAnswers
+    const correctAnswers = exercise.questions.map(question => question.correct_answer)
+
+    let score = 0
+    for (let i = 0; i < studentAnswers.length; i++) {
+        if (studentAnswers[i] === correctAnswers[i]) {
+            score++
+        }
+    }
+
+    res.status(200).send({ score: score })
+}
 
