@@ -421,3 +421,38 @@ exports.deleteVideo = async (req, res, next) => {
             }
         });
 }
+
+// Add a question to an exercise
+/**
+ * Add question to exercise
+ * 
+ * @param {string} exercise_id
+ * @param {string} question_id
+ * 
+ * @returns {string} message
+ * 
+ * @throws {error} if an error occured
+ * @throws {NotFoundError} if Exercise not found
+ * @throws {NotFoundError} if Course not found
+ * */
+exports.addExerciseToCourse = async (req, res, next) => {
+    const { exercise_id, course_id } = req.body
+    const course = await Course.findById(exercise_id)
+
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    const exercise = await Exercise.findByIdAndUpdate(exercise_id, { course: course_id })
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Exercise has been added to course",
+            exercise
+        }
+    })
+}
