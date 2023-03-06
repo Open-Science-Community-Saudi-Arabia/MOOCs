@@ -281,6 +281,11 @@ exports.scoreExercise = async (req, res, next) => {
         return next(new NotFoundError("Exercise not found"));
     }
 
+    const course = { ...(await exercise.populate('course')) }
+    if (!course.enrolled_users.includes(req.user.id)) {
+        return next(new ForbiddenError("User hasn't enrolled for course"))
+    }
+
     const exercise = exercise_obj.toJSON();
     let score = 0;
     let exercise_submission = new ExerciseSubmission({
@@ -372,7 +377,7 @@ exports.getSubmissionData = async (req, res, next) => {
     const submission = await ExerciseSubmission.findById(
         submitted_quiz_id
     ).populate("submission.question");
-    
+
     // Check if submission record exists
     if (!submission) {
         return next(new NotFoundError('Submission not found'))
