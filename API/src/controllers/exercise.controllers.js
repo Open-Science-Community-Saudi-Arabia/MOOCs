@@ -282,7 +282,6 @@ exports.scoreExercise = async (req, res, next) => {
     }
 
     const course = (await exercise_obj.populate('course')).course
-    console.log(course)
     if (!course.enrolled_users.includes(req.user.id)) {
         return next(new ForbiddenError("User hasn't enrolled for course"))
     }
