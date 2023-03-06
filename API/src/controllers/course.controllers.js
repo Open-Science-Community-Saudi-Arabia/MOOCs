@@ -192,10 +192,12 @@ exports.enrollCourse = async (req, res, next) => {
 /**
  * Cancel course enrollment 
  * 
- * @param {string} course_id
- * @param {string} user_id
+ * @param {string} id - course id
  * 
  * @returns {string} message
+ * 
+ * @throws {BadRequestError} If missing id in request parameter
+ * @throws {NotFoundError} If course not found
  */
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
