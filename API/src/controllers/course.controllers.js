@@ -215,8 +215,6 @@ exports.cancelEnrollment = async (req, res, next) => {
 /**
  * Get enrolled courses for a particular user
  * 
- * @param {string} user_id
- * 
  * @returns {object} enrolledCourses 
  */
 exports.getEnrolledCourses = async (req, res, next) => {
