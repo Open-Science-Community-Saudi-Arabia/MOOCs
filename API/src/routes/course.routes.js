@@ -21,7 +21,7 @@ router
     .post("/cancelenrollment/:id", permit("Admin EndUser SuperAdmin"), cancelEnrollment)
     .get("/enrolled", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
     .get("/enrolledcourses", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
-    .get("/enrolledusers", permit("Admin EndUser SuperAdmin"), getEnrolledUsers)
+    .get("/enrolledusers/:id", permit("Admin EndUser SuperAdmin"), getEnrolledUsers)
     .get("/:id", permit("Admin EndUser SuperAdmin"), getCourseData)
     .get("/", permit("Admin EndUser SuperAdmin"), getCourses)
 
