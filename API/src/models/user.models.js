@@ -30,17 +30,6 @@ const user_schema = new Schema(
         },
         googleId: { type: String, select: false },
         githubId: { type: String, select: false },
-        enrolled_courses: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Course',
-                status: {
-                    type: String,
-                    enum: ['Enrolled', 'Completed'],
-                    default: 'Enrolled',
-                }
-            }]
-
     },
     options,
     { timestamp: true, toObject: { virtuals: true } },
@@ -70,6 +59,11 @@ user_schema.virtual('status', {
     justOne: true
 })
 
+user_schema.virtual('enrolled_courses', {
+    localField: '_id',
+    foreignField: 'enrolled_users',
+    ref: 'Course'
+})
 
 user_schema.pre('save', async function (next, { skipValidation }) {
     if (skipValidation) return next();
