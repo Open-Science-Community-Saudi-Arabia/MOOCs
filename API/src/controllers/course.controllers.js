@@ -154,12 +154,13 @@ exports.deleteCourse = async (req, res, next) => {
  * 
  * @private
  * 
- * @param {string} course_id - id of course to enroll for 
- * @param {string} user_id - id of user to enroll
+ * @param {string} id - id of course to enroll for 
  * 
  * @returns {string} message
  * 
  * @throws {error} if an error occured
+ * @throws {BadRequestError} If course id not in request params
+ * @throws {NotFoundError} if Course not found
  */
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
