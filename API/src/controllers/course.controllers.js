@@ -7,7 +7,7 @@ const {
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const User = require("../models/user.models");
+const { User } = require("../models/user.models");
 
 /* COURSES */
 
@@ -154,82 +154,126 @@ exports.deleteCourse = async (req, res, next) => {
  * 
  * @private
  * 
- * @param {string} course_id - id of course to enroll for 
- * @param {string} user_id - id of user to enroll
+ * @param {string} id - id of course to enroll for 
  * 
  * @returns {string} message
  * 
  * @throws {error} if an error occured
+ * @throws {BadRequestError} If course id not in request params
+ * @throws {NotFoundError} if Course not found
  */
 exports.enrollCourse = async (req, res, next) => {
-    const course = await Course.findById(req.body.course_id);
-    const user = await User.findById(req.body.user_id);
+    const course_id = req.params.id
 
-    course.enrolled_users.push(user);
-    await course.save();
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
 
-    user.enrolled_courses.push(course);
-    await user.save();
+    const course = await Course.findByIdAndUpdate(
+        course_id,
+        {
+            $addToSet: {
+                enrolled_users: req.user.id
+            }
 
-    res
-        .status(200)
-        .send({ message: "user has been enrolled in course successfully" });
+        }, { new: true })
+
+    // Check if course exists
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Enrollment successful",
+        }
+    });
 };
 
 /**
  * Cancel course enrollment 
  * 
- * @param {string} course_id
- * @param {string} user_id
+ * @param {string} id - course id
  * 
  * @returns {string} message
+ * 
+ * @throws {BadRequestError} If missing id in request parameter
+ * @throws {NotFoundError} If course not found
  */
 exports.cancelEnrollment = async (req, res, next) => {
-    const course = await Course.findById(req.body.course_id);
-    const user = await User.findById(req.body.user_id);
+    const course_id = req.params.id
 
-    course.enrolled_users.pull(user);
-    await course.save();
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
 
-    user.enrolled_courses.pull(course);
-    await user.save();
+    const course = await Course.findByIdAndUpdate(
+        course_id,
+        { $pull: { enrolled_users: req.user.id } },
+        { new: true })
 
-    res
-        .status(200)
-        .send({ message: "user has been unenrolled from course successfully" });
+    // Check if course exists
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Enrollment cancelled successfully",
+        }
+    });
 };
 
 /**
  * Get enrolled courses for a particular user
  * 
- * @param {string} user_id
- * 
  * @returns {object} enrolledCourses 
  */
 exports.getEnrolledCourses = async (req, res, next) => {
-    const user = await User.findById(req.body.user_id);
-    const enrolledCourses = await Course.find({
-        _id: { $in: user.enrolled_courses },
-    });
+    const user = await User.findById(req.user.id).populate('enrolled_courses');
 
-    return res.status(200).send({ enrolledCourses: enrolledCourses });
+    return res.status(200).send({
+        success: true,
+        data: {
+            enrolled_courses: user.toObject().enrolled_courses
+        }
+    })
 };
 
 /**
  * Get Enrolled users 
  * 
- * @param {string} course_id
+ * @param {id} - course id
  * 
- * @returns {object} enrolledUsers
+ * @returns {object} enrolled_users
+ * 
+ * @throws {BadRequestError} If missing id in request parameter
+ * @throws {NotFoundError} If course not found
  */
 exports.getEnrolledUsers = async (req, res, next) => {
-    const course = await Course.findById(req.body.course_id);
-    const enrolledUsers = await User.find({
-        _id: { $in: course.enrolled_users },
-    });
+    const course_id = req.params.id
 
-    return res.status(200).send({ enrolledUsers: enrolledUsers });
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
+
+    const course = await Course.findById(course_id).populate('enrolled_users')
+
+    // Check if course exists
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    return res.status(200).send({ 
+        success: true,
+        data: {
+            enrolled_users: course.enrolled_users
+        }
+     });
 };
+
 
 /* VIDEOS */
 
