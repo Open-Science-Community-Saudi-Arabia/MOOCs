@@ -198,18 +198,27 @@ exports.enrollCourse = async (req, res, next) => {
  * @returns {string} message
  */
 exports.cancelEnrollment = async (req, res, next) => {
-    const course = await Course.findById(req.body.course_id);
-    const user = await User.findById(req.body.user_id);
+    const course_id = req.params.id
 
-    course.enrolled_users.pull(user);
-    await course.save();
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
 
-    user.enrolled_courses.pull(course);
-    await user.save();
+    const course = await Course.findByIdAndUpdate(
+        course_id,
+        { $pull: { enrolled_users: req.user.id }}, 
+        { new: true })
 
-    res
-        .status(200)
-        .send({ message: "user has been unenrolled from course successfully" });
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Enrollment cancelled successfully",
+        }
+    });
 };
 
 /**
