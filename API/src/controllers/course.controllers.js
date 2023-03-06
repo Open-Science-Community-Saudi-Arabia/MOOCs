@@ -7,7 +7,7 @@ const {
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const User = require("../models/user.models");
+const { User } = require("../models/user.models");
 
 /* COURSES */
 
@@ -220,12 +220,14 @@ exports.cancelEnrollment = async (req, res, next) => {
  * @returns {object} enrolledCourses 
  */
 exports.getEnrolledCourses = async (req, res, next) => {
-    const user = await User.findById(req.body.user_id);
-    const enrolledCourses = await Course.find({
-        _id: { $in: user.enrolled_courses },
-    });
+    const user = await User.findById(req.user.id).populate('enrolled_courses');
 
-    return res.status(200).send({ enrolledCourses: enrolledCourses });
+    return res.status(200).send({
+        success: true,
+        data: {
+            enrolled_courses: user.toObject().enrolled_courses
+        }
+    })
 };
 
 /**
