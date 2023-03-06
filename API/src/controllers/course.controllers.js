@@ -171,19 +171,21 @@ exports.enrollCourse = async (req, res, next) => {
     const course = await Course.findByIdAndUpdate(
         course_id,
         {
-            $set: {
-                enrolled_users: {
-                    $push: req.user.id
-                }
+            $addToSet: {
+                enrolled_users: req.user.id
             }
+
         }, { new: true })
     if (!course) {
         return next(new NotFoundError("Course not found"))
     }
 
-    return res
-        .status(200)
-        .send({ message: "user has been enrolled in course successfully" });
+    return res.status(200).send({
+        success: true,
+        data: {
+            message: "Enrollment successful",
+        }
+    });
 };
 
 /**
@@ -240,6 +242,7 @@ exports.getEnrolledUsers = async (req, res, next) => {
 
     return res.status(200).send({ enrolledUsers: enrolledUsers });
 };
+
 
 /* VIDEOS */
 
