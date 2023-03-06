@@ -177,6 +177,8 @@ exports.enrollCourse = async (req, res, next) => {
             }
 
         }, { new: true })
+
+    // Check if course exists
     if (!course) {
         return next(new NotFoundError("Course not found"))
     }
@@ -208,9 +210,10 @@ exports.cancelEnrollment = async (req, res, next) => {
 
     const course = await Course.findByIdAndUpdate(
         course_id,
-        { $pull: { enrolled_users: req.user.id }}, 
+        { $pull: { enrolled_users: req.user.id } },
         { new: true })
 
+    // Check if course exists
     if (!course) {
         return next(new NotFoundError("Course not found"))
     }
@@ -242,17 +245,33 @@ exports.getEnrolledCourses = async (req, res, next) => {
 /**
  * Get Enrolled users 
  * 
- * @param {string} course_id
+ * @param {id} - course id
  * 
- * @returns {object} enrolledUsers
+ * @returns {object} enrolled_users
+ * 
+ * @throws {BadRequestError} If missing id in request parameter
+ * @throws {NotFoundError} If course not found
  */
 exports.getEnrolledUsers = async (req, res, next) => {
-    const course = await Course.findById(req.body.course_id);
-    const enrolledUsers = await User.find({
-        _id: { $in: course.enrolled_users },
-    });
+    const course_id = req.params.id
 
-    return res.status(200).send({ enrolledUsers: enrolledUsers });
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
+
+    const course = await Course.findById(course_id).populate('enrolled_users')
+
+    // Check if course exists
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    return res.status(200).send({ 
+        success: true,
+        data: {
+            enrolled_users: course.enrolled_users
+        }
+     });
 };
 
 
