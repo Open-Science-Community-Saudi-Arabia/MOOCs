@@ -23,13 +23,17 @@ const useFetch = () => {
         return window.location.assign("/dashboard");
       });
     } catch (error: any) {
-      toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        theme: "colored",
-      });
+      toast.error(
+        error.message ? "connection error" : error.response.data.message,
+        {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          theme: "colored",
+        }
+      );
       setLoading(false);
-
+    } finally {
+      setLoading(false);
     }
   };
   return { loading, handleGoogle };

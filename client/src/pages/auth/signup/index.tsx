@@ -66,7 +66,7 @@ function Signup() {
   return (
     <>
       {loading ? (
-        <Spinner width="30" height="30" />
+        <Spinner width="100px" height="100px" color/>
       ) : (
         <section className="login-signup">
           <h1 className="login-signup__heading">Sign Up to MOOCs</h1>
@@ -175,7 +175,7 @@ function Signup() {
             </div>
             <div className="field button-field">
               <button>
-                {isLoading ? <Spinner width="30" height="30" /> : "Sign Up"}
+                {isLoading ? <Spinner width="30px" height="30px" /> : "Sign Up"}
               </button>
             </div>
           </form>

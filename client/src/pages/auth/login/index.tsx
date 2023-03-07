@@ -47,7 +47,7 @@ function Login() {
   return (
     <>
       {loading ? (
-        <Spinner width="30px" height="30px" />
+        <Spinner width="100px" height="100px" color/>
       ) : (
         <section className="login-signup">
           <h1 className="login-signup__heading">Login to MOOCs</h1>

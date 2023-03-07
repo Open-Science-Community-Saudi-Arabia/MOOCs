@@ -28,9 +28,9 @@ function App() {
           <Route
             index
             element={
-              // <AppProvider>
+              <AppProvider>
               <Dashboard />
-              //  </AppProvider>
+              </AppProvider>
             }
           />
           <Route path=":id" element={<Lesson />} />

@@ -79,7 +79,7 @@
       margin: 30px 0px 10px 0px !important;
       button {
         @include button(100%, var(--green), var(--white));
-        // @include flex(center, center);
+        height:50px;
       }
     }
     .password-check,
