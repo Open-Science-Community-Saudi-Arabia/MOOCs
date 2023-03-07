@@ -8,7 +8,7 @@ msgstr ""
 "Language: ar\n"
 "Project-Id-Version: open-science-moocs\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-03-05 13:19\n"
+"PO-Revision-Date: 2023-03-07 17:36\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
@@ -20,41 +20,41 @@ msgstr ""
 
 #: src/components/Navbar/index.tsx:119
 msgid "About"
-msgstr ""
+msgstr "حول"
 
 #: src/components/Footer/index.tsx:32
 #: src/components/Navbar/index.tsx:125
 msgid "Blog"
-msgstr ""
+msgstr "المدونة"
 
 #: src/components/Footer/index.tsx:74
 msgid "Contact Info"
-msgstr ""
+msgstr "معلومات الاتصال"
 
 #: src/components/Footer/index.tsx:84
 msgid "Copyright © OSCSA MOOCS"
-msgstr ""
+msgstr "حقوق الطبع والنشر © MOOCS"
 
 #: src/components/Footer/index.tsx:29
 #: src/components/Navbar/index.tsx:116
 msgid "Courses"
-msgstr ""
+msgstr "الدورات"
 
 #: src/components/Navbar/index.tsx:122
 msgid "Faq"
-msgstr ""
+msgstr "فاق"
 
 #: src/components/Footer/index.tsx:56
 msgid "Follow Us"
-msgstr ""
+msgstr "تابعنا"
 
 #: src/components/Footer/index.tsx:35
 msgid "Guidelines"
-msgstr ""
+msgstr "المبادئ التوجيهية"
 
 #: src/components/Navbar/index.tsx:113
 msgid "Home"
-msgstr ""
+msgstr "المنزل"
 
 #: src/pages/landing-page/index.tsx:139
 #~ msgid "Join Over 1000+ participants to learn high demand Courses."
@@ -62,71 +62,71 @@ msgstr ""
 
 #: src/pages/landing-page/index.tsx:158
 msgid "Join Over 1000+ participants to learn high demand courses."
-msgstr ""
+msgstr "انضم إلى أكثر من 1000+ مشارك لتعلم دورات الطلب العالي."
 
 #: src/pages/landing-page/index.tsx:163
 msgid "Join Us"
-msgstr ""
+msgstr "انضم إلينا"
 
 #: src/pages/landing-page/index.tsx:31
 msgid "Join us now!"
-msgstr ""
+msgstr "انضم إلينا الآن!"
 
 #: src/pages/landing-page/index.tsx:19
 msgid "Learning with Open Innovation MOOCs"
-msgstr ""
+msgstr "التعلم بواسطة موكيات الإبداع المفتوح"
 
 #: src/components/Navbar/index.tsx:140
 msgid "Log In"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: src/components/Footer/index.tsx:44
 msgid "OSCSA"
-msgstr ""
+msgstr "منظمة الأمن والتعاون"
 
 #: src/pages/landing-page/index.tsx:109
 msgid "Open Science Practices"
-msgstr ""
+msgstr "الممارسات العلمية المفتوحة"
 
 #: src/pages/landing-page/index.tsx:47
 msgid "Our best courses for you"
-msgstr ""
+msgstr "أفضل دوراتنا لك"
 
 #: src/components/Footer/index.tsx:50
 msgid "Partnership"
-msgstr ""
+msgstr "الشراكة"
 
 #: src/components/Footer/index.tsx:26
 msgid "Quick Links"
-msgstr ""
+msgstr "روابط سريعة"
 
 #: src/components/Footer/index.tsx:38
 msgid "Resources"
-msgstr ""
+msgstr "الموارد"
 
 #: src/pages/landing-page/index.tsx:23
 msgid "Revolutionize your research and education journey with Open Innovation MOOCs. Innovate with Open Science today."
-msgstr ""
+msgstr "ثورة رحلتك البحثية والتعليمية مع MOOC الإبتكار المفتوح. ابتكاري مع العلوم المفتوحة اليوم."
 
 #: src/pages/landing-page/index.tsx:99
 msgid "See All Courses"
-msgstr ""
+msgstr "مشاهدة جميع الدورات"
 
 #: src/components/Navbar/index.tsx:143
 msgid "Sign Up"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: src/pages/landing-page/index.tsx:69
 msgid "Start Learning"
-msgstr ""
+msgstr "بدء التعلم"
 
 #: src/pages/landing-page/index.tsx:137
 msgid "Support and collaboration from leading organizations"
-msgstr ""
+msgstr "الدعم والتعاون من المنظمات الرائدة"
 
 #: src/components/Footer/index.tsx:47
 msgid "Turing Way"
-msgstr ""
+msgstr "طريق التلاعب"
 
 #: src/components/Navbar/index.tsx:89
 #~ msgid "courses"
@@ -134,9 +134,9 @@ msgstr ""
 
 #: src/pages/landing-page/index.tsx:124
 msgid "{content}"
-msgstr ""
+msgstr "{content}"
 
 #: src/pages/landing-page/index.tsx:121
 msgid "{name}"
-msgstr ""
+msgstr "{name}"
 
