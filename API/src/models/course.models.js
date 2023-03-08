@@ -12,15 +12,8 @@ const questionSchema = new Schema({
     correct_option: {
         type: String,
         required: true,
-        enum: arrayOfCapitalLetters(),
-        select: false
     },
-    options: {
-        type: Map,
-        of: String,
-        enum: arrayOfCapitalLetters(),
-        required: true
-    }
+    options: [{ type: String }]
 }, {
     timestamps: true,
     toJSON: { virtuals: true },
@@ -103,8 +96,8 @@ const submissionSchema = new Schema({
     submission: [{
         type: new Schema({
             question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
-            submitted_option: { type: String, enum: arrayOfCapitalLetters() },
-            correct_option: { type: String, enum: arrayOfCapitalLetters(), select: false }
+            submitted_option: { type: String },
+            correct_option: { type: String }
         })
     }],
     score: { type: Number, default: 0 }
