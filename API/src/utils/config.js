@@ -4,7 +4,6 @@ const MONGO_URI = process.env.MONGO_URI,
     MONGO_URI_PROD = process.env.MONGO_URI_PROD;
 
 const PORT = process.env.PORT || 5555;
-console.log(process.env.NODE_ENV)
 
 /* JWT TOKENS */
 const JWT_SECRET = process.env.JWT_ACCESS_SECRET,

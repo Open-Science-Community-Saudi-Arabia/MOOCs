@@ -2,15 +2,19 @@ const router = require("express").Router();
 const permit = require("../middlewares/permission_handler");
 const { basicAuth } = require("../middlewares/auth");
 
-const { createQuestion, getQuestions, deleteQuestion, updateQuestion, scoreAnswers } = require("../controllers/question.controllers")
+const {
+    createQuestion, getQuestions,
+    deleteQuestion, updateQuestion,
+    getQuestionData
+} = require("../controllers/question.controllers")
 
-router.all('/', basicAuth, permit('Admin'))
+router.use(basicAuth())
 
 router
-    .post("/new", createQuestion)
-    .get("/", permit('EndUser'), getQuestions)
-    .patch("/update/:id", updateQuestion)
-    .delete("/delete/:id", deleteQuestion)
-    .post("/grade", permit('EndUser'), scoreAnswers)
+    .get("/", getQuestions)
+    .get("/:id", getQuestionData)
+    .post("/new", permit('Admin SuperAdmin'), createQuestion)
+    .patch("/update/:id", permit('Admin SuperAdmin'), updateQuestion)
+    .delete("/delete/:id", permit('Admin SuperAdmin'), deleteQuestion)
 
 module.exports = router
