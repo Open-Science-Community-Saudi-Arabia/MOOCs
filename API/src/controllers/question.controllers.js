@@ -28,38 +28,15 @@ exports.createQuestion = async (req, res, next) => {
         return next(new NotFoundError("Exercise not found"))
     }
 
-    // Convert options from array to map
-    // use the alphabets as keys
-    /*
-        i.e
-            A - option[0]
-            B - option[1]
-            C - option[2]
-            D - option[3]
-    */
-    const alphabets = arrayOfCapitalLetters()
-    const index_of_correct_answer = options.indexOf(correct_answer)
-
-    // Check if correct answer is among the options given
-    if (index_of_correct_answer == -1) {
-        return next(new BadRequestError('Correct answer is not in options'))
-    }
-
-    let options_map = new Map()
-    let correct_option;
-    for (let i = 0; i < options.length; i++) {
-        options_map.set(alphabets[i], options[i])
-
-        if (i == index_of_correct_answer) {
-            correct_option = alphabets[i]
-        }
+    if (!options.includes(correct_answer)) {
+        return next(new BadRequestError('Correct answer not in options'))
     }
 
     const question_obj = await Question.create({
         exercise: exercise?._id,
         question,
-        correct_option,
-        options: options_map
+        correct_option: correct_answer,
+        options
     })
 
     return res.status(200).send({
