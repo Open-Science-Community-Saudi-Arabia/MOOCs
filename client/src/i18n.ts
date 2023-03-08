@@ -12,7 +12,6 @@ i18n.loadLocaleData({
   ar: { plurals: ar },
 });
 
-// We have to load and activate the default locale before dynamic loading
 i18n.load(defaultLocale, {});
 i18n.activate(defaultLocale);
 

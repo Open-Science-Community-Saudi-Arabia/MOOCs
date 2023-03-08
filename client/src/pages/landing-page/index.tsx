@@ -118,10 +118,10 @@ export default function index() {
                 />
                 <div className="open-science__article-content__list-item">
                   <h3 className="open-science__article-content__list-item-name">
-                    <Trans>{name}</Trans>
+                    {name}
                   </h3>
                   <span className="open-science__article-content__list-item-description">
-                    <Trans>{content}</Trans>
+                    {content}
                   </span>
                 </div>
               </div>
