@@ -12,7 +12,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   const [toggleVisibility, setToggleVisibility] = useState(false);
-  const [IsError, setError] = useState(false);
+  const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { handleGoogle, loading } = useFetch();
@@ -47,7 +47,7 @@ function Login() {
   return (
     <>
       {loading ? (
-        <Spinner width="100px" height="100px" color/>
+        <Spinner width="100px" height="100px" color />
       ) : (
         <section className="login-signup">
           <h1 className="login-signup__heading">Login to MOOCs</h1>
@@ -80,7 +80,7 @@ function Login() {
                 name="email"
                 placeholder="Email"
                 required
-                className={`${IsError && "error-input"}`}
+                className={`${isError && "error-input"}`}
               />
             </div>
 
@@ -93,9 +93,10 @@ function Login() {
                 placeholder="Password"
                 required
                 name="password"
-                className={`${IsError && "error-input"}`}
+                className={`${isError && "error-input"}`}
               />
               <button
+                type="button"
                 aria-label="toggle password"
                 className="icon-button eye-icon"
                 onClick={() => setToggleVisibility(!toggleVisibility)}

@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
 import Lesson from "./pages/Dashboard/lesson";
 import ErrorPage from "./pages/error";
+import EmailVerify from "./pages/auth/EmailVerify";
 function App() {
   return (
     <Suspense fallback={<Spinner width="30px" height="30px" />}>
@@ -23,13 +24,17 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route
+            path="/api/v1/auth/verifyemail/:token"
+            element={<EmailVerify />}
+          />
         </Route>
         <Route path="/dashboard">
           <Route
             index
             element={
               <AppProvider>
-              <Dashboard />
+                <Dashboard />
               </AppProvider>
             }
           />

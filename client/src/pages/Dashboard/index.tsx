@@ -1,20 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Videocontent } from "../../data";
 import Header from "./Header";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { courses } from "../../utils/api/courses";
 import { WiTime4 } from "react-icons/wi";
 
+
 function Dashboard() {
+
   const getCourses = async () => {
     let allcourses = await courses();
     console.log(allcourses);
   };
-  useEffect(() => {
-    getCourses();
-  }, []);
 
+  const location = useLocation()
+  console.log(location.state) // data will be shared by navigate
   return (
     <section className="dashboard">
       <div className="dashboard-container">
@@ -52,6 +53,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+     
     </section>
   );
 }

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { BiErrorCircle } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,7 +14,6 @@ function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const { handleGoogle, loading } = useFetch();
 
@@ -34,7 +33,13 @@ function Signup() {
 
     if (event.target.password.value !== event.target.confirmpassword.value) {
       setCheckPassword(true);
-    } else {
+      toast.error("password does not match", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        theme: "colored",
+      });
+    }
+   else {
       try {
         const formData: SignUpRequestPayload = {
           firstname: event.target.firstname.value,
@@ -45,12 +50,17 @@ function Signup() {
         };
         setLoading(true);
         await signUp(formData);
-        toast.success("Sucessful!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          theme: "colored",
-        });
-        navigate("/dashboard");
+        toast.success(
+          <>
+            <h4>Successful!</h4>
+            <p>Check your email for verification link </p>
+          </>,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 5000,
+            theme: "colored",
+          }
+        );
       } catch (error: any) {
         toast.error(error.message, {
           position: toast.POSITION.TOP_CENTER,
@@ -66,7 +76,7 @@ function Signup() {
   return (
     <>
       {loading ? (
-        <Spinner width="100px" height="100px" color/>
+        <Spinner width="100px" height="100px" color />
       ) : (
         <section className="login-signup">
           <h1 className="login-signup__heading">Sign Up to MOOCs</h1>
@@ -142,6 +152,7 @@ function Signup() {
                 required
               />
               <button
+              type="button"
                 aria-label="toggle password"
                 className="icon-button eye-icon"
                 onClick={() => setToggleVisibility(!toggleVisibility)}
@@ -166,12 +177,6 @@ function Signup() {
                 name="confirmpassword"
                 id="confirmpassword"
               />
-              {checkpassword && (
-                <p className="error">
-                  {" "}
-                  <BiErrorCircle /> password does not match!
-                </p>
-              )}
             </div>
             <div className="field button-field">
               <button>

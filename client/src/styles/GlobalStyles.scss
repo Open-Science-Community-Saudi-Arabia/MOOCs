@@ -64,3 +64,6 @@ input {
 .Toastify__toast-theme--colored.Toastify__toast--success {
   background-color: hsl(122, 39%, 58%) !important;
 }
+.Toastify__toast-container{
+  width: auto !important;
+}
