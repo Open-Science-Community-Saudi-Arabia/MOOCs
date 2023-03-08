@@ -51,7 +51,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @returns {void}
  */
 const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
+    const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
