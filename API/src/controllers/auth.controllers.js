@@ -51,7 +51,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @returns {void}
  */
 const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
+    const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -313,7 +313,7 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-    const { token } = req.params;
+const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -673,7 +673,7 @@ exports.forgetPassword = async (req, res, next) => {
     //  Check for missing required field in request body
     if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
-    const current_user = await User.findOne({ email }).populate('status')
+    const current_user = await User.findOne({ email })
     //console.log(current_user);
 
     //  Check if user exists
@@ -741,12 +741,6 @@ exports.resetPassword = async (req, res, next) => {
 
     // Change password
     await current_user.password.updatePassword(new_password, current_user.password);
-
-    // Deactivate SuperAdmin account - User should request account activation
-    if (current_user.role == 'SuperAdmin') {
-        current_user.status.isActive = false;
-        current_user.status.save()
-    }
 
     // Delete auth code, blacklist jwt token
     BlacklistedToken.create({ token: req.token });
