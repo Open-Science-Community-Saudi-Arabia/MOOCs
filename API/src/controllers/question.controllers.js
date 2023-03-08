@@ -39,6 +39,7 @@ exports.createQuestion = async (req, res, next) => {
         options
     })
 
+    console.log(question_obj)
     return res.status(200).send({
         success: true,
         data: {
