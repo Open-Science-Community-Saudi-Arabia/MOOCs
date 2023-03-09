@@ -5,8 +5,7 @@ on:
     branches: [ frontend_ui ]
 
 jobs:
-  merge:
-  if: github.head_ref === l10n_frontend-ui
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -25,3 +24,5 @@ jobs:
             git add .
             git commit -m "updated translation from crowdin"
             git push origin frontend-ui
+
+            # This is a basic workflow to help you get started with Actions
