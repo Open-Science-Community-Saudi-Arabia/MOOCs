@@ -83,7 +83,7 @@ function Signup() {
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"
-              onClick={() => googlelogin()}
+              // onClick={() => googlelogin()}
             >
               Sign in with Google <FcGoogle />
             </button>

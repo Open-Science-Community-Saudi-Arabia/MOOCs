@@ -2,20 +2,29 @@ import { useEffect, useState } from "react";
 import { Videocontent } from "../../data";
 import Header from "./Header";
 import "./style.scss";
-import { Link, useLocation } from "react-router-dom";
-import { courses } from "../../utils/api/courses";
+import { Link } from "react-router-dom";
+import { getCourses } from "../../utils/api/courses";
 import { WiTime4 } from "react-icons/wi";
-
+import { Courses } from "../../types";
+import Spinner from "../../components/Spinner";
 
 function Dashboard() {
+  const [courses, setCourses] = useState<Courses[]>();
+  const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
+  useEffect(() => {
+    getAllCourses();
+  }, []);
 
-  const getCourses = async () => {
-    let allcourses = await courses();
-    console.log(allcourses);
+  const getAllCourses = async () => {
+    setLoadingCourses(true);
+    let response = await getCourses();
+    console.log(response);
+    if (response) {
+      setCourses(response.data.courses);
+      setLoadingCourses(false);
+    }
   };
 
-  const location = useLocation()
-  console.log(location.state) // data will be shared by navigate
   return (
     <section className="dashboard">
       <div className="dashboard-container">
@@ -24,36 +33,41 @@ function Dashboard() {
           <h1 className="dashboard-container__lesson-heading">
             Available Courses
           </h1>
-          <div className="dashboard-container__lesson-courses">
-            {Videocontent.map((item) => {
-              return (
-                <Link
-                  aria-label="course"
-                  key={item.id}
-                  to={`/dashboard/${item.id}`}
-                >
-                  <div className="dashboard-container__lesson-courses-content">
-                    <img
+          <div>
+            {!isloadingCourses ? (
+              <Spinner width="40px" height="40px" color/>
+            ) : (
+              <div className="dashboard-container__lesson-courses">
+                {courses?.map((item) => {
+                  return (
+                    <Link
+                      aria-label="course"
+                      key={item._id}
+                      to={`/dashboard/${item._id}`}
+                    >
+                      <div className="dashboard-container__lesson-courses-content">
+                        {/* <img
                       className="dashboard-container__lesson-courses-content__img"
                       src={item.image}
                       alt="course video"
-                    />
-                    <p className="dashboard-container__lesson-courses-content__text">
-                      {item.title}
-                    </p>
-                    <div className="dashboard-container__lesson-courses-content__duration">
+                    /> */}
+                        <p className="dashboard-container__lesson-courses-content__text">
+                          {item.title}
+                        </p>
+                        {/* <div className="dashboard-container__lesson-courses-content__duration">
                       {" "}
                       <WiTime4 />
                       {item.duration}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+                    </div> */}
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
-     
     </section>
   );
 }

@@ -75,12 +75,15 @@
         font-size: 20px;
       }
       &-courses {
+        @include flex(start,center);
+        flex-wrap: wrap;
+        gap:15px;
         margin: 2em 0em;
         &-content {
           padding: 1.5em;
           border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-          width: 30%;
+          // width: 30%;
           cursor: pointer;
           object-fit: cover;
           &__img {

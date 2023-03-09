@@ -30,7 +30,16 @@ export interface ResetPasswordReqPayload {
   password_reset_code: string;
   new_password: string;
 }
-
+export interface Courses {
+  _id: string;
+  author: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  enrolled_users: [];
+  isAvailable: boolean;
+  videos: [];
+}
 export interface AppContextState {
   isLoggedIn: boolean;
   // profile: Profile | null

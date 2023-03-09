@@ -7,22 +7,20 @@ const baseURL = import.meta.env.VITE_API_BASEURL;
 const useFetch = () => {
   const [loading, setLoading] = useState(false);
 
-  const handleGoogle = async (response: any) => {
+  const handleGoogle = async (access_token: any) => {
     try {
       setLoading(true);
-      await axios({
+      const response = await axios({
         method: "post",
         url: `${baseURL}/googlesignin`,
         headers: {
-          Authorization: `Bearer ${response.credential}`,
+          Authorization: `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
-      }).then((responsedata) => {
-        const tokenAccess = responsedata.data.token;
-        setToken(tokenAccess);
-        return window.location.assign("/dashboard");
       });
+      // console.log(response);
     } catch (error: any) {
+      console.log(error);
       toast.error(
         error.message ? "connection error" : error.response.data.message,
         {

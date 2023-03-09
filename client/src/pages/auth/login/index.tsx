@@ -8,7 +8,7 @@ import { login } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin,GoogleLogin } from "@react-oauth/google";
 import { setToken } from "../../../utils";
 
 function Login() {
@@ -19,9 +19,20 @@ function Login() {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onSuccess: (tokenResponse) => {
+        handleGoogle(tokenResponse.code);
+    },
+    flow: 'auth-code',
   });
 
+  // <GoogleLogin
+  //     onSuccess={(credentialResponse) => {
+  //       handleGoogle(credentialResponse.credential)
+  //     }}
+  //     onError={() => {
+  //       console.log("Login Failed");
+  //     }}
+  //   />
   const loginHandler = async (event: any) => {
     setError(false);
     event.preventDefault();
@@ -62,6 +73,14 @@ function Login() {
             >
               Sign in with Google <FcGoogle />
             </button>
+            <GoogleLogin
+              onSuccess={(credentialResponse: any) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
           </div>
           <div className="login-signup__hr-line">
             {" "}
@@ -141,3 +160,7 @@ function Login() {
 }
 
 export default Login;
+
+// https://github.com/MomenSherif/react-oauth/issues/6#issuecomment-1127385886
+// https://github.com/MomenSherif/react-oauth/issues/12#issuecomment-1131408898
+// https://stackoverflow.com/questions/72206576/login-with-google-how-to-programmatically-open-prompt-for-user-consent-and-get

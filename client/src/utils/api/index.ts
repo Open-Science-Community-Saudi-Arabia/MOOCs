@@ -1,11 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { TOKEN_KEY } from "../constants";
+import { ToastContainer, toast } from "react-toastify";
 
 const token = localStorage.getItem(TOKEN_KEY);
 const baseURL = import.meta.env.VITE_API_BASEURL;
 
 if (token) {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
 
 async function makeApiCall<T = any>(
@@ -28,13 +29,22 @@ async function makeApiCall<T = any>(
 
     return data;
   } catch (error: any) {
-    // use the server error response if available
     if (error.response) {
       const serverMessage = error.response?.data?.message;
-      if (error.response.status === 403 || error.response.status === 500) {
-        // localStorage.removeItem(TOKEN_KEY);
-        // window.location.assign("/login");
+
+      if (
+        serverMessage ||
+        error.response.status === 403 ||
+        error.response.status === 500
+      ) {
+        localStorage.removeItem(TOKEN_KEY);
+        window.location.assign("/login");
       }
+      toast.error(serverMessage, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
       throw new Error(serverMessage);
     }
     // throw errors that happen in the browser as is

@@ -14,6 +14,10 @@ export async function login(payload: LoginInRequestPayload) {
   const response = await makeApiCall("/login", "post", payload);
   return response;
 }
+export async function googleLogin(payload:any) {
+  const response = await makeApiCall("/googlesignin", "post", payload);
+  return response;
+}
 
 export async function forgotpassword(payload: ForgetPasswordReqPayload) {
   const response = await makeApiCall("/forgotpassword", "post", payload);
