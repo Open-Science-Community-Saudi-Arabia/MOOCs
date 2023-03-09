@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./style.scss";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams,  useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
 
@@ -8,13 +8,15 @@ export default function index() {
   const [isValidUrl, setValidUrl] = useState(false);
   const [error, setError] = useState(false);
   const params = useParams();
+
+  console.log("hear");
   useEffect(() => {
     emailVerifyHandler();
   }, []);
 
   const emailVerifyHandler = async () => {
     try {
-      await verifyEmail(params.token);
+      await verifyEmail(params.access_token);
       setValidUrl(true);
     } catch (error: any) {
       setValidUrl(false);

@@ -27,7 +27,7 @@ export async function resetpassword(payload: ResetPasswordReqPayload) {
 }
 export async function verifyEmail(payload: any) {
   const response = await makeApiCall(
-    `/auth/verifyemail/${payload.token}`,
+    `/auth/verifyemail/${payload}`,
     "get"
   );
   return response;
