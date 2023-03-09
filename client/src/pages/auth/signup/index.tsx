@@ -38,8 +38,7 @@ function Signup() {
         autoClose: 3000,
         theme: "colored",
       });
-    }
-   else {
+    } else {
       try {
         const formData: SignUpRequestPayload = {
           firstname: event.target.firstname.value,
@@ -152,7 +151,7 @@ function Signup() {
                 required
               />
               <button
-              type="button"
+                type="button"
                 aria-label="toggle password"
                 className="icon-button eye-icon"
                 onClick={() => setToggleVisibility(!toggleVisibility)}

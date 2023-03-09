@@ -8,7 +8,7 @@ import { login } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-import { useGoogleLogin,GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import { setToken } from "../../../utils";
 
 function Login() {
@@ -20,9 +20,9 @@ function Login() {
 
   const googlelogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-        handleGoogle(tokenResponse.code);
+      handleGoogle(tokenResponse.code);
     },
-    flow: 'auth-code',
+    flow: "auth-code",
   });
 
   // <GoogleLogin

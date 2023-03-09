@@ -35,7 +35,7 @@ function Dashboard() {
           </h1>
           <div>
             {!isloadingCourses ? (
-              <Spinner width="40px" height="40px" color/>
+              <Spinner width="40px" height="40px" color />
             ) : (
               <div className="dashboard-container__lesson-courses">
                 {courses?.map((item) => {
