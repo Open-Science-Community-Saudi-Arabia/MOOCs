@@ -6,11 +6,10 @@ on:
 
 jobs:
   merge:
-  if: github.head_ref === 'l10n_frontend-ui'
+  if: github.head_ref === l10n_frontend-ui
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-
       - name: merge branch
         run: |
           git checkout frontend-ui
@@ -21,9 +20,8 @@ jobs:
         run: |
           cd client
           yarn compile
-
-       - name: Push to github
-          run: |
+      - name: Push to github
+        run: |
             git add .
             git commit -m "updated translation from crowdin"
             git push origin frontend-ui
