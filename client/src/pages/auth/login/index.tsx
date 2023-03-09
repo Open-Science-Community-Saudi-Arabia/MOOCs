@@ -9,6 +9,7 @@ import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
 import { useGoogleLogin } from "@react-oauth/google";
+import { setToken } from "../../../utils";
 
 function Login() {
   const [toggleVisibility, setToggleVisibility] = useState(false);
@@ -30,8 +31,11 @@ function Login() {
         password: event.target.password.value,
       };
       setLoading(true);
-      await login(formData);
-      navigate("/dashboard");
+      let response = await login(formData);
+      if (response.success) {
+        setToken(response.data.access_token);
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       setError(true);
       toast.error(error.message, {

@@ -4,6 +4,10 @@ import { TOKEN_KEY } from "../constants";
 const token = localStorage.getItem(TOKEN_KEY);
 const baseURL = import.meta.env.VITE_API_BASEURL;
 
+if (token) {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`
+}
+
 async function makeApiCall<T = any>(
   url: string,
   method: AxiosRequestConfig["method"] = "get",

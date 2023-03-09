@@ -1,4 +1,4 @@
-import  {
+import {
   createContext,
   useEffect,
   useReducer,
@@ -66,7 +66,7 @@ export const AppProvider = ({
   const location = useLocation();
   const token = getToken();
 
-  if (!token) {
+  if (!token || token === "undefined") {
     return <Navigate to="/login" state={{ redirect: location }} />;
   }
   const logout = async () => {
@@ -114,7 +114,7 @@ export const AppProvider = ({
           children
         ) : (
           <div className="h-screen flex flex-col items-center justify-center">
-            <Spinner width="30px" height="30px"/>
+            <Spinner width="30px" height="30px" />
           </div>
         )}
       </AppContext.Provider>

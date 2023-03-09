@@ -12,7 +12,7 @@ const useFetch = () => {
       setLoading(true);
       await axios({
         method: "post",
-        url: `${baseURL}/auth/googlesignin`,
+        url: `${baseURL}/googlesignin`,
         headers: {
           Authorization: `Bearer ${response.credential}`,
           "Content-Type": "application/json",

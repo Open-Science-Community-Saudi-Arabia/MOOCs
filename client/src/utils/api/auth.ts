@@ -8,27 +8,23 @@ import {
 } from "../../types";
 
 export async function signUp(payload: SignUpRequestPayload) {
-  const response = await makeApiCall("/auth/signup", "post", payload);
-  setToken(response.token);
+  return await makeApiCall("/signup", "post", payload);
 }
 export async function login(payload: LoginInRequestPayload) {
-  const response = await makeApiCall("/auth/login", "post", payload);
-  setToken(response.token);
+  const response = await makeApiCall("/login", "post", payload);
+  return response;
 }
 
 export async function forgotpassword(payload: ForgetPasswordReqPayload) {
-  const response = await makeApiCall("/auth/forgotpassword", "post", payload);
+  const response = await makeApiCall("/forgotpassword", "post", payload);
   return response;
 }
 
 export async function resetpassword(payload: ResetPasswordReqPayload) {
-  const response = await makeApiCall(`/auth/resetpassword`, "patch", payload);
+  const response = await makeApiCall(`/resetpassword`, "patch", payload);
   return response;
 }
 export async function verifyEmail(payload: any) {
-  const response = await makeApiCall(
-    `/auth/verifyemail/${payload}`,
-    "get"
-  );
+  const response = await makeApiCall(`/verifyemail/${payload}`, "get");
   return response;
 }
