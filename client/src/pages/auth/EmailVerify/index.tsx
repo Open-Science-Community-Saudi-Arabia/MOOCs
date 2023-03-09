@@ -9,7 +9,7 @@ export default function index() {
   const [error, setError] = useState(false);
   const params = useParams();
 
-  console.log("hear");
+  console.log(params);
   useEffect(() => {
     emailVerifyHandler();
   }, []);
