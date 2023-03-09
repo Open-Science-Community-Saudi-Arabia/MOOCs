@@ -19,9 +19,9 @@ function Dashboard() {
     setLoadingCourses(true);
     let response = await getCourses();
     console.log(response);
-    if (response) {
-      setCourses(response.data.courses);
+    if (response.success) {
       setLoadingCourses(false);
+      setCourses(response.data.courses);
     }
   };
 
@@ -34,7 +34,7 @@ function Dashboard() {
             Available Courses
           </h1>
           <div>
-            {!isloadingCourses ? (
+            {isloadingCourses ? (
               <Spinner width="40px" height="40px" color />
             ) : (
               <div className="dashboard-container__lesson-courses">
