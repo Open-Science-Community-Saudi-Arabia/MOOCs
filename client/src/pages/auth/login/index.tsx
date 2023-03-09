@@ -73,14 +73,14 @@ function Login() {
             >
               Sign in with Google <FcGoogle />
             </button>
-            <GoogleLogin
+            {/* <GoogleLogin
               onSuccess={(credentialResponse: any) => {
                 console.log(credentialResponse);
               }}
               onError={() => {
                 console.log("Login Failed");
               }}
-            />
+            /> */}
           </div>
           <div className="login-signup__hr-line">
             {" "}
