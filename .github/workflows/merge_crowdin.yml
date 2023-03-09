@@ -5,7 +5,7 @@ on:
     branches: [ frontend_ui ]
 
 jobs:
-  merge and compile translation:
+  merge:
   if: github.head_ref === 'l10n_frontend-ui'
     runs-on: ubuntu-latest
     steps:
