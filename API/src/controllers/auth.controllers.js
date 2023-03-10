@@ -90,8 +90,7 @@ const handleUnverifiedUser = function (user) {
         // Generate email verification link 
         const { access_token } = await getAuthTokens(user, 'verification');
 
-        const verification_url = `${req.protocol}://${req.get(
-            'host')}/api/v1/auth/verifyemail/${access_token}`;
+        const verification_url = `${config.CLIENT_APP_URL}/api/v1/auth/verifyemail/${access_token}`;
 
         if (process.env.NODE_ENV == 'test') {
             await TestAuthToken.findOneAndUpdate(
