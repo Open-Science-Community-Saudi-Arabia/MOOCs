@@ -72,6 +72,5 @@ function Dashboard() {
   );
 }
 
-// handle error when video is not loading
 
 export default Dashboard;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";

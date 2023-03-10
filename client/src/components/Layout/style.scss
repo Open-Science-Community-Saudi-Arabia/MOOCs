@@ -1,9 +1,9 @@
-.layout-container {
+.layout {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  .content-left {
+  &__content-left {
     background-color: var(--green);
     height: 100%;
     width: 40%;
@@ -29,7 +29,7 @@
       left: 0;
     }
   }
-  .content-right {
+  &__content-right {
     width: 60%;
     height: 100%;
     display: flex;
@@ -40,12 +40,12 @@
 }
 
 @media (max-width: 800px) {
-  .layout-container {
-    .content-left {
+  .layout {
+    &__content-left {
       display: none;
     }
 
-    .content-right {
+    &__content-right {
       width: 100%;
     }
   }

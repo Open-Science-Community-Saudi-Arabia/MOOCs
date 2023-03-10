@@ -19,7 +19,7 @@ function Login() {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onSuccess: (tokenResponse) => handleGoogle(tokenResponse.access_token),
     onError: () =>
       toast.error("login failed", {
         position: toast.POSITION.TOP_CENTER,

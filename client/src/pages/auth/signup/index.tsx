@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
-import { BiErrorCircle } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import { signUp } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
@@ -14,11 +13,10 @@ function Signup() {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onSuccess: (tokenResponse) => handleGoogle(tokenResponse.access_token),
     onError: () =>
       toast.error("login failed", {
         position: toast.POSITION.TOP_CENTER,

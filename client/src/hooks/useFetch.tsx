@@ -7,8 +7,9 @@ const baseURL = import.meta.env.VITE_API_BASEURL;
 const useFetch = () => {
   const [loading, setLoading] = useState(false);
 
-  const handleGoogle = async (access_token: any) => {
+  const handleGoogle = async (access_token: string) => {
     try {
+      console.log(access_token);
       setLoading(true);
       const response = await axios({
         method: "post",
@@ -18,7 +19,7 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
       });
-      // console.log(response);
+      console.log(response);
     } catch (error: any) {
       console.log(error);
       toast.error(

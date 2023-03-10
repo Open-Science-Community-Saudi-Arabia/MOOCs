@@ -5,13 +5,13 @@ import "react-tooltip/dist/react-tooltip.css";
 import LandingPage from "./pages/landing-page";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import { AppProvider } from "./context";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgotpassword";
 import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
-import Lesson from "./pages/Dashboard/lesson";
+import Course from "./pages/Dashboard/course";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/EmailVerify";
 function App() {
@@ -38,7 +38,7 @@ function App() {
               </AppProvider>
             }
           />
-          <Route path=":id" element={<Lesson />} />
+          <Route path=":id" element={<Course />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>

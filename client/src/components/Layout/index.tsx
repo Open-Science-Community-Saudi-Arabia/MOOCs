@@ -3,16 +3,16 @@ import "./style.scss";
 
 function index() {
   return (
-    <section className="layout-container">
-      <div className="content-left">
-        <img src="/images/ring1.png" alt="" className="content-left__ring2" />
-        <img src="/images/ring2.svg" className="content-left__ring1" alt="" />
-        <Link className="content-left__home-link" to="/">
+    <section className="layout">
+      <div className="layout__content-left">
+        <img src="/images/ring1.png" alt="" className="layout__content-left__ring2" />
+        <img src="/images/ring2.svg" className="layout__content-left__ring1" alt="" />
+        <Link className="layout__content-left__home-link" to="/">
           OSCSA
         </Link>
       </div>
 
-      <div className="content-right">
+      <div className="layout__content-right">
         <Outlet />
       </div>
     </section>
