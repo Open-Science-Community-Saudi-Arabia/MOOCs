@@ -1,25 +1,31 @@
 # This is a basic workflow to help you get started with Actions
 
-name: testing merge CI
+name: Merge Crowdin branch into Frontend_ui
 
-# FIXME Create CI
+
 on:
-  push:
-    branches: [ frontend-ui ]
- 
+  pull_request:
+    branches: [frontend-ui]
 
   workflow_dispatch:
 
 jobs:
-  build:
+  merge:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run a one-line script
-        run: echo Hello, Open Science Community in Saudi Arabia
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: merge branch
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          git checkout frontend-ui
+          git pull origin frontend-ui
+          git merge l10n_frontend-ui
+
+      - name: Run to compile translation
+        run: |
+          cd client
+          yarn compile
+      - name: Run to compile translation
+        run: |
+          git add .
+          git commit -m "updated translation from crowdin"
+          git push origin frontend-ui
