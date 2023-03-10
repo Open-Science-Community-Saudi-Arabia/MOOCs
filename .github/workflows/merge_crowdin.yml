@@ -5,9 +5,8 @@ name: testing merge CI
 # FIXME Create CI
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ frontend-ui ]
+ 
 
   workflow_dispatch:
 
