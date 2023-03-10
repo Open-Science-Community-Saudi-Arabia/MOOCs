@@ -56,8 +56,23 @@ const videoSchema = new Schema({
 }, options)
 
 const sectionSchema = new Schema({
-    title: { type: String, required: true }
+    title: { type: String, required: true },
+    course: { type: Schema.ObjectId, ref: 'Course', required: true },
+    isCompleted: { type: Boolean, default: false }
 }, options)
+sectionSchema.virtual('videos', {
+    localField: '_id',
+    foreignField: 'section',
+    ref: 'Video',
+    justOne: false
+})
+sectionSchema.virtual('exercises', {
+    localField: '_id',
+    foreignField: 'section',
+    ref: 'Exercise',
+    justOne: false
+})
+
 const courseSchema = new Schema({
     author: {
         type: String,
