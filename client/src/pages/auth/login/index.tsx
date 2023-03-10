@@ -19,10 +19,13 @@ function Login() {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      handleGoogle(tokenResponse.code);
-    },
-    flow: "auth-code",
+    onSuccess: (tokenResponse) => handleGoogle(tokenResponse),
+    onError: () =>
+      toast.error("login failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      }),
   });
 
   // <GoogleLogin
@@ -73,14 +76,6 @@ function Login() {
             >
               Sign in with Google <FcGoogle />
             </button>
-            {/* <GoogleLogin
-              onSuccess={(credentialResponse: any) => {
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            /> */}
           </div>
           <div className="login-signup__hr-line">
             {" "}

@@ -1,11 +1,8 @@
-# This is a basic workflow to help you get started with Actions
 
 name: Merge Crowdin branch into Frontend_ui
 
 
 on:
-  push:
-    branches: [ frontend-ui ]
   pull_request:
     branches: [frontend-ui]
 
@@ -16,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: merge branch
+      - name: automerge branch
         run: |
           git checkout frontend-ui
           git pull origin frontend-ui
@@ -24,6 +21,8 @@ jobs:
 
       - name: Run to compile translation
         run: |
+          git checkout frontend-ui
+          git pull origin frontend-ui
           cd client
           yarn compile
       - name: Run to compile translation
