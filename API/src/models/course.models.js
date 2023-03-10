@@ -1,7 +1,11 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const { arrayOfCapitalLetters } = require('../utils/alphabets')
 
+const options = {
+    timestampsa: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+}
 const questionSchema = new Schema({
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
@@ -14,11 +18,7 @@ const questionSchema = new Schema({
         required: true,
     },
     options: [{ type: String }]
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 
 const exerciseSchema = new Schema({
     title: { type: String, required: true },
@@ -28,11 +28,7 @@ const exerciseSchema = new Schema({
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
     foreignField: 'exercise',
@@ -57,12 +53,11 @@ const videoSchema = new Schema({
         required: true
     },
     isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 
+const sectionSchema = new Schema({
+    title: { type: String, required: true }
+}, options)
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -79,11 +74,7 @@ const courseSchema = new Schema({
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 courseSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course',
@@ -102,7 +93,7 @@ const submissionSchema = new Schema({
     }],
     score: { type: Number, default: 0 },
     isCompleted: { type: Boolean, default: false }
-})
+}, options)
 
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
