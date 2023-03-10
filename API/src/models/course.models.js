@@ -1,7 +1,11 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const { arrayOfCapitalLetters } = require('../utils/alphabets')
 
+const options = {
+    timestampsa: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+}
 const questionSchema = new Schema({
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
@@ -14,11 +18,7 @@ const questionSchema = new Schema({
         required: true,
     },
     options: [{ type: String }]
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 
 const exerciseSchema = new Schema({
     title: { type: String, required: true },
@@ -27,12 +27,9 @@ const exerciseSchema = new Schema({
     duration: { type: Number, required: true },
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection'},
+    isAvailable: { type: Boolean, default: true },
+}, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
     foreignField: 'exercise',
@@ -52,15 +49,31 @@ const videoSchema = new Schema({
     description: { type: String, required: true },
     duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection' },
     category: {
         type: String,
         required: true
     },
     isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+}, options)
+
+const courseSectionSchema = new Schema({
+    title: { type: String, required: true },
+    course: { type: Schema.ObjectId, ref: 'Course', required: true },
+    deleted: {type: Schema.ObjectId, ref: 'Course'},
+    // isCompleted: { type: Boolean, default: false }
+}, options)
+courseSectionSchema.virtual('videos', {
+    localField: '_id',
+    foreignField: 'course_section',
+    ref: 'Video',
+    justOne: false
+})
+courseSectionSchema.virtual('exercises', {
+    localField: '_id',
+    foreignField: 'course_section',
+    ref: 'Exercise',
+    justOne: false
 })
 
 const courseSchema = new Schema({
@@ -79,15 +92,16 @@ const courseSchema = new Schema({
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     isAvailable: { type: Boolean, default: true }
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-})
+}, options)
 courseSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course',
     ref: 'Exercise'
+})
+courseSchema.virtual('course_sections', {
+    localField: '_id',
+    foreignField: 'course',
+    ref: 'CourseSection'
 })
 
 const submissionSchema = new Schema({
@@ -100,13 +114,15 @@ const submissionSchema = new Schema({
             correct_option: { type: String }
         })
     }],
-    score: { type: Number, default: 0 }
-})
+    score: { type: Number, default: 0 },
+    isCompleted: { type: Boolean, default: false }
+}, options)
 
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
 const Course = mongoose.model("Course", courseSchema)
+const CourseSection = mongoose.model('CourseSection', courseSectionSchema)
 const ExerciseSubmission = mongoose.model('ExerciseSubmission', submissionSchema)
 
-module.exports = { Video, Course, Question, Exercise, ExerciseSubmission }
+module.exports = { Video, Course, CourseSection,Question, Exercise, ExerciseSubmission }
