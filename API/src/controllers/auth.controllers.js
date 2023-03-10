@@ -12,7 +12,7 @@ const {
 } = require('../utils/errors');
 const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
 
-const { OAuth2Client } = require('google-auth-library');
+const { OAuth2Client, UserRefreshClient } = require('google-auth-library');
 
 const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
@@ -776,14 +776,29 @@ exports.resetPassword = async (req, res, next) => {
  * @throws {BadRequestError} if User is not verified
  */
 exports.googleSignin = async (req, res, next) => {
-    const authorization = req.headers.authorization;
-    const token = authorization.split(' ')[1];
+    // const authorization = req.headers.authorization;
+    // const token = authorization.split(' ')[1];
+    const { code } = req.body
+    if (!code) {
+        return next(new BadRequestError('Missing required params in request body'))
+    }
 
-    const client = new OAuth2Client(config.OAUTH_CLIENT_ID);
+    const client = new OAuth2Client(config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET, 'postmessage');
+
+    const { tokens } = await client.getToken(code)
+    // const user = new UserRefreshClient(
+    //     config.OAUTH_CLIENT_ID,
+    //     config.OAUTH_CLIENT_SECRET,
+    //     tokens.refreshToken
+    // )
+    // const { credentials } = user.refreshAccessToken()
+
+    console.log(tokens)
+    console.log(credentials)
 
     // Verify id token
     const ticket = await client.verifyIdToken({
-        idToken: token,
+        idToken: tokens.idToken,
         audience: config.GOOGLE_SIGNIN_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
