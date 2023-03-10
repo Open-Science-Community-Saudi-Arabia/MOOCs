@@ -785,6 +785,7 @@ exports.googleSignin = async (req, res, next) => {
 
     const client = new OAuth2Client(config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET, 'postmessage');
 
+    // Exchange code for tokens
     const { tokens } = await client.getToken(code)
 
     // Verify id token
