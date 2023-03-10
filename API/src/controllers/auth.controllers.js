@@ -776,9 +776,9 @@ exports.resetPassword = async (req, res, next) => {
  * @throws {BadRequestError} if User is not verified
  */
 exports.googleSignin = async (req, res, next) => {
-    // const authorization = req.headers.authorization;
-    // const token = authorization.split(' ')[1];
-    const { code } = req.body
+    const authorization = req.headers.authorization;
+    const code = authorization.split(' ')[1];
+
     if (!code) {
         return next(new BadRequestError('Missing required params in request body'))
     }
@@ -786,24 +786,15 @@ exports.googleSignin = async (req, res, next) => {
     const client = new OAuth2Client(config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET, 'postmessage');
 
     const { tokens } = await client.getToken(code)
-    // const user = new UserRefreshClient(
-    //     config.OAUTH_CLIENT_ID,
-    //     config.OAUTH_CLIENT_SECRET,
-    //     tokens.refreshToken
-    // )
-    // const { credentials } = user.refreshAccessToken()
-
-    console.log(tokens)
-    console.log(credentials)
 
     // Verify id token
     const ticket = await client.verifyIdToken({
-        idToken: tokens.idToken,
-        audience: config.GOOGLE_SIGNIN_CLIENT_ID,
+        idToken: tokens.id_token,
+        audience: config.OAUTH_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
         existing_user = await User.findOne({ email: payload.email });
-
+    
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
