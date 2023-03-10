@@ -12,7 +12,7 @@ const {
 } = require('../utils/errors');
 const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
 
-const { OAuth2Client } = require('google-auth-library');
+const { OAuth2Client, UserRefreshClient } = require('google-auth-library');
 
 const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
@@ -312,7 +312,7 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-    const { token } = req.params;
+const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -672,7 +672,7 @@ exports.forgetPassword = async (req, res, next) => {
     //  Check for missing required field in request body
     if (!email) return next(new BadRequestError('Missing required parameter in request body'));
 
-    const current_user = await User.findOne({ email }).populate('status')
+    const current_user = await User.findOne({ email })
     //console.log(current_user);
 
     //  Check if user exists
@@ -741,12 +741,6 @@ exports.resetPassword = async (req, res, next) => {
     // Change password
     await current_user.password.updatePassword(new_password, current_user.password);
 
-    // Deactivate SuperAdmin account - User should request account activation
-    if (current_user.role == 'SuperAdmin') {
-        current_user.status.isActive = false;
-        current_user.status.save()
-    }
-
     // Delete auth code, blacklist jwt token
     BlacklistedToken.create({ token: req.token });
     // BlacklistToken.create({ token: jwtToken })
@@ -776,18 +770,25 @@ exports.resetPassword = async (req, res, next) => {
  */
 exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
-    const token = authorization.split(' ')[1];
+    const code = authorization.split(' ')[1];
 
-    const client = new OAuth2Client(config.OAUTH_CLIENT_ID);
+    if (!code) {
+        return next(new BadRequestError('Missing required params in request body'))
+    }
+
+    const client = new OAuth2Client(config.OAUTH_CLIENT_ID, config.OAUTH_CLIENT_SECRET, 'postmessage');
+
+    // Exchange code for tokens
+    const { tokens } = await client.getToken(code)
 
     // Verify id token
     const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: config.GOOGLE_SIGNIN_CLIENT_ID,
+        idToken: tokens.id_token,
+        audience: config.OAUTH_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
         existing_user = await User.findOne({ email: payload.email });
-
+    
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
