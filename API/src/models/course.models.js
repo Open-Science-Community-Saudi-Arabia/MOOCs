@@ -100,7 +100,8 @@ const submissionSchema = new Schema({
             correct_option: { type: String }
         })
     }],
-    score: { type: Number, default: 0 }
+    score: { type: Number, default: 0 },
+    isCompleted: { type: Boolean, default: false }
 })
 
 const Question = mongoose.model("Question", questionSchema)
