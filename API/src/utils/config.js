@@ -32,7 +32,8 @@ const EMAIL_HOST = process.env.EMAIL_HOST,
     HOST_ADMIN_EMAIL2 = process.env.HOST_ADMIN_EMAIL2;
 
 /* Server */
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.SERVER_URL,
+    CLIENT_APP_URL = process.env.CLIENT_APP_URL;
 
 /* Github */
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID,
@@ -81,4 +82,5 @@ module.exports = {
 
     // Server
     SERVER_URL,
+    CLIENT_APP_URL
 };
