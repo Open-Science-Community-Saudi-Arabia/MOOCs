@@ -27,7 +27,8 @@ const exerciseSchema = new Schema({
     duration: { type: Number, required: true },
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    isAvailable: { type: Boolean, default: true }
+    course_section: { tupe: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    isAvailable: { type: Boolean, default: true },
 }, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
@@ -48,6 +49,7 @@ const videoSchema = new Schema({
     description: { type: String, required: true },
     duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
+    course_section: { tupe: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
     category: {
         type: String,
         required: true
@@ -55,20 +57,20 @@ const videoSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
-const sectionSchema = new Schema({
+const courseSectionSchema = new Schema({
     title: { type: String, required: true },
     course: { type: Schema.ObjectId, ref: 'Course', required: true },
     isCompleted: { type: Boolean, default: false }
 }, options)
-sectionSchema.virtual('videos', {
+courseSectionSchema.virtual('videos', {
     localField: '_id',
-    foreignField: 'section',
+    foreignField: 'course_section',
     ref: 'Video',
     justOne: false
 })
-sectionSchema.virtual('exercises', {
+courseSectionSchema.virtual('exercises', {
     localField: '_id',
-    foreignField: 'section',
+    foreignField: 'course_section',
     ref: 'Exercise',
     justOne: false
 })
@@ -94,6 +96,11 @@ courseSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course',
     ref: 'Exercise'
+})
+courseSchema.virtual('course_sections', {
+    localField: '_id',
+    foreignField: 'course',
+    ref: 'CourseSection'
 })
 
 const submissionSchema = new Schema({
