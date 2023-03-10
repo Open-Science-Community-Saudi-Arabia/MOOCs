@@ -1,27 +1,26 @@
-name: Merge Crowdin branch into Frontend_ui
+# This is a basic workflow to help you get started with Actions
 
+name: testing merge CI
+
+# FIXME Create CI
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [frontend_ui]
+    branches: [ main ]
+
+  workflow_dispatch:
 
 jobs:
-  crowdin-merge:
-    if: github.head_ref == l10n_frontend-ui
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: merge branch
-        run: |
-          git checkout frontend-ui
-          git pull origin frontend-ui
-          git merge l10n_frontend-ui
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, Open Science Community in Saudi Arabia
 
-      - name: Run to compile translation
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
         run: |
-          cd client
-          yarn compile
-      - name: Push to github
-        run: |
-          git add .
-          git commit -m "updated translation from crowdin"
-          git push origin frontend-ui
+          echo Add other actions to build,
+          echo test, and deploy your project.
