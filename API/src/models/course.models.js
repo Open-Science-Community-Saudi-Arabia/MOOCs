@@ -61,7 +61,7 @@ const courseSectionSchema = new Schema({
     title: { type: String, required: true },
     course: { type: Schema.ObjectId, ref: 'Course', required: true },
     deleted: {type: Schema.ObjectId, ref: 'Course'},
-    isCompleted: { type: Boolean, default: false }
+    // isCompleted: { type: Boolean, default: false }
 }, options)
 courseSectionSchema.virtual('videos', {
     localField: '_id',
