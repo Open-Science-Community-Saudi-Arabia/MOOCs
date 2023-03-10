@@ -72,7 +72,42 @@ exports.getCourseSectionData = async (req, res, next) => {
     });
 };
 
-exports.updateCourseSection = async (req, res, next) => { };
+/**
+ * Update course section data
+ *
+ * @description Update contents of a course section
+ *
+ * @param {string} id - Id of course section
+ * @param {object} req.body - content to update in coursesection
+ * 
+ * @throws {BadRequestError} if missing param in request body
+ * @throws {NotFoundError} if course section not found
+ *
+ * @returns {Object}
+ */
+exports.updateCourseSection = async (req, res, next) => {
+    const { title } = req.body
+    const course_section_id = req.params.id
+
+    if (!course_section_id || course_section_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
+    }
+
+    const course_section = await CourseSection.findByIdAndUpdate(
+        course_section_id, { title }, { new: true }
+    ).populate("course videos exercises");
+    if (!course_section) {
+        return next(new NotFoundError("Course section not found"));
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            course_section: course_section.toObject(),
+        },
+    });
+
+};
 
 exports.hideCourseSection = async (req, res, next) => { };
 
