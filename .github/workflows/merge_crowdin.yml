@@ -4,6 +4,8 @@ name: Merge Crowdin branch into Frontend_ui
 
 
 on:
+  push:
+    branches: [ frontend-ui ]
   pull_request:
     branches: [frontend-ui]
 
