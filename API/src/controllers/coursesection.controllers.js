@@ -1,4 +1,4 @@
-const { Course, CourseSection, Video } = require("../models/course.models");
+const { Course, CourseSection, Video, Exercise } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 /**
@@ -180,7 +180,7 @@ exports.addVideoToCourseSection = async (req, res, next) => {
     const { course_section_id, video_id } = req.body
 
     if (!course_section_id || !video_id) {
-        return next(new BadRequestError("Missing param in request params"));
+        return next(new BadRequestError("Missing param in request body"));
     }
 
     // Check if course section exists
@@ -205,4 +205,46 @@ exports.addVideoToCourseSection = async (req, res, next) => {
     })
 };
 
-exports.addExerciseToCourseSection = async (req, res, next) => { };
+
+/**
+ * Add exercise to course section 
+ *
+ * @description Delete course section
+ *
+ * @param {string} course_section_id - Id of course section 
+ * @param {string} exercise_id - Id of video 
+ * 
+ * @throws {BadRequestError} if missing param in request body
+ * @throws {NotFoundError} if course section not found
+ * @throws {NotFoundError} if exercise not found
+ *
+ * @returns {Object}
+ */
+exports.addExerciseToCourseSection = async (req, res, next) => { 
+    const { course_section_id, exercise_id } = req.body
+
+    if (!course_section_id || !exercise_id) {
+        return next(new BadRequestError("Missing param in request body"));
+    }
+
+    // Check if course section exists
+    const course_section = await CourseSection.findById(
+        course_section_id)
+    if (!course_section) {
+        return next(new NotFoundError('Course content not found'))
+    }
+
+    // Link exercise to course section if it exists
+    const exercise = await Exercise.findByIdAndUpdate(
+        exercise_id, { course_section: course_section_id }, { new: true })
+    if (!exercise) {
+        return next(new NotFoundError('Exercise not found'))
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            exercise: exercise.toObject()
+        }
+    })
+};

@@ -27,7 +27,7 @@ const exerciseSchema = new Schema({
     duration: { type: Number, required: true },
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection'},
     isAvailable: { type: Boolean, default: true },
 }, options)
 exerciseSchema.virtual('questions', {
@@ -49,7 +49,7 @@ const videoSchema = new Schema({
     description: { type: String, required: true },
     duration: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course" },
-    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection' },
     category: {
         type: String,
         required: true
