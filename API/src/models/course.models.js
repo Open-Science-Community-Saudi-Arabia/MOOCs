@@ -27,7 +27,7 @@ const exerciseSchema = new Schema({
     duration: { type: Number, required: true },
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection'},
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection' },
     isAvailable: { type: Boolean, default: true },
 }, options)
 exerciseSchema.virtual('questions', {
@@ -60,7 +60,7 @@ const videoSchema = new Schema({
 const courseSectionSchema = new Schema({
     title: { type: String, required: true },
     course: { type: Schema.ObjectId, ref: 'Course', required: true },
-    deleted: {type: Schema.ObjectId, ref: 'Course'},
+    deleted: { type: Schema.ObjectId, ref: 'Course' },
     // isCompleted: { type: Boolean, default: false }
 }, options)
 courseSectionSchema.virtual('videos', {
@@ -118,11 +118,18 @@ const submissionSchema = new Schema({
     isCompleted: { type: Boolean, default: false }
 }, options)
 
+const courseReportSchema = new Schema({
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    completed_exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
+}, options)
+
 const Question = mongoose.model("Question", questionSchema)
 const Exercise = mongoose.model("Exercise", exerciseSchema)
 const Video = mongoose.model("Video", videoSchema)
 const Course = mongoose.model("Course", courseSchema)
 const CourseSection = mongoose.model('CourseSection', courseSectionSchema)
 const ExerciseSubmission = mongoose.model('ExerciseSubmission', submissionSchema)
+const CourseReport = mongoose.model('CourseReport', courseReportSchema)
 
-module.exports = { Video, Course, CourseSection,Question, Exercise, ExerciseSubmission }
+module.exports = { Video, Course, CourseSection, Question, Exercise, CourseReport, ExerciseSubmission }
