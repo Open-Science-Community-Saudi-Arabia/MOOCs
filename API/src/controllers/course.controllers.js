@@ -3,6 +3,7 @@ const {
     Course,
     Exercise,
     Question,
+    CourseReport,
 } = require("../models/course.models");
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
@@ -185,6 +186,11 @@ exports.enrollCourse = async (req, res, next) => {
     if (!course) {
         return next(new NotFoundError("Course not found"))
     }
+
+    await CourseReport.create({
+        course: course_id,
+        user: req.user.id,
+    })
 
     return res.status(200).send({
         success: true,
