@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const {
-    createCourseSection, getCourseSectionData, updateCourseSection, deleteCourseSection, addVideoToCourseSection, addExerciseToCourseSection,
+    createCourseSection, getCourseSectionData, updateCourseSection, deleteCourseSection
 } = require('../controllers/coursesection.controllers')
 
 const { basicAuth } = require('../middlewares/auth')
@@ -15,7 +15,5 @@ router
     .get('/:id', getCourseSectionData)
     .patch('/update/:id', updateCourseSection)
     .delete('/delete/:id', deleteCourseSection)
-    .post('/video/link', addVideoToCourseSection)
-    .post('/exercise/link', addExerciseToCourseSection)
 
 module.exports = router
