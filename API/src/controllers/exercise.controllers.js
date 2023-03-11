@@ -124,7 +124,7 @@ exports.getExerciseData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            exercise: exercise.isAvailable ? exercise.toJSON() : null // return exercise only if it's available
+            exercise
         }
     })
 }
@@ -214,6 +214,11 @@ exports.deleteExercise = async (req, res, next) => {
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
     const { exercise_id, question_id } = req.body
+
+    if (!exercise_id || !question_id) {
+        return next(new BadRequestError('Missing required param in request body'))
+    }
+    
     const exercise = await Exercise.findById(exercise_id)
 
     if (!exercise) {
