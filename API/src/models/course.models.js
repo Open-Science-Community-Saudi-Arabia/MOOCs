@@ -120,6 +120,9 @@ const courseReportSchema = new Schema({
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     completed_exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise', default: [] }],
+    completed_videos: [{ type: Schema.Types.ObjectId, ref: 'Video', default: [] }],
+    completed_sections: [{ type: Schema.Types.ObjectId, ref: 'CourseSection', default: [] }],
+    isCompleted: { type: Boolean, default: false }
 }, options)
 
 const Question = mongoose.model("Question", questionSchema)
