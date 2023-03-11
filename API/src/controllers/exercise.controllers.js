@@ -281,6 +281,7 @@ exports.scoreExercise = async (req, res, next) => {
         return next(new NotFoundError("Exercise not found"));
     }
 
+    // Check if user has enrolled for course
     const course = (await exercise_obj.populate('course')).course
     if (!course.enrolled_users.includes(req.user.id)) {
         return next(new ForbiddenError("User hasn't enrolled for course"))
