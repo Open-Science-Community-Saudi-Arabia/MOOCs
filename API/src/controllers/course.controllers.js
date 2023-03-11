@@ -537,3 +537,52 @@ exports.deleteVideo = async (req, res, next) => {
 //         }
 //     })
 // }
+
+/**
+ * Get course report
+ * 
+ * @param {string} course_id
+ * 
+ * @returns {object} course_report
+ * 
+ * @throws {error} if an error occured
+ * @throws {BadRequestError} if course not found
+ * @throws {BadRequestError} if user not enrolled in course
+ */
+exports.getStudentReportForCourse = async (req, res, next) => {
+    const course_id = req.params.id;
+
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
+
+    const course = await Course.findById(course_id)
+    if (!course) {
+        return next(new NotFoundError("Course not found"))
+    }
+
+    // Check if student is enrolled in course
+    if (!course.enrolled_users.includes(req.user.id)) {
+        return next(new BadRequestError("You are not enrolled in this course"))
+    }
+
+    const student_course_report = await CourseReport.findOne({
+        user: req.user.id, 
+        course: course_id
+    }).populate({
+        path: 'course',
+        select: 'title description exercises',
+    }).populate('user completed_exercises')
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            student_course_report
+        }
+    })
+}
+
+
+
+
+
