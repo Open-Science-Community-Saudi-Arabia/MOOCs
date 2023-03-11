@@ -59,7 +59,7 @@ exports.getCourseSectionData = async (req, res, next) => {
 
     const course_section = await CourseSection.findById(
         course_section_id
-    ).populate("course videos exercises");
+    ).populate("videos exercises");
     if (!course_section) {
         return next(new NotFoundError("Course section not found"));
     }
@@ -67,7 +67,9 @@ exports.getCourseSectionData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            course_section: course_section.toObject(),
+            course_section: await course_section.populate({
+                path: "course", select: "title description author _id",
+            }),
         },
     });
 };
@@ -161,90 +163,3 @@ exports.deleteCourseSection = async (req, res, next) => {
         }
     })
 }
-
-/**
- * Add Video to course section 
- *
- * @description Delete course section
- *
- * @param {string} course_section_id - Id of course section 
- * @param {string} video_id - Id of video 
- * 
- * @throws {BadRequestError} if missing param in request body
- * @throws {NotFoundError} if course section not found
- * @throws {NotFoundError} if video not found
- *
- * @returns {Object}
- */
-exports.addVideoToCourseSection = async (req, res, next) => {
-    const { course_section_id, video_id } = req.body
-
-    if (!course_section_id || !video_id) {
-        return next(new BadRequestError("Missing param in request body"));
-    }
-
-    // Check if course section exists
-    const course_section = await CourseSection.findById(
-        course_section_id)
-    if (!course_section) {
-        return next(new NotFoundError('Course content not found'))
-    }
-
-    // Link video to course section if it exists
-    const video = await Video.findByIdAndUpdate(
-        video_id, { course_section: course_section_id }, { new: true })
-    if (!video) {
-        return next(new NotFoundError('Video not found'))
-    }
-
-    return res.status(200).send({
-        success: true,
-        data: {
-            video: video.toObject()
-        }
-    })
-};
-
-
-/**
- * Add exercise to course section 
- *
- * @description Delete course section
- *
- * @param {string} course_section_id - Id of course section 
- * @param {string} exercise_id - Id of video 
- * 
- * @throws {BadRequestError} if missing param in request body
- * @throws {NotFoundError} if course section not found
- * @throws {NotFoundError} if exercise not found
- *
- * @returns {Object}
- */
-exports.addExerciseToCourseSection = async (req, res, next) => { 
-    const { course_section_id, exercise_id } = req.body
-
-    if (!course_section_id || !exercise_id) {
-        return next(new BadRequestError("Missing param in request body"));
-    }
-
-    // Check if course section exists
-    const course_section = await CourseSection.findById(
-        course_section_id)
-    if (!course_section) {
-        return next(new NotFoundError('Course content not found'))
-    }
-
-    // Link exercise to course section if it exists
-    const exercise = await Exercise.findByIdAndUpdate(
-        exercise_id, { course_section: course_section_id }, { new: true })
-    if (!exercise) {
-        return next(new NotFoundError('Exercise not found'))
-    }
-
-    return res.status(200).send({
-        success: true,
-        data: {
-            exercise: exercise.toObject()
-        }
-    })
-};
