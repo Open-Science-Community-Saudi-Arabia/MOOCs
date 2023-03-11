@@ -84,7 +84,10 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id).populate('exercises');
+    const course = await Course.findById(req.params.id).populate({
+        path: 'course_sections',
+        populate: 'videos exercises'
+    });
 
     return res.status(200).send({
         success: true,
