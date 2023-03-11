@@ -4,10 +4,11 @@ const {
     Exercise,
     Question,
     CourseReport,
+    CourseSection,
 } = require("../models/course.models");
 const { v2 } = require("cloudinary");
 const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError, NotFoundError } = require("../utils/errors");
+const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { User } = require("../models/user.models");
 
 /* COURSES */
@@ -275,12 +276,12 @@ exports.getEnrolledUsers = async (req, res, next) => {
         return next(new NotFoundError("Course not found"))
     }
 
-    return res.status(200).send({ 
+    return res.status(200).send({
         success: true,
         data: {
             enrolled_users: course.enrolled_users
         }
-     });
+    });
 };
 
 
@@ -295,6 +296,7 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @param {string} duration | 00:00
  * @param {string} category 
  * @param {string} course  id of course to add video to
+ * @param {string} course_section  id of course section to add video to
  * 
  * @returns {object} video
  * 
@@ -303,17 +305,38 @@ exports.getEnrolledUsers = async (req, res, next) => {
 exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
-        duration, category, course } = req.body;
+        duration, category, course_id,
+        course_section_id } = req.body;
+
+    let course_section = await CourseSection.findById(course_section_id).populate('course')
+    if (!course_section) {
+        return next(new NotFoundError('Course section not found'))
+    }
+
+    // Check if course section belongs to the course provided
+    if (course_section.course._id.toString() !== course_id) {
+        return next(new ForbiddenError('Course section does not belong to the course provided'))
+    }
+
+    // Check if course is available
+    if (!course_section.course.isAvailable) {
+        return next(new ForbiddenError('Course is not available'))
+    }
 
     const video = await Video.create({
         title, author, video_url, description,
-        duration, category, course
+        duration, category, course: course_id, course_section: course_section._id
     });
 
     return res.status(200).json({
         success: true,
         data: {
-            video
+            video: await video.populate({
+                path: 'course_section',
+                populate: {
+                    path: 'course videos'
+                }
+            })
         }
     });
 }
