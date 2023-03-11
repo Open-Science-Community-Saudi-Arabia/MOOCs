@@ -1,4 +1,4 @@
-const { Question, Exercise, Video, Course, ExerciseSubmission } = require("../models/course.models")
+const { Question, Exercise, Video, Course, ExerciseSubmission, CourseReport } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 // Create a new exercise
@@ -305,6 +305,13 @@ exports.scoreExercise = async (req, res, next) => {
             submitted_option: submitted_option,
         });
     });
+
+    // Check if user has completed the exercise
+    if (score == exercise.questions.length) {
+        // User has completed the exercise
+        await CourseReport.findOneAndUpdate({ user: req.user.id, course: course._id, },
+            { $addToSet: { completed_exercises: exercise._id, }, });
+    }
 
     exercise_submission.score = score
     exercise_submission = await exercise_submission.save()
