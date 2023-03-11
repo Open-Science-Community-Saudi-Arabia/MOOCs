@@ -27,8 +27,7 @@ const exerciseSchema = new Schema({
     duration: { type: Number, required: true },
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection' },
-    isAvailable: { type: Boolean, default: true },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
 }, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
@@ -48,8 +47,8 @@ const videoSchema = new Schema({
     video_url: { type: String, required: true },
     description: { type: String, required: true },
     duration: { type: String, required: true },
-    course: { type: Schema.Types.ObjectId, ref: "Course" },
-    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection' },
+    course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
     category: {
         type: String,
         required: true
@@ -115,13 +114,12 @@ const submissionSchema = new Schema({
         })
     }],
     score: { type: Number, default: 0 },
-    isCompleted: { type: Boolean, default: false }
 }, options)
 
 const courseReportSchema = new Schema({
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    completed_exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }],
+    completed_exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise', default: [] }],
 }, options)
 
 const Question = mongoose.model("Question", questionSchema)
