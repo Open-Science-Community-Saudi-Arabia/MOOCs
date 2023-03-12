@@ -1,13 +1,16 @@
 const { CourseSection, TextMaterial } = require("../models/course.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const { NotFoundError, BadRequestError } = require("../utils/errors");
+const fs = require("fs");
 
 exports.addTextMaterial = async (req, res, next) => {
-    const { course_section_id, title, course_id } = req.body;
+    const { course_section_id, title, description, course_id } = req.body;
     const file_to_upload = req.file;
 
     // Check if required params are present
-    if (!course_section_id || !title || !course_id || !file_to_upload) {
+    if (!course_section_id || !title || 
+        !description || !course_id || 
+        !file_to_upload) {
         return next(new BadRequestError("Missing required param in request body"));
     }
 
@@ -18,28 +21,24 @@ exports.addTextMaterial = async (req, res, next) => {
     }
 
     const text_material = new TextMaterial({
-        title,
+        title, description,
         course_section: course_section_id,
+        course: course_id
     });
-
-    // Save file to server
-    const file_path = path.join(
-        __dirname,
-        `../public/textmaterials/${file_to_upload.originalname}`
-    );
 
     // Upload file to cloudinary
     const file_url = await uploadToCloudinary({
-        path: file_path,
-        filename: `textmaterial_${text_material._id}/`,
+        path: file_to_upload.path,
+        file_name: `textmaterial_${text_material._id}_${file_to_upload.originalname}`,
         destination_path: `course_${course_id}/coursesection_${course_section_id}`,
     });
 
+    // Save file url to database
     text_material.file_url = file_url;
-
     await text_material.save();
 
     // Delete file from server
+    await fs.unlink(file_to_upload.path)
 
     return res.status(200).send({
         success: true,
