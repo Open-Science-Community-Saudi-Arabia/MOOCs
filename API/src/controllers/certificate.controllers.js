@@ -4,11 +4,66 @@ const { CourseReport } = require("../models/course.models")
 const fs = require("fs")
 const { createCanvas, loadImage } = require("canvas")
 const { uploadToCloudinary } = require("../utils/cloudinary")
+const { NotFoundError, BadRequestError, ForbiddenError } = require("../utils/errors")
 
 exports.verifyCertificate = async (req, res, next) => {
 }
 
+/**
+ * Get certificate for course
+ * 
+ * @description Get certificate for course if it exists, else create it
+ * 
+ * @param {string} course_id - Id of course to get certificate for
+ * 
+ * @throws {BadRequestError} if missing param in request body
+ * @throws {NotFoundError} if course report not found
+ * @throws {ForbiddenError} if course not completed
+ * 
+ * @returns {Object} certificate
+ */
 exports.getCertificateForCourse = async (req, res, next) => {
+    const course_id = req.params.id
+
+    // Check if missing params
+    if (!course_id || course_id === ":id") {
+        return next(new BadRequestError("Missing required param in request body"))
+    }
+
+    // Check if course exists
+    const student_course_report = await CourseReport.findOne({ course: course_id, user: req.user.id })
+    if (!student_course_report) {
+        return next(new NotFoundError("Course report not found"))
+    }
+
+    // Check if user has completed course
+    if (!student_course_report.isCompleted) {
+        return next(new ForbiddenError("Course not completed"))
+    }
+
+    // Check if certificate exists
+    const populate_conf = {
+        path: "user course",
+        select: "title description _id firstname lastname email",
+    }
+    if (student_course_report.certificate) {
+        return res.status(200).json({
+            success: true,
+            message: "Certificate found",
+            certificate: await student_course_report.certificate.populate(populate_conf),
+        })
+    }
+
+    // Create certificate   
+    const certificate = await this.issueCertificate(student_course_report)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Certificate issued",
+            certificate: await certificate.populate(populate_conf),
+        }
+    })
 }
 
 exports.getAllUsersCertificates = async (req, res, next) => {
@@ -62,7 +117,7 @@ async function createCertificate(student_course_report) {
     // Add course title
     const course_title = student_course_report.course.title
     context.fillText(course_title, 1000, 100)
-    
+
     // Add certificate id
     const certificate_id = certificate.serial_number.toString()
     context.font = "italic 30px Arial"
@@ -93,11 +148,16 @@ exports.issueCertificate = async (report_id) => {
             path: "author",
             select: "name email _id",
         },
-    }).populate('user');
+    }).populate('user certificate');
 
     // Check if course report exists
     if (!student_course_report) {
         throw new Error("Course report not found");
+    }
+
+    // Check if student has already been issued a certificate
+    if (student_course_report.certificate) {
+        return student_course_report.certificate
     }
 
     // Check if student completed course
@@ -116,8 +176,8 @@ exports.issueCertificate = async (report_id) => {
 
     // Save file url to database
     certificate.certificate_url = file_url,
-    
-    certificate = await certificate.save()
+
+        certificate = await certificate.save()
 
     return certificate
 }
