@@ -165,8 +165,37 @@ exports.updateTextMaterial = async (req, res, next) => {
     });
 }
 
+/**
+ * Delete text material
+ * 
+ * @description Delete text material
+ * 
+ * @param {string} id - Id of text material
+ * 
+ * @throws {BadRequestError} if missing param in request params
+ * @throws {NotFoundError} if text material not found
+ * 
+ * @returns {Object}
+ */
 exports.deleteTextMaterial = async (req, res, next) => {
-}
+    const text_material_id = req.params.id;
 
-exports.getTextMaterials = async (req, res, next) => {
+    // Check if required params are present
+    if (!text_material_id || text_material_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
+    }
+
+    const text_material = await TextMaterial.findByIdAndDelete(text_material_id);
+
+    // Check if text material exists
+    if (!text_material) {
+        return next(new NotFoundError("Text material not found"));
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            text_material,
+        },
+    });
 }

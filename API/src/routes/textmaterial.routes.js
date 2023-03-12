@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const {
-    getTextMaterials,
     getTextMaterialData, uploadTextMaterial,
     updateTextMaterial, deleteTextMaterial,
 } = require("../controllers/textmaterial.controllers");
@@ -20,7 +19,6 @@ router.use(basicAuth());
 
 router
     .get("/:id", getTextMaterialData)
-    .get("/", getTextMaterials)
     .post("/new", permit("Admin SuperAdmin"), upload.single('file'), uploadTextMaterial)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateTextMaterial)
     .delete("/delete/:id", permit("Admin SuperAdmin"), deleteTextMaterial);
