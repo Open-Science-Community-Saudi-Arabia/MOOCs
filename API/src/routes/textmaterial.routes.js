@@ -3,10 +3,10 @@ const permit = require("../middlewares/permission_handler");
 const { basicAuth } = require("../middlewares/auth");
 const multer = require('multer')
 const storage = multer.diskStorage({
-  destination: './public/tempfiles/',
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
+    destination: './public/tempfiles/',
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
 });
 const upload = multer({ storage: storage });
 
