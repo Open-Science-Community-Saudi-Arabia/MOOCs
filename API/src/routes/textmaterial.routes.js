@@ -1,6 +1,14 @@
 const router = require("express").Router();
 const permit = require("../middlewares/permission_handler");
 const { basicAuth } = require("../middlewares/auth");
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: './tempfiles/',
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 const {
     getTextMaterials,
@@ -11,9 +19,9 @@ const {
 router.use(basicAuth());
 
 router
-    .get("/", getTextMaterials)
     .get("/:id", getTextMaterialData)
-    .post("/new", permit("Admin SuperAdmin"), addTextMaterial)
+    .get("/", getTextMaterials)
+    .post("/new", permit("Admin SuperAdmin"), upload.single('file'), addTextMaterial)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateTextMaterial)
     .delete("/delete/:id", permit("Admin SuperAdmin"), deleteTextMaterial);
 
