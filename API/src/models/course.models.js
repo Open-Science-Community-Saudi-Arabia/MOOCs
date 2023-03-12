@@ -28,6 +28,7 @@ const exerciseSchema = new Schema({
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    order: { type: Number, default: Date.now() },
 }, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
@@ -53,14 +54,32 @@ const videoSchema = new Schema({
         type: String,
         required: true
     },
+    order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
 
+const textmaterialSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    file_url: {
+        type: String,
+        required: true
+    },
+    description: { type: String, required: true },
+    course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
+    course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    order: { type: Number, default: Date.now() },
+    isAvailable: { type: Boolean, default: true }
+}, options)
+
+
 const courseSectionSchema = new Schema({
     title: { type: String, required: true },
-    course: { type: Schema.ObjectId, ref: 'Course', required: true },
-    deleted: { type: Schema.ObjectId, ref: 'Course' },
-    // isCompleted: { type: Boolean, default: false }
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
+    order: { type: Number, default: Date.now() },
 }, options)
 courseSectionSchema.virtual('videos', {
     localField: '_id',
@@ -72,6 +91,12 @@ courseSectionSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course_section',
     ref: 'Exercise',
+    justOne: false
+})
+courseSectionSchema.virtual('textmaterials', {
+    localField: '_id',
+    foreignField: 'course_section',
+    ref: 'TextMaterial',
     justOne: false
 })
 
@@ -116,21 +141,40 @@ const submissionSchema = new Schema({
     score: { type: Number, default: 0 },
 }, options)
 
-const courseReportSchema = new Schema({
-    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    completed_exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise', default: [] }],
-    completed_videos: [{ type: Schema.Types.ObjectId, ref: 'Video', default: [] }],
-    completed_sections: [{ type: Schema.Types.ObjectId, ref: 'CourseSection', default: [] }],
-    isCompleted: { type: Boolean, default: false }
-}, options)
+const courseReportSchema = new Schema(
+    {
+        course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
+        user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        completed_exercises: [
+            { type: Schema.Types.ObjectId, ref: "Exercise", default: [] },
+        ],
+        completed_videos: [
+            { type: Schema.Types.ObjectId, ref: "Video", default: [] },
+        ],
+        completed_sections: [
+            { type: Schema.Types.ObjectId, ref: "CourseSection", default: [] },
+        ],
+        isCompleted: { type: Boolean, default: false },
+    },
+    options
+);
 
-const Question = mongoose.model("Question", questionSchema)
-const Exercise = mongoose.model("Exercise", exerciseSchema)
-const Video = mongoose.model("Video", videoSchema)
-const Course = mongoose.model("Course", courseSchema)
-const CourseSection = mongoose.model('CourseSection', courseSectionSchema)
-const ExerciseSubmission = mongoose.model('ExerciseSubmission', submissionSchema)
-const CourseReport = mongoose.model('CourseReport', courseReportSchema)
+const Question = mongoose.model("Question", questionSchema);
+const Exercise = mongoose.model("Exercise", exerciseSchema);
+const Video = mongoose.model("Video", videoSchema);
+const TextMaterial = mongoose.model("TextMaterial", textmaterialSchema);
+const Course = mongoose.model("Course", courseSchema);
+const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
+const ExerciseSubmission = mongoose.model(
+    "ExerciseSubmission",
+    submissionSchema
+);
+const CourseReport = mongoose.model("CourseReport", courseReportSchema);
 
-module.exports = { Video, Course, CourseSection, Question, Exercise, CourseReport, ExerciseSubmission }
+module.exports = {
+    Video, Course,
+    CourseSection,
+    Question, Exercise,
+    CourseReport, TextMaterial,
+    ExerciseSubmission,
+};

@@ -1,4 +1,4 @@
-const { Question, Exercise, Video, Course, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 // Create a new exercise
