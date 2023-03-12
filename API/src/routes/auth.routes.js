@@ -36,7 +36,7 @@ router
     .post('/login', authController.login)
     .post('/forgotpassword', authController.forgetPassword)
     .patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword)
-    .get('/google', authController.googleSignin)
+    .post('/googlesignin', authController.googleSignin)
     .get(
         '/github',
         passport.authenticate('github', { scope: ['user:email'] })
