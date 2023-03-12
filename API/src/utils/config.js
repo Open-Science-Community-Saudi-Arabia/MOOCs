@@ -39,6 +39,11 @@ const SERVER_URL = process.env.SERVER_URL,
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
+/* Cloudinary */
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+
 module.exports = {
     // MongoDB URI
     MONGO_URI,
@@ -82,5 +87,10 @@ module.exports = {
 
     // Server
     SERVER_URL,
-    CLIENT_APP_URL
+    CLIENT_APP_URL,
+
+    // Cloudinary
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET
 };
