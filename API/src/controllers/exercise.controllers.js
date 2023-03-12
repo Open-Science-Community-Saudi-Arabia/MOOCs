@@ -351,6 +351,14 @@ exports.scoreExercise = async (req, res, next) => {
         ) {
             // User has completed the course
             await user_course_report.updateOne({ isCompleted: true });
+
+            // Issue certificate
+            const certificate = new Certificate({
+                user: req.user.id,
+                course: course._id,
+            });
+
+            
         }
     }
 
