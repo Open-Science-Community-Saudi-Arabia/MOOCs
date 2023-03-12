@@ -52,7 +52,7 @@ exports.getCourses = async (req, res, next) => {
     const courses = (
         await Course.find().populate({
             path: 'course_sections',
-            populate: 'videos exercises'
+            populate: 'videos exercises textmaterials'
         }).sort({ _id: -1 })
     ).filter((course) => {
         if (course.isAvailable) return course.toJSON();
@@ -82,7 +82,7 @@ exports.getCourseData = async (req, res, next) => {
 
     const course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
-        populate: 'videos exercises'
+        populate: 'videos exercises textmaterials'
     });
 
     return res.status(200).send({

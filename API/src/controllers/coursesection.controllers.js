@@ -59,7 +59,7 @@ exports.getCourseSectionData = async (req, res, next) => {
 
     const course_section = await CourseSection.findById(
         course_section_id
-    ).populate("videos exercises");
+    ).populate("videos exercises textmaterials");
     if (!course_section) {
         return next(new NotFoundError("Course section not found"));
     }
