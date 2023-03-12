@@ -1,13 +1,9 @@
 const {
     Video,
     Course,
-    Exercise,
-    Question,
     CourseReport,
     CourseSection,
 } = require("../models/course.models");
-const { v2 } = require("cloudinary");
-const asyncWrapper = require("../utils/async_wrapper");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { User } = require("../models/user.models");
 
@@ -344,33 +340,6 @@ exports.uploadVideo = async (req, res, next) => {
     });
 }
 
-// /**
-//  * Add vidoe to course
-//  * 
-//  * @param {string} video_id - id of the video 
-//  * @param {string} course_id - id of the course to add the video
-//  * 
-//  * @returns {Object} course 
-//  */
-// exports.addVideoToCourse = async (req, res, next) => {
-//     const { video_id, course_id } = req.body
-
-//     const course = await Course.findByIdAndUpdate(
-//         course_id,
-//         { $addToSet: { videos: video_id } },
-//         { new: true }).populate('videos')
-
-//     return res.status(200).send({
-//         success: true,
-//         data: {
-//             message: 'Success',
-//             data: {
-//                 course
-//             }
-//         }
-//     })
-// }
-
 /**
  * Remove vidoe from course
  * 
@@ -502,41 +471,6 @@ exports.deleteVideo = async (req, res, next) => {
             }
         });
 }
-
-// // Add a question to an exercise
-// /**
-//  * Add question to exercise
-//  * 
-//  * @param {string} exercise_id
-//  * @param {string} question_id
-//  * 
-//  * @returns {string} message
-//  * 
-//  * @throws {error} if an error occured
-//  * @throws {NotFoundError} if Exercise not found
-//  * @throws {NotFoundError} if Course not found
-//  * */
-// exports.addExerciseToCourse = async (req, res, next) => {
-//     const { exercise_id, course_id } = req.body
-//     const course = await Course.findById(course_id)
-
-//     if (!course) {
-//         return next(new NotFoundError("Course not found"))
-//     }
-
-//     const exercise = await Exercise.findByIdAndUpdate(exercise_id, { course: course_id })
-//     if (!exercise) {
-//         return next(new NotFoundError("Exercise not found"))
-//     }
-
-//     return res.status(200).send({
-//         success: true,
-//         data: {
-//             message: "Exercise has been added to course",
-//             exercise
-//         }
-//     })
-// }
 
 /**
  * Get course report
