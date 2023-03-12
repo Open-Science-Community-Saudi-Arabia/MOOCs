@@ -1,5 +1,6 @@
 const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
+const { issueCertificate } = require("./certificate.controllers");
 
 // Create a new exercise
 /**
@@ -337,6 +338,7 @@ exports.scoreExercise = async (req, res, next) => {
     });
 
     // Check if user has completed the exercise
+    let certificate;
     if (score == exercise.questions.length) {
         // User has completed the exercise
         const user_course_report = await CourseReport.findOneAndUpdate(
@@ -353,12 +355,7 @@ exports.scoreExercise = async (req, res, next) => {
             await user_course_report.updateOne({ isCompleted: true });
 
             // Issue certificate
-            const certificate = new Certificate({
-                user: req.user.id,
-                course: course._id,
-            });
-
-            
+            certificate = await issueCertificate(user_course_report._id)
         }
     }
 
@@ -372,6 +369,7 @@ exports.scoreExercise = async (req, res, next) => {
         success: true,
         data: {
             report: exercise_submission,
+            certificate,
         },
     });
 }
