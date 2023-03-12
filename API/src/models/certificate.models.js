@@ -6,9 +6,9 @@ const options = { timestamps: true, toJSON: { virtuals: true }, toObject: { virt
 const certificateSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
+    course_report: { type: Schema.Types.ObjectId, ref: "CourseReport", required: true },
     certificate_url: { type: String, required: true },
-    isAvailable: { type: Boolean, default: true },
-    certificate_id: {
+    serial_number: {
         type: String, required: true, default: Date.now(),
     },
 }, options)
