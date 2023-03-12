@@ -38,12 +38,24 @@ exports.addTextMaterial = async (req, res, next) => {
     await text_material.save();
 
     // Delete file from server
-    await fs.unlink(file_to_upload.path)
+    await fs.unlink(file_to_upload.path, (err) => { 
+        if (err) {
+            console.log(err);
+        }
+    });
+    
 
     return res.status(200).send({
         success: true,
         data: {
-            text_material,
+            text_material: await text_material.populate({
+                path: "course_section",
+                select: "title description _id",
+                populate: {
+                    path: "course",
+                    select: "title description _id",
+                },
+            })
         },
     });
 }
