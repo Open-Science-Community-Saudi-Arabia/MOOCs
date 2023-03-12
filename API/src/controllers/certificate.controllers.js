@@ -66,7 +66,27 @@ exports.getCertificateForCourse = async (req, res, next) => {
     })
 }
 
+/**
+ * Get all certificates for user
+ * 
+ * @description Get all users certificates 
+ * 
+ * @returns {Object} certificates
+ * 
+ */
 exports.getAllUsersCertificates = async (req, res, next) => {
+    const populate_conf = {
+        path: "user course",
+        select: "title description _id firstname lastname email",
+    }
+    const certificates = await Certificate.find({ user: req.user.id }).populate(populate_conf)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            certificates,
+        }
+    })
 }
 
 /**
