@@ -10,25 +10,22 @@ cloudinary.config({
 /**
  * Uploads a file to cloudinary
  * 
- * @param {*} file 
- * @param {*} destination_path
+ * @param {string} file 
+ * @param {string} destination_path
+ * @param {string} file_name
  * 
- * @example
- * const file = {
- * filename: 'image.jpg',
- * path: 'C:\\Users\\user\\AppData\\Local\\Temp\\image.jpg'
- * destination_path: 'my_folder'
- * }
+ * @returns file url
  * 
- * @returns 
+ * @throws {Error} if invalid file 
+ * 
  */
 async function uploadToCloudinary(file) {
-    const { path } = file;
-    if (!path || !file.destination_path || !file.file_name) throw new Error('Invalid file');
+    const { path, file_name, destination_path } = file;
+    if (!path || !destination_path || !file_name) throw new Error('Invalid file');
 
     const { secure_url } = await cloudinary.uploader.upload(path, {
-        folder: file.destination_path,
-        public_id: file.file_name,
+        folder: destination_path,
+        public_id: file_name,
         resource_type: "auto",
     });
     return secure_url;
