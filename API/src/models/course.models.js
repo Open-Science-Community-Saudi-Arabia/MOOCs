@@ -63,10 +63,11 @@ const textmaterialSchema = new Schema({
         type: String,
         required: true
     },
-    url: {
+    file_url: {
         type: String,
         required: true
     },
+    description: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
     course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
     order: { type: Number, default: Date.now() },
