@@ -116,7 +116,53 @@ exports.getTextMaterialData = async (req, res, next) => {
     });
 }
 
+/**
+ * Update text material
+ * 
+ * @description Update text material
+ * 
+ * @param {string} id - Id of text material
+ * @param {string} title - Title of text material
+ * @param {string} description - Description of text material
+ * 
+ * @throws {BadRequestError} if missing param in request params
+ * @throws {NotFoundError} if text material not found
+ * 
+ * @returns {Object}
+ */
 exports.updateTextMaterial = async (req, res, next) => {
+    const { title, description } = req.body;
+    const text_material_id = req.params.id;
+
+    // Check if required params are present
+    if (!text_material_id || text_material_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
+    }
+
+    const text_material = await TextMaterial.findByIdAndUpdate(
+        text_material_id,
+        { title, description },
+        { new: true }
+    ).populate({
+        path: "course_section",
+        select: "title description _id",
+        populate: {
+            path: "course",
+            select: "title description _id",
+        },
+    });
+
+    // Check if text material exists
+    if (!text_material) {
+        return next(new NotFoundError("Text material not found"));
+    }
+
+    return res.status(200).send({
+        success: true,
+        data: {
+            text_material,
+        },
+    });
 }
 
 exports.deleteTextMaterial = async (req, res, next) => {
