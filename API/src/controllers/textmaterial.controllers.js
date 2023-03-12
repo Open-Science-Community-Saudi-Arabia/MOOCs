@@ -19,7 +19,7 @@ const fs = require("fs");
 * @returns {Object}
 * 
  */
-exports.addTextMaterial = async (req, res, next) => {
+exports.uploadTextMaterial = async (req, res, next) => {
     const { course_section_id, title, description, course_id } = req.body;
     const file_to_upload = req.file;
 
