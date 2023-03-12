@@ -340,6 +340,13 @@ exports.scoreExercise = async (req, res, next) => {
             { $addToSet: { completed_exercises: exercise._id, }, });
     }
 
+    const students_course_report = await CourseReport.findOne({ user: req.user.id, course: course._id, })
+    // Check if user has completed the course
+    if (students_course_report.completed_exercises.length == course.exercises.length) {
+        // User has completed the course
+        await CourseReport.findOneAndUpdate({ user: req.user.id, course: course._id, }, { isCompleted: true, })
+    }
+    
     exercise_submission.score = score
     exercise_submission = await exercise_submission.save()
     exercise_submission = await exercise_submission.populate('submission.question')
