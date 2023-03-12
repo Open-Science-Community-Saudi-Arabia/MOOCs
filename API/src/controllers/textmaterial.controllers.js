@@ -3,13 +3,29 @@ const { uploadToCloudinary } = require("../utils/cloudinary");
 const { NotFoundError, BadRequestError } = require("../utils/errors");
 const fs = require("fs");
 
+/**
+ * Add text material to course section
+ * 
+* @description Add text material to course section
+* 
+* @param {string} course_section_id - Id of course section to add text material to
+* @param {string} title - Title of text material
+* @param {string} description - Description of text material
+* @param {string} course_id - Id of course
+* 
+* @throws {BadRequestError} if missing param in request body
+* @throws {NotFoundError} if course section not found
+*   
+* @returns {Object}
+* 
+ */
 exports.addTextMaterial = async (req, res, next) => {
     const { course_section_id, title, description, course_id } = req.body;
     const file_to_upload = req.file;
 
     // Check if required params are present
-    if (!course_section_id || !title || 
-        !description || !course_id || 
+    if (!course_section_id || !title ||
+        !description || !course_id ||
         !file_to_upload) {
         return next(new BadRequestError("Missing required param in request body"));
     }
@@ -38,12 +54,12 @@ exports.addTextMaterial = async (req, res, next) => {
     await text_material.save();
 
     // Delete file from server
-    await fs.unlink(file_to_upload.path, (err) => { 
+    await fs.unlink(file_to_upload.path, (err) => {
         if (err) {
             console.log(err);
         }
     });
-    
+
 
     return res.status(200).send({
         success: true,
