@@ -28,6 +28,7 @@ const exerciseSchema = new Schema({
     date: { type: Date, default: Date.now() },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
+    order: { type: Number, default: Date.now() },
 }, options)
 exerciseSchema.virtual('questions', {
     localField: '_id',
@@ -53,14 +54,15 @@ const videoSchema = new Schema({
         type: String,
         required: true
     },
+    order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
 
 const courseSectionSchema = new Schema({
     title: { type: String, required: true },
-    course: { type: Schema.ObjectId, ref: 'Course', required: true },
-    deleted: { type: Schema.ObjectId, ref: 'Course' },
-    // isCompleted: { type: Boolean, default: false }
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
+    order: { type: Number, default: Date.now() },
 }, options)
 courseSectionSchema.virtual('videos', {
     localField: '_id',
