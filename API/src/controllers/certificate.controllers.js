@@ -6,6 +6,18 @@ const { createCanvas, loadImage } = require("canvas")
 const { uploadToCloudinary } = require("../utils/cloudinary")
 const { NotFoundError, BadRequestError, ForbiddenError } = require("../utils/errors")
 
+/**
+ * Verify Certificate
+ * 
+ * @description Verify certificate by serial number
+ * 
+ * @param {string} serial_number - Serial number of certificate to verify
+ * 
+ * @throws {BadRequestError} if missing param in request body
+ * @throws {NotFoundError} if certificate not found
+ * 
+ * @returns {Object} certificate
+ */
 exports.verifyCertificate = async (req, res, next) => {
     const serial_number = req.params.sn
 
