@@ -115,7 +115,8 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    preview_image: { type: String, required: true },
 }, options)
 courseSchema.virtual('exercises', {
     localField: '_id',
