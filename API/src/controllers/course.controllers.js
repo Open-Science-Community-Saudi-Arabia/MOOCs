@@ -1,13 +1,13 @@
 const {
     Video,
     Course,
-    Exercise,
-    Question,
+    CourseReport,
+    CourseSection,
 } = require("../models/course.models");
-const { v2 } = require("cloudinary");
-const asyncWrapper = require("../utils/async_wrapper");
-const { BadRequestError, NotFoundError } = require("../utils/errors");
+const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { User } = require("../models/user.models");
+const { uploadToCloudinary } = require("../utils/cloudinary");
+const fs = require("fs")
 
 /* COURSES */
 
@@ -23,8 +23,32 @@ const { User } = require("../models/user.models");
  * @throws {error} if an error occured
  */
 exports.createCourse = async (req, res, next) => {
+    const preview_image = req.file
+
+    if(!preview_image) {
+        return next(new BadRequestError('Missing preview image'))
+    }
+
     const newCourse = new Course(req.body);
+
+    // Upload preview image to cloudinary
+    const file_url = await uploadToCloudinary({
+        path: preview_image.path,
+        file_name: `course_preview_${newCourse._id}`,
+        destination_path: 'courses/preview_images'
+    })
+
+    // Save file url to database
+    newCourse.preview_image = file_url;
     const savedCourse = await newCourse.save();
+
+    // Delete file from server
+    await fs.unlink(preview_image.path, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
+
     return res.status(200).json({
         success: true,
         data: {
@@ -52,7 +76,10 @@ exports.getCourses = async (req, res, next) => {
 
     // Get all available courses
     const courses = (
-        await Course.find().populate('videos exercises').sort({ _id: -1 })
+        await Course.find().populate({
+            path: 'course_sections',
+            populate: 'videos exercises textmaterials'
+        }).sort({ _id: -1 })
     ).filter((course) => {
         if (course.isAvailable) return course.toJSON();
     });
@@ -79,7 +106,10 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id).populate('exercises');
+    const course = await Course.findById(req.params.id).populate({
+        path: 'course_sections',
+        populate: 'videos exercises textmaterials'
+    });
 
     return res.status(200).send({
         success: true,
@@ -183,6 +213,11 @@ exports.enrollCourse = async (req, res, next) => {
         return next(new NotFoundError("Course not found"))
     }
 
+    await CourseReport.create({
+        course: course_id,
+        user: req.user.id,
+    })
+
     return res.status(200).send({
         success: true,
         data: {
@@ -266,12 +301,12 @@ exports.getEnrolledUsers = async (req, res, next) => {
         return next(new NotFoundError("Course not found"))
     }
 
-    return res.status(200).send({ 
+    return res.status(200).send({
         success: true,
         data: {
             enrolled_users: course.enrolled_users
         }
-     });
+    });
 };
 
 
@@ -285,7 +320,8 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @param {string} author
  * @param {string} duration | 00:00
  * @param {string} category 
- * @param {string} course  id of course to add video to
+ * @param {string} course_id  id of course to add video to
+ * @param {string} course_section_id  id of course section to add video to
  * 
  * @returns {object} video
  * 
@@ -294,46 +330,40 @@ exports.getEnrolledUsers = async (req, res, next) => {
 exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
-        duration, category, course } = req.body;
+        duration, category, course_id,
+        course_section_id } = req.body;
+
+    let course_section = await CourseSection.findById(course_section_id).populate('course')
+    if (!course_section) {
+        return next(new NotFoundError('Course section not found'))
+    }
+
+    // Check if course section belongs to the course provided
+    if (course_section.course._id.toString() !== course_id) {
+        return next(new ForbiddenError('Course section does not belong to the course provided'))
+    }
+
+    // Check if course is available
+    if (!course_section.course.isAvailable) {
+        return next(new ForbiddenError('Course is not available'))
+    }
 
     const video = await Video.create({
         title, author, video_url, description,
-        duration, category, course
+        duration, category, course: course_id, course_section: course_section._id
     });
 
     return res.status(200).json({
         success: true,
         data: {
-            video
+            video: await video.populate({
+                path: 'course_section',
+                populate: {
+                    path: 'course videos'
+                }
+            })
         }
     });
-}
-
-/**
- * Add vidoe to course
- * 
- * @param {string} video_id - id of the video 
- * @param {string} course_id - id of the course to add the video
- * 
- * @returns {Object} course 
- */
-exports.addVideoToCourse = async (req, res, next) => {
-    const { video_id, course_id } = req.body
-
-    const course = await Course.findByIdAndUpdate(
-        course_id,
-        { $addToSet: { videos: video_id } },
-        { new: true }).populate('videos')
-
-    return res.status(200).send({
-        success: true,
-        data: {
-            message: 'Success',
-            data: {
-                course
-            }
-        }
-    })
 }
 
 /**
@@ -468,37 +498,51 @@ exports.deleteVideo = async (req, res, next) => {
         });
 }
 
-// Add a question to an exercise
 /**
- * Add question to exercise
+ * Get course report
  * 
- * @param {string} exercise_id
- * @param {string} question_id
+ * @param {string} course_id
  * 
- * @returns {string} message
+ * @returns {object} course_report
  * 
  * @throws {error} if an error occured
- * @throws {NotFoundError} if Exercise not found
- * @throws {NotFoundError} if Course not found
- * */
-exports.addExerciseToCourse = async (req, res, next) => {
-    const { exercise_id, course_id } = req.body
-    const course = await Course.findById(course_id)
+ * @throws {BadRequestError} if course not found
+ * @throws {BadRequestError} if user not enrolled in course
+ */
+exports.getStudentReportForCourse = async (req, res, next) => {
+    const course_id = req.params.id;
 
+    if (!course_id || course_id == ':id') {
+        return next(new BadRequestError("Missing param `id` in request params"))
+    }
+
+    const course = await Course.findById(course_id)
     if (!course) {
         return next(new NotFoundError("Course not found"))
     }
 
-    const exercise = await Exercise.findByIdAndUpdate(exercise_id, { course: course_id })
-    if (!exercise) {
-        return next(new NotFoundError("Exercise not found"))
+    // Check if student is enrolled in course
+    if (!course.enrolled_users.includes(req.user.id)) {
+        return next(new BadRequestError("You are not enrolled in this course"))
     }
+
+    const student_course_report = await CourseReport.findOne({
+        user: req.user.id, 
+        course: course_id
+    }).populate({
+        path: 'course',
+        select: 'title description exercises',
+    }).populate('user completed_exercises')
 
     return res.status(200).send({
         success: true,
         data: {
-            message: "Exercise has been added to course",
-            exercise
+            student_course_report
         }
     })
 }
+
+
+
+
+
