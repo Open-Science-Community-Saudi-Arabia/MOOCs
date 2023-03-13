@@ -231,6 +231,9 @@ exports.issueCertificate = async (report_id) => {
         destination_path: `course_${certificate.course._id}/user_${certificate.user._id}`,
     });
 
+    // Delete file from local storage
+    fs.unlinkSync("src/assets/certificate" + `_${certificate.serial_number.toString()}.png`)
+    
     // Save file url to database
     certificate.certificate_url = file_url
     certificate = await certificate.save()
