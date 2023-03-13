@@ -9,7 +9,7 @@ const certificateSchema = new Schema({
     course_report: { type: Schema.Types.ObjectId, ref: "CourseReport", required: true },
     certificate_url: { type: String, required: true },
     serial_number: {
-        type: String, required: true, default: Date.now(),
+        type: Number, required: true, default: Date.now(),
     },
 }, options)
 

@@ -238,5 +238,40 @@ exports.issueCertificate = async (report_id) => {
     return certificate
 }
 
+/**
+ * Get certificate data
+ * 
+ * @description Get certificate data
+ * 
+ * @param {string} certificate_id - Id of certificate
+ * 
+ * @returns {Object} certificate
+ * 
+ * @throws {BadRequestError} if missing certificate_id
+ * @throws {NotfoundError} if certificate not found
+ */
 exports.getCertificateData = async (req, res, next) => {
+    const certificate_id = req.params.id
+
+    // Check if missing params
+    if (!certificate_id || certificate_id === ":id") {
+        return next(new BadRequestError("Missing required param in request body"))
+    }
+
+    // Check if certificate exists
+    const certificate = await Certificate.findById(certificate_id).populate({
+        path: "course",
+        select: "title description _id",
+    }).populate('user');
+
+    if (!certificate) {
+        return next(new NotFoundError('Certificate not found'))
+    }
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            certificate,
+        }
+    })
 }
