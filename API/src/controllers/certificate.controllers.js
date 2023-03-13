@@ -7,6 +7,29 @@ const { uploadToCloudinary } = require("../utils/cloudinary")
 const { NotFoundError, BadRequestError, ForbiddenError } = require("../utils/errors")
 
 exports.verifyCertificate = async (req, res, next) => {
+    const serial_number = req.params.sn
+
+    // Check if missing params
+    if (!serial_number || serial_number === ":sn") {
+        return next(new BadRequestError("Missing required param in request body"))
+    }
+
+    // Check if certificate exists
+    const certificate = await Certificate.findOne({ serial_number }).populate({
+        path: "user course",
+        select: "title description _id firstname lastname email",
+    })
+    if (!certificate) {
+        return next(new NotFoundError("Certificate not found"))
+    }
+
+    return res.status(200).json({
+        success: true, 
+        data: {
+            message: "Certificate found",
+            certificate,
+        }
+    })  
 }
 
 /**
@@ -202,3 +225,5 @@ exports.issueCertificate = async (report_id) => {
     return certificate
 }
 
+exports.getCertificateData = async (req, res, next) => {
+}
