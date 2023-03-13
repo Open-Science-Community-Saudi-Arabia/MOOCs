@@ -31,21 +31,21 @@ async function makeApiCall<T = any>(
   } catch (error: any) {
     if (error.response) {
       const serverMessage = error.response?.data?.message;
-
-      if (
-        serverMessage ||
-        error.response.status === 403 ||
-        error.response.status === 500
-      ) {
-        localStorage.removeItem(TOKEN_KEY);
-        window.location.assign("/login");
-      }
+      localStorage.removeItem(TOKEN_KEY);
+      window.location.assign("/login");
+      // if (
+      //   serverMessage ||
+      //   error.response.status === 403 ||
+      //   error.response.status === 500
+      // ) {
+      //   localStorage.removeItem(TOKEN_KEY);
+      //   window.location.assign("/login");
+      // }
       toast.error(serverMessage, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
-      throw new Error(serverMessage);
     }
     // throw errors that happen in the browser as is
     throw new Error(error.message);

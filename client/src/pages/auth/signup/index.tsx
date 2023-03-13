@@ -16,13 +16,8 @@ function Signup() {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => handleGoogle(tokenResponse.access_token),
-    onError: () =>
-      toast.error("login failed", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        theme: "colored",
-      }),
+    onSuccess: (codeResponse) => handleGoogle(codeResponse.code),
+    flow: "auth-code",
   });
 
   const signupHandler = async (event: any) => {

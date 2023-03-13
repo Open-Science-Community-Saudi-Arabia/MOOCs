@@ -2,28 +2,33 @@ import { useState } from "react";
 import axios from "axios";
 import { setToken } from "../utils";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_API_BASEURL;
 const useFetch = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleGoogle = async (access_token: string) => {
+  const handleGoogle = async (code: any) => {
     try {
-      console.log(access_token);
       setLoading(true);
       const response = await axios({
         method: "post",
         url: `${baseURL}/auth/googlesignin`,
         headers: {
-          Authorization: `Bearer ${access_token}`,
+          Authorization: `Bearer ${code}`,
           "Content-Type": "application/json",
         },
       });
       console.log(response);
+      if (response.status === 200) {
+        setToken(response.data.token);
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error.message ? "connection error" : error.response.data.message,
+        error.message ? "request failed" : error.response.data.message,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,

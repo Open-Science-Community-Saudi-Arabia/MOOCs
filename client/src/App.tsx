@@ -11,7 +11,7 @@ import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgotpassword";
 import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
-import Course from "./pages/Dashboard/course";
+import Course from "./pages/dashboard/course";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/EmailVerify";
 function App() {
@@ -50,4 +50,4 @@ export default App;
 
 // Todo
 // install elint husky and pretty
-// try the json format but check the compliing first
+// Run  for performances and accesibility checks

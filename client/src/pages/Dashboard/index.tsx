@@ -17,11 +17,15 @@ function Dashboard() {
 
   const getAllCourses = async () => {
     setLoadingCourses(true);
-    let response = await getCourses();
-    console.log(response);
-    if (response.success) {
+    try {
+      let response = await getCourses();
+      console.log(response);
+      if (response.success) {
+        setLoadingCourses(false);
+        setCourses(response.data.courses);
+      }
+    } catch (error: any) {
       setLoadingCourses(false);
-      setCourses(response.data.courses);
     }
   };
 
@@ -71,6 +75,5 @@ function Dashboard() {
     </section>
   );
 }
-
 
 export default Dashboard;

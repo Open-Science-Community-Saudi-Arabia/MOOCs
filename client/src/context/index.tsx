@@ -67,8 +67,12 @@ export const AppProvider = ({
   const token = getToken();
 
   if (!token || token === "undefined") {
-    return <Navigate to="/login" state={{ redirect: location }} />;
+    return <Navigate to="/login" />;
+    // return <Navigate to="/login" state={{ redirect: location }} />;
+  } else {
+    <Navigate to="/dashboard" />;
   }
+
   const logout = async () => {
     axios.defaults.headers.common.Authorization = "";
     window.localStorage.removeItem(TOKEN_KEY);
@@ -97,6 +101,7 @@ export const AppProvider = ({
           throw error.message;
         }
       } catch (error) {
+        console.log("error from context", error);
         logout();
       }
     }
