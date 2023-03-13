@@ -26,8 +26,10 @@ exports.verifyCertificate = async (req, res, next) => {
         return next(new BadRequestError("Missing required param in request body"))
     }
 
+    console.log(serial_number)
+
     // Check if certificate exists
-    const certificate = await Certificate.findOne({ serial_number }).populate({
+    const certificate = await Certificate.findOne({ serial_number: Number(serial_number) }).populate({
         path: "user course",
         select: "title description _id firstname lastname email",
     })
@@ -36,12 +38,12 @@ exports.verifyCertificate = async (req, res, next) => {
     }
 
     return res.status(200).json({
-        success: true, 
+        success: true,
         data: {
             message: "Certificate found",
             certificate,
         }
-    })  
+    })
 }
 
 /**
@@ -230,9 +232,8 @@ exports.issueCertificate = async (report_id) => {
     });
 
     // Save file url to database
-    certificate.certificate_url = file_url,
-
-        certificate = await certificate.save()
+    certificate.certificate_url = file_url
+    certificate = await certificate.save()
 
     return certificate
 }
