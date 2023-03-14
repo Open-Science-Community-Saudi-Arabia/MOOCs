@@ -37,6 +37,14 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
+exerciseSchema.pre('find', function (next) {
+    this.populate('questions')
+    next()
+})
+exerciseSchema.pre('findOne', function (next) {
+    this.populate('questions')
+    next()
+})
 
 const videoSchema = new Schema({
     type: { type: String, default: "video"},
@@ -132,7 +140,8 @@ courseSectionSchema.post('find', async function (courseSections) {
 })
 
 courseSectionSchema.post('findOne', async function (courseSection) {
-    await combineContents(courseSection)
+    const doc = await combineContents(courseSection)
+    return doc.toObject()
 })
 
 const courseSchema = new Schema({
