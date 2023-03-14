@@ -14,35 +14,45 @@ import Spinner from "./components/Spinner";
 import Course from "./pages/dashboard/course";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/EmailVerify";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <Suspense fallback={<Spinner width="30px" height="30px" />}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route element={<Layout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route
-            path="/api/v1/auth/verifyemail/:access_token"
-            element={<EmailVerify />}
-          />
-        </Route>
-        <Route path="/dashboard">
-          <Route
-            index
-            element={
-              <AppProvider>
-                <Dashboard />
-              </AppProvider>
-            }
-          />
-          <Route path=":id" element={<Course />} />
-        </Route>
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </Suspense>
+    <QueryClientProvider client={queryClient}>
+      <Suspense fallback={<Spinner width="30px" height="30px" />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route element={<Layout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route
+              path="/api/v1/auth/verifyemail/:access_token"
+              element={<EmailVerify />}
+            />
+          </Route>
+          <Route path="/dashboard">
+            <Route
+              index
+              element={
+                <AppProvider>
+                  <Dashboard />
+                </AppProvider>
+              }
+            />
+            <Route path=":id" element={<Course />} />
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </Suspense>
+    </QueryClientProvider>
   );
 }
 

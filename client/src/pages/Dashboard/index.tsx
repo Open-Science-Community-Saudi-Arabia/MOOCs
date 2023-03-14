@@ -52,18 +52,19 @@ function Dashboard() {
                       to={`/dashboard/${item._id}`}
                     >
                       <div className="dashboard-container__lesson-courses-content">
-                        {/* <img
+                        <img
                       className="dashboard-container__lesson-courses-content__img"
-                      src={item.image}
-                      alt="course video"
-                    /> */}
+                      src={item.preview_image}
+                      alt="course"
+                    />
                         <p className="dashboard-container__lesson-courses-content__text">
                           {item.title}
                         </p>
                         <div className="dashboard-container__lesson-courses-content__bottom">
                           <p className="dashboard-container__lesson-courses-content__bottom-author">
                             {" "}
-                            Author:{item.author}
+                            {item.course_sections.length} course sections
+                            {/* {item.course_sections.map((item.))} */}
                           </p>
                           <p className="dashboard-container__lesson-courses-content__bottom-author">
                             {" "}

@@ -39,6 +39,8 @@ export interface Courses {
   enrolled_users: [];
   isAvailable: boolean;
   videos: [];
+  preview_image: string
+  course_sections:[]
 }
 export interface AppContextState {
   isLoggedIn: boolean;

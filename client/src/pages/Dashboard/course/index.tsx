@@ -30,7 +30,7 @@ export default function Lesson() {
   useEffect(() => {
     setLesson(Videocontent.find((item) => item.id === Number(params.id)));
   }, []);
-
+console.log(lesson)
   return (
     <section className="lesson-container">
       <div className="lesson-container__header">
