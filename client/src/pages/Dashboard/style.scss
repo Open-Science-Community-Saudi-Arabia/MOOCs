@@ -56,17 +56,8 @@
           border: none;
         }
       }
-      // @include ipad {
-      //   padding: 1em 5em;
-      // }
-      // @include xl-screen {
-      //   width: 70%;
-      //   margin: auto;
-      //   padding: 0;
-      // }
     }
     &__lesson {
-      // width: 80%;
       margin: 6em auto;
       padding: 4em 3em;
       background-color: var(--white);
@@ -74,13 +65,18 @@
         font-weight: 600;
         font-size: 20px;
       }
+      &-spinner {
+       @include flex(center,center);
+       height:20vh;
+      }
       &-courses {
-        @include flex(start,center);
+        @include flex(space-between,center);
         flex-wrap: wrap;
-        gap:15px;
+        gap:30px;
+        margin:auto;
         margin: 2em 0em;
         &-content {
-          padding: 1.5em;
+          padding: 2em;
           border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
           // width: 30%;
@@ -94,15 +90,15 @@
           }
           &__text {
             padding-top: 1em;
-            font-size: 17px;
+            font-size: 20px;
             font-weight: 700;
           }
-          &__duration {
+          &__bottom {
+            color:var(--gray);
             padding-top: 10px;
-            gap: 5px;
-            @include flex(start, center);
-            svg {
-              font-size: 20px;
+            &-author{
+              font-weight: 500;
+              font-size: 14px;
             }
           }
         }

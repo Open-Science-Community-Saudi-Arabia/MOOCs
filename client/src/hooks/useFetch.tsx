@@ -20,9 +20,8 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
-      if (response.status === 200) {
-        setToken(response.data.token);
+      if (response.data.success === true) {
+        setToken(response.data.data.access_token);
         navigate("/dashboard");
       }
     } catch (error: any) {

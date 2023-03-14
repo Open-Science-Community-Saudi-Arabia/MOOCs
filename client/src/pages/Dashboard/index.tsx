@@ -37,9 +37,11 @@ function Dashboard() {
           <h1 className="dashboard-container__lesson-heading">
             Available Courses
           </h1>
-          <div>
+          <>
             {isloadingCourses ? (
-              <Spinner width="40px" height="40px" color />
+              <div className="dashboard-container__lesson-spinner">
+                <Spinner width="60px" height="60px" color />
+              </div>
             ) : (
               <div className="dashboard-container__lesson-courses">
                 {courses?.map((item) => {
@@ -58,18 +60,27 @@ function Dashboard() {
                         <p className="dashboard-container__lesson-courses-content__text">
                           {item.title}
                         </p>
-                        {/* <div className="dashboard-container__lesson-courses-content__duration">
-                      {" "}
-                      <WiTime4 />
-                      {item.duration}
-                    </div> */}
+                        <div className="dashboard-container__lesson-courses-content__bottom">
+                          <p className="dashboard-container__lesson-courses-content__bottom-author">
+                            {" "}
+                            Author:{item.author}
+                          </p>
+                          <p className="dashboard-container__lesson-courses-content__bottom-author">
+                            {" "}
+                            5 Users Enrolled
+                          </p>
+                          {/* <p className="dashboard-container__lesson-courses-content__bottom-author">
+                            {" "}
+                           5 Users Enrolled
+                          </p> */}
+                        </div>
                       </div>
                     </Link>
                   );
                 })}
               </div>
             )}
-          </div>
+          </>
         </div>
       </div>
     </section>
