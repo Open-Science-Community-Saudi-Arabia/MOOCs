@@ -12,10 +12,19 @@ const { createCourse, getCourses, getCourseData,
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: 'src/assets/tempfiles/',
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
+
 router.use(basicAuth())
 
 router
-    .post("/new", permit("Admin SuperAdmin"), createCourse)
+    .post("/new", permit("Admin SuperAdmin"), upload.single('file'), createCourse)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateCourse)
     .delete("/delete/:id", permit("Admin SuperAdmin"), deleteCourse)
     .post("/enroll/:id", permit("Admin EndUser SuperAdmin"), enrollCourse)

@@ -6,6 +6,8 @@ const {
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { User } = require("../models/user.models");
+const { uploadToCloudinary } = require("../utils/cloudinary");
+const fs = require("fs")
 
 /* COURSES */
 
@@ -21,8 +23,32 @@ const { User } = require("../models/user.models");
  * @throws {error} if an error occured
  */
 exports.createCourse = async (req, res, next) => {
+    const preview_image = req.file
+
+    if(!preview_image) {
+        return next(new BadRequestError('Missing preview image'))
+    }
+
     const newCourse = new Course(req.body);
+
+    // Upload preview image to cloudinary
+    const file_url = await uploadToCloudinary({
+        path: preview_image.path,
+        file_name: `course_preview_${newCourse._id}`,
+        destination_path: 'courses/preview_images'
+    })
+
+    // Save file url to database
+    newCourse.preview_image = file_url;
     const savedCourse = await newCourse.save();
+
+    // Delete file from server
+    await fs.unlink(preview_image.path, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
+
     return res.status(200).json({
         success: true,
         data: {
