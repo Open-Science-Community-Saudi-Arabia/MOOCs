@@ -37,6 +37,10 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
+exerciseSchema.pre('findById', function (next) {
+    this.populate('questions')
+    next()
+})
 exerciseSchema.pre('find', function (next) {
     this.populate('questions')
     next()
