@@ -159,6 +159,7 @@ const courseReportSchema = new Schema(
     },
     options
 );
+
 courseReportSchema.virtual('certificate', {
     localField: '_id',
     foreignField: 'course_report',

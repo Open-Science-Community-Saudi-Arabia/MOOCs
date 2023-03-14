@@ -1,4 +1,4 @@
-const { Question, Exercise, Video, Course, ExerciseSubmission } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 // Create a new exercise
@@ -8,6 +8,7 @@ const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/err
  * @param {string} title - Exercise title
  * @param {string} description - Exercise description
  * @param {string} course_id - Course id
+ * @param {string} course_section_id - Course section id
  * @param {string} duration - Course duration in time
  * 
  * @returns {MongooseObject} saved_exercise
@@ -16,22 +17,42 @@ const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/err
  * @throws {NotFoundError} if course_id provided and it doesn't match any course in DB
  */
 exports.createExercise = async (req, res, next) => {
-    const { title, description, duration, course_id } = req.body
+    const { title, description, duration, course_id, course_section_id } = req.body
 
-    // If user provided a course to link the exercise to
-    let course = await Course.findById(course_id)
-    if (!course) {
-        return next(new NotFoundError('Course not found'))
+    // Check if all required fields are provided
+    if (!title || !description || !duration || !course_id || !course_section_id) {
+        return next(new BadRequestError('Please provide all required fields'))
+    }
+
+    let course_section = await CourseSection.findById(course_section_id).populate('course')
+    if (!course_section) {
+        return next(new NotFoundError('Course section not found'))
+    }
+
+    // Check if course section belongs to the course provided
+    if (course_section.course._id.toString() !== course_id) {
+        return next(new ForbiddenError('Course section does not belong to the course provided'))
+    }
+
+    // Check if course is available
+    if (!course_section.course.isAvailable) {
+        return next(new ForbiddenError('Course is not available'))
     }
 
     const saved_exercise = await Exercise.create({
-        title, description, duration, course: course?._id
+        title, description, duration, course: course_section.course._id,
+        course_section: course_section._id
     });
 
     return res.status(200).json({
         success: true,
         data: {
-            exercise: saved_exercise
+            exercise: await saved_exercise.populate({
+                path: 'course_section',
+                populate: {
+                    path: 'course exercises videos'
+                }
+            })
         }
     });
 }
@@ -103,7 +124,7 @@ exports.getExerciseData = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            exercise: exercise.isAvailable ? exercise.toJSON() : null // return exercise only if it's available
+            exercise
         }
     })
 }
@@ -193,6 +214,11 @@ exports.deleteExercise = async (req, res, next) => {
  * */
 exports.addQuestionToExercise = async (req, res, next) => {
     const { exercise_id, question_id } = req.body
+
+    if (!exercise_id || !question_id) {
+        return next(new BadRequestError('Missing required param in request body'))
+    }
+    
     const exercise = await Exercise.findById(exercise_id)
 
     if (!exercise) {
@@ -281,6 +307,7 @@ exports.scoreExercise = async (req, res, next) => {
         return next(new NotFoundError("Exercise not found"));
     }
 
+    // Check if user has enrolled for course
     const course = (await exercise_obj.populate('course')).course
     if (!course.enrolled_users.includes(req.user.id)) {
         return next(new ForbiddenError("User hasn't enrolled for course"))
@@ -305,6 +332,13 @@ exports.scoreExercise = async (req, res, next) => {
             submitted_option: submitted_option,
         });
     });
+
+    // Check if user has completed the exercise
+    if (score == exercise.questions.length) {
+        // User has completed the exercise
+        await CourseReport.findOneAndUpdate({ user: req.user.id, course: course._id, },
+            { $addToSet: { completed_exercises: exercise._id, }, });
+    }
 
     exercise_submission.score = score
     exercise_submission = await exercise_submission.save()
