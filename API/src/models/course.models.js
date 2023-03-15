@@ -124,9 +124,9 @@ courseSectionSchema.virtual('textmaterials', {
 
 function combineContents(courseSection) {
     courseSection.contents = [
-        ...courseSection.videos,
-        ...courseSection.exercises,
-        ...courseSection.textmaterials
+        ...courseSection.videos??[],
+        ...courseSection.exercises??[],
+        ...courseSection.textmaterials??[]
     ]
 
     courseSection.contents.sort((a, b) => {
