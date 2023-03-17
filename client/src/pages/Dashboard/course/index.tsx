@@ -10,7 +10,7 @@ import { useCourse } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 
-export default function Lesson() {
+export default function Course() {
   const [activeTab, setActiveTab] = useState("tab1");
   const params = useParams();
   const [displayVideo, setDisplayVideo] = useState(true);
