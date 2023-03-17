@@ -1,3 +1,12 @@
+/**
+ * @memberof Controllers
+ * @name Auth
+ * @module Auth
+ * @description This module contains the controllers for the authentication routes.
+ * */
+
+
+
 const UUID = require('uuid').v4;
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -22,7 +31,7 @@ const { default: mongoose } = require('mongoose');
 /**
  * Sign a token with the given payload and secret
  * 
- * @param {string} id 
+ * @param {string} id   
  * @param {string} role 
  * @param {string} jwtSecret 
  * @param {string} expiry 
@@ -30,6 +39,8 @@ const { default: mongoose } = require('mongoose');
  * @returns {string} token
  * 
  * @throws {Error} if jwtSecret is not provided 
+
+ * @memberof AuthController
  */
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
@@ -49,6 +60,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @param {ExpressResponseObject} res 
  * 
  * @returns {void}
+
  */
 const createToken = (user, statusCode, res) => {
     const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
@@ -81,9 +93,10 @@ const createToken = (user, statusCode, res) => {
 /**
  * Handle existing unverified user.
  * 
- * It sends new verification email to user
+ * @description It sends new verification email to user
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
+
  */
 const handleUnverifiedUser = function (user) {
     return async function (req) {
@@ -112,11 +125,14 @@ const handleUnverifiedUser = function (user) {
 
 /**
  * Handle existing user
- *
+ * 
+ * @description It sends new verification email to user if the existing user is unverified
+ * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {function} - Express middleware function
  * @throws {BadRequestError} - If user is already verified
- * */
+ *
+ */
 const handleExistingUser = function (user) {
     return async function (req, res, next) {
         const existing_user = user.toJSON({ virtuals: true });
@@ -152,18 +168,21 @@ exports.passportOauthCallback = function (req, res) {
 /**
  * Signup a new user
  * 
- * @param {string} role
- * @param {string} email
- * @param {string} password
- * @param {string} passwordConfirm
- * @param {string} firstname
- * @param {string} lastname
+ * @description This function creates a new user and sends a verification email to the user
  * 
- * @returns {object} user
- * @returns {string} token
- * @returns {string} status
+ * @param {string} role - User role (EndUser, Admin, SuperAdmin)
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {string} passwordConfirm - User password confirmation
+ * @param {string} firstname - User firstname
+ * @param {string} lastname - User lastname
+ * 
+ * @returns {object} user - Mongoose user object
+ * @returns {string} token - JWT token
+ * @returns {string} status - Status of the request
  * 
  * // TODO: Add super admin signup
+
  */
 exports.signup = async (req, res, next) => {
     let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
@@ -218,20 +237,23 @@ exports.signup = async (req, res, next) => {
 /**
  * Create new admin account
  * 
- * @param {string} email
- * @param {string} password
- * @param {string} passwordConfirm
- * @param {string} firstname
- * @param {string} lastname
+ * @description This function creates a new admin account and sends a verification email to the user
+ * 
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @param {string} passwordConfirm - User password confirmation
+ * @param {string} firstname - User firstname
+ * @param {string} lastname - User lastname
  *  
- * @returns {object} user
- * @returns {string} token
- * @returns {string} status
+ * @returns {object} user - Mongoose user object
+ * @returns {string} token - JWT token
+ * @returns {string} status - Status of the request
  * 
  * @throws {BadRequestError} if email or password is not provided
  * @throws {BadRequestError} if email or password is incorrect
  * @throws {BadRequestError} if email is not verified
  * @throws {Error} if error occurs
+
  */
 exports.addAdmin = async (req, res, next) => {
     req.body.role = 'Admin';
@@ -242,17 +264,20 @@ exports.addAdmin = async (req, res, next) => {
 /**
  * Login a user
  * 
- * @param {string} email
- * @param {string} password
+ * @description This function logs in a user and returns a JWT token
  * 
- * @returns {object} user
- * @returns {string} token
- * @returns {string} status
+ * @param {string} email    - User email
+ * @param {string} password - User password
+ * 
+ * @returns {object} user - Mongoose user object
+ * @returns {string} token - JWT token
+ * @returns {string} status - Status of the request
  * 
  * @throws {CustomAPIError} if email or password is not provided
  * @throws {CustomAPIError} if email or password is incorrect
  * @throws {CustomAPIError} if email is not verified
  * @throws {Error} if error occurs
+
  */
 exports.login = async (req, res, next) => {
     const { email, password } = req.body
@@ -303,16 +328,19 @@ exports.login = async (req, res, next) => {
 /**
  * Verify a user's email
  * 
- * @param {string} token
+ * @description This function verifies a user's email
  * 
- * @returns {string} status
+ * @param {string} token - JWT token
  * 
+ * @returns {string} status - Status of the request
+ *  
  * @throws {CustomAPIError} if token is invalid or token has expired
  * @throws {Error} if error occurs
+
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-const { token } = req.params;
+    const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -346,13 +374,14 @@ const { token } = req.params;
  * Sends an email to the super admin with one of the activation codes
  * Sends an email to the project hosts with the other activation codes
  * 
- * @param {string} email
+ * @param {string} email - Super admin email
  * 
- * @returns {string} status
+ * @returns {string} status - Status of the request
  * 
  * @throws {CustomAPIError} if super admin account does not exist
  * @throws {CustomAPIError} if super admin account is already active
  * @throws {Error} if error occurs
+
  */
 exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     const email = req.params.email
@@ -404,16 +433,17 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
 /**
  * Activate super admin account
  * 
- * @param {string} activation_code1
- * @param {string} activation_code2
- * @param {string} activation_code3
+ * @param {string} activation_code1 - Activation code 1 sent to new super admin
+ * @param {string} activation_code2 - Activation code 2 sent to project hosts
+ * @param {string} activation_code3 - Activation code 3 sent to project hosts
  * 
- * @returns {string} status
+ * @returns {string} status - Status of the request
  * 
  * @throws {BadRequestError} if activation codes are not provided
  * @throws {BadRequestError} if token is invalid or token has expired
  * @throws {BadRequestError} if token is blacklisted
  * @throws {Error} if error occurs
+
  */
 exports.activateSuperAdminAccount = async (req, res, next) => {
     const { activation_code1, activation_code2, activation_code3 } = req.body
@@ -463,16 +493,19 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
 /**
  * Request for super admin account deactivation
  * 
+ * @description If a super admin account is deactivated, all project hosts will be notified
+ * 
  * Sends an email to the super admin with one of the deactivation codes
  * Sends an email to the project hosts with the other deactivation codes
  * 
- * @param {string} email
+ * @param {string} email   - Super admin email
  * 
- * @returns {string} status
+ * @returns {string} status - Status of the request
  * 
  * @throws {CustomAPIError} if super admin account does not exist
  * @throws {CustomAPIError} if super admin account is already active
  * @throws {Error} if error occurs
+
  */
 exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     const email = req.params.email
@@ -524,16 +557,19 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
 /**
  * Deactivate super admin account
  * 
- * @param {string} activation_code1
- * @param {string} activation_code2
- * @param {string} activation_code3
+ * @description Deactivates super admin account if all activation codes are correct
  * 
- * @returns {string} status
+ * @param {string} deactivation_code1 - deactivation code 1 sent to new super admin
+ * @param {string} deactivation_code2 - deactivation code 2 sent to project hosts
+ * @param {string} deactivation_code3 - deactivation code 3 sent to project hosts
+ * 
+ * @returns {string} status - Status of the request
  * 
  * @throws {BadRequestError} if activation codes are not provided
  * @throws {BadRequestError} if token is invalid or token has expired
  * @throws {BadRequestError} if token is blacklisted
  * @throws {Error} if error occurs
+
  */
 exports.deactivateSuperAdminAccount = async (req, res, next) => {
     const { deactivation_code1, deactivation_code2, deactivation_code3 } = req.body
@@ -582,13 +618,16 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
 /**
  * Activate user account
  * 
- * @param {string} email
+ * @description Activates user account if user account exists and it's not active
  * 
- * @returns {string} status
+ * @param {string} email - User email
+ * 
+ * @returns {string} status - Status of the request
  * 
  * @throws {BadRequestError} if user account does not exist
  * @throws {BadRequestError} if user account is already active
  * @throws {Error} if error occurs
+
  */
 exports.activateUserAccount = async (req, res, next) => {
     const email = req.params.email
@@ -620,12 +659,15 @@ exports.activateUserAccount = async (req, res, next) => {
 /**
  * Deactivate user account
  * 
- * @param {string} email
+ * @description Deactivates user account if user account exists and it's active
  * 
- * @returns {string} status
+ * @param {string} email - User email
+ * 
+ * @returns {string} status - Status of the request
  * 
  * @throws {BadRequestError} if user account does not exist
- * */
+ *
+ */
 exports.deactivateUserAccount = async (req, res, next) => {
     const email = req.params.email
 
@@ -658,14 +700,15 @@ exports.deactivateUserAccount = async (req, res, next) => {
 /**
 * Send a password reset code to a user's email
 * 
-* @param {string} email
+* @param {string} email - User email
 * 
 * @returns {string} message
 * @returns {string} access_token
 * 
 * @throws {BadRequestError} If missing required parameter in request body
 * @throws {BadRequestError} If User does not exist
-*/
+* @category AuthController
+ */
 exports.forgetPassword = async (req, res, next) => {
     const { email } = req.body
 
@@ -704,10 +747,12 @@ exports.forgetPassword = async (req, res, next) => {
 /**
  * Reset a user's password
  * 
- * @param {string} new_password
- * @param {string} password_reset_code
+ * @description Resets a user's password if user exists and password reset code is correct
  * 
- * @returns {string} status
+ * @param {string} new_password - New password
+ * @param {string} password_reset_code - Password reset code
+ * 
+ * @returns {string} status     - Status of the request
  * 
  * @throws {Error} if error occurs
  * @throws {BadRequestError} if user does not exist
@@ -716,6 +761,7 @@ exports.forgetPassword = async (req, res, next) => {
  * @throws {BadRequestError} if Password reset code is incorrect
  * @throws {BadRequestError} if Password reset code has expired
  * @throws {UnauthorizedError} if Access token expired
+
  */
 exports.resetPassword = async (req, res, next) => {
     const { new_password, password_reset_code } = req.body
@@ -757,16 +803,17 @@ exports.resetPassword = async (req, res, next) => {
 /**
  * Signin a user with google
  * 
- * @param {string} token
+ * @param {string} code - Google auth code
  * 
- * @returns {string} status
- * @returns {string} access_token
- * @returns {string} refresh_token
+ * @returns {string} status - Status of the request
+ * @returns {string} access_token - Access token
+ * @returns {string} refresh_token - Refresh token
  * 
  * @throws {Error} if error occurs
  * @throws {BadRequestError} if Missing required parameter in request body
  * @throws {BadRequestError} if User does not exist
  * @throws {BadRequestError} if User is not verified
+
  */
 exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
@@ -789,7 +836,7 @@ exports.googleSignin = async (req, res, next) => {
     }),
         payload = ticket.getPayload(),
         existing_user = await User.findOne({ email: payload.email });
-    
+
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
@@ -814,12 +861,13 @@ exports.googleSignin = async (req, res, next) => {
 /**
  * Get data for logged in user
  * 
- * @param {string} token
+ * @param {string} token - Access token
  * 
- * @returns {string} success
- * @returns {object} user
+ * @returns {string} status - Status of the request 
+ * @returns {object} user - User data
  * 
  * @throws {error} if error occured 
+
  */
 exports.getLoggedInUser = async (req, res, next) => {
     // Check for valid authorization header
