@@ -34,7 +34,7 @@ const {
     CourseReport,
     CourseSection,
 } = require("../models/course.models");
-const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
+const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
 
 /* COURSES
@@ -525,17 +525,17 @@ exports.deleteVideo = async (req, res, next) => {
  *  </br> 
  *  </br> 
  * 
- * The report contains the following data: </br>
+ * The student course report contains the following data: </br>
  * 1. Course details (title, description, category, etc) </br>
  * 2. Completed exercises </br>
  * 3. Completed videos </br>
  * 4. Completed sections (sections that have all their videos completed) </br>
  * 
- * @param {string} course_id
+ * @param {string} course_id - id of the course to get student report for
  * 
  * @returns {object} course_report
  * 
- * @throws {error} if an error occured
+ * @throws {InternalServerError} An error occured
  * @throws {BadRequestError} if course not found
  * @throws {BadRequestError} if user not enrolled in course
 */
