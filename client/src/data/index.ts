@@ -21,14 +21,14 @@ import { t } from "@lingui/macro";
 export const Courses = [
   {
     id: 0,
-    name: t`Unlock the secrets of Open Science.`,
-    description: t`A beginner-friendly course to introduce the concepts and practices of Open Science.`,
+    name:  ()=>t`Unlock the secrets of Open Science.`,
+    description: ()=> t`A beginner-friendly course to introduce the concepts and practices of Open Science.`,
     icon: Github,
   },
   {
     id: 2,
-    name: t`Your Open Science Journey Begins Here.`,
-    description: t`Learn the basics of Open Science and start your journey towards more open and transparent research and education.`,
+    name:  ()=>t`Your Open Science Journey Begins Here.`,
+    description:  ()=>t`Learn the basics of Open Science and start your journey towards more open and transparent research and education.`,
     icon: JavaScript,
   },
 ];
@@ -67,23 +67,23 @@ export const OpenPractice = [
   {
     id: 0,
     icon: openbook,
-    name: t`OPEN SOURCE`,
+    name:  ()=>t`OPEN SOURCE`,
     color: "#ededed",
-    content: t`Open source software is a code that is designed to be publicly accessible. Prime examples include Linux, Firefox & Android`,
+    content:  ()=>t`Open source software is a code that is designed to be publicly accessible. Prime examples include Linux, Firefox & Android`,
   },
   {
     id: 1,
     icon: knowledge,
-    name: t`OPEN LICENSE`,
+    name:  ()=>t`OPEN LICENSE`,
     color: "#fff3d4",
-    content: t`Open Work is protected by Open License, which states how the work can be used, modified, adopted and commercialised.`,
+    content:  ()=>t`Open Work is protected by Open License, which states how the work can be used, modified, adopted and commercialised.`,
   },
   {
     id: 2,
     icon: brain,
-    name: t`OPEN HARDWARE`,
+    name:  ()=>t`OPEN HARDWARE`,
     color: "#d4f1ff",
-    content: t`Open source hardware is a hardware that is built based on principles analogous to open source software.`,
+    content:  ()=>t`Open source hardware is a hardware that is built based on principles analogous to open source software.`,
   },
 ];
 

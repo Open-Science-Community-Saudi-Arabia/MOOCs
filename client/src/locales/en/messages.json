@@ -2,6 +2,7 @@
   "A beginner-friendly course to introduce the concepts and practices of Open Science.": "A beginner-friendly course to introduce the concepts and practices of Open Science.",
   "About": "About",
   "Blog": "Blog",
+  "Communities": "Communities",
   "Contact Info": "Contact Info",
   "Copyright © OSCSA MOOCS": "Copyright © OSCSA MOOCS",
   "Courses": "Courses",
@@ -34,5 +35,6 @@
   "Support and collaboration from leading organizations": "Support and collaboration from leading organizations",
   "Turing Way": "Turing Way",
   "Unlock the secrets of Open Science.": "Unlock the secrets of Open Science.",
-  "Your Open Science Journey Begins Here.": "Your Open Science Journey Begins Here."
+  "Your Open Science Journey Begins Here.": "Your Open Science Journey Begins Here.",
+  "{0}": "{0}"
 }

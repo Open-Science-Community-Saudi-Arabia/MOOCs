@@ -14,7 +14,7 @@ const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const I18nApp = () => {
   useEffect(() => {
     dynamicActivate(defaultLocale);
-  }, []);
+  }, [defaultLocale]);
   return (
     <React.StrictMode>
       <BrowserRouter>

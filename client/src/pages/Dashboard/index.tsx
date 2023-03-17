@@ -3,60 +3,57 @@ import { Videocontent } from "../../data";
 import Header from "./Header";
 import "./style.scss";
 import { Link } from "react-router-dom";
-import { getCourses } from "../../utils/api/courses";
+import { useCourses } from "../../utils/api/courses";
 import { WiTime4 } from "react-icons/wi";
 import { Courses } from "../../types";
 import Spinner from "../../components/Spinner";
+import ErrorFallBack from "../../components/ErrorFallBack";
+import { ToastContainer, toast } from "react-toastify";
 
 function Dashboard() {
-  const [courses, setCourses] = useState<Courses[]>();
+  // const [courses, setCourses] = useState<Courses[]>();
   const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
+  const { data: courses, isLoading, isError, refetch } = useCourses();
+
   useEffect(() => {
-    getAllCourses();
+    refetch();
   }, []);
-
-  const getAllCourses = async () => {
-    setLoadingCourses(true);
-    try {
-      let response = await getCourses();
-      console.log(response);
-      if (response.success) {
-        setLoadingCourses(false);
-        setCourses(response.data.courses);
-      }
-    } catch (error: any) {
-      setLoadingCourses(false);
-    }
-  };
-
   return (
     <section className="dashboard">
       <div className="dashboard-container">
         <Header />
         <div className="dashboard-container__lesson">
-          <h1 className="dashboard-container__lesson-heading">
-            Available Courses
-          </h1>
-          <>
-            {isloadingCourses ? (
-              <div className="dashboard-container__lesson-spinner">
-                <Spinner width="60px" height="60px" color />
-              </div>
-            ) : (
+          {isLoading ? (
+            <div className="dashboard-container__lesson-spinner">
+              <Spinner width="60px" height="60px" color />
+            </div>
+          ) : isError ? (
+            <ErrorFallBack
+              message="Something went wrong!"
+              description="We encountered an error while fetching your purchased assets"
+              reset={refetch}
+            />
+           
+          ) : (
+            <>
+              <h1 className="dashboard-container__lesson-heading">
+                Available Courses
+              </h1>
               <div className="dashboard-container__lesson-courses">
-                {courses?.map((item) => {
+                {courses?.data.courses?.map((item: Courses) => {
                   return (
                     <Link
                       aria-label="course"
                       key={item._id}
                       to={`/dashboard/${item._id}`}
+                      className="dashboard-container__lesson-courses-link"
                     >
                       <div className="dashboard-container__lesson-courses-content">
                         <img
-                      className="dashboard-container__lesson-courses-content__img"
-                      src={item.preview_image}
-                      alt="course"
-                    />
+                          className="dashboard-container__lesson-courses-content__img"
+                          src={item.preview_image}
+                          alt="course"
+                        />
                         <p className="dashboard-container__lesson-courses-content__text">
                           {item.title}
                         </p>
@@ -66,10 +63,10 @@ function Dashboard() {
                             {item.course_sections.length} course sections
                             {/* {item.course_sections.map((item.))} */}
                           </p>
-                          <p className="dashboard-container__lesson-courses-content__bottom-author">
+                          {/* <p className="dashboard-container__lesson-courses-content__bottom-author">
                             {" "}
                             5 Users Enrolled
-                          </p>
+                          </p> */}
                           {/* <p className="dashboard-container__lesson-courses-content__bottom-author">
                             {" "}
                            5 Users Enrolled
@@ -80,8 +77,8 @@ function Dashboard() {
                   );
                 })}
               </div>
-            )}
-          </>
+            </>
+          )}
         </div>
       </div>
     </section>

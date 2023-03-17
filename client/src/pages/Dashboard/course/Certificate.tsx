@@ -1,4 +1,4 @@
-import React from "react";
+
 
 interface IProps {
   handleOpenContent: () => void;
@@ -13,3 +13,4 @@ export default function Certificate({ handleOpenContent }: IProps) {
     </div>
   );
 }
+

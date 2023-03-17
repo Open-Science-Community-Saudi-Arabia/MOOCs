@@ -5,7 +5,7 @@ import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
 import Select from "react-select";
-import { locales, dynamicActivate } from "../../i18n";
+import { dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
 
@@ -13,14 +13,15 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
-    { value: "en", label: locales.en },
-    { value: "ar", label: locales.ar },
+    { value: "en", label: "English" },
+    { value: "ar", label: "Arabic" },
   ];
   const [currentLocale, setCurrentLocale] = useState(options[0]);
 
   const isDesktop = useMediaQuery("(min-width: 1250px)");
 
   function changeLanguage(selectedOption: any) {
+    // console.log(selectedOption);
     setCurrentLocale(selectedOption);
     dynamicActivate(selectedOption.value);
   }

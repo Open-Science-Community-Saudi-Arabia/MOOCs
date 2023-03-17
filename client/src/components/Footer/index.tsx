@@ -39,7 +39,7 @@ export default function index() {
             </Link>
           </div>
           <div className="footer__content-communities">
-            <h3 className="heading">Communities</h3>
+            <h3 className="heading">  <Trans>Communities</Trans></h3>
             <Link className="nav-link" to="">
               <Trans>OSCSA</Trans>
             </Link>

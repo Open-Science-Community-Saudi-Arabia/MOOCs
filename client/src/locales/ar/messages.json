@@ -2,6 +2,7 @@
   "A beginner-friendly course to introduce the concepts and practices of Open Science.": "دورة دراسية ملائمة للمبتدئين لإدخال مفاهيم وممارسات العلم المفتوح.",
   "About": "حول",
   "Blog": "المدونة",
+  "Communities": "مجتمعات",
   "Contact Info": "معلومات الاتصال",
   "Copyright © OSCSA MOOCS": "حقوق الطبع والنشر © MOOCS",
   "Courses": "الدورات",
@@ -34,5 +35,6 @@
   "Support and collaboration from leading organizations": "الدعم والتعاون من المنظمات الرائدة",
   "Turing Way": "طريق التلاعب",
   "Unlock the secrets of Open Science.": "فتح أسرار العلوم المفتوحة.",
-  "Your Open Science Journey Begins Here.": "تبدأ رحلة العلوم المفتوحة الخاصة بك هنا."
+  "Your Open Science Journey Begins Here.": "تبدأ رحلة العلوم المفتوحة الخاصة بك هنا.",
+  "{0}": ""
 }

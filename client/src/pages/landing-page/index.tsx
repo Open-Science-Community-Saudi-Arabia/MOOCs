@@ -57,10 +57,10 @@ export default function index() {
                 />
               </div>
               <h3 className="courses-section__container-course__name">
-                {name}
+                <Trans> {name()}</Trans>
               </h3>
               <p className="courses-section__container-course__description">
-                {description}
+                {description()}
               </p>
               <Link
                 to={"/login"}
@@ -118,10 +118,10 @@ export default function index() {
                 />
                 <div className="open-science__article-content__list-item">
                   <h3 className="open-science__article-content__list-item-name">
-                    {name}
+                    {name()}
                   </h3>
                   <span className="open-science__article-content__list-item-description">
-                    {content}
+                    {content()}
                   </span>
                 </div>
               </div>
