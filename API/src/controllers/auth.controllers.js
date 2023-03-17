@@ -8,22 +8,22 @@
  *
  * </br>
  * 
- * - POST /auth/login: Handles user login with username and password </br>
- * - POST /auth/signup: Handles user signup with name, email, and password </br>
- * - POST /auth/addadmin: Handles super admin signup with name, email, and password </br>
- * - GET /auth/superadmin/reqactivation/:email: Handles super admin activation request with email </br>
- * - POST /auth/superadmin/activate: Handles super admin activation with email and password </br>
- * - GET /auth/superadmin/reqdeactivation/:email: Handles super admin deactivation request with email </br>
- * - POST /auth/superadmin/deactivate: Handles super admin deactivation with email and password </br>
- * - POST /auth/user/activate/:email: Handles user account activation with email </br>
- * - POST /auth/user/deactivate/:email: Handles user account deactivation with email </br>
- * - POST /auth/forgotpassword: Handles password reset requests with email </br>
- * - POST /auth/resetpassword: Handles password reset confirmation with password reset code and new password </br>
- * - POST /auth/googlesignin: Handles google signin with google id token </br>
- * - GET /auth/github: Handles github signin with github oauth </br>
- * - GET /auth/github/callback: Handles github signin callback with github oauth </br>
- * - POST /auth/google/callback: Handles google signin callback with google id token </br>
- * - GET /auth/verifyemail/:token: Handles email verification with email verification token </br>
+ * <b>POST</b> /auth/login </br>
+ * <b>POST</b> /auth/signup </br>
+ * <b>POST</b> /auth/addadmin  </br>
+ * <b>GET</b> /auth/superadmin/reqactivation/:email </br>
+ * <b>POST</b> /auth/superadmin/activate  </br>
+ * <b>GET</b> /auth/superadmin/reqdeactivation/:email  </br>
+ * <b>POST</b> /auth/superadmin/deactivate </br>
+ * <b>POST</b> /auth/user/activate/:email </br>
+ * <b>POST</b> /auth/user/deactivate/:email l </br>
+ * <b>POST</b> /auth/forgotpassword </br>
+ * <b>POST</b> /auth/resetpassword </br>
+ * <b>POST</b> /auth/googlesignin </br>
+ * <b>GET</b> /auth/github </br>
+ * <b>GET</b> /auth/github/callback </br>
+ * <b>POST</b> /auth/google/callback </br>
+ * <b>GET</b> /auth/verifyemail/:token </br>
  *  
  */
 

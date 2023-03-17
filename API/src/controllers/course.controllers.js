@@ -1,10 +1,33 @@
 /**
- * @fileoverview Auth controller
  * @memberof Controllers
- * @module CourseController
- * @namespace CourseController
+ * @name Controllers/Course
+ * @module Controllers/Course
  * 
-*/
+ * @description This module contains all the controllers for the course model.
+ * 
+ * The following routes are handled by this controller </br>
+ * 
+ * </br> 
+ * 
+ * <b>GET</b> /courses </br>
+ * <b>GET</b> /courses/:id </br>
+ * <b>POST</b> /courses/new </br>
+ * <b>PATCH</b> /courses/update/:id </br>
+ * <b>DELETE</b> /courses/delete/:id </br>
+ * <b>POST</b> /courses/enroll/:id </br>
+ * <b>POST</b> /courses/cancelenrollment/:id </br>
+ * <b>GET</b> /courses/enrolled </br>
+ * <b>GET</b> /courses/enrolledcourses </br>
+ * <b>GET</b> /courses/enrolledusers/:id </br>
+ * <b>POST</b> /courses/video/upload </br>
+ * <b>GET</b> /courses/video/:id </br>
+ * <b>GET</b> /courses/videos/:courseId </br>
+ * <b>PATCH</b> /courses/video/update/:id </br>
+ * <b>DELETE</b> /courses/video/delete/:videoId </br>
+ * <b>GET</b> /courses/studentreport/:id </br>
+ */
+
+
 const {
     Video,
     Course,
