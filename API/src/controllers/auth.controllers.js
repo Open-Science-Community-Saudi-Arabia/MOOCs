@@ -1,10 +1,31 @@
 /**
  * @memberof Controllers
- * @name Auth
- * @module Auth
- * @description This module contains the controllers for the authentication routes.
- * */
-
+ * @name Controllers/Auth
+ * @module Controllers/Auth
+ * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
+ *
+ * The following routes are handled by this module and their corresponding functions: </br>
+ *
+ * </br>
+ * 
+ * - POST /auth/login: Handles user login with username and password </br>
+ * - POST /auth/signup: Handles user signup with name, email, and password </br>
+ * - POST /auth/addadmin: Handles super admin signup with name, email, and password </br>
+ * - GET /auth/superadmin/reqactivation/:email: Handles super admin activation request with email </br>
+ * - POST /auth/superadmin/activate: Handles super admin activation with email and password </br>
+ * - GET /auth/superadmin/reqdeactivation/:email: Handles super admin deactivation request with email </br>
+ * - POST /auth/superadmin/deactivate: Handles super admin deactivation with email and password </br>
+ * - POST /auth/user/activate/:email: Handles user account activation with email </br>
+ * - POST /auth/user/deactivate/:email: Handles user account deactivation with email </br>
+ * - POST /auth/forgotpassword: Handles password reset requests with email </br>
+ * - POST /auth/resetpassword: Handles password reset confirmation with password reset code and new password </br>
+ * - POST /auth/googlesignin: Handles google signin with google id token </br>
+ * - GET /auth/github: Handles github signin with github oauth </br>
+ * - GET /auth/github/callback: Handles github signin callback with github oauth </br>
+ * - POST /auth/google/callback: Handles google signin callback with google id token </br>
+ * - GET /auth/verifyemail/:token: Handles email verification with email verification token </br>
+ *  
+ */
 
 
 const UUID = require('uuid').v4;
@@ -168,6 +189,7 @@ exports.passportOauthCallback = function (req, res) {
 /**
  * Signup a new user
  * 
+ * @category Controllers
  * @description This function creates a new user and sends a verification email to the user
  * 
  * @param {string} role - User role (EndUser, Admin, SuperAdmin)
@@ -180,6 +202,7 @@ exports.passportOauthCallback = function (req, res) {
  * @returns {object} user - Mongoose user object
  * @returns {string} token - JWT token
  * @returns {string} status - Status of the request
+ *
  * 
  * // TODO: Add super admin signup
 
@@ -237,6 +260,7 @@ exports.signup = async (req, res, next) => {
 /**
  * Create new admin account
  * 
+ * @category Controllers
  * @description This function creates a new admin account and sends a verification email to the user
  * 
  * @param {string} email - User email

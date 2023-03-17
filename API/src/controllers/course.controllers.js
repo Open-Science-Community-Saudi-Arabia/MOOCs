@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Auth controller
+ * @memberof Controllers
+ * @module CourseController
+ * @namespace CourseController
+ * 
+*/
 const {
     Video,
     Course,
@@ -7,7 +14,8 @@ const {
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { User } = require("../models/user.models");
 
-/* COURSES */
+/* COURSES * @memberof CourseController
+*/
 
 /**
  * Create new course
@@ -19,7 +27,8 @@ const { User } = require("../models/user.models");
  * @returns {MongooseObject} savedCourse
  * 
  * @throws {error} if an error occured
- */
+ * @memberof CourseController
+*/
 exports.createCourse = async (req, res, next) => {
     const newCourse = new Course(req.body);
     const savedCourse = await newCourse.save();
@@ -41,7 +50,8 @@ exports.createCourse = async (req, res, next) => {
  * @param {string} id - Course id
  * 
  * @returns {object} courses
- **/
+ ** @memberof CourseController
+*/
 exports.getCourses = async (req, res, next) => {
     if (Object.keys(req.body).length != 0) {
         const courses = await Course.find(req.body);
@@ -74,7 +84,8 @@ exports.getCourses = async (req, res, next) => {
  * @param {string} id - id of the course 
  * 
  * @returns course
- */
+ * @memberof CourseController
+*/
 exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -105,7 +116,8 @@ exports.getCourseData = async (req, res, next) => {
  * @returns {object} course
  * 
  * @throws {BadRequestError} if Course not found
- */
+ * @memberof CourseController
+*/
 exports.updateCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -136,7 +148,8 @@ exports.updateCourse = async (req, res, next) => {
  * @param {string} id - Id of the course
  * 
  * @returns {string} message
- */
+ * @memberof CourseController
+*/
 exports.deleteCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -165,7 +178,8 @@ exports.deleteCourse = async (req, res, next) => {
  * @throws {error} if an error occured
  * @throws {BadRequestError} If course id not in request params
  * @throws {NotFoundError} if Course not found
- */
+ * @memberof CourseController
+*/
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -209,7 +223,8 @@ exports.enrollCourse = async (req, res, next) => {
  * 
  * @throws {BadRequestError} If missing id in request parameter
  * @throws {NotFoundError} If course not found
- */
+ * @memberof CourseController
+*/
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -239,7 +254,8 @@ exports.cancelEnrollment = async (req, res, next) => {
  * Get enrolled courses for a particular user
  * 
  * @returns {object} enrolledCourses 
- */
+ * @memberof CourseController
+*/
 exports.getEnrolledCourses = async (req, res, next) => {
     const user = await User.findById(req.user.id).populate('enrolled_courses');
 
@@ -260,7 +276,8 @@ exports.getEnrolledCourses = async (req, res, next) => {
  * 
  * @throws {BadRequestError} If missing id in request parameter
  * @throws {NotFoundError} If course not found
- */
+ * @memberof CourseController
+*/
 exports.getEnrolledUsers = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -284,7 +301,8 @@ exports.getEnrolledUsers = async (req, res, next) => {
 };
 
 
-/* VIDEOS */
+/* VIDEOS * @memberof CourseController
+*/
 
 /**
  * Upload video
@@ -300,7 +318,8 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @returns {object} video
  * 
  * @throws {error} if an error occured
- */
+ * @memberof CourseController
+*/
 exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
@@ -347,7 +366,8 @@ exports.uploadVideo = async (req, res, next) => {
  * @param {string} course_id - id of the course 
  * 
  * @returns {Object} course 
- */
+ * @memberof CourseController
+*/
 exports.removeVideoFromCourse = async (req, res, next) => {
     const { video_id, course_id } = req.body
 
@@ -374,7 +394,8 @@ exports.removeVideoFromCourse = async (req, res, next) => {
  * @param {courseId} - id of the course to get 
  *  
  * @returns {Array} - Array of all the videos within the course
- */
+ * @memberof CourseController
+*/
 exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -400,7 +421,8 @@ exports.getCourseVideos = async (req, res, next) => {
  * @param {string} id - id of the video 
  * 
  * @returns {Object} video 
- */
+ * @memberof CourseController
+*/
 exports.getVideoData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -427,7 +449,8 @@ exports.getVideoData = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
- */
+ * @memberof CourseController
+*/
 exports.updateVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
 
@@ -457,7 +480,8 @@ exports.updateVideo = async (req, res, next) => {
  * @todo delete video from database
  * @todo delete video from course
  * @todo delete video from user
- * */
+ * * @memberof CourseController
+*/
 exports.deleteVideo = async (req, res, next) => {
     const videoId = req.params.videoId;
     await Video.findByIdAndUpdate(videoId, { isAvailable: false });
@@ -482,7 +506,8 @@ exports.deleteVideo = async (req, res, next) => {
  * @throws {error} if an error occured
  * @throws {BadRequestError} if course not found
  * @throws {BadRequestError} if user not enrolled in course
- */
+ * @memberof CourseController
+*/
 exports.getStudentReportForCourse = async (req, res, next) => {
     const course_id = req.params.id;
 
@@ -501,7 +526,7 @@ exports.getStudentReportForCourse = async (req, res, next) => {
     }
 
     const student_course_report = await CourseReport.findOne({
-        user: req.user.id, 
+        user: req.user.id,
         course: course_id
     }).populate({
         path: 'course',
