@@ -10,7 +10,7 @@ import Spinner from "../../components/Spinner";
 import ErrorFallBack from "../../components/ErrorFallBack";
 import { ToastContainer, toast } from "react-toastify";
 
-function Dashboard() {
+function Index() {
   // const [courses, setCourses] = useState<Courses[]>();
   const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
   const { data: courses, isLoading, isError, refetch } = useCourses();
@@ -85,4 +85,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Index;
