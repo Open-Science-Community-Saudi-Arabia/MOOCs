@@ -13,6 +13,7 @@ import Spinner from "./components/Spinner";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Board from "./pages/board";
 // import Dashboard from "./pages/dashboard";
 // import Course from "./pages/dashboard/course";
 
@@ -33,17 +34,17 @@ function App() {
               element={<EmailVerify />}
             />
           </Route>
-          {/* <Route path="/dashboard">
+          <Route path="/dashboard">
             <Route
               index
               element={
                 <AppProvider>
-                  <Dashboard />
+                  <Board />
                 </AppProvider>
               }
             />
-            <Route path=":id" element={<Course />} />
-          </Route> */}
+            {/* <Route path=":id" element={<ViewCourse />} /> */}
+          </Route>
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>

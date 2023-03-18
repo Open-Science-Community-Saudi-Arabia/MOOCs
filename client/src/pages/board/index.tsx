@@ -10,7 +10,7 @@ import Spinner from "../../components/Spinner";
 import ErrorFallBack from "../../components/ErrorFallBack";
 // import { ToastContainer, toast } from "react-toastify";
 
-const Dashboard = () => {
+const Board = () => {
   const { data: courses, isLoading, isError, refetch } = useCourses();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
                     <Link
                       aria-label="course"
                       key={item._id}
-                      to={`/dashboard/${item._id}`}
+                      to={`/${item._id}`}
                       className="dashboard-container__lesson-courses-link"
                     >
                       <div className="dashboard-container__lesson-courses-content">
@@ -82,4 +82,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Board;
