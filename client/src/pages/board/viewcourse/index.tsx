@@ -9,7 +9,7 @@ import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import Quiz from "./Quiz";
 
-const Course =() =>{
+const ViewCourse =() =>{
   const [activeTab, setActiveTab] = useState("tab1");
   const params = useParams();
   const [displayVideo, setDisplayVideo] = useState(true);
@@ -216,4 +216,4 @@ const Course =() =>{
     </section>
   );
 }
-export default Course
+export default ViewCourse

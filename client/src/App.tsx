@@ -14,8 +14,7 @@ import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board";
-// import Dashboard from "./pages/dashboard";
-// import Course from "./pages/dashboard/course";
+import ViewCourse from "./pages/board/viewcourse";
 
 const queryClient = new QueryClient();
 function App() {
@@ -43,7 +42,7 @@ function App() {
                 </AppProvider>
               }
             />
-            {/* <Route path=":id" element={<ViewCourse />} /> */}
+            <Route path="course/:id" element={<ViewCourse />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />

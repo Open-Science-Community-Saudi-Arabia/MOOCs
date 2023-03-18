@@ -42,7 +42,7 @@ const Board = () => {
                     <Link
                       aria-label="course"
                       key={item._id}
-                      to={`/${item._id}`}
+                      to={`course/${item._id}`}
                       className="dashboard-container__lesson-courses-link"
                     >
                       <div className="dashboard-container__lesson-courses-content">
