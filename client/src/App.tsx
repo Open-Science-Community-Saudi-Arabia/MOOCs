@@ -5,16 +5,16 @@ import "react-tooltip/dist/react-tooltip.css";
 import LandingPage from "./pages/home";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
-import Dashboard from "./pages/dashboard";
 import { AppProvider } from "./context";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgot-password";
 import Layout from "./components/Layout";
 import Spinner from "./components/Spinner";
-import Course from "./pages/dashboard/course";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Dashboard from "./pages/dashboard";
+import Course from "./pages/dashboard/course";
 
 const queryClient = new QueryClient();
 function App() {

@@ -10,9 +10,7 @@ import Spinner from "../../components/Spinner";
 import ErrorFallBack from "../../components/ErrorFallBack";
 // import { ToastContainer, toast } from "react-toastify";
 
-const Dashboard=()=> {
-  // const [courses, setCourses] = useState<Courses[]>();
-  // const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
+const Dashboard = () => {
   const { data: courses, isLoading, isError, refetch } = useCourses();
 
   useEffect(() => {
@@ -33,7 +31,6 @@ const Dashboard=()=> {
               description="We encountered an error while fetching your purchased assets"
               reset={refetch}
             />
-           
           ) : (
             <>
               <h1 className="dashboard-container__lesson-heading">
@@ -83,6 +80,6 @@ const Dashboard=()=> {
       </div>
     </section>
   );
-}
+};
 
 export default Dashboard;
