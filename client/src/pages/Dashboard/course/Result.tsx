@@ -1,7 +1,8 @@
 import React from 'react'
 
-export default function Result() {
+const Result=() =>{
   return (
     <div>Result</div>
   )
 }
+export default Result

@@ -7,7 +7,7 @@ interface ErrorFallback {
   buttonText?: string;
 }
 
-export default function index(props: ErrorFallback) {
+const index=(props: ErrorFallback)=> {
   const { message, description, reset, buttonText = "Try again" } = props;
   return (
     <div className="errorfallback">
@@ -24,3 +24,4 @@ export default function index(props: ErrorFallback) {
     </div>
   );
 }
+export default index

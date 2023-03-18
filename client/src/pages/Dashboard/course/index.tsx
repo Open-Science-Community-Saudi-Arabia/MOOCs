@@ -1,16 +1,15 @@
-import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Videocontent } from "../../../data";
+import { useState} from "react";
+import { useParams} from "react-router-dom";
 import Certificate from "./Certificate";
-import Quiz from "./Quiz";
 import "./style.scss";
 import { IoMdClose } from "react-icons/io";
 import { WiTime4 } from "react-icons/wi";
 import { useCourse } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
+import Quiz from "./Quiz";
 
-export default function Index() {
+const Course =() =>{
   const [activeTab, setActiveTab] = useState("tab1");
   const params = useParams();
   const [displayVideo, setDisplayVideo] = useState(true);
@@ -217,3 +216,4 @@ export default function Index() {
     </section>
   );
 }
+export default Course

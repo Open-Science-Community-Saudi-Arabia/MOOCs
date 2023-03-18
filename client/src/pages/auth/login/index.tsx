@@ -11,7 +11,7 @@ import useFetch from "../../../hooks/useFetch";
 import { useGoogleLogin} from "@react-oauth/google";
 import { setToken } from "../../../utils";
 
-function Login() {
+const Login=()=> {
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);

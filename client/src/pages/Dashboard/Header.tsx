@@ -3,7 +3,7 @@ import logo from "../../images/logo.svg";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
-export default function Header() {
+const Header=()=> {
   const [isOpen, setOpen] = useState(false);
   return (
     <div className="dashboard-header">
@@ -37,3 +37,4 @@ export default function Header() {
     </div>
   );
 }
+export default Header

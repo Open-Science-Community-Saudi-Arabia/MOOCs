@@ -7,7 +7,7 @@ import Spinner from "../../../components/Spinner";
 import { resetpassword } from "../../../utils/api/auth";
 import { ResetPasswordReqPayload } from "../../../types";
 
-export default function ResetPassword() {
+const ResetPassword = () => {
   const [isLoading, setLoading] = useState(false);
 
   const [toggleVisibility, setToggleVisibility] = useState(false);
@@ -99,3 +99,4 @@ export default function ResetPassword() {
     </section>
   );
 }
+export default ResetPassword

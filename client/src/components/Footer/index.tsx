@@ -7,7 +7,7 @@ import Facebook from "../../images/facebook.png";
 import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
-export default function index() {
+const index=()=> {
   return (
     <section className="footer-container">
       <div className="footer">
@@ -86,3 +86,4 @@ export default function index() {
     </section>
   );
 }
+export default index

@@ -7,7 +7,7 @@ import Spinner from "../../../components/Spinner";
 import { forgotpassword } from "../../../utils/api/auth";
 import { ForgetPasswordReqPayload } from "../../../types";
 
-export default function ForgotPassword() {
+const ForgotPassword=()=> {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -74,3 +74,5 @@ export default function ForgotPassword() {
     </section>
   );
 }
+
+export default ForgotPassword

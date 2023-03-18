@@ -3,7 +3,7 @@
 interface IProps {
   handleOpenContent: () => void;
 }
-export default function Certificate({ handleOpenContent }: IProps) {
+const Certificate= ({ handleOpenContent }: IProps) =>{
   return (
     <div className="certificate">
       <p className="certificate__text" onClick={() => handleOpenContent()}>
@@ -14,3 +14,4 @@ export default function Certificate({ handleOpenContent }: IProps) {
   );
 }
 
+export default Certificate

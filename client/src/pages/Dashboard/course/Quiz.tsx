@@ -6,7 +6,7 @@ interface IProps {
   displayContent: boolean;
 }
 
-export default function Quiz({ quizData, displayContent }: IProps) {
+const Quiz= ({ quizData, displayContent }: IProps)=> {
   console.log(quizData.questions.length);
 
   const [quizIndex, setQuizIndex] = useState<number>(0);
@@ -127,3 +127,4 @@ export default function Quiz({ quizData, displayContent }: IProps) {
     </section>
   );
 }
+export default Quiz

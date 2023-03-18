@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { Videocontent } from "../../data";
+import { useEffect } from "react";
+// import { Videocontent } from "../../data";
 import Header from "./Header";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { useCourses } from "../../utils/api/courses";
-import { WiTime4 } from "react-icons/wi";
+// import { WiTime4 } from "react-icons/wi";
 import { Courses } from "../../types";
 import Spinner from "../../components/Spinner";
 import ErrorFallBack from "../../components/ErrorFallBack";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 
-function Index() {
+const Dashboard=()=> {
   // const [courses, setCourses] = useState<Courses[]>();
-  const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
+  // const [isloadingCourses, setLoadingCourses] = useState<boolean>(false);
   const { data: courses, isLoading, isError, refetch } = useCourses();
 
   useEffect(() => {
@@ -85,4 +85,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Dashboard;

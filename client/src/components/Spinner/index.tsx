@@ -4,7 +4,7 @@ interface ISpinnerProps {
   width: string;
   color?:boolean
 }
-function Spinner({ width, height,color }: ISpinnerProps) {
+const index= ({ width, height,color }: ISpinnerProps)=> {
   return (
     <div aria-label="loading" className="spinner">
       <div
@@ -15,4 +15,4 @@ function Spinner({ width, height,color }: ISpinnerProps) {
   );
 }
 
-export default Spinner;
+export default index;

@@ -9,7 +9,7 @@ import useFetch from "../../../hooks/useFetch";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 
-function Signup() {
+const Signup= ()=> {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);

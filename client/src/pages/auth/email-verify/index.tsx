@@ -5,7 +5,7 @@ import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
 import { setToken } from "../../../utils";
 
-export default function index() {
+ const EmailVerify= () =>{
   const [isValidUrl, setValidUrl] = useState(false);
   const [error, setError] = useState(false);
   const params = useParams();
@@ -50,3 +50,4 @@ export default function index() {
     </div>
   );
 }
+export default EmailVerify

@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import "./style.scss";
 
-function index() {
+const index=()=> {
   return (
     <section className="layout">
       <div className="layout__content-left">

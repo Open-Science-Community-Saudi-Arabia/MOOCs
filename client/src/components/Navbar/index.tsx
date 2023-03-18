@@ -9,7 +9,7 @@ import { dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
 
-export function Navbar() {
+const index = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
@@ -161,4 +161,5 @@ export function Navbar() {
       </header>
     </>
   );
-}
+};
+export default index;
