@@ -117,3 +117,7 @@ jsdocs
 *.njsproj
 *.sln
 *.sw?
+
+
+# Documentation
+/documentation/docs

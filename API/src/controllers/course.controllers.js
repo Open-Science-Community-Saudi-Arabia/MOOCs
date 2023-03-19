@@ -171,7 +171,6 @@ exports.updateCourse = async (req, res, next) => {
  * @param {string} id - Id of the course
  * 
  * @returns {string} message
-
 */
 exports.deleteCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
@@ -198,9 +197,9 @@ exports.deleteCourse = async (req, res, next) => {
  * 
  * @returns {string} message
  * 
- * @throws {error} if an error occured
- * @throws {BadRequestError} If course id not in request params
- * @throws {NotFoundError} if Course not found
+ * @throws {InternalServerError} An error occured
+ * @throws {BadRequestError} Course id not in request params
+ * @throws {NotFoundError} Course not found
 
 */
 exports.enrollCourse = async (req, res, next) => {
@@ -464,6 +463,26 @@ exports.getVideoData = async (req, res, next) => {
 
 /**
  * Update video data
+ * 
+ * @description This function updates the video data </br>
+ * 
+ * </br>
+ * 
+ * The following fields can be updated: </br>
+ * 1. title </br>
+ * 2. description </br>
+ * 3. author </br>
+ * 4. duration </br>
+ * 5. category </br>
+ * 6. course_id </br>
+ * 7. course_section_id </br>
+ * 8. video_url </br>
+ * 
+ * </br>
+ * 
+ * The following fields cannot be updated: </br>
+ * 1. isAvailable </br>
+ * This field is set to false when a video is deleted </br>
  * 
  * @param {string} video_id
  * @param {object} req.body
