@@ -126,6 +126,30 @@ const options = {
  * @property {MongooseVirtualType[]} videos - The videos in the course
  * @property {MongooseVirtualType[]} textmaterials - The text materials in the course
  * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~textmaterialSchema TextMaterial}
+ */
+
+/**
+ * @typedef {Object} submissionSchema
+ * 
+ * @description This schema is used to store the record of all the submissions 
+ * for a particular exercise made by a particular user.
+ * 
+ * @property {ObjectId} user - The user who made the submission
+ * @property {ObjectId} exercise - The exercise for which the submission was made
+ * @property {Number} score - The score of the submission
+ * @property {Object} submission - The submission
+ * @property {String} submission.question - The question
+ * @property {String} submission.correct_option - The correct option
+ * @property {String} submission.submitted_option - The option selected by the user
+ * 
+ * @property {Date} date - The date the submission was made
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:UserModel~userSchema User}
  */
 
 /**
@@ -304,6 +328,9 @@ courseSchema.virtual('course_sections', {
     ref: 'CourseSection'
 })
 
+/**
+ * @type {submissionSchema}
+ * */
 const submissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
