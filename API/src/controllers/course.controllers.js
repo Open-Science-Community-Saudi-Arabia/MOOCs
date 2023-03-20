@@ -1,5 +1,5 @@
 /**
- * @category API
+ * @category Backend API
  * @subcategory Controllers
  * @module Course Controller
  * @description This module contains all the controllers for the course model.
