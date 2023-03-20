@@ -2,7 +2,7 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module CourseModels
+ * @module CourseModel
  * 
  * @description This module contains the models for courses,
  * such as the course model, the course section model, the exercise model, and the question model.
@@ -66,8 +66,19 @@ const options = {
  * "Mathematics", "Physics", "Chemistry")
  * @property {Boolean} isAvailable - Whether the video is available to the user
  * 
- * @see {@link module:CourseModels~CourseSection CourseSection}
- * @see {@link module:CourseModels~Course Course}
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ */
+
+/**
+ * @typedef {Object} textmaterialSchema
+ * 
+ * @description This schema is used to store text materials.
+ * 
+ * @property {String} type - The type of the document, "text_material"
+ * @property {String} title - The title of the text material
+ * @property {String} description - The description of the text material
+ * 
  */
 
 /**
@@ -86,9 +97,9 @@ const options = {
  * <b>NOTE:</b> The contents of the course section are stored as an array of virtuals.
  * This is because the contents can be either an exercises, videos or text materials
  * 
- * @see {@link module:CourseModels~Exercise Exercise}
- * @see {@link module:CourseModels~Video Video}
- * @see {@link module:CourseModels~TextMaterial TextMaterial}
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~textmaterialSchema TextMaterial}
  * */
 
 const questionSchema = new Schema({
