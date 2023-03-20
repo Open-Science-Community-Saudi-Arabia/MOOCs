@@ -90,14 +90,14 @@ exports.getExercises = async (req, res, next) => {
     exercises = exercises ? await Exercise.find().populate('questions') : exercises
 
     // Get only the available courses
-    const available_exercises = exercises.filter((exercise) => {
-        if (exercise.isAvailable) return exercise.toJSON();
-    })
+    // const available_exercises = exercises.filter((exercise) => {
+    //     if (exercise.isAvailable) return exercise.toJSON();
+    // })
 
     return res.status(200).json({
         success: true,
         data: {
-            exercises: available_exercises
+            exercises
         }
     });
 }

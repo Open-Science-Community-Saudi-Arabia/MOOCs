@@ -7,6 +7,7 @@ const options = {
     toObject: { virtuals: true }
 }
 const questionSchema = new Schema({
+    type: { type: String, default: "question"},
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
@@ -21,6 +22,7 @@ const questionSchema = new Schema({
 }, options)
 
 const exerciseSchema = new Schema({
+    type: { type: String, default: "exercise"},
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -35,8 +37,21 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
+exerciseSchema.pre('findById', function (next) {
+    this.populate('questions')
+    next()
+})
+exerciseSchema.pre('find', function (next) {
+    this.populate('questions')
+    next()
+})
+exerciseSchema.pre('findOne', function (next) {
+    this.populate('questions')
+    next()
+})
 
 const videoSchema = new Schema({
+    type: { type: String, default: "video"},
     title: {
         type: String,
         required: true
@@ -59,6 +74,7 @@ const videoSchema = new Schema({
 }, options)
 
 const textmaterialSchema = new Schema({
+    type: { type: String, default: "textmaterial"},
     title: {
         type: String,
         required: true
@@ -80,6 +96,7 @@ const courseSectionSchema = new Schema({
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
+    contents: { type: Array, default: [] }
 }, options)
 courseSectionSchema.virtual('videos', {
     localField: '_id',
@@ -100,6 +117,37 @@ courseSectionSchema.virtual('textmaterials', {
     justOne: false
 })
 
+// For all find findOne and populate queries, populate the virtuals
+// courseSectionSchema.pre('find', function (next) {
+//     this.populate('videos exercises textmaterials').then( next() )
+// })
+
+function combineContents(courseSection) {
+    courseSection.contents = [
+        ...courseSection.videos,
+        ...courseSection.exercises,
+        ...courseSection.textmaterials
+    ]
+
+    courseSection.contents.sort((a, b) => {
+        return a.order - b.order
+    }
+    )
+
+    return courseSection
+}
+
+courseSectionSchema.post('find', async function (courseSections) {
+    for (let courseSection of courseSections) {
+        await combineContents(courseSection)
+    }
+})
+
+courseSectionSchema.post('findOne', async function (courseSection) {
+    const doc = await combineContents(courseSection)
+    return doc.toObject()
+})
+
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -115,7 +163,8 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    preview_image: { type: String, required: true },
 }, options)
 courseSchema.virtual('exercises', {
     localField: '_id',
@@ -158,6 +207,13 @@ const courseReportSchema = new Schema(
     },
     options
 );
+
+courseReportSchema.virtual('certificate', {
+    localField: '_id',
+    foreignField: 'course_report',
+    ref: 'Certificate',
+    justOne: true
+})
 
 const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
