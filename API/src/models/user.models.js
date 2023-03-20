@@ -78,13 +78,6 @@ const options = { toObject: { virtuals: true } }
  * @see {@link module:UsersModel~userSchema userSchema}
  */
 
-/**
- * @typedef {mongoose.model<userSchema>} UserModel
- */
-/**
- * @typedef {mongoose.model<statusSchema>} StatusModel
- */
-
 
 /**
  * @type {statusSchema} 
@@ -182,14 +175,7 @@ statusSchema.pre('save', async function (next) {
     next()
 })
 
-/**
- * @type {StatusModel}
- */
 const Status = mongoose.model('Status', statusSchema)
-
-/**
- * @type {UserModel}
- * */
 const User = mongoose.model('User', userSchema)
 
 module.exports = { User, Status }

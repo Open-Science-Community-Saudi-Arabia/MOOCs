@@ -58,12 +58,6 @@ const { JWT_REFRESH_EXP } = require("../utils/config");
  * @see {@link module:UsersModel~userSchema userSchema}
  * */ 
 
-/**
- * @typedef {mongoose.model<authCodeSchema> } AuthCodeModel
- */
-/**
- * @typedef {mongoose.model<blacklistedTokenSchema>} BlacklistedTokenModel
- * */
 
 /**
  * @type {blacklistedTokenSchema}
@@ -97,14 +91,8 @@ const testAuthToken = new schema({
     access_token: { type: schema.Types.String }
 });
 
-/**
- * @type {AuthCodeModel}
- * */
 const AuthCode = mongoose.model("AuthCode", authCodeSchema);
 
-/**
- * @type {BlacklistedTokenModel}
- * */
 const BlacklistedToken = mongoose.model(
     "BlacklistedToken", 
     blacklistedTokenSchema
