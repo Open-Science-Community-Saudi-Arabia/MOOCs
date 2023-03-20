@@ -4,7 +4,7 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module User Models
+ * @module User Model
  * 
  * @requires mongoose
  * @requires ../utils/errors
@@ -20,8 +20,6 @@ const Schema = mongoose.Schema
 const options = { toObject: { virtuals: true } }
 
 /**
- * @constructor Status
- * 
  * @description User account status, every user has a status object,
  * which contains information about the user's account status,
  * such as whether the account is active or not, and whether the account is verified or not.
@@ -37,8 +35,6 @@ const status = new Schema({
 })
 
 /**
- * @constructor User
- * 
  * @description This schema is used to store user information
  * 
  * @property {String} firstname - The user's first name
@@ -58,7 +54,7 @@ const user_schema = new Schema(
             type: String,
             required: true,
             unique: true,
-        validate: [validator.isEmail, 'Please Provide a valid Email'],
+            validate: [validator.isEmail, 'Please Provide a valid Email'],
         },
         role: {
             type: String,
@@ -74,6 +70,15 @@ const user_schema = new Schema(
 )
 
 // Get users password from Password collection
+/**
+ * @description This virtual property is used to get the 
+ * user's password from the Password collection
+ * 
+ * @property {ObjectId} ref - The Password collection
+ * @property {ObjectId} localField - The user's id
+ * @property {ObjectId} foreignField - The user's id
+ * @property {Boolean} justOne - Whether to return one or many
+ */
 user_schema.virtual('password', {
     ref: "Password",
     localField: "_id",
@@ -82,6 +87,15 @@ user_schema.virtual('password', {
 })
 
 // Get authentication codes from AuthCode collection
+/**
+ * @description This virtual property is used to get the 
+ * user's authentication codes from the AuthCode collection
+ * 
+ * @property {ObjectId} ref - The AuthCode collection
+ * @property {ObjectId} localField - The user's id
+ * @property {ObjectId} foreignField - The user's id
+ * @property {Boolean} justOne - Whether to return one or many
+ */
 user_schema.virtual('auth_codes', {
     ref: "AuthCode",
     localField: "_id",
@@ -90,6 +104,15 @@ user_schema.virtual('auth_codes', {
 })
 
 // Get user users account status from Status collection
+/**
+ * @description This virtual property is used to get the
+ * user's account status from the Status collection
+ * 
+ * @property {ObjectId} ref - The Status collection
+ * @property {ObjectId} localField - The user's id
+ * @property {ObjectId} foreignField - The user's id
+ * @property {Boolean} justOne - Whether to return one or many
+ * */
 user_schema.virtual('status', {
     ref: "Status",
     localField: "_id",
@@ -97,6 +120,15 @@ user_schema.virtual('status', {
     justOne: true
 })
 
+/**
+ * @description This virtual property is used to get the
+ * user's courses from the Course collection
+ * 
+ * @property {ObjectId} ref - The Course collection
+ * @property {ObjectId} localField - The user's id
+ * @property {ObjectId} foreignField - The user's id
+ * @property {Boolean} justOne - Whether to return one or many
+ */
 user_schema.virtual('enrolled_courses', {
     localField: '_id',
     foreignField: 'enrolled_users',
@@ -126,6 +158,13 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 //     next()
 // });
 
+/**
+ * @description This function is used to activate a user's account only if the user is an enduser
+ * @this {User}
+ * @param {Function} next - The next function to be called
+ * @returns {void}
+ * @throws {Error} - Throws an error if the user is not an enduser
+ */
 status.pre('save', async function (next) {
     // Check if it is a new document
     if (this.isNew) {
