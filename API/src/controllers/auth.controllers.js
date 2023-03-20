@@ -81,19 +81,18 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
 
 
 /**
- * Create a token and send it to the clien
+ * Create and send JWT tokens to the client.
  * 
- * @description This function creates a JWT token and sends it to the client
- * <br>
- * Within the JWT token, the users data is stored, this will be required for the client to make requests to the API </br>
+ * @description This function creates a JWT access token and a refresh token and sends them to the client.
+ * The access token contains the user's data which will be required for the client to make authorized requests to the API.
  * 
- * 
- * @param {MongooseDocument} user 
- * @param {number} statusCode 
- * @param {ExpressResponseObject} res 
+ * @param {MongooseDocument} user - The user object.
+ * @param {number} statusCode - The HTTP response status code.
+ * @param {ExpressResponseObject} res - The Express response object.
  * 
  * @returns {void}
-
+ * 
+ * @throws {Error} If error occurs
  */
 const returnAuthTokens = async (user, statusCode, res) => {
     const { access_token, refresh_token } = await getAuthTokens(user);
@@ -575,7 +574,6 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
  * @throws {CustomAPIError} if super admin account does not exist
  * @throws {CustomAPIError} if super admin account is already active
  * @throws {Error} if error occurs
-
  */
 exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
     const email = req.params.email
@@ -786,16 +784,14 @@ exports.deactivateUserAccount = async (req, res, next) => {
 }
 
 /**
-* Send a password reset code to a user's email
-* 
-* @param {string} email - User email
-* 
-* @returns {string} message
-* @returns {string} access_token
-* 
-* @throws {BadRequestError} If missing required parameter in request body
-* @throws {BadRequestError} If User does not exist
-* @category AuthController
+ * Sends a password reset code to a user's email.
+ *
+ * @param {string} email - User's email address.
+ *
+ * @returns {Object} An object containing a success message and an access token.
+ *
+ * @throws {BadRequestError} If the required parameter is missing in the request body.
+ * @throws {BadRequestError} If the user does not exist.
  */
 exports.forgetPassword = async (req, res, next) => {
     const { email } = req.body
@@ -833,23 +829,34 @@ exports.forgetPassword = async (req, res, next) => {
 
 // Reset Password
 /**
- * Reset a user's password
+ * Reset a user's password.
+ *
+ * @description Resets the password of the authenticated user if the provided password reset code is valid.<br>
  * 
- * @description Resets a user's password if user exists and password reset code is correct
- * 
- * @param {string} new_password - New password
- * @param {string} password_reset_code - Password reset code
- * 
- * @returns {string} status     - Status of the request
- * 
- * @throws {Error} if error occurs
- * @throws {BadRequestError} if user does not exist
- * @throws {BadRequestError} if Missing required parameter in request body
- * @throws {UnauthorizedError} if Authentication invalid
- * @throws {BadRequestError} if Password reset code is incorrect
- * @throws {BadRequestError} if Password reset code has expired
- * @throws {UnauthorizedError} if Access token expired
-
+ * Note: A request has to be made to the {@link module:controllers/AuthController~forgetPassword forgetPassword} 
+ * endpoint to get a password reset code. Then the password reset code 
+ * is sent to the user's email address. 
+ * This endpoint is used to reset the password using the password reset code.
+ *
+ * @see {@link module:controllers/AuthController~forgetPassword forgetPassword} for more information on how to get a password reset code.
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.new_password - New password.
+ * @param {string} req.body.password_reset_code - Password reset code.
+ * @param {Object} req.user - Authenticated user object.
+ * @param {string} req.user.id - User ID.
+ *
+ * @returns {Object} Response object.
+ * @returns {boolean} Response.success - Indicates if the request was successful.
+ * @returns {Object} Response.data - Response data.
+ * @returns {string} Response.data.message - Success message.
+ *
+ * @throws {BadRequestError} If the required parameters are missing in the request body.
+ * @throws {BadRequestError} If the user does not exist.
+ * @throws {BadRequestError} If the password reset code is invalid.
+ * @throws {BadRequestError} If the password reset code has expired.
+ * @throws {UnauthorizedError} If the access token has expired or is invalid.
+ * @throws {Error} If any other error occurs.
  */
 exports.resetPassword = async (req, res, next) => {
     const { new_password, password_reset_code } = req.body
@@ -889,19 +896,20 @@ exports.resetPassword = async (req, res, next) => {
 
 // Google Signin
 /**
- * Signin a user with google
- * 
- * @param {string} code - Google auth code
- * 
- * @returns {string} status - Status of the request
- * @returns {string} access_token - Access token
- * @returns {string} refresh_token - Refresh token
- * 
- * @throws {Error} if error occurs
- * @throws {BadRequestError} if Missing required parameter in request body
- * @throws {BadRequestError} if User does not exist
- * @throws {BadRequestError} if User is not verified
-
+ * Sign in a user using their Google account.
+ *
+ * @param {Object} req - The request object.
+ * @param {string} req.headers.authorization - The authorization header containing the Google auth code.
+ *
+ * @returns {Object} An object containing the status of the request, the access token, and the refresh token.
+ * @returns {string} status - The status of the request.
+ * @returns {string} access_token - The access token.
+ * @returns {string} refresh_token - The refresh token.
+ *
+ * @throws {Error} If an error occurs during the sign-in process.
+ * @throws {BadRequestError} If the required parameter is missing from the request body.
+ * @throws {BadRequestError} If the user does not exist.
+ * @throws {BadRequestError} If the user is not verified.
  */
 exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
@@ -947,15 +955,19 @@ exports.googleSignin = async (req, res, next) => {
 
 // Get details of logged in user
 /**
- * Get data for logged in user
+ * Get data for the currently logged in user.
  * 
- * @param {string} token - Access token
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The user object set by the `authenticateToken` middleware.
+ * @param {string} req.user.id - The ID of the currently logged in user.
+ * @param {Object} res - The response object.
  * 
- * @returns {string} status - Status of the request 
- * @returns {object} user - User data
+ * @returns {Object} - The response object containing the user data.
+ * @returns {string} .status - The status of the response, either "success" or "error".
+ * @returns {Object} .data - The data returned by the response.
+ * @returns {Object} .data.user - The user object containing the data for the currently logged in user.
  * 
- * @throws {error} if error occured 
-
+ * @throws {Error} if an error occurs while fetching the user data.
  */
 exports.getLoggedInUser = async (req, res, next) => {
     // Check for valid authorization header
