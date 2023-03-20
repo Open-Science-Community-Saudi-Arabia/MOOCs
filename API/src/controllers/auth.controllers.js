@@ -73,6 +73,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
     });
 };
 
+
 /**
  * Create a token and send it to the client
  * 
@@ -83,16 +84,8 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @returns {void}
 
  */
-const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
-    const cookieOptions = {
-        expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-    };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-    res.cookie('jwt', token, cookieOptions);
+const returnAuthTokens = async (user, statusCode, res) => {
+    const { access_token, refresh_token } = await getAuthTokens(user);
 
     // Remove sensitive data from user object
     user.password = undefined;
@@ -103,10 +96,11 @@ const createToken = (user, statusCode, res) => {
     user.auth_code = undefined;
 
     res.status(statusCode).json({
-        status: 'success',
-        token,
+        success: true,
         data: {
             user,
+            access_token, 
+            refresh_token
         },
     });
 };
@@ -183,7 +177,7 @@ const handleExistingUser = function (user) {
 };
 
 exports.passportOauthCallback = function (req, res) {
-    createToken(req.user, 200, res);
+    returnAuthTokens(req.user, 200, res);
 };
 
 /**
@@ -862,6 +856,7 @@ exports.googleSignin = async (req, res, next) => {
         existing_user = await User.findOne({ email: payload.email });
 
     // Create new user in db
+    let curr_user = existing_user;
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
         const user_data = {
@@ -874,11 +869,10 @@ exports.googleSignin = async (req, res, next) => {
             googleId: payload.sub,
         };
 
-        const new_user = await User.create(user_data);
-        createToken(new_user, 200, res);
+        curr_user = await User.create(user_data);
     }
 
-    createToken(existing_user, 200, res)
+    await returnAuthTokens(curr_user, 200, res)
 };
 
 // Get details of logged in user
@@ -904,5 +898,3 @@ exports.getLoggedInUser = async (req, res, next) => {
         }
     })
 }
-
-

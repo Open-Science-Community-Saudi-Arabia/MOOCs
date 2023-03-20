@@ -1,10 +1,12 @@
-name: Node.js CI
+name: aNode.js CI
 
 on:
-  push:
-    branches: [main, dev, backend_dev, frontend_dev, auto_tests, test_auto]
+  pull_request:
+    branches: [main, dev, backend_dev, frontend_dev]
   pull_request_target:
-    branches: [main, dev, backend_dev, frontend_dev, auto_tests, test_auto]
+    branches: [main, dev, backend_dev, frontend_dev]
+  push:
+    branches: [main, dev, backend_dev, frontend_dev]
 
 jobs:
   build:
@@ -12,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [15.x, 16.x, 17.x, 18.x]
+        node-version: [15.x, 16.x, 17.x, 18.x] 
 
     steps:
       - name: Checkout
