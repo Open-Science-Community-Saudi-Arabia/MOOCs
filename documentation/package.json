@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "better-docs": "^2.7.2",
     "connect": "^3.7.0",
     "docdash": "^2.0.1",
     "dotenv": "^16.0.3",
@@ -24,6 +23,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ink-docstrap": "^1.3.2"
+    "better-docs": "^2.7.2",
+    "ink-docstrap": "^1.3.2",
+    "jsdoc-memberof-namespace": "^2.2.0",
+    "minami": "^1.2.3"
   }
 }
