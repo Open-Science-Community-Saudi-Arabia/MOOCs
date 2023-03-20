@@ -1,19 +1,22 @@
 {
   "source": {
-    "include": ["../backend_API/src", "../Frontend/src"],
+    "include": ["../API/src", "../Frontend/src"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
-  "plugins": ["plugins/markdown"],
   "templates": {
     "theme": "yeti",
     "syntaxTheme": "dark"
   },
+  "tags": {
+    "allowUnknownTags": ["category"]
+  },
+  "plugins": ["node_modules/better-docs/category"],
   "opts": {
     "destination": "./docs/",
     "recurse": true,
     "verbose": true,
-    "template": "node_modules/ink-docstrap/template",
+    "template": "node_modules/better-docs",
     "readme": "README.md",
     "tutorials": "./docs/tutorials"
   }

@@ -159,6 +159,14 @@ const courseReportSchema = new Schema(
     options
 );
 
+courseReportSchema.virtual('certificate', {
+    localField: '_id',
+    foreignField: 'course_report',
+    ref: 'Certificate',
+    justOne: true
+})
+
+
 const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 const Video = mongoose.model("Video", videoSchema);
