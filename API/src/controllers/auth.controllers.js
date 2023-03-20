@@ -52,6 +52,14 @@ const { default: mongoose } = require('mongoose');
 /**
  * Sign a token with the given payload and secret
  * 
+ * @description This function signs a JWT token with the given payload and secret
+ * <br>
+ * 
+ * The payload is the data that will be stored in the token, 
+ * this data will be required for the client to make requests to the API </br>
+ * With this function, you can also specify the expiry date of the token, 
+ * and the secret to be used for signing the token, the default secret is the JWT_ACCESS_SECRET
+ * 
  * @param {string} id   
  * @param {string} role 
  * @param {string} jwtSecret 
@@ -60,8 +68,6 @@ const { default: mongoose } = require('mongoose');
  * @returns {string} token
  * 
  * @throws {Error} if jwtSecret is not provided 
-
- * @memberof AuthController
  */
 const signToken = (id, role, jwtSecret = null, expiry = null) => {
     const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
@@ -74,7 +80,12 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
 };
 
 /**
- * Create a token and send it to the client
+ * Create a token and send it to the clien
+ * 
+ * @description This function creates a JWT token and sends it to the client
+ * <br>
+ * Within the JWT token, the users data is stored, this will be required for the client to make requests to the API </br>
+ * 
  * 
  * @param {MongooseDocument} user 
  * @param {number} statusCode 
@@ -114,7 +125,13 @@ const createToken = (user, statusCode, res) => {
 /**
  * Handle existing unverified user.
  * 
- * @description It sends new verification email to user
+ * @description Ssends new verification email to user if the existing user is unverified</br>
+ * 
+ * Inside the email, there is a link that the user can click to verify their email address,
+ * this link contains a JWT token that is used to verify the user's email address, the token has an expiry date of 1 hour </br>
+ * 
+ * The token is generated using the getAuthTokens function
+ * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
 
@@ -190,7 +207,18 @@ exports.passportOauthCallback = function (req, res) {
  * Signup a new user
  * 
  * @category Controllers
- * @description This function creates a new user and sends a verification email to the user
+ * @description This function creates a new user and sends a verification email to the user.
+ * 
+ * The user is created using the User model, and the user's password is hashed using the bcrypt library. 
+ * The user is created with the status of unverified, which means that the user cannot login until their email address is verified. 
+ * 
+ * Each user account has a status document linked to it, 
+ * which holds two data fields: isVerified and isActive. By default, isVerified is set to false, which means that the user cannot login until their email address is verified.
+ * isActive is set to true for EndUsers, which means that the user account is active. 
+ * 
+ * For Superadmin accounts, it has to be activated using the superadmin activation route.
+ * @see {@link module:controllers/auth~activateSuperAdmin}
+ * 
  * 
  * @param {string} role - User role (EndUser, Admin, SuperAdmin)
  * @param {string} email - User email
@@ -199,13 +227,13 @@ exports.passportOauthCallback = function (req, res) {
  * @param {string} firstname - User firstname
  * @param {string} lastname - User lastname
  * 
- * @returns {object} user - Mongoose user object
- * @returns {string} token - JWT token
- * @returns {string} status - Status of the request
- *
+ * @returns {object} Object containing the new user object, JWT token, and the status of the request
+ * 
  * 
  * // TODO: Add super admin signup
-
+ * 
+ * @throws {BadRequestError} if passwordConfirm is not provided
+ * @throws {Error} if an error occurs
  */
 exports.signup = async (req, res, next) => {
     let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
@@ -258,26 +286,30 @@ exports.signup = async (req, res, next) => {
 }
 
 /**
- * Create new admin account
- * 
+ * Create a new admin account and send a verification email to the user.
+ *
+ * This function is only accessible to the superadmin to create a new admin account.
+ *
  * @category Controllers
- * @description This function creates a new admin account and sends a verification email to the user
- * 
- * @param {string} email - User email
- * @param {string} password - User password
- * @param {string} passwordConfirm - User password confirmation
- * @param {string} firstname - User firstname
- * @param {string} lastname - User lastname
- *  
- * @returns {object} user - Mongoose user object
- * @returns {string} token - JWT token
- * @returns {string} status - Status of the request
- * 
- * @throws {BadRequestError} if email or password is not provided
- * @throws {BadRequestError} if email or password is incorrect
- * @throws {BadRequestError} if email is not verified
- * @throws {Error} if error occurs
-
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body containing user details
+ * @param {string} req.body.email - User email
+ * @param {string} req.body.password - User password
+ * @param {string} req.body.passwordConfirm - User password confirmation
+ * @param {string} req.body.firstname - User firstname
+ * @param {string} req.body.lastname - User lastname
+ *
+ * @param {Object} res - Express response object
+ * @param {function} next - Express next middleware function
+ *
+ * @returns {Promise<Object>} - Returns a promise that resolves to an object with the following properties:
+ * - user: Mongoose user object
+ * - token: JWT token
+ * - status: Status of the request
+ *
+ * @throws {BadRequestError} If email or password is not provided or incorrect.
+ * @throws {Error} If an error occurs while creating the user or sending the verification email.
  */
 exports.addAdmin = async (req, res, next) => {
     req.body.role = 'Admin';
@@ -286,22 +318,23 @@ exports.addAdmin = async (req, res, next) => {
 
 // Login a user
 /**
- * Login a user
- * 
- * @description This function logs in a user and returns a JWT token
- * 
- * @param {string} email    - User email
- * @param {string} password - User password
- * 
- * @returns {object} user - Mongoose user object
- * @returns {string} token - JWT token
- * @returns {string} status - Status of the request
- * 
- * @throws {CustomAPIError} if email or password is not provided
- * @throws {CustomAPIError} if email or password is incorrect
- * @throws {CustomAPIError} if email is not verified
- * @throws {Error} if error occurs
-
+ * Login a user and return a JWT token.
+ *
+ * This function logs in a user with their email and password, and returns two JWT tokens:
+ * an access token and a refresh token. The access token is used to authenticate the user
+ * on subsequent requests, and expires after 15 minutes. The refresh token is used to
+ * refresh the access token, and expires after 2 days.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @param {function} next - The next middleware function.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's password.
+ * @returns {object} - The HTTP response object containing a success flag, the user object,
+ *                     an access token, and a refresh token.
+ * @throws {CustomAPIError} - If the email or password is missing or incorrect, or if the
+ *                            email is not verified or the account is not activated.
+ * @throws {Error} - If an error occurs.
  */
 exports.login = async (req, res, next) => {
     const { email, password } = req.body
@@ -348,19 +381,19 @@ exports.login = async (req, res, next) => {
     });
 }
 
-// Email Verification for new users
 /**
- * Verify a user's email
- * 
- * @description This function verifies a user's email
- * 
- * @param {string} token - JWT token
- * 
- * @returns {string} status - Status of the request
- *  
- * @throws {CustomAPIError} if token is invalid or token has expired
- * @throws {Error} if error occurs
-
+ * Verify a user's email.
+ *
+ * This function verifies a user's email using a JWT token. If the token is valid and
+ * not blacklisted, the user's email is marked as verified in the database. Otherwise,
+ * an error is returned.
+ *
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @param {function} next - The next middleware function.
+ * @returns {object} - The HTTP response object containing a success flag and a message.
+ * @throws {CustomAPIError} - If the token is invalid or expired.
+ * @throws {Error} - If an error occurs.
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
@@ -393,19 +426,26 @@ exports.verifyEmail = async (req, res, next) => {
 }
 
 /**
- * Request for super admin account activation
+ * Request activation for the super admin account.
+ *
+ * @description This function allows the super admin to request for account activation.
+ *
+ * The super admin account is not activated by default for security reasons.
+ * This function generates two activation codes - one for the super admin and one for the project hosts.
+ * The new super admin uses the first activation code to activate the account, 
+ * and the project hosts use the second activation code to activate the account.
+ * </br>
  * 
- * Sends an email to the super admin with one of the activation codes
- * Sends an email to the project hosts with the other activation codes
- * 
- * @param {string} email - Super admin email
- * 
- * @returns {string} status - Status of the request
- * 
- * @throws {CustomAPIError} if super admin account does not exist
- * @throws {CustomAPIError} if super admin account is already active
- * @throws {Error} if error occurs
-
+ * Once the activation codes are generated, they are sent to the super admin and the project hosts via email.
+ * The activation codes will be required to complete the account activation process.
+ *
+ * @param {string} email - Super admin email.
+ *
+ * @returns {Object} The status of the request and access token if successful.
+ *
+ * @throws {CustomAPIError} If the super admin account does not exist.
+ * @throws {CustomAPIError} If the super admin account is already active.
+ * @throws {Error} If an error occurs during the request.
  */
 exports.requestSuperAdminAccountActivation = async (req, res, next) => {
     const email = req.params.email
@@ -455,19 +495,32 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
 }
 
 /**
- * Activate super admin account
- * 
- * @param {string} activation_code1 - Activation code 1 sent to new super admin
- * @param {string} activation_code2 - Activation code 2 sent to project hosts
- * @param {string} activation_code3 - Activation code 3 sent to project hosts
- * 
- * @returns {string} status - Status of the request
- * 
- * @throws {BadRequestError} if activation codes are not provided
- * @throws {BadRequestError} if token is invalid or token has expired
- * @throws {BadRequestError} if token is blacklisted
- * @throws {Error} if error occurs
-
+ * Activates a super admin account.
+ *
+ * This function activates a super admin account on the MOOCs platform. 
+ * The function requires three activation codes to complete the account activation process. 
+ * These activation codes are generated when the super admin requests for account activation. 
+ * This function is used by the super admin to activate the account.
+ *
+ * @see {@link module:controllers/auth~requestSuperAdminAccountActivation} for generating the activation codes.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @param {string} req.body.activation_code1 - The first activation code sent to the new super admin.
+ * @param {string} req.body.activation_code2 - The second activation code sent to the project hosts.
+ * @param {string} req.body.activation_code3 - The third activation code sent to the project hosts.
+ *
+ * @returns {Object} The response object containing a `status` field and a success message.
+ * @returns {boolean} response.success - The status of the request, which is always `true`.
+ * @returns {Object} response.data - The data returned by the function.
+ * @returns {string} response.data.message - The success message, which is "Super admin account activated".
+ *
+ * @throws {BadRequestError} If any of the activation codes are missing.
+ * @throws {BadRequestError} If the user making the request is not a super admin.
+ * @throws {BadRequestError} If the activation code is invalid.
+ * @throws {BadRequestError} If the activation code has expired.
+ * @throws {Error} If any other error occurs.
  */
 exports.activateSuperAdminAccount = async (req, res, next) => {
     const { activation_code1, activation_code2, activation_code3 } = req.body
@@ -517,11 +570,10 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
 /**
  * Request for super admin account deactivation
  * 
- * @description If a super admin account is deactivated, all project hosts will be notified
- * 
- * Sends an email to the super admin with one of the deactivation codes
- * Sends an email to the project hosts with the other deactivation codes
- * 
+ * @description If a super admin account is deactivated, all project hosts will be notified. 
+ * This function generates three deactivation codes and sends them to the super admin and two project hosts via email. 
+ *
+ * @see {@link module:controllers/auth~deactivateSuperAdminAccount} for deactivating the super admin account. 
  * @param {string} email   - Super admin email
  * 
  * @returns {string} status - Status of the request
@@ -581,7 +633,7 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
 /**
  * Deactivate super admin account
  * 
- * @description Deactivates super admin account if all activation codes are correct
+ * @description Deactivates super admin account if all activation codes are correct <br>
  * 
  * @param {string} deactivation_code1 - deactivation code 1 sent to new super admin
  * @param {string} deactivation_code2 - deactivation code 2 sent to project hosts
@@ -594,6 +646,12 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
  * @throws {BadRequestError} if token is blacklisted
  * @throws {Error} if error occurs
 
+ * Note: To obtain the deactivation code,
+ * a request must first be made to the `requestSuperAdminAccountDeactivation()` route. 
+ * This route sends an email with the codes to the new 
+ * super admin and two other emails with parts of the code to the project hosts.
+ * 
+ * @see {@link module:controllers/auth~requestSuperAdminAccountDeactivation} for requesting for a deactivation code.
  */
 exports.deactivateSuperAdminAccount = async (req, res, next) => {
     const { deactivation_code1, deactivation_code2, deactivation_code3 } = req.body
