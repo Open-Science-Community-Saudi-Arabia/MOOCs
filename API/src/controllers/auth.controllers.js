@@ -1,7 +1,5 @@
 /**
- * @memberof Controllers
- * @name Controllers/Auth
- * @module Controllers/Auth
+ * @module AuthController
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
  *
  * The following routes are handled by this module and their corresponding functions: </br>
@@ -89,7 +87,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @param {MongooseDocument} user - The user object.
  * @param {number} statusCode - The HTTP response status code.
  * @param {ExpressResponseObject} res - The Express response object.
- * 
+ * @memberof module:Controllers/AuthController
  * @returns {void}
  * 
  * @throws {Error} If error occurs
@@ -127,6 +125,9 @@ const returnAuthTokens = async (user, statusCode, res) => {
  * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
+ * 
+ * @memberof AuthController
+ * @section Authentication
 
  */
 const handleUnverifiedUser = function (user) {

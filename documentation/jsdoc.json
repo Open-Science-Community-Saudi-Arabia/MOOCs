@@ -5,19 +5,26 @@
     "excludePattern": "(node_modules/|docs)"
   },
   "templates": {
-    "theme": "yeti",
+    "theme": "cerulean",
     "syntaxTheme": "dark"
   },
   "tags": {
-    "allowUnknownTags": ["category"]
+    "allowUnknownTags": true
   },
-  "plugins": ["node_modules/better-docs/category"],
+  "plugins": ["node_modules/docdash"],
   "opts": {
     "destination": "./docs/",
     "recurse": true,
     "verbose": true,
     "template": "node_modules/better-docs",
+    "theme_opts": {
+      "default_theme": "white",
+      "navType": "vertical",
+      "collapse": true,
+      "inverseNav": true
+    },
     "readme": "README.md",
     "tutorials": "./docs/tutorials"
   }
+
 }

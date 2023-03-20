@@ -1,7 +1,5 @@
 /**
- * @memberof Controllers
- * @name Controllers/Course
- * @module Controllers/Course
+ * @module CourseController
  * 
  * @description This module contains all the controllers for the course model.
  * 

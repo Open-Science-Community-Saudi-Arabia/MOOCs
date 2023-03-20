@@ -1,11 +1,16 @@
 /**
  * API Documentation
  *
- * @module Controllers
- * @member Auth
- * @description This module contains the controllers for the backend API.
+ * @category API
+ * @member Controllers
+ * @description This module contains the controllers for the API
+ * 
+ * @member Models
+ * @description This module contains the models for the API
  * 
  * */
+
+
 
 
 module.exports = {
