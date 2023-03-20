@@ -196,6 +196,37 @@ courseSectionSchema.virtual('textmaterials', {
     justOne: false
 })
 
+// For all find findOne and populate queries, populate the virtuals
+// courseSectionSchema.pre('find', function (next) {
+//     this.populate('videos exercises textmaterials').then( next() )
+// })
+
+function combineContents(courseSection) {
+    courseSection.contents = [
+        ...courseSection.videos??[],
+        ...courseSection.exercises??[],
+        ...courseSection.textmaterials??[]
+    ]
+
+    courseSection.contents.sort((a, b) => {
+        return a.order - b.order
+    }
+    )
+
+    return courseSection
+}
+
+courseSectionSchema.post('find', async function (courseSections) {
+    for (let courseSection of courseSections) {
+        await combineContents(courseSection)
+    }
+})
+
+courseSectionSchema.post('findOne', async function (courseSection) {
+    const doc = await combineContents(courseSection)
+    return doc.toObject()
+})
+
 const courseSchema = new Schema({
     author: {
         type: String,
