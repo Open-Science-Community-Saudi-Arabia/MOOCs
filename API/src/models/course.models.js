@@ -114,6 +114,21 @@ const options = {
  * */
 
 /**
+ * @typedef {Object} courseSchema
+ * 
+ * @description This schema is used to store courses.
+ * 
+ * @property {String} title - The title of the course
+ * @property {String} description - The description of the course
+ * @property {String} author - The author of the course
+ * @property {MongooseVirtualType[]} course_sections - The course sections in the course
+ * @property {MongooseVirtualType[]} exercises - The exercises in the course
+ * @property {MongooseVirtualType[]} videos - The videos in the course
+ * @property {MongooseVirtualType[]} textmaterials - The text materials in the course
+ * 
+ */
+
+/**
  * @type {questionSchema}
  */
 const questionSchema = new Schema({
@@ -225,11 +240,13 @@ courseSectionSchema.virtual('textmaterials', {
     justOne: false
 })
 
-// For all find findOne and populate queries, populate the virtuals
-// courseSectionSchema.pre('find', function (next) {
-//     this.populate('videos exercises textmaterials').then( next() )
-// })
-
+/**
+ * @description Combines the contents of the course section into one array
+ * and sorts them by their order
+ * 
+ * @param {courseSectionSchema} courseSection 
+ * @returns {courseSectionSchema}
+ */
 function combineContents(courseSection) {
     courseSection.contents = [
         ...courseSection.videos??[],
@@ -256,6 +273,9 @@ courseSectionSchema.post('findOne', async function (courseSection) {
     return doc.toObject()
 })
 
+/**
+ * @type {courseSchema}
+ */
 const courseSchema = new Schema({
     author: {
         type: String,
