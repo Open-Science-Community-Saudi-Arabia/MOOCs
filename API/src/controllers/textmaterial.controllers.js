@@ -1,3 +1,28 @@
+/**
+ * @fileoverview Text material controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module TextMaterial Controller
+ * 
+ * @requires ../models/course.models
+ * @requires ../utils/cloudinary
+ * @requires ../utils/errors
+ * @requires fs
+ * 
+ * @description This module is responsible for handling all text material related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /textmaterial/new <i> - Add a new text material to a particular course section </i> <br>
+ * <b>GET</b> /textmaterial/:id <i> - Get a particular text material </i> <br>
+ * <b>PATCH</b> /textmaterial/update/:id <i> - Update a particular text material </i> <br>
+ * <b>DELETE</b> /textmaterial/delete/:id <i> - Delete a particular text material </i> <br>
+ */
+
 const { CourseSection, TextMaterial } = require("../models/course.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const { NotFoundError, BadRequestError } = require("../utils/errors");

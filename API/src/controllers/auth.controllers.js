@@ -1,7 +1,10 @@
 /**
- * @memberof Controllers
- * @name Controllers/Auth
- * @module Controllers/Auth
+ * module: Controller
+ */
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module Auth Controller
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
  *
  * The following routes are handled by this module and their corresponding functions: </br>
@@ -89,7 +92,7 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @param {MongooseDocument} user - The user object.
  * @param {number} statusCode - The HTTP response status code.
  * @param {ExpressResponseObject} res - The Express response object.
- * 
+ * @memberof module:Controllers/AuthController
  * @returns {void}
  * 
  * @throws {Error} If error occurs
@@ -134,7 +137,6 @@ const createToken = (user, statusCode, res) => {
  * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
-
  */
 const handleUnverifiedUser = function (user) {
     return async function (req) {
@@ -206,7 +208,6 @@ exports.passportOauthCallback = function (req, res) {
 /**
  * Signup a new user
  * 
- * @category Controllers
  * @description This function creates a new user and sends a verification email to the user.
  * 
  * The user is created using the User model, and the user's password is hashed using the bcrypt library. 
@@ -289,8 +290,6 @@ exports.signup = async (req, res, next) => {
  * Create a new admin account and send a verification email to the user.
  *
  * This function is only accessible to the superadmin to create a new admin account.
- *
- * @category Controllers
  *
  * @param {Object} req - Express request object
  * @param {Object} req.body - Request body containing user details

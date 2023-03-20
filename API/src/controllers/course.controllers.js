@@ -1,8 +1,7 @@
 /**
- * @memberof Controllers
- * @name Controllers/Course
- * @module Controllers/Course
- * 
+ * @category Backend API
+ * @subcategory Controllers
+ * @module Course Controller
  * @description This module contains all the controllers for the course model.
  * 
  * The following routes are handled by this controller </br>
