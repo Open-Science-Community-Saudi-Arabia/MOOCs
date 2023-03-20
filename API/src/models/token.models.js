@@ -2,9 +2,12 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module Authentication Models
+ * @module Auth Models
+ * @description This module contains the models for authentication,
+ * such as the blacklisted token model and the auth code model.
  * 
  * @requires mongoose
+ * @requires ../utils/config 
  */
 
 
@@ -13,11 +16,16 @@ const schema = mongoose.Schema;
 const { JWT_REFRESH_EXP } = require("../utils/config");
 
 /**
- * @typedef {MongooseDocument} BlacklistedToken
- * @property {string} token - The token to be blacklisted
+ * @constructor BlacklistedToken
+ * 
+ * @description This schema is used to store blacklisted JWT tokens,
+ * so that they can be checked against when a user tries to access a protected route
+ * 
+ * @property {String} token - The blacklisted token
  * @property {Date} createdAt - The date the token was blacklisted
- * @property {Date} expires - The date the token will be deleted
- * @property {Date} updatedAt - The date the token was last updated
+ * @property {Date} expiresAt - The date the token will expire, 
+ * the token expiry is set to the same as the refresh token expiry.
+ * 
  */
 const blacklistedTokenSchema = new schema(
     {
@@ -29,16 +37,17 @@ const blacklistedTokenSchema = new schema(
 
 
 /**
- * @typedef {MongooseDocument} AuthCode
- * @property {string} user - The user the code is for
- * @property {string} verification_code - The verification code
- * @property {string} password_reset_code - The password reset code
- * @property {string} activation_code - The activation code
- * @property {string} deactivation_code - The deactivation code
- * @property {Date} createdAt - The date the code was created
- * @property {Date} updatedAt - The date the code was last updated
- * @property {Date} expires - The date the code will be deleted
+ * @constructor AuthCode
  * 
+ * @description This schema is used to store verification codes for user authentication
+ * 
+ * @property {ObjectId} user - The user to whom the code belongs
+ * @property {String} verification_code - The verification code
+ * @property {String} password_reset_code - The password reset code
+ * @property {String} activation_code - The account activation code, for superadmin account activation
+ * @property {String} deactivation_code - The account deactivation code, for superadmin account deactivation
+ * 
+ * @property {Date} createdAt - The date the code was created
  * */ 
 const authCodeSchema = new schema(
     {
@@ -53,15 +62,6 @@ const authCodeSchema = new schema(
     { timestamps: true }
 );
 
-/*
-* @typedef {MongooseDocument} TestAuthToken
-* @property {string} user - The user the code is for
-* @property {string} access_token - The access token
-* @property {Date} createdAt - The date the code was created
-* @property {Date} updatedAt - The date the code was last updated
-* @property {Date} expires - The date the code will be deleted
-*
-* */ 
 const testAuthToken = new schema({
     user: { type: schema.Types.ObjectId, ref: "User", required: true },
     access_token: { type: schema.Types.String }
