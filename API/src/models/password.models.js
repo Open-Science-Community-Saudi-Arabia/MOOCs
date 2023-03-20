@@ -3,14 +3,31 @@
  * @subcategory Models
  * 
  * @module AuthModel
- * 
- * @requires mongoose
  */
 
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
+
+/**
+ * @typedef {Object} passwordSchema
+ * 
+ * @description This schema is used to store user passwords.
+ * 
+ * <br>
+ * 
+ * <b>NOTE:</b> The password is hashed before being stored in the database.
+ * 
+ * @property {String} password - The user password
+ * @property {ObjectId} user - The user to whom the password belongs
+ * 
+ * @see {@link module:UserModel~userSchema userSchema}
+ */
+
+/**
+ * @type {passwordSchema}
+ */
 const passwordSchema = new schema({
     password: {
         type: String,
@@ -31,6 +48,13 @@ passwordSchema.pre('save', async function (next) {
     }
 })
 
+/**
+ * @description This method is used to update the user password.
+ * it first hashes the new password and then saves it to the database.
+ * 
+ * @method updatePassword
+ * @param {string} newPassword 
+ */
 passwordSchema.methods.updatePassword = async function (newPassword) {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(newPassword, salt);
@@ -38,6 +62,16 @@ passwordSchema.methods.updatePassword = async function (newPassword) {
     await this.save();
 }
 
+/**
+ * @description This method is used to compare the user password with the password.
+ * 
+ * @method comparePassword
+ * @param {string} password
+ * 
+ * @returns {boolean}
+ * 
+ * @see {@link https://www.npmjs.com/package/bcryptjs bcryptjs}
+ * */
 passwordSchema.methods.comparePassword = async function (password) {
     const result = await bcrypt.compare(password, this.password);
     return result;
