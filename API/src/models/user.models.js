@@ -20,21 +20,7 @@ const Schema = mongoose.Schema
 const options = { toObject: { virtuals: true } }
 
 /**
- * @description User account status, every user has a status object,
- * which contains information about the user's account status,
- * such as whether the account is active or not, and whether the account is verified or not.
- * 
- * @property {ObjectId} user - The user to whom the status belongs
- * @property {Boolean} isActive - Whether the account is active or not
- * @property {Boolean} isVerified - Whether the account is verified or not
- */
-const status = new Schema({
-    user: { type: String, required: true, ref: 'User' },
-    isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false },
-})
-
-/**
+ * @typedef {Object} userSchema
  * @description This schema is used to store user information
  * 
  * @property {String} firstname - The user's first name
@@ -46,7 +32,40 @@ const status = new Schema({
  * @property {Date} createdAt - The date the user was created
  * @property {Date} updatedAt - The date the user was last updated
  */
-const user_schema = new Schema(
+
+/**
+ * @typedef {Object} statusSchema
+ * 
+ * @description User account status, every user has a status object,
+ * which contains information about the user's account status,
+ * such as whether the account is active or not, and whether the account is verified or not.
+ * 
+ * @property {ObjectId} user - The user to whom the status belongs
+ * @property {Boolean} isActive - Whether the account is active or not
+ * @property {Boolean} isVerified - Whether the account is verified or not
+ */
+
+/**
+ * @typedef {import ('mongoose').Model<User>} UserModel
+ */
+/**
+ * @typedef {import ('mongoose').Model<Status>} StatusModel
+ */
+
+
+/**
+ * @type {statusSchema} 
+ */
+const statusSchema = new Schema({
+    user: { type: String, required: true, ref: 'User' },
+    isActive: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
+})
+
+/**
+ * @type {userSchema}
+ */
+const userSchema = new Schema(
     {
         firstname: { type: String, required: true },
         lastname: { type: String, required: true },
@@ -79,7 +98,7 @@ const user_schema = new Schema(
  * @property {ObjectId} foreignField - The user's id
  * @property {Boolean} justOne - Whether to return one or many
  */
-user_schema.virtual('password', {
+userSchema.virtual('password', {
     ref: "Password",
     localField: "_id",
     foreignField: "user",
@@ -96,7 +115,7 @@ user_schema.virtual('password', {
  * @property {ObjectId} foreignField - The user's id
  * @property {Boolean} justOne - Whether to return one or many
  */
-user_schema.virtual('auth_codes', {
+userSchema.virtual('auth_codes', {
     ref: "AuthCode",
     localField: "_id",
     foreignField: "user",
@@ -113,7 +132,7 @@ user_schema.virtual('auth_codes', {
  * @property {ObjectId} foreignField - The user's id
  * @property {Boolean} justOne - Whether to return one or many
  * */
-user_schema.virtual('status', {
+userSchema.virtual('status', {
     ref: "Status",
     localField: "_id",
     foreignField: "user",
@@ -129,13 +148,13 @@ user_schema.virtual('status', {
  * @property {ObjectId} foreignField - The user's id
  * @property {Boolean} justOne - Whether to return one or many
  */
-user_schema.virtual('enrolled_courses', {
+userSchema.virtual('enrolled_courses', {
     localField: '_id',
     foreignField: 'enrolled_users',
     ref: 'Course'
 })
 
-user_schema.pre('save', async function (next, { skipValidation }) {
+userSchema.pre('save', async function (next, { skipValidation }) {
     if (skipValidation) return next();
 
     // Check if user already exists - Incase index is not created
@@ -147,17 +166,6 @@ user_schema.pre('save', async function (next, { skipValidation }) {
 })
 
 
-// user_schema.post('save', async function (doc, next) {
-//     // Check if session is active
-//     //console.log('post save')
-//     //console.log(this)
-//     let session;
-//     //console.log(session)
-//     if (this.session) { session = this.sesssion }
-
-//     next()
-// });
-
 /**
  * @description This function is used to activate a user's account only if the user is an enduser
  * @this {User}
@@ -165,7 +173,7 @@ user_schema.pre('save', async function (next, { skipValidation }) {
  * @returns {void}
  * @throws {Error} - Throws an error if the user is not an enduser
  */
-status.pre('save', async function (next) {
+statusSchema.pre('save', async function (next) {
     // Check if it is a new document
     if (this.isNew) {
         //console.log('Not modified')
@@ -178,7 +186,14 @@ status.pre('save', async function (next) {
     next()
 })
 
-const Status = mongoose.model('Status', status)
-const User = mongoose.model('User', user_schema)
+/**
+ * @type {StatusModel}
+ */
+const Status = mongoose.model('Status', statusSchema)
+
+/**
+ * @type {UserModel}
+ * */
+const User = mongoose.model('User', userSchema)
 
 module.exports = { User, Status }
