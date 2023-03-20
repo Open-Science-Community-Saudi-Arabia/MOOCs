@@ -2,7 +2,8 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module Auth Models
+ * @module AuthModel
+ * 
  * @description This module contains the models for authentication,
  * such as the blacklisted token model and the auth code model.
  * 
@@ -16,7 +17,7 @@ const schema = mongoose.Schema;
 const { JWT_REFRESH_EXP } = require("../utils/config");
 
 /**
- * @constructor BlacklistedToken
+ * @typedef {Object} blacklistedTokenSchema
  * 
  * @description This schema is used to store blacklisted JWT tokens,
  * so that they can be checked against when a user tries to access a protected route
@@ -24,9 +25,36 @@ const { JWT_REFRESH_EXP } = require("../utils/config");
  * @property {String} token - The blacklisted token
  * @property {Date} createdAt - The date the token was blacklisted
  * @property {Date} expiresAt - The date the token will expire, 
- * the token expiry is set to the same as the refresh token expiry.
+ * the token expiry is set to the same as the refresh token expiry. 
+ * because the no valid JWT will last longer than the refresh token.
  * 
+*/
+
+/**
+ * @typedef {Object} authCodeSchema
+ * 
+ * @description This schema is used to store verification codes for user authentication
+ * 
+ * @property {ObjectId} user - The user to whom the code belongs
+ * @property {String} [verification_code] - The verification code
+ * @property {String} [password_reset_code] - The password reset code
+ * @property {String} [activation_code] - The account activation code, for superadmin account activation
+ * @property {String} [deactivation_code] - The account deactivation code, for superadmin account deactivation
+ * @property {Date} createdAt - The date the code was created
+ * 
+ * @see {@link module:UsersModel~userSchema userSchema}
+ * */ 
+
+/**
+ * @typedef {import ('mongoose').Model<authCodeSchema>} AuthCodeModel
  */
+/**
+ * @typedef {import ('mongoose').Model<blacklistedTokenSchema>} BlacklistedTokenModel
+ * */
+
+/**
+ * @type {blacklistedTokenSchema}
+ * */
 const blacklistedTokenSchema = new schema(
     {
         token: { type: String, required: true },
@@ -35,20 +63,9 @@ const blacklistedTokenSchema = new schema(
     { timestamps: true, expires: JWT_REFRESH_EXP }
 );
 
-
 /**
- * @constructor AuthCode
- * 
- * @description This schema is used to store verification codes for user authentication
- * 
- * @property {ObjectId} user - The user to whom the code belongs
- * @property {String} verification_code - The verification code
- * @property {String} password_reset_code - The password reset code
- * @property {String} activation_code - The account activation code, for superadmin account activation
- * @property {String} deactivation_code - The account deactivation code, for superadmin account deactivation
- * 
- * @property {Date} createdAt - The date the code was created
- * */ 
+ * @type {authCodeSchema}
+ * */
 const authCodeSchema = new schema(
     {
         user: { type: schema.Types.ObjectId, ref: "User", required: true },
@@ -67,9 +84,16 @@ const testAuthToken = new schema({
     access_token: { type: schema.Types.String }
 });
 
+/**
+ * @type {AuthCodeModel}
+ * */
 const AuthCode = mongoose.model("AuthCode", authCodeSchema);
+
+/**
+ * @type {BlacklistedTokenModel}
+ * */
 const BlacklistedToken = mongoose.model(
-    "BlacklistedToken",
+    "BlacklistedToken", 
     blacklistedTokenSchema
 );
 const TestAuthToken = mongoose.model('TestAuthToken', testAuthToken)

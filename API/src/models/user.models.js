@@ -54,7 +54,7 @@ const options = { toObject: { virtuals: true } }
  * 
  * @see {@link https://mongoosejs.com/docs/guide.html#virtuals Mongoose Virtuals}
  * @see {@link module:UsersModel~statusSchema statusSchema}
- * @see {@link module:UsersModel~authCodeSchema authCodeSchema}
+ * @see {@link module:AuthModel~authCodeSchema authCodeSchema}
  * @see {@link module:UsersModel~enrolledCourseSchema enrolledCourseSchema}
  * @see {@link module:PasswordModel~passwordSchema passwordSchema}
  */
