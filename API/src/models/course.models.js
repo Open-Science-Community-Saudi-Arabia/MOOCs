@@ -2,7 +2,10 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module Course Models
+ * @module CourseModels
+ * 
+ * @description This module contains the models for courses,
+ * such as the course model, the course section model, the exercise model, and the question model.
  * 
  * @requires mongoose
  */
@@ -15,6 +18,79 @@ const options = {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 }
+
+/**
+ * @typedef {Object} Question
+ * 
+ * @description This schema is used to store questions for exercises.
+ * 
+ * @property {String} type - The type of the document, "question"
+ * @property {ObjectId} exercise - The exercise to which the question belongs
+ * @property {String} question - The question
+ * @property {String} correct_option - The correct option
+ * @property {Array} options - The options for the question
+ */
+
+/**
+ * @typedef {Object} Exercise
+ * 
+ * @description This schema is used to store exercises.
+ * 
+ * @property {String} type - The type of the document, "exercise"
+ * @property {String} title - The title of the exercise
+ * @property {String} description - The description of the exercise
+ * @property {Number} duration - The duration of the exercise
+ * @property {Date} date - The date the exercise was created
+ * 
+ * @property {ObjectId} course - The course to which the exercise belongs
+ * @property {ObjectId} course_section - The course section to which the exercise belongs
+ * @property {Number} order - The order of the exercise in the course section
+ * 
+ * @property {[MongooseVirtualType]} questions - The questions for the exercise
+ * */
+
+/**
+ * @typedef {Object} Video
+ * 
+ * @description This schema is used to store videos.
+ * 
+ * @property {String} type - The type of the document, "video"
+ * @property {String} title - The title of the video
+ * @property {String} description - The description of the video
+ * @property {String} video_url - The url of the video
+ * @property {Number} duration - The duration of the video
+ * @property {ObjectId} course - The course to which the video belongs
+ * @property {ObjectId} course_section - The course section to which the video belongs
+ * @property {Number} order - The order of the video in the course section
+ * @property {String} category - The category of the video (e.g. "Programming", 
+ * "Mathematics", "Physics", "Chemistry")
+ * @property {Boolean} isAvailable - Whether the video is available to the user
+ * 
+ * @see {@link module:CourseModels~CourseSection CourseSection}
+ * @see {@link module:CourseModels~Course Course}
+ */
+
+/**
+ * @typedef {Object} CourseSection
+ * 
+ * @description This schema is used to store course sections.
+ * 
+ * @property {String} type - The type of the document, "course_section"
+ * @property {String} title - The title of the course section
+ * @property {Number} order - The order of the course section in the course
+ * @property {ObjectId} course - The course to which the course section belongs
+ * @property {[MongooseVirtualType]} contents - The contents of the course section
+ * 
+ * <br>
+ * 
+ * <b>NOTE:</b> The contents of the course section are stored as an array of virtuals.
+ * This is because the contents can be either an exercises, videos or text materials
+ * 
+ * @see {@link module:CourseModels~Exercise Exercise}
+ * @see {@link module:CourseModels~Video Video}
+ * @see {@link module:CourseModels~TextMaterial TextMaterial}
+ * */
+
 const questionSchema = new Schema({
     type: { type: String, default: "question"},
     // Assuming questions are in quiz format
