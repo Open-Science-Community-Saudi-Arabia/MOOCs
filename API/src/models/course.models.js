@@ -20,7 +20,7 @@ const options = {
 }
 
 /**
- * @typedef {Object} Question
+ * @typedef {Object} questionSchema
  * 
  * @description This schema is used to store questions for exercises.
  * 
@@ -32,7 +32,7 @@ const options = {
  */
 
 /**
- * @typedef {Object} Exercise
+ * @typedef {Object} exerciseSchema
  * 
  * @description This schema is used to store exercises.
  * 
@@ -50,7 +50,7 @@ const options = {
  * */
 
 /**
- * @typedef {Object} Video
+ * @typedef {Object} videoSchema
  * 
  * @description This schema is used to store videos.
  * 
@@ -71,7 +71,7 @@ const options = {
  */
 
 /**
- * @typedef {Object} CourseSection
+ * @typedef {Object} courseSectionSchema
  * 
  * @description This schema is used to store course sections.
  * 
