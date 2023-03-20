@@ -1,3 +1,29 @@
+/**
+ * @fileoverview Exercise controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module Exercise Controller
+ * @requires ../models/course.models
+ * @requires ../utils/errors
+ * 
+ * @description This module is responsible for handling all exercise related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /exercise/new <i> - to create a new exercise </i> </br>
+ * <b>GET</b> /exercise/ <i> - to get all exercises </i> </br>
+ * <b>GET</b> /exercise/:id <i> - to get a particular exercise </i> </br>
+ * <b>PATCH</b> /exercise/update/:id <i> - to update a particular exercise </i> </br>
+ * <b>DELETE</b> /exercise/delete/:id <i> - to delete a particular exercise </i> </br>
+ * <b>POST</b> /exercise/score <i> - to score a particular exercise </i> </br>
+ * <b>GET</b> /exercise/submission/:id <i> - to get a particular exercise submission </i> </br>
+ * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - to get previous submissions for a particular exercise </i> </br>
+ */
+
 const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
