@@ -9,9 +9,9 @@
     "syntaxTheme": "dark"
   },
   "tags": {
-    "allowUnknownTags": true
+    "allowUnknownTags": ["category", "subcategory"]
   },
-  "plugins": ["node_modules/docdash"],
+  "plugins": ["node_modules/docdash", "node_modules/better-docs/category"],
   "opts": {
     "destination": "./docs/",
     "recurse": true,

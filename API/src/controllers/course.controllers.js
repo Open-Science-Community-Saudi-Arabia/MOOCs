@@ -1,6 +1,7 @@
 /**
+ * @category API
  * @module CourseController
- * 
+ * @subcategory Controllers
  * @description This module contains all the controllers for the course model.
  * 
  * The following routes are handled by this controller </br>

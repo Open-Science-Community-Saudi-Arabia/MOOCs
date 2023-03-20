@@ -1,5 +1,10 @@
 /**
+ * module: Controller
+ */
+/**
+ * @category API
  * @module AuthController
+ * @subcategory Controllers
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
  *
  * The following routes are handled by this module and their corresponding functions: </br>
@@ -125,10 +130,6 @@ const returnAuthTokens = async (user, statusCode, res) => {
  * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
- * 
- * @memberof AuthController
- * @section Authentication
-
  */
 const handleUnverifiedUser = function (user) {
     return async function (req) {
@@ -200,7 +201,6 @@ exports.passportOauthCallback = function (req, res) {
 /**
  * Signup a new user
  * 
- * @category Controllers
  * @description This function creates a new user and sends a verification email to the user.
  * 
  * The user is created using the User model, and the user's password is hashed using the bcrypt library. 
@@ -283,8 +283,6 @@ exports.signup = async (req, res, next) => {
  * Create a new admin account and send a verification email to the user.
  *
  * This function is only accessible to the superadmin to create a new admin account.
- *
- * @category Controllers
  *
  * @param {Object} req - Express request object
  * @param {Object} req.body - Request body containing user details
