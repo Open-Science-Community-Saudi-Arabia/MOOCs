@@ -103,6 +103,7 @@ const options = {
  * */
 
 const questionSchema = new Schema({
+    type: { type: String, default: "question"}
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
@@ -117,6 +118,7 @@ const questionSchema = new Schema({
 }, options)
 
 const exerciseSchema = new Schema({
+    type: { type: String, default:'exercise'},
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -133,6 +135,7 @@ exerciseSchema.virtual('questions', {
 })
 
 const videoSchema = new Schema({
+    type: { type: String, default:'video'},
     title: {
         type: String,
         required: true
@@ -155,6 +158,7 @@ const videoSchema = new Schema({
 }, options)
 
 const textmaterialSchema = new Schema({
+    type: { type: String, default: 'text_material'},
     title: {
         type: String,
         required: true
