@@ -3,8 +3,8 @@
  */
 /**
  * @category API
- * @module AuthController
  * @subcategory Controllers
+ * @module Auth Controller
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
  *
  * The following routes are handled by this module and their corresponding functions: </br>

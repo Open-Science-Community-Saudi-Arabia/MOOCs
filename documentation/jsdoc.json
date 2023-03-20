@@ -9,7 +9,7 @@
     "syntaxTheme": "dark"
   },
   "tags": {
-    "allowUnknownTags": ["category", "subcategory"]
+    "allowUnknownTags": ["category", "subcategory", "section"]
   },
   "plugins": ["node_modules/docdash", "node_modules/better-docs/category"],
   "opts": {
