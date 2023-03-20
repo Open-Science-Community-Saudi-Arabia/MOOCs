@@ -153,6 +153,25 @@ const options = {
  */
 
 /**
+ * @typedef {Object} courseReportSchema
+ * 
+ * @description This schema is used to track the progress of a user in a course.
+ * 
+ * @property {ObjectId} user - The user
+ * @property {ObjectId} course - The course
+ * @property {ObjectId[]} completed_exercises - The exercises completed by the user
+ * @property {ObjectId[]} completed_videos - The videos completed by the user
+ * @property {ObjectId[]} completed_course_sections - The course sections completed by the user
+ * @property {Boolean} isCompleted - Whether the user has completed the course
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ * @see {@link module:UserModel~userSchema User}
+ */
+
+/**
  * @type {questionSchema}
  */
 const questionSchema = new Schema({
@@ -344,6 +363,9 @@ const submissionSchema = new Schema({
     score: { type: Number, default: 0 },
 }, options)
 
+/**
+ * @type {courseReportSchema}
+ */
 const courseReportSchema = new Schema(
     {
         course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
