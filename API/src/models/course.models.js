@@ -98,6 +98,10 @@ const options = {
  * @property {Number} order - The order of the course section in the course
  * @property {ObjectId} course - The course to which the course section belongs
  * @property {MongooseVirtualType[]} contents - The contents of the course section
+ * @property {Boolean} isAvailable - Whether the course section is available to the user
+ * @property {MongooseVirtualType[]} exercises - The exercises in the course section
+ * @property {MongooseVirtualType[]} videos - The videos in the course section
+ * @property {MongooseVirtualType[]} textmaterials - The text materials in the course section
  * 
  * <br>
  * 
@@ -109,6 +113,9 @@ const options = {
  * @see {@link module:CourseModel~textmaterialSchema TextMaterial}
  * */
 
+/**
+ * @type {questionSchema}
+ */
 const questionSchema = new Schema({
     type: { type: String, default: "question"},
     // Assuming questions are in quiz format
@@ -124,6 +131,9 @@ const questionSchema = new Schema({
     options: [{ type: String }]
 }, options)
 
+/**
+ * @type {exerciseSchema}
+ */
 const exerciseSchema = new Schema({
     type: { type: String, default:'exercise'},
     title: { type: String, required: true },
@@ -141,6 +151,9 @@ exerciseSchema.virtual('questions', {
     ref: 'Question'
 })
 
+/**
+ * @type {videoSchema}
+ * */
 const videoSchema = new Schema({
     type: { type: String, default:'video'},
     title: {
@@ -164,6 +177,9 @@ const videoSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
+/**
+ * @type {textmaterialSchema}
+ * */
 const textmaterialSchema = new Schema({
     type: { type: String, default: 'text_material'},
     title: {
@@ -181,7 +197,9 @@ const textmaterialSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
-
+/**
+ * @type {courseSectionSchema}
+ * */
 const courseSectionSchema = new Schema({
     title: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
