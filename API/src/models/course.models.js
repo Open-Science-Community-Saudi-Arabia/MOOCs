@@ -1,3 +1,12 @@
+/**
+ * @category Backend API
+ * @subcategory Models
+ * 
+ * @module Course Models
+ * 
+ * @requires mongoose
+ */
+
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 

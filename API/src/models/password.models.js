@@ -1,3 +1,12 @@
+/**
+ * @category Backend API
+ * @subcategory Models
+ * 
+ * @module Authentication Models
+ * 
+ * @requires mongoose
+ */
+
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
