@@ -1,17 +1,55 @@
+/**
+ * @fileoverview User Model
+ * 
+ * @category Backend API
+ * @subcategory Models
+ * 
+ * @module User Models
+ * 
+ * @requires mongoose
+ * @requires ../utils/errors
+ * @requires validator
+ * @requires ./token.models
+ */
+
 const mongoose = require('mongoose')
 const { BadRequestError } = require('../utils/errors')
 const validator = require('validator')
 const Schema = mongoose.Schema
-const { AuthCode } = require('./token.models')
 
 const options = { toObject: { virtuals: true } }
 
+/**
+ * @constructor Status
+ * 
+ * @description User account status, every user has a status object,
+ * which contains information about the user's account status,
+ * such as whether the account is active or not, and whether the account is verified or not.
+ * 
+ * @property {ObjectId} user - The user to whom the status belongs
+ * @property {Boolean} isActive - Whether the account is active or not
+ * @property {Boolean} isVerified - Whether the account is verified or not
+ */
 const status = new Schema({
     user: { type: String, required: true, ref: 'User' },
     isActive: { type: Boolean, default: true },
     isVerified: { type: Boolean, default: false },
 })
 
+/**
+ * @constructor User
+ * 
+ * @description This schema is used to store user information
+ * 
+ * @property {String} firstname - The user's first name
+ * @property {String} lastname - The user's last name
+ * @property {String} email - The user's email
+ * @property {String} role - The user's role (EndUser, Admin, SuperAdmin)
+ * @property {String} googleId - The user's google id
+ * @property {String} githubId - The user's github id
+ * @property {Date} createdAt - The date the user was created
+ * @property {Date} updatedAt - The date the user was last updated
+ */
 const user_schema = new Schema(
     {
         firstname: { type: String, required: true },
