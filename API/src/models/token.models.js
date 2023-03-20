@@ -22,24 +22,37 @@ const { JWT_REFRESH_EXP } = require("../utils/config");
  * @description This schema is used to store blacklisted JWT tokens,
  * so that they can be checked against when a user tries to access a protected route
  * 
+ * <br>
+ * 
+ * <b>NOTE:</b> The token expiry is set to the same as the refresh token expiry.
+ * because the no valid JWT will last longer than the refresh token.
+ * This value can be modified in the config file.
+ * 
  * @property {String} token - The blacklisted token
  * @property {Date} createdAt - The date the token was blacklisted
  * @property {Date} expiresAt - The date the token will expire, 
- * the token expiry is set to the same as the refresh token expiry. 
- * because the no valid JWT will last longer than the refresh token.
+ * 
  * 
 */
 
 /**
  * @typedef {Object} authCodeSchema
  * 
- * @description This schema is used to store verification codes for user authentication
+ * @description This schema is used to store verification codes for user authentication,
+ * such as the verification code for email verification, the password reset code.
+ * 
+ * <br>
+ * 
+ * <b>NOTE:</b> The activation and deactivation codes are only used for 
+ * superadmin account activation and deactivation.
  * 
  * @property {ObjectId} user - The user to whom the code belongs
- * @property {String} [verification_code] - The verification code
- * @property {String} [password_reset_code] - The password reset code
- * @property {String} [activation_code] - The account activation code, for superadmin account activation
- * @property {String} [deactivation_code] - The account deactivation code, for superadmin account deactivation
+ * @property {String} verification_code - The verification code
+ * @property {String} password_reset_code - The password reset code
+ * @property {String} [activation_code] - The account activation code, for superadmin 
+ * account activation
+ * @property {String} [deactivation_code] - The account deactivation code, for superadmin 
+ * account deactivation
  * @property {Date} createdAt - The date the code was created
  * 
  * @see {@link module:UsersModel~userSchema userSchema}
