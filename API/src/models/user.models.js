@@ -4,8 +4,8 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module UsersModel
- * @desc This module contains the user model and its submodels, 
+ * @module UserModel
+ * @description This module contains the user model and its submodels, 
  * users are the main entities in the system, they are the ones who can access the API,
  * each user has a role, which determines the level of access they have to the API. </br>
  * 
@@ -19,8 +19,6 @@
  * </br>
  * - SuperAdmin - A user who can access the API and use it to perform CRUD operations on the database,
  * but they can only access the data that they have created, they can also create, update and delete users.
- *
- * @enddesc
  * 
  * @requires mongoose
  * @requires ../utils/errors
@@ -53,10 +51,10 @@ const options = { toObject: { virtuals: true } }
  * @property {Date} updatedAt - The date the user was last updated
  * 
  * @see {@link https://mongoosejs.com/docs/guide.html#virtuals Mongoose Virtuals}
- * @see {@link module:UsersModel~statusSchema statusSchema}
- * @see {@link module:UsersModel~authCodeSchema authCodeSchema}
- * @see {@link module:UsersModel~enrolledCourseSchema enrolledCourseSchema}
- * @see {@link module:PasswordModel~passwordSchema passwordSchema}
+ * @see {@link module:UserModel~statusSchema statusSchema}
+ * @see {@link module:AuthModel~authCodeSchema authCodeSchema}
+ * @see {@link module:CourseModel~courseSchema courseSchema}
+ * @see {@link module:AuthModel~passwordSchema passwordSchema}
  */
 
 /**
@@ -77,14 +75,7 @@ const options = { toObject: { virtuals: true } }
  * @property {Boolean} isActive - Whether the account is active or not
  * @property {Boolean} isVerified - Whether the account is verified or not
  * 
- * @see {@link module:UsersModel~userSchema userSchema}
- */
-
-/**
- * @typedef {import ('mongoose').Model<userSchema>} UserModel
- */
-/**
- * @typedef {import ('mongoose').Model<statusSchema>} StatusModel
+ * @see {@link module:UserModel~userSchema userSchema}
  */
 
 
@@ -184,14 +175,7 @@ statusSchema.pre('save', async function (next) {
     next()
 })
 
-/**
- * @type {StatusModel}
- */
 const Status = mongoose.model('Status', statusSchema)
-
-/**
- * @type {UserModel}
- * */
 const User = mongoose.model('User', userSchema)
 
 module.exports = { User, Status }
