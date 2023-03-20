@@ -700,16 +700,24 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
 /**
  * Activate user account
  * 
- * @description Activates user account if user account exists and it's not active
+ * @description Activates a user account if the account exists and it's not already active.
  * 
- * @param {string} email - User email
+ * @param {object} req - The HTTP request object
+ * @param {object} req.params - The request parameters object
+ * @param {string} req.params.email - The email address of the user to activate
+ * @param {object} res - The HTTP response object
+ * @param {function} next - The next middleware function
  * 
- * @returns {string} status - Status of the request
+ * @returns {object} - The HTTP response object
+ * @returns {boolean} success - Indicates if the request was successful
+ * @returns {object} data - An object containing the success message
+ * @returns {string} data.message - A message indicating the user account was activated
  * 
- * @throws {BadRequestError} if user account does not exist
- * @throws {BadRequestError} if user account is already active
- * @throws {Error} if error occurs
-
+ * @throws {BadRequestError} - If the email parameter is missing or invalid
+ * @throws {BadRequestError} - If the user account does not exist
+ * @throws {BadRequestError} - If the user account is already active
+ * @throws {ForbiddenError} - If the user is a super admin (super admin accounts cannot be activated)
+ * @throws {Error} - If an unexpected error occurs
  */
 exports.activateUserAccount = async (req, res, next) => {
     const email = req.params.email
@@ -745,10 +753,14 @@ exports.activateUserAccount = async (req, res, next) => {
  * 
  * @param {string} email - User email
  * 
- * @returns {string} status - Status of the request
+ * @returns {Object} response - The HTTP response
+ * @returns {boolean} response.success - Indicates if the request was successful
+ * @returns {Object} response.data - The response data
+ * @returns {string} response.data.message - A message indicating the status of the request
  * 
- * @throws {BadRequestError} if user account does not exist
- *
+ * @throws {BadRequestError} If user account does not exist or is already deactivated
+ * @throws {ForbiddenError} If user is a SuperAdmin account
+ * @throws {Error} If an unexpected error occurs
  */
 exports.deactivateUserAccount = async (req, res, next) => {
     const email = req.params.email
