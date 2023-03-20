@@ -59,10 +59,10 @@ const { JWT_REFRESH_EXP } = require("../utils/config");
  * */ 
 
 /**
- * @typedef {import ('mongoose').Model<authCodeSchema>} AuthCodeModel
+ * @typedef {mongoose.model<authCodeSchema> } AuthCodeModel
  */
 /**
- * @typedef {import ('mongoose').Model<blacklistedTokenSchema>} BlacklistedTokenModel
+ * @typedef {mongoose.model<blacklistedTokenSchema>} BlacklistedTokenModel
  * */
 
 /**

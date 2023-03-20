@@ -46,7 +46,7 @@ const options = {
  * @property {ObjectId} course_section - The course section to which the exercise belongs
  * @property {Number} order - The order of the exercise in the course section
  * 
- * @property {[MongooseVirtualType]} questions - The questions for the exercise
+ * @property {MongooseVirtualType[]} questions - The questions for the exercise
  * */
 
 /**
@@ -79,7 +79,7 @@ const options = {
  * @property {String} title - The title of the course section
  * @property {Number} order - The order of the course section in the course
  * @property {ObjectId} course - The course to which the course section belongs
- * @property {[MongooseVirtualType]} contents - The contents of the course section
+ * @property {MongooseVirtualType[]} contents - The contents of the course section
  * 
  * <br>
  * 

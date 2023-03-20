@@ -5,7 +5,7 @@
  * @subcategory Models
  * 
  * @module UsersModel
- * @desc This module contains the user model and its submodels, 
+ * @description This module contains the user model and its submodels, 
  * users are the main entities in the system, they are the ones who can access the API,
  * each user has a role, which determines the level of access they have to the API. </br>
  * 
@@ -19,8 +19,6 @@
  * </br>
  * - SuperAdmin - A user who can access the API and use it to perform CRUD operations on the database,
  * but they can only access the data that they have created, they can also create, update and delete users.
- *
- * @enddesc
  * 
  * @requires mongoose
  * @requires ../utils/errors
@@ -81,10 +79,10 @@ const options = { toObject: { virtuals: true } }
  */
 
 /**
- * @typedef {import ('mongoose').Model<userSchema>} UserModel
+ * @typedef {mongoose.model<userSchema>} UserModel
  */
 /**
- * @typedef {import ('mongoose').Model<statusSchema>} StatusModel
+ * @typedef {mongoose.model<statusSchema>} StatusModel
  */
 
 
