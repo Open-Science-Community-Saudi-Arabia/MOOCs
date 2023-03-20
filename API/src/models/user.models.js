@@ -5,8 +5,23 @@
  * @subcategory Models
  * 
  * @module UsersModel
- * @description This module contains the user model and its submodels
- *  
+ * @desc This module contains the user model and its submodels, 
+ * users are the main entities in the system, they are the ones who can access the API,
+ * each user has a role, which determines the level of access they have to the API. </br>
+ * 
+ * </br>
+ * 
+ * The role of a user can be one of the following: </br>
+ * - EndUser - A regular user, who can access the API and use it to perform CRUD operations on the database. </br>
+ * </br>
+ * - Admin -  A user who can access the API and use it to perform CRUD operations on the database,
+ * but they can only access the data that they have created. </br>
+ * </br>
+ * - SuperAdmin - A user who can access the API and use it to perform CRUD operations on the database,
+ * but they can only access the data that they have created, they can also create, update and delete users.
+ *
+ * @enddesc
+ * 
  * @requires mongoose
  * @requires ../utils/errors
  * @requires validator
