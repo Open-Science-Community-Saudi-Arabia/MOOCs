@@ -73,12 +73,19 @@ const options = {
 /**
  * @typedef {Object} textmaterialSchema
  * 
- * @description This schema is used to store text materials.
+ * @description This schema is used to store text materials. text materials 
+ * are documents such as pdfs, word documents, etc. that are used within the course
  * 
  * @property {String} type - The type of the document, "text_material"
  * @property {String} title - The title of the text material
- * @property {String} description - The description of the text material
+ * @property {String} file_url - The url of the text material
+ * @property {ObjectId} course - The course to which the text material belongs
+ * @property {ObjectId} course_section - The course section to which the text material belongs
+ * @property {Number} order - The order of the text material in the course section
+ * @property {Boolean} isAvailable - Whether the text material is available to the user
  * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
  */
 
 /**
@@ -103,7 +110,7 @@ const options = {
  * */
 
 const questionSchema = new Schema({
-    type: { type: String, default: "question"}
+    type: { type: String, default: "question"},
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
