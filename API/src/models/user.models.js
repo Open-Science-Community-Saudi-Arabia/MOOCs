@@ -4,8 +4,9 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module User Model
- * 
+ * @module UsersModel
+ * @description This module contains the user model and its submodels
+ *  
  * @requires mongoose
  * @requires ../utils/errors
  * @requires validator
@@ -27,10 +28,20 @@ const options = { toObject: { virtuals: true } }
  * @property {String} lastname - The user's last name
  * @property {String} email - The user's email
  * @property {String} role - The user's role (EndUser, Admin, SuperAdmin)
- * @property {String} googleId - The user's google id
- * @property {String} githubId - The user's github id
+ * @property {String} [googleId] - The user's google id
+ * @property {String} [githubId] - The user's github id
+ * @property {MongooseVirtualType} password - The user's password object
+ * @property {MongooseVirtualType} status - The user's status object
+ * @property {MongooseVirtualType} auth_codes - The user's auth codes
+ * @property {MongooseVirtualType} enrolled_courses - The courses the user is enrolled in 
  * @property {Date} createdAt - The date the user was created
  * @property {Date} updatedAt - The date the user was last updated
+ * 
+ * @see {@link https://mongoosejs.com/docs/guide.html#virtuals Mongoose Virtuals}
+ * @see {@link module:UsersModel~statusSchema statusSchema}
+ * @see {@link module:UsersModel~authCodeSchema authCodeSchema}
+ * @see {@link module:UsersModel~enrolledCourseSchema enrolledCourseSchema}
+ * @see {@link module:PasswordModel~passwordSchema passwordSchema}
  */
 
 /**
@@ -40,16 +51,25 @@ const options = { toObject: { virtuals: true } }
  * which contains information about the user's account status,
  * such as whether the account is active or not, and whether the account is verified or not.
  * 
+ * </br>
+ * </br>
+ * 
+ * <b> Note: </b> 
+ * By default, for new users with the role EndUser, their account will be active and unverified .
+ * If the user is an admin or superadmin, the account is inactive and unverified by default.
+ * 
  * @property {ObjectId} user - The user to whom the status belongs
  * @property {Boolean} isActive - Whether the account is active or not
  * @property {Boolean} isVerified - Whether the account is verified or not
+ * 
+ * @see {@link module:UsersModel~userSchema userSchema}
  */
 
 /**
- * @typedef {import ('mongoose').Model<User>} UserModel
+ * @typedef {import ('mongoose').Model<userSchema>} UserModel
  */
 /**
- * @typedef {import ('mongoose').Model<Status>} StatusModel
+ * @typedef {import ('mongoose').Model<statusSchema>} StatusModel
  */
 
 
@@ -105,16 +125,6 @@ userSchema.virtual('password', {
     justOne: true
 })
 
-// Get authentication codes from AuthCode collection
-/**
- * @description This virtual property is used to get the 
- * user's authentication codes from the AuthCode collection
- * 
- * @property {ObjectId} ref - The AuthCode collection
- * @property {ObjectId} localField - The user's id
- * @property {ObjectId} foreignField - The user's id
- * @property {Boolean} justOne - Whether to return one or many
- */
 userSchema.virtual('auth_codes', {
     ref: "AuthCode",
     localField: "_id",
@@ -122,16 +132,6 @@ userSchema.virtual('auth_codes', {
     justOne: true
 })
 
-// Get user users account status from Status collection
-/**
- * @description This virtual property is used to get the
- * user's account status from the Status collection
- * 
- * @property {ObjectId} ref - The Status collection
- * @property {ObjectId} localField - The user's id
- * @property {ObjectId} foreignField - The user's id
- * @property {Boolean} justOne - Whether to return one or many
- * */
 userSchema.virtual('status', {
     ref: "Status",
     localField: "_id",
@@ -139,15 +139,6 @@ userSchema.virtual('status', {
     justOne: true
 })
 
-/**
- * @description This virtual property is used to get the
- * user's courses from the Course collection
- * 
- * @property {ObjectId} ref - The Course collection
- * @property {ObjectId} localField - The user's id
- * @property {ObjectId} foreignField - The user's id
- * @property {Boolean} justOne - Whether to return one or many
- */
 userSchema.virtual('enrolled_courses', {
     localField: '_id',
     foreignField: 'enrolled_users',
@@ -165,14 +156,6 @@ userSchema.pre('save', async function (next, { skipValidation }) {
 
 })
 
-
-/**
- * @description This function is used to activate a user's account only if the user is an enduser
- * @this {User}
- * @param {Function} next - The next function to be called
- * @returns {void}
- * @throws {Error} - Throws an error if the user is not an enduser
- */
 statusSchema.pre('save', async function (next) {
     // Check if it is a new document
     if (this.isNew) {
