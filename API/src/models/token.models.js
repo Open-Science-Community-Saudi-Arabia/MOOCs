@@ -55,7 +55,7 @@ const { JWT_REFRESH_EXP } = require("../utils/config");
  * account deactivation
  * @property {Date} createdAt - The date the code was created
  * 
- * @see {@link module:UsersModel~userSchema userSchema}
+ * @see {@link module:UserModel~userSchema userSchema}
  * */ 
 
 
@@ -92,7 +92,6 @@ const testAuthToken = new schema({
 });
 
 const AuthCode = mongoose.model("AuthCode", authCodeSchema);
-
 const BlacklistedToken = mongoose.model(
     "BlacklistedToken", 
     blacklistedTokenSchema

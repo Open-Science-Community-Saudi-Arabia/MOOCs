@@ -29,6 +29,8 @@ const options = {
  * @property {String} question - The question
  * @property {String} correct_option - The correct option
  * @property {Array} options - The options for the question
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
  */
 
 /**
@@ -47,6 +49,10 @@ const options = {
  * @property {Number} order - The order of the exercise in the course section
  * 
  * @property {MongooseVirtualType[]} questions - The questions for the exercise
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ * @see {@link module:CourseModel~questionSchema Question}
  * */
 
 /**

@@ -2,7 +2,7 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module Authentication Models
+ * @module AuthModel
  * 
  * @requires mongoose
  */

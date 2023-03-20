@@ -4,7 +4,7 @@
  * @category Backend API
  * @subcategory Models
  * 
- * @module UsersModel
+ * @module UserModel
  * @description This module contains the user model and its submodels, 
  * users are the main entities in the system, they are the ones who can access the API,
  * each user has a role, which determines the level of access they have to the API. </br>
@@ -51,10 +51,10 @@ const options = { toObject: { virtuals: true } }
  * @property {Date} updatedAt - The date the user was last updated
  * 
  * @see {@link https://mongoosejs.com/docs/guide.html#virtuals Mongoose Virtuals}
- * @see {@link module:UsersModel~statusSchema statusSchema}
+ * @see {@link module:UserModel~statusSchema statusSchema}
  * @see {@link module:AuthModel~authCodeSchema authCodeSchema}
- * @see {@link module:UsersModel~enrolledCourseSchema enrolledCourseSchema}
- * @see {@link module:PasswordModel~passwordSchema passwordSchema}
+ * @see {@link module:CourseModel~courseSchema courseSchema}
+ * @see {@link module:AuthModel~passwordSchema passwordSchema}
  */
 
 /**
@@ -75,7 +75,7 @@ const options = { toObject: { virtuals: true } }
  * @property {Boolean} isActive - Whether the account is active or not
  * @property {Boolean} isVerified - Whether the account is verified or not
  * 
- * @see {@link module:UsersModel~userSchema userSchema}
+ * @see {@link module:UserModel~userSchema userSchema}
  */
 
 
