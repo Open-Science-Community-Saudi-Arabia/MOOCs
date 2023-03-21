@@ -185,7 +185,16 @@ exports.deleteTextMaterial = async (req, res, next) => {
         return next(new BadRequestError("Missing param `id` in request params"));
     }
 
-    const text_material = await TextMaterial.findByIdAndDelete(text_material_id);
+    const text_material = await TextMaterial.findByIdAndDelete(
+        text_material_id
+    ).populate({
+        path: "course_section",
+        select: "title description _id",
+        populate: {
+            path: "course",
+            select: "title description _id",
+        },
+    });
 
     // Check if text material exists
     if (!text_material) {

@@ -743,7 +743,6 @@ exports.resetPassword = async (req, res, next) => {
 exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
     const code = authorization.split(' ')[1];
-    console.log(code)
 
     if (!code) {
         return next(new BadRequestError('Missing required params in request body'))
