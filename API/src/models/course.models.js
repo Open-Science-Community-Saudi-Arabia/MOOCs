@@ -75,7 +75,7 @@ const videoSchema = new Schema({
 }, options)
 
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "textmaterial", minLength: 3, maxLength: 40},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
     title: {
         type: String,
         required: true
