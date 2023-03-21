@@ -8,18 +8,14 @@ async function connectDB(uri) {
 
 // Random course titles
 const titles = [
-    'Introduction to JavaScript',
-    'JavaScript: Understanding the Weird Parts',
-    'Learn and Understand NodeJS',
-    'Learn and Understand AngularJS',
-    'Learn and Understand ReactJS',
-    'Learn and Understand VueJS',
-    'Learn and Understand MongoDB',
-    'Learn and Understand ExpressJS',
-    'Introduction to open science',
-    'Introduction to open data',
-    'Introduction to open hardware',
-    'Introduction to open software'
+    'Introduction to Open science',
+    "Open science explained",
+    "Deep dive into open science",
+    "Open scince for beginners",
+    "Open science best practices",
+    "Guide to reproducible research",
+    "Introduction to open data",
+    "Open data explained",
 ];
 
 // Random course 30 questions
@@ -92,7 +88,7 @@ const videos = [
     {
         title: 'Introduction to JavaScript',
         author: 'John Doe',
-        video_url: 'https://www.youtube.com/embed/UKIaRoUcL6g',
+        video_url: 'https://www.youtube.com/embed/desowWgV3iU',
         description: 'This is a video about JavaScript',
         duration: '20:00',
         category: 'JavaScript'
@@ -100,7 +96,7 @@ const videos = [
     {
         title: 'Python for Beginners',
         author: 'Jane Smith',
-        video_url: 'https://www.youtube.com/embed/g4iDgAkLIRs',
+        video_url: 'https://www.youtube.com/embed/10u1_CzdmQs',
         description: 'This is a video about Python programming for beginners',
         duration: '30:00',
         category: 'Python'
@@ -108,7 +104,7 @@ const videos = [
     {
         title: 'React vs Angular',
         author: 'Bob Johnson',
-        video_url: 'https://www.youtube.com/embed/YJ4nVGvPZaI',
+        video_url: 'https://www.youtube.com/embed/LybOHJfqffA',
         description: 'This video compares React and Angular frameworks',
         duration: '15:00',
         category: 'Frontend'
@@ -116,7 +112,7 @@ const videos = [
     {
         title: 'Introduction to AWS',
         author: 'Alice Lee',
-        video_url: 'https://www.youtube.com/embed/x7-Sd-8mty8',
+        video_url: 'https://www.youtube.com/embed/XulHUHQru2I',
         description: 'This is a video about Amazon Web Services',
         duration: '25:00',
         category: 'Cloud Computing'
@@ -124,7 +120,7 @@ const videos = [
     {
         title: 'How to Build a Chatbot',
         author: 'David Wang',
-        video_url: 'https://www.youtube.com/embed/R9OHn5ZF4Uo',
+        video_url: 'https://www.youtube.com/embed/AMliNkrJIaQ',
         description: 'This video teaches you how to build a chatbot using Python',
         duration: '40:00',
         category: 'Artificial Intelligence'
@@ -132,7 +128,7 @@ const videos = [
     {
         title: 'Creating Responsive Websites',
         author: 'Sarah Kim',
-        video_url: 'https://www.youtube.com/embed/cu7vNvqKQZM',
+        video_url: 'https://www.youtube.com/embed/Rvs4d5JzCPo',
         description: 'This video shows you how to create responsive websites using CSS',
         duration: '30:00',
         category: 'Web Development'
@@ -140,7 +136,7 @@ const videos = [
     {
         title: 'Node.js Tutorial',
         author: 'Mike Chen',
-        video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video_url: 'https://www.youtube.com/embed/lplbwoq6ZTg',
         description: 'This video teaches you how to use Node.js for backend development',
         duration: '45:00',
         category: 'Node.js'
@@ -148,27 +144,11 @@ const videos = [
     {
         title: 'Data Science for Beginners',
         author: 'Emily Wong',
-        video_url: 'https://www.youtube.com/embed/gsTQI7Xv_yE',
+        video_url: 'https://www.youtube.com/embed/VlWA7vygULcE',
         description: 'This is a video about data science for beginners',
         duration: '35:00',
         category: 'Data Science'
-    },
-    {
-        title: 'Building RESTful APIs',
-        author: 'Jack Lee',
-        video_url: 'https://www.youtube.com/embed/KJhVhI1B4n4',
-        description: 'This video teaches you how to build RESTful APIs using Node.js and Express',
-        duration: '50:00',
-        category: 'API Development'
-    },
-    {
-        title: 'Machine Learning Algorithms',
-        author: 'Daniel Kim',
-        video_url: 'https://www.youtube.com/embed/jmD0VTx5xQg',
-        description: 'This video covers different machine learning algorithms',
-        duration: '40:00',
-        category: 'Machine Learning'
-    },
+    }
 ]
 
 async function pickRandomVideosAndUpdateDB () {
@@ -193,7 +173,6 @@ const course_section_titles = [
     'Getting Started',
     'Basics',
     'Advanced',
-    'Conclusion'
 ]
 
 async function pickRandomCourseSectionTitlesAndUpdateDB () {
@@ -214,31 +193,31 @@ const preview_images = [
 
 const courses = [
     {
-        title: 'JavaScript for Beginners',
+        title: title[0],
         description: 'This course teaches you the basics of JavaScript',
         author: 'John Doe',
         preview_image: preview_images[0],
     },
     {
-        title: 'Python for Beginners',
+        title: title[1],
         description: 'This course teaches you the basics of Python',
         author: 'Jane Smith',
         preview_image: preview_images[1],
     },
     {
-        title: 'React vs Angular',
+        title: title[2],
         description: 'This course compares React and Angular frameworks',
         author: 'Bob Johnson',
         preview_image: preview_images[2],
     },
     {
-        title: 'Introduction to AWS',
+        title: title[3],
         description: 'This course teaches you about Amazon Web Services',
         author: 'Alice Lee',
         preview_image: preview_images[3],
     },
     {
-        title: 'How to Build a Chatbot',
+        title: title[4],
         description: 'This course teaches you how to build a chatbot using Python',
         author: 'David Wang',
         preview_image: preview_images[0],

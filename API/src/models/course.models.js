@@ -54,7 +54,8 @@ const videoSchema = new Schema({
     type: { type: String, default: "video"},
     title: {
         type: String,
-        required: true
+        required: true,
+        
     },
     author: {
         type: String,
