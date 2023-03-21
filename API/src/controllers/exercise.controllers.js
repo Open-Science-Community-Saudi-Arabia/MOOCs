@@ -1,3 +1,29 @@
+/**
+ * @fileoverview Exercise controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module Exercise Controller
+ * @requires ../models/course.models
+ * @requires ../utils/errors
+ * 
+ * @description This module is responsible for handling all exercise related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /exercise/new <i> - Create a new exercise </i> </br>
+ * <b>GET</b> /exercise/ <i> - Get all exercises </i> </br>
+ * <b>GET</b> /exercise/:id <i> - Get a particular exercise </i> </br>
+ * <b>PATCH</b> /exercise/update/:id <i> - Update a particular exercise </i> </br>
+ * <b>DELETE</b> /exercise/delete/:id <i> - Delete a particular exercise </i> </br>
+ * <b>POST</b> /exercise/score <i> - Grade or score a particular exercise </i> </br>
+ * <b>GET</b> /exercise/submission/:id <i> - Get a particular exercise submission </i> </br>
+ * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - Get previous submissions for a particular exercise </i> </br>
+ */
+
 const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { issueCertificate } = require("./certificate.controllers");
@@ -91,14 +117,14 @@ exports.getExercises = async (req, res, next) => {
     exercises = exercises ? await Exercise.find().populate('questions') : exercises
 
     // Get only the available courses
-    // const available_exercises = exercises.filter((exercise) => {
-    //     if (exercise.isAvailable) return exercise.toJSON();
-    // })
+    const available_exercises = exercises.filter((exercise) => {
+        if (exercise.isAvailable) return exercise.toJSON();
+    })
 
     return res.status(200).json({
         success: true,
         data: {
-            exercises
+            exercises: available_exercises
         }
     });
 }

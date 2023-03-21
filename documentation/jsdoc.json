@@ -1,20 +1,30 @@
 {
   "source": {
-    "include": ["../backend_API/src", "../Frontend/src"],
+    "include": ["../API/src", "../Frontend/src"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
-  "plugins": ["plugins/markdown"],
   "templates": {
-    "theme": "yeti",
+    "theme": "cerulean",
     "syntaxTheme": "dark"
   },
+  "tags": {
+    "allowUnknownTags": ["category", "subcategory", "section"]
+  },
+  "plugins": ["node_modules/docdash", "node_modules/better-docs/category"],
   "opts": {
     "destination": "./docs/",
     "recurse": true,
     "verbose": true,
-    "template": "node_modules/ink-docstrap/template",
+    "template": "node_modules/better-docs",
+    "theme_opts": {
+      "default_theme": "white",
+      "navType": "vertical",
+      "collapse": true,
+      "inverseNav": true
+    },
     "readme": "README.md",
     "tutorials": "./docs/tutorials"
   }
+
 }

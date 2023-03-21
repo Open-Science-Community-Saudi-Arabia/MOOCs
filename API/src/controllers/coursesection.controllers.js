@@ -1,3 +1,25 @@
+/**
+ * @fileoverview Course section controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module CourseSection Controller
+ * @requires ../models/course.models
+ * @requires ../utils/errors
+ * 
+ * @description This module is responsible for handling all course section related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /coursesection/new <br>
+ * <b>GET</b> /coursesection/:id <br>
+ * <b>PATCH</b> /coursesection/update/:id <br>
+ * <b>DELETE</b> /coursesection/delete/:id <br>
+ */
+
 const { Course, CourseSection, Video, Exercise } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 

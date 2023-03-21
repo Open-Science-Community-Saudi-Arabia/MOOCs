@@ -1,15 +1,43 @@
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module Course Controller
+ * @description This module contains all the controllers for the course model.
+ * 
+ * The following routes are handled by this controller </br>
+ * 
+ * </br> 
+ * 
+ * <b>GET</b> /courses </br>
+ * <b>GET</b> /courses/:id </br>
+ * <b>POST</b> /courses/new </br>
+ * <b>PATCH</b> /courses/update/:id </br>
+ * <b>DELETE</b> /courses/delete/:id </br>
+ * <b>POST</b> /courses/enroll/:id </br>
+ * <b>POST</b> /courses/cancelenrollment/:id </br>
+ * <b>GET</b> /courses/enrolled </br>
+ * <b>GET</b> /courses/enrolledcourses </br>
+ * <b>GET</b> /courses/enrolledusers/:id </br>
+ * <b>POST</b> /courses/video/upload </br>
+ * <b>GET</b> /courses/video/:id </br>
+ * <b>GET</b> /courses/videos/:courseId </br>
+ * <b>PATCH</b> /courses/video/update/:id </br>
+ * <b>DELETE</b> /courses/video/delete/:videoId </br>
+ * <b>GET</b> /courses/studentreport/:id </br>
+ */
+
+
 const {
     Video,
     Course,
     CourseReport,
     CourseSection,
 } = require("../models/course.models");
-const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
+const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
-const { uploadToCloudinary } = require("../utils/cloudinary");
-const fs = require("fs")
 
-/* COURSES */
+/* COURSES
+*/
 
 /**
  * Create new course
@@ -21,34 +49,11 @@ const fs = require("fs")
  * @returns {MongooseObject} savedCourse
  * 
  * @throws {error} if an error occured
- */
+
+*/
 exports.createCourse = async (req, res, next) => {
-    const preview_image = req.file
-
-    if(!preview_image) {
-        return next(new BadRequestError('Missing preview image'))
-    }
-
     const newCourse = new Course(req.body);
-
-    // Upload preview image to cloudinary
-    const file_url = await uploadToCloudinary({
-        path: preview_image.path,
-        file_name: `course_preview_${newCourse._id}`,
-        destination_path: 'courses/preview_images'
-    })
-
-    // Save file url to database
-    newCourse.preview_image = file_url;
     const savedCourse = await newCourse.save();
-
-    // Delete file from server
-    await fs.unlink(preview_image.path, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    })
-
     return res.status(200).json({
         success: true,
         data: {
@@ -67,7 +72,8 @@ exports.createCourse = async (req, res, next) => {
  * @param {string} id - Course id
  * 
  * @returns {object} courses
- **/
+ ** @memberof CourseController
+*/
 exports.getCourses = async (req, res, next) => {
     if (Object.keys(req.body).length != 0) {
         const courses = await Course.find(req.body);
@@ -100,7 +106,8 @@ exports.getCourses = async (req, res, next) => {
  * @param {string} id - id of the course 
  * 
  * @returns course
- */
+
+*/
 exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -131,7 +138,8 @@ exports.getCourseData = async (req, res, next) => {
  * @returns {object} course
  * 
  * @throws {BadRequestError} if Course not found
- */
+
+*/
 exports.updateCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -162,7 +170,7 @@ exports.updateCourse = async (req, res, next) => {
  * @param {string} id - Id of the course
  * 
  * @returns {string} message
- */
+*/
 exports.deleteCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -188,10 +196,11 @@ exports.deleteCourse = async (req, res, next) => {
  * 
  * @returns {string} message
  * 
- * @throws {error} if an error occured
- * @throws {BadRequestError} If course id not in request params
- * @throws {NotFoundError} if Course not found
- */
+ * @throws {InternalServerError} An error occured
+ * @throws {BadRequestError} Course id not in request params
+ * @throws {NotFoundError} Course not found
+
+*/
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -235,7 +244,8 @@ exports.enrollCourse = async (req, res, next) => {
  * 
  * @throws {BadRequestError} If missing id in request parameter
  * @throws {NotFoundError} If course not found
- */
+
+*/
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -265,7 +275,8 @@ exports.cancelEnrollment = async (req, res, next) => {
  * Get enrolled courses for a particular user
  * 
  * @returns {object} enrolledCourses 
- */
+
+*/
 exports.getEnrolledCourses = async (req, res, next) => {
     const user = await User.findById(req.user.id).populate('enrolled_courses');
 
@@ -286,7 +297,8 @@ exports.getEnrolledCourses = async (req, res, next) => {
  * 
  * @throws {BadRequestError} If missing id in request parameter
  * @throws {NotFoundError} If course not found
- */
+
+*/
 exports.getEnrolledUsers = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -310,7 +322,8 @@ exports.getEnrolledUsers = async (req, res, next) => {
 };
 
 
-/* VIDEOS */
+/* VIDEOS
+*/
 
 /**
  * Upload video
@@ -326,7 +339,8 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @returns {object} video
  * 
  * @throws {error} if an error occured
- */
+
+*/
 exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
@@ -373,7 +387,8 @@ exports.uploadVideo = async (req, res, next) => {
  * @param {string} course_id - id of the course 
  * 
  * @returns {Object} course 
- */
+
+*/
 exports.removeVideoFromCourse = async (req, res, next) => {
     const { video_id, course_id } = req.body
 
@@ -400,7 +415,8 @@ exports.removeVideoFromCourse = async (req, res, next) => {
  * @param {courseId} - id of the course to get 
  *  
  * @returns {Array} - Array of all the videos within the course
- */
+
+*/
 exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -426,7 +442,8 @@ exports.getCourseVideos = async (req, res, next) => {
  * @param {string} id - id of the video 
  * 
  * @returns {Object} video 
- */
+
+*/
 exports.getVideoData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -446,6 +463,26 @@ exports.getVideoData = async (req, res, next) => {
 /**
  * Update video data
  * 
+ * @description This function updates the video data </br>
+ * 
+ * </br>
+ * 
+ * The following fields can be updated: </br>
+ * 1. title </br>
+ * 2. description </br>
+ * 3. author </br>
+ * 4. duration </br>
+ * 5. category </br>
+ * 6. course_id </br>
+ * 7. course_section_id </br>
+ * 8. video_url </br>
+ * 
+ * </br>
+ * 
+ * The following fields cannot be updated: </br>
+ * 1. isAvailable </br>
+ * This field is set to false when a video is deleted </br>
+ * 
  * @param {string} video_id
  * @param {object} req.body
  * 
@@ -453,7 +490,8 @@ exports.getVideoData = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
- */
+
+*/
 exports.updateVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
 
@@ -469,12 +507,12 @@ exports.updateVideo = async (req, res, next) => {
 /**
  * Delete video
  * 
- * Doesn't actually delete the video, it only updates its available status
- * if a videos `isAvailable` status is set to false, it wont be added when making requests
+ * @description This function doesn't actually delete the video, it only updates its available status
+ * if a videos `isAvailable` status is set to false, it wont be added when making query requests
  * 
- * @param {string} video_id
+ * @param {string} video_id - id of the video to delete
  * 
- * @returns {string} message
+ * @returns {string} message 
  * 
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
@@ -482,8 +520,7 @@ exports.updateVideo = async (req, res, next) => {
  * @todo delete video from cloudinary
  * @todo delete video from database
  * @todo delete video from course
- * @todo delete video from user
- * */
+*/
 exports.deleteVideo = async (req, res, next) => {
     const videoId = req.params.videoId;
     await Video.findByIdAndUpdate(videoId, { isAvailable: false });
@@ -499,16 +536,27 @@ exports.deleteVideo = async (req, res, next) => {
 }
 
 /**
- * Get course report
+ * Get student course report
  * 
- * @param {string} course_id
+ * @description 
+ * This function gets the course report for a particular student, the student must be enrolled in the course
+ *  </br> 
+ *  </br> 
+ * 
+ * The student course report contains the following data: </br>
+ * 1. Course details (title, description, category, etc) </br>
+ * 2. Completed exercises </br>
+ * 3. Completed videos </br>
+ * 4. Completed sections (sections that have all their videos completed) </br>
+ * 
+ * @param {string} course_id - id of the course to get student report for
  * 
  * @returns {object} course_report
  * 
- * @throws {error} if an error occured
+ * @throws {InternalServerError} An error occured
  * @throws {BadRequestError} if course not found
  * @throws {BadRequestError} if user not enrolled in course
- */
+*/
 exports.getStudentReportForCourse = async (req, res, next) => {
     const course_id = req.params.id;
 
@@ -527,7 +575,7 @@ exports.getStudentReportForCourse = async (req, res, next) => {
     }
 
     const student_course_report = await CourseReport.findOne({
-        user: req.user.id, 
+        user: req.user.id,
         course: course_id
     }).populate({
         path: 'course',

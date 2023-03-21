@@ -1,4 +1,4 @@
-name: Weekly PR from dev to main
+name: Bi-weekly PR from dev to main
 
 on:
   schedule:

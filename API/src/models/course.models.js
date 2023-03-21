@@ -1,3 +1,15 @@
+/**
+ * @category Backend API
+ * @subcategory Models
+ * 
+ * @module CourseModel
+ * 
+ * @description This module contains the models for courses,
+ * such as the course model, the course section model, the exercise model, and the question model.
+ * 
+ * @requires mongoose
+ */
+
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
@@ -6,8 +18,169 @@ const options = {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 }
+
+/**
+ * @typedef {Object} questionSchema
+ * 
+ * @description This schema is used to store questions for exercises.
+ * 
+ * @property {String} type - The type of the document, "question"
+ * @property {ObjectId} exercise - The exercise to which the question belongs
+ * @property {String} question - The question
+ * @property {String} correct_option - The correct option
+ * @property {Array} options - The options for the question
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ */
+
+/**
+ * @typedef {Object} exerciseSchema
+ * 
+ * @description This schema is used to store exercises.
+ * 
+ * @property {String} type - The type of the document, "exercise"
+ * @property {String} title - The title of the exercise
+ * @property {String} description - The description of the exercise
+ * @property {Number} duration - The duration of the exercise
+ * @property {Date} date - The date the exercise was created
+ * 
+ * @property {ObjectId} course - The course to which the exercise belongs
+ * @property {ObjectId} course_section - The course section to which the exercise belongs
+ * @property {Number} order - The order of the exercise in the course section
+ * 
+ * @property {MongooseVirtualType[]} questions - The questions for the exercise
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ * @see {@link module:CourseModel~questionSchema Question}
+ * */
+
+/**
+ * @typedef {Object} videoSchema
+ * 
+ * @description This schema is used to store videos.
+ * 
+ * @property {String} type - The type of the document, "video"
+ * @property {String} title - The title of the video
+ * @property {String} description - The description of the video
+ * @property {String} video_url - The url of the video
+ * @property {Number} duration - The duration of the video
+ * @property {ObjectId} course - The course to which the video belongs
+ * @property {ObjectId} course_section - The course section to which the video belongs
+ * @property {Number} order - The order of the video in the course section
+ * @property {String} category - The category of the video (e.g. "Programming", 
+ * "Mathematics", "Physics", "Chemistry")
+ * @property {Boolean} isAvailable - Whether the video is available to the user
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ */
+
+/**
+ * @typedef {Object} textmaterialSchema
+ * 
+ * @description This schema is used to store text materials. text materials 
+ * are documents such as pdfs, word documents, etc. that are used within the course
+ * 
+ * @property {String} type - The type of the document, "text_material"
+ * @property {String} title - The title of the text material
+ * @property {String} file_url - The url of the text material
+ * @property {ObjectId} course - The course to which the text material belongs
+ * @property {ObjectId} course_section - The course section to which the text material belongs
+ * @property {Number} order - The order of the text material in the course section
+ * @property {Boolean} isAvailable - Whether the text material is available to the user
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ */
+
+/**
+ * @typedef {Object} courseSectionSchema
+ * 
+ * @description This schema is used to store course sections.
+ * 
+ * @property {String} type - The type of the document, "course_section"
+ * @property {String} title - The title of the course section
+ * @property {Number} order - The order of the course section in the course
+ * @property {ObjectId} course - The course to which the course section belongs
+ * @property {MongooseVirtualType[]} contents - The contents of the course section
+ * @property {Boolean} isAvailable - Whether the course section is available to the user
+ * @property {MongooseVirtualType[]} exercises - The exercises in the course section
+ * @property {MongooseVirtualType[]} videos - The videos in the course section
+ * @property {MongooseVirtualType[]} textmaterials - The text materials in the course section
+ * 
+ * <br>
+ * 
+ * <b>NOTE:</b> The contents of the course section are stored as an array of virtuals.
+ * This is because the contents can be either an exercises, videos or text materials
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~textmaterialSchema TextMaterial}
+ * */
+
+/**
+ * @typedef {Object} courseSchema
+ * 
+ * @description This schema is used to store courses.
+ * 
+ * @property {String} title - The title of the course
+ * @property {String} description - The description of the course
+ * @property {String} author - The author of the course
+ * @property {MongooseVirtualType[]} course_sections - The course sections in the course
+ * @property {MongooseVirtualType[]} exercises - The exercises in the course
+ * @property {MongooseVirtualType[]} videos - The videos in the course
+ * @property {MongooseVirtualType[]} textmaterials - The text materials in the course
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~textmaterialSchema TextMaterial}
+ */
+
+/**
+ * @typedef {Object} submissionSchema
+ * 
+ * @description This schema is used to store the record of all the submissions 
+ * for a particular exercise made by a particular user.
+ * 
+ * @property {ObjectId} user - The user who made the submission
+ * @property {ObjectId} exercise - The exercise for which the submission was made
+ * @property {Number} score - The score of the submission
+ * @property {Object} submission - The submission
+ * @property {String} submission.question - The question
+ * @property {String} submission.correct_option - The correct option
+ * @property {String} submission.submitted_option - The option selected by the user
+ * 
+ * @property {Date} date - The date the submission was made
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:UserModel~userSchema User}
+ */
+
+/**
+ * @typedef {Object} courseReportSchema
+ * 
+ * @description This schema is used to track the progress of a user in a course.
+ * 
+ * @property {ObjectId} user - The user
+ * @property {ObjectId} course - The course
+ * @property {ObjectId[]} completed_exercises - The exercises completed by the user
+ * @property {ObjectId[]} completed_videos - The videos completed by the user
+ * @property {ObjectId[]} completed_course_sections - The course sections completed by the user
+ * @property {Boolean} isCompleted - Whether the user has completed the course
+ * 
+ * @see {@link module:CourseModel~exerciseSchema Exercise}
+ * @see {@link module:CourseModel~videoSchema Video}
+ * @see {@link module:CourseModel~courseSectionSchema CourseSection}
+ * @see {@link module:CourseModel~courseSchema Course}
+ * @see {@link module:UserModel~userSchema User}
+ */
+
+/**
+ * @type {questionSchema}
+ */
 const questionSchema = new Schema({
-    type: { type: String, default: "question"},
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
@@ -21,6 +194,9 @@ const questionSchema = new Schema({
     options: [{ type: String }]
 }, options)
 
+/**
+ * @type {exerciseSchema}
+ */
 const exerciseSchema = new Schema({
     type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
     title: { type: String, required: true },
@@ -37,21 +213,12 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
-exerciseSchema.pre('findById', function (next) {
-    this.populate('questions')
-    next()
-})
-exerciseSchema.pre('find', function (next) {
-    this.populate('questions')
-    next()
-})
-exerciseSchema.pre('findOne', function (next) {
-    this.populate('questions')
-    next()
-})
 
+/**
+ * @type {videoSchema}
+ * */
 const videoSchema = new Schema({
-    type: { type: String, default: "video"},
+    type: { type: String, default:'video'},
     title: {
         type: String,
         required: true,
@@ -74,8 +241,11 @@ const videoSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
+/**
+ * @type {textmaterialSchema}
+ * */
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "textmaterial", minLength: 3, maxLength: 40},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
     title: {
         type: String,
         required: true
@@ -91,13 +261,14 @@ const textmaterialSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
-
+/**
+ * @type {courseSectionSchema}
+ * */
 const courseSectionSchema = new Schema({
     title: { type: String, required: true, minLength: 3, maxLength: 40},
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
-    contents: { type: Array, default: [] }
 }, options)
 courseSectionSchema.virtual('videos', {
     localField: '_id',
@@ -118,11 +289,14 @@ courseSectionSchema.virtual('textmaterials', {
     justOne: false
 })
 
-// For all find findOne and populate queries, populate the virtuals
-// courseSectionSchema.pre('find', function (next) {
-//     this.populate('videos exercises textmaterials').then( next() )
-// })
 
+/**
+ * @description Combines the contents of the course section into one array
+ * and sorts them by their order
+ * 
+ * @param {courseSectionSchema} courseSection 
+ * @returns {courseSectionSchema}
+ */
 function combineContents(courseSection) {
     courseSection.contents = [
         ...courseSection.videos??[],
@@ -149,6 +323,10 @@ courseSectionSchema.post('findOne', async function (courseSection) {
     return doc.toObject()
 })
 
+/**
+ * @type {courseSchema}
+ */
+
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -164,8 +342,7 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    isAvailable: { type: Boolean, default: true },
-    preview_image: { type: String, required: true },
+    isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.virtual('exercises', {
     localField: '_id',
@@ -178,6 +355,9 @@ courseSchema.virtual('course_sections', {
     ref: 'CourseSection'
 })
 
+/**
+ * @type {submissionSchema}
+ * */
 const submissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -191,6 +371,9 @@ const submissionSchema = new Schema({
     score: { type: Number, default: 0 },
 }, options)
 
+/**
+ * @type {courseReportSchema}
+ */
 const courseReportSchema = new Schema(
     {
         course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
@@ -221,6 +404,7 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
+
 
 const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
