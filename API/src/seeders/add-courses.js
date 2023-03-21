@@ -7,7 +7,7 @@ async function connectDB(uri) {
 
 
 // Random course titles
-const titles = [
+const title = [
     'Introduction to Open science',
     "Open science explained",
     "Deep dive into open science",
@@ -151,7 +151,7 @@ const videos = [
     }
 ]
 
-async function pickRandomVideosAndUpdateDB () {
+async function pickRandomVideosAndUpdateDB() {
     const videos_in_db = await Video.find()
 
     videos_in_db.forEach(async (video) => {
@@ -162,7 +162,7 @@ async function pickRandomVideosAndUpdateDB () {
             author: random_video.author,
             video_url: random_video.video_url,
             description: random_video.description,
-            duration: random_video.duration,
+            duration: Math.floor(Math.random() * 10) + 1,
             category: random_video.category
         });
     })
@@ -175,12 +175,12 @@ const course_section_titles = [
     'Advanced',
 ]
 
-async function pickRandomCourseSectionTitlesAndUpdateDB () {
+async function pickRandomCourseSectionTitlesAndUpdateDB() {
     const course_sections_in_db = await CourseSection.find()
 
     course_sections_in_db.forEach(async (course_section) => {
         const random_course_section_title = course_section_titles[Math.floor(Math.random() * course_section_titles.length)];
-        await course_section.updateOne({title: random_course_section_title});
+        await course_section.updateOne({ title: random_course_section_title });
     })
 }
 
@@ -224,18 +224,22 @@ const courses = [
     },
 ]
 
-async function pickRandomCourseAndUpdateDB () {
+async function pickRandomCourseAndUpdateDB() {
     const courses_in_db = await Course.find()
 
-    courses_in_db.forEach(async (course) => {
-        console.log(course)
-        const random_course = courses[Math.floor(Math.random() * courses.length)];
-        course.title = random_course.title;
-        course.description = random_course.description;
-        course.author = random_course.author;
-        course.preview_image = random_course.preview_image;
+    const courses = [
+        "6411d957d07a77d6c06a4437",
+        "6411dbb7d07a77d6c06a44f3"
+    ]
 
-        await course.update();
+    courses.forEach(async (course_id) => {
+        const random_course = courses[Math.floor(Math.random() * courses.length)];
+        const course = await Course.findByIdAndUpdate(course_id, {
+            title: random_course.title,
+            description: random_course.description,
+            author: random_course.author,
+            preview_image: random_course.preview_image
+        });
     })
 }
 
