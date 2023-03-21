@@ -70,12 +70,12 @@ exports.getCertificateForCourse = async (req, res, next) => {
     // Check if course exists
     const student_course_report = await CourseReport.findOne({ course: course_id, user: req.user.id })
     if (!student_course_report) {
-        return next(new NotFoundError("Course report not found"))
+        return next(new NotFoundError("User has not enrolled for course"))
     }
 
     // Check if user has completed course
     if (!student_course_report.isCompleted) {
-        return next(new ForbiddenError("Course not completed"))
+        // return next(new ForbiddenError("Course not completed"))
     }
 
     // Check if certificate exists
@@ -209,7 +209,7 @@ exports.issueCertificate = async (report_id) => {
 
     // Check if course report exists
     if (!student_course_report) {
-        throw new Error("Course report not found");
+        throw new BadRequestError("User has not enrolled for course");
     }
 
     // Check if student has already been issued a certificate
@@ -219,7 +219,7 @@ exports.issueCertificate = async (report_id) => {
 
     // Check if student completed course
     if (!student_course_report.isCompleted) {
-        throw new Error("Course not completed");
+        throw new BadRequestError("Course not completed");
     }
 
     let certificate = await createCertificate(student_course_report)
