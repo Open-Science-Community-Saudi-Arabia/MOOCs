@@ -22,7 +22,7 @@ const questionSchema = new Schema({
 }, options)
 
 const exerciseSchema = new Schema({
-    type: { type: String, default: "exercise"},
+    type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -55,7 +55,7 @@ const videoSchema = new Schema({
     title: {
         type: String,
         required: true,
-        
+        minLength: 3, maxLength: 40
     },
     author: {
         type: String,
@@ -75,7 +75,7 @@ const videoSchema = new Schema({
 }, options)
 
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "textmaterial"},
+    type: { type: String, default: "textmaterial", minLength: 3, maxLength: 40},
     title: {
         type: String,
         required: true
@@ -93,7 +93,7 @@ const textmaterialSchema = new Schema({
 
 
 const courseSectionSchema = new Schema({
-    title: { type: String, required: true },
+    title: { type: String, required: true, minLength: 3, maxLength: 40},
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
