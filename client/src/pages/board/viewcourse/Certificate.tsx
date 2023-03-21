@@ -1,12 +1,9 @@
 
 
-interface IProps {
-  handleOpenContent: () => void;
-}
-const Certificate= ({ handleOpenContent }: IProps) =>{
+const Certificate= () =>{
   return (
     <div className="certificate">
-      <p className="certificate__text" onClick={() => handleOpenContent()}>
+      <p className="certificate__text">
         {" "}
         Complete quiz to get a certificate
       </p>

@@ -35,16 +35,52 @@ export interface Courses {
   author: string;
   title: string;
   description: string;
-  createdAt: string;
   enrolled_users: [];
   isAvailable: boolean;
-  videos: [];
-  preview_image: string
-  course_sections:[]
+  preview_image: string;
+  course_sections: CourseSections[];
 }
+export interface CourseSections {
+  _id: string;
+  title: string;
+  exercises: Exercise[];
+  videos: Video[];
+  textmaterials: TextMaterial[];
+}
+export interface Exercise {
+  _id: string;
+  title: string;
+  questions: Questions[];
+  order:number
+  isCompleted:boolean,
+}
+export interface Questions {
+  _id: string;
+  correct_option: string;
+  options: string[];
+  question: string;
+}
+
+export interface TextMaterial {
+  _id: string;
+  description: string;
+  file_url: string;
+  type: string;
+  title: string;
+}
+
+export interface Video {
+  _id: string;
+  description: string;
+  video_url: string;
+  duration: string;
+  type: string;
+  title: string;
+  order:number
+}
+
 export interface AppContextState {
   isLoggedIn: boolean;
-  // profile: Profile | null
 }
 export interface AuthActionsContextState {
   logout: () => void;

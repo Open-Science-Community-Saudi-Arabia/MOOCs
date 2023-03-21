@@ -59,3 +59,5 @@ export default App;
 // Run  for performances and accesibility checks
 // review the file structure - were to put components
 // review the auth provider
+// work on the language toggler, check by removing the function 
+// work on the types- request and response

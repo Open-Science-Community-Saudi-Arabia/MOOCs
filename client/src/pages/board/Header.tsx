@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import logo from "../../images/logo.svg";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import useClickOutside from "../../hooks/useClickOutside";
 
-const Header=()=> {
+const Header = () => {
   const [isOpen, setOpen] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+  useClickOutside(ref, () => setOpen(false));
   return (
     <div className="dashboard-header">
       <Link to={"/dashboard"}>
@@ -20,7 +23,12 @@ const Header=()=> {
         <label className="sr-only" htmlFor="search">
           Search
         </label>
-        <input className="dashboard-header-inputfield__input" id="search" type="search" placeholder="Search courses" />
+        <input
+          className="dashboard-header-inputfield__input"
+          id="search"
+          type="search"
+          placeholder="Search courses"
+        />
       </div>
 
       <div className="dashboard-header-profile">
@@ -32,9 +40,13 @@ const Header=()=> {
           <span className="dashboard-header-profile__btn-text">GS</span>
           <RiArrowDropDownLine />
         </button>
-        {isOpen && <button className="dashboard-header-profile__logout-btn">Log Out</button>}
+        {isOpen && (
+          <button ref={ref} className="dashboard-header-profile__logout-btn">
+            Log Out
+          </button>
+        )}
       </div>
     </div>
   );
-}
-export default Header
+};
+export default Header;

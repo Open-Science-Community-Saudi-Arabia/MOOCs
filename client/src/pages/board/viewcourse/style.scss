@@ -3,15 +3,23 @@
 .lesson-container {
   height: 100%;
   z-index: 1;
+  position: relative;
   &__header {
+    position: fixed;
+    width: 100%;
     background-color: var(--black);
-    padding: 1.5em;
-    @include flex(space-between, start);
+    padding: 0em 1.5em;
+    height: 80px;
+    @include flex(space-between, center);
     width: 100%;
     color: var(--white);
     &-heading {
       font-size: 20px;
       font-weight: 700;
+      &__right {
+        @include flex(space-between, center);
+        gap: 15px;
+      }
       &__btn {
         @include button(auto, transparent, var(--white));
         border: 1px solid gray !important;
@@ -20,15 +28,17 @@
     }
   }
   &__content {
+    width: 100%;
+    padding-top: 80px;
     z-index: -1;
+    height: 600px;
     @include flex(space-between, start);
+    // Iframe
     &-iframe {
       border: none;
-      width: 80%;
-      // border-radius: 20px;
     }
+    // Quiz component
     .quiz-section {
-      // width: 70%;
       padding: 1em 0em;
       margin: 0em auto;
 
@@ -44,65 +54,136 @@
           font-weight: 500;
         }
       }
-
+      &__container {
+        padding: 0em 2em;
+      }
       &__content {
+        z-index: -1;
         margin-bottom: 3em;
-
         &-question {
           margin-bottom: 1em;
           font-weight: 600;
-          font-size: 20px;
+          font-size: 18px;
+          p {
+            font-size: 20px;
+            font-weight: 700;
+            padding-bottom: 10px;
+          }
         }
         &-options {
-          @include flex(start, center);
-          background-color: rgb(242 244 245);
-          width: 50%;
-          color: var(--black);
-          border: none;
-          padding: 0.7em 0.5em;
-          margin: 0.5em 0em;
-          border-radius: 5px;
-          font-size: 16px;
-          font-weight: 500;
-          &__radio-btn {
-            visibility: hidden;
-            // width:100%;
-            // z-index: 100;
-          }
           &__label {
             cursor: pointer;
             z-index: 80;
-
-            width: 100%;
+            @include flex(start, center);
+            background-color: rgb(231, 238, 241);
+            width: 65%;
+            color: var(--black);
+            border: none;
+            padding: 1em 0.2em;
+            margin: 0.5em 0em;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            gap: 10px;
+            &:hover {
+              background-color: var(--green);
+              color: var(--white);
+            }
           }
+          &__radio-btn {
+            visibility: hidden;
+          }
+
           &__letter {
             display: inline-block;
             margin-right: 0.5em;
-          }
-          &:hover {
-            background-color: var(--green);
-            color: var(--white);
           }
         }
       }
       &__btn {
         @include flex(space-between, center);
-        &-previous,
-        &-next {
+      }
+    }
+
+    // Pdf View
+    .viewpdf {
+      width: 100%;
+      height: 550px;
+      overflow-y: scroll;
+      margin: auto;
+      &__pagenumber {
+        z-index: -1;
+        text-align: center;
+        margin: 1em;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      &__document {
+        position: relative;
+        z-index: -2;
+        padding: 0em 2em;
+        canvas {
+          // width:80% !important
+        }
+      }
+    }
+    // Result
+    .quizresult {
+      margin: 1em auto;
+      text-align: center;
+      &__heading {
+        &__title {
+          font-size: 22px;
+          font-weight: 700;
+          padding-bottom: 0.5em;
+        }
+        &__subtitle {
+          font-size: 16px;
+          font-weight: 500;
+          color: var(--gray);
+        }
+      }
+      &__btns {
+        @include flex(center, center);
+        &__completed {
+          color: var(--green);
+          @include flex(center, center);
+          gap: 40px;
+          &-text {
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+        &__button {
           @include button(auto, var(--green), var(--white));
         }
       }
     }
+
+    // Certificate
+    .certificate {
+      @include flex(center, center);
+      height: 100vh;
+      width: 100%;
+    }
+    // Course Content
     &-course {
+      height: 550px;
+      overflow-y: scroll;
       background-color: var(--white);
       border-left: 1px solid var(--green-light);
-      width: 23%;
+      width: 350px !important;
       &-display {
+        position: fixed;
+        background-color: var(--white);
+        border-bottom: 1px solid var(--green-light);
+        width: 25%;
         @include flex(space-between, center);
-        padding: 1em 1.5em;
+        height: 50px;
+        padding: 2em 1em;
         &-text {
-          font-size: 16px;
-          font-weight: 600;
+          font-size: 17px;
+          font-weight: 700;
         }
         &-btn {
           svg {
@@ -114,55 +195,67 @@
           }
         }
       }
+      &-container {
+        padding-top: 3em;
+      }
       &-section {
+        z-index: 2;
         &__heading {
-          padding: 0.5em 1em;
+          padding: 1.5em 1em 0.5em;
           font-weight: 600;
-          font-size: 14px;
+          font-size: 15px;
+          border-bottom: 1px solid var(--green-light);
         }
-        &__video-btn {
+        .active-item {
+          background-color: var(--green) !important;
+          color: var(--white);
+        }
+        &__listitem {
           display: block;
           width: 100%;
           text-align: left;
-          font-size: 13px;
+          font-size: 14px;
           border: none;
           border-radius: initial !important;
-          padding: 0.5em 1.5em;
-          // border-top: 1px solid var(--green-light);
+          padding: 1em 1em;
           border-bottom: 1px solid var(--green-light);
           &:hover {
             background-color: var(--green-light);
           }
           &-title {
-            @include flex(start, center);
+            @include flex(space-between, center);
             gap: 8px;
+          }
+          &-text {
             font-weight: 500;
+            // @include flex(center, center);
+            svg {
+              margin-right: 0.5em;
+              // font-size: 25px;
+            }
           }
           &-duration {
             padding-top: 5px;
             gap: 5px;
             font-size: 12px;
+            color: var(--gray);
             @include flex(start, center);
             svg {
               font-size: 14px;
             }
           }
-        }
-      }
-      &-quiz-btn {
-        width: 100%;
-        border-radius: initial !important;
-        font-size: 14px;
-        padding: 1em 1.5em;
-        border: none;
-        border-bottom: 1px solid var(--green-light);
-        &:hover {
-          background-color: var(--green-light);
-        }
-        @include flex(space-between, center);
-        &__status {
-          font-size: 11px;
-          font-style: italic;
+          &__status {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--gray);
+            .completed {
+              color: var(--green);
+              font-weight: 600;
+            }
+            .not-completed {
+              color: var(--gray);
+            }
+          }
         }
       }
     }

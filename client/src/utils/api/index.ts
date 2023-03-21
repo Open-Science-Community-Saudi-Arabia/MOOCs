@@ -31,16 +31,16 @@ async function makeApiCall<T = any>(
   } catch (error: any) {
     if (error.response) {
       const serverMessage = error.response?.data?.message;
-      localStorage.removeItem(TOKEN_KEY);
-      window.location.assign("/login");
-      // if (
-      //   serverMessage ||
-      //   error.response.status === 403 ||
-      //   error.response.status === 500
-      // ) {
-      //   localStorage.removeItem(TOKEN_KEY);
-      //   window.location.assign("/login");
-      // }
+      // localStorage.removeItem(TOKEN_KEY);
+      // window.location.assign("/login");
+      if (
+        serverMessage ||
+        // error.response.status === 403 ||
+        error.response.status === 500
+      ) {
+        localStorage.removeItem(TOKEN_KEY);
+        window.location.assign("/login");
+      }
       toast.error(serverMessage, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
