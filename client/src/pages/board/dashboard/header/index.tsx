@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
-import logo from "../../images/logo.svg";
+import logo from "../../../../images/logo.svg";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import useClickOutside from "../../hooks/useClickOutside";
+import useClickOutside from "../../../../hooks/useClickOutside";
+import "./style.scss";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -10,6 +11,8 @@ const Header = () => {
   useClickOutside(ref, () => setOpen(false));
   return (
     <div className="dashboard-header">
+    <div className="dashboard-header__container">
+      
       <Link to={"/dashboard"}>
         {" "}
         <img
@@ -46,6 +49,7 @@ const Header = () => {
           </button>
         )}
       </div>
+    </div>
     </div>
   );
 };

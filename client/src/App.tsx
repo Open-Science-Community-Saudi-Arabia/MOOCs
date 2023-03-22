@@ -5,7 +5,6 @@ import "react-tooltip/dist/react-tooltip.css";
 import LandingPage from "./pages/home";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/signup";
-import { AppProvider } from "./context";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgot-password";
 import Layout from "./components/Layout";
@@ -13,8 +12,9 @@ import Spinner from "./components/Spinner";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Board from "./pages/board";
+import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 function App() {
@@ -33,15 +33,8 @@ function App() {
               element={<EmailVerify />}
             />
           </Route>
-          <Route path="/dashboard">
-            <Route
-              index
-              element={
-                <AppProvider>
-                  <Board />
-                </AppProvider>
-              }
-            />
+          <Route element={<ProtectedRoute />}>
+            <Route path="dashboard" element={<Board />} />
             <Route path="course/:id" element={<ViewCourse />} />
           </Route>
 
@@ -59,5 +52,5 @@ export default App;
 // Run  for performances and accesibility checks
 // review the file structure - were to put components
 // review the auth provider
-// work on the language toggler, check by removing the function 
+// work on the language toggler, check by removing the function
 // work on the types- request and response

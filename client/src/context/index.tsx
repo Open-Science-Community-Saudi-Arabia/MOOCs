@@ -66,6 +66,7 @@ export const AppProvider = ({
   const location = useLocation();
   const token = getToken();
 
+
   if (!token || token === "undefined") {
     return <Navigate to="/login" />;
     // return <Navigate to="/login" state={{ redirect: location }} />;
