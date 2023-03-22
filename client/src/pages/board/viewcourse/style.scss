@@ -214,9 +214,6 @@
           position: relative;
           z-index: -2;
           padding: 0em 2em;
-          canvas {
-            // width:80% !important
-          }
         }
       }
       // Result
@@ -336,7 +333,7 @@
             display: block;
             width: 100%;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
             border: none;
             border-radius: initial !important;
             padding: 1em;

@@ -10,6 +10,7 @@ const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  
   const enrollUserHandler = async (id: string) => {
     setLoading(true)
     try {

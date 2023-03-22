@@ -43,7 +43,11 @@
       display: none;
       @include ipad {
         display: block;
-        height: 450px;
+        height: 320px;
+      }
+      @include laptop {
+        display: block;
+        height: 400px;
       }
     }
   }
@@ -283,7 +287,6 @@
       font-weight: 700;
       @include ipad {
         font-size: 28px;
-
       }
     }
     &-icon {

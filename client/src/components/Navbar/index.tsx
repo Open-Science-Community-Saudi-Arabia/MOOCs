@@ -18,7 +18,7 @@ const index = () => {
   ];
   const [currentLocale, setCurrentLocale] = useState(options[0]);
 
-  const isDesktop = useMediaQuery("(min-width: 1250px)");
+  const isDesktop = useMediaQuery("(min-width: 1280px)");
 
   function changeLanguage(selectedOption: any) {
     // console.log(selectedOption);
