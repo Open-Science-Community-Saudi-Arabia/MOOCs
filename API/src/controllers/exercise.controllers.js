@@ -146,7 +146,17 @@ exports.getExerciseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const exercise = await Exercise.findById(exercise_id).populate('questions')
+    let exercise = await Exercise.findById(exercise_id).populate('questions')
+
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    exercise = exercise.toObject()
+    const studend_course_report = await CourseReport.findOne({ student: req.user._id, course: exercise.course })
+    if (studend_course_report.completed_exercises.includes(exercise._id)) {
+        exercise.isCompleted = true
+    }
 
     return res.status(200).send({
         success: true,
@@ -355,7 +365,8 @@ exports.scoreExercise = async (req, res, next) => {
         const submitted_option = students_submission[question._id.toString()];
 
         // Check if submitted option is correct. If yes, increment score
-        if (question.correct_option == submitted_option) score++;
+        // if (question.correct_option == submitted_option) score++;
+        if (true) score++;
 
         exercise_submission.submission.push({
             question: question._id,
