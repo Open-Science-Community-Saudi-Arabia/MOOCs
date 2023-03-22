@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import Certificate from "./Certificate";
 import "./style.scss";
 import { IoMdClose } from "react-icons/io";
-import { RxDotFilled } from "react-icons/rx";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { useCourse } from "../../../utils/api/courses";
@@ -13,11 +12,11 @@ import Quiz from "./Quiz";
 import ViewPdf from "./ViewPdf";
 import { CourseSections, Exercise, TextMaterial, Video } from "../../../types";
 import Result from "./Result";
-import { Videocontent } from "../../../data";
+import { tabitem, Videocontent } from "../../../data";
 
 const ViewCourse = () => {
   const params = useParams();
-  let score: number;
+
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<
     "video" | "exercise" | "pdf" | "result" | "certificate"
@@ -30,6 +29,7 @@ const ViewCourse = () => {
   const [selectedIndex, setSelectedIndex] = useState("");
   const [quizIndex, setQuizIndex] = useState<number>(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
+  const [score, setScore] = useState<number>();
   const {
     data: coursedata,
     isLoading,
@@ -43,21 +43,11 @@ const ViewCourse = () => {
     getVideodata(course?.course_sections[0].videos[0]._id);
   }, [course]);
 
-  const tabitem = [
-    {
-      id: 0,
-      tab: "tab1",
-      name: "Overview",
-    },
-
-    {
-      id: 1,
-      tab: "tab2",
-      name: "Certificate",
-    },
-  ];
   const changeQuizIndex = (quizIndex: number) => {
     setQuizIndex(quizIndex);
+  };
+  const changeScoreHandler = (score: number) => {
+    setScore(score);
   };
 
   const changedDisplayContent = (displayContent: any) => {
@@ -99,24 +89,23 @@ const ViewCourse = () => {
     setSelectedIndex(id);
     changedDisplayContent("pdf");
   };
-  if (exerciseData) {
-    score = (quizAnswers.length / exerciseData?.questions.length) * 100;
-  }
 
   return (
-    <section className="lesson-container">
+    <section className="lesson">
       {isLoading ? (
-        <div className="dashboard-container__lesson-spinner">
+        <div className="lesson__lesson-spinner">
           <Spinner width="60px" height="60px" color />
         </div>
       ) : isError ? (
-        <ErrorFallBack
-          message="Something went wrong!"
-          description="We encountered an error while fetching your courses"
-          reset={refetch}
-        />
+        <div className="lesson__error-container">
+          <ErrorFallBack
+            message="Something went wrong!"
+            description="We encountered an error while fetching your courses"
+            reset={refetch}
+          />
+        </div>
       ) : (
-        <>
+        <div className="lesson-container">
           <div className="lesson-container__header">
             <h1 className="lesson-container__header-heading">
               Title: {course?.title}
@@ -147,7 +136,10 @@ const ViewCourse = () => {
             </div>
           </div>
           <div className="lesson-container__content">
-            <div style={{ width: isCourseContent ? "80%" : "100%" }}>
+            <div
+              className="lesson-container__content_left"
+              style={{ width: isCourseContent ? "80%" : "100%" }}
+            >
               {displayContent === "video" ? (
                 <iframe
                   title={videoData?.title}
@@ -161,23 +153,16 @@ const ViewCourse = () => {
                 <Quiz
                   exerciseData={exerciseData}
                   changeQuizIndex={changeQuizIndex}
-                  isCourseContent={isCourseContent}
                   quizIndex={quizIndex}
                   changedDisplayContent={changedDisplayContent}
-                  quizAnswers={quizAnswers}
+                  changeScoreHandler={changeScoreHandler}
                 />
               ) : displayContent === "pdf" ? (
                 <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />
               ) : displayContent === "result" ? (
                 <Result
-                  score={
-                    exerciseData
-                      ? (quizAnswers.length / exerciseData?.questions.length) *
-                        100
-                      : null
-                  }
+                  score={score}
                   selectedIndex={selectedIndex}
-                  isCourseContent={isCourseContent}
                   getexerciseData={getexerciseData}
                 />
               ) : (
@@ -329,11 +314,11 @@ const ViewCourse = () => {
                   {/* {lesson?.description} */}
                 </div>
               ) : (
-                <Certificate />
+                <></>
               )}
             </div>
           </div>
-        </>
+        </div>
       )}
     </section>
   );

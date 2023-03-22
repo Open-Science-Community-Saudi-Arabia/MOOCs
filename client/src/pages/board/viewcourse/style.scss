@@ -1,314 +1,328 @@
 @import "../../../styles/mixins.scss";
 
-.lesson-container {
+.lesson {
   height: 100%;
-  z-index: 1;
   position: relative;
-  &__header {
-    position: fixed;
-    width: 100%;
-    background-color: var(--black);
-    padding: 0em 1.5em;
-    height: 80px;
-    @include flex(space-between, center);
-    width: 100%;
-    color: var(--white);
-    &-heading {
-      font-size: 20px;
-      font-weight: 700;
-      &__right {
-        @include flex(space-between, center);
-        gap: 15px;
-      }
-      &__btn {
-        @include button(auto, transparent, var(--white));
-        border: 1px solid gray !important;
-        padding: 0.8em;
-      }
-    }
+  &__lesson-spinner {
+    @include flex(center, center);
+    height: 100vh;
   }
-  &__content {
-    width: 100%;
-    padding-top: 80px;
-    z-index: -1;
-    height: 600px;
-    @include flex(space-between, start);
-    // Iframe
-    &-iframe {
-      border: none;
+  &__error-container {
+    @include flex(center, center);
+    height: 100vh;
+  }
+  &-container {
+    &__header {
+      top: 0;
+      position: fixed;
+      z-index: 3;
+      width: 100%;
+      background-color: var(--black);
+      padding: 0em 1.5em;
+      height: 80px;
+      @include flex(space-between, center);
+      width: 100%;
+      color: var(--white);
+      &-heading {
+        font-size: 20px;
+        font-weight: 700;
+        &__right {
+          @include flex(space-between, center);
+          gap: 15px;
+        }
+        &__btn {
+          @include button(auto, transparent, var(--white));
+          border: 1px solid gray !important;
+          padding: 0.8em;
+        }
+      }
     }
-    // Quiz component
-    .quiz-section {
-      padding: 1em 0em;
-      margin: 0em auto;
+    &__content {
+      width: 100%;
+      padding-top: 80px;
+      z-index: -1;
+      height: 600px;
+      @include flex(space-between, start);
+      &_left {
+        height: 100%;
+      }
+      // Iframe
+      &-iframe {
+        border: none;
+      }
 
-      &__heading {
-        text-align: center;
-        margin-bottom: 4em;
-        &-title {
-          font-size: 25px;
-          padding-bottom: 5px;
-        }
-        &-subtitle {
-          font-size: 18px;
-          font-weight: 500;
-        }
-      }
-      &__container {
-        padding: 0em 2em;
-      }
-      &__content {
-        z-index: -1;
-        margin-bottom: 3em;
-        &-question {
-          margin-bottom: 1em;
-          font-weight: 600;
-          font-size: 18px;
-          p {
-            font-size: 20px;
-            font-weight: 700;
-            padding-bottom: 10px;
+      // Quiz component
+      .quiz-section {
+        padding: 1em 0em;
+        margin: 0em auto;
+
+        &__heading {
+          text-align: center;
+          margin-bottom: 4em;
+          &-title {
+            font-size: 25px;
+            padding-bottom: 5px;
+          }
+          &-subtitle {
+            font-size: 18px;
+            font-weight: 500;
           }
         }
-        &-options {
-          &__label {
-            cursor: pointer;
-            z-index: 80;
-            @include flex(start, center);
-            background-color: rgb(231, 238, 241);
-            width: 65%;
-            color: var(--black);
-            border: none;
-            padding: 1em 0.2em;
-            margin: 0.5em 0em;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 500;
-            gap: 10px;
-            &:hover {
-              background-color: var(--green);
-              color: var(--white);
+        &__container {
+          padding: 0em 2em;
+        }
+        &__content {
+          z-index: -1;
+          margin-bottom: 3em;
+
+          &-question {
+            margin-bottom: 1em;
+            font-weight: 600;
+            font-size: 18px;
+            p {
+              font-size: 20px;
+              font-weight: 700;
+              padding-bottom: 10px;
             }
           }
-          &__radio-btn {
-            visibility: hidden;
-          }
+          &-options {
+            &__label {
+              cursor: pointer;
+              z-index: 80;
+              @include flex(start, center);
+              background-color: rgb(231, 238, 241);
+              width: 65%;
+              color: var(--black);
+              border: none;
+              padding: 1em 0.2em;
+              margin: 0.5em 0em;
+              border-radius: 5px;
+              font-size: 16px;
+              font-weight: 500;
+              gap: 10px;
+              &:hover {
+                background-color: var(--green);
+                color: var(--white);
+              }
+            }
+            &__radio-btn {
+              visibility: hidden;
+            }
 
-          &__letter {
-            display: inline-block;
-            margin-right: 0.5em;
+            &__letter {
+              display: inline-block;
+              margin-right: 0.5em;
+            }
           }
         }
-      }
-      &__btn {
-        @include flex(space-between, center);
-      }
-    }
-
-    // Pdf View
-    .viewpdf {
-      width: 100%;
-      height: 550px;
-      overflow-y: scroll;
-      margin: auto;
-      &__pagenumber {
-        z-index: -1;
-        text-align: center;
-        margin: 1em;
-        font-size: 18px;
-        font-weight: 600;
-      }
-      &__document {
-        position: relative;
-        z-index: -2;
-        padding: 0em 2em;
-        canvas {
-          // width:80% !important
-        }
-      }
-    }
-    // Result
-    .quizresult {
-      margin: 1em auto;
-      text-align: center;
-      &__heading {
-        &__title {
-          font-size: 22px;
-          font-weight: 700;
-          padding-bottom: 0.5em;
-        }
-        &__subtitle {
-          font-size: 16px;
-          font-weight: 500;
-          color: var(--gray);
-        }
-      }
-      &__btns {
-        @include flex(center, center);
-        &__completed {
-          color: var(--green);
-          @include flex(center, center);
-          gap: 40px;
-          &-text {
-            font-size: 20px;
-            font-weight: 600;
-          }
-        }
-        &__button {
+        &__submit-btn {
+          margin: auto;
           @include button(auto, var(--green), var(--white));
         }
       }
-    }
 
-    // Certificate
-    .certificate {
-      @include flex(center, center);
-      height: 100vh;
-      width: 100%;
-    }
-    // Course Content
-    &-course {
-      height: 550px;
-      overflow-y: scroll;
-      background-color: var(--white);
-      border-left: 1px solid var(--green-light);
-      width: 350px !important;
-      &-display {
-        position: fixed;
-        background-color: var(--white);
-        border-bottom: 1px solid var(--green-light);
-        width: 25%;
-        @include flex(space-between, center);
-        height: 50px;
-        padding: 2em 1em;
-        &-text {
-          font-size: 17px;
-          font-weight: 700;
-        }
-        &-btn {
-          svg {
-            font-size: 18px;
-            cursor: pointer;
-            &:hover {
-              color: var(--gray);
-            }
-          }
-        }
-      }
-      &-container {
-        padding-top: 3em;
-      }
-      &-section {
-        z-index: 2;
-        &__heading {
-          padding: 1.5em 1em 0.5em;
+      // Pdf View
+      .viewpdf {
+        width: 100%;
+        height: 550px;
+        overflow-y: scroll;
+        margin: auto;
+        &__pagenumber {
+          z-index: -1;
+          text-align: center;
+          margin: 1em;
+          font-size: 18px;
           font-weight: 600;
-          font-size: 15px;
-          border-bottom: 1px solid var(--green-light);
         }
-        .active-item {
-          background-color: var(--green) !important;
-          color: var(--white);
+        &__document {
+          position: relative;
+          z-index: -2;
+          padding: 0em 2em;
+          canvas {
+            // width:80% !important
+          }
         }
-        &__listitem {
-          display: block;
-          width: 100%;
-          text-align: left;
-          font-size: 14px;
-          border: none;
-          border-radius: initial !important;
-          padding: 1em 1em;
-          border-bottom: 1px solid var(--green-light);
-          &:hover {
-            background-color: var(--green-light);
+      }
+      // Result
+      .quizresult {
+        margin: 1em auto;
+        text-align: center;
+        &__heading {
+          &__title {
+            font-size: 22px;
+            font-weight: 700;
+            padding-bottom: 0.5em;
           }
-          &-title {
-            @include flex(space-between, center);
-            gap: 8px;
-          }
-          &-text {
+          &__subtitle {
+            font-size: 16px;
             font-weight: 500;
-            // @include flex(center, center);
-            svg {
-              margin-right: 0.5em;
-              // font-size: 25px;
-            }
-          }
-          &-duration {
-            padding-top: 5px;
-            gap: 5px;
-            font-size: 12px;
             color: var(--gray);
-            @include flex(start, center);
-            svg {
-              font-size: 14px;
-            }
           }
-          &__status {
-            font-size: 12px;
-            font-style: italic;
-            color: var(--gray);
-            .completed {
-              color: var(--green);
+        }
+        &__btns {
+          @include flex(center, center);
+          &__completed {
+            color: var(--green);
+            @include flex(center, center);
+            gap: 40px;
+            &-text {
+              font-size: 20px;
               font-weight: 600;
             }
-            .not-completed {
-              color: var(--gray);
-            }
+          }
+          &__button {
+            @include button(auto, var(--green), var(--white));
           }
         }
       }
-    }
-  }
-  &__tab-container {
-    padding: 3em 4em;
-    &-tab {
-      border-bottom: 1px solid var(--gray-203);
-      @include flex(start, center);
-      gap: 60px;
-      &__tabitem {
-        cursor: pointer;
-        font-size: 18px;
-        padding-bottom: 0.5em;
-        color: var(--gray);
-        font-weight: 600;
-        &:hover {
-          color: var(--green);
-        }
-      }
-      &__active-tab {
-        color: var(--green);
-        border-bottom: 2px solid var(--green);
-      }
-    }
-    &__tab-content {
-      //   height: 200px;
-      margin-top: 2em;
-      line-height: 30px;
 
-      &-text {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 1em;
-      }
       .certificate {
         @include flex(center, center);
         text-align: center;
-        &__text {
-          margin-top: 3em;
-          width: fit-content;
-          font-size: 20px;
-          font-weight: 500;
-          background-color: var(--gray-203);
-          opacity: 50%;
-          padding: 1em;
-          color: var(--gray);
-          border-radius: 10px;
-          cursor: pointer;
-          &:hover {
+        width: 100%;
+        height: 70vh;
+        &__content {
+          &__text {
+            width: fit-content;
+            font-size: 20px;
+            font-weight: 500;
             background-color: var(--gray-203);
-            opacity: 30%;
+            opacity: 50%;
+            padding: 1em;
+            color: var(--gray);
+            border-radius: 10px;
+            cursor: pointer;
+            &:hover {
+              background-color: var(--gray-203);
+              opacity: 30%;
+            }
           }
+        }
+      }
+
+      // Course Content
+      &-course {
+        height: 550px;
+        overflow-y: scroll;
+        background-color: var(--white);
+        border-left: 1px solid var(--green-light);
+        width: 350px !important;
+        &-display {
+          position: fixed;
+          background-color: var(--white);
+          border-bottom: 1px solid var(--green-light);
+          width: 25%;
+          @include flex(space-between, center);
+          height: 50px;
+          padding: 2em 1em;
+          &-text {
+            font-size: 17px;
+            font-weight: 700;
+          }
+          &-btn {
+            svg {
+              font-size: 18px;
+              cursor: pointer;
+              &:hover {
+                color: var(--gray);
+              }
+            }
+          }
+        }
+        &-container {
+          padding-top: 3em;
+        }
+        &-section {
+          z-index: 2;
+          &__heading {
+            padding: 1.5em 1em 0.5em;
+            font-weight: 600;
+            font-size: 15px;
+            border-bottom: 1px solid var(--green-light);
+          }
+          .active-item {
+            background-color: var(--green) !important;
+            color: var(--white);
+          }
+          &__listitem {
+            display: block;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+            border: none;
+            border-radius: initial !important;
+            padding: 1em 1em;
+            border-bottom: 1px solid var(--green-light);
+            &:hover {
+              background-color: var(--green-light);
+            }
+            &-title {
+              @include flex(space-between, center);
+              gap: 8px;
+            }
+            &-text {
+              font-weight: 500;
+              // @include flex(center, center);
+              svg {
+                margin-right: 0.5em;
+                // font-size: 25px;
+              }
+            }
+            &-duration {
+              padding-top: 5px;
+              gap: 5px;
+              font-size: 12px;
+              color: var(--gray);
+              @include flex(start, center);
+              svg {
+                font-size: 14px;
+              }
+            }
+            &__status {
+              font-size: 12px;
+              font-style: italic;
+              color: var(--gray);
+              .completed {
+                color: var(--green);
+                font-weight: 600;
+              }
+              .not-completed {
+                color: var(--gray);
+              }
+            }
+          }
+        }
+      }
+    }
+    &__tab-container {
+      padding: 3em 4em;
+      &-tab {
+        border-bottom: 1px solid var(--gray-203);
+        @include flex(start, center);
+        gap: 60px;
+        &__tabitem {
+          cursor: pointer;
+          font-size: 18px;
+          padding-bottom: 0.5em;
+          color: var(--gray);
+          font-weight: 600;
+          &:hover {
+            color: var(--green);
+          }
+        }
+        &__active-tab {
+          color: var(--green);
+          border-bottom: 2px solid var(--green);
+        }
+      }
+      &__tab-content {
+        margin-top: 2em;
+        line-height: 30px;
+
+        &-text {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 1em;
         }
       }
     }

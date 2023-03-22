@@ -1,7 +1,7 @@
 import Header from "../board/Header";
 import "./style.scss";
-import { Link } from "react-router-dom";
-import { useCourses } from "../../utils/api/courses";
+import { useNavigate } from "react-router-dom";
+import { enrollUser, useCourses } from "../../utils/api/courses";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { Courses } from "../../types";
 import Spinner from "../../components/Spinner";
@@ -9,6 +9,18 @@ import ErrorFallBack from "../../components/ErrorFallBack";
 
 const Board = () => {
   const { data: courses, isLoading, isError, refetch } = useCourses();
+  const navigate = useNavigate();
+
+  const enrollUserHandler = async (id: string) => {
+    try {
+      let response = await enrollUser(id);
+      if (response) {
+        navigate(`course/${id}`);
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="dashboard">
@@ -20,11 +32,13 @@ const Board = () => {
               <Spinner width="60px" height="60px" color />
             </div>
           ) : isError ? (
-            <ErrorFallBack
-              message="Something went wrong!"
-              description="We encountered an error while fetching your purchased assets"
-              reset={refetch}
-            />
+            <div className="dashboard-container__lesson-error">
+              <ErrorFallBack
+                message="Something went wrong!"
+                description="We encountered an error while fetching courses"
+                reset={refetch}
+              />
+            </div>
           ) : (
             <>
               <h1 className="dashboard-container__lesson-heading">
@@ -33,10 +47,10 @@ const Board = () => {
               <div className="dashboard-container__lesson-courses">
                 {courses?.data.courses?.map((item: Courses) => {
                   return (
-                    <Link
+                    <button
+                      onClick={() => enrollUserHandler(item._id)}
                       aria-label={item.title}
                       key={item._id}
-                      to={`course/${item._id}`}
                       className="dashboard-container__lesson-courses-content"
                     >
                       <div className="dashboard-container__lesson-courses-content__img-container">
@@ -64,7 +78,7 @@ const Board = () => {
                           {item.course_sections.length} course sections
                         </p>
                       </div>
-                    </Link>
+                    </button>
                   );
                 })}
               </div>

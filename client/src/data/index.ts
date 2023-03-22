@@ -35,6 +35,21 @@ export const Courses = [
   },
 ];
 
+// Display tablist
+export const tabitem = [
+  {
+    id: 0,
+    tab: "tab1",
+    name: "Overview",
+  },
+
+  {
+    id: 1,
+    tab: "tab2",
+    name: "",
+  },
+];
+
 // All Course List
 export const CourseList = [
   {

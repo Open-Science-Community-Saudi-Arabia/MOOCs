@@ -1,5 +1,4 @@
 import "./style.scss";
-import { IoMdClose } from "react-icons/io";
 interface ErrorFallback {
   message?: string;
   description?: string;
@@ -7,12 +6,16 @@ interface ErrorFallback {
   buttonText?: string;
 }
 
-const index=(props: ErrorFallback)=> {
+const index = (props: ErrorFallback) => {
   const { message, description, reset, buttonText = "Try again" } = props;
   return (
     <div className="errorfallback">
-      <IoMdClose className="errorfallback__icon" />
-      {message && <p className="errorfallback__message">{message}</p>}
+      {message && (
+        <div className="errorfallback__top">
+          {" "}
+          <p className="errorfallback__top__message">{message}</p>
+        </div>
+      )}
       {description && (
         <p className="errorfallback__description">{description}</p>
       )}
@@ -23,5 +26,5 @@ const index=(props: ErrorFallback)=> {
       )}
     </div>
   );
-}
-export default index
+};
+export default index;

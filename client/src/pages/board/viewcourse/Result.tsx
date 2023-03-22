@@ -1,28 +1,12 @@
-import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import ProgressBar from "../../../components/ProgressBar";
 import { updateExercise } from "../../../utils/api/courses";
 interface IProps {
-  // quizAnswers: string[];
-  isCourseContent: boolean;
   score: number | any;
   selectedIndex: string;
   getexerciseData: (selectedIndex: string) => void;
 }
-const Result = ({
-  score,
-  getexerciseData,
-  selectedIndex,
-  isCourseContent,
-}: IProps) => {
-  // const score = (quizAnswers.length / totalQuestions) * 100;
-
-  useEffect(() => {
-    // if (score > 80) {
-    //   updateHandler();
-    // }
-  });
-
+const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
   const updateHandler = async () => {
     try {
       const updatedItem = {
@@ -42,10 +26,7 @@ const Result = ({
   };
 
   return (
-    <div
-      className="quizresult"
-      style={{ width: isCourseContent ? "80%" : "100%" }}
-    >
+    <div className="quizresult">
       <div className="quizresult__heading">
         <h1 className="quizresult__heading__title">Quiz Result</h1>
         <p className="quizresult__heading__subtitle">
@@ -56,16 +37,7 @@ const Result = ({
 
       <ProgressBar score={score} />
       <div className="quizresult__btns">
-        {score < 80 ? (
-          <button
-            onClick={() => {
-              getexerciseData(selectedIndex);
-            }}
-            className="quizresult__btns__button"
-          >
-            Try Again
-          </button>
-        ) : (
+        {score > 80 ? (
           <div className="quizresult__btns__completed">
             <p className="quizresult__btns__completed-text">Quiz completed</p>
             <button
@@ -75,6 +47,15 @@ const Result = ({
               Continue
             </button>
           </div>
+        ) : (
+          <button
+            onClick={() => {
+              getexerciseData(selectedIndex);
+            }}
+            className="quizresult__btns__button"
+          >
+            Try Again
+          </button>
         )}
       </div>
     </div>

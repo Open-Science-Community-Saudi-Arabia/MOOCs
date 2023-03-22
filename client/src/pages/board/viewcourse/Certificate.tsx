@@ -1,14 +1,14 @@
-
-
-const Certificate= () =>{
+const Certificate = () => {
   return (
     <div className="certificate">
-      <p className="certificate__text">
-        {" "}
-        Complete quiz to get a certificate
-      </p>
+      <div className="certificate__content">
+        <p className="certificate__content__text">
+          {" "}
+          Complete quiz to get a certificate
+        </p>
+      </div>
     </div>
   );
-}
+};
 
-export default Certificate
+export default Certificate;
