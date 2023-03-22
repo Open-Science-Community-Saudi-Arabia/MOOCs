@@ -31,7 +31,7 @@ html {
 }
 a {
   text-decoration: none;
-  color: var(--black-0);
+  color: var(--black);
 }
 button,
 input {
@@ -39,6 +39,7 @@ input {
   border-radius: 8px;
   background-color: transparent;
   cursor: pointer;
+  color: var(--black);
 }
 .icon-button{
   border:none;

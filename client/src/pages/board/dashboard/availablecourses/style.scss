@@ -25,6 +25,7 @@
       @include flex(start, center);
     }
     &-content {
+      
       border-radius: 20px;
       border: 1px solid var(--gray-203);
       cursor: pointer;
