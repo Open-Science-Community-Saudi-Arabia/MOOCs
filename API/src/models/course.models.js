@@ -329,19 +329,17 @@ async function getCompletedExercisesInCourseSection(course, studentCourseReport)
             model: 'Exercise'
         }
     })
-    console.log(courseSections.toObject().course_sections)
-    const completedExercises = courseSections.toObject().course_sections.map(courseSection => {
-        console.log(courseSection)
-        return courseSection.exercises.filter(exercise => {
+    const updatedCourseSections = courseSections.toObject().course_sections.map(courseSection => {
+        courseSection.exercises = courseSection.exercises.filter(exercise => {
             exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
             
             return exercise
         })
+        
+        return courseSection
     })
 
-    console.log(completedExercises)
-
-    return completedExercises
+    return updatedCourseSections
 }
 
 courseSectionSchema.post('findOne', async function (courseSection) {
