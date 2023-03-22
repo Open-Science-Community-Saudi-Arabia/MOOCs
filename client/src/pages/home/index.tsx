@@ -9,6 +9,7 @@ import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
 const Home = () => {
+  
   return (
     <>
       <Navbar />

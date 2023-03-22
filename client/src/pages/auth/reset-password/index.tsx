@@ -84,7 +84,7 @@ const ResetPassword = () => {
 
         <div className="field button-field">
           <button>
-            {isLoading ? <Spinner width="30px" height="30px" /> : "Submit"}
+            {isLoading ? <Spinner width="30px" height="30px" color="#fff" /> : "Submit"}
           </button>
         </div>
       </form>

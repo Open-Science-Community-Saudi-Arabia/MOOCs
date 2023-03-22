@@ -50,7 +50,7 @@ const Quiz = ({
   return (
     <section className="quiz-section">
       <div className="quiz-section__heading">
-        <h1 className="quiz-section__heading-title">Quiz</h1>
+        <h1 className="quiz-section__heading-title">Quiz:{exerciseData?.title}</h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
           Pick the right option.

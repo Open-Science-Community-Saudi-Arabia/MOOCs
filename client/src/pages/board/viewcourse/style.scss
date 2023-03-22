@@ -1,42 +1,84 @@
 @import "../../../styles/mixins.scss";
 
-.lesson {
+.viewcourse {
   height: 100%;
   position: relative;
-  &__lesson-spinner {
+  &__spinner {
     @include flex(center, center);
     height: 100vh;
   }
-  &__error-container {
+  &__error {
     @include flex(center, center);
     height: 100vh;
   }
+
   &-container {
+    position: relative;
     &__header {
       top: 0;
       position: fixed;
       z-index: 3;
       width: 100%;
       background-color: var(--black);
-      padding: 0em 1.5em;
+      padding: 0em 1em;
       height: 80px;
       @include flex(space-between, center);
       width: 100%;
       color: var(--white);
-      &-heading {
+      @include ipad {
+        padding: 0em 1.5em;
+      }
+      &__heading {
         font-size: 20px;
         font-weight: 700;
-        &__right {
-          @include flex(space-between, center);
-          gap: 15px;
+        @include flex(space-between, center);
+        gap: 20px;
+        .icon-button {
+          font-size: 25px;
+          color: white;
+          svg {
+            vertical-align: middle;
+          }
         }
-        &__btn {
-          @include button(auto, transparent, var(--white));
-          border: 1px solid gray !important;
-          padding: 0.8em;
+      }
+      &__right {
+        display: none;
+        gap: 15px;
+        @include ipad {
+          @include flex(space-between, center);
+        }
+      }
+      &__ipad-right {
+        z-index: 5;
+        border-radius: 20px;
+        position: absolute;
+        top: 50px;
+        right: 20px;
+        width: 200px;
+        padding: 1em;
+        background-color: var(--black);
+        @include flex(space-between, center);
+        flex-direction: column;
+        gap: 10px;
+      }
+      .d-none {
+        display: none;
+      }
+      &__btn {
+        @include button(auto, transparent, var(--white));
+        border: 1px solid gray !important;
+        padding: 0.8em;
+        color: var(--white);
+      }
+      &-doticon {
+        color: var(--white);
+        font-size: 25px;
+        svg {
+          vertical-align: middle;
         }
       }
     }
+
     &__content {
       width: 100%;
       padding-top: 80px;
@@ -45,6 +87,19 @@
       @include flex(space-between, start);
       &_left {
         height: 100%;
+      }
+      .open-leftcontent {
+        width: 0%;
+
+        @include ipad {
+          width: 70%;
+        }
+        @include laptop {
+          width: 100%;
+        }
+      }
+      .closed-leftcontent {
+        width: 100%;
       }
       // Iframe
       &-iframe {
@@ -55,13 +110,19 @@
       .quiz-section {
         padding: 1em 0em;
         margin: 0em auto;
-
+        overflow-y: scroll;
         &__heading {
           text-align: center;
-          margin-bottom: 4em;
+          margin-bottom: 2em;
+          @include ipad {
+            margin-bottom: 4em;
+          }
           &-title {
-            font-size: 25px;
+            font-size: 20px;
             padding-bottom: 5px;
+            @include ipad {
+              font-size: 25px;
+            }
           }
           &-subtitle {
             font-size: 18px;
@@ -69,7 +130,10 @@
           }
         }
         &__container {
-          padding: 0em 2em;
+          padding: 0em 1em;
+          @include ipad {
+            padding: 0em 2em;
+          }
         }
         &__content {
           z-index: -1;
@@ -78,11 +142,17 @@
           &-question {
             margin-bottom: 1em;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 16px;
+            @include ipad {
+              font-size: 18px;
+            }
             p {
-              font-size: 20px;
+              font-size: 16px;
               font-weight: 700;
               padding-bottom: 10px;
+              @include ipad {
+                font-size: 20px;
+              }
             }
           }
           &-options {
@@ -91,22 +161,28 @@
               z-index: 80;
               @include flex(start, center);
               background-color: rgb(231, 238, 241);
-              width: 65%;
+              width: 100%;
               color: var(--black);
               border: none;
-              padding: 1em 0.2em;
+              padding: 1em;
               margin: 0.5em 0em;
               border-radius: 5px;
-              font-size: 16px;
+              font-size: 14px;
               font-weight: 500;
-              gap: 10px;
+              gap: 5px;
+
               &:hover {
                 background-color: var(--green);
                 color: var(--white);
               }
+              @include ipad {
+                width: 65%;
+                font-size: 16px;
+              }
             }
             &__radio-btn {
               visibility: hidden;
+              position: absolute;
             }
 
             &__letter {
@@ -206,15 +282,27 @@
         overflow-y: scroll;
         background-color: var(--white);
         border-left: 1px solid var(--green-light);
-        width: 350px !important;
+        width: 100% !important;
+
+        @include ipad {
+          width: 30% !important;
+        }
+        @include laptop {
+        }
         &-display {
           position: fixed;
           background-color: var(--white);
           border-bottom: 1px solid var(--green-light);
-          width: 25%;
+          width: 100%;
           @include flex(space-between, center);
           height: 50px;
           padding: 2em 1em;
+          @include ipad {
+            width: 30% !important;
+          }
+          @include laptop {
+            width: 23% !important;
+          }
           &-text {
             font-size: 17px;
             font-weight: 700;
@@ -251,7 +339,7 @@
             font-size: 14px;
             border: none;
             border-radius: initial !important;
-            padding: 1em 1em;
+            padding: 1em;
             border-bottom: 1px solid var(--green-light);
             &:hover {
               background-color: var(--green-light);

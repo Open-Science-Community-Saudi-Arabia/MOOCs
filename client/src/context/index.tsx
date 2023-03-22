@@ -120,7 +120,7 @@ export const AppProvider = ({
           children
         ) : (
           <div className="h-screen flex flex-col items-center justify-center">
-            <Spinner width="30px" height="30px" />
+            <Spinner width="30px" height="30px"  color="#fff"/>
           </div>
         )}
       </AppContext.Provider>

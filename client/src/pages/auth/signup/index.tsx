@@ -68,7 +68,7 @@ const Signup= ()=> {
   return (
     <>
       {loading ? (
-        <Spinner width="100px" height="100px" color />
+        <Spinner width="100px" height="100px" color="#009985" />
       ) : (
         <section className="login-signup">
           <h1 className="login-signup__heading">Sign Up to MOOCs</h1>
@@ -172,7 +172,7 @@ const Signup= ()=> {
             </div>
             <div className="field button-field">
               <button>
-                {isLoading ? <Spinner width="30px" height="30px" /> : "Sign Up"}
+                {isLoading ? <Spinner width="30px" height="30px" color="#fff" /> : "Sign Up"}
               </button>
             </div>
           </form>

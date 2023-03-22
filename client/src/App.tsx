@@ -20,7 +20,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<Spinner width="30px" height="30px" />}>
+      <Suspense fallback={<Spinner width="30px" height="30px" color="#fff" />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route element={<Layout />}>
@@ -50,7 +50,6 @@ export default App;
 // Todo
 // install elint husky and pretty
 // Run  for performances and accesibility checks
-// review the file structure - were to put components
-// review the auth provider
+// review the auth provider // learn what is happing in the context
 // work on the language toggler, check by removing the function
 // work on the types- request and response

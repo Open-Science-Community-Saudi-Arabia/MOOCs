@@ -1,13 +1,17 @@
+import { useState } from "react";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../../../components/Spinner";
 import { Courses } from "../../../../types";
 import { enrollUser } from "../../../../utils/api/courses";
 import "./style.scss";
 
 const AvailableCourses = ({ courses }: any) => {
+  const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const enrollUserHandler = async (id: string) => {
+    setLoading(true)
     try {
       let response = await enrollUser(id);
       if (response) {
@@ -21,7 +25,7 @@ const AvailableCourses = ({ courses }: any) => {
     <div className="availablecourses">
       <h1 className="availablecourses__heading">Available Courses</h1>
       <div className="availablecourses__courses">
-        {courses?.data.courses?.map((item: Courses) => {
+        {courses?.data.courses?.map((item: Courses, index:number) => {
           return (
             <button
               onClick={() => enrollUserHandler(item._id)}
@@ -31,8 +35,8 @@ const AvailableCourses = ({ courses }: any) => {
             >
               <div className="availablecourses__courses-content__img-container">
                 {" "}
-                <div className="img-container-overlay">
-                  <BsFillPlayCircleFill />
+                <div className={"img-container-overlay"}>
+                 {isLoading? <Spinner width="50px" height="50px" color="#0a0a0a" />:<BsFillPlayCircleFill />}
                 </div>
                 <img
                   className="availablecourses__courses-content__img-container-img"
@@ -63,3 +67,5 @@ const AvailableCourses = ({ courses }: any) => {
 };
 
 export default AvailableCourses;
+
+// keep track of enrolled user, users should not be enrolling everytime

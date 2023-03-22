@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import Certificate from "./Certificate";
 import "./style.scss";
 import { IoMdClose } from "react-icons/io";
+import { TiArrowBack } from "react-icons/ti";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useCourse } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
@@ -13,10 +15,12 @@ import ViewPdf from "./ViewPdf";
 import { CourseSections, Exercise, TextMaterial, Video } from "../../../types";
 import Result from "./Result";
 import { tabitem, Videocontent } from "../../../data";
+import useMediaQuery from "../../../hooks/usemediaQuery";
+import { useNavigate } from "react-router-dom";
 
 const ViewCourse = () => {
   const params = useParams();
-
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<
     "video" | "exercise" | "pdf" | "result" | "certificate"
@@ -25,23 +29,22 @@ const ViewCourse = () => {
   const [videoData, setVideoData] = useState<Video>();
   const [exerciseData, setExerciseData] = useState<Exercise>();
   const [pdfData, setPdfData] = useState<TextMaterial>();
-  // const [course, setCourse] = useState<any>(Videocontent); //remove later
   const [selectedIndex, setSelectedIndex] = useState("");
   const [quizIndex, setQuizIndex] = useState<number>(0);
-  const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
   const [score, setScore] = useState<number>();
+  const [isOpen, setIsOpen] = useState(false);
   const {
     data: coursedata,
     isLoading,
     isError,
     refetch,
   } = useCourse(params.id);
-
+  const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
   useEffect(() => {
-    // console.log(course);
+    isIpad ? setCourseContent(true) : setCourseContent(false);
     getVideodata(course?.course_sections[0].videos[0]._id);
-  }, [course]);
+  }, [isIpad, course]);
 
   const changeQuizIndex = (quizIndex: number) => {
     setQuizIndex(quizIndex);
@@ -68,7 +71,6 @@ const ViewCourse = () => {
   };
 
   const getexerciseData = (id: string) => {
-    setQuizAnswers([]);
     changeQuizIndex(0);
     const dataitem = course?.course_sections
       .map((course: CourseSections) => course.exercises)
@@ -91,13 +93,13 @@ const ViewCourse = () => {
   };
 
   return (
-    <section className="lesson">
+    <section className="viewcourse">
       {isLoading ? (
-        <div className="lesson__lesson-spinner">
-          <Spinner width="60px" height="60px" color />
+        <div className="viewcourse__spinner">
+          <Spinner width="60px" height="60px" color="#009985" />
         </div>
       ) : isError ? (
-        <div className="lesson__error-container">
+        <div className="viewcourse__error">
           <ErrorFallBack
             message="Something went wrong!"
             description="We encountered an error while fetching your courses"
@@ -105,18 +107,35 @@ const ViewCourse = () => {
           />
         </div>
       ) : (
-        <div className="lesson-container">
-          <div className="lesson-container__header">
-            <h1 className="lesson-container__header-heading">
+        <div className="viewcourse-container">
+          <div className="viewcourse-container__header">
+            <h1 className="viewcourse-container__header__heading">
+              <button
+                aria-label="back-arrow"
+                className=" icon-button"
+                onClick={() => navigate("/dashboard")}
+              >
+                <TiArrowBack />
+              </button>{" "}
               Title: {course?.title}
             </h1>
-            <div className="lesson-container__header-heading__right">
+            <div
+              className={`${
+                isIpad
+                  ? "viewcourse-container__header__right"
+                  : `${
+                      isOpen
+                        ? "viewcourse-container__header__ipad-right"
+                        : "d-none"
+                    }`
+              }`}
+            >
               {
                 <button
                   onClick={() => {
                     changedDisplayContent("certificate");
                   }}
-                  className="lesson-container__header-heading__btn"
+                  className="viewcourse-container__header__btn"
                 >
                   {" "}
                   View Certificate
@@ -126,19 +145,30 @@ const ViewCourse = () => {
                 <button
                   onClick={() => {
                     setCourseContent(true);
+                    !isIpad ? setIsOpen(false) : null;
                   }}
-                  className="lesson-container__header-heading__btn"
+                  className="viewcourse-container__header__btn"
                 >
                   {" "}
                   Course Content
                 </button>
               )}
             </div>
+            {!isIpad && (
+              <button
+                aria-label="dot-menu"
+                className="viewcourse-container__header-doticon icon-button"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <BiDotsVerticalRounded />
+              </button>
+            )}
           </div>
-          <div className="lesson-container__content">
+          <div className="viewcourse-container__content">
             <div
-              className="lesson-container__content_left"
-              style={{ width: isCourseContent ? "80%" : "100%" }}
+              className={`viewcourse-container__content_left ${
+                isCourseContent ? "open-leftcontent" : "closed-leftcontent"
+              }`}
             >
               {displayContent === "video" ? (
                 <iframe
@@ -147,7 +177,7 @@ const ViewCourse = () => {
                   height="550"
                   src={videoData?.video_url}
                   allowFullScreen
-                  className="lesson-container__content-iframe"
+                  className="viewcourse-container__content-iframe"
                 ></iframe>
               ) : displayContent === "exercise" ? (
                 <Quiz
@@ -170,30 +200,30 @@ const ViewCourse = () => {
               )}
             </div>
             {isCourseContent && (
-              <div className="lesson-container__content-course">
-                <div className="lesson-container__content-course-display">
+              <div className="viewcourse-container__content-course">
+                <div className="viewcourse-container__content-course-display">
                   {" "}
-                  <p className="lesson-container__content-course-display-text">
+                  <p className="viewcourse-container__content-course-display-text">
                     Course content
                   </p>
                   <button
                     aria-label="close"
-                    className="lesson-container__content-course-display-btn icon-button"
+                    className="viewcourse-container__content-course-display-btn icon-button"
                     onClick={() => setCourseContent(false)}
                   >
                     <IoMdClose />
                   </button>
                 </div>
 
-                <div className="lesson-container__content-course-container">
+                <div className="viewcourse-container__content-course-container">
                   {course?.course_sections.map(
                     (content: CourseSections, index: number) => (
                       <div
-                        className="lesson-container__content-course-section"
+                        className="viewcourse-container__content-course-section"
                         key={content._id}
                       >
                         {" "}
-                        <p className="lesson-container__content-course-section__heading">
+                        <p className="viewcourse-container__content-course-section__heading">
                           {" "}
                           Section {index + 1}: {content.title}
                         </p>
@@ -202,18 +232,21 @@ const ViewCourse = () => {
                             <button
                               key={videoitem._id}
                               aria-label="Watch video"
-                              className={`lesson-container__content-course-section__listitem ${
+                              className={`viewcourse-container__content-course-section__listitem ${
                                 selectedIndex === videoitem._id && "active-item"
                               }`}
                               onClick={() => {
-                                getVideodata(videoitem._id);
+                                getVideodata(videoitem._id),
+                                  isIpad
+                                    ? setCourseContent(true)
+                                    : setCourseContent(false);
                               }}
                             >
-                              <div className="lesson-container__content-course-section__listitem-title">
-                                <p className="lesson-container__content-course-section__listitem-text">
+                              <div className="viewcourse-container__content-course-section__listitem-title">
+                                <p className="viewcourse-container__content-course-section__listitem-text">
                                   <RxDot /> {videoitem?.title}
                                 </p>
-                                <div className="lesson-container__content-course-section__listitem-duration">
+                                <div className="viewcourse-container__content-course-section__listitem-duration">
                                   {" "}
                                   <MdOndemandVideo />
                                   {videoitem?.duration} min
@@ -230,17 +263,20 @@ const ViewCourse = () => {
                                 aria-label="Take quiz"
                                 onClick={() => {
                                   getPdfdata(textcontent._id);
+                                  isIpad
+                                    ? setCourseContent(true)
+                                    : setCourseContent(false);
                                 }}
-                                className={`lesson-container__content-course-section__listitem ${
+                                className={`viewcourse-container__content-course-section__listitem ${
                                   selectedIndex === textcontent._id &&
                                   "active-item"
                                 }`}
                               >
-                                <div className="lesson-container__content-course-section__listitem-title">
-                                  <p className="lesson-container__content-course-section__listitem-text">
+                                <div className="viewcourse-container__content-course-section__listitem-title">
+                                  <p className="viewcourse-container__content-course-section__listitem-text">
                                     <RxDot /> {textcontent.title}
                                   </p>
-                                  <p className="lesson-container__content-course-section__listitem__status">
+                                  <p className="viewcourse-container__content-course-section__listitem__status">
                                     {textcontent.type}
                                   </p>
                                 </div>
@@ -255,16 +291,19 @@ const ViewCourse = () => {
                               aria-label="Take quiz"
                               onClick={() => {
                                 getexerciseData(quizitem._id);
+                                isIpad
+                                  ? setCourseContent(true)
+                                  : setCourseContent(false);
                               }}
-                              className={`lesson-container__content-course-section__listitem ${
+                              className={`viewcourse-container__content-course-section__listitem ${
                                 selectedIndex === quizitem._id && "active-item"
                               }`}
                             >
-                              <div className="lesson-container__content-course-section__listitem-title">
-                                <p className="lesson-container__content-course-section__listitem-text">
+                              <div className="viewcourse-container__content-course-section__listitem-title">
+                                <p className="viewcourse-container__content-course-section__listitem-text">
                                   <RxDot /> Quiz Exercise: Section {index + 1}
                                 </p>
-                                <p className="lesson-container__content-course-section__listitem__status">
+                                <p className="viewcourse-container__content-course-section__listitem__status">
                                   {quizitem.isCompleted ? (
                                     <span className="completed">completed</span>
                                   ) : (
@@ -284,17 +323,17 @@ const ViewCourse = () => {
               </div>
             )}
           </div>
-          <div className="lesson-container__tab-container">
-            <div className="lesson-container__tab-container-tab">
+          <div className="viewcourse-container__tab-container">
+            <div className="viewcourse-container__tab-container-tab">
               {tabitem.map((item) => {
                 return (
                   <p
                     key={item.id}
                     className={`${
                       activeTab === item.tab &&
-                      "lesson-container__tab-container-tab__active-tab"
+                      "viewcourse-container__tab-container-tab__active-tab"
                     } 
-                lesson-container__tab-container-tab__tabitem`}
+                viewcourse-container__tab-container-tab__tabitem`}
                     onClick={() => {
                       setActiveTab(item.tab);
                     }}
@@ -305,13 +344,13 @@ const ViewCourse = () => {
               })}
             </div>
 
-            <div className="lesson-container__tab-container__tab-content">
+            <div className="viewcourse-container__tab-container__tab-content">
               {activeTab === "tab1" ? (
                 <div>
-                  <p className="lesson-container__tab-container__tab-content-text">
+                  <p className="viewcourse-container__tab-container__tab-content-text">
                     Course description
                   </p>
-                  {/* {lesson?.description} */}
+                  {/* {viewcourse?.description} */}
                 </div>
               ) : (
                 <></>

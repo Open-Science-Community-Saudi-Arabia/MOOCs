@@ -14,7 +14,7 @@ const Board = () => {
     
           {isLoading ? (
             <div className="dashboard__spinner">
-              <Spinner width="60px" height="60px" color />
+              <Spinner width="60px" height="60px" color="#009985" />
             </div>
           ) : isError ? (
             <div className="dashboard__error">
