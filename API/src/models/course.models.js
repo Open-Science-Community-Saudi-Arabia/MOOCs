@@ -213,7 +213,7 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
-    
+
 /**
  * @type {videoSchema}
  * */
@@ -297,17 +297,7 @@ courseSectionSchema.virtual('textmaterials', {
  * @param {courseSectionSchema} courseSection 
  * @returns {courseSectionSchema}
  */
-function combineContents(courseSection, studentCourseReport) {
-    if (studentCourseReport) {
-        console.log(studentCourseReport)
-        courseSection.isCompleted = studentCourseReport.completed_course_sections.includes(courseSection._id)
-
-        courseSection.exercises = courseSection.exercises.map(exercise => {
-            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
-            return exercise
-        })
-    }
-
+function combineContents(courseSection) {
     courseSection.contents = [
         ...courseSection.videos??[],
         ...courseSection.exercises??[],
@@ -316,31 +306,17 @@ function combineContents(courseSection, studentCourseReport) {
 
     courseSection.contents.sort((a, b) => {
         return a.order - b.order
-    })
+    }
+    )
 
     return courseSection
 }
 
-async function getCompletedExercisesInCourseSection(course, studentCourseReport) {
-    const courseSections = await course.populate({
-        path: 'course_sections',
-        populate: {
-            path: 'exercises',
-            model: 'Exercise'
-        }
-    })
-    const updatedCourseSections = courseSections.toObject().course_sections.map(courseSection => {
-        courseSection.exercises = courseSection.exercises.filter(exercise => {
-            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
-            
-            return exercise
-        })
-        
-        return courseSection
-    })
-
-    return updatedCourseSections
-}
+courseSectionSchema.post('find', async function (courseSections) {
+    for (let courseSection of courseSections) {
+        await combineContents(courseSection)
+    }
+})
 
 courseSectionSchema.post('findOne', async function (courseSection) {
     const doc = await combineContents(courseSection)
@@ -448,5 +424,4 @@ module.exports = {
     Question, Exercise,
     CourseReport, TextMaterial,
     ExerciseSubmission,
-    getCompletedExercisesInCourseSection
 };
