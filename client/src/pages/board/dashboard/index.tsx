@@ -4,11 +4,9 @@ import { useCourses } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
-import { useEffect } from "react";
 
 const Board = () => {
   const { data: courses, isLoading, isError, refetch } = useCourses();
-
 
   return (
     <section className="dashboard">

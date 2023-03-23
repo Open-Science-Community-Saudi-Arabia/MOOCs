@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
@@ -8,23 +8,35 @@ import Select from "react-select";
 import { dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
+import { LocaleContext } from "../../LocaleContext";
+import { LocaleContextType } from "../../types";
 
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { locale, changeLocale } = useContext(
+    LocaleContext
+  ) as LocaleContextType;
+
+  const isDesktop = useMediaQuery("(min-width: 1280px)");
   const options = [
     { value: "en", label: "English" },
     { value: "ar", label: "Arabic" },
   ];
   const [currentLocale, setCurrentLocale] = useState(options[0]);
 
-  const isDesktop = useMediaQuery("(min-width: 1280px)");
+  const changeLanguage = (selectedOption: any) => {
+    changeLocale(selectedOption);
 
-  function changeLanguage(selectedOption: any) {
-    // console.log(selectedOption);
-    setCurrentLocale(selectedOption);
-    dynamicActivate(selectedOption.value);
-  }
+    if (selectedOption === "ar") {
+      document.body.style.direction = "rtl";
+      document.body.style.fontFamily = "'IBM Plex Sans Arabic', sans-serif";
+    } else {
+      document.body.style.direction = "ltr";
+      document.body.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+    }
+    dynamicActivate(selectedOption);
+  };
 
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
@@ -128,13 +140,28 @@ const index = () => {
               </nav>
 
               <div className="auth-btn">
-                <Select
+                {/* <Select
                   onChange={changeLanguage}
                   defaultValue={currentLocale}
                   options={options}
                   styles={customStyles}
                   isSearchable={false}
-                />
+                /> */}
+                {locale === "ar" ? (
+                  <button
+                    className="icon-button"
+                    onClick={() => changeLanguage("en")}
+                  >
+                    English
+                  </button>
+                ) : (
+                  <button
+                    className="icon-button"
+                    onClick={() => changeLanguage("ar")}
+                  >
+                    Arabic
+                  </button>
+                )}
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">

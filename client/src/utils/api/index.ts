@@ -33,14 +33,14 @@ async function makeApiCall<T = any>(
       const serverMessage = error.response?.data?.message;
       // localStorage.removeItem(TOKEN_KEY);
       // window.location.assign("/login");
-      // if (
-      //   serverMessage ||
-      //   error.response.status === 403 ||
-      //   error.response.status === 500
-      // ) {
-      //   localStorage.removeItem(TOKEN_KEY);
-      //   window.location.assign("/login");
-      // }
+      if (
+        serverMessage ||
+        error.response.status === 403 ||
+        error.response.status === 500
+      ) {
+        localStorage.removeItem(TOKEN_KEY);
+        window.location.assign("/login");
+      }
       toast.error(serverMessage, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,

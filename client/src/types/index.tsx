@@ -85,3 +85,9 @@ export interface AppContextState {
 export interface AuthActionsContextState {
   logout: () => void;
 }
+
+export type Locale = string;
+export type LocaleContextType = {
+  locale: Locale;
+  changeLocale: (locale: Locale) => void;
+};

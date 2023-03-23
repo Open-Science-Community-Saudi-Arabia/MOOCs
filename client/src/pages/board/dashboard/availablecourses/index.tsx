@@ -10,9 +10,8 @@ const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  
   const enrollUserHandler = async (id: string) => {
-    setLoading(true)
+    setLoading(true);
     try {
       let response = await enrollUser(id);
       if (response) {
@@ -26,7 +25,7 @@ const AvailableCourses = ({ courses }: any) => {
     <div className="availablecourses">
       <h1 className="availablecourses__heading">Available Courses</h1>
       <div className="availablecourses__courses">
-        {courses?.data.courses?.map((item: Courses, index:number) => {
+        {courses?.data.courses?.map((item: Courses, index: number) => {
           return (
             <button
               onClick={() => enrollUserHandler(item._id)}
@@ -37,7 +36,11 @@ const AvailableCourses = ({ courses }: any) => {
               <div className="availablecourses__courses-content__img-container">
                 {" "}
                 <div className={"img-container-overlay"}>
-                 {isLoading? <Spinner width="50px" height="50px" color="#0a0a0a" />:<BsFillPlayCircleFill />}
+                  {isLoading ? (
+                    <Spinner width="50px" height="50px" color="#0a0a0a" />
+                  ) : (
+                    <BsFillPlayCircleFill />
+                  )}
                 </div>
                 <img
                   className="availablecourses__courses-content__img-container-img"
