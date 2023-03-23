@@ -181,7 +181,6 @@ const options = {
  * @type {questionSchema}
  */
 const questionSchema = new Schema({
-    type: { type: String, default: "question"},
     // Assuming questions are in quiz format
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     question: {
@@ -289,6 +288,7 @@ courseSectionSchema.virtual('textmaterials', {
     justOne: false
 })
 
+
 /**
  * @description Combines the contents of the course section into one array
  * and sorts them by their order
@@ -325,6 +325,7 @@ courseSectionSchema.post('findOne', async function (courseSection) {
 /**
  * @type {courseSchema}
  */
+
 const courseSchema = new Schema({
     author: {
         type: String,
