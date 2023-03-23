@@ -1,9 +1,22 @@
-const asyncWrapper = require('../utils/async_wrapper');
-const {
-    CustomAPIError,
-    BadRequestError,
-    UnauthenticatedError,
-} = require('../utils/errors');
+/**
+ * @fileoverview Basic authentication middleware.
+ * 
+ * @module Backend API
+ * @category Middlewares
+ * 
+ * @module Basic Authentication
+ * 
+ * @description This module contains the basic authentication middleware.
+ * 
+ * @requires ../utils/errors
+ * @requires jsonwebtoken
+ * @requires ../models/token.models
+ * @requires ../utils/token
+ * @requires ../utils/config
+ */
+
+
+const { UnauthenticatedError } = require('../utils/errors');
 const jwt = require('jsonwebtoken');
 const { BlacklistedToken } = require('../models/token.models');
 const { getAuthTokens, getRequiredConfigVars } = require('../utils/token');
@@ -11,16 +24,40 @@ const { getAuthTokens, getRequiredConfigVars } = require('../utils/token');
 const config = require('../utils/config');
 
 /**
- * Middleware to check if the request has a valid authorization header
- * and if the token is valid
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
- * @returns {Promise<void>}
- * @throws {BadRequestError} if the request has an invalid authorization header
- * @throws {UnauthenticatedError} if the token is invalid
- * @throws {UnauthenticatedError} if the token has been blacklisted
- * @throws {UnauthenticatedError} if the user's account is not active
+ * Basic authentication middleware.
+ * 
+ * @description This middleware checks if the incoming 
+ * request has a valid authorization header with a
+ * bearer token and verifies the token to authenticate the user.
+ * If the token is valid, it adds the user payload to the
+ * `req.user` object and the token to the `req.token` object, 
+ * allowing subsequent middleware or handlers to access this information.
+ *
+ *
+ * @param {String|null} [token_type] - If provided, checks if the token is of the specified type.
+ * the allowed values are `access`, `refresh`, `password_reset`, 
+ * `verification`, `su_activation`, `su_deactivation`.
+ * 
+ * @returns {function} - Express middleware function that takes in the `req`, `res`, and `next` objects.
+ * @throws {BadRequestError} if the request does not have a valid authorization header.
+ * @throws {UnauthenticatedError} if the token is invalid or has been blacklisted.
+ * @throws {UnauthenticatedError} if the user's account is not active.
+ * @throws {Error} if `token_type` is specified but the corresponding secret is not found.
+ *
+ * @example
+ * // Use basicAuth middleware to authenticate incoming requests
+ * app.get('/api/protected', basicAuth(), (req, res) => {
+ *   // do something with req.user and req.token
+ *   res.send('Hello World');
+ * });
+ *
+ * @example
+ * // Use basicAuth middleware to authenticate incoming requests for a specific token type
+ * app.get('/api/protected', basicAuth('verifycation'), (req, res) => {
+ *   // here the token type is specified as verification
+ *   // do something with req.user and req.token
+ *   res.send('Hello World');
+ * });
  */
 const basicAuth = function (token_type = null) {
     return async (req, res, next) => {
