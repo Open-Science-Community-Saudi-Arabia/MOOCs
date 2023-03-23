@@ -2,7 +2,7 @@
  * @description Error Handler Middleware
  * 
  * @category Backend API
- * @subbategory Middlewares
+ * @subcategory Middlewares
  * 
  * @module Error Handler
  * 
@@ -18,7 +18,7 @@ const handleDuplicateKey = (err) => {
 }
 
 /**
- * description Handles Validation Errors, these errors are thrown by
+ * @description Handles Validation Errors, these errors are thrown by
  *  mongoose when a model validation fails
  * 
  * @param {Error} err 
@@ -31,17 +31,18 @@ const handleValidationErr = (err) => {
 }
 
 /**
+ * Error handler 
  * 
  * @description Error Handler Middleware <br>
  * 
- * <p> This middleware handles all errors thrown by the application 
- * and sends a response to the client. </p>
+ * This middleware handles all errors thrown by the application 
+ * and sends a response to the client. 
  * 
  * @param {Error} err 
  * @param {Request} req 
  * @param {Response} res 
  * @param {*} next 
- * @returns 
+ * 
  */
 const errorHandler = (err, req, res, next) => {
     // console.log(err)
