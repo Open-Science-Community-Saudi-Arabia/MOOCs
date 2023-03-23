@@ -30,6 +30,8 @@ const { BadRequestError, NotFoundError } = require('../utils/errors')
 /**
  * Create Question
  * 
+ * @description Create a new question for a particular exercise
+ * 
  * @param {string} question
  * @param {string} correct_answer
  * @param {Array} options
@@ -113,6 +115,8 @@ exports.getQuestions = async (req, res, next) => {
 
 /**
  * Get qustion data
+ * 
+ * @description Returns the question and it's options
  * 
  * @param {string} id - id of question
  * 

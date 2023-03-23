@@ -29,20 +29,29 @@ const { NotFoundError, BadRequestError } = require("../utils/errors");
 const fs = require("fs");
 
 /**
-* Add text material to course section
-* 
-* @description Add text material to course section
-* 
-* @param {string} course_section_id - Id of course section to add text material to
-* @param {string} title - Title of text material
-* @param {string} description - Description of text material
-* @param {string} course_id - Id of course
-* 
-* @throws {BadRequestError} if missing param in request body
-* @throws {NotFoundError} if course section not found
-*   
-* @returns {Object}
-* 
+    * Add text material to course section
+    * 
+    * @description Add text material to course section, 
+    * the text material can be a pdf, docx, pptx, etc.
+    * 
+    * <br>
+    * 
+    * The text material is first uploaded to cloudinary saving
+    * the cloudinary url to the database
+    * 
+    * @see {@link module:CourseModel~textmaterialSchema }
+    * @see {@link https://cloudinary.com/documentation/upload_images} 
+    * 
+    * @param {string} course_section_id - Id of course section to add text material to
+    * @param {string} title - Title of text material
+    * @param {string} description - Description of text material
+    * @param {string} course_id - Id of course
+    * 
+    * @throws {BadRequestError} if missing param in request body
+    * @throws {NotFoundError} if course section not found
+    *   
+    * @returns {Object}
+    * 
 * */
 exports.uploadTextMaterial = async (req, res, next) => {
     const { course_section_id, title, description, course_id } = req.body;
@@ -104,7 +113,9 @@ exports.uploadTextMaterial = async (req, res, next) => {
 /**
  * Get text material data
  * 
- * @description Get text material data
+ * @description Get text material data, including course section and course data
+ * 
+ * @see {@link module:CourseModel~textmaterialSchema}
  * 
  * @param {string} id - Id of text material
  * 
