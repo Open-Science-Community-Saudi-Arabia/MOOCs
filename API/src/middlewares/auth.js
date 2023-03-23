@@ -1,8 +1,8 @@
 /**
  * @fileoverview Basic authentication middleware.
  * 
- * @module Backend API
- * @category Middlewares
+ * @category Backend API
+ * @subcategory Middlewares
  * 
  * @module Basic Authentication
  * 
