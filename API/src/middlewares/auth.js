@@ -24,25 +24,43 @@ const { getAuthTokens, getRequiredConfigVars } = require('../utils/token');
 const config = require('../utils/config');
 
 /**
- * Basic authentication middleware.
+ * Middleware to check if the request has a valid authorization header
+ * and if the token is valid.
+*
+ * @description This middleware checks if the incoming request 
+ * has a valid authorization header with a JWT token,
+ * and verifies the token to ensure that it's valid. 
+ * It also checks if the token has been blacklisted or revoked,
+ * and ensures that the user's account is active before allowing 
+ * the request to proceed to the next middleware.The middleware 
+ * function returns a Promise that resolves if the 
+ * authorization header and token are valid and the user's account 
+ * is active, or rejects with an UnauthenticatedError if 
+ * any of these conditions are not met.
  * 
- * @description This middleware checks if the incoming 
- * request has a valid authorization header with a
- * bearer token and verifies the token to authenticate the user.
- * If the token is valid, it adds the user payload to the
- * `req.user` object and the token to the `req.token` object, 
- * allowing subsequent middleware or handlers to access this information.
+ * <br>
+ * <br>
  *
+ * If a `token_type` parameter is specified, the middleware 
+ * function will use the JWT secret for the specified token
+ * type to verify the token. 
+ * If the `token_type` parameter is not specified, the function 
+ * will use the default access token secret defined in the configuration file.
  *
- * @param {String|null} [token_type] - If provided, checks if the token is of the specified type.
- * the allowed values are `access`, `refresh`, `password_reset`, 
- * `verification`, `su_activation`, `su_deactivation`.
+ * <br>
+ * <br>
  * 
- * @returns {function} - Express middleware function that takes in the `req`, `res`, and `next` objects.
- * @throws {BadRequestError} if the request does not have a valid authorization header.
- * @throws {UnauthenticatedError} if the token is invalid or has been blacklisted.
- * @throws {UnauthenticatedError} if the user's account is not active.
- * @throws {Error} if `token_type` is specified but the corresponding secret is not found.
+ * If the incoming request is a GET request to the `/authtoken` endpoint, 
+ * the middleware will return a new access token for the user, 
+ * without performing any authorization checks.
+ * 
+ * @param {string} token_type (optional) - specifies the type of token to be used
+ * @returns {Function} Express middleware function
+ *
+ * @throws {UnauthenticatedError} If the request does not have a valid authorization header.
+ * @throws {UnauthenticatedError} If the token is invalid.
+ * @throws {UnauthenticatedError} If the token has been blacklisted.
+ * @throws {UnauthenticatedError} If the user's account is not active.
  *
  * @example
  * // Use basicAuth middleware to authenticate incoming requests
