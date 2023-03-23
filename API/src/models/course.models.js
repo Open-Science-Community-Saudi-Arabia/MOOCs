@@ -198,7 +198,7 @@ const questionSchema = new Schema({
  * @type {exerciseSchema}
  */
 const exerciseSchema = new Schema({
-    type: { type: String, default:'exercise'},
+    type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -213,7 +213,7 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
-
+    
 /**
  * @type {videoSchema}
  * */
@@ -221,7 +221,8 @@ const videoSchema = new Schema({
     type: { type: String, default:'video'},
     title: {
         type: String,
-        required: true
+        required: true,
+        minLength: 3, maxLength: 40
     },
     author: {
         type: String,
@@ -244,7 +245,7 @@ const videoSchema = new Schema({
  * @type {textmaterialSchema}
  * */
 const textmaterialSchema = new Schema({
-    type: { type: String, default: 'text_material'},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
     title: {
         type: String,
         required: true
@@ -264,7 +265,7 @@ const textmaterialSchema = new Schema({
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
-    title: { type: String, required: true },
+    title: { type: String, required: true, minLength: 3, maxLength: 40},
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
@@ -296,7 +297,17 @@ courseSectionSchema.virtual('textmaterials', {
  * @param {courseSectionSchema} courseSection 
  * @returns {courseSectionSchema}
  */
-function combineContents(courseSection) {
+function combineContents(courseSection, studentCourseReport) {
+    if (studentCourseReport) {
+        console.log(studentCourseReport)
+        courseSection.isCompleted = studentCourseReport.completed_course_sections.includes(courseSection._id)
+
+        courseSection.exercises = courseSection.exercises.map(exercise => {
+            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
+            return exercise
+        })
+    }
+
     courseSection.contents = [
         ...courseSection.videos??[],
         ...courseSection.exercises??[],
@@ -305,17 +316,31 @@ function combineContents(courseSection) {
 
     courseSection.contents.sort((a, b) => {
         return a.order - b.order
-    }
-    )
+    })
 
     return courseSection
 }
 
-courseSectionSchema.post('find', async function (courseSections) {
-    for (let courseSection of courseSections) {
-        await combineContents(courseSection)
-    }
-})
+async function getCompletedExercisesInCourseSection(course, studentCourseReport) {
+    const courseSections = await course.populate({
+        path: 'course_sections',
+        populate: {
+            path: 'exercises',
+            model: 'Exercise'
+        }
+    })
+    const updatedCourseSections = courseSections.toObject().course_sections.map(courseSection => {
+        courseSection.exercises = courseSection.exercises.filter(exercise => {
+            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
+            
+            return exercise
+        })
+        
+        return courseSection
+    })
+
+    return updatedCourseSections
+}
 
 courseSectionSchema.post('findOne', async function (courseSection) {
     const doc = await combineContents(courseSection)
@@ -390,6 +415,12 @@ const courseReportSchema = new Schema(
     },
     options
 );
+courseReportSchema.virtual('certificate', {
+    localField: '_id',
+    foreignField: 'course_report',
+    ref: 'Certificate',
+    justOne: true
+})
 
 courseReportSchema.virtual('certificate', {
     localField: '_id',
@@ -417,4 +448,5 @@ module.exports = {
     Question, Exercise,
     CourseReport, TextMaterial,
     ExerciseSubmission,
+    getCompletedExercisesInCourseSection
 };

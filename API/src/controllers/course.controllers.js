@@ -32,6 +32,7 @@ const {
     Course,
     CourseReport,
     CourseSection,
+    getCompletedExercisesInCourseSection,
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
@@ -159,6 +160,8 @@ exports.getCourseData = async (req, res, next) => {
         populate: 'videos exercises textmaterials'
     });
 
+    const student_course_report = await CourseReport.findOne({ course: course._id, student: req.user._id });
+    course.course_sections = await getCompletedExercisesInCourseSection(course, student_course_report);
     return res.status(200).send({
         success: true,
         data: {

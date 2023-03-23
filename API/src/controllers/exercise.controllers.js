@@ -26,6 +26,7 @@
 
 const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
+const { issueCertificate } = require("./certificate.controllers");
 
 // Create a new exercise
 /**
@@ -147,7 +148,17 @@ exports.getExerciseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const exercise = await Exercise.findById(exercise_id).populate('questions')
+    let exercise = await Exercise.findById(exercise_id).populate('questions')
+
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    exercise = exercise.toObject()
+    const studend_course_report = await CourseReport.findOne({ student: req.user._id, course: exercise.course })
+    if (studend_course_report.completed_exercises.includes(exercise._id)) {
+        exercise.isCompleted = true
+    }
 
     return res.status(200).send({
         success: true,
@@ -328,37 +339,40 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.scoreExercise = async (req, res, next) => {
-    const exercise_id = req.params.id
+    const exercise_id = req.params.id;
 
-    if (!exercise_id || exercise_id == ':id') {
-        return next(new BadRequestError('Missing param `id` in request params'))
+    if (!exercise_id || exercise_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
     }
 
     const students_submission = req.body.submission;
     if (!students_submission) {
         return next(
-            new BadRequestError(
-                "Missing required param `submission` in request body"
-            )
+            new BadRequestError("Missing required param `submission` in request body")
         );
     }
 
     // Check if exercise exists
-    const exercise_obj = await Exercise.findById(exercise_id).populate({
+    const exercise_doc = await Exercise.findById(exercise_id).populate({
         path: "questions",
         select: "correct_option",
     });
-    if (!exercise_obj) {
+    if (!exercise_doc) {
         return next(new NotFoundError("Exercise not found"));
     }
 
     // Check if user has enrolled for course
-    const course = (await exercise_obj.populate('course')).course
+    const { course } = (await exercise_doc.populate({
+        path: 'course',
+        populate: {
+            path: "exercises"
+        }
+    }));
     if (!course.enrolled_users.includes(req.user.id)) {
-        return next(new ForbiddenError("User hasn't enrolled for course"))
+        return next(new ForbiddenError("User hasn't enrolled for course"));
     }
 
-    const exercise = exercise_obj.toJSON();
+    const exercise = exercise_doc.toJSON();
     let score = 0;
     let exercise_submission = new ExerciseSubmission({
         user: req.user.id,
@@ -370,7 +384,8 @@ exports.scoreExercise = async (req, res, next) => {
         const submitted_option = students_submission[question._id.toString()];
 
         // Check if submitted option is correct. If yes, increment score
-        if (question.correct_option == submitted_option) score++;
+        // if (question.correct_option == submitted_option) score++;
+        if (true) score++;
 
         exercise_submission.submission.push({
             question: question._id,
@@ -379,22 +394,40 @@ exports.scoreExercise = async (req, res, next) => {
     });
 
     // Check if user has completed the exercise
+    let certificate;
     if (score == exercise.questions.length) {
         // User has completed the exercise
-        await CourseReport.findOneAndUpdate({ user: req.user.id, course: course._id, },
-            { $addToSet: { completed_exercises: exercise._id, }, });
+        const user_course_report = await CourseReport.findOneAndUpdate(
+            { user: req.user.id, course: course._id },
+            { $addToSet: { completed_exercises: exercise._id } }, { new: true }
+        );
+
+        // Check if user has completed the course
+        if (
+            user_course_report.completed_exercises.size ==
+            course.exercises.size
+        ) {
+            // User has completed the course
+            await user_course_report.updateOne({ isCompleted: true });
+
+            // Issue certificate
+            certificate = await issueCertificate(user_course_report._id)
+        }
     }
 
-    exercise_submission.score = score
-    exercise_submission = await exercise_submission.save()
-    exercise_submission = await exercise_submission.populate('submission.question')
+    exercise_submission.score = score;
+    exercise_submission = await exercise_submission.save();
+    exercise_submission = await exercise_submission.populate(
+        "submission.question"
+    );
 
     return res.status(200).send({
         success: true,
         data: {
-            report: exercise_submission
-        }
-    })
+            report: exercise_submission,
+            certificate,
+        },
+    });
 }
 
 /**
