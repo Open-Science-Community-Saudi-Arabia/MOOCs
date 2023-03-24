@@ -4,6 +4,7 @@ import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
+import { GoGlobe } from "react-icons/go";
 import Select from "react-select";
 import { dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
@@ -23,10 +24,11 @@ const index = () => {
     { value: "en", label: "English" },
     { value: "ar", label: "Arabic" },
   ];
-  const [currentLocale, setCurrentLocale] = useState(options[0]);
+  const [currentLocale, setCurrentLocale] = useState<string|any>("English");
 
   const changeLanguage = (selectedOption: any) => {
     changeLocale(selectedOption);
+  
 
     if (selectedOption === "ar") {
       document.body.style.direction = "rtl";
@@ -36,8 +38,10 @@ const index = () => {
       document.body.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
     }
     dynamicActivate(selectedOption);
-  };
 
+   
+  };
+  console.log(currentLocale)
   const customStyles = {
     option: (defaultStyles: any, state: any) => ({
       ...defaultStyles,
@@ -147,7 +151,24 @@ const index = () => {
                   styles={customStyles}
                   isSearchable={false}
                 /> */}
-                {locale === "ar" ? (
+                <div className="auth-btn__language">
+                  <div className="auth-btn__language__selected">
+                    {" "}
+                    <GoGlobe />{currentLocale}
+                  </div>
+                  <div className="auth-btn__language__btn active">
+                    {options.map((item) => (
+                      <button
+                        onClick={() => {setCurrentLocale(item.label)}}
+                        key={item.label}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* {locale === "ar" ? (
                   <button
                     className="icon-button"
                     onClick={() => changeLanguage("en")}
@@ -161,7 +182,7 @@ const index = () => {
                   >
                     Arabic
                   </button>
-                )}
+                )} */}
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">

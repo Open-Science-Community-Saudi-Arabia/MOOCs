@@ -9,7 +9,10 @@
   text-align: center;
   &__heading {
     margin-bottom: 1em;
-    font-size: 28px;
+    font-size: 25px;
+    @include ipad{
+      font-size: 27px;
+    }
   }
   &__google {
     cursor: pointer;

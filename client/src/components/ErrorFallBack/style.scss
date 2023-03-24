@@ -1,25 +1,36 @@
 @import "../../styles/mixins.scss";
 
 .errorfallback {
+  text-align: center;
   padding: 1em;
   @include flex(center, center);
   flex-direction: column;
   height: 40vh;
-  width:600px;
+  width:300px;
   margin:auto;
   color: var(--error);
   background-color: var(--light-gray);
+  @include ipad{
+    width:600px;
+  }
   &__top {
     @include flex(center, center);
     &__message {
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 700;
+      @include ipad{
+        font-size: 23px;
+      }
     }
   }
 
   &__description {
-    font-size: 20px;
-    margin: 0.5em 0em;
+    font-size: 15px;
+    margin: 0.6em 0em;
+    @include ipad{
+      font-size: 17px;
+      margin: 0.5em 0em;
+    }
   }
   &__btn {
  

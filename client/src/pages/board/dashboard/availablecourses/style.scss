@@ -2,7 +2,6 @@
 
 .availablecourses {
   margin: 8em auto;
-
   padding: 0.5em;
   background-color: var(--white);
   max-width: 1400px;
@@ -25,7 +24,6 @@
       @include flex(start, center);
     }
     &-content {
-      
       border-radius: 20px;
       border: 1px solid var(--gray-203);
       cursor: pointer;
@@ -87,6 +85,5 @@
         opacity: 70%;
       }
     }
-    
   }
 }

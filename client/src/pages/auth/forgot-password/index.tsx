@@ -19,14 +19,17 @@ const ForgotPassword=()=> {
       };
       setLoading(true);
       const response = await forgotpassword(formData);
-      setToken(response.access_token);
-      toast.success(<p> {response.message}!</p>, {
-        // message should be " link sent to email not token"
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        theme: "colored",
-        onClose: () => navigate("/resetpassword"),
-      });
+      if(response.data.message){
+        setToken(response.data.access_token);
+        toast.success(<p> {response.data.message}!</p>, {
+          // message should be " link sent to email not token"
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          theme: "colored",
+          onClose: () => navigate("/resetpassword"),
+        })
+      }
+    
     } catch (error: any) {
       // error when not existing password used
       toast.error(error.message, {

@@ -22,15 +22,13 @@ const ResetPassword = () => {
       };
       setLoading(true);
       const response = await resetpassword(formData);
-      toast.success(<p> {response.message}!</p>, {
+      toast.success(<p> {response.data.message}!</p>, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
         theme: "colored",
         onClose: () => navigate("/login"),
       });
     } catch (error: any) {
-      //    return error status too
-
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,

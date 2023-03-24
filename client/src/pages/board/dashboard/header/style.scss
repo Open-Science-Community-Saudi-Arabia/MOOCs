@@ -55,11 +55,16 @@
     &__btn {
       @include flex(space-between, center);
       &-text {
-        font-size: 20px;
+        font-size: 16px;
         background-color: var(--green);
         color: white;
         border-radius: 100%;
         padding: 0.5em;
+        font-weight: 500;
+        @include ipad{
+          font-size: 20px;
+          font-weight: 600;
+        }
       }
       svg {
         font-size: 30px;
@@ -69,13 +74,16 @@
       position: absolute;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
       top: 32px;
-      right: -23px;
+      left: -9px;
       background-color: var(--white);
       padding: 1em;
       color: var(--green);
       font-weight: 600;
       width: auto;
       border: none;
+      @include ipad{
+        right: -23px;
+      }
     }
   }
 }
