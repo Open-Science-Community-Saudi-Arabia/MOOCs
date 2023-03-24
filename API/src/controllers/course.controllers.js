@@ -42,6 +42,8 @@ const { User } = require("../models/user.models");
 /**
  * Create new course
  * 
+ * @description This function creates a new course
+ * 
  * @param {string} title - Course title
  * @param {string} author - Course author
  * @param {string} description - Course description
@@ -65,11 +67,35 @@ exports.createCourse = async (req, res, next) => {
 /**
  * Get courses
  * 
- * To get data for all course set req.body._id = null
- * To get data for a particular course set req.body._id - id of the course
- * To get data for all courses set req.body = null
+ * @description This function gets all the courses available,
+ * or gets all the courses that match the query. 
  * 
- * @param {string} id - Course id
+ * The query is passed in the request body, and it is an object
+ * with the following structure: </br>
+ * 
+ * { <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp; key: value <br>
+ * } <br>
+ * 
+ * The key is the field to be queried, and the value is the value to be matched. <br>
+ * 
+ * For example, if you want to get all the courses that have the title "Introduction to Python",
+ * you would pass the following object in the request body: <br>
+ * 
+ * { <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp; title: "Introduction to Python" <br>
+ * } <br>
+ * 
+ * If you want to get all the courses that have the title "Introduction to Python" and the author "John Doe",
+ * you would pass the following object in the request body: <br>
+ *  
+ * { <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp; title: "Introduction to Python", <br>
+ * &nbsp;&nbsp;&nbsp;&nbsp; author: "John Doe" <br>
+ * } <br>
+ * 
+ * If you want to get all the courses, then the request body should be empty. <br>
+ * 
  * 
  * @returns {object} courses
  ** @memberof CourseController
@@ -77,7 +103,12 @@ exports.createCourse = async (req, res, next) => {
 exports.getCourses = async (req, res, next) => {
     if (Object.keys(req.body).length != 0) {
         const courses = await Course.find(req.body);
-        return res.status(200).json(courses);
+        return res.status(200).send({
+            success: true,
+            data: {
+                courses
+            }
+        });
     }
 
     // Get all available courses
@@ -100,8 +131,18 @@ exports.getCourses = async (req, res, next) => {
 
 /**
  * Get course data
- * Gets all the content of a course, including videos,
- * author, description
+ * 
+ * @description Gets all the content of a course, including videos,
+ * author, description <br>
+ *
+ * <br> 
+ * 
+ * Each course has a list of course sections, which are the different
+ * sections of the course. Each course section has a list of videos, exercises
+ * and text materials. 
+ * In each course section, the videos, exercises and text materials are stored
+ * in a list, the list is stored with a key `content`. The content is an array of objects,
+ * where each object type is either `video`, `exercise` or `textmaterial`. <br>
  * 
  * @param {string} id - id of the course 
  * 
@@ -130,8 +171,30 @@ exports.getCourseData = async (req, res, next) => {
 /**
  * Update course data
  * 
- * @private
+ * @description Updates the course data, including title, author, description <br>
  * 
+ * <br>
+ * 
+ * <b>NOTE:</b> This function does not update the course sections, videos, exercises and text materials. <br>
+ * To update the course sections, videos, exercises and text materials, use the following functions: <br>
+ * 
+ * <b>POST</b> /coursesection/new </br>
+ * <b>PATCH</b> /coursesection/update/:id </br>
+ * <b>DELETE</b> /coursesection/delete/:id </br>
+ * <b>POST</b> /course/video/upload </br>
+ * <b>PATCH</b> /course/video/update/:id </br>
+ * <b>DELETE</b> /course/video/delete/:id </br>
+ * <b>POST</b> /exercise/new </br>
+ * <b>PATCH</b> /exercise/update/:id </br>
+ * <b>DELETE</b> /exercise/delete/:id </br>
+ * <b>POST</b> /textmaterial/new </br>
+ * <b>PATCH</b> /textmaterial/update/:id </br>
+ * 
+ * <br>
+ * 
+ * <b> NOTE: <b> These routes are subject to change, check the documentation for the latest routes. <br>
+ * 
+ *  
  * @param {string} id
  * 
  * @returns {string} message
@@ -165,7 +228,14 @@ exports.updateCourse = async (req, res, next) => {
 /** 
  * Delete course
  * 
- * @private 
+ * @description Deletes a course. <br>
+ * 
+ * <br>
+ * 
+ * <b>NOTE:</b> This function does not delete the course data from the database,
+ * it only makes it unavailable for users. It does this by setting the isAvailable field to false
+ * When making requests to the getCourses route, it'll only filter only the courses with
+ * where their value for `isAvailable` is true <br>
  * 
  * @param {string} id - Id of the course
  * 
@@ -188,19 +258,21 @@ exports.deleteCourse = async (req, res, next) => {
 };
 
 /**
- * Enroll for a course
+ * Enroll for a course.
+ *
+ * @description When a user enrolls for a course, a course report is created for the user. 
+ * The course report contains the progress of the user in the course. 
+ *
+ * @param {string} id - The ID of the course to enroll for.
  * 
- * @private
- * 
- * @param {string} id - id of course to enroll for 
- * 
- * @returns {string} message
- * 
- * @throws {InternalServerError} An error occured
- * @throws {BadRequestError} Course id not in request params
- * @throws {NotFoundError} Course not found
-
-*/
+ * @throws {BadRequestError} Missing `id` parameter in request.
+ * @throws {NotFoundError} Course with given `id` not found.
+ * @throws {InternalServerError} An error occurred while processing the request.
+ *
+ * @returns {Object} Response object.
+ * @returns {boolean} Response object.success - Indicates whether the operation was successful.
+ * @returns {string} Response object.data.message - A message indicating the status of the operation.
+ */
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -236,16 +308,20 @@ exports.enrollCourse = async (req, res, next) => {
 };
 
 /**
- * Cancel course enrollment 
- * 
- * @param {string} id - course id
- * 
- * @returns {string} message
- * 
- * @throws {BadRequestError} If missing id in request parameter
- * @throws {NotFoundError} If course not found
-
-*/
+ * Cancel course enrollment for the currently authenticated user.
+ *
+ * @description This function cancels a user's enrollment for a course by removing 
+ * the user's ID from the `enrolled_users` array of the course.
+ *
+ * @param {string} id - The ID of the course to cancel enrollment for.
+ * @throws {BadRequestError} Missing `id` parameter in request.
+ * @throws {NotFoundError} Course with given `id` not found.
+ * @throws {InternalServerError} An error occurred while processing the request.
+ *
+ * @returns {Object} Response object.
+ * @returns {boolean} Response object.success - Indicates whether the operation was successful.
+ * @returns {string} Response object.data.message - A message indicating the status of the operation.
+ */
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -274,8 +350,11 @@ exports.cancelEnrollment = async (req, res, next) => {
 /**
  * Get enrolled courses for a particular user
  * 
+ * @description This function returns all the courses that a user is enrolled in. 
+ * No request parameters are required since the user id is gotten from the request object 
+ * after the user is authenticated.
+ * 
  * @returns {object} enrolledCourses 
-
 */
 exports.getEnrolledCourses = async (req, res, next) => {
     const user = await User.findById(req.user.id).populate('enrolled_courses');
@@ -289,16 +368,16 @@ exports.getEnrolledCourses = async (req, res, next) => {
 };
 
 /**
- * Get Enrolled users 
- * 
- * @param {id} - course id
- * 
- * @returns {object} enrolled_users
- * 
- * @throws {BadRequestError} If missing id in request parameter
- * @throws {NotFoundError} If course not found
-
-*/
+ * Get enrolled users
+ *
+ * @description Retrieves a list of all users who have enrolled in the specified course.
+ *
+ * @param {string} id - The ID of the course to retrieve enrolled users for.
+ * @returns {object} - An object containing a list of enrolled users for the course.
+ *
+ * @throws {BadRequestError} If the course ID is missing from the request parameters.
+ * @throws {NotFoundError} If the specified course does not exist.
+ */
 exports.getEnrolledUsers = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -322,11 +401,11 @@ exports.getEnrolledUsers = async (req, res, next) => {
 };
 
 
-/* VIDEOS
-*/
-
 /**
  * Upload video
+ * 
+ * @description This function uploads a video to the database and links the video 
+ * to a particular course section in a course. <br>
  * 
  * @param {string} title
  * @param {string} description
@@ -339,8 +418,7 @@ exports.getEnrolledUsers = async (req, res, next) => {
  * @returns {object} video
  * 
  * @throws {error} if an error occured
-
-*/
+ * */
 exports.uploadVideo = async (req, res, next) => {
     const { title, author,
         video_url, description,
@@ -381,14 +459,16 @@ exports.uploadVideo = async (req, res, next) => {
 }
 
 /**
- * Remove vidoe from course
+ * Remove video from course
+ * 
+ * @description This function removes a video from a course,
+ * it doesn't remove the course from the video, it only removes the video from the course
  * 
  * @param {string} video_id - id of the video 
  * @param {string} course_id - id of the course 
  * 
  * @returns {Object} course 
-
-*/
+ * */
 exports.removeVideoFromCourse = async (req, res, next) => {
     const { video_id, course_id } = req.body
 
@@ -437,12 +517,21 @@ exports.getCourseVideos = async (req, res, next) => {
 }
 
 /**
- * Get video data
- * 
- * @param {string} id - id of the video 
- * 
- * @returns {Object} video 
-
+*   Get video data
+*
+*   @description This function returns the data for a specific video, 
+*   including its title, description, duration, and URL.
+*
+*   @param {string} id - The ID of the video to retrieve
+*
+*   @returns {Object} - An object containing the video data, including its title,
+*   description, duration, and URL. If the video is not available, the video property will be null.
+*
+*   @throws {BadRequestError} If the ID is missing from the request parameters
+*
+*   @throws {NotFoundError} If the video with the given ID is not found
+*
+*   @see {@link module:VideoModel~videoSchema Video}
 */
 exports.getVideoData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {

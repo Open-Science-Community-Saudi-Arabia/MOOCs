@@ -138,6 +138,8 @@ exports.getExercises = async (req, res, next) => {
  * 
  * @throws {BadRequestError} if missing required param in request
  * @throws {NotFoundError} if exercise not found
+ * 
+ * @see {@link module:CourseModel~exerciseSchema}
  */
 exports.getExerciseData = async (req, res, next) => {
     const exercise_id = req.params.id
@@ -169,6 +171,12 @@ exports.getExerciseData = async (req, res, next) => {
 // Update data for a particular exercise
 /**
  * Update exercise data
+ * 
+ * @description This function updates the exercise data,
+ * it doesn't update the questions, to update the questions
+ * 
+ * use {@link module:QuestionController~Questions}
+ * @see {@link module:CourseController~updateExerciseQuestions}
  * 
  * @param {string} id - id of exercise
  * 
@@ -240,6 +248,8 @@ exports.deleteExercise = async (req, res, next) => {
 /**
  * Add question to exercise
  * 
+ * @description This function adds a question to an exercise.
+ * 
  * @param {string} exercise_id
  * @param {string} question_id
  * 
@@ -309,7 +319,16 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
 /**
  * Score anwers
  * 
- * @description Score answers for a particular exercise
+ * @description Score answers for a particular exercise,
+ * this function is called when a student submits an exercise for grading,
+ * it returns the score and the report for the exercise, the report contains
+ * the exercise id, the user id, the score and the submission.
+ * 
+ * <br>
+ * <br>
+ * 
+ * The submission is saved to the database so the user can view all his submissions 
+ * for a particular exercise.
  * 
  * @param {string} id - exercise id
  * @param {Object} submission Object where keys are question_id's and values are selected option
@@ -414,7 +433,8 @@ exports.scoreExercise = async (req, res, next) => {
 /**
  * Get previous submissions for exercise
  * 
- * @description Get result for previously submitted exercises
+ * @description Get result for previously submitted exercises,
+ * it all the previously submissions for a particular exercise.
  * 
  * @param {string} exerciseId - id of the exercise
  * 
