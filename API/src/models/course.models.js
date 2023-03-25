@@ -437,7 +437,7 @@ courseReportSchema.methods.updateBestScore = async function () {
 
     // Update the isCompleted field if the percentage passed is greater than or equal to 80
     this.isCompleted = this.percentage_passed >= 80 ? true : false;
-
+    console.log(this)
     return this.save();
 }
 

@@ -200,6 +200,17 @@ exports.getCourseData = async (req, res, next) => {
         }
     }
 
+    if (req.user) {
+        if (course.enrolled_users.includes(req.user._id)) {
+            const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+            if (course_report) {
+                course.best_score = course_report.best_score;
+                course.percentage_completed = course_report.precentage_passed;
+            }
+        }
+            
+    }
+
     return res.status(200).send({
         success: true,
         data: {
