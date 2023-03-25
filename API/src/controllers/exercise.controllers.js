@@ -155,10 +155,10 @@ exports.getExerciseData = async (req, res, next) => {
     }
 
     exercise = exercise.toObject()
-    const studend_course_report = await CourseReport.findOne({ student: req.user._id, course: exercise.course })
-    if (studend_course_report.completed_exercises.includes(exercise._id)) {
-        exercise.isCompleted = true
-    }
+    console.log(req.user)
+    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id })
+    console.log(exercise_report)
+    exercise.percentage_passed = exercise_report ? exercise_report.percentage_passed : undefined
 
     return res.status(200).send({
         success: true,
@@ -412,15 +412,13 @@ exports.scoreExercise = async (req, res, next) => {
         "submission.question"
     );
 
-    // Get updated course report for already made queries
+    // Update best score in course report
+    course_report = await course_report.updateBestScore()
 
-    await course_report.updateOne({ nothing: "nothing" })
-
-    // Check if user has completed the course 
-    let certificate;
-    if (course_report.isCompleted) { // Issue certificate
-        certificate = await issueCertificate(updated_course_report._id)
-    }
+    // Issue certificate if user has completed course
+    let certificate = course_report.isCompleted
+        ? await issueCertificate(course_report._id)
+        : null;
 
     return res.status(200).send({
         success: true,

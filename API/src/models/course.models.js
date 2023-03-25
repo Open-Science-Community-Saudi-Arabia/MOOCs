@@ -427,20 +427,19 @@ courseReportSchema.virtual('attempted_exercises', {
     justOne: false
 })
 
-courseReportSchema.post('updateOne', async function (next) {
-    const doc = (await this.populate('attempted_exercises')).toObject()
+courseReportSchema.methods.updateBestScore = async function () {
+    console.log(this)
+    const doc = (await this.populate("attempted_exercises")).toObject();
 
-    const exercises = doc.attempted_exercises
-    this.percentage_passed = exercises.reduce((acc, curr) => acc + curr.percentage_passed, 0) / exercises.length
+    const exercises = doc.attempted_exercises;
+    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
+    this.percentage_passed = total_scores / exercises.length;
 
-    if (this.percentage_passed >= 80) {
-        this.isCompleted = true
-    }
+    // Update the isCompleted field if the percentage passed is greater than or equal to 80
+    this.isCompleted = this.percentage_passed >= 80 ? true : false;
 
-    this.save()
-
-    next()
-})
+    return this.save();
+}
 
 
 const Question = mongoose.model("Question", questionSchema);
