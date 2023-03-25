@@ -12,8 +12,8 @@ const {
 router.use(basicAuth())
 
 router
-    .get("/", getExercises)
     .get("/:id", getExerciseData)
+    .get("/", getExercises)
     .post("/new", permit('Admin SuperAdmin'), createExercise)
     .patch("/update/:id", permit('Admin SuperAdmin'), updateExercise)
     .delete("/delete/:id", permit('Admin SuperAdmin'), deleteExercise)
@@ -21,6 +21,6 @@ router
     .post("/score/:id", scoreExercise)
     .get("/submission/:id", getSubmissionData)
     .get("/submission/prev/:exerciseId", getPreviousSubmissionsForExercise)
-    // .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
+// .delete("/question/removelink", permit('Admin SuperAdmin'), removeQuestionFromExercise)
 
 module.exports = router

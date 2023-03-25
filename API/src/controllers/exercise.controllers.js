@@ -24,7 +24,7 @@
  * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - Get previous submissions for a particular exercise </i> </br>
  */
 
-const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection, ExerciseReport } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { issueCertificate } = require("./certificate.controllers");
 
@@ -415,7 +415,18 @@ exports.scoreExercise = async (req, res, next) => {
         }
     }
 
+    const exercise_report = await ExerciseReport.findOneAndUpdate(
+        { user: req.user.id, exercise: exercise_doc._id },
+        { dummy: 1 },
+        { new: true, upsert: true })
+
+    console.log(exercise_report)
+    await exercise_report.updateOne({
+        best_score: Math.max(exercise_report.best_score, score),
+    })
+
     exercise_submission.score = score;
+    exercise_submission.report = exercise_report._id;
     exercise_submission = await exercise_submission.save();
     exercise_submission = await exercise_submission.populate(
         "submission.question"
@@ -424,7 +435,7 @@ exports.scoreExercise = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            report: exercise_submission,
+            report: { ...exercise_submission.toObject(), best_score: exercise_report.best_score },
             certificate,
         },
     });

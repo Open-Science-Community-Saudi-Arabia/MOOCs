@@ -32,6 +32,8 @@ const {
     Course,
     CourseReport,
     CourseSection,
+    Exercise,
+    ExerciseReport,
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
@@ -169,7 +171,7 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id).populate({
+    let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
         populate: [
             {
@@ -187,11 +189,22 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
+    course = course.toObject()
+    if (course && course.exercises) {
+        for (let i = 0; i < course.exercises.length; i++) {
+            const exercise = course.exercises[i];
+            const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user._id });
+            if (exercise_report) {
+                exercise.best_score = exercise_report.best_score;
+            }
+        }
+    }
+
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course.isAvailable ? course.toJSON() : null
+            course: course.isAvailable ? course : null
         }
     })
 }
@@ -706,8 +719,3 @@ exports.getStudentReportForCourse = async (req, res, next) => {
         }
     })
 }
-
-
-
-
-

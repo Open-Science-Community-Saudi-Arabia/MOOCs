@@ -198,7 +198,7 @@ const questionSchema = new Schema({
  * @type {exerciseSchema}
  */
 const exerciseSchema = new Schema({
-    type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
+    type: { type: String, default: "exercise", minLength: 3, maxLength: 40 },
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -218,7 +218,7 @@ exerciseSchema.virtual('questions', {
  * @type {videoSchema}
  * */
 const videoSchema = new Schema({
-    type: { type: String, default:'video'},
+    type: { type: String, default: 'video' },
     title: {
         type: String,
         required: true,
@@ -245,7 +245,7 @@ const videoSchema = new Schema({
  * @type {textmaterialSchema}
  * */
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40 },
     title: {
         type: String,
         required: true
@@ -265,7 +265,7 @@ const textmaterialSchema = new Schema({
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
-    title: { type: String, required: true, minLength: 3, maxLength: 40},
+    title: { type: String, required: true, minLength: 3, maxLength: 40 },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
@@ -299,9 +299,9 @@ courseSectionSchema.virtual('textmaterials', {
  */
 function combineContents(courseSection) {
     courseSection.contents = [
-        ...courseSection.videos??[],
-        ...courseSection.exercises??[],
-        ...courseSection.textmaterials??[]
+        ...courseSection.videos ?? [],
+        ...courseSection.exercises ?? [],
+        ...courseSection.textmaterials ?? []
     ]
 
     courseSection.contents.sort((a, b) => {
@@ -358,7 +358,7 @@ courseSchema.virtual('course_sections', {
 /**
  * @type {submissionSchema}
  * */
-const submissionSchema = new Schema({
+const exerciseSubmissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     submission: [{
@@ -369,7 +369,20 @@ const submissionSchema = new Schema({
         })
     }],
     score: { type: Number, default: 0 },
+    report: { type: Schema.Types.ObjectId, ref: "ExerciseReport", required: true }
 }, options)
+
+const exerciseReportSchema = new Schema({
+    exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    best_score: { type: Number, default: 0 }
+})
+exerciseReportSchema.virtual('submissions', {
+    localField: '_id',
+    foreignField: 'report',
+    ref: "ExerciseSubmission",
+    justOne: false
+})
 
 /**
  * @type {courseReportSchema}
@@ -414,8 +427,9 @@ const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
     "ExerciseSubmission",
-    submissionSchema
+    exerciseSubmissionSchema
 );
+const ExerciseReport = mongoose.model('ExerciseReport', exerciseReportSchema)
 const CourseReport = mongoose.model("CourseReport", courseReportSchema);
 
 module.exports = {
@@ -423,5 +437,5 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission,
+    ExerciseSubmission, ExerciseReport
 };
