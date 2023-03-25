@@ -200,20 +200,13 @@ exports.getCourseData = async (req, res, next) => {
         }
     }
 
-    if (req.user) {
-        console.log('user logged in')
-        console.log(course.enrolled_users)
-        if (course.enrolled_users.includes(req.user.id)) {
-            console.log('user enrolled')
-            const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
-            console.log(course_report)
-            if (course_report) {
-                course.best_score = course_report.best_score;
-                course = course.toObject()
-                course.percentage_completed = course_report.percentage_passed;
-            }
+    if (req.user && course.enrolled_users.includes(req.user?.id)) {
+        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+        if (course_report) {
+            course.best_score = course_report.best_score;
+            course = course.toObject()
+            course.percentage_completed = course_report.percentage_passed;
         }
-
     }
 
     return res.status(200).send({
