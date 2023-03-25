@@ -375,13 +375,29 @@ const exerciseSubmissionSchema = new Schema({
 const exerciseReportSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    best_score: { type: Number, default: 0 }
+    best_score: { type: Number, default: 0 },
+    percentage_passed: { type: Number, default: 0 },
 })
 exerciseReportSchema.virtual('submissions', {
     localField: '_id',
     foreignField: 'report',
     ref: "ExerciseSubmission",
     justOne: false
+})
+exerciseReportSchema.pre('save', async function (next) {
+    console.log(this)
+    // check if score was updated
+    // const exercise = await Exercise.findById(this.exercise).populate('questions')
+
+    // this.percentage_passed = (this.best_score / exercise.questions.length) * 100
+    if (this.isModified('best_score')) {
+        console.log('modified')
+        // get the exercise
+        const exercise = await Exercise.findById(this.exercise).populate('questions')
+
+        this.percentage_passed = (this.best_score / exercise.questions.length) * 100
+    }
+    next()
 })
 
 /**

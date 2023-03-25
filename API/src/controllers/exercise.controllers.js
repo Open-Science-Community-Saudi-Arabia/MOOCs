@@ -415,15 +415,13 @@ exports.scoreExercise = async (req, res, next) => {
         }
     }
 
-    const exercise_report = await ExerciseReport.findOneAndUpdate(
+    let exercise_report = await ExerciseReport.findOneAndUpdate(
         { user: req.user.id, exercise: exercise_doc._id },
         { dummy: 1 },
         { new: true, upsert: true })
 
-    console.log(exercise_report)
-    await exercise_report.updateOne({
-        best_score: Math.max(exercise_report.best_score, score),
-    })
+    exercise_report.best_score = Math.max(exercise_report.best_score, score)
+    exercise_report = await exercise_report.save()
 
     exercise_submission.score = score;
     exercise_submission.report = exercise_report._id;
@@ -435,7 +433,11 @@ exports.scoreExercise = async (req, res, next) => {
     return res.status(200).send({
         success: true,
         data: {
-            report: { ...exercise_submission.toObject(), best_score: exercise_report.best_score },
+            report: {
+                ...exercise_submission.toObject(), best_score:
+                    exercise_report.best_score,
+                perce: exercise_report.percentage_passed,
+            },
             certificate,
         },
     });
