@@ -1,88 +1,34 @@
-import { useContext, useState } from "react";
+import { useRef, useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
 import { GoGlobe } from "react-icons/go";
-import Select from "react-select";
 import { dynamicActivate } from "../../i18n";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
-import { LocaleContext } from "../../LocaleContext";
-import { LocaleContextType } from "../../types";
+import useClickOutside from "../../hooks/useClickOutside";
 
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const { locale, changeLocale } = useContext(
-    LocaleContext
-  ) as LocaleContextType;
+  const [openLanguage, setOpenLanguage] = useState(false);
 
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const options = [
     { value: "en", label: "English" },
     { value: "ar", label: "Arabic" },
   ];
-  const [currentLocale, setCurrentLocale] = useState<string|any>("English");
+
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, () => setOpenLanguage(false));
+  const locale = window.localStorage.getItem("language");
 
   const changeLanguage = (selectedOption: any) => {
-    changeLocale(selectedOption);
-  
-
-    if (selectedOption === "ar") {
-      document.body.style.direction = "rtl";
-      document.body.style.fontFamily = "'IBM Plex Sans Arabic', sans-serif";
-    } else {
-      document.body.style.direction = "ltr";
-      document.body.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
-    }
+    window.localStorage.setItem("language", selectedOption);
     dynamicActivate(selectedOption);
-
-   
   };
-  console.log(currentLocale)
-  const customStyles = {
-    option: (defaultStyles: any, state: any) => ({
-      ...defaultStyles,
-      padding: "12px 12px",
-      color: state.isSelected ? "#ffff" : "#009985",
-      backgroundColor: state.isSelected ? "#009985" : "#ffff",
-      fontSize: "14px",
-      cursor: "pointer",
-      ":active": {
-        ...defaultStyles[":active"],
-        backgroundColor: "#ffff",
-      },
-    }),
 
-    control: (defaultStyles: any) => ({
-      ...defaultStyles,
-      padding: "2px",
-      border: "0.5px solid #009985",
-      boxShadow: "none",
-      borderRadius: "8px",
-      width: "117px",
-      cursor: "pointer",
-      ":hover": {
-        ...defaultStyles[":hover"],
-        border: "0.5px solid #009985",
-      },
-    }),
-    singleValue: (defaultStyles: any) => ({
-      ...defaultStyles,
-      color: "#009985",
-    }),
-    dropdownIndicator: (defaultStyles: any) => ({
-      ...defaultStyles,
-      color: "#009985 !important",
-    }),
-    menuList: (defaultStyles: any) => ({
-      ...defaultStyles,
-      padding: "0",
-      borderRadius: "5px",
-    }),
-  };
   return (
     <>
       <header className="header">
@@ -144,45 +90,30 @@ const index = () => {
               </nav>
 
               <div className="auth-btn">
-                {/* <Select
-                  onChange={changeLanguage}
-                  defaultValue={currentLocale}
-                  options={options}
-                  styles={customStyles}
-                  isSearchable={false}
-                /> */}
                 <div className="auth-btn__language">
-                  <div className="auth-btn__language__selected">
+                  <button
+                    onClick={() => setOpenLanguage(!openLanguage)}
+                    className="auth-btn__language__selected"
+                  >
                     {" "}
-                    <GoGlobe />{currentLocale}
-                  </div>
-                  <div className="auth-btn__language__btn active">
-                    {options.map((item) => (
-                      <button
-                        onClick={() => {setCurrentLocale(item.label)}}
-                        key={item.label}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
+                    <GoGlobe />
+                    {locale}
+                  </button>
+                  {openLanguage && (
+                    <div ref={ref} className="auth-btn__language__btn">
+                      {options.map((item) => (
+                        <button
+                          onClick={() => {
+                            changeLanguage(item.value);
+                          }}
+                          key={item.label}
+                        >
+                          {item.label} ({item.value})
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-
-                {/* {locale === "ar" ? (
-                  <button
-                    className="icon-button"
-                    onClick={() => changeLanguage("en")}
-                  >
-                    English
-                  </button>
-                ) : (
-                  <button
-                    className="icon-button"
-                    onClick={() => changeLanguage("ar")}
-                  >
-                    Arabic
-                  </button>
-                )} */}
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">
