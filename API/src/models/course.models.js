@@ -375,6 +375,7 @@ const exerciseSubmissionSchema = new Schema({
 const exerciseReportSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    course_report: { type: Schema.Types.ObjectId, ref: 'CourseReport', required: true },
     best_score: { type: Number, default: 0 },
     percentage_passed: { type: Number, default: 0 },
 })
@@ -385,13 +386,8 @@ exerciseReportSchema.virtual('submissions', {
     justOne: false
 })
 exerciseReportSchema.pre('save', async function (next) {
-    console.log(this)
     // check if score was updated
-    // const exercise = await Exercise.findById(this.exercise).populate('questions')
-
-    // this.percentage_passed = (this.best_score / exercise.questions.length) * 100
     if (this.isModified('best_score')) {
-        console.log('modified')
         // get the exercise
         const exercise = await Exercise.findById(this.exercise).populate('questions')
 
@@ -407,15 +403,7 @@ const courseReportSchema = new Schema(
     {
         course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        completed_exercises: [
-            { type: Schema.Types.ObjectId, ref: "Exercise", default: [] },
-        ],
-        completed_videos: [
-            { type: Schema.Types.ObjectId, ref: "Video", default: [] },
-        ],
-        completed_sections: [
-            { type: Schema.Types.ObjectId, ref: "CourseSection", default: [] },
-        ],
+        percentage_passed: { type: Number, default: 0 },
         isCompleted: { type: Boolean, default: false },
     },
     options
@@ -426,12 +414,32 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
-
 courseReportSchema.virtual('certificate', {
     localField: '_id',
     foreignField: 'course_report',
     ref: 'Certificate',
     justOne: true
+})
+courseReportSchema.virtual('attempted_exercises', {
+    localField: '_id',
+    foreignField: 'course_report',
+    ref: 'ExerciseReport',
+    justOne: false
+})
+
+courseReportSchema.post('updateOne', async function (next) {
+    const doc = (await this.populate('attempted_exercises')).toObject()
+
+    const exercises = doc.attempted_exercises
+    this.percentage_passed = exercises.reduce((acc, curr) => acc + curr.percentage_passed, 0) / exercises.length
+
+    if (this.percentage_passed >= 80) {
+        this.isCompleted = true
+    }
+
+    this.save()
+
+    next()
 })
 
 
