@@ -38,6 +38,7 @@ const {
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
 const { populate } = require("../models/password.models");
+const mongoose = require("mongoose");
 
 /* COURSES
 */
@@ -189,7 +190,6 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
-    course = course.toObject()
     if (course && course.exercises) {
         for (let i = 0; i < course.exercises.length; i++) {
             const exercise = course.exercises[i];
@@ -201,14 +201,19 @@ exports.getCourseData = async (req, res, next) => {
     }
 
     if (req.user) {
-        if (course.enrolled_users.includes(req.user._id)) {
+        console.log('user logged in')
+        console.log(course.enrolled_users)
+        if (course.enrolled_users.includes(req.user.id)) {
+            console.log('user enrolled')
             const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+            console.log(course_report)
             if (course_report) {
                 course.best_score = course_report.best_score;
-                course.percentage_completed = course_report.precentage_passed;
+                course = course.toObject()
+                course.percentage_completed = course_report.percentage_passed;
             }
         }
-            
+
     }
 
     return res.status(200).send({
