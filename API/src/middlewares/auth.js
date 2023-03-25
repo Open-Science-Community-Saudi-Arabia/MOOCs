@@ -82,15 +82,12 @@ const basicAuth = function (token_type = null) {
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            if (token_type == 'optional') return next();
             return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
-        let secret = config.JWT_ACCESS_SECRET;
-
-        // If token type is specified, check if the token is of the specified type
-        if (token_type) {
-            secret = getRequiredConfigVars(token_type).secret;
-        }
+        token_type = token_type == 'optional' ? 'access' : token_type
+        let secret = getRequiredConfigVars(token_type).secret
 
         // Verify the token
         const jwtToken = authHeader.split(' ')[1]; //console.log(jwtToken)

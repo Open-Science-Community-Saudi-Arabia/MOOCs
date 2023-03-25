@@ -24,7 +24,7 @@
  * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - Get previous submissions for a particular exercise </i> </br>
  */
 
-const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection, ExerciseReport } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { issueCertificate } = require("./certificate.controllers");
 
@@ -155,10 +155,10 @@ exports.getExerciseData = async (req, res, next) => {
     }
 
     exercise = exercise.toObject()
-    const studend_course_report = await CourseReport.findOne({ student: req.user._id, course: exercise.course })
-    if (studend_course_report.completed_exercises.includes(exercise._id)) {
-        exercise.isCompleted = true
-    }
+    console.log(req.user)
+    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id })
+    console.log(exercise_report)
+    exercise.percentage_passed = exercise_report ? exercise_report.percentage_passed : undefined
 
     return res.status(200).send({
         success: true,
@@ -384,8 +384,7 @@ exports.scoreExercise = async (req, res, next) => {
         const submitted_option = students_submission[question._id.toString()];
 
         // Check if submitted option is correct. If yes, increment score
-        // if (question.correct_option == submitted_option) score++;
-        if (true) score++;
+        if (question.correct_option == submitted_option) score++;
 
         exercise_submission.submission.push({
             question: question._id,
@@ -393,38 +392,42 @@ exports.scoreExercise = async (req, res, next) => {
         });
     });
 
-    // Check if user has completed the exercise
-    let certificate;
-    if (score == exercise.questions.length) {
-        // User has completed the exercise
-        const user_course_report = await CourseReport.findOneAndUpdate(
-            { user: req.user.id, course: course._id },
-            { $addToSet: { completed_exercises: exercise._id } }, { new: true }
-        );
+    let course_report_query = CourseReport.findOne(
+        { user: req.user.id, course: course._id },
+    )
+    let course_report = await course_report_query.exec();
 
-        // Check if user has completed the course
-        if (
-            user_course_report.completed_exercises.size ==
-            course.exercises.size
-        ) {
-            // User has completed the course
-            await user_course_report.updateOne({ isCompleted: true });
+    let exercise_report = await ExerciseReport.findOneAndUpdate(
+        { user: req.user.id, exercise: exercise_doc._id },
+        { course_report: course_report._id },
+        { new: true, upsert: true })
 
-            // Issue certificate
-            certificate = await issueCertificate(user_course_report._id)
-        }
-    }
+    exercise_report.best_score = Math.max(exercise_report.best_score, score)
+    exercise_report = await exercise_report.save()
 
     exercise_submission.score = score;
+    exercise_submission.report = exercise_report._id;
     exercise_submission = await exercise_submission.save();
     exercise_submission = await exercise_submission.populate(
         "submission.question"
     );
 
+    // Update best score in course report
+    course_report = await course_report.updateBestScore()
+
+    // Issue certificate if user has completed course
+    let certificate = course_report.isCompleted
+        ? await issueCertificate(course_report._id)
+        : null;
+
     return res.status(200).send({
         success: true,
         data: {
-            report: exercise_submission,
+            report: {
+                ...exercise_submission.toObject(), best_score:
+                    exercise_report.best_score,
+                percentage_passed: exercise_report.percentage_passed,
+            },
             certificate,
         },
     });

@@ -12,8 +12,10 @@ const { createCourse, getCourses, getCourseData,
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
-router.use(basicAuth())
 
+router.get("/:id", basicAuth('optional'), permit("Admin EndUser SuperAdmin"), getCourseData)
+
+router.use(basicAuth())
 router
     .post("/new", permit("Admin SuperAdmin"), createCourse)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateCourse)
@@ -23,7 +25,6 @@ router
     .get("/enrolled", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
     .get("/enrolledcourses", permit("Admin EndUser SuperAdmin"), getEnrolledCourses)
     .get("/enrolledusers/:id", permit("Admin EndUser SuperAdmin"), getEnrolledUsers)
-    .get("/:id", permit("Admin EndUser SuperAdmin"), getCourseData)
     .get("/", permit("Admin EndUser SuperAdmin"), getCourses)
 
 router

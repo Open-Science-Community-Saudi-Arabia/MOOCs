@@ -32,9 +32,13 @@ const {
     Course,
     CourseReport,
     CourseSection,
+    Exercise,
+    ExerciseReport,
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
+const { populate } = require("../models/password.models");
+const mongoose = require("mongoose");
 
 /* COURSES
 */
@@ -115,7 +119,21 @@ exports.getCourses = async (req, res, next) => {
     const courses = (
         await Course.find().populate({
             path: 'course_sections',
-            populate: 'videos exercises textmaterials'
+            populate: [
+                {
+                    path: 'videos',
+                    model: 'Video'
+                },
+                {
+                    path: 'textmaterials',
+                    model: 'TextMaterial'
+                },
+                {
+                    path: 'exercises',
+                    populate: 'questions'
+                }
+
+            ]
         }).sort({ _id: -1 })
     ).filter((course) => {
         if (course.isAvailable) return course.toJSON();
@@ -154,16 +172,48 @@ exports.getCourseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id).populate({
+    let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
-        populate: 'videos exercises textmaterials'
+        populate: [
+            {
+                path: 'videos',
+                model: 'Video'
+            },
+            {
+                path: 'textmaterials',
+                model: 'TextMaterial'
+            },
+            {
+                path: 'exercises',
+                populate: 'questions'
+            }
+        ]
     });
+
+    if (course && course.exercises) {
+        for (let i = 0; i < course.exercises.length; i++) {
+            const exercise = course.exercises[i];
+            const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user._id });
+            if (exercise_report) {
+                exercise.best_score = exercise_report.best_score;
+            }
+        }
+    }
+
+    if (req.user && course.enrolled_users.includes(req.user?.id)) {
+        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+        if (course_report) {
+            course.best_score = course_report.best_score;
+            course = course.toObject()
+            course.percentage_completed = course_report.percentage_passed;
+        }
+    }
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course.isAvailable ? course.toJSON() : null
+            course: course.isAvailable ? course : null
         }
     })
 }
@@ -678,8 +728,3 @@ exports.getStudentReportForCourse = async (req, res, next) => {
         }
     })
 }
-
-
-
-
-

@@ -198,7 +198,7 @@ const questionSchema = new Schema({
  * @type {exerciseSchema}
  */
 const exerciseSchema = new Schema({
-    type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
+    type: { type: String, default: "exercise", minLength: 3, maxLength: 40 },
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -218,7 +218,7 @@ exerciseSchema.virtual('questions', {
  * @type {videoSchema}
  * */
 const videoSchema = new Schema({
-    type: { type: String, default:'video'},
+    type: { type: String, default: 'video' },
     title: {
         type: String,
         required: true,
@@ -245,7 +245,7 @@ const videoSchema = new Schema({
  * @type {textmaterialSchema}
  * */
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40 },
     title: {
         type: String,
         required: true
@@ -265,7 +265,7 @@ const textmaterialSchema = new Schema({
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
-    title: { type: String, required: true, minLength: 3, maxLength: 40},
+    title: { type: String, required: true, minLength: 3, maxLength: 40 },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
@@ -299,9 +299,9 @@ courseSectionSchema.virtual('textmaterials', {
  */
 function combineContents(courseSection) {
     courseSection.contents = [
-        ...courseSection.videos??[],
-        ...courseSection.exercises??[],
-        ...courseSection.textmaterials??[]
+        ...courseSection.videos ?? [],
+        ...courseSection.exercises ?? [],
+        ...courseSection.textmaterials ?? []
     ]
 
     courseSection.contents.sort((a, b) => {
@@ -358,7 +358,7 @@ courseSchema.virtual('course_sections', {
 /**
  * @type {submissionSchema}
  * */
-const submissionSchema = new Schema({
+const exerciseSubmissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     submission: [{
@@ -369,7 +369,32 @@ const submissionSchema = new Schema({
         })
     }],
     score: { type: Number, default: 0 },
+    report: { type: Schema.Types.ObjectId, ref: "ExerciseReport", required: true }
 }, options)
+
+const exerciseReportSchema = new Schema({
+    exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    course_report: { type: Schema.Types.ObjectId, ref: 'CourseReport', required: true },
+    best_score: { type: Number, default: 0 },
+    percentage_passed: { type: Number, default: 0 },
+})
+exerciseReportSchema.virtual('submissions', {
+    localField: '_id',
+    foreignField: 'report',
+    ref: "ExerciseSubmission",
+    justOne: false
+})
+exerciseReportSchema.pre('save', async function (next) {
+    // check if score was updated
+    if (this.isModified('best_score')) {
+        // get the exercise
+        const exercise = await Exercise.findById(this.exercise).populate('questions')
+
+        this.percentage_passed = (this.best_score / exercise.questions.length) * 100
+    }
+    next()
+})
 
 /**
  * @type {courseReportSchema}
@@ -378,15 +403,7 @@ const courseReportSchema = new Schema(
     {
         course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        completed_exercises: [
-            { type: Schema.Types.ObjectId, ref: "Exercise", default: [] },
-        ],
-        completed_videos: [
-            { type: Schema.Types.ObjectId, ref: "Video", default: [] },
-        ],
-        completed_sections: [
-            { type: Schema.Types.ObjectId, ref: "CourseSection", default: [] },
-        ],
+        percentage_passed: { type: Number, default: 0 },
         isCompleted: { type: Boolean, default: false },
     },
     options
@@ -397,13 +414,32 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
-
 courseReportSchema.virtual('certificate', {
     localField: '_id',
     foreignField: 'course_report',
     ref: 'Certificate',
     justOne: true
 })
+courseReportSchema.virtual('attempted_exercises', {
+    localField: '_id',
+    foreignField: 'course_report',
+    ref: 'ExerciseReport',
+    justOne: false
+})
+
+courseReportSchema.methods.updateBestScore = async function () {
+    console.log(this)
+    const doc = (await this.populate("attempted_exercises")).toObject();
+
+    const exercises = doc.attempted_exercises;
+    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
+    this.percentage_passed = total_scores / exercises.length;
+
+    // Update the isCompleted field if the percentage passed is greater than or equal to 80
+    this.isCompleted = this.percentage_passed >= 80 ? true : false;
+    console.log(this)
+    return this.save();
+}
 
 
 const Question = mongoose.model("Question", questionSchema);
@@ -414,8 +450,9 @@ const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
     "ExerciseSubmission",
-    submissionSchema
+    exerciseSubmissionSchema
 );
+const ExerciseReport = mongoose.model('ExerciseReport', exerciseReportSchema)
 const CourseReport = mongoose.model("CourseReport", courseReportSchema);
 
 module.exports = {
@@ -423,5 +460,5 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission,
+    ExerciseSubmission, ExerciseReport
 };
