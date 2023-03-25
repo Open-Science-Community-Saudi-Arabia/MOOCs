@@ -35,6 +35,7 @@ const {
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
+const { populate } = require("../models/password.models");
 
 /* COURSES
 */
@@ -115,7 +116,21 @@ exports.getCourses = async (req, res, next) => {
     const courses = (
         await Course.find().populate({
             path: 'course_sections',
-            populate: 'videos exercises textmaterials'
+            populate: [
+                {
+                    path: 'videos',
+                    model: 'Video'
+                },
+                {
+                    path: 'textmaterials',
+                    model: 'TextMaterial'
+                },
+                {
+                    path: 'exercises',
+                    populate: 'questions'
+                }
+
+            ]
         }).sort({ _id: -1 })
     ).filter((course) => {
         if (course.isAvailable) return course.toJSON();
@@ -156,7 +171,20 @@ exports.getCourseData = async (req, res, next) => {
 
     const course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
-        populate: 'videos exercises textmaterials'
+        populate: [
+            {
+                path: 'videos',
+                model: 'Video'
+            },
+            {
+                path: 'textmaterials',
+                model: 'TextMaterial'
+            },
+            {
+                path: 'exercises',
+                populate: 'questions'
+            }
+        ]
     });
 
     return res.status(200).send({
