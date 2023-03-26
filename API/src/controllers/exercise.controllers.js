@@ -419,14 +419,17 @@ exports.scoreExercise = async (req, res, next) => {
     let certificate = course_report.isCompleted
         ? await issueCertificate(course_report._id)
         : null;
+    
+    console.log(exercise_submission)
 
     return res.status(200).send({
         success: true,
         data: {
             report: {
                 ...exercise_submission.toObject(), 
+                percentage_passed: exercise_submission.percentage_passed,
                 best_score: exercise_report.best_score,
-                percentage_passed: exercise_report.percentage_passed,
+                best_percentage_passed: exercise_report.percentage_passed,
             },
             certificate,
         },
