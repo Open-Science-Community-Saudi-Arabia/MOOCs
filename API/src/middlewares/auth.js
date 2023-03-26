@@ -86,10 +86,11 @@ const basicAuth = function (token_type = null) {
             return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
+        if (token_type == 'optional') return next();
+
         // Use the default access token secret if token_type is not specified or is optional
         // Otherwise use the secret for the specified token type
-        token_type =
-          !token_type | (token_type == "optional") ? "access" : token_type;
+        token_type = !token_type ? "access" : token_type;
 
         let { secret } = getRequiredConfigVars(token_type)
 
@@ -115,6 +116,7 @@ const basicAuth = function (token_type = null) {
                 .send({ message: 'success', access_token: new_access_token });
         }
 
+        console.log(req.user)
         if (!req.user.status.isActive && !token_type) {
             return next(
                 new UnauthenticatedError(
