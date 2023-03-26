@@ -4,30 +4,16 @@ import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
-import { GoGlobe } from "react-icons/go";
-import { dynamicActivate } from "../../i18n";
+
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
 import useClickOutside from "../../hooks/useClickOutside";
+import LanguageToggle from "../LanguageToggle";
 
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openLanguage, setOpenLanguage] = useState(false);
 
   const isDesktop = useMediaQuery("(min-width: 1280px)");
-  const options = [
-    { value: "en", label: "English" },
-    { value: "ar", label: "Arabic" },
-  ];
-
-  const ref = useRef<HTMLDivElement>(null);
-  useClickOutside(ref, () => setOpenLanguage(false));
-  const locale = window.localStorage.getItem("language");
-
-  const changeLanguage = (selectedOption: any) => {
-    window.localStorage.setItem("language", selectedOption);
-    dynamicActivate(selectedOption);
-  };
 
   return (
     <>
@@ -90,30 +76,7 @@ const index = () => {
               </nav>
 
               <div className="auth-btn">
-                <div className="auth-btn__language">
-                  <button
-                    onClick={() => setOpenLanguage(!openLanguage)}
-                    className="auth-btn__language__selected"
-                  >
-                    {" "}
-                    <GoGlobe />
-                    {locale}
-                  </button>
-                  {openLanguage && (
-                    <div ref={ref} className="auth-btn__language__btn">
-                      {options.map((item) => (
-                        <button
-                          onClick={() => {
-                            changeLanguage(item.value);
-                          }}
-                          key={item.label}
-                        >
-                          {item.label} ({item.value})
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <LanguageToggle />
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">

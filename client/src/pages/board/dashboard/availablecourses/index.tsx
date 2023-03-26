@@ -71,5 +71,3 @@ const AvailableCourses = ({ courses }: any) => {
 };
 
 export default AvailableCourses;
-
-// keep track of enrolled user, users should not be enrolling everytime

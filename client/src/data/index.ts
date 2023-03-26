@@ -11,7 +11,6 @@ import web3 from "../images/web3.png";
 import openbook from "../images/openbook.svg";
 import knowledge from "../images/knowledge.svg";
 import brain from "../images/brain.svg";
-import youtube from "../images/dashboard/youtube.png";
 import capenteries from "../images/capenteries.svg";
 import openscience from "../images/open-science.svg";
 import ttw from "../images/ttw.svg";

@@ -6,6 +6,7 @@ import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import Spinner from "../../../components/Spinner";
 import { resetpassword } from "../../../utils/api/auth";
 import { ResetPasswordReqPayload } from "../../../types";
+import { Trans, t } from "@lingui/macro";
 
 const ResetPassword = () => {
   const [isLoading, setLoading] = useState(false);
@@ -40,28 +41,32 @@ const ResetPassword = () => {
   };
   return (
     <section className="login-signup">
-      <h1 className="login-signup__heading">Reset Password</h1>
-      <p className="login-signup__text">Enter new password.</p>
+      <h1 className="login-signup__heading">
+        <Trans>Reset Password</Trans>
+      </h1>
+      <p className="login-signup__text">
+        <Trans>Enter new password.</Trans>
+      </p>
       <form className="login-signup__form" onSubmit={resetPasswordHandler}>
         <div className="field">
           <label className="sr-only" htmlFor="resetcode">
-            Reset Code
+            <Trans> Reset Code</Trans>
           </label>
           <input
             type="text"
             name="resetcode"
             id="resetcode"
-            placeholder="Reset Code"
+            placeholder={t`Reset Code`}
             required
           />
         </div>
         <div className="field">
           <label className="sr-only" htmlFor="password">
-            Password
+            <Trans>Password</Trans>
           </label>
           <input
             type={toggleVisibility ? "text" : "password"}
-            placeholder="Password"
+            placeholder={t`Password`}
             minLength={8}
             name="password"
             id="password"
@@ -82,19 +87,23 @@ const ResetPassword = () => {
 
         <div className="field button-field">
           <button>
-            {isLoading ? <Spinner width="30px" height="30px" color="#fff" /> : "Submit"}
+            {isLoading ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : (
+              t`Submit`
+            )}
           </button>
         </div>
       </form>
       <div className="login-signup__bottom">
         <div className="login-signup__bottom-content">
-          Don't have an account?{" "}
+          <Trans>Don't have an account? </Trans>
           <Link to="/signup" className="login-signup__bottom-content__link">
-            Sign Up
+            <Trans> Sign Up</Trans>
           </Link>
         </div>
       </div>
     </section>
   );
-}
-export default ResetPassword
+};
+export default ResetPassword;

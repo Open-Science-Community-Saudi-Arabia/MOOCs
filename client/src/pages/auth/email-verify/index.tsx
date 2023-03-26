@@ -3,9 +3,10 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
-import { setToken } from "../../../utils";
 
- const EmailVerify= () =>{
+import { Trans, t } from "@lingui/macro";
+
+const EmailVerify = () => {
   const [isValidUrl, setValidUrl] = useState(false);
   const [error, setError] = useState(false);
   const params = useParams();
@@ -33,21 +34,24 @@ import { setToken } from "../../../utils";
             <GiCheckMark />
           </div>
           <h1 className="verifyEmail__content__header">
-            Email Verification Successful!
+            <Trans> Email Verification Successful!</Trans>
           </h1>
           <button
             onClick={() => navigate("/login")}
             className="verifyEmail__content__btn"
           >
-            Login
+            <Trans> Login</Trans>
           </button>
         </div>
       ) : (
         <div>
-          <h1 className="verifyEmail__invalid"> {error}</h1>
+          <h1 className="verifyEmail__invalid">
+            {" "}
+            <Trans>{error}</Trans>
+          </h1>
         </div>
       )}
     </div>
   );
-}
-export default EmailVerify
+};
+export default EmailVerify;
