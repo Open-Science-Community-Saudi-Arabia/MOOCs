@@ -385,7 +385,7 @@ exports.scoreExercise = async (req, res, next) => {
 
         // Check if submitted option is correct. If yes, increment score
         if (question.correct_option == submitted_option) score++;
-
+        
         exercise_submission.submission.push({
             question: question._id,
             submitted_option: submitted_option,
@@ -424,8 +424,8 @@ exports.scoreExercise = async (req, res, next) => {
         success: true,
         data: {
             report: {
-                ...exercise_submission.toObject(), best_score:
-                    exercise_report.best_score,
+                ...exercise_submission.toObject(), 
+                best_score: exercise_report.best_score,
                 percentage_passed: exercise_report.percentage_passed,
             },
             certificate,
