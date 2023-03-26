@@ -167,9 +167,8 @@ const handleUnverifiedUser = function (user) {
  */
 const handleExistingUser = function (user) {
     return async function (req, res, next) {
-        const existing_user = user.toJSON({ virtuals: true });
+        const existing_user = user.toObject();
 
-        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
@@ -246,7 +245,6 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
