@@ -7,14 +7,14 @@ interface IProps {
 }
 
 const ViewPdf = ({ pdfData, isCourseContent }: IProps) => {
-  console.log(pdfData)
+
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const url =
     "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891984/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dbc4d07a77d6c06a44f7/textmaterial_6411dbebd07a77d6c06a4519_RICHIE%20MOLUNO%20___%20RESUME%20%283%29.pdf.pdf";
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const onDocumentLoadSuccess = ({ numPages }: any) => {
-    console.log(numPages);
+
     setNumPages(numPages);
   };
   return (

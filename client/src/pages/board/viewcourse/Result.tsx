@@ -14,7 +14,7 @@ const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
       };
       let response = await updateExercise(selectedIndex, updatedItem);
       if (response.success) {
-        console.log(response);
+        // console.log(response);
       }
     } catch (error: any) {
       toast.error(error.message, {

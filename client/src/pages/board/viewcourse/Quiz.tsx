@@ -38,7 +38,7 @@ const Quiz = ({
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          console.log(response);
+          // console.log(response);
           changeScoreHandler(response.data.report.score);
           changedDisplayContent("result");
         }

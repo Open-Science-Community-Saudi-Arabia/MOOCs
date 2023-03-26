@@ -35,7 +35,7 @@ const Login = () => {
       };
       setLoading(true);
       let response = await login(formData);
-      console.log(response)
+
       if (response.success) {
         setToken(response.data.access_token);
         navigate("/dashboard");
