@@ -79,7 +79,6 @@ const config = require('../utils/config');
  */
 const basicAuth = function (token_type = null) {
     return async (req, res, next) => {
-        console.log(token_type)
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
