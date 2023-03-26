@@ -97,7 +97,9 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @throws {Error} If error occurs
  */
 const returnAuthTokens = async (user, statusCode, res) => {
-    const { access_token, refresh_token } = await getAuthTokens(user);
+    console.log(user)
+    if (!user.status) user = await User.findById(user._id).populate('status');
+    const { access_token, refresh_token } = await getAuthTokens(user.toObject());
 
     // Remove sensitive data from user object
     user.password = undefined;
@@ -106,6 +108,8 @@ const returnAuthTokens = async (user, statusCode, res) => {
     user.passwordResetToken = undefined;
     user.isVerified = undefined;
     user.auth_code = undefined;
+
+    console.log(access_token)
 
     res.status(statusCode).json({
         success: true,
@@ -167,9 +171,8 @@ const handleUnverifiedUser = function (user) {
  */
 const handleExistingUser = function (user) {
     return async function (req, res, next) {
-        const existing_user = user.toJSON({ virtuals: true });
+        const existing_user = user.toObject();
 
-        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
@@ -246,7 +249,6 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
@@ -928,7 +930,7 @@ exports.googleSignin = async (req, res, next) => {
         audience: config.OAUTH_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
-        existing_user = await User.findOne({ email: payload.email });
+        existing_user = await User.findOne({ email: payload.email }).populate('status')
 
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
@@ -943,9 +945,26 @@ exports.googleSignin = async (req, res, next) => {
             googleId: payload.sub,
         };
 
-        const new_user = await User.create(user_data);
-        returnAuthTokens(new_user, 200, res);
+        const session = await mongoose.startSession();
+        let new_user;
+        await session.withTransaction(async () => {
+            await User.create(
+                [{ ...user_data }], { session, context: 'query' }
+            ).then((user) => { new_user = user[0] });
+
+            await Password.create([{ user: new_user._id, password: user_data.password }], { session, context: 'query' });
+            await Status.create([{ user: new_user._id }], { session, context: 'query' })
+            await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
+
+            await session.commitTransaction()
+            session.endSession()
+        })
+
+        await returnAuthTokens(new_user, 200, res);
+        return
     }
+
+    console.log(existing_user.toObject())
 
     await returnAuthTokens(existing_user, 200, res)
 };

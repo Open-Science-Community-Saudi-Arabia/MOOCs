@@ -26,7 +26,7 @@ const config = require('../utils/config');
 /**
  * Middleware to check if the request has a valid authorization header
  * and if the token is valid.
-*
+ * 
  * @description This middleware checks if the incoming request 
  * has a valid authorization header with a JWT token,
  * and verifies the token to ensure that it's valid. 
@@ -86,8 +86,13 @@ const basicAuth = function (token_type = null) {
             return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
-        token_type = token_type == 'optional' ? 'access' : token_type
-        let secret = getRequiredConfigVars(token_type).secret
+        if (token_type == 'optional') return next();
+
+        // Use the default access token secret if token_type is not specified or is optional
+        // Otherwise use the secret for the specified token type
+        token_type = !token_type ? "access" : token_type;
+
+        let { secret } = getRequiredConfigVars(token_type)
 
         // Verify the token
         const jwtToken = authHeader.split(' ')[1]; //console.log(jwtToken)
@@ -111,6 +116,7 @@ const basicAuth = function (token_type = null) {
                 .send({ message: 'success', access_token: new_access_token });
         }
 
+        console.log(req.user)
         if (!req.user.status.isActive && !token_type) {
             return next(
                 new UnauthenticatedError(
