@@ -420,8 +420,6 @@ exports.scoreExercise = async (req, res, next) => {
         ? await issueCertificate(course_report._id)
         : null;
     
-    console.log(exercise_submission)
-
     return res.status(200).send({
         success: true,
         data: {
