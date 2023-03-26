@@ -369,8 +369,23 @@ const exerciseSubmissionSchema = new Schema({
         })
     }],
     score: { type: Number, default: 0 },
+    percentage_passed: { type: Number, default: 0 },
     report: { type: Schema.Types.ObjectId, ref: "ExerciseReport", required: true }
 }, options)
+exerciseSubmissionSchema.pre('save', async function (next) {
+    // check if score was updated
+    if (this.isModified('score')) {
+        // get the exercise
+        const { exercise } = await this.populate({
+            path: 'exercise',
+            populate: 'questions'
+        })
+
+        this.percentage_passed = (this.score / exercise.questions.length) * 100
+    }
+
+    next()
+})
 
 const exerciseReportSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
