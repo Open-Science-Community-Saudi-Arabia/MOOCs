@@ -1,3 +1,9 @@
+const course = {
+    title: "Course title",
+    description: "Course description",
+    author: "Your name",
+}
+
 const course_sections = [
     {
         title: "Section 1",
@@ -40,12 +46,14 @@ const exercises = [
         description: "Exercise 1 description",
         course_section: 0,
         category: "Open data",
+        duration: 1,
     },
     {
         title: "Exercise 2",
         description: "Exercise 2 description",
         course_section: 0,
         category: "Open data",
+        duration: 1,
     }
 ]
 
@@ -55,15 +63,19 @@ const text_materials = [
         description: "Text material 1 description",
         course_section: 0,
         category: "Open data",
+        file_url: "./textmaterials/README.md"
     },
     {
         title: "Text material 2",
         description: "Text material 2 description",
         course_section: 0,
         category: "Open data",
+        file_url: "./textmaterials/README.md"
     }
 ]
 
 module.exports = {
-    videos, exercises, text_materials, course_sections
+    videos, exercises, 
+    text_materials, course_sections,
+    course, MONGO_URL,
 }
