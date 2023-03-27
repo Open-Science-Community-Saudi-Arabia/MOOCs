@@ -20,7 +20,7 @@ const I18nApp = () => {
     } else {
       dynamicActivate(item);
     }
-  });
+  },[]);
 
   return (
     <React.StrictMode>

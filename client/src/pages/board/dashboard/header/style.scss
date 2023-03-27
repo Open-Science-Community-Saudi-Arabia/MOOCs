@@ -52,6 +52,8 @@
   &-profile {
     position: relative;
     cursor: pointer;
+    @include flex(space-between, center);
+    gap: 10px;
     &__btn {
       @include flex(space-between, center);
       &-text {
@@ -61,7 +63,7 @@
         border-radius: 100%;
         padding: 0.5em;
         font-weight: 500;
-        @include ipad{
+        @include ipad {
           font-size: 20px;
           font-weight: 600;
         }
@@ -74,14 +76,14 @@
       position: absolute;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
       top: 32px;
-      left: -9px;
+      right: 0;
       background-color: var(--white);
       padding: 1em;
       color: var(--green);
       font-weight: 600;
-      width: auto;
+      width: 100px;
       border: none;
-      @include ipad{
+      @include ipad {
         right: -23px;
       }
     }

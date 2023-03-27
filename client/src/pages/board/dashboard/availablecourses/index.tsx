@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { t, Trans } from "@lingui/macro";
+import { useEffect, useState } from "react";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner";
@@ -8,10 +9,13 @@ import "./style.scss";
 
 const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
+  const [selectedId, setSelectedId] = useState<string>();
   const navigate = useNavigate();
 
+ 
   const enrollUserHandler = async (id: string) => {
     setLoading(true);
+    setSelectedId(id);
     try {
       let response = await enrollUser(id);
       if (response) {
@@ -23,7 +27,9 @@ const AvailableCourses = ({ courses }: any) => {
   };
   return (
     <div className="availablecourses">
-      <h1 className="availablecourses__heading">Available Courses</h1>
+      <h1 className="availablecourses__heading">
+        <Trans>Available Courses</Trans>
+      </h1>
       <div className="availablecourses__courses">
         {courses?.data.courses?.map((item: Courses, index: number) => {
           return (
@@ -36,7 +42,7 @@ const AvailableCourses = ({ courses }: any) => {
               <div className="availablecourses__courses-content__img-container">
                 {" "}
                 <div className={"img-container-overlay"}>
-                  {isLoading ? (
+                  {isLoading && selectedId === item._id ? (
                     <Spinner width="50px" height="50px" color="#0a0a0a" />
                   ) : (
                     <BsFillPlayCircleFill />
@@ -51,15 +57,15 @@ const AvailableCourses = ({ courses }: any) => {
 
               <div className="availablecourses__courses-content__bottom">
                 <p className="availablecourses__courses-content__bottom-text">
-                  {item.title}
+                  {t`${item.title}`}
                 </p>
                 <p className="availablecourses__courses-content__bottom-author">
                   {" "}
-                  {item.author}
+                  {t`${item.author}`}
                 </p>
                 <p className="availablecourses__courses-content__bottom-coursenumber">
                   {" "}
-                  {item.course_sections.length} course sections
+                  {t`${item.course_sections.length}`} course sections
                 </p>
               </div>
             </button>

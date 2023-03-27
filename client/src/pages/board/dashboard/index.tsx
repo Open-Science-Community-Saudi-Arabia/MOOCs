@@ -7,11 +7,9 @@ import AvailableCourses from "./availablecourses";
 
 const Board = () => {
   const { data: courses, isLoading, isError, refetch } = useCourses();
-
   return (
     <section className="dashboard">
       <Header />
-
       {isLoading ? (
         <div className="dashboard__spinner">
           <Spinner width="60px" height="60px" color="#009985" />

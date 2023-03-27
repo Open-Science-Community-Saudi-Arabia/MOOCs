@@ -1,29 +1,27 @@
+import { t, Trans } from "@lingui/macro";
+import { useState } from "react";
 import "./style.scss";
 interface ErrorFallback {
-  message?: string;
-  description?: string;
-  reset?: () => void;
-  buttonText?: string;
+  message: string;
+  description: string;
+  reset: () => void;
 }
 
 const index = (props: ErrorFallback) => {
-  const { message, description, reset, buttonText = "Try again" } = props;
+  const { message, description, reset } = props;
+
   return (
     <div className="errorfallback">
-      {message && (
-        <div className="errorfallback__top">
-          {" "}
-          <p className="errorfallback__top__message">{message}</p>
-        </div>
-      )}
-      {description && (
-        <p className="errorfallback__description">{description}</p>
-      )}
-      {reset && (
-        <button className="errorfallback__btn" onClick={reset}>
-          {buttonText}
-        </button>
-      )}
+      <div className="errorfallback__top">
+        {" "}
+        <p className="errorfallback__top__message">{t`${message}`}</p>
+      </div>
+
+      <p className="errorfallback__description">{t`${description}`}</p>
+
+      <button className="errorfallback__btn" onClick={reset}>
+        <Trans>Try again</Trans>
+      </button>
     </div>
   );
 };

@@ -110,7 +110,7 @@
       }
       &__name {
         font-size: 17px;
-        text-align: left;
+       
         @include xl-screen {
           font-size: 20px;
         }
@@ -244,7 +244,7 @@
           margin-top: 1em;
           @include ipad {
             @include flex(space-between, start);
-            text-align: left;
+          
             margin-top: 0em;
           }
           &-name {

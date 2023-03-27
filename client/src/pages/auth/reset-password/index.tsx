@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import "../style.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,6 +7,7 @@ import Spinner from "../../../components/Spinner";
 import { resetpassword } from "../../../utils/api/auth";
 import { ResetPasswordReqPayload } from "../../../types";
 import { Trans, t } from "@lingui/macro";
+import LanguageToggle from "../../../components/LanguageToggle";
 
 const ResetPassword = () => {
   const [isLoading, setLoading] = useState(false);
@@ -41,6 +42,11 @@ const ResetPassword = () => {
   };
   return (
     <section className="login-signup">
+        <div className="login-signup__languageToggle">
+            {" "}
+            <LanguageToggle />
+          </div>
+
       <h1 className="login-signup__heading">
         <Trans>Reset Password</Trans>
       </h1>

@@ -43,7 +43,6 @@ export async function getCertificate(id: string) {
 // get all courses
 export function useCourses() {
   const query = useQuery(["course"], () => getCourses());
-  
   return query;
 }
 

@@ -6,8 +6,10 @@ import { setToken } from "../../../utils";
 import Spinner from "../../../components/Spinner";
 import { forgotpassword } from "../../../utils/api/auth";
 import { ForgetPasswordReqPayload } from "../../../types";
+import LanguageToggle from "../../../components/LanguageToggle";
+import { t, Trans } from "@lingui/macro";
 
-const ForgotPassword=()=> {
+const ForgotPassword = () => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ const ForgotPassword=()=> {
       };
       setLoading(true);
       const response = await forgotpassword(formData);
-      if(response.data.message){
+      if (response.data.message) {
         setToken(response.data.access_token);
         toast.success(<p> {response.data.message}!</p>, {
           // message should be " link sent to email not token"
@@ -27,9 +29,8 @@ const ForgotPassword=()=> {
           autoClose: 3000,
           theme: "colored",
           onClose: () => navigate("/resetpassword"),
-        })
+        });
       }
-    
     } catch (error: any) {
       // error when not existing password used
       toast.error(error.message, {
@@ -43,39 +44,50 @@ const ForgotPassword=()=> {
   };
   return (
     <section className="login-signup">
-      <h1 className="login-signup__heading">Forgot Password</h1>
+      <div className="login-signup__languageToggle">
+        {" "}
+        <LanguageToggle />
+      </div>
+
+      <h1 className="login-signup__heading">
+        <Trans>Forgot Password</Trans>
+      </h1>
       <p className="login-signup__text">
-        Enter the email associated with your account.
+        <Trans> Enter the email associated with your account.</Trans>
       </p>
       <form className="login-signup__form" onSubmit={forgotPasswordHandler}>
         <div className="field">
           <label className="sr-only" htmlFor="email">
-            Email
+            <Trans> Email</Trans>
           </label>
           <input
             type="email"
             name="email"
             id="email"
-            placeholder="Email"
+            placeholder={t`Email`}
             required
           />
         </div>
         <div className="field button-field">
           <button>
-            {isLoading ? <Spinner width="30px" height="30px" color="#fff" /> : "Submit"}
+            {isLoading ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : (
+              t`Submit`
+            )}
           </button>
         </div>
       </form>
       <div className="login-signup__bottom">
         <div className="login-signup__bottom-content">
-          Don't have an account?{" "}
+          <Trans> Don't have an account?</Trans>{" "}
           <Link to="/signup" className="login-signup__bottom-content__link">
-            Sign Up
+            <Trans> Sign Up</Trans>
           </Link>
         </div>
       </div>
     </section>
   );
-}
+};
 
-export default ForgotPassword
+export default ForgotPassword;

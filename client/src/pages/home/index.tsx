@@ -9,7 +9,6 @@ import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
 const Home = () => {
-  
   return (
     <>
       <Navbar />
@@ -117,11 +116,11 @@ const Home = () => {
                   alt={`${name}icon`}
                   className="open-science__article-content__list-img"
                 />
-                <div className="open-science__article-content__list-item">
-                  <h3 className="open-science__article-content__list-item-name">
+                <div className="open-science__article-content__list-item aligned">
+                  <h3 className="open-science__article-content__list-item-name aligned">
                     {name()}
                   </h3>
-                  <span className="open-science__article-content__list-item-description">
+                  <span className="open-science__article-content__list-item-description aligned">
                     {content()}
                   </span>
                 </div>
