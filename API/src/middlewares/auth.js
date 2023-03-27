@@ -81,12 +81,14 @@ const basicAuth = function (token_type = null) {
     return async (req, res, next) => {
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
+        console.log(authHeader)
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             if (token_type == 'optional') return next();
             return next(new UnauthenticatedError('Invalid authorization header'));
         }
 
-        if (token_type == 'optional') return next();
+        // if (token_type == 'optional') return next();
+        token_type = token_type == 'optional' ? null : token_type;
 
         // Use the default access token secret if token_type is not specified or is optional
         // Otherwise use the secret for the specified token type
@@ -99,6 +101,7 @@ const basicAuth = function (token_type = null) {
         const payload = jwt.verify(jwtToken, secret);
         req.user = payload;
         req.token = jwtToken;
+        console.log(req.user)
 
         // Check if access token has been blacklisted
         const blacklisted = await BlacklistedToken.findOne({ token: jwtToken });

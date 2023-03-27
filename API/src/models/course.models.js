@@ -450,6 +450,19 @@ courseReportSchema.methods.updateBestScore = async function () {
     return this.save();
 }
 
+courseReportSchema.methods.updateBestScore = async function () {
+    const doc = (await this.populate("attempted_exercises")).toObject();
+
+    const exercises = doc.attempted_exercises;
+    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
+    this.percentage_passed = total_scores / exercises.length * 100
+
+    // Update the isCompleted field if the percentage passed is greater than or equal to 80
+    this.isCompleted = this.percentage_passed >= 80 ? true : false;
+
+    return this.save();
+}
+
 
 const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
