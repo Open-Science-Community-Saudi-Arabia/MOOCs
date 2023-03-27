@@ -17,3 +17,15 @@ We have issue templates for different types of issues. Please use the appropriat
 - New course Request template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/new_course.md))
 
 ### Issue labels
+
+### Writing a clear title and description
+When opening an issue, it's important to write a clear and concise title that accurately reflects the problem or suggestion you want to raise. The title should be descriptive enough so that others can quickly understand the issue, but not too long or complicated.
+
+In the issue description, provide as much detail as possible about the issue or suggestion. Include steps to reproduce the problem if applicable, and any relevant information or context that can help others understand the issue better.
+
+### Contributing to issue discussions
+If you're interested in working on an issue, please leave a comment to let others know. This will help to avoid duplicate work and ensure that the issue is assigned to the right person.
+Once you've opened an issue or commented on an existing one, it's important to actively participate in the discussion. This means responding to comments and questions from others, providing additional information or clarification if needed, and being open to feedback and suggestions.
+
+### Conclusion
+Raising issues is an important part of contributing to open source projects. By following these guidelines, you can help ensure that your issue is clear, well-documented, and easy for others to understand. Remember to actively participate in discussions, follow up on issues, and contribute code if you're able to. With a little effort and collaboration, we can all help make open source projects better for everyone.
