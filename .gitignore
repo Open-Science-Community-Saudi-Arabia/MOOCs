@@ -39,9 +39,11 @@ vignettes/*.pdf
 .Renviron
 
 # Backend API sensitive files
+/API/src/.env*
 /API/src/.env
 /API/src/.env.dev
 /API/src/.env.test
+/API/src/seeders/config.js
 *node_modules/
 
 # History files
@@ -121,10 +123,7 @@ jsdocs
 # Documentation
 /documentation/docs/*.html
 /documentation/docs/styles
-/documentation/docs/scripts
-/documentation/docs/img
-/documentation/docs/fonts
 /documentation/docs/data
-
-./API/src/seeders/config*
-/API/src/seeders/config*
+/documentation/docs/fonts
+/documentation/docs/img
+/documentation/docs/scripts
