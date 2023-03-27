@@ -87,6 +87,7 @@ vignettes/*.pdf
 
 # Backend API sensitive files
 /API/src/*.env
+/API/src/seeders/config.js
 *node_modules/
 ./API/out
 
