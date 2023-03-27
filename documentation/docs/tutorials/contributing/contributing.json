@@ -1,0 +1,40 @@
+{
+    "contribution": {
+        "title": "Contributing to the MOOCs project",
+        "children": {
+            "project_structure": {
+                "title": "Project folder structure",
+                "children": {
+                    "api_project_structure": {
+                        "title": "API folder structure"
+                    },
+                    "client_project_structure": {
+                        "title": "UI folder structure"
+                    }
+                }
+            },
+            "raising_pr":{
+                "title": "Raising a Pull Request",
+                "children": {
+                    "pr_workflow": {
+                        "title": "Pull Request workflow"
+                    },
+                    "pr_review": {
+                        "title": "Pull Request review"
+                    }
+                }
+            },
+            "raising_issues": {
+                "title": "Raising an Issue",
+                "children": {
+                    "issue_workflow": {
+                        "title": "Issue workflow"
+                    },
+                    "issue_review": {
+                        "title": "Issue review"
+                    }
+                }
+            }
+        }
+    }
+}

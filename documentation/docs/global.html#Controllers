@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Documentation Namespace: Controllers</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.yeti.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Documentation</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#Controllers">Controllers</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-API.html">API</a></li><li><a href="module-RequestConfig.html">RequestConfig</a></li><li><a href="module-Token.html">Token</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="tutorial-api_docs.html">api_docs</a></li><li><a href="tutorial-backend_specific_contribution_guide.html">backend_specific_contribution_guide</a></li><li><a href="tutorial-changelog.html">Changelog</a></li><li><a href="tutorial-code_documentation.html">code_documentation</a></li><li><a href="tutorial-contribution_guide_workflow.html">contribution_guide_workflow</a></li><li><a href="tutorial-database_model_design.html">database_model_design</a></li><li><a href="tutorial-environment_setup.html">environment_setup</a></li><li><a href="tutorial-frontend_specific_contribution_guide.html">frontend_specific_contribution_guide</a></li><li><a href="tutorial-general_contribution_guides.html">general_contribution_guides</a></li><li><a href="tutorial-project_folder_structure.html">project_folder_structure</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#addQuestionToExercise">addQuestionToExercise</a></li><li><a href="global.html#basicAuth">basicAuth</a></li><li><a href="global.html#cancelEnrollment">cancelEnrollment</a></li><li><a href="global.html#createCourse">createCourse</a></li><li><a href="global.html#createCourseSection">createCourseSection</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createQuestion">createQuestion</a></li><li><a href="global.html#deactivateUserAccount">deactivateUserAccount</a></li><li><a href="global.html#deleteCourseSection">deleteCourseSection</a></li><li><a href="global.html#deleteExercise">deleteExercise</a></li><li><a href="global.html#deleteQuestion">deleteQuestion</a></li><li><a href="global.html#deleteTextMaterial">deleteTextMaterial</a></li><li><a href="global.html#deleteVideo">deleteVideo</a></li><li><a href="global.html#getAuthCodes">getAuthCodes</a></li><li><a href="global.html#getAuthTokens">getAuthTokens</a></li><li><a href="global.html#getCourseData">getCourseData</a></li><li><a href="global.html#getCourseSectionData">getCourseSectionData</a></li><li><a href="global.html#getCourseVideos">getCourseVideos</a></li><li><a href="global.html#getCourses">getCourses</a></li><li><a href="global.html#getEnrolledCourses">getEnrolledCourses</a></li><li><a href="global.html#getEnrolledUsers">getEnrolledUsers</a></li><li><a href="global.html#getExerciseData">getExerciseData</a></li><li><a href="global.html#getExercises">getExercises</a></li><li><a href="global.html#getPreviousSubmissionsForExercise">getPreviousSubmissionsForExercise</a></li><li><a href="global.html#getQuestionData">getQuestionData</a></li><li><a href="global.html#getQuestions">getQuestions</a></li><li><a href="global.html#getRequiredConfigVars">getRequiredConfigVars</a></li><li><a href="global.html#getStudentReportForCourse">getStudentReportForCourse</a></li><li><a href="global.html#getSubmissionData">getSubmissionData</a></li><li><a href="global.html#getTextMaterialData">getTextMaterialData</a></li><li><a href="global.html#getVideoData">getVideoData</a></li><li><a href="global.html#handleExistingUser">handleExistingUser</a></li><li><a href="global.html#removeQuestionFromExercise">removeQuestionFromExercise</a></li><li><a href="global.html#removeVideoFromCourse">removeVideoFromCourse</a></li><li><a href="global.html#scoreExercise">scoreExercise</a></li><li><a href="global.html#updateCourseSection">updateCourseSection</a></li><li><a href="global.html#updateExercise">updateExercise</a></li><li><a href="global.html#updateQuestion">updateQuestion</a></li><li><a href="global.html#updateTextMaterial">updateTextMaterial</a></li><li><a href="global.html#updateVideo">updateVideo</a></li><li><a href="global.html#uploadTextMaterial">uploadTextMaterial</a></li><li><a href="global.html#uploadToCloudinary">uploadToCloudinary</a></li><li><a href="global.html#uploadVideo">uploadVideo</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Namespace: Controllers</h1>
+<section>
+
+<header>
+    
+        <h2>
+        Controllers
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>API Documentation</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a>
+	
+		on 2023-03-16T12:33:34+01:00
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : false,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
