@@ -3,16 +3,16 @@ const {
     exercises,
     text_materials,
     course_sections,
-    course,
+    course, questions
 } = require('./settings');
 
 const mongoose = require('mongoose');
-const { Course, CourseSection,
+const { Course, CourseSection, Question,
     Video, Exercise, TextMaterial } = require('../models/course.models');
 
 async function connectToDatabase() {
     try {
-        const MONGO_URL = require('../config.js').MONGO_URL;
+        const MONGO_URL = require('./config.js').MONGO_URL;
         await mongoose.connect(MONGO_URL);
 
         console.log("Connected to database");
@@ -28,8 +28,13 @@ async function seed() {
             throw connection_result;
         }
 
+        // Convert preview image path to absolute path
+        course.preview_image = __dirname + course.preview_image;
+
         // Create course
         const new_course = await Course.create(course);
+
+        console.log(__dirname)
 
         // Create course sections
         for (let i = 0; i < course_sections.length; i++) {
@@ -51,13 +56,26 @@ async function seed() {
 
             // Create exercises if they belong to the course section
             for (let j = 0; j < exercises.length; j++) {
+                let new_exercise;
                 if (exercises[j].course_section === i) {
-                    await Exercise.create({
+                    new_exercise = await Exercise.create({
                         ...exercises[j],
                         course_section: new_course_section._id,
                         course: new_course._id,
                     });
+                    
+                    // Create questions if they belong to the exercise
+                    for (let k = 0; k < questions.length; k++) {
+                        if (questions[k].exercise === j) {
+                            await Question.create({
+                                ...questions[k],
+                                exercise: new_exercise._id,
+                                course: new_course._id,
+                            });
+                        }
+                    }
                 }
+
             }
 
             // Create text materials if they belong to the course section
@@ -67,12 +85,14 @@ async function seed() {
                         ...text_materials[j],
                         course_section: new_course_section._id,
                         course: new_course._id,
+                        file_url: __dirname + text_materials[j].file_purl
                     });
                 }
             }
         }
 
         console.log('Database seeded successfully');
+        process.exit(0);
     } catch (error) {
         console.log(error);
         // exit process

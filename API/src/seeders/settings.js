@@ -2,6 +2,7 @@ const course = {
     title: "Course title",
     description: "Course description",
     author: "Your name",
+    preview_image: "/course_files/preview_images/preview_image.png",
 }
 
 const course_sections = [
@@ -21,23 +22,37 @@ const course_sections = [
 
 const videos = [
     {
-        title: "Video 1",
-        description: "Video 1 description",
-        video_url: "https://www.youtube.com/watch?v=1",
-        author: "Your name",
-        duration: '1',
-        course_section: 0,
-        category: "Open data",
+        title: 'Introduction to JavaScript',
+        author: 'John Doe',
+        video_url: 'https://www.youtube.com/embed/desowWgV3iU',
+        description: 'This is a video about JavaScript',
+        duration: '20:00',
+        category: 'JavaScript'
     },
     {
-        title: "Video 2",
-        description: "Video 1 description",
-        video_url: "https://www.youtube.com/watch?v=1",
-        author: "Your name",
-        duration: '1',
-        course_section: 0,
-        category: "Open data",
-    }
+        title: 'Python for Beginners',
+        author: 'Jane Smith',
+        video_url: 'https://www.youtube.com/embed/10u1_CzdmQs',
+        description: 'This is a video about Python programming for beginners',
+        duration: '30:00',
+        category: 'Python'
+    },
+    {
+        title: 'React vs Angular',
+        author: 'Bob Johnson',
+        video_url: 'https://www.youtube.com/embed/LybOHJfqffA',
+        description: 'This video compares React and Angular frameworks',
+        duration: '15:00',
+        category: 'Frontend'
+    },
+    {
+        title: 'Introduction to AWS',
+        author: 'Alice Lee',
+        video_url: 'https://www.youtube.com/embed/XulHUHQru2I',
+        description: 'This is a video about Amazon Web Services',
+        duration: '25:00',
+        category: 'Cloud Computing'
+    },
 ]
 
 const exercises = [
@@ -57,25 +72,52 @@ const exercises = [
     }
 ]
 
+const questions = [
+    {
+        question: "What is the output of the following code? var a = 10; var b = 20; var c = a + b; console.log(c);",
+        correct_option: "30",
+        options: ["10", "20", "30", "40"],
+        exercise: 0,
+    },
+    {
+        question: "How do you create a function in JavaScript?",
+        correct_option: "function myFunction()",
+        options: ["function = myFunction()", "function:myFunction()", "function myFunction()"],
+        exercise: 0,
+    },
+    {
+        question: "What is the output of the following code? var x = 5; var y = 3; var z = x * y; console.log(z);",
+        correct_option: "15",
+        options: ["2", "3", "5", "15"],
+        exercise: 1,
+    },
+    {
+        question: "How do you declare a variable in JavaScript?",
+        correct_option: "all of the above",
+        options: ["var", "let", "const", "all of the above"],
+        exercise: 1,
+    }
+]
+
 const text_materials = [
     {
         title: "Text material 1",
         description: "Text material 1 description",
         course_section: 0,
         category: "Open data",
-        file_url: "./textmaterials/README.md"
+        file_path: "/course_files/textmaterials/README.md"
     },
     {
         title: "Text material 2",
         description: "Text material 2 description",
         course_section: 0,
         category: "Open data",
-        file_url: "./textmaterials/README.md"
+        file_url: "/course_files/textmaterials/README.md"
     }
 ]
 
 module.exports = {
-    videos, exercises, 
+    videos, exercises,
     text_materials, course_sections,
-    course, MONGO_URL,
+    course, questions
 }
