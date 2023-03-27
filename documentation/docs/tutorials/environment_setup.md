@@ -61,8 +61,8 @@ Instructions on how to run the backend server:
   npm run dev
   ```
 
-- Open your browser on localhost with the port you specified to see the result.
-
+- Now you can access the API on `http://localhost:5000`
+  
 ### Setting up Frontend
 
 #### Prerequisites
