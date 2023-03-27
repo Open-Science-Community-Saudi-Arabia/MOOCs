@@ -1,3 +1,11 @@
+---
+name: Bug report template
+about: Use this template to raise issues about the website or API
+title: "[DATE]: < bug title >"
+labels: bug
+---
+
+
 <!-- Use this template to raise issues about installing or running _The Turing Way_ locally on your computer. If you would like to raise an issue about fixing typos, or formatting issues in chapters, please use the Editor's Issue template. -->
 
 ### Description
