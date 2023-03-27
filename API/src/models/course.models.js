@@ -342,6 +342,7 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.virtual('exercises', {
@@ -423,12 +424,6 @@ const courseReportSchema = new Schema(
     },
     options
 );
-courseReportSchema.virtual('certificate', {
-    localField: '_id',
-    foreignField: 'course_report',
-    ref: 'Certificate',
-    justOne: true
-})
 courseReportSchema.virtual('certificate', {
     localField: '_id',
     foreignField: 'course_report',

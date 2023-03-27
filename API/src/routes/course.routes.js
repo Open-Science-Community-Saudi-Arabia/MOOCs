@@ -6,8 +6,17 @@ const { createCourse, getCourses, getCourseData,
     uploadVideo, getVideoData, getCourseVideos,
     updateVideo, enrollCourse, cancelEnrollment,
     getEnrolledCourses, getEnrolledUsers,
-    deleteVideo, 
-    getStudentReportForCourse} = require("../controllers/course.controllers")
+    deleteVideo,
+    getStudentReportForCourse } = require("../controllers/course.controllers")
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: 'src/assets/tempfiles/',
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
 
 const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
@@ -17,7 +26,7 @@ router.get("/:id", basicAuth('optional'), getCourseData)
 
 router.use(basicAuth())
 router
-    .post("/new", permit("Admin SuperAdmin"), createCourse)
+    .post("/new", permit("Admin SuperAdmin"), upload.single('file'), createCourse)
     .patch("/update/:id", permit("Admin SuperAdmin"), updateCourse)
     .delete("/delete/:id", permit("Admin SuperAdmin"), deleteCourse)
     .post("/enroll/:id", permit("Admin EndUser SuperAdmin"), enrollCourse)

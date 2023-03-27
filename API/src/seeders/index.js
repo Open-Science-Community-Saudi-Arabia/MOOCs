@@ -6,10 +6,9 @@ const {
     course,
 } = require('./settings');
 
+const mongoose = require('mongoose');
 const { Course, CourseSection,
     Video, Exercise, TextMaterial } = require('../models/course.models');
-
-const mongoose = require('mongoose');
 
 async function connectToDatabase() {
     try {
@@ -18,9 +17,10 @@ async function connectToDatabase() {
 
         console.log("Connected to database");
     } catch (error) {
-        return error;        
+        return error;
     }
 }
+
 async function seed() {
     try {
         const connection_result = await connectToDatabase();
