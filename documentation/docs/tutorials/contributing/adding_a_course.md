@@ -138,7 +138,8 @@ First, you'll need to add the data for the course in this order
     ];
     ```
 
-    **Note:** _The duration property is the length of the video in minutes. The course_section property is the index of the course section you want the video to appear in. For example, if you want the video to appear in the first course section, set the course_section property to 0. You can read more about array indexes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)_
+    **Note:** _The duration property is the length of the video in minutes. The course_section property is the index of the course section you want the video to appear in. For example, if you want the video to appear in the first course section, set the course_section property to 0. You can read more about array indexes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)_.
+    All videos must be hosted on YouTube. You can find the video URL by clicking on the **Share** button on the video and copying the URL from the **Embed** tab.
 
 #
 
