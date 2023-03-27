@@ -55,36 +55,6 @@ const Password = require('../models/password.models');
 const { default: mongoose } = require('mongoose');
 
 /**
- * Sign a token with the given payload and secret
- * 
- * @description This function signs a JWT token with the given payload and secret
- * <br>
- * 
- * The payload is the data that will be stored in the token, 
- * this data will be required for the client to make requests to the API </br>
- * With this function, you can also specify the expiry date of the token, 
- * and the secret to be used for signing the token, the default secret is the JWT_ACCESS_SECRET
- * 
- * @param {string} id   
- * @param {string} role 
- * @param {string} jwtSecret 
- * @param {string} expiry 
- * 
- * @returns {string} token
- * 
- * @throws {Error} if jwtSecret is not provided 
- */
-const signToken = (id, role, jwtSecret = null, expiry = null) => {
-    const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
-    if (!jwtSecret) {
-        jwtSecret = config.JWT_ACCESS_SECRET;
-    }
-    return jwt.sign({ id, role }, jwtSecret, {
-        expiresIn: expiryDate,
-    });
-};
-
-/**
  * Create and send JWT tokens to the client.
  * 
  * @description This function creates a JWT access token and a refresh token and sends them to the client.

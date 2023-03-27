@@ -1,3 +1,25 @@
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module Certificate Controller
+ * 
+ * @description This module contains the controller methods for the certificate routes.
+ * 
+ * @requires module:CertificateModel~certificateSchema
+ * @requires module:CourseReportModel~courseReportSchema
+ * @requires module:canvas
+ * 
+ * The following routes are handled by this module: <br>
+ * 
+ * </br>
+ * 
+ * <b>GET</b> /api/certificate/verify/:sn <br>
+ * <b>GET</b> /api/certificate/course/:id <br>
+ * <b>GET</b> /api/certificate/:id <br>
+ * <b>GET</b> /api/certificate/ <br>
+ * 
+ */
+
 const { Certificate } = require("../models/certificate.models")
 const { CourseReport } = require("../models/course.models")
 

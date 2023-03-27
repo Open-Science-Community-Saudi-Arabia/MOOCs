@@ -57,8 +57,7 @@ const mongoose = require("mongoose");
  * @returns {MongooseObject} savedCourse
  * 
  * @throws {error} if an error occured
-
-*/
+ * */
 exports.createCourse = async (req, res, next) => {
     const preview_image = req.file
 
@@ -128,8 +127,7 @@ exports.createCourse = async (req, res, next) => {
  * 
  * 
  * @returns {object} courses
- ** @memberof CourseController
-*/
+ * */
 exports.getCourses = async (req, res, next) => {
     if (Object.keys(req.body).length != 0) {
         const courses = await Course.find(req.body);
@@ -193,8 +191,7 @@ exports.getCourses = async (req, res, next) => {
  * @param {string} id - id of the course 
  * 
  * @returns course
-
-*/
+ * */
 exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -293,8 +290,7 @@ if (course && course.course_sections) {
  * @returns {object} course
  * 
  * @throws {BadRequestError} if Course not found
- 
-*/
+ * */
 exports.updateCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -332,7 +328,7 @@ exports.updateCourse = async (req, res, next) => {
  * @param {string} id - Id of the course
  * 
  * @returns {string} message
-*/
+ * */
 exports.deleteCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -364,7 +360,7 @@ exports.deleteCourse = async (req, res, next) => {
  * @returns {Object} Response object.
  * @returns {boolean} Response object.success - Indicates whether the operation was successful.
  * @returns {string} Response object.data.message - A message indicating the status of the operation.
- */
+ * */
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -413,7 +409,7 @@ exports.enrollCourse = async (req, res, next) => {
  * @returns {Object} Response object.
  * @returns {boolean} Response object.success - Indicates whether the operation was successful.
  * @returns {string} Response object.data.message - A message indicating the status of the operation.
- */
+ * */
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -447,7 +443,7 @@ exports.cancelEnrollment = async (req, res, next) => {
  * after the user is authenticated.
  * 
  * @returns {object} enrolledCourses 
-*/
+ * */
 exports.getEnrolledCourses = async (req, res, next) => {
     const user = await User.findById(req.user.id).populate('enrolled_courses');
 
