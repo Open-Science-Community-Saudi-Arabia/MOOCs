@@ -1,3 +1,3 @@
 module.exports = {
-    MONGO_URL: 'mongodb+srv://moocs:Richi3-boayant-rorwak-bydmEg-7wemfe@boayant.haz1j1c.mongodb.net/moocs_test?retryWrites=true&w=majority'
+    MONGO_URL: 'mongodb://localhost:27017/your_db_name'
 }
