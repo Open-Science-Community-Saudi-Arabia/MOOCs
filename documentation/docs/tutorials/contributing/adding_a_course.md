@@ -27,6 +27,8 @@ First, you'll need to add the data for the course in this order
 - Course sections
 - Videos exercises and questions
 
+Note: Before you can add a course to the platform, you should first raise an issue on the MOOCs API repository. This will help us keep track of the courses that are being added to the platform. To do this use the [Add Course Issue Template](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/.github/ISSUE_TEMPLATE/new_course.md) and follow the instructions in the template. Once you have raised the issue, you can begin adding the course to the platform.
+
 #### Adding a course
 
 1.  To begin, first navigate to the `/API/src` and create a new file `.env.dev` this file will contain the connection URL to your MongoDB database. You can use the `.env.example` file as a template.
