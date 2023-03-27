@@ -120,5 +120,11 @@ jsdocs
 
 # Documentation
 /documentation/docs/*.html
+/documentation/docs/styles
+/documentation/docs/scripts
+/documentation/docs/img
+/documentation/docs/fonts
+/documentation/docs/data
+
 ./API/src/seeders/config*
 /API/src/seeders/config*
