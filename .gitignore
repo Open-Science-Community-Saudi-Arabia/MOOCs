@@ -39,7 +39,6 @@ vignettes/*.pdf
 .Renviron
 
 # Backend API sensitive files
-/API/src/.env*
 /API/src/.env
 /API/src/.env.dev
 /API/src/.env.test
