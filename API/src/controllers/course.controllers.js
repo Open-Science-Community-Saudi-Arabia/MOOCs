@@ -215,7 +215,7 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
-if (course && course.course_sections) {
+    if (course && course.course_sections) {
 
         for (let i = 0; i < course.course_sections.length; i++) {
             const curr_section = course.course_sections[i];
@@ -231,8 +231,8 @@ if (course && course.course_sections) {
                     curr_section.exercises[j] = exercise;
                 }
             }
- 
-            
+
+
             course.course_sections[i] = curr_section;
         }
     }
