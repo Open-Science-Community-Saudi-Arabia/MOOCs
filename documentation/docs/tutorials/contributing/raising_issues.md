@@ -16,12 +16,23 @@ We have issue templates for different types of issues. Please use the appropriat
 - Bug report template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/bug_report.md))
 - New course Request template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/new_course.md))
 
-### Issue labels
-
 ### Writing a clear title and description
 When opening an issue, it's important to write a clear and concise title that accurately reflects the problem or suggestion you want to raise. The title should be descriptive enough so that others can quickly understand the issue, but not too long or complicated.
 
 In the issue description, provide as much detail as possible about the issue or suggestion. Include steps to reproduce the problem if applicable, and any relevant information or context that can help others understand the issue better.
+
+### Using Issue labels
+Issue labels are used to categorize and organize issues in an open source project. They can help contributors quickly identify the type and status of an issue, and can also help maintainers prioritize and manage the project's backlog of issues.
+
+When raising an issue, make sure to choose the appropriate label(s) that best describes the issue. For example, if you're reporting a bug, you might use the "bug" label. If you're suggesting a new feature or improvement, you might use the "enhancement" label.
+
+Some common issue labels you might see in a GitHub project include:
+
+* Bug: Used to report an error or problem with the code or functionality of the project.
+* Enhancement: Used to suggest a new feature or improvement to the project.
+* Documentation: Used to suggest changes or improvements to the project's documentation.
+* Help wanted: Used to indicate that the project maintainers are actively seeking contributions to help resolve the issue.
+* Good first issue: Used to indicate that the issue is suitable for new contributors who are just getting started with the project.
 
 ### Contributing to issue discussions
 If you're interested in working on an issue, please leave a comment to let others know. This will help to avoid duplicate work and ensure that the issue is assigned to the right person.
