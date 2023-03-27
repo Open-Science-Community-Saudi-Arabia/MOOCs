@@ -119,6 +119,6 @@ jsdocs
 
 
 # Documentation
-/documentation/docs
+/documentation/docs/*.html
 ./API/src/seeders/config*
 /API/src/seeders/config*
