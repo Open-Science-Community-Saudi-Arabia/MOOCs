@@ -13,6 +13,10 @@ const permit = require("../middlewares/permission_handler")
 const { basicAuth } = require("../middlewares/auth")
 
 
+router.get("/:id", basicAuth('access'), getCourseData)
+
+router.use(basicAuth())
+
 router.get("/:id", basicAuth('optional'), getCourseData)
 
 router.use(basicAuth())

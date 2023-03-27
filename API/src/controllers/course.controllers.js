@@ -190,13 +190,24 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
-    if (course && course.exercises) {
-        for (let i = 0; i < course.exercises.length; i++) {
-            const exercise = course.exercises[i];
-            const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user._id });
-            if (exercise_report) {
-                exercise.best_score = exercise_report.best_score;
+    if (course && course.course_sections) {
+
+        for (let i = 0; i < course.course_sections.length; i++) {
+            const curr_section = course.course_sections[i];
+
+            if (curr_section.exercises) {
+                for (let j = 0; j < curr_section.exercises.length; j++) {
+                    const exercise = curr_section.exercises[j].toObject();
+                    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
+                    if (exercise_report) {
+                        exercise.best_score = exercise_report.best_score;
+                        exercise.best_percentage_passed = exercise_report.percentage_passed;
+                    }
+                    curr_section.exercises[j] = exercise;
+                }
             }
+
+            course.course_sections[i] = curr_section;
         }
     }
 
@@ -205,7 +216,7 @@ exports.getCourseData = async (req, res, next) => {
         if (course_report) {
             course.best_score = course_report.best_score;
             course = course.toObject()
-            course.percentage_completed = course_report.percentage_passed;
+            course.overall = course_report.percentage_passed;
         }
     }
 
@@ -251,7 +262,7 @@ exports.getCourseData = async (req, res, next) => {
  * @returns {object} course
  * 
  * @throws {BadRequestError} if Course not found
-
+ 
 */
 exports.updateCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
@@ -545,7 +556,7 @@ exports.removeVideoFromCourse = async (req, res, next) => {
  * @param {courseId} - id of the course to get 
  *  
  * @returns {Array} - Array of all the videos within the course
-
+ 
 */
 exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
@@ -629,7 +640,7 @@ exports.getVideoData = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
-
+ 
 */
 exports.updateVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
