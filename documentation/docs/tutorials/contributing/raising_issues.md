@@ -12,9 +12,9 @@ Remember, raising an issue is an opportunity to improve the project and contribu
 ### Issue templates
 We have issue templates for different types of issues. Please use the appropriate template for your issue. If you're not sure which template to use, please use the `General` template.
 
-- General template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATEl.md))
-- Bug report template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/bug_report.md))
-- New course Request template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/.github/ISSUE_TEMPLATE/new_course.md))
+- General template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md)) : This is the default template for raising an issue. Use this template if you're not sure which template to use.
+- Bug report template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/.github/ISSUE_TEMPLATE/bug_report.md)) : Use this template to report a bug or problem with the project.
+- New course Request template ([preview](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/.github/ISSUE_TEMPLATE/new_course.md)) : Use this template to request permission to add a new course to the list.
 
 ### Writing a clear title and description
 When opening an issue, it's important to write a clear and concise title that accurately reflects the problem or suggestion you want to raise. The title should be descriptive enough so that others can quickly understand the issue, but not too long or complicated.
