@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { Course, CourseSection, Question, Video, Exercise, TextMaterial } = require('../models/course.models');
 const { videos, exercises, text_materials, course_sections, course, questions } = require('./settings');
 const { MONGO_URL } = require('./config.js');
+const { User, Status } = require('../models/user.models');
+const { Password } = require('../models/password.models');
 
 mongoose.set('strictQuery', false);
 
@@ -14,6 +16,48 @@ async function connectToDatabase() {
     } catch (error) {
         console.log("'[Error] - Error connecting to local database");
         return error;
+    }
+}
+
+async function createTestUser() {
+    // Get randdom email
+    const random_email = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + '@gmail.com';
+
+    const user_data = {
+        email: random_email,
+        password: 'testpassword',
+        firstname: 'Test',
+        lastname: 'User',
+        role: 'EndUser',
+    }
+
+    const user = await User.create(user_data);
+    
+    await Password.create({user: user._id, password: user_data.password});
+    
+    await Status.create({user: user._id});
+    
+    return user;
+}
+
+// Function to enroll a user for a course
+async function enrollUserForCourse(user, course) {
+    await Course.updateOne(
+        { _id: course._id },
+        { $addToSet: { enrolled_users: user._id } }
+    );
+}
+
+// Function to enroll all users for all courses
+// so that all users can access all courses
+async function enrollAllUsersForAllCourses() {
+    const users = await User.find({role: 'EndUser'});
+    const courses = await Course.find();
+
+    for (let i = 0; i < users.length; i++) {
+        for (let j = 0; j < courses.length; j++) {
+            await enrollUserForCourse(users[i], courses[j]);
+        }
     }
 }
 
@@ -129,6 +173,24 @@ async function seedDatabase() {
         const new_course = await createCourse();
         // Create course sections for the new course
         await createCourseSections(new_course);
+
+        const new_user = await createTestUser();
+
+        await enrollAllUsersForAllCourses();
+
+        console.log('Database seeded successfully');
+
+        console.log(
+            ```
+            User created successfully
+
+            Email: ${new_user.email}
+            Password: ${new_user.password}
+
+            Use the following data to log into the client app
+            ```
+        )
+
     } catch (error) {
         console.log(error);
     } finally {
