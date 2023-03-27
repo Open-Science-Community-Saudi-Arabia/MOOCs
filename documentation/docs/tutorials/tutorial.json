@@ -1,6 +1,8 @@
 {
     "changelog": {
-        "title": "Changelog",
-        "child": "contributing"
+        "title": "Changelog"
+    },
+    "environment_setup": {
+        "title": "Environment Setup"
     }
 }

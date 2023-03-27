@@ -30,7 +30,7 @@ First, you'll need to add the data for the course in this order
 #### Adding a course
 
 1.  To begin, first navigate to the `/API/src` and create a new file `.env.dev` this file will contain the connection URL to your MongoDB database. You can use the `.env.example` file as a template.
-    **Note:** _If you are using a cloud-based MongoDB database, you can find the connection URL in the database's connection settings._
+    **Note:** _If you are using a cloud-based MongoDB database, you can find the connection URL in the database's connection settings._ For more information on how to find the connection URL, please refer to the [MongoDB documentation](https://docs.mongodb.com/manual/reference/connection-string/). or [this guide](https://www.mongodb.com/docs/compass/current/connect/#connect)
 
     Open the `.env.dev` file in your text editor and add the following line:
 
