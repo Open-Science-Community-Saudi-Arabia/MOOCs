@@ -1,5 +1,10 @@
 {
     "changelog": {
         "title": "Changelog"
+    },
+    "adding_course_to_moocs": {
+        "title": "Adding a course to MOOCs",
+        "next": "Next",
+        "previous": "Previous"
     }
 }

@@ -31,6 +31,7 @@ async function createCourse() {
 async function createCourseSections(new_course) {
     for (let i = 0; i < course_sections.length; i++) {
         console.log('creating new course section ' + i)
+        
         const new_course_section = await CourseSection.create({
             ...course_sections[i],
             course: new_course._id,

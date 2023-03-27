@@ -162,8 +162,10 @@ exports.getCourses = async (req, res, next) => {
             ]
         }).sort({ _id: -1 })
     ).filter((course) => {
-        if (course.isAvailable) return course.toJSON();
+        if (course.isAvailable) return course.toObject();
     });
+
+    console.log(courses)
 
     return res.status(200).send({
         success: true,
@@ -216,6 +218,8 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
+    console.log(course)
+
     if (course && course.exercises) {
         for (let i = 0; i < course.exercises.length; i++) {
             const exercise = course.exercises[i];
@@ -235,11 +239,13 @@ exports.getCourseData = async (req, res, next) => {
         }
     }
 
+    console.log('getting the course content')
+
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course?.isAvailable ? course : null
+            course
         }
     })
 }
