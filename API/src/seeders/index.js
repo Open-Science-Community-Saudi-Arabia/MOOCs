@@ -1,21 +1,27 @@
+require('dotenv').config({ path: `${__dirname}/../.env.dev` });
+
 const mongoose = require('mongoose');
 const { Course, CourseSection, Question, Video, Exercise, TextMaterial } = require('../models/course.models');
 const { videos, exercises, text_materials, course_sections, course, questions } = require('./settings');
-const { MONGO_URL } = require('./config.js');
 const { User, Status } = require('../models/user.models');
-const { Password } = require('../models/password.models');
+const Password = require('../models/password.models');
+
 
 mongoose.set('strictQuery', false);
 
 // Function to connect to the database
 async function connectToDatabase() {
     try {
+        const MONGO_URL = process.env.MONGO_URI_DEV
+
         console.log("Connecting to local database...");
+
         await mongoose.connect(MONGO_URL);
+        
         console.log("Connected to local database successfully");
     } catch (error) {
         console.log("'[Error] - Error connecting to local database");
-        return error;
+        process.exit(1);
     }
 }
 
@@ -32,12 +38,12 @@ async function createTestUser() {
     }
 
     const user = await User.create(user_data);
-    
-    await Password.create({user: user._id, password: user_data.password});
-    
-    await Status.create({user: user._id});
-    
-    return user;
+
+    await Password.create({ user: user._id, password: user_data.password });
+
+    await Status.create({ user: user._id, isVerified: true, isActive: true });
+
+    return user_data
 }
 
 // Function to enroll a user for a course
@@ -51,7 +57,7 @@ async function enrollUserForCourse(user, course) {
 // Function to enroll all users for all courses
 // so that all users can access all courses
 async function enrollAllUsersForAllCourses() {
-    const users = await User.find({role: 'EndUser'});
+    const users = await User.find({ role: 'EndUser' });
     const courses = await Course.find();
 
     for (let i = 0; i < users.length; i++) {
@@ -75,7 +81,7 @@ async function createCourse() {
 async function createCourseSections(new_course) {
     for (let i = 0; i < course_sections.length; i++) {
         console.log('creating new course section ' + i)
-        
+
         const new_course_section = await CourseSection.create({
             ...course_sections[i],
             course: new_course._id,
@@ -112,7 +118,7 @@ async function createExercises(new_course, new_course_section, course_section_in
         // Create exercise if it belongs to the current course section
         if (exercises[j].course_section === course_section_index) {
             console.log('creating new exercise ' + j + ' for course section ' + course_section_index + '')
-            
+
             new_exercise = await Exercise.create({
                 ...exercises[j],
                 course_section: new_course_section._id,
@@ -181,14 +187,14 @@ async function seedDatabase() {
         console.log('Database seeded successfully');
 
         console.log(
-            ```
+            `
             User created successfully
 
             Email: ${new_user.email}
             Password: ${new_user.password}
 
-            Use the following data to log into the client app
-            ```
+            Use the above credentials to log into the client app
+            `
         )
 
     } catch (error) {
