@@ -13,17 +13,6 @@
                     }
                 }
             },
-            "raising_pr":{
-                "title": "Raising a Pull Request",
-                "children": {
-                    "pr_workflow": {
-                        "title": "Pull Request workflow"
-                    },
-                    "pr_review": {
-                        "title": "Pull Request review"
-                    }
-                }
-            },
             "raising_issues": {
                 "title": "Raising an Issue",
                 "children": {
@@ -32,6 +21,17 @@
                     },
                     "issue_review": {
                         "title": "Issue review"
+                    }
+                }
+            },
+            "raising_pr":{
+                "title": "Raising a Pull Request",
+                "children": {
+                    "pr_workflow": {
+                        "title": "Pull Request workflow"
+                    },
+                    "pr_review": {
+                        "title": "Pull Request review"
                     }
                 }
             },

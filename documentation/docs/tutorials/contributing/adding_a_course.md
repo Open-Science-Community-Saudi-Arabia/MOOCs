@@ -30,21 +30,41 @@ First, you'll need to add the data for the course in this order
 #### Adding a course
 
 #1
-1.  To begin, first navigate to the `/API/src/seeders` directory and open the `config.js` file in your text editor and set the `MONGO_URL` property to the URL of your MongoDB database.
 
-        ```javascript
-            module.exports = {
-                MONGO_URL: 'mongodb://localhost:27017/your_db_name'
-                }
-            ```
+1.  To begin, first navigate to the `/API/src` and create a new file `.env.dev` this file will contain the connection URL to your MongoDB database. You can use the `.env.example` file as a template.
 
     **Note:** _If you are using a cloud-based MongoDB database, you can find the connection URL in the database's connection settings._
 
-#
+Open the `.env.dev` file in your text editor and add the following line:
 
-Open the `settings.js` file in you text editor, this is where you will add the course data.
+    ```bash
+        MONGO_URI_DEV = <MongoDB connection URL>
+        PORT = 5000
 
-2.  file and look for the "const course" object and update the following properties with the details of your course:
+        JWT_ACCESS_SECRET = X5hyeNLbpVpsJ5v52og8_cwb41AeVtcPMsaguWXvql7X5h
+        JWT_ACCESS_EXP = 1h
+        JWT_REFRESH_SECRET = yeNLbpVpsJ5v52og8_cwb41AeVtcPMsaguWXvql
+        JWT_REFRESH_EXP = 7d
+
+        OAUTH_CLIENT_ID = <Google Client ID>
+        OAUTH_CLIENT_SECRET = <Google Client Secret>
+        OAUTH_REFRESH_TOKEN = <Google Refresh Token>
+        OAUTH_ACCESS_TOKEN = <Google Access Token>
+
+        GITHUB_CLIENT_ID = <Github Client ID>
+        GITHUB_CLIENT_SECRET = <Github Client Secret>
+
+        CLIENT_APP_URL = https://localhost://5173
+
+    ```
+
+    - MONGO_URI_DEV: The connection URL to your MongoDB database.
+
+Note: The current `.env.dev` file does not contain all the neccessary environment variables. You can find the complete list of environment variables in the `.env.example` file. This version of the `.env.dev` file is only for the purpose of adding a course to the platform. So it only supports fetching courses and manual login feature and does not support Google or Github login.
+
+The `settings.js` located in the `/API/src/seeders` folder where you will add the course data.
+
+2.  Open the `settings.js` file and look for the "const course" object and update the following properties with the details of your course:
 
     ```javascript
     const course = {
@@ -201,6 +221,7 @@ Open the `settings.js` file in you text editor, this is where you will add the c
     The `exercise` property is the index of the exercise you want the question to appear in. For example, if you want the question to appear in the first exercise, set the `exercise` property to 0, if you want it to appear in the second exercise set the value to 1. The exercises are zero-indexed, so the first exercise is 0, the second is 1, and so on. You can read more about array indexes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
 
     The `options` property is an array of strings that contain the options for the question. The `correct_option` property is the correct option for the question. The `correct_option` property should be one of the strings in the `options` array.
+
 #
 
 7.  **Text materials**: The text materials are written course contents, they can be PDF's, text files or DOCX, they are stored in the **const text_materials** array.The textmaterials can be saved locally or externally, if stored externally by any cloud service, the url to the text material will be used in teh `file_url` field, but in a case where the file is stored locally, it should be placed in the `/API/src/seeders/course_files/textmaterials`directory, then the `file_url` value should be set to the path where the textmaterial is located. To add new text materials, add a new object to the **const text_materials** array. For each text material, provide a title, description, course_section, and category. Make sure to set the course_section value to the index of the course section you want the text material to appear in.
@@ -237,24 +258,45 @@ Save the changes to the settings.js file.
 Now your have added all the properties to the settings.js file, you can now run the seeders to add the courses to the database.
 
 ## Running Seeders
+
 The seeders will add the courses to the database. To run the seeders, make sure you are still within the `/API` folder then run following command:
 
 ```bash
 npm run seed
 ```
 
-This will add the courses to the database. You can now run the application and see the courses you added.
+This will add the courses to the database. And create a new user for testing purposes. The user details will be displayed in the terminal after the seeders have run.
+For example:
+
+```bash
+
+            User created successfully
+
+            Email: <email>
+            Password: <password>
+
+            Use the above credentials to log into the client app
+
+```
+
+The credentials displayed on your terminal will be used to login to the client app.
 
 ## Running the Application
-To preview the newly added course, you will need to will need to startup the API and the client. Before you start the API you'll need to se the `MONGO_URI` environment variable to the MongoDB connection string you used initially in Step 1. You can do this by running the following command:
 
-To start the API, run the following command:
+To preview the newly added course, you will need to will need to startup the API and the client. The API needs some environment variables to run, so you will need to create a `.env.dev` file in the `/API` folder and add the following variables:
+
+```bash
+
+```
+
+````bash
+To start the API, navigate the `/API` folder and run the following command:
 
 ```bash
 npm run dev
-```
+````
 
-To start the client, navigate the `/Frontend/` folder and run the following command:
+To start the client, from the root directory navigate the `/Frontend/` folder and run the following command:
 
 ```bash
 yarn run dev
@@ -263,8 +305,9 @@ yarn run dev
 You can now preview the course you added by navigating to the following URL:
 
 ```bash
-http://localhost:3000/dashboard/
+http://localhost:5173/dashboard/
 ```
+
 You should see the course you added in the dashboard.
 
 That's it! You have successfully added a new course to the moocs platform.
