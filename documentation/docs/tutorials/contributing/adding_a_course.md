@@ -282,7 +282,7 @@ To start the API, navigate the `/API` folder and run the following command:
 
 ```bash
 npm run dev
-````
+```
 
 To start the client, from the root directory navigate the `/Frontend/` folder and run the following command:
 
