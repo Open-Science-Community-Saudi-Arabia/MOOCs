@@ -1,3 +1,26 @@
+/**
+ * @fileoverview Question controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module Question Controller
+ * 
+ * @requires ../models/course.models
+ * @requires ../utils/errors
+ * 
+ * @description This module is responsible for handling all question related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /question/new <i> - Add a new question to a particular exercise </i> <br>
+ * <b>GET</b> /question/:id <i> - Get a particular question </i> <br>
+ * <b>PATCH</b> /question/update/:id <i> - Update a particular question </i> <br>
+ * <b>DELETE</b> /question/delete/:id <i> - Delete a particular question </i> <br>
+ */
+
 const { Question, Exercise, Video, Course } = require('../models/course.models')
 const { arrayOfCapitalLetters } = require('../utils/alphabets')
 const { BadRequestError, NotFoundError } = require('../utils/errors')
@@ -6,6 +29,8 @@ const { BadRequestError, NotFoundError } = require('../utils/errors')
 // Add a new question to a particular exercise - req.body.exercise_id = the id of the exercise you want to add a question \
 /**
  * Create Question
+ * 
+ * @description Create a new question for a particular exercise
  * 
  * @param {string} question
  * @param {string} correct_answer
@@ -90,6 +115,8 @@ exports.getQuestions = async (req, res, next) => {
 
 /**
  * Get qustion data
+ * 
+ * @description Returns the question and it's options
  * 
  * @param {string} id - id of question
  * 

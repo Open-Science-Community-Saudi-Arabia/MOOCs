@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "clean-jsdoc-theme": "^4.2.6",
     "connect": "^3.7.0",
     "docdash": "^2.0.1",
     "dotenv": "^16.0.3",

@@ -1,7 +1,10 @@
 /**
- * @memberof Controllers
- * @name Controllers/Auth
- * @module Controllers/Auth
+ * module: Controller
+ */
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module Auth Controller
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
  *
  * The following routes are handled by this module and their corresponding functions: </br>
@@ -79,7 +82,6 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
     });
 };
 
-
 /**
  * Create and send JWT tokens to the client.
  * 
@@ -89,21 +91,15 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * @param {MongooseDocument} user - The user object.
  * @param {number} statusCode - The HTTP response status code.
  * @param {ExpressResponseObject} res - The Express response object.
- * 
+ * @memberof module:Controllers/AuthController
  * @returns {void}
  * 
  * @throws {Error} If error occurs
  */
-const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
-    const cookieOptions = {
-        expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-    };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-    res.cookie('jwt', token, cookieOptions);
+const returnAuthTokens = async (user, statusCode, res) => {
+    console.log(user)
+    if (!user.status) user = await User.findById(user._id).populate('status');
+    const { access_token, refresh_token } = await getAuthTokens(user.toObject());
 
     // Remove sensitive data from user object
     user.password = undefined;
@@ -113,11 +109,14 @@ const createToken = (user, statusCode, res) => {
     user.isVerified = undefined;
     user.auth_code = undefined;
 
+    console.log(access_token)
+
     res.status(statusCode).json({
-        status: 'success',
-        token,
+        success: true,
         data: {
             user,
+            access_token,
+            refresh_token
         },
     });
 };
@@ -134,7 +133,6 @@ const createToken = (user, statusCode, res) => {
  * 
  * @param {MongooseObject} user - Mongoose user object
  * @returns {string} access_token, refresh_token - JWT tokens
-
  */
 const handleUnverifiedUser = function (user) {
     return async function (req) {
@@ -173,9 +171,8 @@ const handleUnverifiedUser = function (user) {
  */
 const handleExistingUser = function (user) {
     return async function (req, res, next) {
-        const existing_user = user.toJSON({ virtuals: true });
+        const existing_user = user.toObject();
 
-        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
@@ -200,13 +197,12 @@ const handleExistingUser = function (user) {
 };
 
 exports.passportOauthCallback = function (req, res) {
-    createToken(req.user, 200, res);
+    returnAuthTokens(req.user, 200, res);
 };
 
 /**
  * Signup a new user
  * 
- * @category Controllers
  * @description This function creates a new user and sends a verification email to the user.
  * 
  * The user is created using the User model, and the user's password is hashed using the bcrypt library. 
@@ -253,7 +249,6 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
@@ -289,8 +284,6 @@ exports.signup = async (req, res, next) => {
  * Create a new admin account and send a verification email to the user.
  *
  * This function is only accessible to the superadmin to create a new admin account.
- *
- * @category Controllers
  *
  * @param {Object} req - Express request object
  * @param {Object} req.body - Request body containing user details
@@ -397,7 +390,7 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-const { token } = req.params;
+    const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -921,7 +914,6 @@ exports.resetPassword = async (req, res, next) => {
 exports.googleSignin = async (req, res, next) => {
     const authorization = req.headers.authorization;
     const code = authorization.split(' ')[1];
-    console.log(code)
 
     if (!code) {
         return next(new BadRequestError('Missing required params in request body'))
@@ -938,8 +930,8 @@ exports.googleSignin = async (req, res, next) => {
         audience: config.OAUTH_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
-        existing_user = await User.findOne({ email: payload.email });
-    
+        existing_user = await User.findOne({ email: payload.email }).populate('status')
+
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
@@ -953,11 +945,28 @@ exports.googleSignin = async (req, res, next) => {
             googleId: payload.sub,
         };
 
-        const new_user = await User.create(user_data);
-        createToken(new_user, 200, res);
+        const session = await mongoose.startSession();
+        let new_user;
+        await session.withTransaction(async () => {
+            await User.create(
+                [{ ...user_data }], { session, context: 'query' }
+            ).then((user) => { new_user = user[0] });
+
+            await Password.create([{ user: new_user._id, password: user_data.password }], { session, context: 'query' });
+            await Status.create([{ user: new_user._id }], { session, context: 'query' })
+            await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
+
+            await session.commitTransaction()
+            session.endSession()
+        })
+
+        await returnAuthTokens(new_user, 200, res);
+        return
     }
 
-    createToken(existing_user, 200, res)
+    console.log(existing_user.toObject())
+
+    await returnAuthTokens(existing_user, 200, res)
 };
 
 // Get details of logged in user

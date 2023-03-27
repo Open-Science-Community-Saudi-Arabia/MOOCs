@@ -1,7 +1,17 @@
+/**
+ * @description Role based permission handler
+ * 
+ * @category Backend API
+ * @subcategory Middlewares
+ * 
+ * @module RBAC Permission Handler
+ * 
+ * @description This module contains a middleware
+ * that handles role based access control.
+ */
+
 const asyncWrapper = require("../utils/async_wrapper");
-const { UnauthorizedError, ForbiddenError } = require("../utils/errors");
-const config = require("../utils/config");
-const jwt = require("jsonwebtoken");
+const {  ForbiddenError } = require("../utils/errors");
 
 // USAGE
 /*
@@ -14,6 +24,13 @@ const jwt = require("jsonwebtoken");
     router
         .post('/your/route/path/', permit('allowed_role1 allowed_role2'), (req, res, next) => {})
 */
+
+/**
+ * @description Role based permission handler
+ * 
+ * @param {String} roles 
+ * @returns 
+ */
 module.exports = function (roles) {
     return asyncWrapper(async (req, res, next) => {
         const allowed_roles = roles.split(" ");

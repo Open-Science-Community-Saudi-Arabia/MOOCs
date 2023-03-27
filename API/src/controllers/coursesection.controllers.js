@@ -1,3 +1,25 @@
+/**
+ * @fileoverview Course section controller
+ * 
+ * @category Backend API
+ * @subcategory Controllers
+ * 
+ * @module CourseSection Controller
+ * @requires ../models/course.models
+ * @requires ../utils/errors
+ * 
+ * @description This module is responsible for handling all course section related requests <br>
+ * 
+ * The following routes are handled by this module:: <br>
+ * 
+ * </br>
+ * 
+ * <b>POST</b> /coursesection/new <br>
+ * <b>GET</b> /coursesection/:id <br>
+ * <b>PATCH</b> /coursesection/update/:id <br>
+ * <b>DELETE</b> /coursesection/delete/:id <br>
+ */
+
 const { Course, CourseSection, Video, Exercise } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
@@ -13,6 +35,7 @@ const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/err
  * @throws {NotFoundError} if course not found
  *
  * @returns {Object}
+ * @see {@link module:CourseModel~courseSectionSchema}
  */
 exports.createCourseSection = async (req, res, next) => {
     const { course_id, title } = req.body;
@@ -41,10 +64,15 @@ exports.createCourseSection = async (req, res, next) => {
 /**
  * Get course section data
  *
- * @description Get all the contents of a course section
+ * @description Get all the contents of a course section, it includes videos, exercises and text materials
+ * of the course section. An additional field `content` is also added, it is an array of objects, each object
+ * contains the type of content and the content itself. The type of content can be either `video`, `exercise` or
+ * `textmaterial`. The content itself is the object of the content.
+ * These contents are sorted by the order they were added to the course section.
+ * 
+ * @see {@link module:CourseModel~courseSectionSchema}
  *
  * @param {string} id - Id of course section
- *
  * @throws {BadRequestError} if missing param in request body
  * @throws {NotFoundError} if course section not found
  *
