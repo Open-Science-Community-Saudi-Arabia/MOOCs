@@ -29,15 +29,11 @@ First, you'll need to add the data for the course in this order
 
 #### Adding a course
 
-#1
-
 1.  To begin, first navigate to the `/API/src` and create a new file `.env.dev` this file will contain the connection URL to your MongoDB database. You can use the `.env.example` file as a template.
-
     **Note:** _If you are using a cloud-based MongoDB database, you can find the connection URL in the database's connection settings._
 
-Open the `.env.dev` file in your text editor and add the following line:
+    Open the `.env.dev` file in your text editor and add the following line:
 
-    ```bash
         MONGO_URI_DEV = <MongoDB connection URL>
         PORT = 5000
 
@@ -56,13 +52,11 @@ Open the `.env.dev` file in your text editor and add the following line:
 
         CLIENT_APP_URL = https://localhost://5173
 
-    ```
+    Note: The current `.env.dev` file does not contain all the neccessary environment variables. You can find the complete list of environment variables in the `.env.example` file. This version of the `.env.dev` file is only for the purpose of adding a course to the platform. So it only supports fetching courses and manual login feature and does not support Google or Github login.
 
-    - MONGO_URI_DEV: The connection URL to your MongoDB database.
+    The `settings.js` located in the `/API/src/seeders` folder where you will add the course data.
 
-Note: The current `.env.dev` file does not contain all the neccessary environment variables. You can find the complete list of environment variables in the `.env.example` file. This version of the `.env.dev` file is only for the purpose of adding a course to the platform. So it only supports fetching courses and manual login feature and does not support Google or Github login.
-
-The `settings.js` located in the `/API/src/seeders` folder where you will add the course data.
+#
 
 2.  Open the `settings.js` file and look for the "const course" object and update the following properties with the details of your course:
 
@@ -269,7 +263,6 @@ This will add the courses to the database. And create a new user for testing pur
 For example:
 
 ```bash
-
             User created successfully
 
             Email: <email>
@@ -283,13 +276,8 @@ The credentials displayed on your terminal will be used to login to the client a
 
 ## Running the Application
 
-To preview the newly added course, you will need to will need to startup the API and the client. The API needs some environment variables to run, so you will need to create a `.env.dev` file in the `/API` folder and add the following variables:
+To preview the newly added course, you will need to will need to startup the API and the client. Note that the client will run on port 5173, and the API will run on 5000 so make sure that port is not in use.
 
-```bash
-
-```
-
-````bash
 To start the API, navigate the `/API` folder and run the following command:
 
 ```bash
