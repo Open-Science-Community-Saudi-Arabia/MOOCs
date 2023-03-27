@@ -24,8 +24,9 @@
  * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - Get previous submissions for a particular exercise </i> </br>
  */
 
-const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection, ExerciseReport } = require("../models/course.models")
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
+const { issueCertificate } = require("./certificate.controllers");
 
 // Create a new exercise
 /**
@@ -147,7 +148,17 @@ exports.getExerciseData = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const exercise = await Exercise.findById(exercise_id).populate('questions')
+    let exercise = await Exercise.findById(exercise_id).populate('questions')
+
+    if (!exercise) {
+        return next(new NotFoundError("Exercise not found"));
+    }
+
+    exercise = exercise.toObject()
+    console.log(req.user)
+    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id })
+    console.log(exercise_report)
+    exercise.percentage_passed = exercise_report ? exercise_report.percentage_passed : undefined
 
     return res.status(200).send({
         success: true,
@@ -328,37 +339,40 @@ exports.removeQuestionFromExercise = async (req, res, next) => {
  * @throws {error} if an error occured
  */
 exports.scoreExercise = async (req, res, next) => {
-    const exercise_id = req.params.id
+    const exercise_id = req.params.id;
 
-    if (!exercise_id || exercise_id == ':id') {
-        return next(new BadRequestError('Missing param `id` in request params'))
+    if (!exercise_id || exercise_id == ":id") {
+        return next(new BadRequestError("Missing param `id` in request params"));
     }
 
     const students_submission = req.body.submission;
     if (!students_submission) {
         return next(
-            new BadRequestError(
-                "Missing required param `submission` in request body"
-            )
+            new BadRequestError("Missing required param `submission` in request body")
         );
     }
 
     // Check if exercise exists
-    const exercise_obj = await Exercise.findById(exercise_id).populate({
+    const exercise_doc = await Exercise.findById(exercise_id).populate({
         path: "questions",
         select: "correct_option",
     });
-    if (!exercise_obj) {
+    if (!exercise_doc) {
         return next(new NotFoundError("Exercise not found"));
     }
 
     // Check if user has enrolled for course
-    const course = (await exercise_obj.populate('course')).course
+    const { course } = (await exercise_doc.populate({
+        path: 'course',
+        populate: {
+            path: "exercises"
+        }
+    }));
     if (!course.enrolled_users.includes(req.user.id)) {
-        return next(new ForbiddenError("User hasn't enrolled for course"))
+        return next(new ForbiddenError("User hasn't enrolled for course"));
     }
 
-    const exercise = exercise_obj.toJSON();
+    const exercise = exercise_doc.toJSON();
     let score = 0;
     let exercise_submission = new ExerciseSubmission({
         user: req.user.id,
@@ -371,30 +385,54 @@ exports.scoreExercise = async (req, res, next) => {
 
         // Check if submitted option is correct. If yes, increment score
         if (question.correct_option == submitted_option) score++;
-
         exercise_submission.submission.push({
             question: question._id,
             submitted_option: submitted_option,
         });
     });
 
-    // Check if user has completed the exercise
-    if (score == exercise.questions.length) {
-        // User has completed the exercise
-        await CourseReport.findOneAndUpdate({ user: req.user.id, course: course._id, },
-            { $addToSet: { completed_exercises: exercise._id, }, });
-    }
+    let course_report_query = CourseReport.findOne(
+        { user: req.user.id, course: course._id },
+    )
+    let course_report = await course_report_query.exec();
 
-    exercise_submission.score = score
-    exercise_submission = await exercise_submission.save()
-    exercise_submission = await exercise_submission.populate('submission.question')
+    let exercise_report = await ExerciseReport.findOneAndUpdate(
+        { user: req.user.id, exercise: exercise_doc._id },
+        { course_report: course_report._id },
+        { new: true, upsert: true })
+
+    exercise_report.best_score = Math.max(exercise_report.best_score, score)
+    exercise_report = await exercise_report.save()
+
+    exercise_submission.score = score;
+    exercise_submission.report = exercise_report._id;
+    exercise_submission = await exercise_submission.save();
+    exercise_submission = await exercise_submission.populate(
+        "submission.question"
+    );
+
+    // Update best score in course report
+    course_report = await course_report.updateBestScore()
+
+    // Issue certificate if user has completed course
+    let certificate = course_report.isCompleted
+        ? await issueCertificate(course_report._id)
+        : null;
+    
+    console.log(exercise_submission)
 
     return res.status(200).send({
         success: true,
         data: {
-            report: exercise_submission
-        }
-    })
+            report: {
+                ...exercise_submission.toObject(),
+                percentage_passed: exercise_submission.percentage_passed,
+                best_score: exercise_report.best_score,
+                best_percentage_passed: exercise_report.percentage_passed,
+            },
+            certificate,
+        },
+    });
 }
 
 /**

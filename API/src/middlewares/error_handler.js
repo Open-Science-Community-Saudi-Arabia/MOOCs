@@ -1,3 +1,14 @@
+/**
+ * @description Error Handler Middleware
+ * 
+ * @category Backend API
+ * @subcategory Middlewares
+ * 
+ * @module Error Handler
+ * 
+ * @description This module contains the error handler middleware.
+ */
+
 const { CustomAPIError } = require('../utils/errors')
 
 const handleDuplicateKey = (err) => {
@@ -6,12 +17,33 @@ const handleDuplicateKey = (err) => {
     return new CustomAPIError(message, 400)
 }
 
+/**
+ * @description Handles Validation Errors, these errors are thrown by
+ *  mongoose when a model validation fails
+ * 
+ * @param {Error} err 
+ * @returns  {CustomAPIError}
+ */
 const handleValidationErr = (err) => {
     const errPath = Object.values(err.errors).map((el) => el.message)
     const message = `${errPath}, Try again`
     return new CustomAPIError(message, 400)
 }
 
+/**
+ * Error handler 
+ * 
+ * @description Error Handler Middleware <br>
+ * 
+ * This middleware handles all errors thrown by the application 
+ * and sends a response to the client. 
+ * 
+ * @param {Error} err 
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {*} next 
+ * 
+ */
 const errorHandler = (err, req, res, next) => {
     // console.log(err)
     if (process.env.NODE_ENV != 'test') {
