@@ -25,13 +25,12 @@ const {  ForbiddenError } = require("../utils/errors");
         .post('/your/route/path/', permit('allowed_role1 allowed_role2'), (req, res, next) => {})
 */
 
-/**
- * @description Role based permission handler
- * 
- * @param {String} roles 
- * @returns 
- */
 module.exports = function (roles) {
+    /**
+     * @description Role based permission handler
+     * 
+     * @param {String} roles 
+     */
     return asyncWrapper(async (req, res, next) => {
         const allowed_roles = roles.split(" ");
 

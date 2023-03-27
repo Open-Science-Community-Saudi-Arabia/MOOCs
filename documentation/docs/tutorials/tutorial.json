@@ -1,5 +1,8 @@
 {
     "changelog": {
         "title": "Changelog"
+    },
+    "environment_setup": {
+        "title": "Environment Setup"
     }
 }

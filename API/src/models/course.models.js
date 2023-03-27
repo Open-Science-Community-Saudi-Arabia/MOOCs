@@ -342,6 +342,7 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.virtual('exercises', {
@@ -429,12 +430,6 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
-courseReportSchema.virtual('certificate', {
-    localField: '_id',
-    foreignField: 'course_report',
-    ref: 'Certificate',
-    justOne: true
-})
 courseReportSchema.virtual('attempted_exercises', {
     localField: '_id',
     foreignField: 'course_report',
@@ -443,7 +438,6 @@ courseReportSchema.virtual('attempted_exercises', {
 })
 
 courseReportSchema.methods.updateBestScore = async function () {
-    console.log(this)
     const doc = (await this.populate("attempted_exercises")).toObject();
 
     const exercises = doc.attempted_exercises;
@@ -452,7 +446,7 @@ courseReportSchema.methods.updateBestScore = async function () {
 
     // Update the isCompleted field if the percentage passed is greater than or equal to 80
     this.isCompleted = this.percentage_passed >= 80 ? true : false;
-    console.log(this)
+
     return this.save();
 }
 
