@@ -206,7 +206,7 @@ exports.getCourseData = async (req, res, next) => {
                     curr_section.exercises[j] = exercise;
                 }
             }
-
+ 
             course.course_sections[i] = curr_section;
         }
     }
