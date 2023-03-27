@@ -12,7 +12,7 @@ const course_sections = [
     },
     {
         title: "Section 2",
-        description: "Section 1 description"
+        description: "Section 2 description"
     }
 ]
 

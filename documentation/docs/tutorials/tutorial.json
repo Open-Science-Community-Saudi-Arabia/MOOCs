@@ -1,6 +1,6 @@
 {
     "changelog": {
         "title": "Changelog",
-        "children": ["./contributing"]
+        "child": "contributing"
     }
 }

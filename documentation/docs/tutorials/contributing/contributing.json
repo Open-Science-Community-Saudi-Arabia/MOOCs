@@ -34,6 +34,17 @@
                         "title": "Issue review"
                     }
                 }
+            },
+            "adding_a_course": {
+                "title": "Adding a course",
+                "children": {
+                    "adding_a_course_workflow": {
+                        "title": "Adding a course workflow"
+                    },
+                    "adding_a_course_review": {
+                        "title": "Adding a course review"
+                    }
+                }
             }
         }
     }

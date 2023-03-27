@@ -161,7 +161,7 @@ Instructions on how to run the backend server:
 - cd into the backend folder by typing
 
 ```bash
-cd backend_API
+cd API
 ```
 
 - To install dependencies, run the following command:
