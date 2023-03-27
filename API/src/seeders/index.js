@@ -29,8 +29,8 @@ async function seed() {
         }
 
         // Convert preview image path to absolute path
-        course.preview_image = __dirname + course.preview_image;
-
+        // course.preview_image = __dirname + course.preview_image;
+        course.preview_image = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1679875257/courses/preview_images/course_preview_6420dcd1283f2c65f97b674c.jpg'
         // Create course
         const new_course = await Course.create(course);
 
@@ -54,6 +54,7 @@ async function seed() {
                 }
             }
 
+
             // Create exercises if they belong to the course section
             for (let j = 0; j < exercises.length; j++) {
                 let new_exercise;
@@ -63,7 +64,7 @@ async function seed() {
                         course_section: new_course_section._id,
                         course: new_course._id,
                     });
-                    
+
                     // Create questions if they belong to the exercise
                     for (let k = 0; k < questions.length; k++) {
                         if (questions[k].exercise === j) {
@@ -79,18 +80,22 @@ async function seed() {
             }
 
             // Create text materials if they belong to the course section
+            const file_url = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1678617783/course_640cf34d80db9d86441c2f50/coursesection_640d01466268d7bd6a64e24b/textmaterial_640dacd1416cd4aef8fb427f_camiscope.jpg.jpg'
             for (let j = 0; j < text_materials.length; j++) {
                 if (text_materials[j].course_section === i) {
                     await TextMaterial.create({
                         ...text_materials[j],
                         course_section: new_course_section._id,
                         course: new_course._id,
-                        file_url: __dirname + text_materials[j].file_purl
+                        // file_url: __dirname + text_materials[j].file_ur
+                        file_url: file_url
                     });
                 }
             }
         }
 
+        const course_main = await Course.find()
+        console.log(course_main[0].toObject())
         console.log('Database seeded successfully');
         process.exit(0);
     } catch (error) {

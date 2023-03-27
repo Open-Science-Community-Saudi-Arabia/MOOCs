@@ -13,45 +13,45 @@ const course_sections = [
     {
         title: "Section 2",
         description: "Section 1 description"
-    },
-    {
-        title: "Section 2",
-        description: "Section 1 description"
-    },
+    }
 ]
 
 const videos = [
     {
         title: 'Introduction to JavaScript',
         author: 'John Doe',
-        video_url: 'https://www.youtube.com/embed/desowWgV3iU',
+        video_url: 'https://youtu.be/10u1_CzdmQs',
         description: 'This is a video about JavaScript',
         duration: '20:00',
-        category: 'JavaScript'
+        category: 'JavaScript',
+        course_section: 0,
     },
     {
         title: 'Python for Beginners',
         author: 'Jane Smith',
-        video_url: 'https://www.youtube.com/embed/10u1_CzdmQs',
+        video_url: 'https://youtu.be/10u1_CzdmQs',
         description: 'This is a video about Python programming for beginners',
         duration: '30:00',
-        category: 'Python'
+        category: 'Python',
+        course_section: 0,
     },
     {
         title: 'React vs Angular',
         author: 'Bob Johnson',
-        video_url: 'https://www.youtube.com/embed/LybOHJfqffA',
+        video_url: 'https://youtu.be/10u1_CzdmQs',
         description: 'This video compares React and Angular frameworks',
         duration: '15:00',
-        category: 'Frontend'
+        category: 'Frontend',
+        course_section: 1,
     },
     {
         title: 'Introduction to AWS',
         author: 'Alice Lee',
-        video_url: 'https://www.youtube.com/embed/XulHUHQru2I',
+        video_url: 'https://youtu.be/10u1_CzdmQs',
         description: 'This is a video about Amazon Web Services',
         duration: '25:00',
-        category: 'Cloud Computing'
+        category: 'Cloud Computing',
+        course_section: 1,
     },
 ]
 
@@ -66,7 +66,7 @@ const exercises = [
     {
         title: "Exercise 2",
         description: "Exercise 2 description",
-        course_section: 0,
+        course_section: 1,
         category: "Open data",
         duration: 1,
     }
@@ -105,14 +105,28 @@ const text_materials = [
         description: "Text material 1 description",
         course_section: 0,
         category: "Open data",
-        file_path: "/course_files/textmaterials/README.md"
+        // file_url: "/course_files/textmaterials/README.md"
     },
     {
         title: "Text material 2",
         description: "Text material 2 description",
         course_section: 0,
         category: "Open data",
-        file_url: "/course_files/textmaterials/README.md"
+        // file_url: "/course_files/textmaterials/README.md"
+    },
+    {
+        title: "Text material 1",
+        description: "Text material 1 description",
+        course_section: 1,
+        category: "Open data",
+        // file_path: "/course_files/textmaterials/README.md"
+    },
+    {
+        title: "Text material 2",
+        description: "Text material 2 description",
+        course_section: 1,
+        category: "Open data",
+        // file_url: "/course_files/textmaterials/README.md"
     }
 ]
 
