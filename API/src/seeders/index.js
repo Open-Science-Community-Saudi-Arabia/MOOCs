@@ -29,9 +29,9 @@ async function seed() {
         }
 
         // Convert preview image path to absolute path
-        // course.preview_image = __dirname + course.preview_image;
+    
         course.preview_image = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1679875257/courses/preview_images/course_preview_6420dcd1283f2c65f97b674c.jpg'
-        // Create course
+        // Create course    // course.preview_image = __dirname + course.preview_image;
         const new_course = await Course.create(course);
 
         console.log(__dirname)
@@ -80,7 +80,7 @@ async function seed() {
             }
 
             // Create text materials if they belong to the course section
-            const file_url = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1678617783/course_640cf34d80db9d86441c2f50/coursesection_640d01466268d7bd6a64e24b/textmaterial_640dacd1416cd4aef8fb427f_camiscope.jpg.jpg'
+            const file_url = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1679254945/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dc27d07a77d6c06a454a/textmaterial_641765bcf7e6c01b997c0b42_resume%20test.pdf.pdf'
             for (let j = 0; j < text_materials.length; j++) {
                 if (text_materials[j].course_section === i) {
                     await TextMaterial.create({
