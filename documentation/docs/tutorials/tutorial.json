@@ -1,21 +1,6 @@
 {
     "changelog": {
-        "title": "Changelog"
-    },
-    "adding_course_to_moocs": {
-        "title": "Adding a course to MOOCs",
-        "children": {
-            "project_structure": {
-                "title": "Project folder structure",
-                "children": {
-                    "api_project_structure": {
-                        "title": "API folder structure"
-                    },
-                    "client_project_structure": {
-                        "title": "UI folder structure"
-                    }
-                }
-            }
-        }
+        "title": "Changelog",
+        "children": ["./contributing"]
     }
 }
