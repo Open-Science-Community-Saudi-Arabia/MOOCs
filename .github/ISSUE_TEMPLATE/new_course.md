@@ -1,7 +1,7 @@
 ---
 name: New course request template
 about: Use this template to request permission to add a new course
-title: "[DATE]: < course name >"
+title: "[DATE]: < course name >" 
 labels: new_course_request
 ---
 

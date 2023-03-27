@@ -30,7 +30,6 @@ module.exports = function (roles) {
      * @description Role based permission handler
      * 
      * @param {String} roles 
-     * @returns 
      */
     return asyncWrapper(async (req, res, next) => {
         const allowed_roles = roles.split(" ");
