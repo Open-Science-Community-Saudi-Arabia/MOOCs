@@ -20,10 +20,10 @@ export async function dynamicActivate(locale: Locale) {
 
   const { messages } = await import(`./locales/${locale}/messages.ts`);
   if (locale === "ar") {
-    document.body.style.cssText = `
-    direction: rtl; 
-    fontFamily: "'IBM Plex Sans Arabic', sans-serif";
-  `;
+    document.documentElement.dir = "rtl";
+    document.documentElement.lang = locale;
+    document.body.style.cssText = `fontFamily: "'IBM Plex Sans Arabic', sans-serif"`;
+
     // if (x != null) {
     //   console.log(typeof(x));
     //   for (var i = 0; i < x.length; i++) {
@@ -37,14 +37,11 @@ export async function dynamicActivate(locale: Locale) {
     //   // console.log(x);
     //   return x;
     // });
+    
   } else {
-    document.body.style.cssText = `
-    direction: ltr; 
-    fontFamily:  "'Plus Jakarta Sans', sans-serif";
-  `;
-    // if (x != null) {
-    //   // x.style.textAlign = "left";
-    // }
+    document.documentElement.lang = locale;
+    document.documentElement.dir = "ltr";
+    document.body.style.cssText = `fontFamily:  "'Plus Jakarta Sans', sans-serif";`;
   }
   i18n.load(locale, messages);
   i18n.activate(locale);

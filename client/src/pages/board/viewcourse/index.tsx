@@ -14,7 +14,7 @@ import Quiz from "./Quiz";
 import ViewPdf from "./ViewPdf";
 import { CourseSections, Exercise, TextMaterial, Video } from "../../../types";
 import Result from "./Result";
-import { tabitem, Videocontent } from "../../../data";
+import { tabitem} from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 
@@ -284,7 +284,7 @@ const ViewCourse = () => {
                             );
                           }
                         )}
-                        {content.exercises.map((quizitem: Exercise) => {
+                        {content.exercises.map((quizitem: Exercise, index:number) => {
                           return (
                             <button
                               key={quizitem._id}
@@ -301,7 +301,7 @@ const ViewCourse = () => {
                             >
                               <div className="viewcourse-container__content-course-section__listitem-title">
                                 <p className="viewcourse-container__content-course-section__listitem-text">
-                                  <RxDot /> Quiz Exercise: Section {index + 1}
+                                  <RxDot /> Quiz Exercise:{index + 1}
                                 </p>
                                 <p className="viewcourse-container__content-course-section__listitem__status">
                                   {quizitem.isCompleted ? (

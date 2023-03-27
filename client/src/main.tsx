@@ -20,17 +20,15 @@ const I18nApp = () => {
     } else {
       dynamicActivate(item);
     }
-  },[]);
+  }, []);
 
   return (
     <React.StrictMode>
       <BrowserRouter>
         <GoogleOAuthProvider clientId={googleID}>
-          {/* <LocalProvider> */}
           <I18nProvider i18n={i18n}>
             <App />
           </I18nProvider>
-          {/* </LocalProvider> */}
         </GoogleOAuthProvider>
       </BrowserRouter>
       <ToastContainer />

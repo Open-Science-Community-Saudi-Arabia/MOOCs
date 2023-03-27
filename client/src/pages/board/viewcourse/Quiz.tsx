@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+
 import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 
@@ -39,7 +39,7 @@ const Quiz = ({
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
           // console.log(response);
-          changeScoreHandler(response.data.report.score);
+          changeScoreHandler(response.data.report.percentage_passed);
           changedDisplayContent("result");
         }
       } catch (error: any) {

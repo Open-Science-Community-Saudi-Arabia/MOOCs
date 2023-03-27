@@ -6,6 +6,7 @@ import useClickOutside from "../../../../hooks/useClickOutside";
 import "./style.scss";
 import { t, Trans } from "@lingui/macro";
 import LanguageToggle from "../../../../components/LanguageToggle";
+import { logout } from "../../../../context";
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
@@ -34,12 +35,12 @@ const Header = () => {
             placeholder={t`Search courses`}
           />
         </div>
-      
+
         <div className="dashboard-header-profile">
-        <div className="languageToggle">
-        {" "}
-        <LanguageToggle />
-      </div>
+          <div className="languageToggle">
+            {" "}
+            <LanguageToggle />
+          </div>
           <button
             aria-label="Open profile"
             onClick={() => setOpen(!isOpen)}
@@ -49,7 +50,11 @@ const Header = () => {
             <RiArrowDropDownLine />
           </button>
           {isOpen && (
-            <button ref={ref} className="dashboard-header-profile__logout-btn">
+            <button
+              ref={ref}
+              onClick={logout}
+              className="dashboard-header-profile__logout-btn"
+            >
               <Trans> Log Out</Trans>
             </button>
           )}
