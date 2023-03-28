@@ -1,4 +1,4 @@
-const password_reset_template = (verification_link, name) => {
+const password_reset_template = (reset_code, name) => {
     `
     <!doctype html>
     <html lang="en-US">
@@ -46,11 +46,9 @@ const password_reset_template = (verification_link, name) => {
                                             <span
                                                 style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                             <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                                Hi ${name}, You have requested to verify your email please click the link below to verify your email
+                                                Hi ${name}, You made a forgot password request, here is your password reset code, please use it to reset your password.
                                             </p>
-                                            <a href=${verification_link}
-                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
-                                                Password</a>
+                                            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;"> ${reset_code} </p>
                                         </td>
                                     </tr>
                                     <tr>
