@@ -14,6 +14,7 @@ interface IProps {
   setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
   submission: object;
+  refetch:()=> void
 }
 
 const Quiz = ({
@@ -26,6 +27,7 @@ const Quiz = ({
   setSubmission,
   viewSubmit,
   submission,
+  refetch
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>();
@@ -52,6 +54,7 @@ const Quiz = ({
           changeScoreHandler(response.data.report.percentage_passed);
           changedDisplayContent("result");
         }
+        refetch()
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {

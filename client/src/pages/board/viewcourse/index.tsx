@@ -37,7 +37,6 @@ const ViewCourse = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
-  const [bestScore, setBestScore] = useState<number>(0);
 
   const {
     data: coursedata,
@@ -156,7 +155,7 @@ const ViewCourse = () => {
                 overallScore={true}
                 width={150}
                 bgcolor="#99ff66"
-                progress={course?.overall}
+                progress={Math.round(course?.overall)}
                 height={35}
               />
               {!isCourseContent && (
@@ -210,6 +209,7 @@ const ViewCourse = () => {
                   setSubmission={setSubmission}
                   viewSubmit={viewSubmit}
                   submission={submission}
+                  refetch={refetch}
                 />
               ) : displayContent === "pdf" ? (
                 <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />
@@ -348,9 +348,9 @@ const ViewCourse = () => {
                                     <ProgressBar
                                       width={80}
                                       bgcolor="#009985"
-                                      progress={
+                                      progress={Math.round(
                                         quizitem?.best_percentage_passed
-                                      }
+                                      )}
                                       height={15}
                                     />{" "}
                                   </p>
