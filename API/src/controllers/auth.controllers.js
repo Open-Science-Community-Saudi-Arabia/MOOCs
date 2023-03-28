@@ -38,17 +38,16 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const sendEmail = require('../utils/email');
+const { sendEmail, EmailMessage } = require('../utils/email/email');
 const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
     ForbiddenError,
 } = require('../utils/errors');
-const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
+const { getAuthCodes, getAuthTokens } = require('../utils/token.js');
 
-const { OAuth2Client, UserRefreshClient } = require('google-auth-library');
-
+const { OAuth2Client } = require('google-auth-library');
 const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
 const Password = require('../models/password.models');
@@ -123,10 +122,11 @@ const handleUnverifiedUser = function (user) {
 
         //console.log(verification_url)
         // Send verification email
+        const message = new EmailMessage()
         sendEmail({
             email: user.email,
             subject: 'Verify your email address',
-            message: `Please click on the following link to verify your email address: ${verification_url}`,
+            html: message.emailVerification(verification_url, user.firstname)
         });
     }
 };
@@ -781,10 +781,11 @@ exports.forgetPassword = async (req, res, next) => {
     const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
 
     //  Send password reset code to user
+    const message = new EmailMessage()
     sendEmail({
         email: current_user.email,
-        subject: 'Password reset for User',
-        message: `Password reset code is ${password_reset_code}`
+        subject: 'Password reset for user',
+        html: message.passwordReset(password_reset_code, current_user.firstname)
     })
 
     //  Get access token
