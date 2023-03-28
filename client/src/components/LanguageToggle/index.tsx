@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 import { GoGlobe } from "react-icons/go";
 import { dynamicActivate } from "../../i18n";
 import "./style.scss";
 
-const index = () => {
+interface IProps {
+  btncolor?: string;
+}
+const index = ({ btncolor }: IProps) => {
   const [openLanguage, setOpenLanguage] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useClickOutside(ref, () => setOpenLanguage(false));
@@ -22,6 +25,7 @@ const index = () => {
   return (
     <div className="languagetoggler">
       <button
+        style={{ color: btncolor ? btncolor : "#000" }}
         onClick={() => setOpenLanguage(!openLanguage)}
         className="languagetoggler__selected"
       >

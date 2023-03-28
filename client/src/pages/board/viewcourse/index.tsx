@@ -17,6 +17,7 @@ import Result from "./Result";
 import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
+import LanguageToggle from "../../../components/LanguageToggle";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -161,6 +162,10 @@ const ViewCourse = () => {
                   Course Content
                 </button>
               )}
+           
+              <LanguageToggle btncolor="#ffff"/>
+           
+              
             </div>
             {!isIpad && (
               <button
