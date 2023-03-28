@@ -331,8 +331,21 @@ const ViewCourse = () => {
                                   </p>
 
                                   <p className="viewcourse-container__content-course-section__listitem__score">
-                               <p style={{color:quizitem?.best_percentage_passed>0? "#009985": "#666"}}>   {quizitem?.best_percentage_passed}% </p>
-                                  <ProgressBar
+                                    <p
+                                      style={{
+                                        color:
+                                          quizitem?.best_percentage_passed > 0
+                                            ? "#009985"
+                                            : "#666",
+                                      }}
+                                    >
+                                      {" "}
+                                      {quizitem?.best_percentage_passed > 0
+                                        ? quizitem?.best_percentage_passed
+                                        : 0}
+                                      %{" "}
+                                    </p>
+                                    <ProgressBar
                                       width={80}
                                       bgcolor="#009985"
                                       progress={
@@ -340,7 +353,6 @@ const ViewCourse = () => {
                                       }
                                       height={15}
                                     />{" "}
-                                  
                                   </p>
                                 </div>
                               </button>
