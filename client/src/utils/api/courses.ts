@@ -41,10 +41,10 @@ export async function getCertificate(id: string) {
 
 // React query
 // get all courses
-export function useCourses() {
-  const query = useQuery(["course"], () => getCourses());
-  return query;
-}
+// export function useCourses() {
+//   const query = useQuery(["course"], () => getCourses());
+//   return query;
+// }
 
 // Get a course
 export function useCourse(id: any) {
