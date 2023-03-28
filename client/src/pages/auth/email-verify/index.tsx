@@ -3,8 +3,7 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
-
-import { Trans, t } from "@lingui/macro";
+import { Trans} from "@lingui/macro";
 import LanguageToggle from "../../../components/LanguageToggle";
 
 const EmailVerify = () => {

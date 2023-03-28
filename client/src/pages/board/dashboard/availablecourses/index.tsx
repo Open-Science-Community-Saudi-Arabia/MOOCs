@@ -1,10 +1,11 @@
 import { t, Trans } from "@lingui/macro";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner";
 import { Courses } from "../../../../types";
 import { enrollUser } from "../../../../utils/api/courses";
+import { toast } from "react-toastify";
 import "./style.scss";
 
 const AvailableCourses = ({ courses }: any) => {
@@ -12,7 +13,6 @@ const AvailableCourses = ({ courses }: any) => {
   const [selectedId, setSelectedId] = useState<string>();
   const navigate = useNavigate();
 
- 
   const enrollUserHandler = async (id: string) => {
     setLoading(true);
     setSelectedId(id);
@@ -22,7 +22,11 @@ const AvailableCourses = ({ courses }: any) => {
         navigate(`/course/${id}`);
       }
     } catch (error: any) {
-      console.log(error);
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
     }
   };
   return (

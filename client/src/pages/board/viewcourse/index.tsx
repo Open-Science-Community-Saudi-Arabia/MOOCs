@@ -33,6 +33,7 @@ const ViewCourse = () => {
   const [quizIndex, setQuizIndex] = useState<number>(0);
   const [score, setScore] = useState<number>();
   const [isOpen, setIsOpen] = useState(false);
+  const [viewSubmit, setViewSubmit] = useState(false);
   const {
     data: coursedata,
     isLoading,
@@ -55,6 +56,9 @@ const ViewCourse = () => {
 
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
+  };
+  const changedViewSubmit = (viewSubmit: boolean) => {
+    setViewSubmit(viewSubmit);
   };
   const getVideodata = (id: string) => {
     changedDisplayContent("video");
@@ -79,6 +83,7 @@ const ViewCourse = () => {
     setSelectedIndex(id);
     setExerciseData(dataitem);
     changedDisplayContent("exercise");
+    setViewSubmit(false)
   };
 
   const getPdfdata = (id: string) => {
@@ -86,7 +91,6 @@ const ViewCourse = () => {
       .map((course: CourseSections) => course.textmaterials)
       .flat()
       .find((data: TextMaterial) => data._id === id);
-
     setPdfData(dataitem);
     setSelectedIndex(id);
     changedDisplayContent("pdf");
@@ -186,6 +190,8 @@ const ViewCourse = () => {
                   quizIndex={quizIndex}
                   changedDisplayContent={changedDisplayContent}
                   changeScoreHandler={changeScoreHandler}
+          changedViewSubmit ={changedViewSubmit }
+                  viewSubmit={viewSubmit}
                 />
               ) : displayContent === "pdf" ? (
                 <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />

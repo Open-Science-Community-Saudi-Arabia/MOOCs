@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../style.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,7 +41,6 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (error: any) {
-     
       setError(true);
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,

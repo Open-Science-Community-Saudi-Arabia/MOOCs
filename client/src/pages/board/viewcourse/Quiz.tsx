@@ -1,7 +1,8 @@
 import { useState } from "react";
-
 import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
+import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
 
 interface IProps {
   exerciseData?: Exercise;
@@ -9,6 +10,8 @@ interface IProps {
   changeQuizIndex: (quizIndex: number) => void;
   changedDisplayContent: (item: any) => void;
   changeScoreHandler: (item: number) => void;
+  changedViewSubmit: (viewSubmit: boolean) => void;
+  viewSubmit: boolean;
 }
 
 const Quiz = ({
@@ -17,13 +20,17 @@ const Quiz = ({
   changeQuizIndex,
   changedDisplayContent,
   changeScoreHandler,
+  changedViewSubmit,
+  viewSubmit,
 }: IProps) => {
   const [submission, setSubmission] = useState({});
-  let viewSubmit = true;
-  const onChangeValue = (id: string, index: number, event: any) => {
+
+  const [isLoading, setLoading] = useState(false);
+
+  const onChangeValue = (id: string, event: any) => {
     if (exerciseData) {
       if (quizIndex + 1 === exerciseData?.questions.length) {
-        viewSubmit = false;
+        changedViewSubmit(true);
       } else {
         changeQuizIndex(quizIndex + 1);
       }
@@ -35,22 +42,30 @@ const Quiz = ({
 
   const submitResult = async () => {
     if (exerciseData) {
+      setLoading(true);
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          // console.log(response);
+          console.log(response);
           changeScoreHandler(response.data.report.percentage_passed);
           changedDisplayContent("result");
         }
       } catch (error: any) {
-        console.log(error);
+        setLoading(false);
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
       }
     }
   };
   return (
     <section className="quiz-section">
       <div className="quiz-section__heading">
-        <h1 className="quiz-section__heading-title">Quiz:{exerciseData?.title}</h1>
+        <h1 className="quiz-section__heading-title">
+          Quiz:{exerciseData?.title}
+        </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
           Pick the right option.
@@ -74,7 +89,7 @@ const Quiz = ({
                       return (
                         <label
                           key={j}
-                          onChange={(e) => onChangeValue(content._id, index, e)}
+                          onChange={(e) => onChangeValue(content._id, e)}
                           htmlFor={list}
                           className="quiz-section__content-options__label"
                         >
@@ -95,12 +110,16 @@ const Quiz = ({
                     })}
                   </div>
                 </div>
-                {index + 1 == exerciseData?.questions.length && (
+                {viewSubmit && (
                   <button
                     className="quiz-section__submit-btn"
                     onClick={() => submitResult()}
                   >
-                    Submit
+                    {isLoading ? (
+                      <Spinner width="30px" height="30px" color="#fff" />
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 )}
               </>
