@@ -441,21 +441,13 @@ courseReportSchema.methods.updateBestScore = async function () {
     const doc = (await this.populate("attempted_exercises")).toObject();
 
     const exercises = doc.attempted_exercises;
-    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
-    this.percentage_passed = total_scores / exercises.length;
+    let total_scores = 0
+    for (let i = 0; i < exercises.length; i++) {
+        total_scores += exercises[i].percentage_passed
+    }
 
-    // Update the isCompleted field if the percentage passed is greater than or equal to 80
-    this.isCompleted = this.percentage_passed >= 80 ? true : false;
-
-    return this.save();
-}
-
-courseReportSchema.methods.updateBestScore = async function () {
-    const doc = (await this.populate("attempted_exercises")).toObject();
-
-    const exercises = doc.attempted_exercises;
-    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
-    this.percentage_passed = total_scores / exercises.length * 100
+    // Calculate the average percentage passed 
+    this.percentage_passed = total_scores / exercises.length
 
     // Update the isCompleted field if the percentage passed is greater than or equal to 80
     this.isCompleted = this.percentage_passed >= 80 ? true : false;
