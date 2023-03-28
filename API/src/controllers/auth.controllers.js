@@ -38,7 +38,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const sendEmail = require('../utils/email');
+const sendEmail = require('../utils/email/email');
 const {
     CustomAPIError,
     BadRequestError,
