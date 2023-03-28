@@ -1,72 +1,20 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
-import Select from "react-select";
-import { dynamicActivate } from "../../i18n";
+
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
+import useClickOutside from "../../hooks/useClickOutside";
+import LanguageToggle from "../LanguageToggle";
 
-export function Navbar() {
+const index = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const options = [
-    { value: "en", label: "English" },
-    { value: "ar", label: "Arabic" },
-  ];
-  const [currentLocale, setCurrentLocale] = useState(options[0]);
+  const isDesktop = useMediaQuery("(min-width: 1280px)");
 
-  const isDesktop = useMediaQuery("(min-width: 1250px)");
-
-  function changeLanguage(selectedOption: any) {
-    // console.log(selectedOption);
-    setCurrentLocale(selectedOption);
-    dynamicActivate(selectedOption.value);
-  }
-
-  const customStyles = {
-    option: (defaultStyles: any, state: any) => ({
-      ...defaultStyles,
-      padding: "12px 12px",
-      color: state.isSelected ? "#ffff" : "#009985",
-      backgroundColor: state.isSelected ? "#009985" : "#ffff",
-      fontSize: "14px",
-      cursor: "pointer",
-      ":active": {
-        ...defaultStyles[":active"],
-        backgroundColor: "#ffff",
-      },
-    }),
-
-    control: (defaultStyles: any) => ({
-      ...defaultStyles,
-      padding: "2px",
-      border: "0.5px solid #009985",
-      boxShadow: "none",
-      borderRadius: "8px",
-      width: "117px",
-      cursor: "pointer",
-      ":hover": {
-        ...defaultStyles[":hover"],
-        border: "0.5px solid #009985",
-      },
-    }),
-    singleValue: (defaultStyles: any) => ({
-      ...defaultStyles,
-      color: "#009985",
-    }),
-    dropdownIndicator: (defaultStyles: any) => ({
-      ...defaultStyles,
-      color: "#009985 !important",
-    }),
-    menuList: (defaultStyles: any) => ({
-      ...defaultStyles,
-      padding: "0",
-      borderRadius: "5px",
-    }),
-  };
   return (
     <>
       <header className="header">
@@ -128,13 +76,7 @@ export function Navbar() {
               </nav>
 
               <div className="auth-btn">
-                <Select
-                  onChange={changeLanguage}
-                  defaultValue={currentLocale}
-                  options={options}
-                  styles={customStyles}
-                  isSearchable={false}
-                />
+                <LanguageToggle />
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">
@@ -161,4 +103,5 @@ export function Navbar() {
       </header>
     </>
   );
-}
+};
+export default index;

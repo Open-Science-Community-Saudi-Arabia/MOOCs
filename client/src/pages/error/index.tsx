@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./style.scss";
 
-export default function index() {
+ const Error=() =>{
   return (
     <div className="error">
       <h1 className="error__heading">Page not found</h1>
@@ -12,3 +12,4 @@ export default function index() {
     </div>
   );
 }
+export default Error

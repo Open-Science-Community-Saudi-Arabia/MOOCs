@@ -61,8 +61,9 @@
   .auth-btn {
     @include flex(space-around, start);
     flex-direction: column;
-    gap: 25px;
+    gap: 13px;
     margin-top: 20px;
+    position: relative;
     @include laptop {
       flex-direction: row;
       margin-top: 0;
@@ -70,7 +71,7 @@
       gap: 2em;
       margin-top: 1.5rem;
     }
-
+    
     .btns {
       @include flex(space-around, start);
       flex-direction: column;

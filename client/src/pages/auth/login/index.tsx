@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../style.scss";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,10 +8,12 @@ import { login } from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
-import { useGoogleLogin} from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { setToken } from "../../../utils";
+import LanguageToggle from "../../../components/LanguageToggle";
+import { Trans, t } from "@lingui/macro";
 
-function Login() {
+const Login = () => {
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -33,6 +35,7 @@ function Login() {
       };
       setLoading(true);
       let response = await login(formData);
+
       if (response.success) {
         setToken(response.data.access_token);
         navigate("/dashboard");
@@ -52,22 +55,34 @@ function Login() {
   return (
     <>
       {loading ? (
-        <Spinner width="100px" height="100px" color />
+        <Spinner width="100px" height="100px" color="#009985" />
       ) : (
         <section className="login-signup">
-          <h1 className="login-signup__heading">Login to MOOCs</h1>
+          <div className="login-signup__languageToggle">
+            {" "}
+            <LanguageToggle />
+          </div>
+
+          <h1 className="login-signup__heading">
+            <Trans>Login to MOOCs</Trans>
+          </h1>
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"
               onClick={() => googlelogin()}
             >
-              Sign in with Google <FcGoogle />
+              <Trans>
+                Sign in with Google <FcGoogle />
+              </Trans>
             </button>
           </div>
           <div className="login-signup__hr-line">
             {" "}
             <hr />
-            <h2 className="login-signup__hr-line__or">OR</h2>
+            <h2 className="login-signup__hr-line__or">
+              {" "}
+              <Trans>OR </Trans>
+            </h2>
             <hr />
           </div>
 
@@ -78,12 +93,12 @@ function Login() {
           >
             <div className="field">
               <label className="sr-only" htmlFor="email">
-                Email
+                <Trans> Email</Trans>
               </label>
               <input
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder={t`Email`}
                 required
                 className={`${isError && "error-input"}`}
               />
@@ -95,7 +110,7 @@ function Login() {
               </label>
               <input
                 type={toggleVisibility ? "text" : "password"}
-                placeholder="Password"
+                placeholder={t`Password`}
                 required
                 name="password"
                 className={`${isError && "error-input"}`}
@@ -116,7 +131,11 @@ function Login() {
 
             <div className="field button-field">
               <button>
-                {isLoading ? <Spinner width="30px" height="30px" /> : "Login"}
+                {isLoading ? (
+                  <Spinner width="30px" height="30px" color="#fff" />
+                ) : (
+                  t`Login`
+                )}
               </button>
             </div>
           </form>
@@ -126,12 +145,13 @@ function Login() {
               className="login-signup__bottom-forgotpassword-link "
             >
               {" "}
-              forgot password?
+              <Trans>forgot password?</Trans>
             </Link>
             <div className="login-signup__bottom-content">
-              Don't have an account?{" "}
+              <Trans>Don't have an account? </Trans>{" "}
               <Link to="/signup" className="login-signup__bottom-content__link">
-                Sign Up
+
+                <Trans> Sign Up</Trans>
               </Link>
             </div>
           </div>
@@ -139,6 +159,6 @@ function Login() {
       )}
     </>
   );
-}
+};
 
 export default Login;

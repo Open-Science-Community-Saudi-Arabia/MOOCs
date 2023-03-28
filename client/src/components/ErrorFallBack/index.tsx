@@ -1,26 +1,28 @@
+import { t, Trans } from "@lingui/macro";
+import { useState } from "react";
 import "./style.scss";
-import { IoMdClose } from "react-icons/io";
 interface ErrorFallback {
-  message?: string;
-  description?: string;
-  reset?: () => void;
-  buttonText?: string;
+  message: string;
+  description: string;
+  reset: () => void;
 }
 
-export default function index(props: ErrorFallback) {
-  const { message, description, reset, buttonText = "Try again" } = props;
+const index = (props: ErrorFallback) => {
+  const { message, description, reset } = props;
+
   return (
     <div className="errorfallback">
-      <IoMdClose className="errorfallback__icon" />
-      {message && <p className="errorfallback__message">{message}</p>}
-      {description && (
-        <p className="errorfallback__description">{description}</p>
-      )}
-      {reset && (
-        <button className="errorfallback__btn" onClick={reset}>
-          {buttonText}
-        </button>
-      )}
+      <div className="errorfallback__top">
+        {" "}
+        <p className="errorfallback__top__message">{t`${message}`}</p>
+      </div>
+
+      <p className="errorfallback__description">{t`${description}`}</p>
+
+      <button className="errorfallback__btn" onClick={reset}>
+        <Trans>Try again</Trans>
+      </button>
     </div>
   );
-}
+};
+export default index;

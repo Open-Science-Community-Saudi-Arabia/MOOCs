@@ -7,14 +7,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { defaultLocale, dynamicActivate } from "./i18n";
+import { dynamicActivate } from "./i18n";
 
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const I18nApp = () => {
   useEffect(() => {
-    dynamicActivate(defaultLocale);
-  }, [defaultLocale]);
+    const item: string | any = window.localStorage.getItem("language");
+    if (!item) {
+      window.localStorage.setItem("language", "en");
+      dynamicActivate("en");
+    } else {
+      dynamicActivate(item);
+    }
+  }, []);
+
   return (
     <React.StrictMode>
       <BrowserRouter>

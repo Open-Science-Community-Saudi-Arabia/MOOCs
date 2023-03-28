@@ -8,8 +8,10 @@ import { SignUpRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
+import LanguageToggle from "../../../components/LanguageToggle";
+import { t, Trans } from "@lingui/macro";
 
-function Signup() {
+const Signup = () => {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -68,22 +70,31 @@ function Signup() {
   return (
     <>
       {loading ? (
-        <Spinner width="100px" height="100px" color />
+        <Spinner width="100px" height="100px" color="#009985" />
       ) : (
         <section className="login-signup">
-          <h1 className="login-signup__heading">Sign Up to MOOCs</h1>
+          <div className="login-signup__languageToggle">
+            {" "}
+            <LanguageToggle />
+          </div>
+
+          <h1 className="login-signup__heading">
+            <Trans>Sign Up to MOOCs</Trans>
+          </h1>
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"
               onClick={() => googlelogin()}
             >
-              Sign in with Google <FcGoogle />
+              <Trans> Sign in with Google</Trans> <FcGoogle />
             </button>
           </div>
           <div className="login-signup__hr-line">
             {" "}
             <hr />
-            <h2 className="login-signup__hr-line__or">OR</h2>
+            <h2 className="login-signup__hr-line__or">
+              <Trans>OR</Trans>
+            </h2>
             <hr />
           </div>
 
@@ -95,11 +106,11 @@ function Signup() {
             <div className="login-signup__form-namefield">
               <div className="field">
                 <label className="sr-only" htmlFor="firstname">
-                  Firstname
+                  <Trans> Firstname</Trans>
                 </label>
                 <input
                   type="text"
-                  placeholder="First Name"
+                  placeholder={t`First Name`}
                   name="firstname"
                   id="firstname"
                   required
@@ -107,11 +118,11 @@ function Signup() {
               </div>
               <div className="field">
                 <label className="sr-only" htmlFor="lastname">
-                  lastname
+                  <Trans> Lastname</Trans>
                 </label>
                 <input
                   type="text"
-                  placeholder="Last Name"
+                  placeholder={t`Last Name`}
                   name="lastname"
                   required
                   id="lastname"
@@ -121,11 +132,11 @@ function Signup() {
 
             <div className="field">
               <label className="sr-only" htmlFor="email">
-                Email
+                <Trans>Email</Trans>
               </label>
               <input
                 type="email"
-                placeholder="Email"
+                placeholder={t`Email`}
                 name="email"
                 id="email"
                 required
@@ -133,11 +144,11 @@ function Signup() {
             </div>
             <div className="field">
               <label className="sr-only" htmlFor="password">
-                Password
+                <Trans> Password</Trans>
               </label>
               <input
                 type={toggleVisibility ? "text" : "password"}
-                placeholder="Password"
+                placeholder={t`Password`}
                 minLength={8}
                 name="password"
                 id="password"
@@ -158,11 +169,11 @@ function Signup() {
             </div>
             <div className="field">
               <label className="sr-only" htmlFor="confirmpassword">
-                Confirm password
+                <Trans> Confirm password</Trans>
               </label>
               <input
                 type={toggleVisibility ? "text" : "password"}
-                placeholder="Confirm Password"
+                placeholder={t`Confirm Password`}
                 minLength={8}
                 className={`${checkpassword && "password-check"}`}
                 required
@@ -172,15 +183,19 @@ function Signup() {
             </div>
             <div className="field button-field">
               <button>
-                {isLoading ? <Spinner width="30px" height="30px" /> : "Sign Up"}
+                {isLoading ? (
+                  <Spinner width="30px" height="30px" color="#fff" />
+                ) : (
+                  t`Sign Up`
+                )}
               </button>
             </div>
           </form>
           <div className="login-signup__bottom">
             <div className="login-signup__bottom-content">
-              Already have an Account?
+              <Trans> Already have an Account?</Trans>
               <Link to="/login" className="login-signup__bottom-content__link">
-                &nbsp; Login
+                &nbsp; <Trans>Login</Trans>
               </Link>
             </div>
           </div>
@@ -188,6 +203,6 @@ function Signup() {
       )}
     </>
   );
-}
+};
 
 export default Signup;

@@ -55,6 +55,15 @@ function useAuthChanged() {
   }, []);
 }
 
+export const logout = async () => {
+  axios.defaults.headers.common.Authorization = "";
+  window.localStorage.removeItem(TOKEN_KEY);
+
+  // to support logging out from all windows
+  window.localStorage.setItem(LOGOUT_KEY, Date.now().toString());
+  window.location.assign("/login");
+};
+
 export const AppProvider = ({
   children,
 }: {
@@ -63,7 +72,6 @@ export const AppProvider = ({
   useAuthChanged();
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const location = useLocation();
   const token = getToken();
 
   if (!token || token === "undefined") {
@@ -72,15 +80,6 @@ export const AppProvider = ({
   } else {
     <Navigate to="/dashboard" />;
   }
-
-  const logout = async () => {
-    axios.defaults.headers.common.Authorization = "";
-    window.localStorage.removeItem(TOKEN_KEY);
-
-    // to support logging out from all windows
-    window.localStorage.setItem(LOGOUT_KEY, Date.now().toString());
-    window.location.assign("/login");
-  };
 
   useEffect(() => {
     async function initialize() {
@@ -119,7 +118,7 @@ export const AppProvider = ({
           children
         ) : (
           <div className="h-screen flex flex-col items-center justify-center">
-            <Spinner width="30px" height="30px" />
+            <Spinner width="30px" height="30px" color="#fff" />
           </div>
         )}
       </AppContext.Provider>

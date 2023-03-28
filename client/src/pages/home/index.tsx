@@ -1,5 +1,5 @@
-import { Navbar } from "../../components/Navbar";
-import "./landingpage.scss";
+import Navbar from "../../components/Navbar";
+import "./home.scss";
 import illustration from "../../images/hero-image.svg";
 import { Link } from "react-router-dom";
 import { CourseList, Courses, OpenPractice, Supporter } from "../../data";
@@ -8,7 +8,7 @@ import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
-export default function index() {
+const Home = () => {
   return (
     <>
       <Navbar />
@@ -116,11 +116,11 @@ export default function index() {
                   alt={`${name}icon`}
                   className="open-science__article-content__list-img"
                 />
-                <div className="open-science__article-content__list-item">
-                  <h3 className="open-science__article-content__list-item-name">
+                <div className="open-science__article-content__list-item aligned">
+                  <h3 className="open-science__article-content__list-item-name aligned">
                     {name()}
                   </h3>
-                  <span className="open-science__article-content__list-item-description">
+                  <span className="open-science__article-content__list-item-description aligned">
                     {content()}
                   </span>
                 </div>
@@ -168,4 +168,6 @@ export default function index() {
       <Footer />
     </>
   );
-}
+};
+
+export default Home;

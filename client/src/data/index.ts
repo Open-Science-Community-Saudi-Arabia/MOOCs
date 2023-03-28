@@ -11,7 +11,6 @@ import web3 from "../images/web3.png";
 import openbook from "../images/openbook.svg";
 import knowledge from "../images/knowledge.svg";
 import brain from "../images/brain.svg";
-import youtube from "../images/dashboard/youtube.png";
 import capenteries from "../images/capenteries.svg";
 import openscience from "../images/open-science.svg";
 import ttw from "../images/ttw.svg";
@@ -21,15 +20,32 @@ import { t } from "@lingui/macro";
 export const Courses = [
   {
     id: 0,
-    name:  ()=>t`Unlock the secrets of Open Science.`,
-    description: ()=> t`A beginner-friendly course to introduce the concepts and practices of Open Science.`,
+    name: () => t`Unlock the secrets of Open Science.`,
+    description: () =>
+      t`A beginner-friendly course to introduce the concepts and practices of Open Science.`,
     icon: Github,
   },
   {
     id: 2,
-    name:  ()=>t`Your Open Science Journey Begins Here.`,
-    description:  ()=>t`Learn the basics of Open Science and start your journey towards more open and transparent research and education.`,
+    name: () => t`Your Open Science Journey Begins Here.`,
+    description: () =>
+      t`Learn the basics of Open Science and start your journey towards more open and transparent research and education.`,
     icon: JavaScript,
+  },
+];
+
+// Display tablist
+export const tabitem = [
+  {
+    id: 0,
+    tab: "tab1",
+    name: "Overview",
+  },
+
+  {
+    id: 1,
+    tab: "tab2",
+    name: "",
   },
 ];
 
@@ -67,23 +83,26 @@ export const OpenPractice = [
   {
     id: 0,
     icon: openbook,
-    name:  ()=>t`OPEN SOURCE`,
+    name: () => t`OPEN SOURCE`,
     color: "#ededed",
-    content:  ()=>t`Open source software is a code that is designed to be publicly accessible. Prime examples include Linux, Firefox & Android`,
+    content: () =>
+      t`Open source software is a code that is designed to be publicly accessible. Prime examples include Linux, Firefox & Android`,
   },
   {
     id: 1,
     icon: knowledge,
-    name:  ()=>t`OPEN LICENSE`,
+    name: () => t`OPEN LICENSE`,
     color: "#fff3d4",
-    content:  ()=>t`Open Work is protected by Open License, which states how the work can be used, modified, adopted and commercialised.`,
+    content: () =>
+      t`Open Work is protected by Open License, which states how the work can be used, modified, adopted and commercialised.`,
   },
   {
     id: 2,
     icon: brain,
-    name:  ()=>t`OPEN HARDWARE`,
+    name: () => t`OPEN HARDWARE`,
     color: "#d4f1ff",
-    content:  ()=>t`Open source hardware is a hardware that is built based on principles analogous to open source software.`,
+    content: () =>
+      t`Open source hardware is a hardware that is built based on principles analogous to open source software.`,
   },
 ];
 
@@ -121,31 +140,161 @@ export const Supporter = [
   },
 ];
 
-
-export const Videocontent = [
-  {
-    id: 0,
-    url: "https://www.youtube.com/embed/xcTwm7D1XsQ",
-    description:
-      "This is an intro to Open Life Sciences program by Malvika Sharon in OLS3. The Open Life Science (OLS) program is a mentoring & training program for Open Science ambassadors.",
-    title: "Introduction to Open Life Sciences",
-    language: "English",
-    duration: "7 mins",
-    skillslevel: " All Levels",
-    Students: "425149",
-    image: youtube,
-    author: "Malvika Sharan, Hao Ye",
-    quiz: {
-      completed: false,
-      quiz_no: 10,
-      questions: [
+export const Videocontent = {
+  author: "Batoool",
+  course_sections: [
+    {
+      contents: [],
+      _id: "6411dbc4d07a77d6c06a44f7",
+      order: 1678891273798,
+      title: "Python Syntax",
+      exercises: [
         {
-          id: 0,
-          question: "What is open science",
-          options: ["incorrect", "incorrect", "incorrect", "correct"],
-          correct_answer: "correct",
+          title: "Introduction to Python Quiz",
+          _id: "6411dbced07a77d6c06a44fc",
+          order: 1678891273796,
+          isCompleted: false,
+          questions: [
+            {
+              correct_option: "blue",
+              _id: "6411dbd8d07a77d6c06a4506",
+              options: ["colorless", "blue", "pink", "purple"],
+              question: "What is the color of the sky",
+            },
+            {
+              correct_option: "two",
+              _id: "6411dbd8d07a77d6c06a4899",
+              options: ["what", "is", "two", "number"],
+              question: "What is the number two",
+            },
+            {
+              correct_option: "testing",
+              _id: "6411dbd8d07a77d6c0749809",
+              options: ["why", "are", "you", "testing"],
+              question: "What are you doing",
+            },
+          ],
+        },
+      ],
+      textmaterials: [
+        {
+          description: "A typescript content",
+          file_url: "https://www.africau.edu/images/default/sample.pdf",
+          _id: "6411dbebd07a77d6c06a4519",
+          order: 1678891273798,
+          title: "TypeScript ",
+          type: "text file",
+        },
+      ],
+      videos: [
+        {
+          description: "Introduction to Open science",
+          duration: "6",
+          _id: "6411dbf5d07a77d6c06a4526",
+          order: 1678891273797,
+          title: "Python syntax",
+          type: "video",
+          video_url: "https://www.youtube.com/embed/desowWgV3iU",
+        },
+        {
+          description: "Introduction to Open science",
+          duration: "7",
+          _id: "6411dbf5d07a77d6c06a4456",
+          order: 1678891273234,
+          title: "Typescript ",
+          type: "video",
+          video_url: "https://www.youtube.com/embed/y81yIo1_3o8",
         },
       ],
     },
-  },
-];
+    {
+      contents: [],
+      _id: "6411dbc4d07a77d6c0634522",
+      order: 1678891273798,
+      title: "Learning Javascript",
+
+      exercises: [
+        {
+          title: "Introduction to CSS Quiz",
+          _id: "6411dbced07a77d6c0656a4f",
+          order: 1678891273796,
+          isCompleted: false,
+          questions: [
+            {
+              correct_option: "CSS",
+              _id: "6411dbd8d07a77d6c0645677",
+              options: ["Javascript", "HTML", "CSS", "Next"],
+              question: "What is the Your best color",
+            },
+            {
+              correct_option: "Dog",
+              _id: "6411dbd8d07a77d6c2098cc7",
+              options: ["What", "Dog", "do ", "you"],
+              question: "What animal do you know",
+            },
+            {
+              correct_option: "American Dreams",
+              _id: "6411dbd8d07a77d6c20990hh",
+              options: ["American Dreams", "Dog", "do ", "you"],
+              question: "What animal do you know",
+            },
+            {
+              correct_option: "feathers",
+              _id: "6411dbd8d07a77d6c2098okjh",
+              options: ["feathers", "Chicken", "do ", "you"],
+              question: "I have no questions",
+            },
+          ],
+        },
+      ],
+      textmaterials: [
+        {
+          description: "Next js content",
+          file_url:
+            "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891984/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dbc4d07a77d6c06a44f7/textmaterial_6411dbebd07a77d6c06a4519_RICHIE%20MOLUNO%20___%20RESUME%20%283%29.pdf.pdf",
+          _id: "6411dbebd06787d6c06a4123",
+          isAvailable: true,
+          order: 1678891783798,
+          title: "Nextjs ",
+          type: "text file",
+        },
+        {
+          description: "Text content",
+          file_url:
+            "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891984/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dbc4d07a77d6c06a44f7/textmaterial_6411dbebd07a77d6c06a4519_RICHIE%20MOLUNO%20___%20RESUME%20%283%29.pdf.pdf",
+          _id: "6411dbebd06787d6c06a4php",
+          isAvailable: true,
+          order: 1678891783798,
+          title: "PHP",
+          type: "text file",
+        },
+      ],
+      videos: [
+        {
+          description: "Introduction to Javscript",
+          duration: "5",
+          _id: "6411dbf5d07a77c06a3422",
+          order: 1678891273797,
+          title: "Introduction to Javscript",
+          type: "video",
+          video_url: "https://www.youtube.com/embed/DYWyQ1xFQSI",
+        },
+        {
+          description: "Introduction to Ruby",
+          duration: "4",
+          _id: "6411dbf5d07a77d6c123456",
+          order: 1678891273797,
+          title: "Introduction to Ruby and rails",
+          type: "video",
+          video_url: "https://www.youtube.com/embed/Hapv5VgU47Y",
+        },
+      ],
+    },
+  ],
+  description: "This course is an introduction to open source",
+  enrolled_users: [],
+  _id: "6411dbb7d07a77d6c06a44f3",
+  preview_image:
+    "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891933/courses/preview_images/course_preview_6411dbb7d07a77d6c06a44f3.jpg",
+  title: "Introduction to open source",
+};

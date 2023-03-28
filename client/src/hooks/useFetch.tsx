@@ -20,6 +20,7 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
       });
+
       if (response.data.success === true) {
         setToken(response.data.data.access_token);
         navigate("/dashboard");

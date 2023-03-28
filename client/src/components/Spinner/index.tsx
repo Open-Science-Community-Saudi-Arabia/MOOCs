@@ -2,17 +2,17 @@ import "./spinner.scss";
 interface ISpinnerProps {
   height: string;
   width: string;
-  color?:boolean
+  color?:string
 }
-function Spinner({ width, height,color }: ISpinnerProps) {
+const index= ({ width, height,color }: ISpinnerProps)=> {
   return (
     <div aria-label="loading" className="spinner">
       <div
-        style={{ width: width, height: height , borderColor: color?"#009985":" #ffffff"}}
+        style={{ width: width, height: height , borderColor: color}}
         className="spinner__animate"
       />
     </div>
   );
 }
 
-export default Spinner;
+export default index;

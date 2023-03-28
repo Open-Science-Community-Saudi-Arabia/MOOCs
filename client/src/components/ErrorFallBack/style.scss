@@ -1,26 +1,42 @@
 @import "../../styles/mixins.scss";
 
-.errorfallback{
-    padding:2em;
+.errorfallback {
+  text-align: center;
+  padding: 1em;
+  @include flex(center, center);
+  flex-direction: column;
+  height: 40vh;
+  width:300px;
+  margin:auto;
+  color: var(--error);
+  background-color: var(--light-gray);
+  @include ipad{
+    width:600px;
+  }
+  &__top {
     @include flex(center, center);
-    height: 60vh;
-&__icon{
-    font-size: 35px;
-    color:var(--error)
-}
-&__message{
-    font-size: 30px;
-    color:var(--error)
-}
-&__description{
-    font-size: 20px;
-    color:var(--error)
-}
-&__btn{
+    &__message {
+      font-size: 20px;
+      font-weight: 700;
+      @include ipad{
+        font-size: 23px;
+      }
+    }
+  }
+
+  &__description {
+    font-size: 15px;
+    margin: 0.6em 0em;
+    @include ipad{
+      font-size: 17px;
+      margin: 0.5em 0em;
+    }
+  }
+  &__btn {
+ 
     @include button(auto, var(--error), var(--white));
     &:hover {
-        opacity: 30%;
-      }
-}
-
+      opacity: 30%;
+    }
+  }
 }

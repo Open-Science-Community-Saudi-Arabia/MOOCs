@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap");
+
 @import "./mixins.scss";
 
 :root {
@@ -22,6 +25,9 @@ html,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+ 
+}
+body{
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 body,
@@ -31,7 +37,7 @@ html {
 }
 a {
   text-decoration: none;
-  color: var(--black-0);
+  color: var(--black);
 }
 button,
 input {
@@ -39,10 +45,11 @@ input {
   border-radius: 8px;
   background-color: transparent;
   cursor: pointer;
+  color: var(--black);
 }
-.icon-button{
-  border:none;
-  width:auto !important;
+.icon-button {
+  border: none;
+  width: auto !important;
 }
 
 .css-1u9des2-indicatorSeparator {
@@ -60,10 +67,11 @@ input {
   border: 0;
 }
 
-
 .Toastify__toast-theme--colored.Toastify__toast--success {
   background-color: hsl(122, 39%, 58%) !important;
 }
-.Toastify__toast-container{
+.Toastify__toast-container {
   width: auto !important;
 }
+.aligned { text-align: left }
+.right-aligned { text-align: right }
