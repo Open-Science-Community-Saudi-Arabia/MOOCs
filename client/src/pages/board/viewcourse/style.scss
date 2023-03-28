@@ -374,13 +374,11 @@
               font-size: 12px;
               font-style: italic;
               color: var(--gray);
-              .completed {
-                color: var(--green);
-                font-weight: 600;
-              }
-              .not-completed {
-                color: var(--gray);
-              }
+              
+            }
+            &__score{
+              color: var(--green);
+              font-weight: 600;
             }
           }
         }

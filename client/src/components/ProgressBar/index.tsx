@@ -3,10 +3,17 @@ import "react-circular-progressbar/dist/styles.css";
 import useMediaQuery from "../../hooks/usemediaQuery";
 import "./style.scss";
 
-interface IProgressBarProps {
+interface ICircularBarProps {
   score: number;
 }
-const ProgressBar = ({ score }: IProgressBarProps) => {
+interface IProgressBarProps {
+  bgcolor: string;
+  progress: number;
+  height: number;
+  width: number;
+  coursebar?: boolean;
+}
+const CircularProgressBar = ({ score }: ICircularBarProps) => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
   return (
     <div className="progressbar" style={{ width: isIpad ? "250px" : "200px" }}>
@@ -28,4 +35,45 @@ const ProgressBar = ({ score }: IProgressBarProps) => {
   );
 };
 
-export default ProgressBar;
+const ProgressBar = ({
+  bgcolor,
+  coursebar,
+  progress,
+  height,
+  width,
+}: IProgressBarProps) => {
+  const Parentdiv = {
+    height: height,
+    width: width,
+    backgroundColor: "#333",
+    borderRadius: 100,
+  };
+
+  const Childdiv = {
+    height: "100%",
+    width: `${progress}%`,
+    backgroundColor: bgcolor,
+    borderRadius: 100,
+  };
+
+  const progresstext = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#000",
+    fontWeight: "bolder",
+    height: "100%",
+  };
+
+  return (
+    <div style={Parentdiv}>
+      <div style={Childdiv}>
+     
+          <span style={progresstext}>{!coursebar &&`${progress}%`}</span>
+       
+      </div>
+    </div>
+  );
+};
+
+export { CircularProgressBar, ProgressBar };

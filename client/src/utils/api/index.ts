@@ -30,13 +30,18 @@ async function makeApiCall<T = any>(
     return data;
   } catch (error: any) {
     if (error.response) {
-      if (error.response.status === 403) {
+      if (error.response.status === 403 || error.response.status === 401) {
+        toast.error(error.message, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
         localStorage.removeItem(TOKEN_KEY);
         window.location.assign("/login");
       }
     }
     // throw errors that happen in the browser as is
-    throw new Error(error.response?.data?.message||error.message);
+    throw new Error(error.response?.data?.message || error.message);
   }
 }
 

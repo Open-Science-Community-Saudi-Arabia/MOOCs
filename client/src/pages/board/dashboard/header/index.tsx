@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import logo from "../../../../images/logo.svg";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { BsPersonFill} from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useClickOutside from "../../../../hooks/useClickOutside";
 import "./style.scss";
@@ -39,14 +40,14 @@ const Header = () => {
         <div className="dashboard-header-profile">
           <div className="languageToggle">
             {" "}
-            <LanguageToggle />
+            <LanguageToggle btncolor="#009985" />
           </div>
           <button
             aria-label="Open profile"
             onClick={() => setOpen(!isOpen)}
             className="icon-button dashboard-header-profile__btn"
           >
-            <span className="dashboard-header-profile__btn-text">GS</span>
+            <span className="dashboard-header-profile__btn-text icon-button"><BsPersonFill/></span>
             <RiArrowDropDownLine />
           </button>
           {isOpen && (

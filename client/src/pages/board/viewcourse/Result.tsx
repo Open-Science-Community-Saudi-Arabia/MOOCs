@@ -1,6 +1,7 @@
-import ProgressBar from "../../../components/ProgressBar";
+import {CircularProgressBar} from "../../../components/ProgressBar";
 interface IProps {
-  score: number | any;
+  score: number;
+
   selectedIndex: string;
   getexerciseData: (selectedIndex: string) => void;
 }
@@ -10,7 +11,7 @@ const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
       <div className="quizresult__heading">
         <h1 className="quizresult__heading__title">Quiz Result</h1>
       </div>
-      <ProgressBar score={score} />
+      <CircularProgressBar score={score} />
       <div className="quizresult__btns">
         <button
           onClick={() => {

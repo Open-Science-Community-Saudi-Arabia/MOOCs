@@ -93,7 +93,6 @@ const Quiz = ({
                           key={j}
                           onChange={(e) => onChangeValue(content._id, e, j)}
                           htmlFor={list}
-                         
                           className="quiz-section__content-options__label"
                         >
                           <input

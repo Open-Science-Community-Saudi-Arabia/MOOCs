@@ -53,15 +53,13 @@
     position: relative;
     cursor: pointer;
     @include flex(space-between, center);
-    gap: 10px;
+    gap: 20px;
     &__btn {
       @include flex(space-between, center);
       &-text {
         font-size: 16px;
-        background-color: var(--green);
-        color: white;
+        color: var(--green);
         border-radius: 100%;
-        padding: 0.5em;
         font-weight: 500;
         @include ipad {
           font-size: 20px;
@@ -69,7 +67,8 @@
         }
       }
       svg {
-        font-size: 30px;
+        color: var(--green);
+        font-size: 25px;
       }
     }
     &__logout-btn {

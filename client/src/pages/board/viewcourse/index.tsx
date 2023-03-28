@@ -18,6 +18,7 @@ import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
+import {ProgressBar} from "../../../components/ProgressBar";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -32,10 +33,11 @@ const ViewCourse = () => {
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
   const [quizIndex, setQuizIndex] = useState<number>(0);
-  const [score, setScore] = useState<number>();
+  const [score, setScore] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
+  const [bestScore, setBestScore] = useState<number>(0);
 
   const {
     data: coursedata,
@@ -56,7 +58,6 @@ const ViewCourse = () => {
   const changeScoreHandler = (score: number) => {
     setScore(score);
   };
-
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
   };
@@ -139,7 +140,7 @@ const ViewCourse = () => {
                     }`
               }`}
             >
-              {
+              {/* {
                 <button
                   onClick={() => {
                     changedDisplayContent("certificate");
@@ -149,7 +150,9 @@ const ViewCourse = () => {
                   {" "}
                   View Certificate
                 </button>
-              }
+              } */}
+              {/* <d>{course?.overall}% </p> */}
+              <ProgressBar width={100} bgcolor="#99ff66" progress={course?.overall}  height={35}/>
               {!isCourseContent && (
                 <button
                   onClick={() => {
@@ -162,10 +165,8 @@ const ViewCourse = () => {
                   Course Content
                 </button>
               )}
-           
-              <LanguageToggle btncolor="#ffff"/>
-           
-              
+
+              <LanguageToggle btncolor="#ffff" />
             </div>
             {!isIpad && (
               <button
@@ -322,16 +323,9 @@ const ViewCourse = () => {
                                   <p className="viewcourse-container__content-course-section__listitem-text">
                                     <RxDot /> Quiz Exercise:{index + 1}
                                   </p>
-                                  <p className="viewcourse-container__content-course-section__listitem__status">
-                                    {quizitem.isCompleted ? (
-                                      <span className="completed">
-                                        completed
-                                      </span>
-                                    ) : (
-                                      <span className="not-completed">
-                                        not completed
-                                      </span>
-                                    )}
+
+                                  <p className="viewcourse-container__content-course-section__listitem__score">
+                                    <ProgressBar coursebar={true }width={50} bgcolor="#009985" progress={quizitem?.best_percentage_passed}  height={15}/> {quizitem?.best_percentage_passed}%
                                   </p>
                                 </div>
                               </button>

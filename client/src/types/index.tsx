@@ -43,16 +43,18 @@ export interface Courses {
 export interface CourseSections {
   _id: string;
   title: string;
+  overall:number;
   exercises: Exercise[];
   videos: Video[];
   textmaterials: TextMaterial[];
+
 }
 export interface Exercise {
   _id: string;
   title: string;
   questions: Questions[];
   order:number
-  isCompleted:boolean,
+  best_percentage_passed:number
 }
 export interface Questions {
   _id: string;
