@@ -377,8 +377,12 @@
               
             }
             &__score{
-              color: var(--green);
+              // color: var(--green);
               font-weight: 600;
+              font-style: italic;
+              gap:5px;
+              @include flex(space-between, center)
+              
             }
           }
         }

@@ -18,7 +18,7 @@ import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
-import {ProgressBar} from "../../../components/ProgressBar";
+import { ProgressBar } from "../../../components/ProgressBar";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -152,7 +152,13 @@ const ViewCourse = () => {
                 </button>
               } */}
               {/* <d>{course?.overall}% </p> */}
-              <ProgressBar width={100} bgcolor="#99ff66" progress={course?.overall}  height={35}/>
+              <ProgressBar
+                overallScore={true}
+                width={150}
+                bgcolor="#99ff66"
+                progress={course?.overall}
+                height={35}
+              />
               {!isCourseContent && (
                 <button
                   onClick={() => {
@@ -325,7 +331,16 @@ const ViewCourse = () => {
                                   </p>
 
                                   <p className="viewcourse-container__content-course-section__listitem__score">
-                                    <ProgressBar coursebar={true }width={50} bgcolor="#009985" progress={quizitem?.best_percentage_passed}  height={15}/> {quizitem?.best_percentage_passed}%
+                               <p style={{color:quizitem?.best_percentage_passed>0? "#009985": "#666"}}>   {quizitem?.best_percentage_passed}% </p>
+                                  <ProgressBar
+                                      width={80}
+                                      bgcolor="#009985"
+                                      progress={
+                                        quizitem?.best_percentage_passed
+                                      }
+                                      height={15}
+                                    />{" "}
+                                  
                                   </p>
                                 </div>
                               </button>

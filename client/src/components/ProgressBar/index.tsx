@@ -11,7 +11,7 @@ interface IProgressBarProps {
   progress: number;
   height: number;
   width: number;
-  coursebar?: boolean;
+  overallScore?: boolean;
 }
 const CircularProgressBar = ({ score }: ICircularBarProps) => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
@@ -36,41 +36,40 @@ const CircularProgressBar = ({ score }: ICircularBarProps) => {
 };
 
 const ProgressBar = ({
+  width,
   bgcolor,
-  coursebar,
+  overallScore,
   progress,
   height,
-  width,
 }: IProgressBarProps) => {
   const Parentdiv = {
     height: height,
     width: width,
-    backgroundColor: "#333",
+    backgroundColor: overallScore ? "#333" : "#80808033",
     borderRadius: 100,
   };
 
   const Childdiv = {
     height: "100%",
     width: `${progress}%`,
-    backgroundColor: bgcolor,
+    backgroundColor: progress > 0 ? bgcolor : "",
     borderRadius: 100,
+    padding: "0.5em",
   };
 
   const progresstext = {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
     color: "#000",
     fontWeight: "bolder",
     height: "100%",
+    fontSize: "14px",
   };
 
   return (
     <div style={Parentdiv}>
       <div style={Childdiv}>
-     
-          <span style={progresstext}>{!coursebar &&`${progress}%`}</span>
-       
+        <span style={progresstext}>{overallScore && `${progress}%`}</span>
       </div>
     </div>
   );
