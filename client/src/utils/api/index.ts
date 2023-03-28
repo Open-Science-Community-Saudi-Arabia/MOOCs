@@ -36,7 +36,7 @@ async function makeApiCall<T = any>(
       }
     }
     // throw errors that happen in the browser as is
-    throw new Error(error.response?.data?.message);
+    throw new Error(error.response?.data?.message||error.message);
   }
 }
 

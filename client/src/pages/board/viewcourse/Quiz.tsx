@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
@@ -11,7 +11,9 @@ interface IProps {
   changedDisplayContent: (item: any) => void;
   changeScoreHandler: (item: number) => void;
   changedViewSubmit: (viewSubmit: boolean) => void;
+  setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
+  submission: object;
 }
 
 const Quiz = ({
@@ -21,13 +23,15 @@ const Quiz = ({
   changedDisplayContent,
   changeScoreHandler,
   changedViewSubmit,
+  setSubmission,
   viewSubmit,
+  submission,
 }: IProps) => {
-  const [submission, setSubmission] = useState({});
-
   const [isLoading, setLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>();
 
-  const onChangeValue = (id: string, event: any) => {
+  const onChangeValue = (id: string, event: any, index: number) => {
+    setSelectedIndex(index);
     if (exerciseData) {
       if (quizIndex + 1 === exerciseData?.questions.length) {
         changedViewSubmit(true);
@@ -39,14 +43,12 @@ const Quiz = ({
       return { ...prevState, [id]: event.target.value };
     });
   };
-
   const submitResult = async () => {
     if (exerciseData) {
       setLoading(true);
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          console.log(response);
           changeScoreHandler(response.data.report.percentage_passed);
           changedDisplayContent("result");
         }
@@ -89,8 +91,9 @@ const Quiz = ({
                       return (
                         <label
                           key={j}
-                          onChange={(e) => onChangeValue(content._id, e)}
+                          onChange={(e) => onChangeValue(content._id, e, j)}
                           htmlFor={list}
+                         
                           className="quiz-section__content-options__label"
                         >
                           <input

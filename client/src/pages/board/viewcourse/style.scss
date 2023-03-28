@@ -196,7 +196,8 @@
         }
         &__submit-btn {
           margin: auto;
-          @include button(auto, var(--green), var(--white));
+          height:50px;
+          @include button(100px, var(--green), var(--white));
         }
       }
 

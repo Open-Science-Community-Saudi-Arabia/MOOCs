@@ -14,7 +14,7 @@ import Quiz from "./Quiz";
 import ViewPdf from "./ViewPdf";
 import { CourseSections, Exercise, TextMaterial, Video } from "../../../types";
 import Result from "./Result";
-import { tabitem} from "../../../data";
+import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +34,8 @@ const ViewCourse = () => {
   const [score, setScore] = useState<number>();
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
+  const [submission, setSubmission] = useState({});
+
   const {
     data: coursedata,
     isLoading,
@@ -60,6 +62,7 @@ const ViewCourse = () => {
   const changedViewSubmit = (viewSubmit: boolean) => {
     setViewSubmit(viewSubmit);
   };
+
   const getVideodata = (id: string) => {
     changedDisplayContent("video");
     if (selectedIndex === "") {
@@ -83,7 +86,8 @@ const ViewCourse = () => {
     setSelectedIndex(id);
     setExerciseData(dataitem);
     changedDisplayContent("exercise");
-    setViewSubmit(false)
+    setViewSubmit(false);
+    setSubmission({});
   };
 
   const getPdfdata = (id: string) => {
@@ -190,8 +194,10 @@ const ViewCourse = () => {
                   quizIndex={quizIndex}
                   changedDisplayContent={changedDisplayContent}
                   changeScoreHandler={changeScoreHandler}
-          changedViewSubmit ={changedViewSubmit }
+                  changedViewSubmit={changedViewSubmit}
+                  setSubmission={setSubmission}
                   viewSubmit={viewSubmit}
+                  submission={submission}
                 />
               ) : displayContent === "pdf" ? (
                 <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />
@@ -290,38 +296,43 @@ const ViewCourse = () => {
                             );
                           }
                         )}
-                        {content.exercises.map((quizitem: Exercise, index:number) => {
-                          return (
-                            <button
-                              key={quizitem._id}
-                              aria-label="Take quiz"
-                              onClick={() => {
-                                getexerciseData(quizitem._id);
-                                isIpad
-                                  ? setCourseContent(true)
-                                  : setCourseContent(false);
-                              }}
-                              className={`viewcourse-container__content-course-section__listitem ${
-                                selectedIndex === quizitem._id && "active-item"
-                              }`}
-                            >
-                              <div className="viewcourse-container__content-course-section__listitem-title">
-                                <p className="viewcourse-container__content-course-section__listitem-text">
-                                  <RxDot /> Quiz Exercise:{index + 1}
-                                </p>
-                                <p className="viewcourse-container__content-course-section__listitem__status">
-                                  {quizitem.isCompleted ? (
-                                    <span className="completed">completed</span>
-                                  ) : (
-                                    <span className="not-completed">
-                                      not completed
-                                    </span>
-                                  )}
-                                </p>
-                              </div>
-                            </button>
-                          );
-                        })}
+                        {content.exercises.map(
+                          (quizitem: Exercise, index: number) => {
+                            return (
+                              <button
+                                key={quizitem._id}
+                                aria-label="Take quiz"
+                                onClick={() => {
+                                  getexerciseData(quizitem._id);
+                                  isIpad
+                                    ? setCourseContent(true)
+                                    : setCourseContent(false);
+                                }}
+                                className={`viewcourse-container__content-course-section__listitem ${
+                                  selectedIndex === quizitem._id &&
+                                  "active-item"
+                                }`}
+                              >
+                                <div className="viewcourse-container__content-course-section__listitem-title">
+                                  <p className="viewcourse-container__content-course-section__listitem-text">
+                                    <RxDot /> Quiz Exercise:{index + 1}
+                                  </p>
+                                  <p className="viewcourse-container__content-course-section__listitem__status">
+                                    {quizitem.isCompleted ? (
+                                      <span className="completed">
+                                        completed
+                                      </span>
+                                    ) : (
+                                      <span className="not-completed">
+                                        not completed
+                                      </span>
+                                    )}
+                                  </p>
+                                </div>
+                              </button>
+                            );
+                          }
+                        )}
                       </div>
                     )
                   )}
