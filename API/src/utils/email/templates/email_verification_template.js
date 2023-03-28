@@ -1,5 +1,5 @@
-const password_reset_template = (verification_link, name) => {
-    `
+const email_verification_template = (verification_link, name) => {
+    return `
     <!doctype html>
     <html lang="en-US">
     
@@ -49,8 +49,8 @@ const password_reset_template = (verification_link, name) => {
                                                 Hi ${name}, You have requested to verify your email please click the link below to verify your email
                                             </p>
                                             <a href=${verification_link}
-                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
-                                                Password</a>
+                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                                Verify email</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -80,4 +80,4 @@ const password_reset_template = (verification_link, name) => {
     `
 }
 
-module.exports = password_reset_template
+module.exports = email_verification_template

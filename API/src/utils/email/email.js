@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer')
 const config = require('../config')
+const {
+    password_reset_template,
+    email_verification_template } = require('./templates')
 
 // 3. Send email to user
 const sendEmail = async (options) => {
@@ -25,6 +28,7 @@ const sendEmail = async (options) => {
             to: options.email,
             subject: options.subject,
             text: options.message,
+            html: options.html
         }
         // actually send message
         await transporter.sendMail(mailOptions)
@@ -35,4 +39,14 @@ const sendEmail = async (options) => {
     }
 }
 
-module.exports = sendEmail
+class EmailMessage {
+    passwordReset(reset_code, name) {
+        return password_reset_template(reset_code, name)
+    }
+
+    emailVerification(verification_link, name) {
+        return email_verification_template(verification_link, name)
+    }
+}
+
+module.exports = { sendEmail, EmailMessage }
