@@ -45,7 +45,7 @@ export const tabitem = [
   {
     id: 1,
     tab: "tab2",
-    name: "",
+    name: "Certificate",
   },
 ];
 

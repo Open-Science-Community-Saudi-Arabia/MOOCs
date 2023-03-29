@@ -399,7 +399,9 @@ const ViewCourse = () => {
                   {/* {viewcourse?.description} */}
                 </div>
               ) : (
-                <></>
+                <>
+                <Certificate/>
+                </>
               )}
             </div>
           </div>
