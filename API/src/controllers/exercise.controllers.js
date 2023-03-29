@@ -427,6 +427,7 @@ exports.scoreExercise = async (req, res, next) => {
                 percentage_passed: exercise_submission.percentage_passed,
                 best_score: exercise_report.best_score,
                 best_percentage_passed: exercise_report.percentage_passed,
+                course_progress: course_report.percentage_passed
             },
             certificate,
         },
