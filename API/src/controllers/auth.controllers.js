@@ -205,7 +205,7 @@ exports.passportOauthCallback = function (req, res) {
  * @throws {Error} if an error occurs
  */
 exports.signup = async (req, res, next) => {
-    let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
+    let { firstname, lastname, email, role, password, passwordConfirm, preferred_language } = req.body;
 
     // NOTE: Will be handled by mongoose schema validation
     // Check if all required fields are provided
@@ -227,7 +227,7 @@ exports.signup = async (req, res, next) => {
     let new_user;
     const session = await mongoose.startSession();
     await session.withTransaction(async () => {
-        await User.create([{ firstname, lastname, email, role, }], { session, context: 'query' }).then((user) => { new_user = user[0] });
+        await User.create([{ firstname, lastname, email, role, preferred_language }], { session, context: 'query' }).then((user) => { new_user = user[0] });
         await Password.create([{ user: new_user._id, password }], { session, context: 'query' });
         await Status.create([{ user: new_user._id }], { session, context: 'query' })
         await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
