@@ -61,7 +61,7 @@ const password_reset_template = (reset_code, name) => {
                         </tr>
                         <tr>
                             <td style="text-align:center;">
-                                <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>https://moocs-client.netlify.app/</strong></p>
+                                <p style="font-size:14px; color:#009985; line-height:18px; margin:0 0 0;">&copy; <strong>https://moocs-client.netlify.app/</strong></p>
                             </td>
                         </tr>
                         <tr>

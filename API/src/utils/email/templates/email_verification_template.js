@@ -49,7 +49,7 @@ const email_verification_template = (verification_link, name) => {
                                                 Hi ${name}, You have requested to verify your email please click the link below to verify your email
                                             </p>
                                             <a href=${verification_link}
-                                                style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                                style="background:#009985;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                                 Verify email</a>
                                         </td>
                                     </tr>
@@ -63,7 +63,7 @@ const email_verification_template = (verification_link, name) => {
                         </tr>
                         <tr>
                             <td style="text-align:center;">
-                                <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>https://moocs-client.netlify.app/</strong></p>
+                                <p style="font-size:14px; color:#009985; line-height:18px; margin:0 0 0;">&copy; <strong>https://moocs-client.netlify.app/</strong></p>
                             </td>
                         </tr>
                         <tr>
