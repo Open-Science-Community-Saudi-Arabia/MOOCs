@@ -45,7 +45,7 @@ const password_reset_template = (reset_code, name) => {
                                             <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;"> Password reset for ${name}</h1>
                                             <span
                                                 style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                            <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
+                                            <p style="color:#455056; font-size:20px;line-height:24px; margin:0;">
                                                 Hi ${name}, You made a forgot password request, here is your password reset code, please use it to reset your password.
                                             </p>
                                             <h1 style="color:#455056; margin:20px;"> ${reset_code} </h1>
