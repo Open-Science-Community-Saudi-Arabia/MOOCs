@@ -18,7 +18,10 @@ import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
-import { ProgressBar } from "../../../components/ProgressBar";
+import {
+  CircularProgressBar,
+  ProgressBar,
+} from "../../../components/ProgressBar";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -151,6 +154,7 @@ const ViewCourse = () => {
                 </button>
               } */}
               {/* <d>{course?.overall}% </p> */}
+              Your Progress{" "}
               <ProgressBar
                 overallScore={true}
                 width={150}
@@ -170,7 +174,6 @@ const ViewCourse = () => {
                   Course Content
                 </button>
               )}
-
               <LanguageToggle btncolor="#ffff" />
             </div>
             {!isIpad && (
@@ -348,10 +351,10 @@ const ViewCourse = () => {
                                     <ProgressBar
                                       width={80}
                                       bgcolor="#009985"
-                                      progress={Math.round(
+                                     progress={Math.round(
                                         quizitem?.best_percentage_passed
                                       )}
-                                      height={15}
+                                      height={18}
                                     />{" "}
                                   </p>
                                 </div>

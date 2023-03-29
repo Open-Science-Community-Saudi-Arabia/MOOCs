@@ -53,7 +53,7 @@ const ProgressBar = ({
     height: "100%",
     width: `${progress}%`,
     backgroundColor: progress > 0 ? bgcolor : "",
-    borderRadius: 100,
+    borderRadius: 40,
     padding: "0.5em",
   };
 

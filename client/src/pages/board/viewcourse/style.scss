@@ -17,6 +17,7 @@
     &__header {
       top: 0;
       position: fixed;
+      font-weight: 900;
       z-index: 3;
       width: 100%;
       background-color: var(--black);
@@ -73,7 +74,7 @@
         padding: 0.8em;
         color: var(--white);
       }
-      &__languagetoggle{
+      &__languagetoggle {
         color: var(--white);
       }
       &-doticon {
@@ -199,7 +200,7 @@
         }
         &__submit-btn {
           margin: auto;
-          height:50px;
+          height: 50px;
           @include button(100px, var(--green), var(--white));
         }
       }
@@ -328,7 +329,7 @@
           z-index: 2;
           &__heading {
             padding: 1.5em 1em 0.5em;
-            font-weight: 600;
+            font-weight: bold;
             font-size: 15px;
             border-bottom: 1px solid var(--green-light);
           }
@@ -374,15 +375,14 @@
               font-size: 12px;
               font-style: italic;
               color: var(--gray);
-              
             }
-            &__score{
-              // color: var(--green);
+            &__score {
+          
+              font-size: 11px;
               font-weight: 600;
-              font-style: italic;
-              gap:5px;
-              @include flex(space-between, center)
-              
+
+              gap: 5px;
+              @include flex(space-between, center);
             }
           }
         }
