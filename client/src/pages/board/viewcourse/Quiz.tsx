@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
@@ -9,26 +9,30 @@ interface IProps {
   quizIndex: number;
   changeQuizIndex: (quizIndex: number) => void;
   changedDisplayContent: (item: any) => void;
-  changeScoreHandler: (item: number) => void;
+  changeBestScoreHandler: (bestScore: number) => void;
+  changedCurrentScore: (currentScore: number) => void;
+  changedOverAllScore: (overAllScore: number) => void;
   changedViewSubmit: (viewSubmit: boolean) => void;
   setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
   submission: object;
-  refetch:()=> void
+  // refetch:()=> void
 }
 
 const Quiz = ({
+  changedCurrentScore,
   exerciseData,
   quizIndex,
   changeQuizIndex,
   changedDisplayContent,
-  changeScoreHandler,
+  changeBestScoreHandler,
   changedViewSubmit,
   setSubmission,
   viewSubmit,
   submission,
-  refetch
-}: IProps) => {
+  changedOverAllScore,
+}: // refetch
+IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
@@ -51,10 +55,13 @@ const Quiz = ({
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          changeScoreHandler(response.data.report.percentage_passed);
+          console.log(response.data);
+          changedCurrentScore(response.data.report.percentage_passed);
+          changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
+          changedOverAllScore(response.data.report.course_progress);
         }
-        refetch()
+        // refetch()
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {

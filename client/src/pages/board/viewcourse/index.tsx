@@ -18,10 +18,7 @@ import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
-import {
-  CircularProgressBar,
-  ProgressBar,
-} from "../../../components/ProgressBar";
+import { ProgressBar } from "../../../components/ProgressBar";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -36,10 +33,13 @@ const ViewCourse = () => {
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
   const [quizIndex, setQuizIndex] = useState<number>(0);
-  const [score, setScore] = useState<number>(0);
+
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
+  const [overAllScore, setOverAllScore] = useState(0);
+  const [currentScore, setCurrentScore] = useState<number>(0);
+  const [bestScore, setBestScore] = useState<number>(0);
 
   const {
     data: coursedata,
@@ -49,22 +49,30 @@ const ViewCourse = () => {
   } = useCourse(params.id);
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
+
   useEffect(() => {
     isIpad ? setCourseContent(true) : setCourseContent(false);
     getVideodata(course?.course_sections[0].videos[0]._id);
+    setOverAllScore(course?.overall);
   }, [isIpad, course]);
 
   const changeQuizIndex = (quizIndex: number) => {
     setQuizIndex(quizIndex);
   };
-  const changeScoreHandler = (score: number) => {
-    setScore(score);
+  const changeBestScoreHandler = (bestScore: number) => {
+    setBestScore(bestScore);
   };
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
   };
   const changedViewSubmit = (viewSubmit: boolean) => {
     setViewSubmit(viewSubmit);
+  };
+  const changedOverAllScore = (overAllScore: number) => {
+    setOverAllScore(overAllScore);
+  };
+  const changedCurrentScore = (currentScore: number) => {
+    setCurrentScore(currentScore);
   };
 
   const getVideodata = (id: string) => {
@@ -142,24 +150,12 @@ const ViewCourse = () => {
                     }`
               }`}
             >
-              {/* {
-                <button
-                  onClick={() => {
-                    changedDisplayContent("certificate");
-                  }}
-                  className="viewcourse-container__header__btn"
-                >
-                  {" "}
-                  View Certificate
-                </button>
-              } */}
-              {/* <d>{course?.overall}% </p> */}
               Your Progress{" "}
               <ProgressBar
                 overallScore={true}
                 width={150}
-                bgcolor="#99ff66"
-                progress={Math.round(course?.overall)}
+                bgcolor="#6abd41"
+                progress={Math.round(overAllScore)}
                 height={35}
               />
               {!isCourseContent && (
@@ -207,18 +203,20 @@ const ViewCourse = () => {
                   changeQuizIndex={changeQuizIndex}
                   quizIndex={quizIndex}
                   changedDisplayContent={changedDisplayContent}
-                  changeScoreHandler={changeScoreHandler}
+                  changeBestScoreHandler={changeBestScoreHandler}
                   changedViewSubmit={changedViewSubmit}
                   setSubmission={setSubmission}
                   viewSubmit={viewSubmit}
                   submission={submission}
-                  refetch={refetch}
+                  // refetch={refetch}
+                  changedCurrentScore={changedCurrentScore}
+                  changedOverAllScore={changedOverAllScore}
                 />
               ) : displayContent === "pdf" ? (
                 <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />
               ) : displayContent === "result" ? (
                 <Result
-                  score={score}
+                  currentScore={currentScore}
                   selectedIndex={selectedIndex}
                   getexerciseData={getexerciseData}
                 />
@@ -333,30 +331,23 @@ const ViewCourse = () => {
                                     <RxDot /> Quiz Exercise:{index + 1}
                                   </p>
 
-                                  <p className="viewcourse-container__content-course-section__listitem__score">
+                                  <div className="viewcourse-container__content-course-section__listitem__score">
                                     <p
                                       style={{
                                         color:
-                                          quizitem?.best_percentage_passed > 0
-                                            ? "#009985"
-                                            : "#666",
+                                         quizitem.best_percentage_passed> 0 ? "#009985" : "#666",
                                       }}
                                     >
                                       {" "}
-                                      {quizitem?.best_percentage_passed > 0
-                                        ? quizitem?.best_percentage_passed
-                                        : 0}
-                                      %{" "}
+                                      {quizitem.best_percentage_passed > 0 ? quizitem.best_percentage_passed : 0}%{" "}
                                     </p>
                                     <ProgressBar
                                       width={80}
                                       bgcolor="#009985"
-                                     progress={Math.round(
-                                        quizitem?.best_percentage_passed
-                                      )}
+                                      progress={Math.round(quizitem.best_percentage_passed)}
                                       height={18}
                                     />{" "}
-                                  </p>
+                                  </div>
                                 </div>
                               </button>
                             );
@@ -400,7 +391,7 @@ const ViewCourse = () => {
                 </div>
               ) : (
                 <>
-                <Certificate/>
+                  <Certificate />
                 </>
               )}
             </div>

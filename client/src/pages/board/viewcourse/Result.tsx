@@ -1,17 +1,16 @@
 import {CircularProgressBar} from "../../../components/ProgressBar";
 interface IProps {
-  score: number;
-
+  currentScore: number;
   selectedIndex: string;
   getexerciseData: (selectedIndex: string) => void;
 }
-const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
+const Result = ({ currentScore, getexerciseData, selectedIndex }: IProps) => {
   return (
     <div className="quizresult">
       <div className="quizresult__heading">
         <h1 className="quizresult__heading__title">Quiz Result</h1>
       </div>
-      <CircularProgressBar score={score} />
+      <CircularProgressBar currentScore={currentScore} />
       <div className="quizresult__btns">
         <button
           onClick={() => {
