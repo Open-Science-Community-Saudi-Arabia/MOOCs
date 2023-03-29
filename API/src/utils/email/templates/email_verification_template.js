@@ -25,8 +25,8 @@ const email_verification_template = (verification_link, name) => {
                         </tr>
                         <tr>
                             <td style="text-align:center;">
-                              <a href="https://rakeshmandal.com" title="logo" target="_blank">
-                                <img width="60" src="https://i.ibb.co/hL4XZp2/android-chrome-192x192.png" title="logo" alt="logo">
+                              <a href="https://moocs-client.netlify.app/" title="logo" target="_blank">
+                                <img width="160" src="https://res.cloudinary.com/dipyrsqvy/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1680122215/moocs_yinmfd.jpg" title="logo" alt="logo">
                               </a>
                             </td>
                         </tr>

@@ -121,9 +121,10 @@ const handleUnverifiedUser = function (user) {
         }
 
         //console.log(verification_url)
+
         // Send verification email
         const message = new EmailMessage()
-        sendEmail({
+        await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
             html: message.emailVerification(verification_url, user.firstname)
