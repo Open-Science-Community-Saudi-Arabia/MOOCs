@@ -39,13 +39,13 @@ export const tabitem = [
   {
     id: 0,
     tab: "tab1",
-    name: "Overview",
+    name:() => t`Overview`,
   },
 
   {
     id: 1,
     tab: "tab2",
-    name: "Certificate",
+    name:  () => t`Certificate`,
   },
 ];
 

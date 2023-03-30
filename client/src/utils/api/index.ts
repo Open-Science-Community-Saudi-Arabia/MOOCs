@@ -40,7 +40,7 @@ async function makeApiCall<T = any>(
         window.location.assign("/login");
       }
     }
-    // throw errors that happen in the browser as is
+   
     throw new Error(error.response?.data?.message || error.message);
   }
 }
