@@ -19,6 +19,7 @@ import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
+import { Trans } from "@lingui/macro";
 
 const ViewCourse = () => {
   const params = useParams();
@@ -137,7 +138,7 @@ const ViewCourse = () => {
               >
                 <TiArrowBack />
               </button>{" "}
-              Title: {course?.title}
+             <Trans> Title: </Trans>{course?.title}
             </h1>
             <div
               className={`${
@@ -150,7 +151,7 @@ const ViewCourse = () => {
                     }`
               }`}
             >
-              Your Progress{" "}
+             <Trans> Your Progress</Trans>{" "}
               <ProgressBar
                 overallScore={true}
                 width={150}
@@ -167,7 +168,7 @@ const ViewCourse = () => {
                   className="viewcourse-container__header__btn"
                 >
                   {" "}
-                  Course Content
+                <Trans>  Course Content</Trans>
                 </button>
               )}
               <LanguageToggle btncolor="#ffff" />
@@ -229,7 +230,7 @@ const ViewCourse = () => {
                 <div className="viewcourse-container__content-course-display">
                   {" "}
                   <p className="viewcourse-container__content-course-display-text">
-                    Course content
+                  <Trans>  Course content</Trans>
                   </p>
                   <button
                     aria-label="close"
@@ -250,7 +251,7 @@ const ViewCourse = () => {
                         {" "}
                         <p className="viewcourse-container__content-course-section__heading">
                           {" "}
-                          Section {index + 1}: {content.title}
+                        <Trans>  Section</Trans> {index + 1}: {content.title}
                         </p>
                         {content.videos.map((videoitem: Video, j: number) => {
                           return (
@@ -328,7 +329,7 @@ const ViewCourse = () => {
                               >
                                 <div className="viewcourse-container__content-course-section__listitem-title">
                                   <p className="viewcourse-container__content-course-section__listitem-text">
-                                    <RxDot /> Quiz Exercise:{index + 1}
+                                    <RxDot /><Trans> Quiz Exercise:</Trans>{index + 1}
                                   </p>
 
                                   <div className="viewcourse-container__content-course-section__listitem__score">
@@ -385,7 +386,7 @@ const ViewCourse = () => {
               {activeTab === "tab1" ? (
                 <div>
                   <p className="viewcourse-container__tab-container__tab-content-text">
-                    Course description
+                  <Trans>  Course description</Trans>
                   </p>
                   {/* {viewcourse?.description} */}
                 </div>

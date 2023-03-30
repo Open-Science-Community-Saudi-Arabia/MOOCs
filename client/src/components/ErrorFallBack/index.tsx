@@ -1,5 +1,4 @@
 import { t, Trans } from "@lingui/macro";
-import { useState } from "react";
 import "./style.scss";
 interface ErrorFallback {
   message: string;

@@ -20,9 +20,9 @@ const index=()=> {
           />
         </Link>
 
-        <div className="footer__content">
+        <div className="footer__content ">
           <div className="footer__content-quicklinks">
-            <h3 className="heading">
+            <h3 className="heading aligned">
               <Trans>Quick Links</Trans>
             </h3>
             <Link className="nav-link" to="">
@@ -39,7 +39,7 @@ const index=()=> {
             </Link>
           </div>
           <div className="footer__content-communities">
-            <h3 className="heading">  <Trans>Communities</Trans></h3>
+            <h3 className="heading aligned">  <Trans>Communities</Trans></h3>
             <Link className="nav-link" to="">
               <Trans>OSCSA</Trans>
             </Link>
@@ -51,7 +51,7 @@ const index=()=> {
             </Link>
           </div>
           <div className="footer__content-sociallinks">
-            <h3 className="heading">
+            <h3 className="heading ">
               {" "}
               <Trans>Follow Us</Trans>
             </h3>
@@ -69,7 +69,7 @@ const index=()=> {
             </Link>
           </div>
           <div className="footer__content-info">
-            <h3 className="heading">
+            <h3 className="heading ">
               {" "}
               <Trans>Contact Info</Trans>
             </h3>

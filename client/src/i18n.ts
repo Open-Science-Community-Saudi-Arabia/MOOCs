@@ -8,8 +8,6 @@ export const locales = {
 };
 
 export async function dynamicActivate(locale: Locale) {
-
-
   i18n.loadLocaleData({
     en: { plurals: en },
     ar: { plurals: ar },
@@ -20,13 +18,12 @@ export async function dynamicActivate(locale: Locale) {
     document.documentElement.dir = "rtl";
     document.documentElement.lang = locale;
     document.body.style.cssText = `fontFamily: "'IBM Plex Sans Arabic', sans-serif"`;
-
-    // document.body.href
-    
+    document.body.classList.add("rtl");
   } else {
     document.documentElement.lang = locale;
     document.documentElement.dir = "ltr";
     document.body.style.cssText = `fontFamily:  "'Plus Jakarta Sans', sans-serif";`;
+    document.body.classList.remove("rtl");
   }
   i18n.load(locale, messages);
   i18n.activate(locale);

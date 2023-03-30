@@ -405,7 +405,6 @@
   @include flex(center, center);
   text-align: center;
   width: 100%;
-  // height: 70vh;
   &__content {
     &__text {
       width: fit-content;
@@ -422,5 +421,11 @@
         opacity: 30%;
       }
     }
+  }
+}
+
+html[dir="rtl"] {
+  .viewcourse-container__content {
+    direction: ltr;
   }
 }

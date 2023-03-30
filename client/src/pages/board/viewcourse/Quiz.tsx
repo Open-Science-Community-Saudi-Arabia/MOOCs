@@ -3,6 +3,7 @@ import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
 import Spinner from "../../../components/Spinner";
+import { t, Trans } from "@lingui/macro";
 
 interface IProps {
   exerciseData?: Exercise;
@@ -76,11 +77,11 @@ IProps) => {
     <section className="quiz-section">
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
-          Quiz:{exerciseData?.title}
+         <Trans> Quiz:</Trans>{exerciseData?.title}
         </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
-          Pick the right option.
+        <Trans>  Pick the right option.</Trans>
         </p>
       </div>
       <div className="quiz-section__container">
@@ -92,7 +93,7 @@ IProps) => {
                   <div className="quiz-section__content-question">
                     <p>
                       {" "}
-                      Question {index + 1} of {exerciseData?.questions.length}:{" "}
+                    <Trans>  Question</Trans> {index + 1} of {exerciseData?.questions.length}:{" "}
                     </p>
                     {content.question}?
                   </div>
@@ -130,7 +131,7 @@ IProps) => {
                     {isLoading ? (
                       <Spinner width="30px" height="30px" color="#fff" />
                     ) : (
-                      "Submit"
+                      t`Submit`
                     )}
                   </button>
                 )}

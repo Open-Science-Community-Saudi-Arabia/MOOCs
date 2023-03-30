@@ -25,9 +25,8 @@ html,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- 
 }
-body{
+body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 body,
@@ -73,5 +72,11 @@ input {
 .Toastify__toast-container {
   width: auto !important;
 }
-.aligned { text-align: left }
-.right-aligned { text-align: right }
+.aligned {
+  text-align: left;
+}
+html[dir="rtl"] {
+  .aligned {
+    text-align: right;
+  }
+}
