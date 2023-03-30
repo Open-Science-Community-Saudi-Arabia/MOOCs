@@ -426,6 +426,6 @@
 
 html[dir="rtl"] {
   .viewcourse-container__content {
-    direction: ltr;
+   flex-direction: row-reverse;
   }
 }

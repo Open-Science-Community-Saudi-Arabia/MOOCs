@@ -138,7 +138,8 @@ const ViewCourse = () => {
               >
                 <TiArrowBack />
               </button>{" "}
-             <Trans> Title: </Trans>{course?.title}
+              <Trans> Title: </Trans>
+              {course?.title}
             </h1>
             <div
               className={`${
@@ -151,7 +152,7 @@ const ViewCourse = () => {
                     }`
               }`}
             >
-             <Trans> Your Progress</Trans>{" "}
+              <Trans> Your Progress</Trans>{" "}
               <ProgressBar
                 overallScore={true}
                 width={150}
@@ -168,7 +169,7 @@ const ViewCourse = () => {
                   className="viewcourse-container__header__btn"
                 >
                   {" "}
-                <Trans>  Course Content</Trans>
+                  <Trans> Course Content</Trans>
                 </button>
               )}
               <LanguageToggle btncolor="#ffff" />
@@ -230,7 +231,7 @@ const ViewCourse = () => {
                 <div className="viewcourse-container__content-course-display">
                   {" "}
                   <p className="viewcourse-container__content-course-display-text">
-                  <Trans>  Course content</Trans>
+                    <Trans> Course content</Trans>
                   </p>
                   <button
                     aria-label="close"
@@ -251,7 +252,7 @@ const ViewCourse = () => {
                         {" "}
                         <p className="viewcourse-container__content-course-section__heading">
                           {" "}
-                        <Trans>  Section</Trans> {index + 1}: {content.title}
+                          <Trans> Section</Trans> {index + 1}: {content.title}
                         </p>
                         {content.videos.map((videoitem: Video, j: number) => {
                           return (
@@ -329,23 +330,32 @@ const ViewCourse = () => {
                               >
                                 <div className="viewcourse-container__content-course-section__listitem-title">
                                   <p className="viewcourse-container__content-course-section__listitem-text">
-                                    <RxDot /><Trans> Quiz Exercise:</Trans>{index + 1}
+                                    <RxDot />
+                                    <Trans> Quiz Exercise:</Trans>
+                                    {index + 1}
                                   </p>
 
                                   <div className="viewcourse-container__content-course-section__listitem__score">
                                     <p
                                       style={{
                                         color:
-                                         quizitem.best_percentage_passed> 0 ? "#009985" : "#666",
+                                          quizitem.best_percentage_passed > 0
+                                            ? "#009985"
+                                            : "#666",
                                       }}
                                     >
                                       {" "}
-                                      {quizitem.best_percentage_passed > 0 ? quizitem.best_percentage_passed : 0}%{" "}
+                                      {quizitem.best_percentage_passed > 0
+                                        ? quizitem.best_percentage_passed
+                                        : 0}
+                                      %{" "}
                                     </p>
                                     <ProgressBar
                                       width={80}
                                       bgcolor="#009985"
-                                      progress={Math.round(quizitem.best_percentage_passed)}
+                                      progress={Math.round(
+                                        quizitem.best_percentage_passed
+                                      )}
                                       height={18}
                                     />{" "}
                                   </div>
@@ -363,20 +373,20 @@ const ViewCourse = () => {
           </div>
           <div className="viewcourse-container__tab-container">
             <div className="viewcourse-container__tab-container-tab">
-              {tabitem.map((item) => {
+              {tabitem.map(({ name, id, tab }) => {
                 return (
                   <p
-                    key={item.id}
+                    key={id}
                     className={`${
-                      activeTab === item.tab &&
+                      activeTab === tab &&
                       "viewcourse-container__tab-container-tab__active-tab"
                     } 
                 viewcourse-container__tab-container-tab__tabitem`}
                     onClick={() => {
-                      setActiveTab(item.tab);
+                      setActiveTab(tab);
                     }}
                   >
-                    {item.name}
+                    {name()}
                   </p>
                 );
               })}
@@ -386,7 +396,7 @@ const ViewCourse = () => {
               {activeTab === "tab1" ? (
                 <div>
                   <p className="viewcourse-container__tab-container__tab-content-text">
-                  <Trans>  Course description</Trans>
+                    <Trans> Course description</Trans>
                   </p>
                   {/* {viewcourse?.description} */}
                 </div>
