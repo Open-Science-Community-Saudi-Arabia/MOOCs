@@ -140,3 +140,14 @@
     }
   }
 }
+
+html[dir="rtl"] {
+  .eye-icon {
+    right: unset;
+    left: 10px;
+  }
+  .login-signup__languageToggle {
+    left: 60px;
+    right: unset;
+  }
+}

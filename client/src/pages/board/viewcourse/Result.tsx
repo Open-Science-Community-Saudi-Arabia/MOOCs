@@ -1,17 +1,17 @@
+import { Trans } from "@lingui/macro";
 import {CircularProgressBar} from "../../../components/ProgressBar";
 interface IProps {
-  score: number;
-
+  currentScore: number;
   selectedIndex: string;
   getexerciseData: (selectedIndex: string) => void;
 }
-const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
+const Result = ({ currentScore, getexerciseData, selectedIndex }: IProps) => {
   return (
     <div className="quizresult">
       <div className="quizresult__heading">
-        <h1 className="quizresult__heading__title">Quiz Result</h1>
+        <h1 className="quizresult__heading__title"><Trans>Quiz Result</Trans></h1>
       </div>
-      <CircularProgressBar score={score} />
+      <CircularProgressBar currentScore={currentScore} />
       <div className="quizresult__btns">
         <button
           onClick={() => {
@@ -19,7 +19,7 @@ const Result = ({ score, getexerciseData, selectedIndex }: IProps) => {
           }}
           className="quizresult__btns__button"
         >
-          ReTake Quiz
+         <Trans> ReTake Quiz</Trans>
         </button>
       </div>
     </div>

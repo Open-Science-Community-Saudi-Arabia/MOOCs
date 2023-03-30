@@ -4,7 +4,7 @@
 .footer-container {
   .footer {
     padding: 1.5em;
-    text-align: center;
+    // text-align: center;
     @include ipad {
       @include flex(space-between, center);
       gap: 80px;
@@ -25,12 +25,12 @@
     &__content {
       flex-basis: 90%;
       @include flex(space-around, start);
-      text-align: center;
+      // text-align: center;
       flex-wrap: wrap;
       gap: 25px;
       @include ipad {
         @include flex(space-between, start);
-        text-align: left;
+        // text-align: left;
         gap: 50px;
       }
       &-quicklinks,
@@ -85,4 +85,15 @@
     color: var(--gray);
     padding-bottom: 2rem;
   }
+}
+
+html[dir='rtl']{
+  .nav-link {
+    margin-right: 0rem !important;
+    margin-left: 1rem;
+    &__image {
+      margin-right: 0px  !important;;
+      margin-left: 5px;
+    }
+}
 }

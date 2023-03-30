@@ -4,7 +4,7 @@ import useMediaQuery from "../../hooks/usemediaQuery";
 import "./style.scss";
 
 interface ICircularBarProps {
-  score: number;
+ currentScore: number;
 }
 interface IProgressBarProps {
   bgcolor: string;
@@ -13,13 +13,13 @@ interface IProgressBarProps {
   width: number;
   overallScore?: boolean;
 }
-const CircularProgressBar = ({ score }: ICircularBarProps) => {
+const CircularProgressBar = ({ currentScore }: ICircularBarProps) => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
   return (
     <div className="progressbar" style={{ width: isIpad ? "250px" : "200px" }}>
       <CircularProgressbar
-        value={Math.round(score)}
-        text={`${Math.round(score)}%`}
+        value={Math.round(currentScore)}
+        text={`${Math.round(currentScore)}%`}
         className="progressbar__circularbar"
         styles={buildStyles({
           rotation: 0,
@@ -27,7 +27,7 @@ const CircularProgressBar = ({ score }: ICircularBarProps) => {
           textColor: "rgb(116, 205, 192)",
           textSize: "16px",
           pathColor:
-            score > 50 ? `hsl(171deg 47% 63% )` : "hsl(171deg 47% 63% )",
+            currentScore > 50 ? `hsl(171deg 47% 63% )` : "hsl(171deg 47% 63% )",
           trailColor: "hsl(0deg 0% 84% /50%)",
         })}
       />
@@ -53,7 +53,7 @@ const ProgressBar = ({
     height: "100%",
     width: `${progress}%`,
     backgroundColor: progress > 0 ? bgcolor : "",
-    borderRadius: 100,
+    borderRadius: 40,
     padding: "0.5em",
   };
 

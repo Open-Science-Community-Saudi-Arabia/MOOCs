@@ -86,5 +86,15 @@
         right: -23px;
       }
     }
+    .rtl &__logout-btn {
+      right: 10px;
+      @include ipad {
+        right: 50px;
+      }
+    }
   }
 }
+
+
+
+

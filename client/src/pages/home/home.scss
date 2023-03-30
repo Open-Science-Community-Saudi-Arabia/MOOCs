@@ -244,18 +244,17 @@
           margin-top: 1em;
           @include ipad {
             @include flex(space-between, start);
-          
             margin-top: 0em;
           }
           &-name {
             font-size: 18px;
-
             font-weight: 700;
             @include ipad {
               font-size: 22px;
             }
           }
           &-description {
+
             font-size: 18px;
             font-weight: 500;
             color: var(--gray);

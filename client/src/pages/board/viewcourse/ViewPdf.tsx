@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -17,7 +18,7 @@ const ViewPdf = ({ pdfData, isCourseContent }: IProps) => {
   return (
     <div className="viewpdf">
       <p className="viewpdf__pagenumber">
-        Page {pageNumber} of {numPages}
+       <Trans> Page {pageNumber} of {numPages}</Trans>
       </p>
       <Document
         className="viewpdf__document"

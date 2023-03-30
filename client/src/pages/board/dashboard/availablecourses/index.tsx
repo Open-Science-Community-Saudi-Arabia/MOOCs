@@ -30,23 +30,23 @@ const AvailableCourses = ({ courses }: any) => {
     }
   };
   return (
-    <div className="availablecourses">
-      <h1 className="availablecourses__heading">
+    <div className="availablecourses ">
+      <h1 className="availablecourses__heading aligned">
         <Trans>Available Courses</Trans>
       </h1>
       <div className="availablecourses__courses">
-        {courses?.data.courses?.map((item: Courses, index: number) => {
+        {courses?.data.courses?.map(({_id,title,preview_image,author,course_sections}:Courses, index: number) => {
           return (
             <button
-              onClick={() => enrollUserHandler(item._id)}
-              aria-label={item.title}
-              key={item._id}
+              onClick={() => enrollUserHandler(_id)}
+              aria-label={title}
+              key={_id}
               className="availablecourses__courses-content"
             >
               <div className="availablecourses__courses-content__img-container">
                 {" "}
                 <div className={"img-container-overlay"}>
-                  {isLoading && selectedId === item._id ? (
+                  {isLoading && selectedId === _id ? (
                     <Spinner width="50px" height="50px" color="#0a0a0a" />
                   ) : (
                     <BsFillPlayCircleFill />
@@ -54,22 +54,22 @@ const AvailableCourses = ({ courses }: any) => {
                 </div>
                 <img
                   className="availablecourses__courses-content__img-container-img"
-                  src={item.preview_image}
-                  alt={item.title}
+                  src={preview_image}
+                  alt={title}
                 />
               </div>
 
               <div className="availablecourses__courses-content__bottom">
                 <p className="availablecourses__courses-content__bottom-text">
-                  {t`${item.title}`}
+                  {t`${title}`}
                 </p>
                 <p className="availablecourses__courses-content__bottom-author">
                   {" "}
-                  {t`${item.author}`}
+                  {t`${author}`}
                 </p>
                 <p className="availablecourses__courses-content__bottom-coursenumber">
                   {" "}
-                  {t`${item.course_sections.length}`} course sections
+                  {t`${course_sections.length}`} course sections
                 </p>
               </div>
             </button>

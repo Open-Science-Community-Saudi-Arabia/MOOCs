@@ -1,34 +1,39 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Exercise, Questions } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
 import Spinner from "../../../components/Spinner";
+import { t, Trans } from "@lingui/macro";
 
 interface IProps {
   exerciseData?: Exercise;
   quizIndex: number;
   changeQuizIndex: (quizIndex: number) => void;
   changedDisplayContent: (item: any) => void;
-  changeScoreHandler: (item: number) => void;
+  changeBestScoreHandler: (bestScore: number) => void;
+  changedCurrentScore: (currentScore: number) => void;
+  changedOverAllScore: (overAllScore: number) => void;
   changedViewSubmit: (viewSubmit: boolean) => void;
   setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
   submission: object;
-  refetch:()=> void
+  // refetch:()=> void
 }
 
 const Quiz = ({
+  changedCurrentScore,
   exerciseData,
   quizIndex,
   changeQuizIndex,
   changedDisplayContent,
-  changeScoreHandler,
+  changeBestScoreHandler,
   changedViewSubmit,
   setSubmission,
   viewSubmit,
   submission,
-  refetch
-}: IProps) => {
+  changedOverAllScore,
+}: // refetch
+IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
@@ -51,10 +56,13 @@ const Quiz = ({
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          changeScoreHandler(response.data.report.percentage_passed);
+          console.log(response.data);
+          changedCurrentScore(response.data.report.percentage_passed);
+          changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
+          changedOverAllScore(response.data.report.course_progress);
         }
-        refetch()
+        // refetch()
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {
@@ -69,11 +77,11 @@ const Quiz = ({
     <section className="quiz-section">
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
-          Quiz:{exerciseData?.title}
+         <Trans> Quiz:</Trans>{exerciseData?.title}
         </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
-          Pick the right option.
+        <Trans>  Pick the right option.</Trans>
         </p>
       </div>
       <div className="quiz-section__container">
@@ -85,7 +93,7 @@ const Quiz = ({
                   <div className="quiz-section__content-question">
                     <p>
                       {" "}
-                      Question {index + 1} of {exerciseData?.questions.length}:{" "}
+                    <Trans>  Question</Trans> {index + 1} of {exerciseData?.questions.length}:{" "}
                     </p>
                     {content.question}?
                   </div>
@@ -123,7 +131,7 @@ const Quiz = ({
                     {isLoading ? (
                       <Spinner width="30px" height="30px" color="#fff" />
                     ) : (
-                      "Submit"
+                      t`Submit`
                     )}
                   </button>
                 )}
