@@ -13,7 +13,7 @@ const { BadRequestError, NotFoundError } = require('../utils/errors');
  * @param {Response} res - Express response object
  * @param {NextFunction} next - Express next function
  * 
- * @returns {Promise<void>}
+ * @returns {Object} - The downloadable resources
  */
 exports.getDownloadableResources = async (req, res, next) => {
     const { id } = req.params;
@@ -43,7 +43,7 @@ exports.getDownloadableResources = async (req, res, next) => {
  * @param {Response} res - Express response object
  * @param {NextFunction} next - Express next function
  * 
- * @returns {Promise<void>}
+ * @returns {Object} - The resource data
  */
 exports.getDownloadableResourceData = async (req, res, next) => {
     const { id } = req.params;
@@ -66,7 +66,37 @@ exports.getDownloadableResourceData = async (req, res, next) => {
     })
 }
 
+/**
+ * Delete downloadable resource
+ * 
+ * @description This function is used to delete downloadable resource
+ * 
+ * @param {String} id - The resource id
+ * 
+ * @returns {Object} - The deleted resource
+ */
 exports.deleteDownloadableResource = async (req, res, next) => {
+    const { id } = req.params;
+
+    // Check if id is provided
+    if (!id || id == null || id == undefined) {
+        return next(new BadRequestError('Resource id is required'));
+    }
+
+    const downloadable_resource = await DownloadableResources.findById(id);
+    if (!downloadable_resource) {
+        return next(new NotFoundError('Resource not found'));
+    }
+
+    await downloadable_resource.remove();
+
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            downloadable_resource
+        }
+    })
 }
 
 exports.updateDownloadableResource = async (req, res, next) => {
