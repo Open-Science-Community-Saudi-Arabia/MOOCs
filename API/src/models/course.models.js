@@ -95,6 +95,23 @@ const options = {
  */
 
 /**
+ * @typedef {Object} downloadableResourceSchema
+ * 
+ * @description This schema is used to store downloadable resources.
+ * These are resources that can be downloaded by the user. they are usually
+ * links to files such as pdfs, word documents, etc.
+ * 
+ * @property {String} type - The type of the document, "downloadable_resource"
+ * @property {String} title - The title of the downloadable resource
+ * @property {String} file_url - The url of the downloadable resource
+ * @property {ObjectId} course - The course to which the downloadable resource belongs
+ * @property {Number} order - The order of the downloadable resource in the course section
+ * @property {Boolean} isAvailable - Whether the downloadable resource is available to the user
+ *  
+ * @see {@link module:CourseModel~courseSchema Course}
+ * */
+
+/**
  * @typedef {Object} courseSectionSchema
  * 
  * @description This schema is used to store course sections.
@@ -262,6 +279,19 @@ const textmaterialSchema = new Schema({
 }, options)
 
 /**
+ * @type {downloadableResourceSchema}
+ */
+const downloadableResourceSchema = new Schema({
+    resource_type: { type: String, required: true },
+    title: { type: String, required: true },
+    file_url: { type: String, required: true },
+    description: { type: String, required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    order: { type: Number, default: Date.now() },
+    isAvailable: { type: Boolean, default: true }
+}, options)
+
+/**
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
@@ -326,7 +356,6 @@ courseSectionSchema.post('findOne', async function (courseSection) {
 /**
  * @type {courseSchema}
  */
-
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -460,6 +489,7 @@ const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 const Video = mongoose.model("Video", videoSchema);
 const TextMaterial = mongoose.model("TextMaterial", textmaterialSchema);
+const DownloadableResource = mongoose.model('DownloadableResource', downloadableResourceSchema)
 const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
@@ -474,5 +504,6 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission, ExerciseReport
+    ExerciseSubmission, ExerciseReport,
+    DownloadableResource
 };
