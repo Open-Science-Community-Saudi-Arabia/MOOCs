@@ -1,5 +1,6 @@
 const { DownloadableResources, User } = require('../models/downloadableresources.model');
 const { User } = require('../models/user.model');
+const { uploadToCloudinary } = require('../utils/cloudinary');
 
 const { BadRequestError, NotFoundError } = require('../utils/errors');
 
@@ -137,5 +138,57 @@ exports.updateDownloadableResource = async (req, res, next) => {
     })
 }
 
+/**
+ * Upload downloadable resource
+ * 
+ * @description This function is used to upload downloadable resource.
+ * The user can upload a file or a url to the file
+ * 
+ * @param {String} id - The course id
+ * @param {String} title - The title of the resource
+ * @param {String} description - The description of the resource
+ * @param {String} file_url - The url to the file
+ * 
+ * @returns {Object} - The uploaded resource
+ */
 exports.uploadDownloadableResource = async (req, res, next) => {
+    const { id } = req.params;
+
+    // Check if id is provided
+    if (!id || id == null || id == undefined) {
+        return next(new BadRequestError('Course id is required'));
+    }
+
+    const { title, description, file_url } = req.body;
+
+    const downloadable_resource = new DownloadableResources({
+        title,
+        description,
+        course: id
+    });
+
+    // Check if file is uploaded or url is provided
+    if (file_url) { // Url was provided
+        downloadable_resource.file_url = file_url;
+    } else if (req.file) { // File was uploaded instead
+        // Upload file to cloudinary
+        const file_url = await uploadToCloudinary({
+            path: req.file.path,
+            file_name: `${downloadable_resource._id}_${req.file.filename}`,
+            destination_path: `courses/${id}/downloadable_resources`
+        });
+
+        downloadable_resource.file_url = file_url;
+    } else { // No file was uploaded or url was provided
+        return next(new BadRequestError('File is required'));
+    }
+
+    downloadable_resource = await downloadable_resource.save();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            downloadable_resource
+        }
+    })
 }
