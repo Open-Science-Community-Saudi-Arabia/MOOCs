@@ -278,6 +278,9 @@ const textmaterialSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
+/**
+ * @type {downloadableResourceSchema}
+ */
 const downloadableResourceSchema = new Schema({
     resource_type: { type: String, required: true },
     title: { type: String, required: true },
