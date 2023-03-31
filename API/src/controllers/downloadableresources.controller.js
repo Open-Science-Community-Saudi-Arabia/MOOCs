@@ -1,5 +1,5 @@
-const { DownloadableResources, User } = require('../models/downloadableresources.model');
-const { User } = require('../models/user.model');
+const { DownloadableResources } = require('../models/course.models');
+const { User } = require('../models/user.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 
 const { BadRequestError, NotFoundError } = require('../utils/errors');
