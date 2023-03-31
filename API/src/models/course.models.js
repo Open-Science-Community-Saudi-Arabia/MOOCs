@@ -261,6 +261,16 @@ const textmaterialSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 
+const downloadableResourceSchema = new Schema({
+    resource_type: { type: String, required: true },
+    title: { type: String, required: true },
+    file_url: { type: String, required: true },
+    description: { type: String, required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    order: { type: Number, default: Date.now() },
+    isAvailable: { type: Boolean, default: true }
+}, options)
+
 /**
  * @type {courseSectionSchema}
  * */
@@ -326,7 +336,6 @@ courseSectionSchema.post('findOne', async function (courseSection) {
 /**
  * @type {courseSchema}
  */
-
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -460,6 +469,7 @@ const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 const Video = mongoose.model("Video", videoSchema);
 const TextMaterial = mongoose.model("TextMaterial", textmaterialSchema);
+const DownloadableResource = mongoose.model('DownloadableResource', downloadableResourceSchema)
 const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
@@ -474,5 +484,6 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission, ExerciseReport
+    ExerciseSubmission, ExerciseReport,
+    DownloadableResource
 };
