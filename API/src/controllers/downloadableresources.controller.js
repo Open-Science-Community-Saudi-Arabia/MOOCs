@@ -116,24 +116,19 @@ exports.updateDownloadableResource = async (req, res, next) => {
         return next(new BadRequestError('Resource id is required'));
     }
 
-    const downloadable_resource = await DownloadableResource.findById(id);
+    const downloadable_resource = await DownloadableResource.findByIdAndUpdate(
+        id,
+        { $set: req.body },
+        { new: true });
 
     if (!downloadable_resource) {
         return next(new NotFoundError('Resource not found'));
     }
 
-    const { title, description, file_url } = req.body;
-
-    downloadable_resource.title = title;
-    downloadable_resource.description = description;
-    downloadable_resource.file_url = file_url;
-
-    const updated_doc = await downloadable_resource.save();
-
     res.status(200).json({
         status: 'success',
         data: {
-            updated_resource: updated_doc
+            updated_resource: downloadable_resource
         }
     })
 }
