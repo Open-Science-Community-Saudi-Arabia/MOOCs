@@ -16,7 +16,7 @@ const {
     updateDownloadableResource,
     uploadDownloadableResource,
     createDownloadableResource
-} = require('../controllers/downloadableresources.controller')
+} = require('../controllers/downloadableresources.controllers')
 
 const multer = require('multer')
 const storage = multer.diskStorage({
