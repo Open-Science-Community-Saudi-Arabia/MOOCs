@@ -1,4 +1,4 @@
-const { DownloadableResources } = require('../models/course.models');
+const { DownloadableResource } = require('../models/course.models');
 const { User } = require('../models/user.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 
@@ -24,7 +24,7 @@ exports.getDownloadableResources = async (req, res, next) => {
         return next(new BadRequestError('Course id is required'));
     }
 
-    const downloadable_resources = await DownloadableResources.find({ course: id });
+    const downloadable_resources = await DownloadableResource.find({ course: id });
 
     res.status(200).json({
         status: 'success',
@@ -54,7 +54,7 @@ exports.getDownloadableResourceData = async (req, res, next) => {
         return next(new BadRequestError('Resource id is required'));
     }
 
-    const downloadable_resource = await DownloadableResources.findById(id);
+    const downloadable_resource = await DownloadableResource.findById(id);
     if (!downloadable_resource) {
         return next(new NotFoundError('Resource not found'));
     }
@@ -84,7 +84,7 @@ exports.deleteDownloadableResource = async (req, res, next) => {
         return next(new BadRequestError('Resource id is required'));
     }
 
-    const downloadable_resource = await DownloadableResources.findById(id);
+    const downloadable_resource = await DownloadableResource.findById(id);
     if (!downloadable_resource) {
         return next(new NotFoundError('Resource not found'));
     }
@@ -116,7 +116,7 @@ exports.updateDownloadableResource = async (req, res, next) => {
         return next(new BadRequestError('Resource id is required'));
     }
 
-    const downloadable_resource = await DownloadableResources.findById(id);
+    const downloadable_resource = await DownloadableResource.findById(id);
 
     if (!downloadable_resource) {
         return next(new NotFoundError('Resource not found'));
@@ -161,7 +161,7 @@ exports.uploadDownloadableResource = async (req, res, next) => {
 
     const { title, description, file_url } = req.body;
 
-    const downloadable_resource = new DownloadableResources({
+    const downloadable_resource = new DownloadableResource({
         title,
         description,
         course: id
