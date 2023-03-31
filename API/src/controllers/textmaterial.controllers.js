@@ -79,8 +79,8 @@ exports.uploadTextMaterial = async (req, res, next) => {
     // Upload file to cloudinary
     const file_url = await uploadToCloudinary({
         path: file_to_upload.path,
-        file_name: `textmaterial_${text_material._id}_${file_to_upload.originalname}`,
-        destination_path: `course_${course_id}/coursesection_${course_section_id}`,
+        file_name: `${text_material._id}_${file_to_upload.originalname}`,
+        destination_path: `courses/${course_id}/coursesections/${course_section_id}/textmaterials`,
     });
 
     // Save file url to database
