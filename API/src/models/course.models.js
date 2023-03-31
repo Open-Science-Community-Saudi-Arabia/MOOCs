@@ -95,6 +95,23 @@ const options = {
  */
 
 /**
+ * @typedef {Object} downloadableResourceSchema
+ * 
+ * @description This schema is used to store downloadable resources.
+ * These are resources that can be downloaded by the user. they are usually
+ * links to files such as pdfs, word documents, etc.
+ * 
+ * @property {String} type - The type of the document, "downloadable_resource"
+ * @property {String} title - The title of the downloadable resource
+ * @property {String} file_url - The url of the downloadable resource
+ * @property {ObjectId} course - The course to which the downloadable resource belongs
+ * @property {Number} order - The order of the downloadable resource in the course section
+ * @property {Boolean} isAvailable - Whether the downloadable resource is available to the user
+ *  
+ * @see {@link module:CourseModel~courseSchema Course}
+ * */
+
+/**
  * @typedef {Object} courseSectionSchema
  * 
  * @description This schema is used to store course sections.
