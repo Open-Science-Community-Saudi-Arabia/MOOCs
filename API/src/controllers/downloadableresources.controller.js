@@ -103,7 +103,8 @@ exports.deleteDownloadableResource = async (req, res, next) => {
 /**
  * Update downloadable resource
  * 
- * @description This function is used to update downloadable resource
+ * @description This function is used to update downloadable resource.
+ * The user can update the title, description and file url
  * 
  * @param {String} id - The resource id
  * 
@@ -137,12 +138,12 @@ exports.updateDownloadableResource = async (req, res, next) => {
  * Upload downloadable resource
  * 
  * @description This function is used to upload downloadable resource.
- * The user can upload a file or a url to the file
+ * This is used when the user wants to upload a file to the server
  * 
  * @param {String} id - The course id
  * @param {String} title - The title of the resource
  * @param {String} description - The description of the resource
- * @param {String} file_url - The url to the file
+ * @param {String} file - The file to be uploaded
  * 
  * @returns {Object} - The uploaded resource
  */
@@ -173,6 +174,19 @@ exports.uploadDownloadableResource = async (req, res, next) => {
     })
 }
 
+/**
+ * Create downloadable resource
+ * 
+ * @description This function is used to create downloadable resource.
+ * This is used when the user wants to create a resource with a url to the file
+ * 
+ * @param {String} course_id - The course id
+ * @param {String} title - The title of the resource
+ * @param {String} description - The description of the resource
+ * @param {String} file_url - The url to the file
+ *  
+ * @returns {Object} - The created resource
+ */
 exports.createDownloadableResource = async (req, res, next) => {
     const { title, description, file_url, course_id, resource_type } = req.body;
 
