@@ -1,7 +1,6 @@
 const { DownloadableResource } = require('../models/course.models');
-const { User } = require('../models/user.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
-
+const fs = require('fs');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
 
 /**
@@ -161,6 +160,13 @@ exports.uploadDownloadableResource = async (req, res, next) => {
         path: req.file.path,
         file_name: `${downloadable_resource._id}_${req.file.filename}`,
         destination_path: `courses/${course_id}/downloadable_resources`
+    });
+
+    // Delete the file from the server
+    await fs.unlinkSync(req.file.path, (err) => {
+        if (err) {
+            console.log(err);
+        }
     });
 
     downloadable_resource.file_url = file_url;
