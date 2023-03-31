@@ -17,14 +17,14 @@ const { BadRequestError, NotFoundError } = require('../utils/errors');
  * @returns {Object} - The downloadable resources
  */
 exports.getDownloadableResources = async (req, res, next) => {
-    const { id } = req.params;
+    const { courseId } = req.params;
 
     // Check if id is provided
-    if (!id || id == null || id == undefined) {
+    if (!courseId || courseId == null || courseId == undefined) {
         return next(new BadRequestError('Course id is required'));
     }
 
-    const downloadable_resources = await DownloadableResource.find({ course: id });
+    const downloadable_resources = await DownloadableResource.find({ course: courseId });
 
     res.status(200).json({
         status: 'success',
@@ -152,19 +152,13 @@ exports.updateDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The uploaded resource
  */
 exports.uploadDownloadableResource = async (req, res, next) => {
-    const { id } = req.params;
+    const { title, description, file_url, course_id, resource_type } = req.body;
 
-    // Check if id is provided
-    if (!id || id == null || id == undefined) {
-        return next(new BadRequestError('Course id is required'));
-    }
-
-    const { title, description, file_url } = req.body;
-
-    const downloadable_resource = new DownloadableResource({
+    let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: id
+        course: course_id,
+        resource_type
     });
 
     // Check if file is uploaded or url is provided
@@ -182,6 +176,27 @@ exports.uploadDownloadableResource = async (req, res, next) => {
     } else { // No file was uploaded or url was provided
         return next(new BadRequestError('File is required'));
     }
+
+    downloadable_resource = await downloadable_resource.save();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            downloadable_resource
+        }
+    })
+}
+
+exports.createDownloadableResource = async (req, res, next) => {
+    const { title, description, file_url, course_id, resource_type } = req.body;
+
+    let downloadable_resource = new DownloadableResource({
+        title,
+        description,
+        course: course_id,
+        file_url,
+        resource_type
+    });
 
     downloadable_resource = await downloadable_resource.save();
 

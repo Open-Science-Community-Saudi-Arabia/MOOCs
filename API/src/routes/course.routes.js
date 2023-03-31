@@ -14,7 +14,8 @@ const {
     getDownloadableResourceData,
     deleteDownloadableResource,
     updateDownloadableResource,
-    uploadDownloadableResource
+    uploadDownloadableResource,
+    createDownloadableResource
 } = require('../controllers/downloadableresources.controller')
 
 const multer = require('multer')
@@ -56,9 +57,10 @@ router
     .delete("/video/delete/:videoId", permit("Admin SuperAdmin"), deleteVideo)
 
 router
-    .post('/downloadableresource/new', permit("Admin SuperAdmin"), upload.single('file'), uploadDownloadableResource)
-    .get('/downloadableresource/:id', permit("Admin EndUser SuperAdmin"), getDownloadableResourceData)
-    .get('/downloadableresources/:courseId', permit("Admin EndUser SuperAdmin"), getDownloadableResources)
+    .post('/downloadableresource/new', permit("Admin SuperAdmin"), createDownloadableResource)
+    .post('/downloadableresource/upload', permit("Admin SuperAdmin"), upload.single('file'), uploadDownloadableResource)
+    .get('/downloadableresource/:courseId', permit("Admin EndUser SuperAdmin"), getDownloadableResources)
+    .get('/downloadableresource/get-data/:id', permit("Admin EndUser SuperAdmin"), getDownloadableResourceData)
     .patch('/downloadableresource/update/:id', permit("Admin SuperAdmin"), updateDownloadableResource)
     .delete('/downloadableresource/delete/:id', permit("Admin SuperAdmin"), deleteDownloadableResource)
 

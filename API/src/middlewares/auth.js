@@ -101,7 +101,6 @@ const basicAuth = function (token_type = null) {
         const payload = jwt.verify(jwtToken, secret);
         req.user = payload;
         req.token = jwtToken;
-        console.log(req.user)
 
         // Check if access token has been blacklisted
         const blacklisted = await BlacklistedToken.findOne({ token: jwtToken });
