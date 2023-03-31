@@ -152,7 +152,7 @@ exports.updateDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The uploaded resource
  */
 exports.uploadDownloadableResource = async (req, res, next) => {
-    const { title, description, file_url, course_id, resource_type } = req.body;
+    const { title, description, course_id, resource_type } = req.body;
 
     let downloadable_resource = new DownloadableResource({
         title,
@@ -161,22 +161,13 @@ exports.uploadDownloadableResource = async (req, res, next) => {
         resource_type
     });
 
-    // Check if file is uploaded or url is provided
-    if (file_url) { // Url was provided
-        downloadable_resource.file_url = file_url;
-    } else if (req.file) { // File was uploaded instead
-        // Upload file to cloudinary
-        const file_url = await uploadToCloudinary({
-            path: req.file.path,
-            file_name: `${downloadable_resource._id}_${req.file.filename}`,
-            destination_path: `courses/${id}/downloadable_resources`
-        });
+    const file_url = await uploadToCloudinary({
+        path: req.file.path,
+        file_name: `${downloadable_resource._id}_${req.file.filename}`,
+        destination_path: `courses/${course_id}/downloadable_resources`
+    });
 
-        downloadable_resource.file_url = file_url;
-    } else { // No file was uploaded or url was provided
-        return next(new BadRequestError('File is required'));
-    }
-
+    downloadable_resource.file_url = file_url;
     downloadable_resource = await downloadable_resource.save();
 
     res.status(200).json({
