@@ -99,7 +99,42 @@ exports.deleteDownloadableResource = async (req, res, next) => {
     })
 }
 
+/**
+ * Update downloadable resource
+ * 
+ * @description This function is used to update downloadable resource
+ * 
+ * @param {String} id - The resource id
+ * 
+ * @returns {Object} - The updated resource
+ */
 exports.updateDownloadableResource = async (req, res, next) => {
+    const { id } = req.params;
+
+    if (!id || id == null || id == undefined) {
+        return next(new BadRequestError('Resource id is required'));
+    }
+
+    const downloadable_resource = await DownloadableResources.findById(id);
+
+    if (!downloadable_resource) {
+        return next(new NotFoundError('Resource not found'));
+    }
+
+    const { title, description, file_url } = req.body;
+
+    downloadable_resource.title = title;
+    downloadable_resource.description = description;
+    downloadable_resource.file_url = file_url;
+
+    const updated_doc = await downloadable_resource.save();
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            updated_resource: updated_doc
+        }
+    })
 }
 
 exports.uploadDownloadableResource = async (req, res, next) => {
