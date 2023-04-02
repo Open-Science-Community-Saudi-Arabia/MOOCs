@@ -95,6 +95,23 @@ const options = {
  */
 
 /**
+ * @typedef {Object} downloadableResourceSchema
+ * 
+ * @description This schema is used to store downloadable resources.
+ * These are resources that can be downloaded by the user. they are usually
+ * links to files such as pdfs, word documents, etc.
+ * 
+ * @property {String} type - The type of the document, "downloadable_resource"
+ * @property {String} title - The title of the downloadable resource
+ * @property {String} file_url - The url of the downloadable resource
+ * @property {ObjectId} course - The course to which the downloadable resource belongs
+ * @property {Number} order - The order of the downloadable resource in the course section
+ * @property {Boolean} isAvailable - Whether the downloadable resource is available to the user
+ *  
+ * @see {@link module:CourseModel~courseSchema Course}
+ * */
+
+/**
  * @typedef {Object} courseSectionSchema
  * 
  * @description This schema is used to store course sections.
@@ -262,6 +279,19 @@ const textmaterialSchema = new Schema({
 }, options)
 
 /**
+ * @type {downloadableResourceSchema}
+ */
+const downloadableResourceSchema = new Schema({
+    resource_type: { type: String, required: true },
+    title: { type: String, required: true },
+    file_url: { type: String, required: true },
+    description: { type: String, required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    order: { type: Number, default: Date.now() },
+    isAvailable: { type: Boolean, default: true }
+}, options)
+
+/**
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
@@ -326,7 +356,6 @@ courseSectionSchema.post('findOne', async function (courseSection) {
 /**
  * @type {courseSchema}
  */
-
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -342,6 +371,7 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.virtual('exercises', {
@@ -429,12 +459,6 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
-courseReportSchema.virtual('certificate', {
-    localField: '_id',
-    foreignField: 'course_report',
-    ref: 'Certificate',
-    justOne: true
-})
 courseReportSchema.virtual('attempted_exercises', {
     localField: '_id',
     foreignField: 'course_report',
@@ -443,25 +467,16 @@ courseReportSchema.virtual('attempted_exercises', {
 })
 
 courseReportSchema.methods.updateBestScore = async function () {
-    console.log(this)
     const doc = (await this.populate("attempted_exercises")).toObject();
 
     const exercises = doc.attempted_exercises;
-    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
-    this.percentage_passed = total_scores / exercises.length;
+    let total_scores = 0
+    for (let i = 0; i < exercises.length; i++) {
+        total_scores += exercises[i].percentage_passed
+    }
 
-    // Update the isCompleted field if the percentage passed is greater than or equal to 80
-    this.isCompleted = this.percentage_passed >= 80 ? true : false;
-    console.log(this)
-    return this.save();
-}
-
-courseReportSchema.methods.updateBestScore = async function () {
-    const doc = (await this.populate("attempted_exercises")).toObject();
-
-    const exercises = doc.attempted_exercises;
-    const total_scores = exercises.reduce((acc, curr) => acc + curr.best_score, 0);
-    this.percentage_passed = total_scores / exercises.length * 100
+    // Calculate the average percentage passed 
+    this.percentage_passed = total_scores / exercises.length
 
     // Update the isCompleted field if the percentage passed is greater than or equal to 80
     this.isCompleted = this.percentage_passed >= 80 ? true : false;
@@ -474,6 +489,7 @@ const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 const Video = mongoose.model("Video", videoSchema);
 const TextMaterial = mongoose.model("TextMaterial", textmaterialSchema);
+const DownloadableResource = mongoose.model('DownloadableResource', downloadableResourceSchema)
 const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
@@ -488,5 +504,6 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission, ExerciseReport
+    ExerciseSubmission, ExerciseReport,
+    DownloadableResource
 };

@@ -43,6 +43,7 @@ vignettes/*.pdf
 /API/src/.env
 /API/src/.env.dev
 /API/src/.env.test
+/API/src/seeders/config.js
 *node_modules/
 
 # History files
@@ -120,4 +121,9 @@ jsdocs
 
 
 # Documentation
-/documentation/docs
+/documentation/docs/*.html
+/documentation/docs/styles
+/documentation/docs/data
+/documentation/docs/fonts
+/documentation/docs/img
+/documentation/docs/scripts

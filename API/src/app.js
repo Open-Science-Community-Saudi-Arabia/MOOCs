@@ -11,18 +11,7 @@ const UUID = require("uuid").v4;
 
 // Middlewares
 if (process.env.NODE_ENV == "dev") app.use(morgan("dev"));
-
-// manually allow all origins
-function allowAllOrigins(req) {
-    if (req.headers.origin) {
-        return req.headers.origin;
-    }
-}
-app.use(cors({
-    origins: ['https://7491-102-89-40-201.eu.ngrok.io'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+app.use(cors())
 app.use(cookieParser());
 app.use(express.json());
 

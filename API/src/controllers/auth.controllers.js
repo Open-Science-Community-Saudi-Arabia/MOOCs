@@ -1,6 +1,8 @@
 /**
  * module: Controller
  */
+
+
 /**
  * @category Backend API
  * @subcategory Controllers
@@ -36,51 +38,20 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const sendEmail = require('../utils/email');
+const { sendEmail, EmailMessage } = require('../utils/email/email');
 const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
     ForbiddenError,
 } = require('../utils/errors');
-const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
+const { getAuthCodes, getAuthTokens } = require('../utils/token.js');
 
-const { OAuth2Client, UserRefreshClient } = require('google-auth-library');
-
+const { OAuth2Client } = require('google-auth-library');
 const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
 const Password = require('../models/password.models');
 const { default: mongoose } = require('mongoose');
-
-/**
- * Sign a token with the given payload and secret
- * 
- * @description This function signs a JWT token with the given payload and secret
- * <br>
- * 
- * The payload is the data that will be stored in the token, 
- * this data will be required for the client to make requests to the API </br>
- * With this function, you can also specify the expiry date of the token, 
- * and the secret to be used for signing the token, the default secret is the JWT_ACCESS_SECRET
- * 
- * @param {string} id   
- * @param {string} role 
- * @param {string} jwtSecret 
- * @param {string} expiry 
- * 
- * @returns {string} token
- * 
- * @throws {Error} if jwtSecret is not provided 
- */
-const signToken = (id, role, jwtSecret = null, expiry = null) => {
-    const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
-    if (!jwtSecret) {
-        jwtSecret = config.JWT_ACCESS_SECRET;
-    }
-    return jwt.sign({ id, role }, jwtSecret, {
-        expiresIn: expiryDate,
-    });
-};
 
 /**
  * Create and send JWT tokens to the client.
@@ -150,11 +121,13 @@ const handleUnverifiedUser = function (user) {
         }
 
         //console.log(verification_url)
+
         // Send verification email
-        sendEmail({
+        const message = new EmailMessage()
+        await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
-            message: `Please click on the following link to verify your email address: ${verification_url}`,
+            html: message.emailVerification(verification_url, user.firstname)
         });
     }
 };
@@ -232,7 +205,7 @@ exports.passportOauthCallback = function (req, res) {
  * @throws {Error} if an error occurs
  */
 exports.signup = async (req, res, next) => {
-    let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
+    let { firstname, lastname, email, role, password, passwordConfirm, preferred_language } = req.body;
 
     // NOTE: Will be handled by mongoose schema validation
     // Check if all required fields are provided
@@ -254,7 +227,7 @@ exports.signup = async (req, res, next) => {
     let new_user;
     const session = await mongoose.startSession();
     await session.withTransaction(async () => {
-        await User.create([{ firstname, lastname, email, role, }], { session, context: 'query' }).then((user) => { new_user = user[0] });
+        await User.create([{ firstname, lastname, email, role, preferred_language }], { session, context: 'query' }).then((user) => { new_user = user[0] });
         await Password.create([{ user: new_user._id, password }], { session, context: 'query' });
         await Status.create([{ user: new_user._id }], { session, context: 'query' })
         await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
@@ -809,10 +782,11 @@ exports.forgetPassword = async (req, res, next) => {
     const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
 
     //  Send password reset code to user
+    const message = new EmailMessage()
     sendEmail({
         email: current_user.email,
-        subject: 'Password reset for User',
-        message: `Password reset code is ${password_reset_code}`
+        subject: 'Password reset for user',
+        html: message.passwordReset(password_reset_code, current_user.firstname)
     })
 
     //  Get access token
