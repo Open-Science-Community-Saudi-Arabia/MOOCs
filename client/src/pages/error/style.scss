@@ -1,0 +1,17 @@
+@import "../../styles/mixins.scss";
+
+.error {
+  @include flex(center, center);
+  height: 100vh;
+  flex-direction: column;
+  gap: 10px;
+  @include ipad {
+    flex-direction: row;
+  }
+  &__link {
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+}

@@ -2,15 +2,17 @@ name: Merge Crowdin branch into Frontend_ui
 
 on:
   pull_request:
-    branches: [frontend_ui]
+    branches: [frontend-ui]
+
+  workflow_dispatch:
 
 jobs:
-  crowdin-merge:
-    if: github.head_ref == l10n_frontend-ui
+  merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: merge branch
+      - uses: actions/checkout@v2
+      - name: automerge branch
+
         run: |
           git checkout frontend-ui
           git pull origin frontend-ui
@@ -18,9 +20,11 @@ jobs:
 
       - name: Run to compile translation
         run: |
+          git checkout frontend-ui
+          git pull origin frontend-ui
           cd client
           yarn compile
-      - name: Push to github
+      - name: Run to compile translation
         run: |
           git add .
           git commit -m "updated translation from crowdin"
