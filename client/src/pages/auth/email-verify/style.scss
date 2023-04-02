@@ -1,0 +1,42 @@
+@import "../../../styles/mixins.scss";
+
+.verifyEmail {
+  &__content {
+    text-align: center;
+    &__icon {
+      border: 3px solid green;
+      height: 100px;
+      width: 100px;
+      margin: auto;
+      border-radius: 100%;
+      @include flex(center, center);
+      svg {
+        font-size: 60px;
+        fill: green;
+        opacity: 60%;
+      }
+    }
+
+    &__header {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--black);
+      margin: 1em 0em;
+    }
+    &__text {
+      margin: 1em 0em 1.5em 0em;
+      font-weight: 500;
+      line-height: 28px;
+      font-size: 18px;
+    }
+    &__btn {
+      margin: auto;
+      @include button(auto, var(--green), var(--white));
+    }
+  }
+  &__invalid{
+    color:var(--error);
+    font-size:18px;
+    font-weight: 700;
+  }
+}

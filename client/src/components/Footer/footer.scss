@@ -1,0 +1,99 @@
+@import "../../styles/mixins.scss";
+
+// Footer
+.footer-container {
+  .footer {
+    padding: 1.5em;
+    // text-align: center;
+    @include ipad {
+      @include flex(space-between, center);
+      gap: 80px;
+      margin: 3em auto;
+    }
+    @include laptop {
+      width: 90%;
+    }
+    @include xl-screen {
+      width: 60%;
+    }
+    &__logo {
+      text-align: center;
+      .logo-image {
+        width: 200px;
+      }
+    }
+    &__content {
+      flex-basis: 90%;
+      @include flex(space-around, start);
+      // text-align: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      @include ipad {
+        @include flex(space-between, start);
+        // text-align: left;
+        gap: 50px;
+      }
+      &-quicklinks,
+      &-communities {
+        .heading {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+        .nav-link {
+          @include flex(start, center);
+          padding: 0.8em 0em;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--gray);
+          &:hover {
+            color: var(--green);
+          }
+        }
+      }
+      &-sociallinks,
+      &-info {
+        .heading {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+        .nav-link {
+          margin-right: 1rem;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--gray);
+          &__image {
+            margin-top: 0.8rem;
+            width: 20px;
+            margin-right: 5px;
+            &:hover {
+              transform: scale(1.5);
+            }
+          }
+          &:hover {
+            color: var(--green);
+          }
+        }
+      }
+    }
+  }
+  &__copyright {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray);
+    padding-bottom: 2rem;
+  }
+}
+
+html[dir='rtl']{
+  .nav-link {
+    margin-right: 0rem !important;
+    margin-left: 1rem;
+    &__image {
+      margin-right: 0px  !important;;
+      margin-left: 5px;
+    }
+}
+}

@@ -1,0 +1,41 @@
+@import "../../styles/mixins.scss";
+
+.languagetoggler {
+  position: relative;
+  cursor: pointer;
+  &__selected {
+    border: none;
+    padding: 0.5em 0em;
+    @include flex(space-around, center);
+    font-size: 16px;
+    gap: 8px;
+    @include ipad {
+      padding: 0.5em 1em;
+    }
+    svg {
+      vertical-align: middle;
+    }
+  }
+  &__btn {
+    width: 120px;
+    background-color: var(--white);
+    position: absolute;
+    left: -30px;
+    top: 35px;
+    border: 1px solid var(--green-light);
+    @include flex(space-around, center);
+    flex-direction: column;
+    padding: 0.5em 0em;
+    border-radius: 5px;
+    box-shadow: 0 1px 24px rgba(33, 51, 67, 0.12);
+    button {
+      border: none;
+      padding: 0.5em;
+      font-size: 14px;
+      &:hover {
+        text-decoration: underline;
+        color: var(--green);
+      }
+    }
+  }
+}
