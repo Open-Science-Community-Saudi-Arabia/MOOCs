@@ -107,6 +107,7 @@ const userSchema = new Schema(
             enum: ['EndUser', 'Admin', 'SuperAdmin'],
             default: 'EndUser',
         },
+        preferred_language: { type: String, enum: ['en', 'ar'], default: 'en' },
         googleId: { type: String, select: false },
         githubId: { type: String, select: false },
     },

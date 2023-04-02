@@ -9,6 +9,15 @@ const { createCourse, getCourses, getCourseData,
     deleteVideo,
     getStudentReportForCourse } = require("../controllers/course.controllers")
 
+const {
+    getDownloadableResources,
+    getDownloadableResourceData,
+    deleteDownloadableResource,
+    updateDownloadableResource,
+    uploadDownloadableResource,
+    createDownloadableResource
+} = require('../controllers/downloadableresources.controllers')
+
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: 'src/assets/tempfiles/',
@@ -46,6 +55,14 @@ router
     .get("/videos/:courseId", permit("Admin EndUser SuperAdmin"), getCourseVideos)
     .patch("/video/update/:id", permit("Admin SuperAdmin"), updateVideo)
     .delete("/video/delete/:videoId", permit("Admin SuperAdmin"), deleteVideo)
+
+router
+    .post('/downloadableresource/new', permit("Admin SuperAdmin"), createDownloadableResource)
+    .post('/downloadableresource/upload', permit("Admin SuperAdmin"), upload.single('file'), uploadDownloadableResource)
+    .get('/downloadableresource/:courseId', permit("Admin EndUser SuperAdmin"), getDownloadableResources)
+    .get('/downloadableresource/get-data/:id', permit("Admin EndUser SuperAdmin"), getDownloadableResourceData)
+    .patch('/downloadableresource/update/:id', permit("Admin SuperAdmin"), updateDownloadableResource)
+    .delete('/downloadableresource/delete/:id', permit("Admin SuperAdmin"), deleteDownloadableResource)
 
 router.get('/studentreport/:id', permit("Admin SuperAdmin"), getStudentReportForCourse)
 

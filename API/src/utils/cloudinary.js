@@ -10,9 +10,10 @@ cloudinary.config({
 /**
  * Uploads a file to cloudinary
  * 
- * @param {string} file 
- * @param {string} destination_path
- * @param {string} file_name
+ * @param {object} file 
+ * @param {string} file.path
+ * @param {string} file.file_name
+ * @param {string} file.destination_path
  * 
  * @returns file url
  * 
