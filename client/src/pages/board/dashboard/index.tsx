@@ -12,7 +12,6 @@ const Board = () => {
   const {
     data: courses,
     isFetching,
-
     error,
     refetch,
   }: any = useQuery(queryKey, getCourses, {

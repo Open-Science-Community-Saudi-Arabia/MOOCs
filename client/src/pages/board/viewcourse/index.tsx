@@ -7,7 +7,7 @@ import { TiArrowBack } from "react-icons/ti";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { useCourse } from "../../../utils/api/courses";
+import { getCertificate, useCourse } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import Quiz from "./Quiz";
@@ -19,8 +19,8 @@ import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
-import { Trans } from "@lingui/macro";
-
+import { t, Trans } from "@lingui/macro";
+import { toast } from "react-toastify";
 const ViewCourse = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -34,13 +34,13 @@ const ViewCourse = () => {
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
   const [quizIndex, setQuizIndex] = useState<number>(0);
-
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
   const [overAllScore, setOverAllScore] = useState(0);
   const [currentScore, setCurrentScore] = useState<number>(0);
   const [bestScore, setBestScore] = useState<number>(0);
+  const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
   const {
     data: coursedata,
@@ -113,6 +113,24 @@ const ViewCourse = () => {
     changedDisplayContent("pdf");
   };
 
+  const viewCertificate = async () => {
+    setLoadingCertificate(true)
+    try {
+      let response = await getCertificate(params.id);
+      if (response.success) {
+        setPdfData(response.data.certificate.certificate_url);
+        changedDisplayContent("certificate");
+        setLoadingCertificate(false)
+      }
+    } catch (error: any) {
+      setLoadingCertificate(false)
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
   return (
     <section className="viewcourse">
       {isLoading ? (
@@ -130,7 +148,7 @@ const ViewCourse = () => {
       ) : (
         <div className="viewcourse-container">
           <div className="viewcourse-container__header">
-            <h1 className="viewcourse-container__header__heading">
+            <div className="viewcourse-container__header__heading">
               <button
                 aria-label="back-arrow"
                 className=" icon-button"
@@ -138,9 +156,10 @@ const ViewCourse = () => {
               >
                 <TiArrowBack />
               </button>{" "}
-              <Trans> Title: </Trans>
-              {course?.title}
-            </h1>
+              <h1 className="viewcourse-container__header__heading-title">
+                <Trans> Title: </Trans> {course?.title}
+              </h1>
+            </div>
             <div
               className={`${
                 isIpad
@@ -160,6 +179,23 @@ const ViewCourse = () => {
                 progress={Math.round(overAllScore)}
                 height={35}
               />
+              <button
+                style={{
+                  filter:
+                    overAllScore <= 80 ? "brightness(0.5)" : "brightness(1)",
+                }}
+                disabled={overAllScore <= 80}
+                onClick={() => {
+                  viewCertificate();
+                }}
+                className="viewcourse-container__header__btn"
+              >
+               {isLoadingCertificate ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : (
+              t`View Certificate`
+            )}
+              </button>
               {!isCourseContent && (
                 <button
                   onClick={() => {
@@ -190,16 +226,7 @@ const ViewCourse = () => {
                 isCourseContent ? "open-leftcontent" : "closed-leftcontent"
               }`}
             >
-              {displayContent === "video" ? (
-                <iframe
-                  title={videoData?.title}
-                  width="100%"
-                  height="550"
-                  src={videoData?.video_url}
-                  allowFullScreen
-                  className="viewcourse-container__content-iframe"
-                ></iframe>
-              ) : displayContent === "exercise" ? (
+              {displayContent === "exercise" ? (
                 <Quiz
                   exerciseData={exerciseData}
                   changeQuizIndex={changeQuizIndex}
@@ -210,20 +237,29 @@ const ViewCourse = () => {
                   setSubmission={setSubmission}
                   viewSubmit={viewSubmit}
                   submission={submission}
-                  // refetch={refetch}
+                  reset={refetch}
                   changedCurrentScore={changedCurrentScore}
                   changedOverAllScore={changedOverAllScore}
                 />
               ) : displayContent === "pdf" ? (
-                <ViewPdf pdfData={pdfData} isCourseContent={isCourseContent} />
+                <ViewPdf pdfUrl={pdfData?.file_url} />
               ) : displayContent === "result" ? (
                 <Result
                   currentScore={currentScore}
                   selectedIndex={selectedIndex}
                   getexerciseData={getexerciseData}
                 />
+              ) : displayContent === "certificate" ? (
+                <Certificate pdfUrl={pdfData} />
               ) : (
-                <Certificate />
+                <iframe
+                  title={videoData?.title}
+                  width="100%"
+                  height="550"
+                  src={videoData?.video_url}
+                  allowFullScreen
+                  className="viewcourse-container__content-iframe"
+                ></iframe>
               )}
             </div>
             {isCourseContent && (
@@ -346,7 +382,8 @@ const ViewCourse = () => {
                                     >
                                       {" "}
                                       {quizitem.best_percentage_passed > 0
-                                        ? quizitem.best_percentage_passed
+                                        ? quizitem.best_percentage_passed ||
+                                          bestScore
                                         : 0}
                                       %{" "}
                                     </p>
@@ -401,9 +438,7 @@ const ViewCourse = () => {
                   {/* {viewcourse?.description} */}
                 </div>
               ) : (
-                <>
-                  <Certificate />
-                </>
+                <></>
               )}
             </div>
           </div>
@@ -414,7 +449,4 @@ const ViewCourse = () => {
 };
 export default ViewCourse;
 
-// the header
-// the responsiveness
-// the assesibility
-//  work on the types
+// Work on course content, specially the quiz, the hover/active state covers the progress bar(find alternative)

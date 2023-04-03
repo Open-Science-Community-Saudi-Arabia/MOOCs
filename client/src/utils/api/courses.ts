@@ -34,7 +34,7 @@ export async function exerciseScore(id: string, payload: any) {
 }
 
 // https://moocs-test.onrender.com/api/v1/certificate/course/:id
-export async function getCertificate(id: string) {
+export async function getCertificate(id: string|any) {
   const response = await makeApiCall(`certificate/course/${id}`);
   return response;
 }

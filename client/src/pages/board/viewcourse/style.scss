@@ -30,12 +30,15 @@
         padding: 0em 1.5em;
       }
       &__heading {
-        font-size: 17px;
-        font-weight: 700;
         @include flex(space-between, center);
         gap: 20px;
-        @include ipad {
-          font-size: 20px;
+        &-title {
+          font-size: 17px;
+          font-weight: 700;
+
+          @include ipad {
+            font-size: 20px;
+          }
         }
         .icon-button {
           font-size: 25px;
@@ -68,8 +71,10 @@
       .d-none {
         display: none;
       }
+
       &__btn {
-        @include button(auto, transparent, var(--white));
+        @include button(140px, transparent, var(--white));
+        height: 40px;
         border: 1px solid gray !important;
         padding: 0.8em;
         color: var(--white);
@@ -257,8 +262,6 @@
         }
       }
 
-      
-
       // Course Content
       &-course {
         height: 550px;
@@ -355,7 +358,6 @@
               color: var(--gray);
             }
             &__score {
-          
               font-size: 11px;
               font-weight: 600;
 
@@ -405,27 +407,15 @@
   @include flex(center, center);
   text-align: center;
   width: 100%;
-  &__content {
-    &__text {
-      width: fit-content;
-      font-size: 20px;
-      font-weight: 500;
-      background-color: var(--gray-203);
-      opacity: 50%;
-      padding: 1em;
-      color: var(--gray);
-      border-radius: 10px;
-      cursor: pointer;
-      &:hover {
-        background-color: var(--gray-203);
-        opacity: 30%;
-      }
-    }
+  height: 100%;
+  &__img {
+    width: 700px;
+    border: 1px solid rgb(214, 213, 213);
   }
 }
 
 html[dir="rtl"] {
   .viewcourse-container__content {
-   flex-direction: row-reverse;
+    flex-direction: row-reverse;
   }
 }

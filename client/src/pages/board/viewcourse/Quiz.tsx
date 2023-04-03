@@ -17,7 +17,7 @@ interface IProps {
   setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
   submission: object;
-  // refetch:()=> void
+  reset: () => void;
 }
 
 const Quiz = ({
@@ -32,8 +32,8 @@ const Quiz = ({
   viewSubmit,
   submission,
   changedOverAllScore,
-}: // refetch
-IProps) => {
+  reset,
+}: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
@@ -56,13 +56,12 @@ IProps) => {
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          console.log(response.data);
           changedCurrentScore(response.data.report.percentage_passed);
           changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
           changedOverAllScore(response.data.report.course_progress);
+          // () => reset();
         }
-        // refetch()
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {
@@ -77,11 +76,12 @@ IProps) => {
     <section className="quiz-section">
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
-         <Trans> Quiz:</Trans>{exerciseData?.title}
+          <Trans> Quiz:</Trans>
+          {exerciseData?.title}
         </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
-        <Trans>  Pick the right option.</Trans>
+          <Trans> Pick the right option.</Trans>
         </p>
       </div>
       <div className="quiz-section__container">
@@ -93,7 +93,8 @@ IProps) => {
                   <div className="quiz-section__content-question">
                     <p>
                       {" "}
-                    <Trans>  Question</Trans> {index + 1} of {exerciseData?.questions.length}:{" "}
+                      <Trans> Question</Trans> {index + 1} of{" "}
+                      {exerciseData?.questions.length}:{" "}
                     </p>
                     {content.question}?
                   </div>
