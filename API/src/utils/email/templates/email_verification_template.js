@@ -46,7 +46,7 @@ const email_verification_template = (verification_link, name) => {
                                             <span
                                                 style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                             <p style="color:#455056; font-size:20px;line-height:24px; margin:0;">
-                                                Hi ${name}, You have requested to verify your email please click the link below to verify your email
+                                                Hi ${name}, Welcome to the Open Innovation platform! To proceed further, could you please verify your email by clicking the link below
                                             </p>
                                             <a href=${verification_link}
                                                 style="background:#009985;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
