@@ -32,10 +32,15 @@ const {
     Course,
     CourseReport,
     CourseSection,
-    getCompletedExercisesInCourseSection,
+    Exercise,
+    ExerciseReport,
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
+const { populate } = require("../models/password.models");
+const { uploadToCloudinary } = require("../utils/cloudinary");
+const fs = require("fs");
+const mongoose = require("mongoose");
 
 /* COURSES
 */
@@ -52,17 +57,40 @@ const { User } = require("../models/user.models");
  * @returns {MongooseObject} savedCourse
  * 
  * @throws {error} if an error occured
-
-*/
+ * */
 exports.createCourse = async (req, res, next) => {
+    const preview_image = req.file
+
+    if (!preview_image) {
+        return next(new BadRequestError('Missing preview image'))
+    }
+
     const newCourse = new Course(req.body);
+
+    // Upload preview image to cloudinary
+    const file_url = await uploadToCloudinary({
+        path: preview_image.path,
+        file_name: `course_preview_${newCourse._id}`,
+        destination_path: 'courses/preview_images'
+    })
+
+    // Save file url to database
+    newCourse.preview_image = file_url;
     const savedCourse = await newCourse.save();
-    return res.status(200).json({
+
+    // Delete file from server
+    await fs.unlink(preview_image.path, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    })
+
+    return res.status(200).send({
         success: true,
         data: {
             course: savedCourse
         }
-    });
+    })
 };
 
 /**
@@ -99,8 +127,7 @@ exports.createCourse = async (req, res, next) => {
  * 
  * 
  * @returns {object} courses
- ** @memberof CourseController
-*/
+ * */
 exports.getCourses = async (req, res, next) => {
     if (Object.keys(req.body).length != 0) {
         const courses = await Course.find(req.body);
@@ -116,11 +143,27 @@ exports.getCourses = async (req, res, next) => {
     const courses = (
         await Course.find().populate({
             path: 'course_sections',
-            populate: 'videos exercises textmaterials'
+            populate: [
+                {
+                    path: 'videos',
+                    model: 'Video'
+                },
+                {
+                    path: 'textmaterials',
+                    model: 'TextMaterial'
+                },
+                {
+                    path: 'exercises',
+                    populate: 'questions'
+                }
+
+            ]
         }).sort({ _id: -1 })
     ).filter((course) => {
-        if (course.isAvailable) return course.toJSON();
+        if (course.isAvailable) return course.toObject();
     });
+
+    console.log(courses)
 
     return res.status(200).send({
         success: true,
@@ -148,25 +191,68 @@ exports.getCourses = async (req, res, next) => {
  * @param {string} id - id of the course 
  * 
  * @returns course
-
-*/
+ * */
 exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id).populate({
+    let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
-        populate: 'videos exercises textmaterials'
+        populate: [
+            {
+                path: 'videos',
+                model: 'Video'
+            },
+            {
+                path: 'textmaterials',
+                model: 'TextMaterial'
+            },
+            {
+                path: 'exercises',
+                populate: 'questions'
+            }
+        ]
     });
 
-    const student_course_report = await CourseReport.findOne({ course: course._id, student: req.user._id });
-    course.course_sections = await getCompletedExercisesInCourseSection(course, student_course_report);
+    if (course && course.course_sections) {
+
+        for (let i = 0; i < course.course_sections.length; i++) {
+            const curr_section = course.course_sections[i];
+
+            if (curr_section.exercises) {
+                for (let j = 0; j < curr_section.exercises.length; j++) {
+                    const exercise = curr_section.exercises[j].toObject();
+                    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
+                    if (exercise_report) {
+                        exercise.best_score = exercise_report.best_score;
+                        exercise.best_percentage_passed = exercise_report.percentage_passed;
+                    }
+                    curr_section.exercises[j] = exercise;
+                }
+            }
+
+
+            course.course_sections[i] = curr_section;
+        }
+    }
+
+    if (req.user && course.enrolled_users.includes(req.user?.id)) {
+        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+        if (course_report) {
+            course.best_score = course_report.best_score;
+            course = course.toObject()
+            course.overall = course_report.percentage_passed;
+        }
+    }
+
+    console.log('getting the course content')
+
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: course.isAvailable ? course.toJSON() : null
+            course
         }
     })
 }
@@ -204,8 +290,7 @@ exports.getCourseData = async (req, res, next) => {
  * @returns {object} course
  * 
  * @throws {BadRequestError} if Course not found
-
-*/
+ * */
 exports.updateCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -243,7 +328,7 @@ exports.updateCourse = async (req, res, next) => {
  * @param {string} id - Id of the course
  * 
  * @returns {string} message
-*/
+ * */
 exports.deleteCourse = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
@@ -275,7 +360,7 @@ exports.deleteCourse = async (req, res, next) => {
  * @returns {Object} Response object.
  * @returns {boolean} Response object.success - Indicates whether the operation was successful.
  * @returns {string} Response object.data.message - A message indicating the status of the operation.
- */
+ * */
 exports.enrollCourse = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -324,7 +409,7 @@ exports.enrollCourse = async (req, res, next) => {
  * @returns {Object} Response object.
  * @returns {boolean} Response object.success - Indicates whether the operation was successful.
  * @returns {string} Response object.data.message - A message indicating the status of the operation.
- */
+ * */
 exports.cancelEnrollment = async (req, res, next) => {
     const course_id = req.params.id
 
@@ -358,7 +443,7 @@ exports.cancelEnrollment = async (req, res, next) => {
  * after the user is authenticated.
  * 
  * @returns {object} enrolledCourses 
-*/
+ * */
 exports.getEnrolledCourses = async (req, res, next) => {
     const user = await User.findById(req.user.id).populate('enrolled_courses');
 
@@ -498,7 +583,7 @@ exports.removeVideoFromCourse = async (req, res, next) => {
  * @param {courseId} - id of the course to get 
  *  
  * @returns {Array} - Array of all the videos within the course
-
+ 
 */
 exports.getCourseVideos = async (req, res, next) => {
     if (!req.params.courseId || req.params.id == ':courseId') {
@@ -582,7 +667,7 @@ exports.getVideoData = async (req, res, next) => {
  * 
  * @throws {error} if an error occured
  * @throws {BadRequestError} if video not found
-
+ 
 */
 exports.updateVideo = async (req, res, next) => {
     const video = await Video.findById(req.params.id);
@@ -681,8 +766,3 @@ exports.getStudentReportForCourse = async (req, res, next) => {
         }
     })
 }
-
-
-
-
-

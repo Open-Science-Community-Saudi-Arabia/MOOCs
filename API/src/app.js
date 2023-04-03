@@ -11,16 +11,9 @@ const UUID = require("uuid").v4;
 
 // Middlewares
 if (process.env.NODE_ENV == "dev") app.use(morgan("dev"));
-
-app.use(cors());
+app.use(cors())
 app.use(cookieParser());
 app.use(express.json());
-app.use(session({
-    secret: UUID(),
-    resave: false,
-    saveUninitialized: true,
-}))
-
 
 // Route handler
 require("./routes/routes_handler")(app);

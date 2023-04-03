@@ -1,6 +1,8 @@
 /**
  * module: Controller
  */
+
+
 /**
  * @category Backend API
  * @subcategory Controllers
@@ -36,52 +38,20 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const config = require('../utils/config');
-const sendEmail = require('../utils/email');
+const { sendEmail, EmailMessage } = require('../utils/email/email');
 const {
     CustomAPIError,
     BadRequestError,
     UnauthorizedError,
     ForbiddenError,
 } = require('../utils/errors');
-const { getAuthCodes, getAuthTokens, decodeJWT, getRequiredConfigVars } = require('../utils/token.js');
+const { getAuthCodes, getAuthTokens } = require('../utils/token.js');
 
-const { OAuth2Client, UserRefreshClient } = require('google-auth-library');
-
+const { OAuth2Client } = require('google-auth-library');
 const { User, Status } = require('../models/user.models');
 const { BlacklistedToken, AuthCode, TestAuthToken } = require('../models/token.models');
 const Password = require('../models/password.models');
 const { default: mongoose } = require('mongoose');
-
-/**
- * Sign a token with the given payload and secret
- * 
- * @description This function signs a JWT token with the given payload and secret
- * <br>
- * 
- * The payload is the data that will be stored in the token, 
- * this data will be required for the client to make requests to the API </br>
- * With this function, you can also specify the expiry date of the token, 
- * and the secret to be used for signing the token, the default secret is the JWT_ACCESS_SECRET
- * 
- * @param {string} id   
- * @param {string} role 
- * @param {string} jwtSecret 
- * @param {string} expiry 
- * 
- * @returns {string} token
- * 
- * @throws {Error} if jwtSecret is not provided 
- */
-const signToken = (id, role, jwtSecret = null, expiry = null) => {
-    const expiryDate = expiry ? expiry : process.env.JWT_EXPIRES_IN;
-    if (!jwtSecret) {
-        jwtSecret = config.JWT_ACCESS_SECRET;
-    }
-    return jwt.sign({ id, role }, jwtSecret, {
-        expiresIn: expiryDate,
-    });
-};
-
 
 /**
  * Create and send JWT tokens to the client.
@@ -97,16 +67,10 @@ const signToken = (id, role, jwtSecret = null, expiry = null) => {
  * 
  * @throws {Error} If error occurs
  */
-const createToken = (user, statusCode, res) => {
-    const token = signToken(user._id || user.id, user.role, config.JWT_ACCESS_SECRET, config.JWT_ACCESS_EXP)
-    const cookieOptions = {
-        expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-    };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-    res.cookie('jwt', token, cookieOptions);
+const returnAuthTokens = async (user, statusCode, res) => {
+    console.log(user)
+    if (!user.status) user = await User.findById(user._id).populate('status');
+    const { access_token, refresh_token } = await getAuthTokens(user.toObject());
 
     // Remove sensitive data from user object
     user.password = undefined;
@@ -116,11 +80,14 @@ const createToken = (user, statusCode, res) => {
     user.isVerified = undefined;
     user.auth_code = undefined;
 
+    console.log(access_token)
+
     res.status(statusCode).json({
-        status: 'success',
-        token,
+        success: true,
         data: {
             user,
+            access_token,
+            refresh_token
         },
     });
 };
@@ -154,11 +121,13 @@ const handleUnverifiedUser = function (user) {
         }
 
         //console.log(verification_url)
+
         // Send verification email
-        sendEmail({
+        const message = new EmailMessage()
+        await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
-            message: `Please click on the following link to verify your email address: ${verification_url}`,
+            html: message.emailVerification(verification_url, user.firstname)
         });
     }
 };
@@ -175,9 +144,8 @@ const handleUnverifiedUser = function (user) {
  */
 const handleExistingUser = function (user) {
     return async function (req, res, next) {
-        const existing_user = user.toJSON({ virtuals: true });
+        const existing_user = user.toObject();
 
-        //console.log(existing_user);
         // If user is not verified - send verification email
         if (!existing_user.status.isVerified) {
             await handleUnverifiedUser(existing_user)(req);
@@ -202,7 +170,7 @@ const handleExistingUser = function (user) {
 };
 
 exports.passportOauthCallback = function (req, res) {
-    createToken(req.user, 200, res);
+    returnAuthTokens(req.user, 200, res);
 };
 
 /**
@@ -237,7 +205,7 @@ exports.passportOauthCallback = function (req, res) {
  * @throws {Error} if an error occurs
  */
 exports.signup = async (req, res, next) => {
-    let { firstname, lastname, email, role, password, passwordConfirm } = req.body;
+    let { firstname, lastname, email, role, password, passwordConfirm, preferred_language } = req.body;
 
     // NOTE: Will be handled by mongoose schema validation
     // Check if all required fields are provided
@@ -254,13 +222,12 @@ exports.signup = async (req, res, next) => {
 
     // Check if user already exists
     const existing_user = await User.findOne({ email }).populate('status')
-    // //console.log(existing_user)
     if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
     let new_user;
     const session = await mongoose.startSession();
     await session.withTransaction(async () => {
-        await User.create([{ firstname, lastname, email, role, }], { session, context: 'query' }).then((user) => { new_user = user[0] });
+        await User.create([{ firstname, lastname, email, role, preferred_language }], { session, context: 'query' }).then((user) => { new_user = user[0] });
         await Password.create([{ user: new_user._id, password }], { session, context: 'query' });
         await Status.create([{ user: new_user._id }], { session, context: 'query' })
         await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
@@ -396,7 +363,7 @@ exports.login = async (req, res, next) => {
  */
 exports.verifyEmail = async (req, res, next) => {
     //  Get token from url
-const { token } = req.params;
+    const { token } = req.params;
 
     if (!token) {
         return next(BadRequestError('No authentication token provided'))
@@ -815,10 +782,11 @@ exports.forgetPassword = async (req, res, next) => {
     const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
 
     //  Send password reset code to user
+    const message = new EmailMessage()
     sendEmail({
         email: current_user.email,
-        subject: 'Password reset for User',
-        message: `Password reset code is ${password_reset_code}`
+        subject: 'Password reset for user',
+        html: message.passwordReset(password_reset_code, current_user.firstname)
     })
 
     //  Get access token
@@ -936,8 +904,8 @@ exports.googleSignin = async (req, res, next) => {
         audience: config.OAUTH_CLIENT_ID,
     }),
         payload = ticket.getPayload(),
-        existing_user = await User.findOne({ email: payload.email });
-    
+        existing_user = await User.findOne({ email: payload.email }).populate('status')
+
     // Create new user in db
     const random_str = UUID(); // Random unique str as password, won't be needed for authentication
     if (!existing_user) {
@@ -951,11 +919,28 @@ exports.googleSignin = async (req, res, next) => {
             googleId: payload.sub,
         };
 
-        const new_user = await User.create(user_data);
-        createToken(new_user, 200, res);
+        const session = await mongoose.startSession();
+        let new_user;
+        await session.withTransaction(async () => {
+            await User.create(
+                [{ ...user_data }], { session, context: 'query' }
+            ).then((user) => { new_user = user[0] });
+
+            await Password.create([{ user: new_user._id, password: user_data.password }], { session, context: 'query' });
+            await Status.create([{ user: new_user._id }], { session, context: 'query' })
+            await AuthCode.create([{ user: new_user._id }], { session, context: 'query' })
+
+            await session.commitTransaction()
+            session.endSession()
+        })
+
+        await returnAuthTokens(new_user, 200, res);
+        return
     }
 
-    createToken(existing_user, 200, res)
+    console.log(existing_user.toObject())
+
+    await returnAuthTokens(existing_user, 200, res)
 };
 
 // Get details of logged in user

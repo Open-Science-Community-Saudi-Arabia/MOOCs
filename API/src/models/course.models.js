@@ -95,6 +95,23 @@ const options = {
  */
 
 /**
+ * @typedef {Object} downloadableResourceSchema
+ * 
+ * @description This schema is used to store downloadable resources.
+ * These are resources that can be downloaded by the user. they are usually
+ * links to files such as pdfs, word documents, etc.
+ * 
+ * @property {String} type - The type of the document, "downloadable_resource"
+ * @property {String} title - The title of the downloadable resource
+ * @property {String} file_url - The url of the downloadable resource
+ * @property {ObjectId} course - The course to which the downloadable resource belongs
+ * @property {Number} order - The order of the downloadable resource in the course section
+ * @property {Boolean} isAvailable - Whether the downloadable resource is available to the user
+ *  
+ * @see {@link module:CourseModel~courseSchema Course}
+ * */
+
+/**
  * @typedef {Object} courseSectionSchema
  * 
  * @description This schema is used to store course sections.
@@ -198,7 +215,7 @@ const questionSchema = new Schema({
  * @type {exerciseSchema}
  */
 const exerciseSchema = new Schema({
-    type: { type: String, default: "exercise", minLength: 3, maxLength: 40},
+    type: { type: String, default: "exercise", minLength: 3, maxLength: 40 },
     title: { type: String, required: true },
     description: { type: String, required: true },
     // questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
@@ -213,12 +230,12 @@ exerciseSchema.virtual('questions', {
     foreignField: 'exercise',
     ref: 'Question'
 })
-    
+
 /**
  * @type {videoSchema}
  * */
 const videoSchema = new Schema({
-    type: { type: String, default:'video'},
+    type: { type: String, default: 'video' },
     title: {
         type: String,
         required: true,
@@ -245,7 +262,7 @@ const videoSchema = new Schema({
  * @type {textmaterialSchema}
  * */
 const textmaterialSchema = new Schema({
-    type: { type: String, default: "slide", minLength: 3, maxLength: 40},
+    type: { type: String, default: "slide", minLength: 3, maxLength: 40 },
     title: {
         type: String,
         required: true
@@ -262,10 +279,23 @@ const textmaterialSchema = new Schema({
 }, options)
 
 /**
+ * @type {downloadableResourceSchema}
+ */
+const downloadableResourceSchema = new Schema({
+    resource_type: { type: String, required: true },
+    title: { type: String, required: true },
+    file_url: { type: String, required: true },
+    description: { type: String, required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    order: { type: Number, default: Date.now() },
+    isAvailable: { type: Boolean, default: true }
+}, options)
+
+/**
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
-    title: { type: String, required: true, minLength: 3, maxLength: 40},
+    title: { type: String, required: true, minLength: 3, maxLength: 40 },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
@@ -297,50 +327,26 @@ courseSectionSchema.virtual('textmaterials', {
  * @param {courseSectionSchema} courseSection 
  * @returns {courseSectionSchema}
  */
-function combineContents(courseSection, studentCourseReport) {
-    if (studentCourseReport) {
-        console.log(studentCourseReport)
-        courseSection.isCompleted = studentCourseReport.completed_course_sections.includes(courseSection._id)
-
-        courseSection.exercises = courseSection.exercises.map(exercise => {
-            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
-            return exercise
-        })
-    }
-
+function combineContents(courseSection) {
     courseSection.contents = [
-        ...courseSection.videos??[],
-        ...courseSection.exercises??[],
-        ...courseSection.textmaterials??[]
+        ...courseSection.videos ?? [],
+        ...courseSection.exercises ?? [],
+        ...courseSection.textmaterials ?? []
     ]
 
     courseSection.contents.sort((a, b) => {
         return a.order - b.order
-    })
+    }
+    )
 
     return courseSection
 }
 
-async function getCompletedExercisesInCourseSection(course, studentCourseReport) {
-    const courseSections = await course.populate({
-        path: 'course_sections',
-        populate: {
-            path: 'exercises',
-            model: 'Exercise'
-        }
-    })
-    const updatedCourseSections = courseSections.toObject().course_sections.map(courseSection => {
-        courseSection.exercises = courseSection.exercises.filter(exercise => {
-            exercise.isCompleted = studentCourseReport.completed_exercises.includes(exercise._id)
-            
-            return exercise
-        })
-        
-        return courseSection
-    })
-
-    return updatedCourseSections
-}
+courseSectionSchema.post('find', async function (courseSections) {
+    for (let courseSection of courseSections) {
+        await combineContents(courseSection)
+    }
+})
 
 courseSectionSchema.post('findOne', async function (courseSection) {
     const doc = await combineContents(courseSection)
@@ -350,7 +356,6 @@ courseSectionSchema.post('findOne', async function (courseSection) {
 /**
  * @type {courseSchema}
  */
-
 const courseSchema = new Schema({
     author: {
         type: String,
@@ -366,6 +371,7 @@ const courseSchema = new Schema({
     },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.virtual('exercises', {
@@ -382,7 +388,7 @@ courseSchema.virtual('course_sections', {
 /**
  * @type {submissionSchema}
  * */
-const submissionSchema = new Schema({
+const exerciseSubmissionSchema = new Schema({
     exercise: { type: Schema.Types.ObjectId, ref: 'Exercise', required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     submission: [{
@@ -393,7 +399,47 @@ const submissionSchema = new Schema({
         })
     }],
     score: { type: Number, default: 0 },
+    percentage_passed: { type: Number, default: 0 },
+    report: { type: Schema.Types.ObjectId, ref: "ExerciseReport", required: true }
 }, options)
+exerciseSubmissionSchema.pre('save', async function (next) {
+    // check if score was updated
+    if (this.isModified('score')) {
+        // get the exercise
+        const { exercise } = await this.populate({
+            path: 'exercise',
+            populate: 'questions'
+        })
+
+        this.percentage_passed = (this.score / exercise.questions.length) * 100
+    }
+
+    next()
+})
+
+const exerciseReportSchema = new Schema({
+    exercise: { type: Schema.Types.ObjectId, ref: 'ExerciseReport', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    course_report: { type: Schema.Types.ObjectId, ref: 'CourseReport', required: true },
+    best_score: { type: Number, default: 0 },
+    percentage_passed: { type: Number, default: 0 },
+})
+exerciseReportSchema.virtual('submissions', {
+    localField: '_id',
+    foreignField: 'report',
+    ref: "ExerciseSubmission",
+    justOne: false
+})
+exerciseReportSchema.pre('save', async function (next) {
+    // check if score was updated
+    if (this.isModified('best_score')) {
+        // get the exercise
+        const exercise = await Exercise.findById(this.exercise).populate('questions')
+
+        this.percentage_passed = (this.best_score / exercise.questions.length) * 100
+    }
+    next()
+})
 
 /**
  * @type {courseReportSchema}
@@ -402,15 +448,7 @@ const courseReportSchema = new Schema(
     {
         course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-        completed_exercises: [
-            { type: Schema.Types.ObjectId, ref: "Exercise", default: [] },
-        ],
-        completed_videos: [
-            { type: Schema.Types.ObjectId, ref: "Video", default: [] },
-        ],
-        completed_sections: [
-            { type: Schema.Types.ObjectId, ref: "CourseSection", default: [] },
-        ],
+        percentage_passed: { type: Number, default: 0 },
         isCompleted: { type: Boolean, default: false },
     },
     options
@@ -421,25 +459,44 @@ courseReportSchema.virtual('certificate', {
     ref: 'Certificate',
     justOne: true
 })
-
-courseReportSchema.virtual('certificate', {
+courseReportSchema.virtual('attempted_exercises', {
     localField: '_id',
     foreignField: 'course_report',
-    ref: 'Certificate',
-    justOne: true
+    ref: 'ExerciseReport',
+    justOne: false
 })
+
+courseReportSchema.methods.updateBestScore = async function () {
+    const doc = (await this.populate("attempted_exercises")).toObject();
+
+    const exercises = doc.attempted_exercises;
+    let total_scores = 0
+    for (let i = 0; i < exercises.length; i++) {
+        total_scores += exercises[i].percentage_passed
+    }
+
+    // Calculate the average percentage passed 
+    this.percentage_passed = total_scores / exercises.length
+
+    // Update the isCompleted field if the percentage passed is greater than or equal to 80
+    this.isCompleted = this.percentage_passed >= 80 ? true : false;
+
+    return this.save();
+}
 
 
 const Question = mongoose.model("Question", questionSchema);
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 const Video = mongoose.model("Video", videoSchema);
 const TextMaterial = mongoose.model("TextMaterial", textmaterialSchema);
+const DownloadableResource = mongoose.model('DownloadableResource', downloadableResourceSchema)
 const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
     "ExerciseSubmission",
-    submissionSchema
+    exerciseSubmissionSchema
 );
+const ExerciseReport = mongoose.model('ExerciseReport', exerciseReportSchema)
 const CourseReport = mongoose.model("CourseReport", courseReportSchema);
 
 module.exports = {
@@ -447,6 +504,6 @@ module.exports = {
     CourseSection,
     Question, Exercise,
     CourseReport, TextMaterial,
-    ExerciseSubmission,
-    getCompletedExercisesInCourseSection
+    ExerciseSubmission, ExerciseReport,
+    DownloadableResource
 };
