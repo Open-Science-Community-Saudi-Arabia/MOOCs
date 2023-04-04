@@ -2,6 +2,7 @@
  * Custom Error Classes
  * 
  * @category Backend API
+ * @subcategory Utilities
  * 
  * @module Custom Error Classes
  * 

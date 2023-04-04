@@ -2,6 +2,7 @@
  * @fileoverview Email utilities.
  * 
  * @category Backend API
+ * @subcategory Utilities
  * 
  * @module Email Utilities
  * 

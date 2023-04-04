@@ -81,7 +81,7 @@ const getRequiredConfigVars = (type) => {
  * 
  * @description This function generates a JWT token for the specified user. <br>
  * 
- * @param {import('mongoose').ObjectId} user_id - ID of the user to generate token for
+ * @param {ObjectId} user_id - ID of the user to generate token for
  * @param {string} token_type - Type of token to generate
  * @returns JWT token
  * 
@@ -132,7 +132,7 @@ const getAuthTokens = async (user_id, token_type = null) => {
  * @description Generate authentication codes for user,
  * such as verification code, password reset code, activation code, deactivation code
  * 
- * @param {import('mongoose').ObjectId} user_id
+ * @param {ObjectId} user_id
  * @param {string} code_type 
  * 
  * @returns verification_code, password_reset_code, 
@@ -240,7 +240,7 @@ const getAuthCodes = async (user_id, code_type) => {
  * @description Decodes a JWT token
  * 
  * @param {string} token 
- * @returns 
+ * @returns {Object} - Decoded token
  */
 const decodeJWT = (token) => {
     try {

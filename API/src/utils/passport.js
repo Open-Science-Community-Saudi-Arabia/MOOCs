@@ -2,6 +2,7 @@
  * @fileoverview Passport utils
  * 
  * @category Backend API
+ * @subcategory Utilities
  * 
  * @module Passport Utilities
  * 
