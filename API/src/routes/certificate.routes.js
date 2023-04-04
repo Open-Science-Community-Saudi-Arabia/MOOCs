@@ -7,7 +7,7 @@ const {
 } = require('../controllers/certificate.controllers')
 
 const { basicAuth } = require('../middlewares/auth')
-const permit = require('../middlewares/permission_handler')
+const permit = require('../middlewares/permission_handler') 
 
 router.use(basicAuth(), permit('Admin SuperAdmin EndUser'))
 
