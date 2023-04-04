@@ -2,10 +2,10 @@
     "changelog": {
         "title": "Changelog"
     },
-    "contributing": {
-        "title": "Contributing"
-    },
     "environment_setup": {
         "title": "Environment Setup"
+    },
+    "contributing": {
+        "title": "Contributing"
     }
 }

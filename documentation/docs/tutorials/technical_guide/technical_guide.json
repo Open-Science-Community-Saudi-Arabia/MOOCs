@@ -2,11 +2,11 @@
     "maintainers": {
         "title": "Technical guide for Maintainers",
         "children": {
-            "ci_workflow": {
-                "title": "CI Workflow"
-            },
             "reviewing_pr": {
                 "title": "Reviewing pull requests"
+            },
+            "ci_workflow": {
+                "title": "CI Workflow"
             }
         }
     },
