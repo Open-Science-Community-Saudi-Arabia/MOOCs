@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Email utilities.
+ * 
+ * @category Backend API
+ * 
+ * @module Email Utilities
+ * 
+ * @description This module contains functions for sending emails.
+ * 
+ * @requires nodemailer
+ */
+
 const nodemailer = require('nodemailer')
 const config = require('../config')
 const {
@@ -5,6 +17,23 @@ const {
     email_verification_template } = require('./templates')
 
 // 3. Send email to user
+
+/**
+ * Send Email
+ * 
+ * @description This function sends an email to the specified email address.
+ * 
+ * @param {string} options.email - Email address to send email to
+ * @param {string} options.subject - Subject of the email
+ * @param {string} options.message - Message to send in the email
+ * @param {string} options.html - HTML to send in the email
+ * @returns {Promise} Promise object represents the result of sending the email
+ * @throws {Error} Throws an error if the email could not be sent
+ * @async
+ * @function
+ * @memberof module:Email Utilities
+ * @name sendEmail
+ */
 const sendEmail = async (options) => {
     try {
         //1. Create the transporter

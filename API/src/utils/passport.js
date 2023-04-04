@@ -1,3 +1,19 @@
+/**
+ * @fileoverview Passport utils
+ * 
+ * @category Backend API
+ * 
+ * @module Passport Utilities
+ * 
+ * @description This module contains functions for authenticating users using passport
+ * 
+ * @requires ../models/user.models
+ * @requires ../utils/config
+ * @requires passport-google-oidc
+ * @requires passport-github
+ * @requires uuid
+ */
+
 const GoogleStrategy = require('passport-google-oidc').Strategy;
 const GitHubStrategy = require('passport-github').Strategy;
 
@@ -5,6 +21,24 @@ const config = require('./config');
 const User = require('../models/user.models');
 const UUID = require('uuid').v4;
 
+
+/**
+ * Create User
+ * 
+ * @param {Object} data 
+ * @param {string} data.firstname
+ * @param {string} data.lastname
+ * @param {string} data.email
+ * @param {string} data.googleId
+ * @param {string} data.role
+ * @param {string} data.password
+ * @param {string} data.passwordConfirm
+ * @param {boolean} data.isVerified
+ *  
+ * @description This function creates a new user if the user does not exist
+ * 
+ * @returns {Object} User object 
+ */
 const createUser = async (data) => {
     try {
         let existing_user = await User.findOne({ email: data.email });
@@ -27,7 +61,14 @@ const createUser = async (data) => {
     }
 };
 
-
+/**
+ * Google Auth Strategy
+ * 
+ * @description This function creates a new user if the user does not exist
+ * 
+ * @returns {Object} User object
+ * 
+ */
 const googleStrategy = new GoogleStrategy(
     {
         clientID: config.OAUTH_CLIENT_ID,
@@ -57,6 +98,13 @@ const googleStrategy = new GoogleStrategy(
     }
 );
 
+/**
+ * Github Auth Strategy
+ * 
+ * @description This function creates a new user if the user does not exist
+ * 
+ * @returns {Object} User object
+ */
 const githubStrategy = new GitHubStrategy(
     {
         clientID: config.GITHUB_CLIENT_ID,
