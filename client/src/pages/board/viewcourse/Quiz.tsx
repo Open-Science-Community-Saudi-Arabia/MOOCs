@@ -148,3 +148,5 @@ export default Quiz;
 
 // quiz heading should indication title e.g section one quiz exercise
 // check for excessive network calls
+
+// use Tool tip on the certificate to mention that 80%IS NEDDED
