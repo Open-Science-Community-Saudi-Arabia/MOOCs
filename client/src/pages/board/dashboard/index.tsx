@@ -15,7 +15,7 @@ const Board = () => {
     error,
     refetch,
   }: any = useQuery(queryKey, getCourses, {
-    refetchOnWindowFocus: true,
+    // refetchOnWindowFocus: true,
     staleTime: 0,
     cacheTime: 0,
     refetchInterval: 0,

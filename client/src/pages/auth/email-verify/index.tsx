@@ -5,7 +5,7 @@ import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
 import { Trans } from "@lingui/macro";
 import LanguageToggle from "../../../components/LanguageToggle";
-
+import verificationImage from "../../../images/verification-email-sent.jpg";
 const EmailVerify = () => {
   const [isValidUrl, setValidUrl] = useState<boolean>();
   const [error, setError] = useState<boolean>();
@@ -55,6 +55,10 @@ const EmailVerify = () => {
               {" "}
               <Trans>{error}</Trans>
             </h1>
+            <p className="verifyEmail__subtitle">
+              {" "}
+              Go back to <a href="/signup">Signup</a> page
+            </p>
           </div>
         )}
       </div>

@@ -155,10 +155,9 @@ const Home = () => {
         <div className="participants__content">
           {" "}
           <h2 className="participants__content-heading">
-            <Trans>
-              Join Over 1000+ participants to learn high demand courses.
-            </Trans>
+            <Trans>Ready to revolutionize your research?</Trans>
           </h2>
+          <p className="participants__content-subtitle">            <Trans> Enroll in our Open Science MOOCs now </Trans></p>
           <Link className="participants__content-link" to={"/login"}>
             <Trans>Join Us</Trans>
           </Link>

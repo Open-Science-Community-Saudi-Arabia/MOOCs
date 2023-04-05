@@ -6,7 +6,7 @@ export async function getCourses() {
   return response;
 }
 
-export async function getCourse(id: string) {
+export async function getCourse(id: any) {
   const response = await makeApiCall(`/course/${id}`);
   return response;
 }
@@ -47,7 +47,7 @@ export async function getCertificate(id: string|any) {
 // }
 
 // Get a course
-export function useCourse(id: any) {
-  const query = useQuery(["course"], () => getCourse(id));
-  return query;
-}
+// export function useCourse(id: any) {
+//   const query = useQuery(["course"], () => getCourse(id));
+//   return query;
+// }

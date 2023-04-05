@@ -7,7 +7,11 @@ import { TiArrowBack } from "react-icons/ti";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { getCertificate, useCourse } from "../../../utils/api/courses";
+import {
+  getCertificate,
+  getCourse,
+  getCourses,
+} from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import Quiz from "./Quiz";
@@ -21,6 +25,8 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
 import { t, Trans } from "@lingui/macro";
 import { toast } from "react-toastify";
+import { useQuery } from "react-query";
+
 const ViewCourse = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -42,12 +48,36 @@ const ViewCourse = () => {
   const [bestScore, setBestScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
+  // const {
+  //   data: coursedata,
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  // } = useCourse(params.id);
+  // const queryKey = "getCourse";
+  // const {
+  //   data: coursedata,
+  //   isFetching,
+  //   error,
+  //   refetch,
+  // }: any = useQuery(queryKey, getCourse(params.id), {
+  //   refetchOnWindowFocus: true,
+  //   staleTime: 0,
+  //   cacheTime: 0,
+  //   refetchInterval: 0,
+  // });
+  const queryKey = "getCourse";
   const {
     data: coursedata,
-    isLoading,
-    isError,
+    isFetching,
+    error,
     refetch,
-  } = useCourse(params.id);
+  }: any = useQuery([queryKey, params.id], () => getCourse(params.id), {
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+    cacheTime: 0,
+    refetchInterval: 0,
+  });
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
 
@@ -114,16 +144,16 @@ const ViewCourse = () => {
   };
 
   const viewCertificate = async () => {
-    setLoadingCertificate(true)
+    setLoadingCertificate(true);
     try {
       let response = await getCertificate(params.id);
       if (response.success) {
         setPdfData(response.data.certificate.certificate_url);
         changedDisplayContent("certificate");
-        setLoadingCertificate(false)
+        setLoadingCertificate(false);
       }
     } catch (error: any) {
-      setLoadingCertificate(false)
+      setLoadingCertificate(false);
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
@@ -133,11 +163,11 @@ const ViewCourse = () => {
   };
   return (
     <section className="viewcourse">
-      {isLoading ? (
+      {isFetching ? (
         <div className="viewcourse__spinner">
           <Spinner width="60px" height="60px" color="#009985" />
         </div>
-      ) : isError ? (
+      ) : error ? (
         <div className="viewcourse__error">
           <ErrorFallBack
             message="Something went wrong!"
@@ -190,11 +220,11 @@ const ViewCourse = () => {
                 }}
                 className="viewcourse-container__header__btn"
               >
-               {isLoadingCertificate ? (
-              <Spinner width="30px" height="30px" color="#fff" />
-            ) : (
-              t`View Certificate`
-            )}
+                {isLoadingCertificate ? (
+                  <Spinner width="30px" height="30px" color="#fff" />
+                ) : (
+                  t`View Certificate`
+                )}
               </button>
               {!isCourseContent && (
                 <button

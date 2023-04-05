@@ -3,7 +3,7 @@ import logo from "../../images/oscsalogo.jpg";
 import Github from "../../images/github-image.png";
 import LinkedIn from "../../images/linkedin.png";
 import Twitter from "../../images/twitter.png";
-import Facebook from "../../images/facebook.png";
+import Zenodo from "../../images/zenodo.png";
 import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
@@ -25,10 +25,10 @@ const index=()=> {
             <h3 className="heading aligned">
               <Trans>Quick Links</Trans>
             </h3>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="/login">
               <Trans>Courses</Trans>
             </Link>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="https://oscsa-en-blog.netlify.app/">
               <Trans>Blog</Trans>
             </Link>
             <Link className="nav-link" to="">
@@ -40,14 +40,14 @@ const index=()=> {
           </div>
           <div className="footer__content-communities">
             <h3 className="heading aligned">  <Trans>Communities</Trans></h3>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="https://osc-ksa.com/">
               <Trans>OSCSA</Trans>
             </Link>
             <Link className="nav-link" to="">
-              <Trans>Turing Way</Trans>{" "}
+              <Trans>Partnership </Trans>
             </Link>
             <Link className="nav-link" to="">
-              <Trans>Partnership </Trans>
+              <Trans>Documentation </Trans>
             </Link>
           </div>
           <div className="footer__content-sociallinks">
@@ -55,25 +55,25 @@ const index=()=> {
               {" "}
               <Trans>Follow Us</Trans>
             </h3>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="https://twitter.com/OpenSciSaudi">
               <img className="nav-link__image" src={Twitter} alt="twitter" />
             </Link>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/">
               <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
             </Link>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="https://github.com/Open-Science-Community-Saudi-Arabia">
               <img className="nav-link__image" src={Github} alt="github" />
             </Link>
-            <Link className="nav-link" to="">
-              <img className="nav-link__image" src={Facebook} alt="facebook" />
-            </Link>
+            {/* <Link className="nav-link" to="">
+              <img className="nav-link__image" src={Zenodo} alt="facebook" />
+            </Link> */}
           </div>
           <div className="footer__content-info">
             <h3 className="heading ">
               {" "}
               <Trans>Contact Info</Trans>
             </h3>
-            <Link className="nav-link" to="">
+            <Link className="nav-link" to="mailto: admin@openscisaudi.com">
               {" "}
               admin@openscisaudi.com
             </Link>

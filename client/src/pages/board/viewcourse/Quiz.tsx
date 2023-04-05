@@ -35,10 +35,8 @@ const Quiz = ({
   reset,
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>();
 
   const onChangeValue = (id: string, event: any, index: number) => {
-    setSelectedIndex(index);
     if (exerciseData) {
       if (quizIndex + 1 === exerciseData?.questions.length) {
         changedViewSubmit(true);
@@ -60,8 +58,9 @@ const Quiz = ({
           changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
           changedOverAllScore(response.data.report.course_progress);
-          // () => reset();
+          
         }
+     
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {
@@ -88,8 +87,8 @@ const Quiz = ({
         {exerciseData?.questions?.map((content: Questions, index: number) => {
           return (
             quizIndex === index && (
-              <>
-                <div key={content._id} className="quiz-section__content">
+              <div key={content._id}>
+                <div className="quiz-section__content">
                   <div className="quiz-section__content-question">
                     <p>
                       {" "}
@@ -136,7 +135,7 @@ const Quiz = ({
                     )}
                   </button>
                 )}
-              </>
+              </div>
             )
           );
         })}

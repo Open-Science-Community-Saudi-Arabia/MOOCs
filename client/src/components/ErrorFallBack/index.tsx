@@ -8,7 +8,7 @@ interface ErrorFallback {
 
 const index = (props: ErrorFallback) => {
   const { message, description, reset } = props;
-
+  
   return (
     <div className="errorfallback">
       <div className="errorfallback__top">
