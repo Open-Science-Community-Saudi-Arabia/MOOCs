@@ -18,6 +18,8 @@ const { BadRequestError, NotFoundError } = require('../utils/errors');
 exports.getDownloadableResources = async (req, res, next) => {
     const { textmaterial_id, video_id, course_id } = req.query;
 
+    console.log(req.query)
+
     let downloadable_resources;
 
     // Check if textmaterial_id is provided
