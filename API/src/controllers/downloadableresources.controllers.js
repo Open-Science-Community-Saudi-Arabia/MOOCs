@@ -1,4 +1,4 @@
-const { DownloadableResource } = require('../models/course.models');
+const { DownloadableResource, TextMaterial, Video, Course } = require('../models/course.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 const fs = require('fs');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
@@ -22,14 +22,20 @@ exports.getDownloadableResources = async (req, res, next) => {
 
     // Check if textmaterial_id is provided
     if (textmaterial_id && textmaterial_id != null && textmaterial_id != undefined) {
+        const text_material = await TextMaterial.findById(textmaterial_id);
+        if (!text_material) { return next(new NotFoundError('Text material not found')); }
         downloadable_resources = await DownloadableResource.find({ textmaterial: textmaterial_id });
     }
 
     if (course_id && course_id != null && course_id != undefined) {
+        const course = await Course.findById(course_id);
+        if (!course) { return next(new NotFoundError('Course not found')); }
         downloadable_resources = await DownloadableResource.find({ video: video_id });
     }
 
     if (video_id && video_id != null && video_id != undefined) {
+        const video = await Video.findById(video_id);
+        if (!video) { return next(new NotFoundError('Video not found')); }
         downloadable_resources = await DownloadableResource.find({ video: video_id });
     }
 
