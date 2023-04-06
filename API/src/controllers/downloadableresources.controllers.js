@@ -162,28 +162,28 @@ exports.updateDownloadableResource = async (req, res, next) => {
  */
 exports.uploadDownloadableResource = async (req, res, next) => {
     const { title, description, course_id, resource_type, video_id, text_material_id } = req.body;
-
+    console.log(req.body)
     let video, textmaterial;
     if (video_id) {
         video = await Video.findById(video_id);
         if (!video) {
             return next(new NotFoundError('Video not found'));
         }
-    }
-
-    if (text_material_id) {
+    } else if (text_material_id) {
         textmaterial = await TextMaterial.findById(text_material_id);
         if (!textmaterial) {
             return next(new NotFoundError('Text material not found'));
         }
-    }
+    } else if (!course_id) { return next(new BadRequestError('Missing required params in request body')); }
+
+    console.log(textmaterial, video)
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id | textmaterial.course | video.course,
-        textmaterial: textmaterial._id,
-        video: video._id,
+        course: course_id || textmaterial?.course || video?.course,
+        textmaterial: textmaterial?._id,
+        video: video?._id,
         resource_type
     });
 
@@ -233,23 +233,23 @@ exports.createDownloadableResource = async (req, res, next) => {
         if (!video) {
             return next(new NotFoundError('Video not found'));
         }
-    }
-
-    if (text_material_id) {
+    } else if (text_material_id) {
         textmaterial = await TextMaterial.findById(text_material_id);
         if (!textmaterial) {
             return next(new NotFoundError('Text material not found'));
         }
-    }
+    } else if (!course_id) { return next(new BadRequestError('Missing required params in request body')); }
+
+    console.log(textmaterial, video)
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id | textmaterial.course | video.course,
-        textmaterial: textmaterial._id,
-        file_url,
-        video: video._id,
-        resource_type
+        course: course_id || textmaterial?.course || video?.course,
+        textmaterial: textmaterial?._id,
+        video: video?._id,
+        resource_type,
+        file_url
     });
 
     downloadable_resource = await downloadable_resource.save();
