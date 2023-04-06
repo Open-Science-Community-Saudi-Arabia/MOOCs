@@ -131,14 +131,16 @@ exports.getTextMaterialData = async (req, res, next) => {
         return next(new BadRequestError("Missing param `id` in request params"));
     }
 
-    const text_material = await TextMaterial.findById(text_material_id).populate({
-        path: "course_section",
-        select: "title description _id",
-        populate: {
-            path: "course",
+    const text_material = await TextMaterial.findById(text_material_id).populate(
+        [{
+            path: "course_section",
             select: "title description _id",
+            populate: {
+                path: "course",
+                select: "title description _id",
+            },
         },
-    });
+        { path: "downloadable_resources" }]);
 
     if (!text_material) {
         return next(new NotFoundError("Text material not found"));
