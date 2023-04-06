@@ -257,6 +257,11 @@ const videoSchema = new Schema({
     order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
+videoSchema.virtual('downloadable_resources', {
+    localField: '_id',
+    foreignField: 'video',
+    ref: 'DownloadableResource'
+})
 
 /**
  * @type {textmaterialSchema}
@@ -277,6 +282,11 @@ const textmaterialSchema = new Schema({
     order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
+textmaterialSchema.virtual('downloadable_resources', {
+    localField: '_id',
+    foreignField: 'textmaterial',
+    ref: 'DownloadableResource'
+})
 
 /**
  * @type {downloadableResourceSchema}
@@ -286,7 +296,7 @@ const downloadableResourceSchema = new Schema({
     title: { type: String, required: true },
     file_url: { type: String, required: true },
     description: { type: String, required: true },
-    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true},
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     video: { type: Schema.Types.ObjectId, ref: 'Video' },
     textmaterial: { type: Schema.Types.ObjectId, ref: 'TextMaterial' },
     order: { type: Number, default: Date.now() },
