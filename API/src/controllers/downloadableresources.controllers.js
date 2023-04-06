@@ -161,12 +161,29 @@ exports.updateDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The uploaded resource
  */
 exports.uploadDownloadableResource = async (req, res, next) => {
-    const { title, description, course_id, resource_type } = req.body;
+    const { title, description, course_id, resource_type, video_id, text_material_id } = req.body;
+
+    let video, textmaterial;
+    if (video_id) {
+        video = await Video.findById(video_id);
+        if (!video) {
+            return next(new NotFoundError('Video not found'));
+        }
+    }
+
+    if (text_material_id) {
+        textmaterial = await TextMaterial.findById(text_material_id);
+        if (!textmaterial) {
+            return next(new NotFoundError('Text material not found'));
+        }
+    }
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id,
+        course: course_id | textmaterial.course | video.course,
+        textmaterial: textmaterial._id,
+        video: video._id,
         resource_type
     });
 
@@ -208,13 +225,30 @@ exports.uploadDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The created resource
  */
 exports.createDownloadableResource = async (req, res, next) => {
-    const { title, description, file_url, course_id, resource_type } = req.body;
+    const { title, description, file_url, course_id, video_id, text_material_id, resource_type } = req.body;
+
+    let video, textmaterial;
+    if (video_id) {
+        video = await Video.findById(video_id);
+        if (!video) {
+            return next(new NotFoundError('Video not found'));
+        }
+    }
+
+    if (text_material_id) {
+        textmaterial = await TextMaterial.findById(text_material_id);
+        if (!textmaterial) {
+            return next(new NotFoundError('Text material not found'));
+        }
+    }
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id,
+        course: course_id | textmaterial.course | video.course,
+        textmaterial: textmaterial._id,
         file_url,
+        video: video._id,
         resource_type
     });
 
