@@ -59,7 +59,7 @@ router
 router
     .post('/downloadableresource/new', permit("Admin SuperAdmin"), createDownloadableResource)
     .post('/downloadableresource/upload', permit("Admin SuperAdmin"), upload.single('file'), uploadDownloadableResource)
-    .get('/downloadableresource/:courseId', permit("Admin EndUser SuperAdmin"), getDownloadableResources)
+    .get('/downloadableresource/', permit("Admin EndUser SuperAdmin"), getDownloadableResources)
     .get('/downloadableresource/get-data/:id', permit("Admin EndUser SuperAdmin"), getDownloadableResourceData)
     .patch('/downloadableresource/update/:id', permit("Admin SuperAdmin"), updateDownloadableResource)
     .delete('/downloadableresource/delete/:id', permit("Admin SuperAdmin"), deleteDownloadableResource)

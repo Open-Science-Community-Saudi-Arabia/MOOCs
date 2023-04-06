@@ -16,14 +16,22 @@ const { BadRequestError, NotFoundError } = require('../utils/errors');
  * @returns {Object} - The downloadable resources
  */
 exports.getDownloadableResources = async (req, res, next) => {
-    const { courseId } = req.params;
+    const { textmaterial_id, video_id, course_id } = req.query;
 
-    // Check if id is provided
-    if (!courseId || courseId == null || courseId == undefined) {
-        return next(new BadRequestError('Course id is required'));
+    let downloadable_resources;
+
+    // Check if textmaterial_id is provided
+    if (textmaterial_id && textmaterial_id != null && textmaterial_id != undefined) {
+        downloadable_resources = await DownloadableResource.find({ textmaterial: textmaterial_id });
     }
 
-    const downloadable_resources = await DownloadableResource.find({ course: courseId });
+    if (course_id && course_id != null && course_id != undefined) {
+        downloadable_resources = await DownloadableResource.find({ video: video_id });
+    }
+
+    if (video_id && video_id != null && video_id != undefined) {
+        downloadable_resources = await DownloadableResource.find({ video: video_id });
+    }
 
     res.status(200).json({
         status: 'success',
