@@ -141,11 +141,15 @@ export const Supporter = [
   // },
 ];
 
-export const Videocontent = {
+const data = {
   author: "Batoool",
+  description: "This course is an introduction to open source",
+  _id: "6411dbb7d07a77d6c06a44f3",
+  preview_image:
+    "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891933/courses/preview_images/course_preview_6411dbb7d07a77d6c06a44f3.jpg",
+  title: "Introduction to open source",
   course_sections: [
     {
-      contents: [],
       _id: "6411dbc4d07a77d6c06a44f7",
       order: 1678891273798,
       title: "Python Syntax",
@@ -154,14 +158,7 @@ export const Videocontent = {
           title: "Introduction to Python Quiz",
           _id: "6411dbced07a77d6c06a44fc",
           order: 1678891273796,
-          isCompleted: false,
           questions: [
-            {
-              correct_option: "blue",
-              _id: "6411dbd8d07a77d6c06a4506",
-              options: ["colorless", "blue", "pink", "purple"],
-              question: "What is the color of the sky",
-            },
             {
               correct_option: "two",
               _id: "6411dbd8d07a77d6c06a4899",
@@ -208,94 +205,5 @@ export const Videocontent = {
         },
       ],
     },
-    {
-      contents: [],
-      _id: "6411dbc4d07a77d6c0634522",
-      order: 1678891273798,
-      title: "Learning Javascript",
-
-      exercises: [
-        {
-          title: "Introduction to CSS Quiz",
-          _id: "6411dbced07a77d6c0656a4f",
-          order: 1678891273796,
-          isCompleted: false,
-          questions: [
-            {
-              correct_option: "CSS",
-              _id: "6411dbd8d07a77d6c0645677",
-              options: ["Javascript", "HTML", "CSS", "Next"],
-              question: "What is the Your best color",
-            },
-            {
-              correct_option: "Dog",
-              _id: "6411dbd8d07a77d6c2098cc7",
-              options: ["What", "Dog", "do ", "you"],
-              question: "What animal do you know",
-            },
-            {
-              correct_option: "American Dreams",
-              _id: "6411dbd8d07a77d6c20990hh",
-              options: ["American Dreams", "Dog", "do ", "you"],
-              question: "What animal do you know",
-            },
-            {
-              correct_option: "feathers",
-              _id: "6411dbd8d07a77d6c2098okjh",
-              options: ["feathers", "Chicken", "do ", "you"],
-              question: "I have no questions",
-            },
-          ],
-        },
-      ],
-      textmaterials: [
-        {
-          description: "Next js content",
-          file_url:
-            "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891984/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dbc4d07a77d6c06a44f7/textmaterial_6411dbebd07a77d6c06a4519_RICHIE%20MOLUNO%20___%20RESUME%20%283%29.pdf.pdf",
-          _id: "6411dbebd06787d6c06a4123",
-          isAvailable: true,
-          order: 1678891783798,
-          title: "Nextjs ",
-          type: "text file",
-        },
-        {
-          description: "Text content",
-          file_url:
-            "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891984/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dbc4d07a77d6c06a44f7/textmaterial_6411dbebd07a77d6c06a4519_RICHIE%20MOLUNO%20___%20RESUME%20%283%29.pdf.pdf",
-          _id: "6411dbebd06787d6c06a4php",
-          isAvailable: true,
-          order: 1678891783798,
-          title: "PHP",
-          type: "text file",
-        },
-      ],
-      videos: [
-        {
-          description: "Introduction to Javscript",
-          duration: "5",
-          _id: "6411dbf5d07a77c06a3422",
-          order: 1678891273797,
-          title: "Introduction to Javscript",
-          type: "video",
-          video_url: "https://www.youtube.com/embed/DYWyQ1xFQSI",
-        },
-        {
-          description: "Introduction to Ruby",
-          duration: "4",
-          _id: "6411dbf5d07a77d6c123456",
-          order: 1678891273797,
-          title: "Introduction to Ruby and rails",
-          type: "video",
-          video_url: "https://www.youtube.com/embed/Hapv5VgU47Y",
-        },
-      ],
-    },
   ],
-  description: "This course is an introduction to open source",
-  enrolled_users: [],
-  _id: "6411dbb7d07a77d6c06a44f3",
-  preview_image:
-    "https://res.cloudinary.com/dipyrsqvy/image/upload/v1678891933/courses/preview_images/course_preview_6411dbb7d07a77d6c06a44f3.jpg",
-  title: "Introduction to open source",
 };

@@ -7,7 +7,7 @@ import Zenodo from "../../images/zenodo.png";
 import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
-const index=()=> {
+const index = () => {
   return (
     <section className="footer-container">
       <div className="footer">
@@ -39,14 +39,20 @@ const index=()=> {
             </Link>
           </div>
           <div className="footer__content-communities">
-            <h3 className="heading aligned">  <Trans>Communities</Trans></h3>
+            <h3 className="heading aligned">
+              {" "}
+              <Trans>Communities</Trans>
+            </h3>
             <Link className="nav-link" to="https://osc-ksa.com/">
               <Trans>OSCSA</Trans>
             </Link>
             <Link className="nav-link" to="">
               <Trans>Partnership </Trans>
             </Link>
-            <Link className="nav-link" to="">
+            <Link
+              className="nav-link"
+              to="https://moocs-documentation.netlify.app/"
+            >
               <Trans>Documentation </Trans>
             </Link>
           </div>
@@ -58,15 +64,18 @@ const index=()=> {
             <Link className="nav-link" to="https://twitter.com/OpenSciSaudi">
               <img className="nav-link__image" src={Twitter} alt="twitter" />
             </Link>
-            <Link className="nav-link" to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/">
+            <Link
+              className="nav-link"
+              to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/"
+            >
               <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
             </Link>
-            <Link className="nav-link" to="https://github.com/Open-Science-Community-Saudi-Arabia">
+            <Link
+              className="nav-link"
+              to="https://github.com/Open-Science-Community-Saudi-Arabia"
+            >
               <img className="nav-link__image" src={Github} alt="github" />
             </Link>
-            {/* <Link className="nav-link" to="">
-              <img className="nav-link__image" src={Zenodo} alt="facebook" />
-            </Link> */}
           </div>
           <div className="footer__content-info">
             <h3 className="heading ">
@@ -85,5 +94,5 @@ const index=()=> {
       </p>
     </section>
   );
-}
-export default index
+};
+export default index;
