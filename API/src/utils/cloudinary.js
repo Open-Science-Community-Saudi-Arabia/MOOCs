@@ -1,3 +1,16 @@
+/**
+ * @fileoverview Cloudinary utils
+ * 
+ * @category Backend API
+ * @subcategory Utilities
+ * 
+ * @module Cloudinary Utilities
+ * 
+ * @description This module contains functions for uploading files to cloudinary
+ * 
+ * @requires cloudinary
+ */
+
 const cloudinary = require('cloudinary').v2
 const config = require('./config')
 
@@ -18,7 +31,6 @@ cloudinary.config({
  * @returns file url
  * 
  * @throws {Error} if invalid file 
- * 
  */
 async function uploadToCloudinary(file) {
     const { path, file_name, destination_path } = file;

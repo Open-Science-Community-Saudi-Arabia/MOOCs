@@ -4,5 +4,8 @@
     },
     "environment_setup": {
         "title": "Environment Setup"
+    },
+    "contributing": {
+        "title": "Contributing"
     }
 }
