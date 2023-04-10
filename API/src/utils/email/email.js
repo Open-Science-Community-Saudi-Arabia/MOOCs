@@ -2,7 +2,8 @@ const nodemailer = require('nodemailer')
 const config = require('../config')
 const {
     password_reset_template,
-    email_verification_template } = require('./templates')
+    email_verification_template,
+    email_verification_template_ar } = require('./templates')
 
 // 3. Send email to user
 const sendEmail = async (options) => {
@@ -46,6 +47,10 @@ class EmailMessage {
 
     emailVerification(verification_link, name) {
         return email_verification_template(verification_link, name)
+    }
+
+    emailVerificationAR(verification_link, name) {
+        return email_verification_template_ar(verification_link, name)
     }
 }
 
