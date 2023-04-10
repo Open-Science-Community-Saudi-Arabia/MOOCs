@@ -104,8 +104,11 @@
         background-color: var(--gray-100);
         border-radius: 20px;
         margin-bottom: 1rem;
+        height:100px;
         &-icon {
           width: 60px;
+          height:60px;
+          object-fit: contain;
         }
       }
       &__name {
@@ -158,7 +161,7 @@
       text-align: center;
       &__icon-img {
         width: 80px;
-        height: 100px;
+        height: 50px;
         object-fit: contain;
         @include ipad {
           width: 120px;
@@ -335,7 +338,14 @@
       text-align: center;
       color: var(--white);
       @include meduim-screen {
-        font-size: 30px;
+        font-size: 32px;
+      }
+    }
+    &-subtitle{
+      color: var(--white);
+      font-size: 16px;
+      @include ipad {
+        font-size: 20px;
       }
     }
     &-link {

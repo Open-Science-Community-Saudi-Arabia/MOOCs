@@ -49,7 +49,11 @@ export default App;
 
 // Todo
 // install elint husky and pretty
-// Run  for performances and accesibility checks
+// Run for performances and accesibility checks
 // review the auth provider // learn what is happing in the context
-// work on the language toggler, check by removing the function
 // work on the types- request and response
+// look at the naming patterns: ensure every variable an component name clearing states it's purpose
+// make a separate page for sucess sign/ check email for verification
+// Email verification shows false
+// Tell richie to set differnt response status for Token expired in verifyEmail to prevent redirecting to login...Verification link expired
+// Work on the font for the arabic

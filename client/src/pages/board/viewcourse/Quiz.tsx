@@ -17,7 +17,7 @@ interface IProps {
   setSubmission: Dispatch<SetStateAction<{}>>;
   viewSubmit: boolean;
   submission: object;
-  // refetch:()=> void
+  reset: () => void;
 }
 
 const Quiz = ({
@@ -32,13 +32,11 @@ const Quiz = ({
   viewSubmit,
   submission,
   changedOverAllScore,
-}: // refetch
-IProps) => {
+  reset,
+}: IProps) => {
   const [isLoading, setLoading] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number>();
 
   const onChangeValue = (id: string, event: any, index: number) => {
-    setSelectedIndex(index);
     if (exerciseData) {
       if (quizIndex + 1 === exerciseData?.questions.length) {
         changedViewSubmit(true);
@@ -56,13 +54,13 @@ IProps) => {
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
         if (response) {
-          console.log(response.data);
           changedCurrentScore(response.data.report.percentage_passed);
           changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
           changedOverAllScore(response.data.report.course_progress);
+          
         }
-        // refetch()
+     
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {
@@ -77,23 +75,25 @@ IProps) => {
     <section className="quiz-section">
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
-         <Trans> Quiz:</Trans>{exerciseData?.title}
+          <Trans> Quiz:</Trans>
+          {exerciseData?.title}
         </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
-        <Trans>  Pick the right option.</Trans>
+          <Trans> Pick the right option.</Trans>
         </p>
       </div>
       <div className="quiz-section__container">
         {exerciseData?.questions?.map((content: Questions, index: number) => {
           return (
             quizIndex === index && (
-              <>
-                <div key={content._id} className="quiz-section__content">
+              <div key={content._id}>
+                <div className="quiz-section__content">
                   <div className="quiz-section__content-question">
                     <p>
                       {" "}
-                    <Trans>  Question</Trans> {index + 1} of {exerciseData?.questions.length}:{" "}
+                      <Trans> Question</Trans> {index + 1} of{" "}
+                      {exerciseData?.questions.length}:{" "}
                     </p>
                     {content.question}?
                   </div>
@@ -135,7 +135,7 @@ IProps) => {
                     )}
                   </button>
                 )}
-              </>
+              </div>
             )
           );
         })}
@@ -147,3 +147,5 @@ export default Quiz;
 
 // quiz heading should indication title e.g section one quiz exercise
 // check for excessive network calls
+
+// use Tool tip on the certificate to mention that 80%IS NEDDED

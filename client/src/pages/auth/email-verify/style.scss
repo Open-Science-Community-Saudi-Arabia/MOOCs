@@ -4,7 +4,7 @@
   &__content {
     text-align: center;
     &__icon {
-      border: 3px solid green;
+      // border: 3px solid green;
       height: 100px;
       width: 100px;
       margin: auto;
@@ -12,7 +12,7 @@
       @include flex(center, center);
       svg {
         font-size: 60px;
-        fill: green;
+        fill: var(--green);
         opacity: 60%;
       }
     }
@@ -36,7 +36,18 @@
   }
   &__invalid{
     color:var(--error);
-    font-size:18px;
+    font-size:25px;
     font-weight: 700;
+    text-align:center;
+  }
+  &__subtitle{
+    margin:2em;
+    text-align:center;
+    font-weight: 700;
+    font-size:14px;
+    a{
+      text-decoration: underline;
+      color:var(--green)
+    }
   }
 }

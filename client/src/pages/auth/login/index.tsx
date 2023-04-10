@@ -13,6 +13,16 @@ import { setToken } from "../../../utils";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { Trans, t } from "@lingui/macro";
 
+/**
+ * @category Client App
+ * @subcategory Pages
+ * @module Login
+ * @description Users login with email and password, including Google signup option.
+ * @component
+ * @example
+   <Route path="/login" element={<Login />} />
+ */
+
 const Login = () => {
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isError, setError] = useState(false);

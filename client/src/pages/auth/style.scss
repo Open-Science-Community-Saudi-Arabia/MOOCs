@@ -140,7 +140,43 @@
     }
   }
 }
-
+.verificationLink {
+  text-align: center;
+  &__img {
+    width: 300px;
+    margin: auto;
+    @include ipad {
+      width:400px
+    }
+  }
+  &__content {
+    text-align: center;
+    &__title {
+      font-weight: bold;
+      font-size: 18px;
+      @include ipad {
+        font-size: 26px;
+      }
+    }
+    &__desc {
+      font-size: 14px;
+      margin: 10px 0;
+      @include ipad {
+        font-size: 17px;
+      }
+      &-link{
+        
+        font-weight: 600;
+        color: var(--green);
+      }
+    }
+    &__checkmail{
+      margin-top: 2em;
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+}
 html[dir="rtl"] {
   .eye-icon {
     right: unset;
