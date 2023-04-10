@@ -9,6 +9,7 @@ const email_verification_template = (verification_link, name) => {
         <meta name="description" content="Reset Password Email Template.">
         <style type="text/css">
             a:hover {text-decoration: underline !important;}
+            .contain { display: flex; flex-direction: column; justify-content: center; align-items: center; }
         </style>
     </head>
     
@@ -41,16 +42,24 @@ const email_verification_template = (verification_link, name) => {
                                         <td style="height:40px;">&nbsp;</td>
                                     </tr>
                                     <tr>
+                                        
                                         <td style="padding:0 35px;">
-                                            <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Email verification for ${name}</h1>
-                                            <span
-                                                style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                            <p style="color:#455056; font-size:20px;line-height:24px; margin:0;">
-                                                Hi ${name}, Welcome to the Open Innovation platform! To proceed further, could you please verify your email by clicking the link below
-                                            </p>
-                                            <a href=${verification_link}
-                                                style="background:#009985;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                                Verify email</a>
+                                            <div class="contain">
+                                                <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Email verification for ${name}</h1>
+                                            </div>
+
+                                            <div class="contain">
+                                                <span
+                                                    style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                                                <p style="color:#455056; font-size:20px;line-height:24px; margin:0;">
+                                                    Hi ${name}, Welcome to the Open Innovation platform! To proceed further, could you please verify your email by clicking the link below
+                                                </p>
+                                            </div>
+                                            <div class="contain">
+                                                <a href=${verification_link}
+                                                    style="background:#009985;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                                    Verify email</a>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
