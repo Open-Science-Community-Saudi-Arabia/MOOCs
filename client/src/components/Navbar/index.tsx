@@ -10,7 +10,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import LanguageToggle from "../LanguageToggle";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Navbar
  * @description This module contains the components in the frontend,

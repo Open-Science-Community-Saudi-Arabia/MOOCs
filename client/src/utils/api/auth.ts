@@ -8,8 +8,8 @@ import {
 } from "../../types";
 
 /**
- * @category Frontend
- * @subcategory Endpoint
+ * @category Client App
+ * @subcategory Utilities
  * @module Auth
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset,
  */

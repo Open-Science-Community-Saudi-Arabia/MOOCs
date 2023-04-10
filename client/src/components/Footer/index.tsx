@@ -8,7 +8,7 @@ import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Footer
  * @description The footer component,

@@ -9,7 +9,7 @@ import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module Home
  * @description The landing Page.

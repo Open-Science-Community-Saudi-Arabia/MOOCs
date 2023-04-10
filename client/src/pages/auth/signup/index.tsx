@@ -14,7 +14,7 @@ import VerificationLink from "../verification-link";
 
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module Signup
  * @description Users sign up with name,email and password, including Google signup option.

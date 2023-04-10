@@ -9,7 +9,7 @@ interface ErrorFallbackProps {
 }
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Error
  * @description The Error modal pops up when there is an error fetching courses.

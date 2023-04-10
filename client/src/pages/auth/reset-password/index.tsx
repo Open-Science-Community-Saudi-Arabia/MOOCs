@@ -10,7 +10,7 @@ import { Trans, t } from "@lingui/macro";
 import LanguageToggle from "../../../components/LanguageToggle";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module ForgotPassword
  * @description Users can reset password from link sent to email .

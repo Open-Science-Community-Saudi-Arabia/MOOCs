@@ -1,13 +1,11 @@
 import makeApiCall from ".";
-import { useQuery } from "react-query";
 
 /**
- * @category Frontend
- * @subcategory Endpoint
+ * @category Client App
+ * @subcategory Utilities
  * @module Courses
  * @description This module contains the controllers for handling course content,
  */
-
 
 /**
  * @description Get all Available  Courses

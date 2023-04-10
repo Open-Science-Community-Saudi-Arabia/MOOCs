@@ -1,15 +1,15 @@
 import { Link, Outlet } from "react-router-dom";
 import "./style.scss";
 
-const index = () => {
-  /**
-   * @category Frontend
+ /**
+   * @category Client App
    * @subcategory Component
    * @module Layout
    * @description The layout component wraps the Auth pages using react-router-outlet.
    * @component
-
    */
+const index = () => {
+ 
   return (
     <section className="layout">
       <div className="layout__content-left">

@@ -8,7 +8,7 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import verificationImage from "../../../images/verification-email-sent.jpg";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module VerifyEmail
  * @description Verification link.

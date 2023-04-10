@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { getCourses } from "../../../utils/api/courses";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module Dashboard
  * @description To view all available course content.

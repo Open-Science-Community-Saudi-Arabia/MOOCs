@@ -29,7 +29,7 @@ import { useQuery } from "react-query";
 
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module ViewCourse
  * @description To view individual course content.

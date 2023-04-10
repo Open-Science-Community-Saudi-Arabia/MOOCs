@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_API_BASEURL;
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Hooks
  * @module useFetch
  * @description The hooks handles google sign up and login click events.

@@ -16,7 +16,7 @@ interface IProgressBarProps {
 }
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Progress
  * @description The component handles circular and horizontal progress bar,

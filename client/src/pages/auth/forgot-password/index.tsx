@@ -10,7 +10,7 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { t, Trans } from "@lingui/macro";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Pages
  * @module ForgotPassword
  * @description Users can retrieve forgotten password using their email .

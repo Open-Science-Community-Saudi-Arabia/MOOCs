@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Hooks
  * @module useMediaQuery
  * @description The hooks responds to screen size changes.

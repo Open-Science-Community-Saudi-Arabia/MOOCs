@@ -10,7 +10,7 @@ interface IProps {
 }
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module LanguageToggler
  * @description The component displays and toggles the language selection menu,

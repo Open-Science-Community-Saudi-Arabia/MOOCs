@@ -7,7 +7,7 @@ interface ISpinnerProps {
 }
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Spinner
  * @description This module contains the components in the frontend,

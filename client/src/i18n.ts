@@ -3,7 +3,7 @@ import { en, ar } from "make-plural/plurals";
 import { Locale } from "./types";
 
 /**
- * @category Frontend
+ * @category Client App
  * @subcategory Component
  * @module Translation
  * @description Translate content to selected language.

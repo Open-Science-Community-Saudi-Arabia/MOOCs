@@ -2,12 +2,11 @@ import axios from 'axios'
 import { TOKEN_KEY } from './constants'
 
 /**
- * @category Frontend
- * @subcategory TokenHandler
+ * @category Client App
+ * @subcategory Utilities
  * @module Token
  * @description This module contains token functions,
  */
-
 
 /**
 * @description Get user token from local storage
