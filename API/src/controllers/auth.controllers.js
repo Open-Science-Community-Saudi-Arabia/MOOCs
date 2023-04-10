@@ -127,7 +127,7 @@ const handleUnverifiedUser = function (user) {
         await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
-            html: message.emailVerification(verification_url, user.firstname)
+            html: message.emailVerification(user.firstname, verification_url)
         });
     }
 };
@@ -786,7 +786,7 @@ exports.forgetPassword = async (req, res, next) => {
     sendEmail({
         email: current_user.email,
         subject: 'Password reset for user',
-        html: message.passwordReset(password_reset_code, current_user.firstname)
+        html: message.passwordReset(current_user.firstname, password_reset_code)
     })
 
     //  Get access token
