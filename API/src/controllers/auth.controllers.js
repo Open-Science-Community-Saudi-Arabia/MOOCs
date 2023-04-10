@@ -123,14 +123,11 @@ const handleUnverifiedUser = function (user) {
         //console.log(verification_url)
 
         // Send verification email
-        const message = new EmailMessage()
-        req.lang = 'ar'
+        const message = new EmailMessage('ar')
         await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
-            html: req.query.lang == 'ar'
-                ? message.emailVerificationAR(user.firstname, verification_url)
-                : message.emailVerification(user.firstname, verification_url),
+            html: message.emailVerification(user.firstname, verification_url),
         });
     }
 };
