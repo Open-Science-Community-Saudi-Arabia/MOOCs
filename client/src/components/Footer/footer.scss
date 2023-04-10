@@ -80,10 +80,14 @@
   }
   &__copyright {
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--gray);
     padding-bottom: 2rem;
+    span{
+      margin-left: 0.5em;
+      font-size: 13px;
+    }
   }
 }
 
