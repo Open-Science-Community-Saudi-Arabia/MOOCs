@@ -786,7 +786,7 @@ exports.forgetPassword = async (req, res, next) => {
     sendEmail({
         email: current_user.email,
         subject: 'Password reset for user',
-        html: message.passwordReset(password_reset_code, current_user.firstname)
+        html: message.passwordReset(current_user.firstname, password_reset_code)
     })
 
     //  Get access token
