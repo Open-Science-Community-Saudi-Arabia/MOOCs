@@ -11,6 +11,18 @@ import { FcGoogle } from "react-icons/fc";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { t, Trans } from "@lingui/macro";
 
+
+/**
+ * @category Frontend
+ * @subcategory Pages
+ * @module Signup
+ * @description Users sign up with name,email and password, including Google signup option.
+ * @component
+ * @example
+ <Route path="/signup" element={<Signup />} />
+ */
+
+
 const Signup = () => {
   const [checkpassword, setCheckPassword] = useState(false);
   const [toggleVisibility, setToggleVisibility] = useState(false);

@@ -6,6 +6,16 @@ import { GiCheckMark } from "react-icons/gi";
 import { Trans} from "@lingui/macro";
 import LanguageToggle from "../../../components/LanguageToggle";
 
+/**
+ * @category Frontend
+ * @subcategory Pages
+ * @module VerifyEmail
+ * @description Verification link.
+ * @component
+ * @example
+   <Route path="/api/v1/auth/verifyemail/:access_token" element={<EmailVerify />} />
+ */
+
 const EmailVerify = () => {
   const [isValidUrl, setValidUrl] = useState(false);
   const [error, setError] = useState(false);

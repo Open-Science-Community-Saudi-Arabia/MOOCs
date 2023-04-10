@@ -9,6 +9,7 @@ import { t, Trans } from "@lingui/macro";
 import LanguageToggle from "../../../../components/LanguageToggle";
 import { logout } from "../../../../context";
 
+
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);

@@ -7,6 +7,16 @@ import Facebook from "../../images/facebook.png";
 import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
+/**
+ * @category Frontend
+ * @subcategory Component
+ * @module Footer
+ * @description The footer component,
+ * @component
+ * @example
+ *  <Footer />
+ */
+
 const index=()=> {
   return (
     <section className="footer-container">

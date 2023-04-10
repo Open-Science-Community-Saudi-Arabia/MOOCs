@@ -4,11 +4,20 @@ import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
-
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
 import useClickOutside from "../../hooks/useClickOutside";
 import LanguageToggle from "../LanguageToggle";
+
+/**
+ * @category Frontend
+ * @subcategory Component
+ * @module Navbar
+ * @description This module contains the components in the frontend,
+ * @component
+ * @example
+ *  <Navbar />
+ */
 
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -104,4 +113,5 @@ const index = () => {
     </>
   );
 };
+
 export default index;

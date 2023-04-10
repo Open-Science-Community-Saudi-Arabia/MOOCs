@@ -2,9 +2,10 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import useMediaQuery from "../../hooks/usemediaQuery";
 import "./style.scss";
+import PropTypes from "prop-types";
 
 interface ICircularBarProps {
- currentScore: number;
+  currentScore: number;
 }
 interface IProgressBarProps {
   bgcolor: string;
@@ -13,6 +14,21 @@ interface IProgressBarProps {
   width: number;
   overallScore?: boolean;
 }
+
+/**
+ * @category Frontend
+ * @subcategory Component
+ * @module Progress
+ * @description The component handles circular and horizontal progress bar,
+ */
+
+/**
+ *
+ * @component
+ * @example
+ *  <CircularProgressBar currentScore={currentScore} />
+ * @description CircularProgressBar
+ */
 const CircularProgressBar = ({ currentScore }: ICircularBarProps) => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
   return (
@@ -35,6 +51,13 @@ const CircularProgressBar = ({ currentScore }: ICircularBarProps) => {
   );
 };
 
+/**
+ *
+ * Horizontal ProgressBar
+ * @component
+ * @example
+ * <ProgressBar overallScore={true} width={150}  bgcolor="#6abd41" progress={Math.round(overAllScore)} height={35} />
+ */
 const ProgressBar = ({
   width,
   bgcolor,
@@ -73,6 +96,18 @@ const ProgressBar = ({
       </div>
     </div>
   );
+};
+
+ProgressBar.propTypes = {
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  bgcolor: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
+  overallScore: PropTypes.number.isRequired,
+};
+
+CircularProgressBar.propTypes = {
+  currentScore: PropTypes.number.isRequired,
 };
 
 export { CircularProgressBar, ProgressBar };

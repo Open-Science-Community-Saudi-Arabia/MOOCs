@@ -1,12 +1,24 @@
 import { t, Trans } from "@lingui/macro";
 import "./style.scss";
-interface ErrorFallback {
+import PropTypes from "prop-types";
+
+interface ErrorFallbackProps {
   message: string;
   description: string;
   reset: () => void;
 }
 
-const index = (props: ErrorFallback) => {
+/**
+ * @category Frontend
+ * @subcategory Component
+ * @module Error
+ * @description The Error modal pops up when there is an error fetching courses.
+ * @component
+ * @example
+ *  <ErrorFallBack message="Something went wrong!" description="We encountered an error while fetching courses" reset={reset} />
+ */
+
+const index = (props: ErrorFallbackProps) => {
   const { message, description, reset } = props;
 
   return (
@@ -24,4 +36,13 @@ const index = (props: ErrorFallback) => {
     </div>
   );
 };
+
+index.propTypes = {
+  message: PropTypes.string.isRequired,
+
+  description: PropTypes.string.isRequired,
+
+  reset: PropTypes.func.isRequired,
+};
+
 export default index;

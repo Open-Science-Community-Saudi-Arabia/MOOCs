@@ -21,6 +21,17 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
 import { Trans } from "@lingui/macro";
 
+
+/**
+ * @category Frontend
+ * @subcategory Pages
+ * @module ViewCourse
+ * @description To view individual course content.
+ * @component
+ * @example
+<Route path="course/:id" element={<ViewCourse />} />
+ */
+
 const ViewCourse = () => {
   const params = useParams();
   const navigate = useNavigate();

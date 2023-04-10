@@ -8,6 +8,16 @@ import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
+/**
+ * @category Frontend
+ * @subcategory Pages
+ * @module Home
+ * @description The landing Page.
+ * @component
+ * @example
+ * <Route path="/" element={<LandingPage />} />
+ */
+
 const Home = () => {
   return (
     <>
@@ -169,5 +179,7 @@ const Home = () => {
     </>
   );
 };
+
+
 
 export default Home;

@@ -9,6 +9,16 @@ import { ForgetPasswordReqPayload } from "../../../types";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { t, Trans } from "@lingui/macro";
 
+/**
+ * @category Frontend
+ * @subcategory Pages
+ * @module ForgotPassword
+ * @description Users can retrieve forgotten password using their email .
+ * @component
+ * @example
+   <Route path="/forgotpassword" element={<ForgotPassword />} />
+ */
+
 const ForgotPassword = () => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();

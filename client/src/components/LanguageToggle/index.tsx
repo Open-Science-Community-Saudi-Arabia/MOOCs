@@ -3,10 +3,24 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { GoGlobe } from "react-icons/go";
 import { dynamicActivate } from "../../i18n";
 import "./style.scss";
+import PropTypes from "prop-types";
 
 interface IProps {
   btncolor?: string;
 }
+
+/**
+ * @category Frontend
+ * @subcategory Component
+ * @module LanguageToggler
+ * @description The component displays and toggles the language selection menu,
+ * @component
+ * @example
+ *   <LanguageToggle />
+ *    or
+ *   <LanguageToggle btncolor="#009985" />
+ */
+
 const index = ({ btncolor }: IProps) => {
   const [openLanguage, setOpenLanguage] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -49,5 +63,8 @@ const index = ({ btncolor }: IProps) => {
       )}
     </div>
   );
+};
+index.propTypes = {
+  btncolor: PropTypes.string,
 };
 export default index;

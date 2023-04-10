@@ -1,5 +1,22 @@
 import  {  useEffect } from "react";
 
+/**
+ * @category Frontend
+ * @subcategory Hooks
+ * @module useClickOutside
+ * @description The hooks closes the opened DOM ref when user clicks outside.
+ * @component
+ * @example
+ * import { useRef, useState } from "react";
+ * 
+ * const Header = () => {
+ * const [isOpen, setOpen] = useState(false);
+ * useClickOutside(ref, () => setOpenLanguage(false));
+ * return(
+ * <button ref={ref} onClick={logout}> Log Out </button>
+ * )}
+ */
+
 const useClickOutside = (ref: any, handler: () => void) => {
   useEffect(() => {
     const handleClickOutside = (event: any) => {
