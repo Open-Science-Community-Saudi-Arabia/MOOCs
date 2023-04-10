@@ -90,7 +90,11 @@ const index = () => {
         </div>
       </div>
       <p className="footer-container__copyright">
-        <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}
+        <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}{" "}
+        <Trans>
+          {" "}
+          <span>Designed by Sandy Goodnews</span>
+        </Trans>
       </p>
     </section>
   );
