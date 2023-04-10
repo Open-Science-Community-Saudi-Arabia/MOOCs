@@ -10,6 +10,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { t, Trans } from "@lingui/macro";
+import VerificationLink from "../verification-link";
 
 
 /**
@@ -25,6 +26,8 @@ import { t, Trans } from "@lingui/macro";
 
 const Signup = () => {
   const [checkpassword, setCheckPassword] = useState(false);
+  const [isSendVerifyLink, setVerifyLink] = useState(false);
+  const [email, setEmail] = useState<string>("");
   const [toggleVisibility, setToggleVisibility] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { handleGoogle, loading } = useFetch();
@@ -37,7 +40,6 @@ const Signup = () => {
   const signupHandler = async (event: any) => {
     setCheckPassword(false);
     event.preventDefault();
-
     if (event.target.password.value !== event.target.confirmpassword.value) {
       setCheckPassword(true);
       toast.error("password does not match", {
@@ -55,18 +57,11 @@ const Signup = () => {
           passwordConfirm: event.target.confirmpassword.value,
         };
         setLoading(true);
-        await signUp(formData);
-        toast.success(
-          <>
-            <h4>Successful!</h4>
-            <p>Check your email for verification link </p>
-          </>,
-          {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 5000,
-            theme: "colored",
-          }
-        );
+        const response = await signUp(formData);
+        if (response.success) {
+          setVerifyLink(true);
+          setEmail(event.target.email.value);
+        }
       } catch (error: any) {
         toast.error(error.message, {
           position: toast.POSITION.TOP_CENTER,
@@ -81,7 +76,9 @@ const Signup = () => {
 
   return (
     <>
-      {loading ? (
+      {isSendVerifyLink ? (
+        <VerificationLink emailLink={email} />
+      ) : loading ? (
         <Spinner width="100px" height="100px" color="#009985" />
       ) : (
         <section className="login-signup">

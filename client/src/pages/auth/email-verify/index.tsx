@@ -3,8 +3,9 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../../utils/api/auth";
 import { GiCheckMark } from "react-icons/gi";
-import { Trans} from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import LanguageToggle from "../../../components/LanguageToggle";
+import verificationImage from "../../../images/verification-email-sent.jpg";
 
 /**
  * @category Frontend
@@ -17,8 +18,8 @@ import LanguageToggle from "../../../components/LanguageToggle";
  */
 
 const EmailVerify = () => {
-  const [isValidUrl, setValidUrl] = useState(false);
-  const [error, setError] = useState(false);
+  const [isValidUrl, setValidUrl] = useState<boolean>();
+  const [error, setError] = useState<boolean>();
   const params = useParams();
 
   useEffect(() => {
@@ -65,6 +66,10 @@ const EmailVerify = () => {
               {" "}
               <Trans>{error}</Trans>
             </h1>
+            <p className="verifyEmail__subtitle">
+              {" "}
+              Go back to <a href="/signup">Signup</a> page
+            </p>
           </div>
         )}
       </div>

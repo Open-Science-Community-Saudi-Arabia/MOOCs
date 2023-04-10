@@ -69,13 +69,14 @@ export async function exerciseScore(id: string, payload: any) {
  * @param  {string} id  course id
  * @return {Promise<object>} response data
  */
-export async function getCertificate(id: string) {
+
+export async function getCertificate(id: string|any) {
   const response = await makeApiCall(`certificate/course/${id}`);
   return response;
 }
 
 // Get a course
-export function useCourse(id: any) {
-  const query = useQuery(["course"], () => getCourse(id));
-  return query;
-}
+// export function useCourse(id: any) {
+//   const query = useQuery(["course"], () => getCourse(id));
+//   return query;
+// }

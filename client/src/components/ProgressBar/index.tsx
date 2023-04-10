@@ -68,7 +68,7 @@ const ProgressBar = ({
   const Parentdiv = {
     height: height,
     width: width,
-    backgroundColor: overallScore ? "#333" : "#80808033",
+    backgroundColor: overallScore ? "#424141" : "#80808033",
     borderRadius: 100,
   };
 

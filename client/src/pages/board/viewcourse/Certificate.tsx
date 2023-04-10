@@ -1,14 +1,12 @@
-import { Trans } from "@lingui/macro";
+import React from "react";
 
-const Certificate = () => {
+interface IProps {
+  pdfUrl: any;
+}
+const Certificate = ({ pdfUrl }: IProps) => {
   return (
     <div className="certificate">
-      <div className="certificate__content">
-        <p className="certificate__content__text">
-          {" "}
-        <Trans>  Complete quiz to get a certificate</Trans>
-        </p>
-      </div>
+      <img className="certificate__img" src={pdfUrl} alt="certificate" />
     </div>
   );
 };

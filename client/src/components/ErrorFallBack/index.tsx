@@ -20,7 +20,7 @@ interface ErrorFallbackProps {
 
 const index = (props: ErrorFallbackProps) => {
   const { message, description, reset } = props;
-
+  
   return (
     <div className="errorfallback">
       <div className="errorfallback__top">
