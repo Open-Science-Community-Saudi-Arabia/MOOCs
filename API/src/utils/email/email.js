@@ -2,7 +2,9 @@ const nodemailer = require('nodemailer')
 const config = require('../config')
 const {
     password_reset_template,
-    email_verification_template } = require('./templates')
+    password_reset_template_ar,
+    email_verification_template,
+    email_verification_template_ar } = require('./templates')
 
 // 3. Send email to user
 const sendEmail = async (options) => {
@@ -40,12 +42,20 @@ const sendEmail = async (options) => {
 }
 
 class EmailMessage {
-    passwordReset(reset_code, name) {
-        return password_reset_template(reset_code, name)
+    constructor(lang = 'en') {
+        this.lang = lang
     }
 
-    emailVerification(verification_link, name) {
-        return email_verification_template(verification_link, name)
+    passwordReset(name, reset_code, lang = this.lang) {
+        return lang != 'en'
+            ? password_reset_template_ar(name, reset_code)
+            : password_reset_template(name, reset_code)
+    }
+
+    emailVerification(name, verification_link, lang = this.lang) {
+        return lang != 'en'
+            ? email_verification_template_ar(name, verification_link)
+            : email_verification_template(name, verification_link)
     }
 }
 
