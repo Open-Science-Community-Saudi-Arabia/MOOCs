@@ -91,10 +91,10 @@ const index = () => {
       </div>
       <p className="footer-container__copyright">
         <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}{" "}
-        <Trans>
+        
           {" "}
-          <span>Designed by Sandy Goodnews</span>
-        </Trans>
+          <span><Trans>Designed by Sandy Goodnews</Trans></span>
+   
       </p>
     </section>
   );
