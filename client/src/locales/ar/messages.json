@@ -1,5 +1,4 @@
 {
-  "<0>Designed by Sandy Goodnews</0>": "<0>Designed by Sandy Goodnews</0>",
   "A beginner-friendly course to introduce the concepts and practices of Open Science.": "دورة دراسية ملائمة للمبتدئين لإدخال مفاهيم وممارسات العلم المفتوح.",
   "About": "حول",
   "Already have an Account?": "هل لديك حساب بالفعل؟",
@@ -16,6 +15,7 @@
   "Course content": "محتوى الدورة التدريبية",
   "Course description": "وصف الدورة",
   "Courses": "الدورات",
+  "Designed by Sandy Goodnews": "Designed by Sandy Goodnews",
   "Documentation": "الوثائق",
   "Don't have an account?": "ليس لديك حساب؟",
   "Email": "البريد الإلكتروني",
@@ -74,7 +74,6 @@
   "Sign Up": "تسجيل الدخول",
   "Sign Up to MOOCs": "قم بالتسجيل في MOOC",
   "Sign in with Google": "تسجيل الدخول باستخدام جوجل",
-  "Sign in with Google <0/>": "تسجيل الدخول باستخدام Google <0/>",
   "Start Learning": "بدء التعلم",
   "Submit": "إرسال",
   "Support and collaboration from leading organizations": "الدعم والتعاون من المنظمات الرائدة",
