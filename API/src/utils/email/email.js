@@ -46,16 +46,16 @@ class EmailMessage {
         this.lang = lang
     }
 
-    passwordReset(reset_code, name, lang = this.lang) {
+    passwordReset(name, reset_code, lang = this.lang) {
         return lang != 'en'
-            ? password_reset_template_ar(reset_code, name)
-            : password_reset_template(reset_code, name)
+            ? password_reset_template_ar(name, reset_code)
+            : password_reset_template(name, reset_code)
     }
 
-    emailVerification(verification_link, name, lang = this.lang) {
+    emailVerification(name, verification_link, lang = this.lang) {
         return lang != 'en'
-            ? email_verification_template_ar(verification_link, name)
-            : email_verification_template(verification_link, name)
+            ? email_verification_template_ar(name, verification_link)
+            : email_verification_template(name, verification_link)
     }
 }
 

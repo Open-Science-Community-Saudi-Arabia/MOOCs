@@ -123,7 +123,7 @@ const handleUnverifiedUser = function (user) {
         //console.log(verification_url)
 
         // Send verification email
-        const message = new EmailMessage('ar')
+        const message = new EmailMessage(req.query.lang)
         await sendEmail({
             email: user.email,
             subject: 'Verify your email address',
@@ -782,11 +782,11 @@ exports.forgetPassword = async (req, res, next) => {
     const { password_reset_code } = await getAuthCodes(current_user.id, 'password_reset')
 
     //  Send password reset code to user
-    const message = new EmailMessage()
+    const message = new EmailMessage('ar')
     sendEmail({
         email: current_user.email,
         subject: 'Password reset for user',
-        html: message.passwordReset(current_user.firstname, password_reset_code)
+        html: message.passwordReset(password_reset_code, current_user.firstname)
     })
 
     //  Get access token
