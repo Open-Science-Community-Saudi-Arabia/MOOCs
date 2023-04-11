@@ -148,12 +148,12 @@ exports.getCourses = async (req, res, next) => {
                 {
                     path: 'videos',
                     model: 'Video',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'textmaterials',
                     model: 'TextMaterial',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'exercises',
@@ -206,12 +206,12 @@ exports.getCourseData = async (req, res, next) => {
             {
                 path: 'videos',
                 model: 'Video',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'textmaterials',
                 model: 'TextMaterial',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'exercises',
