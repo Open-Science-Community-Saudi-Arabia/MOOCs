@@ -146,11 +146,13 @@ exports.getCourses = async (req, res, next) => {
             populate: [
                 {
                     path: 'videos',
-                    model: 'Video'
+                    model: 'Video',
+                    populate: 'donwloadable_resources'
                 },
                 {
                     path: 'textmaterials',
-                    model: 'TextMaterial'
+                    model: 'TextMaterial',
+                    populate: 'donwloadable_resources'
                 },
                 {
                     path: 'exercises',
@@ -202,11 +204,13 @@ exports.getCourseData = async (req, res, next) => {
         populate: [
             {
                 path: 'videos',
-                model: 'Video'
+                model: 'Video',
+                populate: 'donwloadable_resources'
             },
             {
                 path: 'textmaterials',
-                model: 'TextMaterial'
+                model: 'TextMaterial',
+                populate: 'donwloadable_resources'
             },
             {
                 path: 'exercises',
@@ -627,7 +631,7 @@ exports.getVideoData = async (req, res, next) => {
     }
 
     const videoId = req.params.id;
-    const video = await Video.findById(videoId).populate('course')
+    const video = await Video.findById(videoId).populate('course downloadable_resources')
 
     return res.status(200).send({
         success: true,

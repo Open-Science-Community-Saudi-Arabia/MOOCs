@@ -1,4 +1,4 @@
-const { DownloadableResource } = require('../models/course.models');
+const { DownloadableResource, TextMaterial, Video, Course } = require('../models/course.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 const fs = require('fs');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
@@ -16,14 +16,28 @@ const { BadRequestError, NotFoundError } = require('../utils/errors');
  * @returns {Object} - The downloadable resources
  */
 exports.getDownloadableResources = async (req, res, next) => {
-    const { courseId } = req.params;
+    const { textmaterial_id, video_id, course_id } = req.query;
 
-    // Check if id is provided
-    if (!courseId || courseId == null || courseId == undefined) {
-        return next(new BadRequestError('Course id is required'));
+    let downloadable_resources;
+
+    // Check if textmaterial_id is provided
+    if (textmaterial_id && textmaterial_id != null && textmaterial_id != undefined) {
+        const text_material = await TextMaterial.findById(textmaterial_id);
+        if (!text_material) { return next(new NotFoundError('Text material not found')); }
+        downloadable_resources = await DownloadableResource.find({ textmaterial: textmaterial_id });
     }
 
-    const downloadable_resources = await DownloadableResource.find({ course: courseId });
+    if (course_id && course_id != null && course_id != undefined) {
+        const course = await Course.findById(course_id);
+        if (!course) { return next(new NotFoundError('Course not found')); }
+        downloadable_resources = await DownloadableResource.find({ video: video_id });
+    }
+
+    if (video_id && video_id != null && video_id != undefined) {
+        const video = await Video.findById(video_id);
+        if (!video) { return next(new NotFoundError('Video not found')); }
+        downloadable_resources = await DownloadableResource.find({ video: video_id });
+    }
 
     res.status(200).json({
         status: 'success',
@@ -147,12 +161,29 @@ exports.updateDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The uploaded resource
  */
 exports.uploadDownloadableResource = async (req, res, next) => {
-    const { title, description, course_id, resource_type } = req.body;
+    const { title, description, course_id, resource_type, video_id, text_material_id } = req.body;
+    console.log(req.body)
+    let video, textmaterial;
+    if (video_id) {
+        video = await Video.findById(video_id);
+        if (!video) {
+            return next(new NotFoundError('Video not found'));
+        }
+    } else if (text_material_id) {
+        textmaterial = await TextMaterial.findById(text_material_id);
+        if (!textmaterial) {
+            return next(new NotFoundError('Text material not found'));
+        }
+    } else if (!course_id) { return next(new BadRequestError('Missing required params in request body')); }
+
+    console.log(textmaterial, video)
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id,
+        course: course_id || textmaterial?.course || video?.course,
+        textmaterial: textmaterial?._id,
+        video: video?._id,
         resource_type
     });
 
@@ -194,14 +225,31 @@ exports.uploadDownloadableResource = async (req, res, next) => {
  * @returns {Object} - The created resource
  */
 exports.createDownloadableResource = async (req, res, next) => {
-    const { title, description, file_url, course_id, resource_type } = req.body;
+    const { title, description, file_url, course_id, video_id, text_material_id, resource_type } = req.body;
+
+    let video, textmaterial;
+    if (video_id) {
+        video = await Video.findById(video_id);
+        if (!video) {
+            return next(new NotFoundError('Video not found'));
+        }
+    } else if (text_material_id) {
+        textmaterial = await TextMaterial.findById(text_material_id);
+        if (!textmaterial) {
+            return next(new NotFoundError('Text material not found'));
+        }
+    } else if (!course_id) { return next(new BadRequestError('Missing required params in request body')); }
+
+    console.log(textmaterial, video)
 
     let downloadable_resource = new DownloadableResource({
         title,
         description,
-        course: course_id,
-        file_url,
-        resource_type
+        course: course_id || textmaterial?.course || video?.course,
+        textmaterial: textmaterial?._id,
+        video: video?._id,
+        resource_type,
+        file_url
     });
 
     downloadable_resource = await downloadable_resource.save();
