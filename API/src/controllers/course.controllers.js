@@ -41,6 +41,7 @@ const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const { translateResponse } = require("../utils/crowdin");
 
 /* COURSES
 */
@@ -251,12 +252,15 @@ exports.getCourseData = async (req, res, next) => {
     }
 
     console.log('getting the course content')
+    req.query.lang  = 'ar'
+
+    const response = req.query.lang == 'ar' ? await translateResponse(course) : course
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course
+            course: response
         }
     })
 }

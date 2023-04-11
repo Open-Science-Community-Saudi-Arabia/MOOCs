@@ -1,7 +1,10 @@
 const crowdinAPI = require('crowdin-api');
 const { CROWDIN_PROJECT_ID, CROWDIN_API_KEY } = require('./config');
 
-const crowdin = new crowdinAPI({ apiKey: CROWDIN_API_KEY })
+const crowdin = new crowdinAPI({
+    apiKey: CROWDIN_API_KEY,
+    projectName: 'openinnovationlab',
+})
 
 // // Example API route
 // app.get('/api/course/:id', async (req, res) => {
@@ -42,7 +45,7 @@ const crowdin = new crowdinAPI({ apiKey: CROWDIN_API_KEY })
 
 //     return JSON.parse(response.data.translations[0].data);
 // }
-async function translateResponse(response, target_language) {
+async function translateResponse(response) {
     try {
         const text_to_translate = JSON.stringify(response)
 
