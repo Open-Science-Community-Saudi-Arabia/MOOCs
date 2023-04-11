@@ -5,6 +5,17 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_API_BASEURL;
+/**
+ * @category Client App
+ * @subcategory Hooks
+ * @module useFetch
+ * @description The hooks handles google sign up and login click events.
+ * @returns {object} loading, handleGoogle
+ * @component
+ * @example
+ *  const { handleGoogle, loading } = useFetch();
+ */
+
 const useFetch = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

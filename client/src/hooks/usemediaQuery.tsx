@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
 
+/**
+ * @category Client App
+ * @subcategory Hooks
+ * @module useMediaQuery
+ * @description The hooks responds to screen size changes.
+ * @component
+ * @example
+ * const isDesktop = useMediaQuery("(min-width: 1280px)");
+ */
+
+
 const useMediaQuery = (query: any) => {
   const [matches, setMatches] = useState(false);
 

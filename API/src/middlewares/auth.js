@@ -81,7 +81,6 @@ const basicAuth = function (token_type = null) {
     return async (req, res, next) => {
         // Check if the request has a valid authorization header
         const authHeader = req.headers.authorization;
-        console.log(authHeader)
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             if (token_type == 'optional') return next();
             return next(new UnauthenticatedError('Invalid authorization header'));
@@ -118,7 +117,6 @@ const basicAuth = function (token_type = null) {
                 .send({ message: 'success', access_token: new_access_token });
         }
 
-        console.log(req.user)
         if (!req.user.status.isActive && !token_type) {
             return next(
                 new UnauthenticatedError(

@@ -12,8 +12,8 @@ const {
 router.use(basicAuth())
 
 router
-    .get("/:id", getExerciseData)
     .get("/", getExercises)
+    .get("/:id", getExerciseData)
     .post("/new", permit('Admin SuperAdmin'), createExercise)
     .patch("/update/:id", permit('Admin SuperAdmin'), updateExercise)
     .delete("/delete/:id", permit('Admin SuperAdmin'), deleteExercise)

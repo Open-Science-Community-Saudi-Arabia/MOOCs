@@ -8,6 +8,7 @@ import { enrollUser } from "../../../../utils/api/courses";
 import { toast } from "react-toastify";
 import "./style.scss";
 
+
 const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();

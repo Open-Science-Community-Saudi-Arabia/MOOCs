@@ -1,22 +1,29 @@
 import Header from "./header";
 import "./style.scss";
-// import { useCourses } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
 import { useQuery } from "react-query";
 import { getCourses } from "../../../utils/api/courses";
 
+/**
+ * @category Client App
+ * @subcategory Pages
+ * @module Dashboard
+ * @description To view all available course content.
+ * @component
+ * @example
+  <Route path="dashboard" element={<Board />} />
+ */
 const Board = () => {
   const queryKey = "getCourses";
   const {
     data: courses,
     isFetching,
-
     error,
     refetch,
   }: any = useQuery(queryKey, getCourses, {
-    refetchOnWindowFocus: true,
+    // refetchOnWindowFocus: true,
     staleTime: 0,
     cacheTime: 0,
     refetchInterval: 0,

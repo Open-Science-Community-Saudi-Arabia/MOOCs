@@ -109,17 +109,16 @@ exports.createExercise = async (req, res, next) => {
 exports.getExercises = async (req, res, next) => {
     let exercises;
     // If any specific query was added 
-    if (req.body) {
+    if (req.body && Object.keys(req.body).length > 0) {
+        console.log('req.body', req.body)
         exercises = await Exercise.find(req.body)
     }
 
     // Sort the exercises according to how they where added
-    exercises = exercises ? await Exercise.find().populate('questions') : exercises
+    exercises = !exercises ? await Exercise.find().populate('questions') : exercises
 
     // Get only the available courses
-    const available_exercises = exercises.filter((exercise) => {
-        if (exercise.isAvailable) return exercise.toJSON();
-    })
+    const available_exercises = exercises.filter((exercise) => exercise.toJSON() )
 
     return res.status(200).json({
         success: true,
@@ -418,7 +417,7 @@ exports.scoreExercise = async (req, res, next) => {
     let certificate = course_report.isCompleted
         ? await issueCertificate(course_report._id)
         : null;
-    
+
     return res.status(200).send({
         success: true,
         data: {

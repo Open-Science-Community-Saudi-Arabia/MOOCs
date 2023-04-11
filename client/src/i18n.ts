@@ -2,10 +2,25 @@ import { i18n } from "@lingui/core";
 import { en, ar } from "make-plural/plurals";
 import { Locale } from "./types";
 
+/**
+ * @category Client App
+ * @subcategory Component
+ * @module Translation
+ * @description Translate content to selected language.
+ */
+
+/**
+ * @description language options.
+ */
 export const locales = {
   en: "English",
   ar: "Arabic",
 };
+
+/**
+ * @description load language selection data
+ * @param  {string} locale
+ */
 
 export async function dynamicActivate(locale: Locale) {
   i18n.loadLocaleData({

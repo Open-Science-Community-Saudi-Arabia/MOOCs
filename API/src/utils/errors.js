@@ -1,4 +1,28 @@
+/**
+ * Custom Error Classes
+ * 
+ * @category Backend API
+ * @subcategory Utilities
+ * 
+ * @module Custom Error Classes
+ * 
+ * @description This module contains custom error classes
+ * 
+ * @requires Error
+ */
 
+
+/**
+ * Custom Error Class
+ * 
+ * @class CustomAPIError
+ * @extends Error
+ * 
+ * @description This class is the base class for all custom error classes
+ * 
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
+ */
 class CustomAPIError extends Error {
     constructor(message, statusCode = 500){
         super(message)
@@ -6,6 +30,9 @@ class CustomAPIError extends Error {
     }
 }
 
+/**
+ * @class BadRequestError
+ */
 class BadRequestError extends CustomAPIError {
     constructor (message){
         super(message)
@@ -13,6 +40,9 @@ class BadRequestError extends CustomAPIError {
     }
 }
 
+/**
+ * @class UnauthorizedError
+ */
 class UnauthorizedError extends CustomAPIError {
     constructor (message) {
         super(message) 
@@ -20,6 +50,9 @@ class UnauthorizedError extends CustomAPIError {
     }
 }
 
+/**
+ * @class ForbiddenError
+ */
 class ForbiddenError extends CustomAPIError {
     constructor (message) {
         super(message)
@@ -27,6 +60,9 @@ class ForbiddenError extends CustomAPIError {
     }
 }
 
+/**
+ * @class NotFoundError
+ */
 class NotFoundError extends CustomAPIError {
     constructor (message) {
         super(message)
@@ -34,6 +70,9 @@ class NotFoundError extends CustomAPIError {
     }
 }
 
+/**
+ * @class ConflictError
+ */
 class ConflictError extends CustomAPIError {
     constructor (message) {
         super(message)
@@ -41,6 +80,9 @@ class ConflictError extends CustomAPIError {
     }
 }
 
+/**
+ * @class InternalServerError
+ */
 class InternalServerError extends CustomAPIError {
     constructor (message) {
         super(message)

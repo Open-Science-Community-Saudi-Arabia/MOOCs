@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 interface IProps {
-  pdfData: any;
-  isCourseContent: boolean;
+  pdfUrl: any;
+  // isCourseContent: boolean;
 }
 
-const ViewPdf = ({ pdfData, isCourseContent }: IProps) => {
+const ViewPdf = ({ pdfUrl }: IProps) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -15,6 +15,7 @@ const ViewPdf = ({ pdfData, isCourseContent }: IProps) => {
   const onDocumentLoadSuccess = ({ numPages }: any) => {
     setNumPages(numPages);
   };
+  console.log(pdfUrl)
   return (
     <div className="viewpdf">
       <p className="viewpdf__pagenumber">
@@ -22,7 +23,7 @@ const ViewPdf = ({ pdfData, isCourseContent }: IProps) => {
       </p>
       <Document
         className="viewpdf__document"
-        file={pdfData?.file_url}
+        file={pdfUrl}
         onLoadSuccess={onDocumentLoadSuccess}
       >
         <Page pageNumber={pageNumber} renderAnnotationLayer={false} />
