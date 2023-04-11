@@ -1,9 +1,9 @@
 {
     "contribution": {
-        "title": "Contributing to the MOOCs project",
+        "title": "Contribution Guide",
         "children": {
             "project_structure": {
-                "title": "Project folder structure"
+                "title": "Project structure"
             },
             "raising_issues": {
                 "title": "Raising an Issue"
