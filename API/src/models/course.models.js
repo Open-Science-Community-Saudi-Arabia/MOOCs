@@ -257,6 +257,11 @@ const videoSchema = new Schema({
     order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
+videoSchema.virtual('downloadable_resources', {
+    localField: '_id',
+    foreignField: 'video',
+    ref: 'DownloadableResource'
+})
 
 /**
  * @type {textmaterialSchema}
@@ -277,6 +282,11 @@ const textmaterialSchema = new Schema({
     order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
+textmaterialSchema.virtual('downloadable_resources', {
+    localField: '_id',
+    foreignField: 'textmaterial',
+    ref: 'DownloadableResource'
+})
 
 /**
  * @type {downloadableResourceSchema}
@@ -287,6 +297,8 @@ const downloadableResourceSchema = new Schema({
     file_url: { type: String, required: true },
     description: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    video: { type: Schema.Types.ObjectId, ref: 'Video' },
+    textmaterial: { type: Schema.Types.ObjectId, ref: 'TextMaterial' },
     order: { type: Number, default: Date.now() },
     isAvailable: { type: Boolean, default: true }
 }, options)
@@ -467,16 +479,25 @@ courseReportSchema.virtual('attempted_exercises', {
 })
 
 courseReportSchema.methods.updateBestScore = async function () {
-    const doc = (await this.populate("attempted_exercises")).toObject();
+    const doc = (await this.populate([
+        {
+            path: 'attempted_exercises',
+        },
+        {
+            path: 'course',
+            populate: 'exercises'
+        }
+    ])).toObject();
 
-    const exercises = doc.attempted_exercises;
+    const attempted_exercises = doc.attempted_exercises;
+    const required_exercises = doc.course.exercises;
     let total_scores = 0
-    for (let i = 0; i < exercises.length; i++) {
-        total_scores += exercises[i].percentage_passed
+    for (let i = 0; i < attempted_exercises.length; i++) {
+        total_scores += attempted_exercises[i].percentage_passed
     }
 
     // Calculate the average percentage passed 
-    this.percentage_passed = total_scores / exercises.length
+    this.percentage_passed = total_scores / required_exercises.length
 
     // Update the isCompleted field if the percentage passed is greater than or equal to 80
     this.isCompleted = this.percentage_passed >= 80 ? true : false;
