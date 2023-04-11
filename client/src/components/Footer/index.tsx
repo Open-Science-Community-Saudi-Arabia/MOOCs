@@ -100,7 +100,11 @@ const index=()=> {
         </div>
       </div>
       <p className="footer-container__copyright">
-        <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}
+        <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}{" "}
+        
+          {" "}
+          <span><Trans>Designed by Sandy Goodnews</Trans></span>
+   
       </p>
     </section>
   );
