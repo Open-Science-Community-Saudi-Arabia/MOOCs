@@ -52,9 +52,10 @@ const auth = {
     },
 }
 
-async function translateResponse(doc_to_translate) {
+async function translateDoc(doc_to_translate) {
     try {
-        let data = doc_to_translate.toObject()
+        let data = doc_to_translate
+        // console.log(data)
         /**
          * An object that contains the keys of the strings 
          * to translate and their index in the strings_to_translate array
@@ -94,10 +95,11 @@ async function translateResponse(doc_to_translate) {
 
         return data
     } catch (error) {
+        console.log(error.response.data.errors[0].error)
         return error
     }
 }
 
 module.exports = {
-    translateResponse
+    translateDoc
 }

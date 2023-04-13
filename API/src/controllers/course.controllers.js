@@ -41,7 +41,7 @@ const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
-const { translateResponse } = require("../utils/crowdin");
+const { translateDoc } = require("../utils/crowdin");
 
 /* COURSES
 */
@@ -199,6 +199,7 @@ exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
+    const trans = req.query.lang
 
     let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
@@ -220,27 +221,27 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
-    // if (course && course.course_sections) {
+    if (course && course.course_sections) {
 
-    //     for (let i = 0; i < course.course_sections.length; i++) {
-    //         const curr_section = course.course_sections[i];
+        for (let i = 0; i < course.course_sections.length; i++) {
+            const curr_section = course.course_sections[i];
 
-    //         if (curr_section.exercises) {
-    //             for (let j = 0; j < curr_section.exercises.length; j++) {
-    //                 const exercise = curr_section.exercises[j].toObject();
-    //                 const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
-    //                 if (exercise_report) {
-    //                     exercise.best_score = exercise_report.best_score;
-    //                     exercise.best_percentage_passed = exercise_report.percentage_passed;
-    //                 }
-    //                 curr_section.exercises[j] = exercise;
-    //             }
-    //         }
+            if (curr_section.exercises) {
+                for (let j = 0; j < curr_section.exercises.length; j++) {
+                    const exercise = curr_section.exercises[j].toObject();
+                    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
+                    if (exercise_report) {
+                        exercise.best_score = exercise_report.best_score;
+                        exercise.best_percentage_passed = exercise_report.percentage_passed;
+                    }
+                    curr_section.exercises[j] = trans ? await translateDoc(exercise) : exercise;
+                }
+            }
 
 
-    //         course.course_sections[i] = curr_section;
-    //     }
-    // }
+            course.course_sections[i] = curr_section;
+        }
+    }
 
     // if (req.user && course.enrolled_users.includes(req.user?.id)) {
     //     const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
@@ -251,7 +252,7 @@ exports.getCourseData = async (req, res, next) => {
     //     }
     // }
 
-    course = req.query.lang == 'ar' ? await translateResponse(course) : course
+    course = trans == 'ar' ? await translateDoc(course.toObject()) : course
 
     return res.status(200).send({
         success: true,
