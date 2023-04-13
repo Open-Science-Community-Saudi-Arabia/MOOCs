@@ -220,47 +220,48 @@ exports.getCourseData = async (req, res, next) => {
         ]
     });
 
-    if (course && course.course_sections) {
+    // if (course && course.course_sections) {
 
-        for (let i = 0; i < course.course_sections.length; i++) {
-            const curr_section = course.course_sections[i];
+    //     for (let i = 0; i < course.course_sections.length; i++) {
+    //         const curr_section = course.course_sections[i];
 
-            if (curr_section.exercises) {
-                for (let j = 0; j < curr_section.exercises.length; j++) {
-                    const exercise = curr_section.exercises[j].toObject();
-                    const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
-                    if (exercise_report) {
-                        exercise.best_score = exercise_report.best_score;
-                        exercise.best_percentage_passed = exercise_report.percentage_passed;
-                    }
-                    curr_section.exercises[j] = exercise;
-                }
-            }
+    //         if (curr_section.exercises) {
+    //             for (let j = 0; j < curr_section.exercises.length; j++) {
+    //                 const exercise = curr_section.exercises[j].toObject();
+    //                 const exercise_report = await ExerciseReport.findOne({ exercise: exercise._id, user: req.user.id });
+    //                 if (exercise_report) {
+    //                     exercise.best_score = exercise_report.best_score;
+    //                     exercise.best_percentage_passed = exercise_report.percentage_passed;
+    //                 }
+    //                 curr_section.exercises[j] = exercise;
+    //             }
+    //         }
 
 
-            course.course_sections[i] = curr_section;
-        }
-    }
+    //         course.course_sections[i] = curr_section;
+    //     }
+    // }
 
-    if (req.user && course.enrolled_users.includes(req.user?.id)) {
-        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
-        if (course_report) {
-            course.best_score = course_report.best_score;
-            course = course.toObject()
-            course.overall = course_report.percentage_passed;
-        }
-    }
+    // if (req.user && course.enrolled_users.includes(req.user?.id)) {
+    //     const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+    //     if (course_report) {
+    //         course.best_score = course_report.best_score;
+    //         course = course.toObject()
+    //         course.overall = course_report.percentage_passed;
+    //     }
+    // }
 
     console.log('getting the course content')
     req.query.lang  = 'ar'
 
-    const response = req.query.lang == 'ar' ? await translateResponse(course) : course
+    // const response = req.query.lang == 'ar' ? await translateResponse(course) : course
+    await translateResponse(course)
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course: response
+            course
         }
     })
 }
