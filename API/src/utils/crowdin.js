@@ -56,29 +56,34 @@ const auth = {
         'Crowdin-API-FileName': 'MOOCS API',
     },
 }
-async function translateResponse(dat) {
+
+async function translateResponse(doc_to_translate) {
     try {
-        let data = dat.toObject()
-        const keys = {}
+        let data = doc_to_translate.toObject()
+        /**
+         * An object that contains the keys of the strings 
+         * to translate and their index in the strings_to_translate array
+         * */
+        const keys = { } 
         const strings_to_translate = []
 
-        const allowed_keys = {
+        // The keys that we want to translate
+        const dictionary = {
             'title': 'title',
             'description': 'description',
         }
 
         let count = 0
+        // Get the keys of the strings to translate
         for (const key in data) {
-            if (allowed_keys[key]) {
-                console.log(key)
+            if (dictionary[key]) {
+                // Add the key and its index in the strings_to_translate array
                 keys[key] = count
-                count ++
+                count++
                 strings_to_translate.push(data[key])
             }
         }
 
-        console.log(data)
-        console.log(strings_to_translate)
         const res = await axios.post('https://api.crowdin.com/api/v2/mts/372727/translations', {
             "languageRecognitionProvider": "crowdin",
             "targetLanguageId": "ar",
@@ -86,10 +91,15 @@ async function translateResponse(dat) {
             "strings": strings_to_translate,
         }, auth)
 
-        console.log(res.data)
+        const translated_strings = res.data.data.translations
 
+        // Replace the strings with their translations
+        for (const key in keys) {
+            data[key] = translated_strings[keys[key]]
+        }
+
+        return data
     } catch (error) {
-        console.log(error)
         return error
     }
 }
