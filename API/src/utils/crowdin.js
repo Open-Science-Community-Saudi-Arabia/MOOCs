@@ -1,13 +1,8 @@
-const crowdinAPI = require('crowdin-api');
-const CROWDIN_API = 'https://api.crowdin.com/api/v2'
-const CROWDIN_PROJECT_ID = '580127'
-const CROWDIN_MTS_ID = '372727'
-const CROWDIN_API_KEY = '7ab2599a42f3aa76170d1c8bb7c2464ba3f16143c77d5fa9abd5e0edf19eeecf5880aa49fc06c431'
-const STORAGE_ID = 1845177783
-const crowdin = new crowdinAPI({
-    apiKey: CROWDIN_API_KEY,
-    projectName: 'Open Science MOOCs',
-})
+const {
+    CROWDIN_API_KEY,
+    CROWDIN_API,
+    CROWDIN_MTS_ID,
+} = require('./config');
 const axios = require('axios');
 // // Example API route
 // app.get('/api/course/:id', async (req, res) => {
@@ -64,7 +59,7 @@ async function translateResponse(doc_to_translate) {
          * An object that contains the keys of the strings 
          * to translate and their index in the strings_to_translate array
          * */
-        const keys = { } 
+        const keys = {}
         const strings_to_translate = []
 
         // The keys that we want to translate
@@ -73,8 +68,8 @@ async function translateResponse(doc_to_translate) {
             'description': 'description',
         }
 
-        let count = 0
         // Get the keys of the strings to translate
+        let count = 0
         for (const key in data) {
             if (dictionary[key]) {
                 // Add the key and its index in the strings_to_translate array
@@ -84,16 +79,15 @@ async function translateResponse(doc_to_translate) {
             }
         }
 
-        const res = await axios.post('https://api.crowdin.com/api/v2/mts/372727/translations', {
+        const res = await axios.post(`${CROWDIN_API}/mts/${CROWDIN_MTS_ID}/translations`, {
             "languageRecognitionProvider": "crowdin",
             "targetLanguageId": "ar",
             "sourceLanguageId": "en",
             "strings": strings_to_translate,
         }, auth)
 
-        const translated_strings = res.data.data.translations
-
         // Replace the strings with their translations
+        const translated_strings = res.data.data.translations
         for (const key in keys) {
             data[key] = translated_strings[keys[key]]
         }

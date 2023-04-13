@@ -251,9 +251,6 @@ exports.getCourseData = async (req, res, next) => {
     //     }
     // }
 
-    console.log('getting the course content')
-    req.query.lang  = 'ar'
-
     course = req.query.lang == 'ar' ? await translateResponse(course) : course
 
     return res.status(200).send({

@@ -46,7 +46,10 @@ const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME,
 
 /* CROWDIN */
 const CROWDIN_API_KEY = process.env.CROWDIN_API_KEY,
-    CROWDIN_PROJECT_ID = process.env.CROWDIN_PROJECT_ID;
+    CROWDIN_PROJECT_ID = process.env.CROWDIN_PROJECT_ID,
+    CROWDIN_API = process.env.CROWDIN_API,
+    CROWDIN_MTS_ID = process.env.CROWDIN_MTS_ID;
+
 
 module.exports = {
     // MongoDB URI
@@ -100,5 +103,7 @@ module.exports = {
 
     // CROWDIN
     CROWDIN_API_KEY,
-    CROWDIN_PROJECT_ID
+    CROWDIN_PROJECT_ID,
+    CROWDIN_API,
+    CROWDIN_MTS_ID
 };
