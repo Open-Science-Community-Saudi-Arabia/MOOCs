@@ -43,7 +43,7 @@
 <div align="justify">
 
 ## Introduction
-[Open Science Community Saudi Arabia (OSCSA)](https://osc-ksa.com) was establised in line with Saudi Arabia's Vision 2030, which focuses on installing values, enhancing knowledge and improving equal access to education. It aims to provide a placec where new comers and experienced peers interact, inspire each other to embed open science practives and values in their workflows and provide feedback on policies, infrastructures and support services. Our community is part of the [International Network of Open Science & Scholarship Communities (INOSC)](https://osc-international.com).
+[Open Science Community Saudi Arabia (OSCSA)](https://osc-ksa.com) was establised in line with Saudi Arabia's Vision 2030, which focuses on installing values, enhancing knowledge and improving equal access to education. It aims to provide a place where new comers and experienced peers interact, inspire each other to embed open science practices and values in their workflows and provide feedback on policies, infrastructures and support services. Our community is part of the [International Network of Open Science & Scholarship Communities (INOSC)](https://osc-international.com).
 
 Open Innovation lab is a Massive Open Online Courses (MOOCs) platform, where free online courses and materials are available to enrol. We have developed our own materials and will also include materials from Open Life Sciences and Turing Way. 
 The platform is similar to [Udemy](https://udemy.com), where a user can view videos and written materials as lessons.

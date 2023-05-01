@@ -82,8 +82,8 @@ const Login = () => {
               onClick={() => googlelogin()}
             >
               <Trans>
-                Sign in with Google <FcGoogle />
-              </Trans>
+                Sign in with Google </Trans><FcGoogle />
+              
             </button>
           </div>
           <div className="login-signup__hr-line">
