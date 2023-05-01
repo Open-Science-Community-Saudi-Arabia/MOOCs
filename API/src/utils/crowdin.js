@@ -67,6 +67,8 @@ async function translateDoc(doc_to_translate) {
         const dictionary = {
             'title': 'title',
             'description': 'description',
+            'question': 'question',
+            'correct_option': 'correct_option',
         }
 
         // Get the keys of the strings to translate
@@ -113,6 +115,26 @@ async function translateCourse(course) {
             const video = section_videos[j]
             const translated_video = await translateDoc(video)
             section_videos[j] = translated_video
+        }
+
+        const exercises = translated_section.exercises
+        for (let j = 0; j < exercises.length; j++) {
+            const exercise = exercises[j]
+
+            const questions = exercise.questions
+            for (let k = 0; k < questions.length; k++) {
+                const question = questions[k]
+                const translated_question = await translateDoc(question)
+                questions[k] = translated_question
+            }
+
+            // const options = exercise.options
+            // for (let k = 0; k < options.length; k++) {
+            //     const option = options[k]
+            //     const translated_option = await translateDoc(option)
+            //     options[k] = translated_option
+            // }
+
         }
         
         course_sections[i] = translated_section
