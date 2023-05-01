@@ -100,6 +100,30 @@ async function translateDoc(doc_to_translate) {
     }
 }
 
+async function translateCourse(course) {
+    const translated_course = await translateDoc(course)
+
+    const course_sections = translated_course.course_sections
+    for (let i = 0; i < course_sections.length; i++) {
+        const section = course_sections[i]
+        const translated_section = await translateDoc(section)
+        
+        const section_videos = translated_section.videos
+        for (let j = 0; j < section_videos.length; j++) {
+            const video = section_videos[j]
+            const translated_video = await translateDoc(video)
+            section_videos[j] = translated_video
+        }
+        
+        course_sections[i] = translated_section
+    }
+
+    translated_course.course_sections = course_sections
+
+    return translated_course
+}
+
 module.exports = {
-    translateDoc
+    translateDoc,
+    translateCourse
 }

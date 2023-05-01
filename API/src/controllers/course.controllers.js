@@ -41,7 +41,7 @@ const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
-const { translateDoc } = require("../utils/crowdin");
+const { translateDoc, translateCourse } = require("../utils/crowdin");
 
 /* COURSES
 */
@@ -252,7 +252,7 @@ exports.getCourseData = async (req, res, next) => {
     //     }
     // }
 
-    course = trans == 'ar' ? await translateDoc(course.toObject()) : course
+    course = trans == 'ar' ? await translateCourse(course.toObject()) : course
 
     return res.status(200).send({
         success: true,
