@@ -52,6 +52,28 @@ const auth = {
     },
 }
 
+async function translateArray(str_arr) {
+    try {
+        const res = await axios.post(`${CROWDIN_API}/mts/${CROWDIN_MTS_ID}/translations`, {
+            "languageRecognitionProvider": "crowdin",
+            "targetLanguageId": "ar",
+            "sourceLanguageId": "en",
+            "strings": str_arr,
+        }, auth)
+
+        // Replace the strings with their translations
+        const translated_strings = res.data.data.translations
+
+        console.log(translated_strings)
+
+        return translated_strings
+
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
 async function translateDoc(doc_to_translate) {
     try {
         let data = doc_to_translate
@@ -105,42 +127,31 @@ async function translateDoc(doc_to_translate) {
 async function translateCourse(course) {
     const translated_course = await translateDoc(course)
 
+    // Translate the course sections
     const course_sections = translated_course.course_sections
     for (let i = 0; i < course_sections.length; i++) {
         const section = course_sections[i]
         const translated_section = await translateDoc(section)
-        
+
+        // Translate the section videos
         const section_videos = translated_section.videos
         for (let j = 0; j < section_videos.length; j++) {
-            const video = section_videos[j]
-            const translated_video = await translateDoc(video)
-            section_videos[j] = translated_video
+            await translateDoc(section_videos[j]);
         }
 
+        // Translate the section exercises
         const exercises = translated_section.exercises
         for (let j = 0; j < exercises.length; j++) {
             const exercise = exercises[j]
 
+            // Translate the exercise questions
             const questions = exercise.questions
             for (let k = 0; k < questions.length; k++) {
-                const question = questions[k]
-                const translated_question = await translateDoc(question)
-                questions[k] = translated_question
+                questions[k].options = await translateArray(questions[k].options);
+                await translateDoc(questions[k]);
             }
-
-            // const options = exercise.options
-            // for (let k = 0; k < options.length; k++) {
-            //     const option = options[k]
-            //     const translated_option = await translateDoc(option)
-            //     options[k] = translated_option
-            // }
-
         }
-        
-        course_sections[i] = translated_section
     }
-
-    translated_course.course_sections = course_sections
 
     return translated_course
 }
