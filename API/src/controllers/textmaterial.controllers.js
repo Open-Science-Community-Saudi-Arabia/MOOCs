@@ -25,6 +25,7 @@
 
 const { CourseSection, TextMaterial } = require("../models/course.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
+const { translateDoc } = require("../utils/crowdin");
 const { NotFoundError, BadRequestError } = require("../utils/errors");
 const fs = require("fs");
 
@@ -194,10 +195,12 @@ exports.updateTextMaterial = async (req, res, next) => {
         return next(new NotFoundError("Text material not found"));
     }
 
+    const updated_text_material = await translateDoc(text_material)
+
     return res.status(200).send({
         success: true,
         data: {
-            text_material,
+            text_material: updated_text_material
         },
     });
 }

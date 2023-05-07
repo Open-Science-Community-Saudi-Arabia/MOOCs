@@ -117,6 +117,11 @@ async function translateDoc(doc_to_translate) {
             data[key.toString() + '_tr'] = translated_strings[keys[key]]
         }
 
+        if (data.type === "question") {
+            data.options_tr = await translateArray(doc.options)
+            data.correct_option_tr = (await translateArray([doc.correct_option]))[0]
+        }
+
         return data
     } catch (error) {
         console.log(error)

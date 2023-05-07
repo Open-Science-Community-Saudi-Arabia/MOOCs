@@ -23,11 +23,6 @@ async function translate_document (doc) {
     console.log(doc)
     const translated_doc = await translateDoc(doc)
 
-    if (doc.type === "question") {
-        translated_doc.options_tr = await translateArray(doc.options)
-        translated_doc.correct_option_tr = (await translateArray([doc.correct_option]))[0]
-    }
-
     return await doc.updateOne(translated_doc, { context: 'query', runValidators: true, bypassDocumentValidation: true })
 }
 

@@ -21,6 +21,7 @@
  */
 
 const { Course, CourseSection, Video, Exercise } = require("../models/course.models");
+const { translateDoc } = require("../utils/crowdin");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 
 /**
@@ -129,6 +130,8 @@ exports.updateCourseSection = async (req, res, next) => {
     if (!course_section) {
         return next(new NotFoundError("Course section not found"));
     }
+
+    const updated_course_section = await translateDoc(course_section)
 
     return res.status(200).send({
         success: true,
