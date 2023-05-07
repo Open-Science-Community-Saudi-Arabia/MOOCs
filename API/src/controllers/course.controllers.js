@@ -37,7 +37,6 @@ const {
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
-const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
@@ -625,6 +624,12 @@ exports.getVideoData = async (req, res, next) => {
 
     const videoId = req.params.id;
     const video = await Video.findById(videoId).populate('course downloadable_resources')
+
+
+    // Check if video exists
+    if (!video) {
+        return next(new NotFoundError('Video not found'))
+    }
 
     return res.status(200).send({
         success: true,

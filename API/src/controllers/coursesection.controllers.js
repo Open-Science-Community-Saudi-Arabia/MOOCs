@@ -97,7 +97,8 @@ exports.getCourseSectionData = async (req, res, next) => {
         success: true,
         data: {
             course_section: await course_section.populate({
-                path: "course", select: "title description author _id",
+                path: "course", 
+                select: "title description title_tr description_tr author _id",
             }),
         },
     });

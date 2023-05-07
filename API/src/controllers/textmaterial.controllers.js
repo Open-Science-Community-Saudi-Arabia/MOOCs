@@ -103,7 +103,7 @@ exports.uploadTextMaterial = async (req, res, next) => {
                 select: "title description _id",
                 populate: {
                     path: "course",
-                    select: "title description _id",
+                    select: "title description title_tr description_tr _id",
                 },
             })
         },
@@ -137,7 +137,7 @@ exports.getTextMaterialData = async (req, res, next) => {
             select: "title description _id",
             populate: {
                 path: "course",
-                select: "title description _id",
+                select: "title description title_tr description_tr _id",
             },
         },
         { path: "downloadable_resources" }]);
@@ -183,10 +183,10 @@ exports.updateTextMaterial = async (req, res, next) => {
         { new: true }
     ).populate({
         path: "course_section",
-        select: "title description _id",
+        select: "title description title_tr description_tr _id",
         populate: {
             path: "course",
-            select: "title description _id",
+            select: "title description title_tr description_tr _id",
         },
     });
 
@@ -229,10 +229,10 @@ exports.deleteTextMaterial = async (req, res, next) => {
         text_material_id
     ).populate({
         path: "course_section",
-        select: "title description _id",
+        select: "title description title_tr description_tr _id",
         populate: {
             path: "course",
-            select: "title description _id",
+            select: "title description title_tr description_tr _id",
         },
     });
 
