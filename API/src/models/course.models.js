@@ -11,12 +11,19 @@
  */
 
 const mongoose = require("mongoose")
+const { translateDoc, translateArray } = require("../utils/crowdin")
 const Schema = mongoose.Schema
 
 const options = {
     timestampsa: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
+}
+async function translate_document (doc) {
+    console.log(doc)
+    const translated_doc = await translateDoc(doc)
+
+    return await doc.updateOne(translated_doc, { context: 'query', runValidators: true, bypassDocumentValidation: true })
 }
 
 /**
@@ -208,8 +215,18 @@ const questionSchema = new Schema({
         type: String,
         required: true,
     },
-    options: [{ type: String }]
+    options: [{ type: String }],
+    question_tr: {
+        type: String,
+    },
+    correct_option_tr: {
+        type: String,
+    },
+    options_tr: [{ type: String }],
+    type: { type: String, default: "question"},
 }, options)
+questionSchema.post('save', translate_document)
+// questionSchema.post('update', translate_document)
 
 /**
  * @type {exerciseSchema}
@@ -224,7 +241,11 @@ const exerciseSchema = new Schema({
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
     order: { type: Number, default: Date.now() },
+    title_tr: { type: String },
+    description_tr: { type: String },
 }, options)
+exerciseSchema.post('save', translate_document)
+// exerciseSchema.post('update', translate_document)
 exerciseSchema.virtual('questions', {
     localField: '_id',
     foreignField: 'exercise',
@@ -236,14 +257,14 @@ exerciseSchema.virtual('questions', {
  * */
 const videoSchema = new Schema({
     type: { type: String, default: 'video' },
+    author: {
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true,
         minLength: 3, maxLength: 40
-    },
-    author: {
-        type: String,
-        required: true
     },
     video_url: { type: String, required: true },
     description: { type: String, required: true },
@@ -255,8 +276,15 @@ const videoSchema = new Schema({
         required: true
     },
     order: { type: Number, default: Date.now() },
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    title_tr: {
+        type: String,
+        minLength: 3, maxLength: 40
+    },
+    description_tr: { type: String },
 }, options)
+videoSchema.post('save', translate_document)
+// videoSchema.post('update', translate_document)
 videoSchema.virtual('downloadable_resources', {
     localField: '_id',
     foreignField: 'video',
@@ -272,46 +300,60 @@ const textmaterialSchema = new Schema({
         type: String,
         required: true
     },
+    description: { type: String, required: true },
     file_url: {
         type: String,
         required: true
     },
-    description: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
     course_section: { type: Schema.Types.ObjectId, ref: 'CourseSection', required: true },
     order: { type: Number, default: Date.now() },
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    title_tr: {
+        type: String,
+    },
+    description_tr: { type: String },
 }, options)
 textmaterialSchema.virtual('downloadable_resources', {
     localField: '_id',
     foreignField: 'textmaterial',
     ref: 'DownloadableResource'
 })
+textmaterialSchema.post('save', translate_document)
+// textmaterialSchema.post('update', translate_document)
 
 /**
  * @type {downloadableResourceSchema}
  */
 const downloadableResourceSchema = new Schema({
     resource_type: { type: String, required: true },
-    title: { type: String, required: true },
     file_url: { type: String, required: true },
+    title: { type: String, required: true },
     description: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     video: { type: Schema.Types.ObjectId, ref: 'Video' },
     textmaterial: { type: Schema.Types.ObjectId, ref: 'TextMaterial' },
     order: { type: Number, default: Date.now() },
-    isAvailable: { type: Boolean, default: true }
+    isAvailable: { type: Boolean, default: true },
+    title_tr: { type: String },
+    description_tr: { type: String },
 }, options)
+downloadableResourceSchema.post('save', translate_document)
+// downloadableResourceSchema.post('update', translate_document)
 
 /**
  * @type {courseSectionSchema}
  * */
 const courseSectionSchema = new Schema({
     title: { type: String, required: true, minLength: 3, maxLength: 40 },
+    title_tr: { type: String, minLength: 3, maxLength: 40 },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
 }, options)
+courseSectionSchema.post('save', translate_document)
+// courseSectionSchema.post('update', translate_document)
+
 courseSectionSchema.virtual('videos', {
     localField: '_id',
     foreignField: 'course_section',
@@ -381,11 +423,20 @@ const courseSchema = new Schema({
         type: String,
         required: true
     },
+    title_tr: {
+        type: String,
+    },
+    description_tr: {
+        type: String,
+    },
     videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
+courseSchema.post('save', translate_document)
+// courseSchema.pre('validate', translate_document)
+
 courseSchema.virtual('exercises', {
     localField: '_id',
     foreignField: 'course',

@@ -25,6 +25,7 @@
 
 const { CourseSection, TextMaterial } = require("../models/course.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
+const { translateDoc } = require("../utils/crowdin");
 const { NotFoundError, BadRequestError } = require("../utils/errors");
 const fs = require("fs");
 
@@ -94,7 +95,6 @@ exports.uploadTextMaterial = async (req, res, next) => {
         }
     });
 
-
     return res.status(200).send({
         success: true,
         data: {
@@ -103,7 +103,7 @@ exports.uploadTextMaterial = async (req, res, next) => {
                 select: "title description _id",
                 populate: {
                     path: "course",
-                    select: "title description _id",
+                    select: "title description title_tr description_tr _id",
                 },
             })
         },
@@ -137,7 +137,7 @@ exports.getTextMaterialData = async (req, res, next) => {
             select: "title description _id",
             populate: {
                 path: "course",
-                select: "title description _id",
+                select: "title description title_tr description_tr _id",
             },
         },
         { path: "downloadable_resources" }]);
@@ -183,10 +183,10 @@ exports.updateTextMaterial = async (req, res, next) => {
         { new: true }
     ).populate({
         path: "course_section",
-        select: "title description _id",
+        select: "title description title_tr description_tr _id",
         populate: {
             path: "course",
-            select: "title description _id",
+            select: "title description title_tr description_tr _id",
         },
     });
 
@@ -195,10 +195,12 @@ exports.updateTextMaterial = async (req, res, next) => {
         return next(new NotFoundError("Text material not found"));
     }
 
+    const updated_text_material = await translateDoc(text_material)
+
     return res.status(200).send({
         success: true,
         data: {
-            text_material,
+            text_material: updated_text_material
         },
     });
 }
@@ -227,10 +229,10 @@ exports.deleteTextMaterial = async (req, res, next) => {
         text_material_id
     ).populate({
         path: "course_section",
-        select: "title description _id",
+        select: "title description title_tr description_tr _id",
         populate: {
             path: "course",
-            select: "title description _id",
+            select: "title description title_tr description_tr _id",
         },
     });
 

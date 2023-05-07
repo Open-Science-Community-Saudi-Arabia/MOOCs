@@ -2,6 +2,7 @@ const { DownloadableResource, TextMaterial, Video, Course } = require('../models
 const { uploadToCloudinary } = require('../utils/cloudinary');
 const fs = require('fs');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
+const { translateDoc } = require('../utils/crowdin');
 
 /**
  * Get all downloadable resources
@@ -139,10 +140,12 @@ exports.updateDownloadableResource = async (req, res, next) => {
         return next(new NotFoundError('Resource not found'));
     }
 
+    const updated_downloadable_resource = await translateDoc(downloadable_resource)
+
     res.status(200).json({
         status: 'success',
         data: {
-            updated_resource: downloadable_resource
+            updated_resource: updated_downloadable_resource
         }
     })
 }
