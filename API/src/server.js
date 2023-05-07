@@ -25,15 +25,15 @@ async function start() {
             console.log(`Server is running on port ${PORT}....`);
         });
 
-        const service_data = {
-            port: parseInt(PORT),
-            name: 'moocs',
-            version: '1'
-        }
-        await axios
-            .post('http://localhost:5500/host/registry/service/register', service_data)
-            .then(res => res)
-            .catch(err => err)
+        // const service_data = {
+        //     port: parseInt(PORT),
+        //     name: 'moocs',
+        //     version: '1'
+        // }
+        // await axios
+        //     .post('http://localhost:5500/host/registry/service/register', service_data)
+        //     .then(res => res)
+        //     .catch(err => err)
 
     } catch (error) {
         console.log(error);
