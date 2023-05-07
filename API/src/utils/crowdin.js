@@ -77,7 +77,7 @@ async function translateArray(str_arr) {
 async function translateDoc(doc_to_translate) {
     try {
         let data = doc_to_translate
-        // console.log(data)
+
         /**
          * An object that contains the keys of the strings 
          * to translate and their index in the strings_to_translate array
@@ -95,7 +95,7 @@ async function translateDoc(doc_to_translate) {
 
         // Get the keys of the strings to translate
         let count = 0
-        for (const key in data) {
+        for (const key in data.toObject()) {
             if (dictionary[key]) {
                 // Add the key and its index in the strings_to_translate array
                 keys[key] = count
@@ -113,8 +113,9 @@ async function translateDoc(doc_to_translate) {
 
         // Replace the strings with their translations
         const translated_strings = res.data.data.translations
+        console.log(translated_strings)
         for (const key in keys) {
-            data[key] = translated_strings[keys[key]]
+            data[key.toString() + '_tr'] = translated_strings[keys[key]]
         }
 
         return data
