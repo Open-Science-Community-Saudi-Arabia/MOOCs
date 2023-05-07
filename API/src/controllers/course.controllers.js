@@ -86,10 +86,13 @@ exports.createCourse = async (req, res, next) => {
         }
     })
 
+    // let course = await translateDoc(savedCourse)
+    let course = savedCourse
+
     return res.status(200).send({
         success: true,
         data: {
-            course: savedCourse
+            course
         }
     })
 };
@@ -238,21 +241,9 @@ exports.getCourseData = async (req, res, next) => {
                 }
             }
 
-
             course.course_sections[i] = curr_section;
         }
     }
-
-    // if (req.user && course.enrolled_users.includes(req.user?.id)) {
-    //     const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
-    //     if (course_report) {
-    //         course.best_score = course_report.best_score;
-    //         course = course.toObject()
-    //         course.overall = course_report.percentage_passed;
-    //     }
-    // }
-
-    course = trans == 'ar' ? await translateCourse(course.toObject()) : course
 
     return res.status(200).send({
         success: true,

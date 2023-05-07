@@ -271,9 +271,9 @@ const videoSchema = new Schema({
     },
     description_tr: { type: String },
 }, options)
-videoSchema.post('save', async function(next) {
+videoSchema.post('save', async function (next) {
     const translated_doc = await translateDoc(this)
-    next()()
+    await this.updateOne(translated_doc)
 })
 videoSchema.virtual('downloadable_resources', {
     localField: '_id',
@@ -309,9 +309,9 @@ textmaterialSchema.virtual('downloadable_resources', {
     foreignField: 'textmaterial',
     ref: 'DownloadableResource'
 })
-textmaterialSchema.post('save', async function() {
+textmaterialSchema.post('save', async function () {
     const translated_doc = await translateDoc(this)
-    next()
+    await this.updateOne(translated_doc)
 })
 
 /**
@@ -330,9 +330,9 @@ const downloadableResourceSchema = new Schema({
     title_tr: { type: String },
     description_tr: { type: String },
 }, options)
-downloadableResourceSchema.post('save', async function() {
+downloadableResourceSchema.post('save', async function () {
     const translated_doc = await translateDoc(this)
-    next()
+    await this.updateOne(translated_doc)
 })
 
 /**
@@ -345,9 +345,9 @@ const courseSectionSchema = new Schema({
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
 }, options)
-courseSectionSchema.post('save', async function() {
+courseSectionSchema.post('save', async function () {
     const translated_doc = await translateDoc(this)
-    next()
+    await this.updateOne(translated_doc)
 })
 
 courseSectionSchema.virtual('videos', {
@@ -430,8 +430,9 @@ const courseSchema = new Schema({
     preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
-courseSchema.pre('save', async function() {
+courseSchema.pre('save', async function () {
     const translated_doc = await translateDoc(this)
+    await this.updateOne(translated_doc)
 })
 
 courseSchema.virtual('exercises', {
