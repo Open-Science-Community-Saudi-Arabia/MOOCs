@@ -238,6 +238,7 @@ const exerciseSchema = new Schema({
     title_tr: { type: String },
     description_tr: { type: String },
 }, options)
+exerciseSchema.post('save', translate_document)
 exerciseSchema.virtual('questions', {
     localField: '_id',
     foreignField: 'exercise',
