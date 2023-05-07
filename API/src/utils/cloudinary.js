@@ -15,7 +15,7 @@ cloudinary.config({
  * @param {string} file.file_name
  * @param {string} file.destination_path
  * 
- * @returns file url
+* @returns file url
  * 
  * @throws {Error} if invalid file 
  * 

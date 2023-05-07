@@ -41,6 +41,7 @@ const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const { translateDoc, translateCourse } = require("../utils/crowdin");
 
 /* COURSES
 */
@@ -147,12 +148,12 @@ exports.getCourses = async (req, res, next) => {
                 {
                     path: 'videos',
                     model: 'Video',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'textmaterials',
                     model: 'TextMaterial',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'exercises',
@@ -198,6 +199,7 @@ exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
+    const trans = req.query.lang
 
     let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
@@ -205,12 +207,12 @@ exports.getCourseData = async (req, res, next) => {
             {
                 path: 'videos',
                 model: 'Video',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'textmaterials',
                 model: 'TextMaterial',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'exercises',
@@ -232,7 +234,7 @@ exports.getCourseData = async (req, res, next) => {
                         exercise.best_score = exercise_report.best_score;
                         exercise.best_percentage_passed = exercise_report.percentage_passed;
                     }
-                    curr_section.exercises[j] = exercise;
+                    curr_section.exercises[j] = trans ? await translateDoc(exercise) : exercise;
                 }
             }
 
@@ -241,22 +243,22 @@ exports.getCourseData = async (req, res, next) => {
         }
     }
 
-    if (req.user && course.enrolled_users.includes(req.user?.id)) {
-        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
-        if (course_report) {
-            course.best_score = course_report.best_score;
-            course = course.toObject()
-            course.overall = course_report.percentage_passed;
-        }
-    }
+    // if (req.user && course.enrolled_users.includes(req.user?.id)) {
+    //     const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+    //     if (course_report) {
+    //         course.best_score = course_report.best_score;
+    //         course = course.toObject()
+    //         course.overall = course_report.percentage_passed;
+    //     }
+    // }
 
-    console.log('getting the course content')
+    course = trans == 'ar' ? await translateCourse(course.toObject()) : course
 
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course
+            course: course
         }
     })
 }
