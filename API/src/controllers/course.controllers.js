@@ -293,21 +293,21 @@ exports.updateCourse = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id);
-
-    if (course) {
-        await course.updateOne({ $set: req.body });
-
-        return res.status(200).json({
-            success: true,
-            data: {
-                message: "Course Updated",
-                updated_course: course
-            }
-        })
+    const course = await Course.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true});
+    
+    if (!course) {
+        return next(new BadRequestError("Course not found"));
     };
+    
+    const updated_course = await translateDoc(course);
 
-    return next(new BadRequestError("Course not found"));
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Course Updated",
+            updated_course
+        }
+    })
 }
 
 /** 

@@ -20,6 +20,7 @@ const options = {
     toObject: { virtuals: true }
 }
 async function translate_document (doc) {
+    console.log(doc)
     const translated_doc = await translateDoc(doc)
 
     if (doc.type === "question") {
@@ -27,7 +28,7 @@ async function translate_document (doc) {
         translated_doc.correct_option_tr = (await translateArray([doc.correct_option]))[0]
     }
 
-    return await doc.updateOne(translated_doc)
+    return await doc.updateOne(translated_doc, { context: 'query', runValidators: true, bypassDocumentValidation: true })
 }
 
 /**
@@ -230,6 +231,7 @@ const questionSchema = new Schema({
     type: { type: String, default: "question"},
 }, options)
 questionSchema.post('save', translate_document)
+// questionSchema.post('update', translate_document)
 
 /**
  * @type {exerciseSchema}
@@ -248,6 +250,7 @@ const exerciseSchema = new Schema({
     description_tr: { type: String },
 }, options)
 exerciseSchema.post('save', translate_document)
+// exerciseSchema.post('update', translate_document)
 exerciseSchema.virtual('questions', {
     localField: '_id',
     foreignField: 'exercise',
@@ -286,6 +289,7 @@ const videoSchema = new Schema({
     description_tr: { type: String },
 }, options)
 videoSchema.post('save', translate_document)
+// videoSchema.post('update', translate_document)
 videoSchema.virtual('downloadable_resources', {
     localField: '_id',
     foreignField: 'video',
@@ -321,6 +325,7 @@ textmaterialSchema.virtual('downloadable_resources', {
     ref: 'DownloadableResource'
 })
 textmaterialSchema.post('save', translate_document)
+// textmaterialSchema.post('update', translate_document)
 
 /**
  * @type {downloadableResourceSchema}
@@ -339,6 +344,7 @@ const downloadableResourceSchema = new Schema({
     description_tr: { type: String },
 }, options)
 downloadableResourceSchema.post('save', translate_document)
+// downloadableResourceSchema.post('update', translate_document)
 
 /**
  * @type {courseSectionSchema}
@@ -351,6 +357,7 @@ const courseSectionSchema = new Schema({
     order: { type: Number, default: Date.now() },
 }, options)
 courseSectionSchema.post('save', translate_document)
+// courseSectionSchema.post('update', translate_document)
 
 courseSectionSchema.virtual('videos', {
     localField: '_id',
@@ -433,6 +440,7 @@ const courseSchema = new Schema({
     isAvailable: { type: Boolean, default: true }
 }, options)
 courseSchema.post('save', translate_document)
+// courseSchema.pre('validate', translate_document)
 
 courseSchema.virtual('exercises', {
     localField: '_id',
