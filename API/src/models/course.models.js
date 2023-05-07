@@ -19,6 +19,10 @@ const options = {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 }
+async function translate_document (doc) {
+    const translated_doc = await translateDoc(doc)
+    return await doc.updateOne(translated_doc)
+}
 
 /**
  * @typedef {Object} questionSchema
@@ -271,10 +275,7 @@ const videoSchema = new Schema({
     },
     description_tr: { type: String },
 }, options)
-videoSchema.post('save', async function (next) {
-    const translated_doc = await translateDoc(this)
-    await this.updateOne(translated_doc)
-})
+videoSchema.post('save', translate_document)
 videoSchema.virtual('downloadable_resources', {
     localField: '_id',
     foreignField: 'video',
@@ -309,10 +310,7 @@ textmaterialSchema.virtual('downloadable_resources', {
     foreignField: 'textmaterial',
     ref: 'DownloadableResource'
 })
-textmaterialSchema.post('save', async function () {
-    const translated_doc = await translateDoc(this)
-    await this.updateOne(translated_doc)
-})
+textmaterialSchema.post('save', translate_document)
 
 /**
  * @type {downloadableResourceSchema}
@@ -330,10 +328,7 @@ const downloadableResourceSchema = new Schema({
     title_tr: { type: String },
     description_tr: { type: String },
 }, options)
-downloadableResourceSchema.post('save', async function () {
-    const translated_doc = await translateDoc(this)
-    await this.updateOne(translated_doc)
-})
+downloadableResourceSchema.post('save', translate_document)
 
 /**
  * @type {courseSectionSchema}
@@ -345,10 +340,7 @@ const courseSectionSchema = new Schema({
     deleted: { type: Schema.Types.ObjectId, ref: 'Course' },
     order: { type: Number, default: Date.now() },
 }, options)
-courseSectionSchema.post('save', async function () {
-    const translated_doc = await translateDoc(this)
-    await this.updateOne(translated_doc)
-})
+courseSectionSchema.post('save', translate_document)
 
 courseSectionSchema.virtual('videos', {
     localField: '_id',
@@ -430,10 +422,7 @@ const courseSchema = new Schema({
     preview_image: { type: String, required: true },
     isAvailable: { type: Boolean, default: true }
 }, options)
-courseSchema.pre('save', async function () {
-    const translated_doc = await translateDoc(this)
-    await this.updateOne(translated_doc)
-})
+courseSchema.post('save', translate_document)
 
 courseSchema.virtual('exercises', {
     localField: '_id',
