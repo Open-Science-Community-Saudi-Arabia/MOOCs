@@ -11,7 +11,7 @@
  */
 
 const mongoose = require("mongoose")
-const { translateDoc } = require("../utils/crowdin")
+const { translateDoc, translateArray } = require("../utils/crowdin")
 const Schema = mongoose.Schema
 
 const options = {
@@ -21,6 +21,12 @@ const options = {
 }
 async function translate_document (doc) {
     const translated_doc = await translateDoc(doc)
+
+    if (doc.type === "question") {
+        translated_doc.options_tr = await translateArray(doc.options)
+        translated_doc.correct_option_tr = (await translateArray([doc.correct_option]))[0]
+    }
+
     return await doc.updateOne(translated_doc)
 }
 
@@ -213,14 +219,17 @@ const questionSchema = new Schema({
         type: String,
         required: true,
     },
+    options: [{ type: String }],
     question_tr: {
         type: String,
     },
     correct_option_tr: {
         type: String,
     },
-    options: [{ type: String }]
+    options_tr: [{ type: String }],
+    type: { type: String, default: "question"},
 }, options)
+questionSchema.post('save', translate_document)
 
 /**
  * @type {exerciseSchema}

@@ -159,5 +159,6 @@ async function translateCourse(course) {
 
 module.exports = {
     translateDoc,
-    translateCourse
+    translateCourse,
+    translateArray
 }
