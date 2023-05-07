@@ -113,14 +113,14 @@ async function translateDoc(doc_to_translate) {
 
         // Replace the strings with their translations
         const translated_strings = res.data.data.translations
-        console.log(translated_strings)
         for (const key in keys) {
             data[key.toString() + '_tr'] = translated_strings[keys[key]]
         }
 
         return data
     } catch (error) {
-        console.log(error.response.data.errors[0].error)
+        console.log(error)
+        // console.log(error.response.data.errors[0].error)
         return error
     }
 }
