@@ -1,6 +1,7 @@
 {
   "source": {
     "include": ["../API/src", "../Frontend/src"],
+    "exclude": ["*.ejs"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },
