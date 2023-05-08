@@ -118,8 +118,8 @@ async function translateDoc(doc_to_translate) {
         }
 
         if (data.type === "question") {
-            data.options_tr = await translateArray(doc.options)
-            data.correct_option_tr = (await translateArray([doc.correct_option]))[0]
+            data.options_tr = await translateArray(data.options)
+            data.correct_option_tr = (await translateArray([data.correct_option]))[0]
         }
 
         return data
