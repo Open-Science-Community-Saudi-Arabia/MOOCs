@@ -6,6 +6,7 @@ import AvailableCourses from "./availablecourses";
 import { useQuery } from "react-query";
 import { getCourses } from "../../../utils/api/courses";
 
+
 /**
  * @category Client App
  * @subcategory Pages
@@ -23,11 +24,15 @@ const Board = () => {
     error,
     refetch,
   }: any = useQuery(queryKey, getCourses, {
-    // refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     staleTime: 0,
     cacheTime: 0,
     refetchInterval: 0,
   });
+
+
+
+;
   return (
     <section className="dashboard">
       <Header />

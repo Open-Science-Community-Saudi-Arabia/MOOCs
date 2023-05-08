@@ -13,6 +13,7 @@ const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const navigate = useNavigate();
+  const locale = localStorage.getItem("language") || "en";
 
   const enrollUserHandler = async (id: string) => {
     setLoading(true);
@@ -36,18 +37,19 @@ const AvailableCourses = ({ courses }: any) => {
         <Trans>Available Courses</Trans>
       </h1>
       <div className="availablecourses__courses">
-        {courses?.data.courses?.map(({_id,title,preview_image,author,course_sections}:Courses, index: number) => {
+        {courses?.data.courses?.map((content: Courses) => {
           return (
             <button
-              onClick={() => enrollUserHandler(_id)}
-              aria-label={title}
-              key={_id}
+              onClick={() => enrollUserHandler(content._id)}
+              aria-label={content.title}
+              key={content._id}
+              style={{width:"400px", height:"280px"}}
               className="availablecourses__courses-content"
             >
               <div className="availablecourses__courses-content__img-container">
                 {" "}
                 <div className={"img-container-overlay"}>
-                  {isLoading && selectedId === _id ? (
+                  {isLoading && selectedId === content._id ? (
                     <Spinner width="50px" height="50px" color="#0a0a0a" />
                   ) : (
                     <BsFillPlayCircleFill />
@@ -55,23 +57,20 @@ const AvailableCourses = ({ courses }: any) => {
                 </div>
                 <img
                   className="availablecourses__courses-content__img-container-img"
-                  src={preview_image}
-                  alt={title}
+                  src={content.preview_image}
+                  alt={content.title}
                 />
               </div>
 
-              <div className="availablecourses__courses-content__bottom">
+              <div className="availablecourses__courses-content__bottom aligned">
                 <p className="availablecourses__courses-content__bottom-text">
-                  {t`${title}`}
+                  {locale === "en" ? content.title : content.title_tr}
                 </p>
                 <p className="availablecourses__courses-content__bottom-author">
                   {" "}
-                  {t`${author}`}
+                  {locale === "en" ? content.description : content.description_tr}
                 </p>
-                <p className="availablecourses__courses-content__bottom-coursenumber">
-                  {" "}
-                  {t`${course_sections.length}`} course sections
-                </p>
+                
               </div>
             </button>
           );

@@ -34,7 +34,9 @@ export interface Courses {
   _id: string;
   author: string;
   title: string;
+  title_tr: string;
   description: string;
+  description_tr: string;
   enrolled_users: [];
   isAvailable: boolean;
   preview_image: string;
@@ -69,6 +71,7 @@ export interface TextMaterial {
   file_url: string;
   type: string;
   title: string;
+  title_tr: string;
 }
 
 export interface Video {
@@ -78,6 +81,7 @@ export interface Video {
   duration: string;
   type: string;
   title: string;
+  title_tr: string;
   order:number
 }
 

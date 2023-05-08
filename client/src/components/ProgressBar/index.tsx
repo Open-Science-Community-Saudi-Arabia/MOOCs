@@ -12,7 +12,7 @@ interface IProgressBarProps {
   progress: number;
   height: number;
   width: number;
-  overallScore?: boolean;
+  overallScore?: number;
 }
 
 /**
@@ -103,7 +103,7 @@ ProgressBar.propTypes = {
   width: PropTypes.number.isRequired,
   bgcolor: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
-  overallScore: PropTypes.number.isRequired,
+  overallScore: PropTypes.number,
 };
 
 CircularProgressBar.propTypes = {

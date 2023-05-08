@@ -53,6 +53,7 @@ const Quiz = ({
       setLoading(true);
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
+        console.log(response )
         if (response) {
           changedCurrentScore(response.data.report.percentage_passed);
           changeBestScoreHandler(response.data.report.best_percentage_passed);
