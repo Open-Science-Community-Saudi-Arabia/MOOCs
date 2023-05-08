@@ -73,7 +73,7 @@ const ViewCourse = () => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
   const locale = localStorage.getItem("language") || "en";
-  console.log(overAllScore > 0);
+
   useEffect(() => {
     isIpad ? setCourseContent(true) : setCourseContent(false);
     getVideodata(course?.course_sections[0].videos[0]._id);
