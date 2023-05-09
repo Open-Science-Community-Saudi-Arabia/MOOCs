@@ -9,67 +9,82 @@ Here is a reference to the API documentation by Crowdin on how to use the MTS: h
 ## Code Implementation
 Now, regarding the implementation in the backend using the machine translation engine provided by the Crowdin API:
 
+Specifically, it uses the Machine Translation Service (MTS) provided by Crowdin to automatically translate strings of text from English to Arabic.
 Here is the simple code snippet used within the backend API to translate the strings of text from English to Arabic:
 
 ```javascript
-async function translateDoc(document) {
-    try {
-        let data = document;
+async function translateStringsWithCrowdinAPI(str_arr) {
+    const url = `https://api.crowdin.com/api/v2/mts/${CROWDIN_MTS_ID}/translations`
+    const res = await axios.post(
+        url,
+        {
+            "languageRecognitionProvider": "crowdin",
+            "targetLanguageId": "ar",
+            "sourceLanguageId": "en",
+            "strings": str_arr,
+        },
+        auth)
 
-        // An object that holds the indexes of strings to translate
-        const string_indexes = {};
+    // Replace the strings with their translations
+    const translated_strings = res.data.data.translations
 
-        // An array of strings to translate
-        const strings_to_translate = [];
-
-        // Fields that we want to translate
-        const translatable_fields = {
-            'title': 'title',
-            'description': 'description',
-            'question': 'question',
-            'correct_option': 'correct_option',
-        }
-
-        // Get the indexes of the strings to translate
-        let string_index = 0;
-        for (const field in data.toObject()) {
-            if (translatable_fields[field]) {
-                // Add the field index to the string_indexes object
-                string_indexes[field] = string_index;
-                string_index++;
-                strings_to_translate.push(data[field]);
-            }
-        }
-
-        // Use the Crowdin API to translate the strings
-        const translated_strings = await translateStringsWithCrowdinAPI(strings_to_translate)
-
-        // Replace the strings with their translations
-        for (const field in string_indexes) {
-            // Add the translated string to the data object
-            data[field + '_tr'] = translated_strings[string_indexes[field]];
-        }
-
-        // If the document is a question, also translate the options and correct option
-        if (data.type === "question") {
-            data.options_tr = await translateStringsWithCrowdinAPI(data.options);
-
-            const translated_correct_option = data.options_tr[data.correct_option];
-            data.correct_option = translated_correct_option[0];
-        }
-
-        return data;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+    return translated_strings
 }
 ```
+The code snippet above is a function that takes an array of strings and returns an array of translated strings. 
+It does this by sending a POST request to the Crowdin MTS endpoint with the strings to be translated and the target and source languages specified. Once the request is made, the function waits for the response from the Crowdin API, which includes the translated strings.
 
-Specifically, it uses the Machine Translation Service (MTS) provided by Crowdin to automatically translate strings of text from English to Arabic.
+To carry out translation using the Machine Translation Engine, you'll need to select any translation engine of your choice, each translation engine has an `id` attached to it, this `id` will be needed when making requests to carry out translation. In our case the `CROWDIN_MTS_ID` holds the `id` of the translation engine we chose.
 
-The translateStringsWithCrowdinAPI function sends a POST request to the Crowdin MTS endpoint with the strings to be translated and the target and source languages specified. Once the request is made, the function waits for the response from the Crowdin API, which includes the translated strings.
+You can make a request to the Crowdin API to get the list of available translation engines and their MTS ID, for more info visit [here](https://developer.crowdin.com/api/v2/#operation/api.mts.getMany)
 
+Here is the code snippet used within the backend API to translate the strings of text from English to Arabic:
+```javascript
+async function translateDoc(document) {
+    let data = document;
+
+    const string_indexes = {};
+    const strings_to_translate = [];
+
+    // Fields that we want to translate
+    const translatable_fields = {
+        'title': 'title',
+        'description': 'description',
+        'question': 'question',
+        'correct_option': 'correct_option',
+    }
+
+    // Get the indexes of the strings to translate
+    // and add the field index to the string_indexes object
+    let string_index = 0;
+    for (const field in data.toObject()) {
+        if (translatable_fields[field]) {
+            string_indexes[field] = string_index;
+            string_index++;
+            strings_to_translate.push(data[field]);
+        }
+    }
+
+    // Use the Crowdin API to translate the strings
+    const translated_strings = await translateStringsWithCrowdinAPI(strings_to_translate)
+
+    // Replace the strings with their translations
+    // Add the translated string to the data object
+    for (const field in string_indexes) {
+        data[field + '_tr'] = translated_strings[string_indexes[field]];
+    }
+
+    // If the document is a question, also translate the options and correct option
+    if (data.type === "question") {
+        data.options_tr = await translateStringsWithCrowdinAPI(data.options);
+
+        const translated_correct_option = data.options_tr[data.correct_option];
+        data.correct_option = translated_correct_option[0];
+    }
+
+    return data;
+}
+```
 The translateDoc function takes a mongoose document as input and iterates through its fields to identify which ones are translatable. It then builds an array of strings to be translated and sends them to the translateStringsWithCrowdinAPI function.
 
 Once the translated strings are returned, the translateDoc function replaces the original strings with their translated versions in the data object. If the document is a question, the options and correct option fields are also translated.
