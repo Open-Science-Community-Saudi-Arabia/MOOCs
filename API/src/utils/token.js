@@ -1,3 +1,11 @@
+/**
+ * @category Backend API
+ * @subcategory Utilities
+ * @module Token Utility
+ * 
+ * @description Utilities for generating and verifying tokens for authentication
+ */
+
 const { User } = require('../models/user.models');
 const { AuthCode } = require('../models/token.models');
 const { NotFoundError } = require('./errors');

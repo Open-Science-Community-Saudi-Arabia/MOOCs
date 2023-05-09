@@ -4,45 +4,6 @@ const {
     CROWDIN_MTS_ID,
 } = require('./config');
 const axios = require('axios');
-// // Example API route
-// app.get('/api/course/:id', async (req, res) => {
-//     const courseId = req.params.id;
-//     const courseData = await fetchCourseData(courseId);
-//     const translatedCourseData = await translateCourseData(courseData, TARGET_LANG);
-
-//     res.json(translatedCourseData);
-// });
-
-// // Fetch course data from MongoDB
-// async function fetchCourseData(courseId) {
-//     // Your MongoDB code here
-// }
-
-// // Translate course data using CROWDIN API
-// async function translateCourseData(courseData, targetLang) {
-//     const response = await axios.post(
-//         `${CROWDIN_API_ENDPOINT}/translations`,
-//         {
-//             projectId: 'YOUR_PROJECT_ID', // Replace with your CROWDIN project ID
-//             languageId: targetLang,
-//             files: [
-//                 {
-//                     name: 'course_data.json', // Replace with your file name
-//                     content: JSON.stringify(courseData),
-//                 },
-//             ],
-//             autoApproveOption: '1',
-//         },
-//         {
-//             headers: {
-//                 'Authorization': `Bearer ${CROWDIN_API_KEY}`,
-//                 'Content-Type': 'application/json',
-//             },
-//         }
-//     );
-
-//     return JSON.parse(response.data.translations[0].data);
-// }
 
 const auth = {
     headers: {
@@ -52,118 +13,78 @@ const auth = {
     },
 }
 
-async function translateArray(str_arr) {
-    try {
-        const res = await axios.post(`${CROWDIN_API}/mts/${CROWDIN_MTS_ID}/translations`, {
+async function translateStringsWithCrowdinAPI(str_arr) {
+    const url = `https://api.crowdin.com/api/v2/mts/${CROWDIN_MTS_ID}/translations`
+    const res = await axios.post(
+        url,
+        {
             "languageRecognitionProvider": "crowdin",
             "targetLanguageId": "ar",
             "sourceLanguageId": "en",
             "strings": str_arr,
-        }, auth)
+        },
+        auth)
 
-        // Replace the strings with their translations
-        const translated_strings = res.data.data.translations
+    // Replace the strings with their translations
+    const translated_strings = res.data.data.translations
 
-        console.log(translated_strings)
-
-        return translated_strings
-
-    } catch (error) {
-        console.log(error)
-        return error
-    }
+    return translated_strings
 }
 
-async function translateDoc(doc_to_translate) {
+async function translateDoc(document) {
     try {
-        let data = doc_to_translate
+        let data = document;
 
-        /**
-         * An object that contains the keys of the strings 
-         * to translate and their index in the strings_to_translate array
-         * */
-        const keys = {}
-        const strings_to_translate = []
+        // An object that holds the indexes of strings to translate
+        const string_indexes = {};
 
-        // The keys that we want to translate
-        const dictionary = {
+        // An array of strings to translate
+        const strings_to_translate = [];
+
+        // Fields that we want to translate
+        const translatable_fields = {
             'title': 'title',
             'description': 'description',
             'question': 'question',
             'correct_option': 'correct_option',
         }
 
-        // Get the keys of the strings to translate
-        let count = 0
-        for (const key in data.toObject()) {
-            if (dictionary[key]) {
-                // Add the key and its index in the strings_to_translate array
-                keys[key] = count
-                count++
-                strings_to_translate.push(data[key])
+        // Get the indexes of the strings to translate
+        let string_index = 0;
+        for (const field in data.toObject()) {
+            if (translatable_fields[field]) {
+                // Add the field index to the string_indexes object
+                string_indexes[field] = string_index;
+                string_index++;
+                strings_to_translate.push(data[field]);
             }
         }
 
-        const res = await axios.post(`${CROWDIN_API}/mts/${CROWDIN_MTS_ID}/translations`, {
-            "languageRecognitionProvider": "crowdin",
-            "targetLanguageId": "ar",
-            "sourceLanguageId": "en",
-            "strings": strings_to_translate,
-        }, auth)
+        // Use the Crowdin API to translate the strings
+        const translated_strings = await translateStringsWithCrowdinAPI(strings_to_translate)
 
         // Replace the strings with their translations
-        const translated_strings = res.data.data.translations
-        for (const key in keys) {
-            data[key.toString() + '_tr'] = translated_strings[keys[key]]
+        for (const field in string_indexes) {
+            // Add the translated string to the data object
+            data[field + '_tr'] = translated_strings[string_indexes[field]];
         }
 
+        // If the document is a question, also translate the options and correct option
         if (data.type === "question") {
-            data.options_tr = await translateArray(data.options)
-            data.correct_option_tr = (await translateArray([data.correct_option]))[0]
+            data.options_tr = await translateStringsWithCrowdinAPI(data.options);
+
+            const translated_correct_option = data.options_tr[data.correct_option];
+            data.correct_option = translated_correct_option[0];
         }
 
-        return data
+        return data;
     } catch (error) {
-        console.log(error)
-        // console.log(error.response.data.errors[0].error)
-        return error
+        console.log(error);
+        return error;
     }
-}
-
-async function translateCourse(course) {
-    const translated_course = await translateDoc(course)
-
-    // Translate the course sections
-    const course_sections = translated_course.course_sections
-    for (let i = 0; i < course_sections.length; i++) {
-        const section = course_sections[i]
-        const translated_section = await translateDoc(section)
-
-        // Translate the section videos
-        const section_videos = translated_section.videos
-        for (let j = 0; j < section_videos.length; j++) {
-            await translateDoc(section_videos[j]);
-        }
-
-        // Translate the section exercises
-        const exercises = translated_section.exercises
-        for (let j = 0; j < exercises.length; j++) {
-            const exercise = exercises[j]
-
-            // Translate the exercise questions
-            const questions = exercise.questions
-            for (let k = 0; k < questions.length; k++) {
-                questions[k].options = await translateArray(questions[k].options);
-                await translateDoc(questions[k]);
-            }
-        }
-    }
-
-    return translated_course
 }
 
 module.exports = {
     translateDoc,
-    translateCourse,
-    translateArray
+    translateStringsWithCrowdinAPI
 }

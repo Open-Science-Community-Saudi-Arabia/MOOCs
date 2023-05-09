@@ -1,3 +1,11 @@
+/**
+ * @category Backend API
+ * @subcategory Utilities
+ * @module Cloudinary Utility
+ * 
+ * @description Utilities for handling file uploads to cloudinary
+ */
+
 const cloudinary = require('cloudinary').v2
 const config = require('./config')
 
