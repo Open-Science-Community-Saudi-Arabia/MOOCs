@@ -1,3 +1,20 @@
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module DownloadableResources Controller
+ * 
+ * @description Controller for downloadable resources, including text materials and videos </br>
+ * 
+ * The following routes are handled here: </br>
+ * 
+ * </br
+ * 
+ * <b>POST</b> /downloadableresource/new </br> 
+ * <b>POST</b> /downloadableresource/upload </br>
+ * <b>PATCH</b> /downloadableresource/update/:id </br>
+ * <b>DELETE</b> /downloadableresource/delete/:id </br>
+ */
+
 const { DownloadableResource, TextMaterial, Video, Course } = require('../models/course.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 const fs = require('fs');
