@@ -23,7 +23,7 @@ async function translate_document (doc) {
     console.log(doc)
     const translated_doc = await translateDoc(doc)
 
-    return await doc.updateOne(translated_doc, { context: 'query', runValidators: true, bypassDocumentValidation: true })
+    return await doc.updateOne(translated_doc)
 }
 
 /**
