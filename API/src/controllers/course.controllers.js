@@ -236,11 +236,20 @@ exports.getCourseData = async (req, res, next) => {
                         exercise.best_score = exercise_report.best_score;
                         exercise.best_percentage_passed = exercise_report.percentage_passed;
                     }
-                    curr_section.exercises[j] = trans ? await translateDoc(exercise) : exercise;
+                    curr_section.exercises[j] = exercise
                 }
             }
 
             course.course_sections[i] = curr_section;
+        }
+    }
+
+    if (req.user && course.enrolled_users.includes(req.user?.id)) {
+        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
+        if (course_report) {
+            course.best_score = course_report.best_score;
+            course = course.toObject()
+            course.overall = course_report.percentage_passed;
         }
     }
 
