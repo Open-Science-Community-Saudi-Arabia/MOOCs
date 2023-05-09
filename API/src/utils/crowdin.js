@@ -14,27 +14,21 @@ const auth = {
 }
 
 async function translateStringsWithCrowdinAPI(str_arr) {
-    try {
-        const url = `${CROWDIN_API}/mts/${CROWDIN_MTS_ID}/translations`
-        const res = await axios.post(
-            url,
-            {
-                "languageRecognitionProvider": "crowdin",
-                "targetLanguageId": "ar",
-                "sourceLanguageId": "en",
-                "strings": str_arr,
-            },
-            auth)
+    const url = `https://api.crowdin.com/api/v2/mts/${CROWDIN_MTS_ID}/translations`
+    const res = await axios.post(
+        url,
+        {
+            "languageRecognitionProvider": "crowdin",
+            "targetLanguageId": "ar",
+            "sourceLanguageId": "en",
+            "strings": str_arr,
+        },
+        auth)
 
-        // Replace the strings with their translations
-        const translated_strings = res.data.data.translations
+    // Replace the strings with their translations
+    const translated_strings = res.data.data.translations
 
-        return translated_strings
-
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
+    return translated_strings
 }
 
 async function translateDoc(document) {
