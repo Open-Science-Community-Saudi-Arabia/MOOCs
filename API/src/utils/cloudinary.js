@@ -26,7 +26,6 @@ cloudinary.config({
 * @returns file url
  * 
  * @throws {Error} if invalid file 
- * 
  */
 async function uploadToCloudinary(file) {
     const { path, file_name, destination_path } = file;

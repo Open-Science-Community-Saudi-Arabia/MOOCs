@@ -1,8 +1,8 @@
 {
   "source": {
-    "include": ["../API/src", "../Frontend/src"],
-    "exclude": ["../API/src/utils/email/templates"],
-    "includePattern": ".js$",
+    "include": ["../API/src", "../Frontend/src","../client/src"],
+    "exclude": ["../API/src/utils/email/templates", "../client/src/locales"],
+    "includePattern": "\\.(jsx|js|ts|tsx)$",
     "excludePattern": "(node_modules/|docs)"
   },
   "templates": {
@@ -10,13 +10,17 @@
     "syntaxTheme": "dark"
   },
   "tags": {
-    "allowUnknownTags": ["category", "subcategory", "section"]
+    "allowUnknownTags": true
   },
-  "plugins": ["node_modules/docdash", "node_modules/better-docs/category"],
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/docdash",
+    "node_modules/better-docs/category",
+    "node_modules/better-docs/typescript"
+  ],
   "opts": {
     "destination": "./docs/",
     "recurse": true,
-    "verbose": true,
     "template": "node_modules/better-docs",
     "theme_opts": {
       "default_theme": "white",
@@ -27,5 +31,4 @@
     "readme": "README.md",
     "tutorials": "./docs/tutorials"
   }
-
 }

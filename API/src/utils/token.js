@@ -1,9 +1,20 @@
 /**
+ * @fileoverview Token utilities.
+ * 
  * @category Backend API
  * @subcategory Utilities
+ * 
  * @module Token Utility
  * 
- * @description Utilities for generating and verifying tokens for authentication
+ * @description This module contains functions for generating and verifying JWT tokens.
+ *  
+ * @requires ../models/user.models
+ * @requires ../models/token.models
+ * @requires ../utils/errors
+ * @requires jsonwebtoken
+ * @requires ../utils/config
+ * @requires uuid
+ *  
  */
 
 const { User } = require('../models/user.models');
@@ -15,6 +26,12 @@ const { v4: UUID } = require('uuid');
 
 /**
  * Gets the secret and expiry for the specified token type
+ * 
+ * @description This function returns the secret and expiry for the specified token type. <br>
+ * The token type can be one of the following: <br>
+ * - `access` - Access token <br>
+ * - `refresh` - Refresh token <br>
+ * - `password_reset` - Password reset token <br>
  * 
  * @param {string} type - Type of token to generate
  * @returns secret and expiry for the specified token type
@@ -62,9 +79,12 @@ const getRequiredConfigVars = (type) => {
 /**
  * Generates a JWT token
  * 
- * @param {string} type - Type of token to generate
- * @param {UUID} user_id - ID of the user to generate token for
+ * @description This function generates a JWT token for the specified user. <br>
+ * 
+ * @param {ObjectId} user_id - ID of the user to generate token for
+ * @param {string} token_type - Type of token to generate
  * @returns JWT token
+ * 
  * @throws {NotFoundError} - If user does not exist
  * @throws {Error} - If any other error occurs
  *  */
@@ -107,8 +127,12 @@ const getAuthTokens = async (user_id, token_type = null) => {
 };
 
 /**
+ * Generates Auth Codes
  * 
- * @param {string} user_id 
+ * @description Generate authentication codes for user,
+ * such as verification code, password reset code, activation code, deactivation code
+ * 
+ * @param {ObjectId} user_id
  * @param {string} code_type 
  * 
  * @returns verification_code, password_reset_code, 
@@ -210,6 +234,14 @@ const getAuthCodes = async (user_id, code_type) => {
     });
 };
 
+/**
+ * Decode JWT
+ * 
+ * @description Decodes a JWT token
+ * 
+ * @param {string} token 
+ * @returns {Object} - Decoded token
+ */
 const decodeJWT = (token) => {
     try {
         const decoded = jwt.verify(token, config.JWT_ACCESS_SECRET);

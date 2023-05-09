@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap");
+
+@import "./mixins.scss";
+
+:root {
+  --black: hsla(0, 0%, 11%, 1);
+  --white: hsl(0, 0%, 100%);
+  --orange: #eb7707;
+  --light-blue: #419dda;
+  --deep-blue: #022562;
+  --gray: #666;
+  --light-gray: hsl(0deg 0% 96%);
+  --gray-100: #f5f8fe;
+  --green: #009985;
+  --green-light: hsl(172deg 100% 30% / 11%);
+  --gray-203: rgb(203, 213, 225);
+  --error: hsl(0, 79%, 63%);
+}
+
+body,
+html,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+button,
+input {
+  outline: none;
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--black);
+}
+.icon-button {
+  border: none;
+  width: auto !important;
+}
+
+.css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background-color: hsl(122, 39%, 58%) !important;
+}
+.Toastify__toast-container {
+  width: auto !important;
+}
+.aligned {
+  text-align: left;
+}
+html[dir="rtl"] {
+  .aligned {
+    text-align: right;
+  }
+}
