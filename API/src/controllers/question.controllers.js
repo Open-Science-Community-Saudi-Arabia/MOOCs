@@ -22,7 +22,6 @@
  */
 
 const { Question, Exercise, Video, Course } = require('../models/course.models')
-const { arrayOfCapitalLetters } = require('../utils/alphabets')
 const { translateDoc } = require('../utils/crowdin')
 const { BadRequestError, NotFoundError } = require('../utils/errors')
 
