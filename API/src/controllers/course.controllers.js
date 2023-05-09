@@ -37,10 +37,10 @@ const {
 } = require("../models/course.models");
 const { BadRequestError, NotFoundError, ForbiddenError, InternalServerError } = require("../utils/errors");
 const { User } = require("../models/user.models");
-const { populate } = require("../models/password.models");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const { translateDoc, translateCourse } = require("../utils/crowdin");
 
 /* COURSES
 */
@@ -85,10 +85,13 @@ exports.createCourse = async (req, res, next) => {
         }
     })
 
+    // let course = await translateDoc(savedCourse)
+    let course = savedCourse
+
     return res.status(200).send({
         success: true,
         data: {
-            course: savedCourse
+            course
         }
     })
 };
@@ -147,12 +150,12 @@ exports.getCourses = async (req, res, next) => {
                 {
                     path: 'videos',
                     model: 'Video',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'textmaterials',
                     model: 'TextMaterial',
-                    populate: 'donwloadable_resources'
+                    populate: 'downloadable_resources'
                 },
                 {
                     path: 'exercises',
@@ -198,6 +201,7 @@ exports.getCourseData = async (req, res, next) => {
     if (!req.params.id || req.params.id == ':id') {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
+    const trans = req.query.lang
 
     let course = await Course.findById(req.params.id).populate({
         path: 'course_sections',
@@ -205,12 +209,12 @@ exports.getCourseData = async (req, res, next) => {
             {
                 path: 'videos',
                 model: 'Video',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'textmaterials',
                 model: 'TextMaterial',
-                populate: 'donwloadable_resources'
+                populate: 'downloadable_resources'
             },
             {
                 path: 'exercises',
@@ -232,31 +236,19 @@ exports.getCourseData = async (req, res, next) => {
                         exercise.best_score = exercise_report.best_score;
                         exercise.best_percentage_passed = exercise_report.percentage_passed;
                     }
-                    curr_section.exercises[j] = exercise;
+                    curr_section.exercises[j] = trans ? await translateDoc(exercise) : exercise;
                 }
             }
-
 
             course.course_sections[i] = curr_section;
         }
     }
 
-    if (req.user && course.enrolled_users.includes(req.user?.id)) {
-        const course_report = await CourseReport.findOne({ course: course._id, user: req.user.id });
-        if (course_report) {
-            course.best_score = course_report.best_score;
-            course = course.toObject()
-            course.overall = course_report.percentage_passed;
-        }
-    }
-
-    console.log('getting the course content')
-
     return res.status(200).send({
         success: true,
         data: {
             message: "Success",
-            course
+            course: course
         }
     })
 }
@@ -300,21 +292,21 @@ exports.updateCourse = async (req, res, next) => {
         return next(new BadRequestError('Missing param `id` in request params'))
     }
 
-    const course = await Course.findById(req.params.id);
-
-    if (course) {
-        await course.updateOne({ $set: req.body });
-
-        return res.status(200).json({
-            success: true,
-            data: {
-                message: "Course Updated",
-                updated_course: course
-            }
-        })
+    const course = await Course.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true});
+    
+    if (!course) {
+        return next(new BadRequestError("Course not found"));
     };
+    
+    const updated_course = await translateDoc(course);
 
-    return next(new BadRequestError("Course not found"));
+    return res.status(200).json({
+        success: true,
+        data: {
+            message: "Course Updated",
+            updated_course
+        }
+    })
 }
 
 /** 
@@ -632,6 +624,12 @@ exports.getVideoData = async (req, res, next) => {
 
     const videoId = req.params.id;
     const video = await Video.findById(videoId).populate('course downloadable_resources')
+
+
+    // Check if video exists
+    if (!video) {
+        return next(new NotFoundError('Video not found'))
+    }
 
     return res.status(200).send({
         success: true,

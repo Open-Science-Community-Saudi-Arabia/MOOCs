@@ -1,7 +1,25 @@
+/**
+ * @category Backend API
+ * @subcategory Controllers
+ * @module DownloadableResources Controller
+ * 
+ * @description Controller for downloadable resources, including text materials and videos </br>
+ * 
+ * The following routes are handled here: </br>
+ * 
+ * </br
+ * 
+ * <b>POST</b> /downloadableresource/new </br> 
+ * <b>POST</b> /downloadableresource/upload </br>
+ * <b>PATCH</b> /downloadableresource/update/:id </br>
+ * <b>DELETE</b> /downloadableresource/delete/:id </br>
+ */
+
 const { DownloadableResource, TextMaterial, Video, Course } = require('../models/course.models');
 const { uploadToCloudinary } = require('../utils/cloudinary');
 const fs = require('fs');
 const { BadRequestError, NotFoundError } = require('../utils/errors');
+const { translateDoc } = require('../utils/crowdin');
 
 /**
  * Get all downloadable resources
@@ -139,10 +157,12 @@ exports.updateDownloadableResource = async (req, res, next) => {
         return next(new NotFoundError('Resource not found'));
     }
 
+    const updated_downloadable_resource = await translateDoc(downloadable_resource)
+
     res.status(200).json({
         status: 'success',
         data: {
-            updated_resource: downloadable_resource
+            updated_resource: updated_downloadable_resource
         }
     })
 }
