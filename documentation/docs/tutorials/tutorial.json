@@ -4,5 +4,8 @@
     },
     "environment_setup": {
         "title": "Environment Setup"
+    },
+    "localization_and_translation": {
+        "title": "Localization and translation"
     }
 }
