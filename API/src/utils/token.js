@@ -1,7 +1,7 @@
 /**
  * @category Backend API
  * @subcategory Utilities
- * @module Token Utilities
+ * @module Token Utility
  * 
  * @description Utilities for generating and verifying tokens for authentication
  */
