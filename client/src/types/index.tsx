@@ -54,6 +54,7 @@ export interface CourseSections {
 export interface Exercise {
   _id: string;
   title: string;
+  title_tr: string;
   questions: Questions[];
   order:number
   best_percentage_passed:number
@@ -62,7 +63,9 @@ export interface Questions {
   _id: string;
   correct_option: string;
   options: string[];
+  options_tr: string[];
   question: string;
+  question_tr: string;
 }
 
 export interface TextMaterial {

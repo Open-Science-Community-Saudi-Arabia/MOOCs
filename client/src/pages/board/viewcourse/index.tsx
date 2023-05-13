@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import Certificate from "./Certificate";
 import "./style.scss";
 import { IoMdClose } from "react-icons/io";
@@ -58,6 +58,8 @@ const ViewCourse = () => {
   const [bestScore, setBestScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
+
+
   const queryKey = "getCourse";
   const {
     data: coursedata,
@@ -70,6 +72,8 @@ const ViewCourse = () => {
     cacheTime: 0,
     refetchInterval: 0,
   });
+
+
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
   const locale = localStorage.getItem("language") || "en";
@@ -481,4 +485,7 @@ const ViewCourse = () => {
 };
 export default ViewCourse;
 
+// todo
 // Work on course content, specially the quiz, the hover/active state covers the progress bar(find alternative)
+// work on smooth language toggle
+// and reloading always take back user to first item, rather save current item

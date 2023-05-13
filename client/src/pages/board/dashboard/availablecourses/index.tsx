@@ -8,7 +8,6 @@ import { enrollUser } from "../../../../utils/api/courses";
 import { toast } from "react-toastify";
 import "./style.scss";
 
-
 const AvailableCourses = ({ courses }: any) => {
   const [isLoading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
@@ -37,13 +36,13 @@ const AvailableCourses = ({ courses }: any) => {
         <Trans>Available Courses</Trans>
       </h1>
       <div className="availablecourses__courses">
-        {courses?.data.courses?.map((content: Courses) => {
+        {courses?.map((content: Courses) => {
           return (
             <button
               onClick={() => enrollUserHandler(content._id)}
               aria-label={content.title}
               key={content._id}
-              style={{width:"400px", height:"280px"}}
+              style={{ width: "400px", height: "280px" }}
               className="availablecourses__courses-content"
             >
               <div className="availablecourses__courses-content__img-container">
@@ -68,9 +67,10 @@ const AvailableCourses = ({ courses }: any) => {
                 </p>
                 <p className="availablecourses__courses-content__bottom-author">
                   {" "}
-                  {locale === "en" ? content.description : content.description_tr}
+                  {locale === "en"
+                    ? content.description
+                    : content.description_tr}
                 </p>
-                
               </div>
             </button>
           );

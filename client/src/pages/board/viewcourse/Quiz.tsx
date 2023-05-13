@@ -35,7 +35,7 @@ const Quiz = ({
   reset,
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
-
+  const locale = localStorage.getItem("language") || "en";
   const onChangeValue = (id: string, event: any, index: number) => {
     if (exerciseData) {
       if (quizIndex + 1 === exerciseData?.questions.length) {
@@ -53,15 +53,12 @@ const Quiz = ({
       setLoading(true);
       try {
         let response = await exerciseScore(exerciseData?._id, { submission });
-        console.log(response )
         if (response) {
           changedCurrentScore(response.data.report.percentage_passed);
           changeBestScoreHandler(response.data.report.best_percentage_passed);
           changedDisplayContent("result");
           changedOverAllScore(response.data.report.course_progress);
-          
         }
-     
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message, {
@@ -77,7 +74,7 @@ const Quiz = ({
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
           <Trans> Quiz:</Trans>
-          {exerciseData?.title}
+          {locale === "en" ? exerciseData?.title : exerciseData?.title_tr}
         </h1>
         <p className="quiz-section__heading-subtitle">
           {" "}
@@ -96,10 +93,16 @@ const Quiz = ({
                       <Trans> Question</Trans> {index + 1} of{" "}
                       {exerciseData?.questions.length}:{" "}
                     </p>
-                    {content.question}?
+                    {locale === "en"
+                      ?content.question
+                      : content.question_tr} ?
                   </div>
                   <div className="quiz-section__content-options">
-                    {content.options.map((list: string, j: number) => {
+                
+                    {(locale === "en"
+                      ? content.options
+                      : content.options_tr
+                    ).map((list: string, j: number) => {
                       return (
                         <label
                           key={j}
@@ -114,10 +117,10 @@ const Quiz = ({
                             className="quiz-section__content-options__radio-btn"
                             value={list}
                           />
-                          <p className="quiz-section__content-options__letter">
+                          {/* <p className="quiz-section__content-options__letter">
                             {" "}
                             {`${String.fromCharCode(j + 65)})`}
-                          </p>{" "}
+                          </p>{" "} */}
                           {list}
                         </label>
                       );
