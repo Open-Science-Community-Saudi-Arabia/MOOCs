@@ -22,6 +22,7 @@
  */
 
 const { Question, Exercise, Video, Course } = require('../models/course.models')
+const { translateDoc } = require('../utils/crowdin')
 const { BadRequestError, NotFoundError } = require('../utils/errors')
 
 
@@ -162,15 +163,16 @@ exports.updateQuestion = async (req, res, next) => {
         return next(new NotFoundError('Question not found'))
     }
 
+    const updated_question = await translateDoc(question)
+
     return res.status(200).json({
         success: true,
         data: {
             message: "Question Updated",
-            question
+            question: updated_question
         }
     });
 }
-
 
 // Delete a particular question
 /**

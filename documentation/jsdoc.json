@@ -1,7 +1,7 @@
 {
   "source": {
-    "include": ["../API/src", "../client/src"],
-    "exclude": ["../client/src/locales"],
+    "include": ["../API/src", "../Frontend/src","../client/src"],
+    "exclude": ["../API/src/utils/email/templates", "../client/src/locales"],
     "includePattern": "\\.(jsx|js|ts|tsx)$",
     "excludePattern": "(node_modules/|docs)"
   },

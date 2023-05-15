@@ -24,7 +24,8 @@
  * <b>GET</b> /exercise/submission/prev/:exerciseId <i> - Get previous submissions for a particular exercise </i> </br>
  */
 
-const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection, ExerciseReport } = require("../models/course.models")
+const { Question, Exercise, ExerciseSubmission, CourseReport, CourseSection, ExerciseReport } = require("../models/course.models");
+const { translateDoc } = require("../utils/crowdin");
 const { BadRequestError, NotFoundError, ForbiddenError } = require("../utils/errors");
 const { issueCertificate } = require("./certificate.controllers");
 
@@ -202,11 +203,13 @@ exports.updateExercise = async (req, res, next) => {
         return next(new NotFoundError("Exercise not found"));
     }
 
+    const updated_exercise = await translateDoc(exercise)
+
     return res.status(200).json({
         success: true,
         data: {
             message: "Exercise Updated",
-            exercise
+            exercise: updated_exercise
         }
     });
 }
