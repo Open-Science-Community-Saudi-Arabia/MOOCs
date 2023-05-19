@@ -76,7 +76,7 @@ const Login = () => {
           <h1 className="login-signup__heading">
             <Trans>Login to MOOCs</Trans>
           </h1>
-          <div className="login-signup__google">
+          {/* <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"
               onClick={() => googlelogin()}
@@ -85,7 +85,7 @@ const Login = () => {
                 Sign in with Google </Trans><FcGoogle />
               
             </button>
-          </div>
+          </div> */}
           <div className="login-signup__hr-line">
             {" "}
             <hr />
