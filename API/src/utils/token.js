@@ -3,9 +3,9 @@
  *
  * @category Backend API
  * @subcategory Utilities
- *
- * @module Token Utilities
- *
+ * 
+ * @module Token Utility
+ * 
  * @description This module contains functions for generating and verifying JWT tokens.
  *
  * @requires ../models/user.models

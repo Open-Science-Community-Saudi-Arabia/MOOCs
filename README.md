@@ -28,7 +28,8 @@
 
 <div align="center">
   <p align="center">
-    <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs"><strong>Explore the docs »</strong></a>
+    <a href="https://moocs-documentation.netlify.app/"><strong>Explore the docs »</strong></a>
+    <a href="https://documenter.getpostman.com/view/20633788/2s93JwMgmb"><strong>API Docs</strong></a>
     <br />
     <br />
     <a href="https://oscsa-moocs.netlify.app/">View Demo</a>
