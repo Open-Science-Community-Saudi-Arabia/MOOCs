@@ -86,7 +86,7 @@ const Login = () => {
               
             </button>
           </div> */}
-          <div className="login-signup__hr-line">
+          {/* <div className="login-signup__hr-line">
             {" "}
             <hr />
             <h2 className="login-signup__hr-line__or">
@@ -94,7 +94,7 @@ const Login = () => {
               <Trans>OR </Trans>
             </h2>
             <hr />
-          </div>
+          </div> */}
 
           <form
             className="login-signup__form"

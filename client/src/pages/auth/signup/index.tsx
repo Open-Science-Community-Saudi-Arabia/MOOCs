@@ -98,14 +98,14 @@ const Signup = () => {
               <Trans> Sign in with Google</Trans> <FcGoogle />
             </button>
           </div> */}
-          <div className="login-signup__hr-line">
+          {/* <div className="login-signup__hr-line">
             {" "}
             <hr />
             <h2 className="login-signup__hr-line__or">
               <Trans>OR</Trans>
             </h2>
             <hr />
-          </div>
+          </div> */}
 
           <form
             className="login-signup__form"
