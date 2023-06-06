@@ -73,11 +73,11 @@ The MOOCs documentation is divided into several sections, each of which is conta
 
         - `technical_guide /`
             - `api_guide /`
-            - `api_authentication_flow.md`
-            - `api_structure`
-            - `api.md`
-            - `jwt_token_management.md`
-            - `rbac_handler_flow.md`
+                - `api_authentication_flow.md`
+                - `api_structure`
+                - `api.md`
+                - `jwt_token_management.md`
+                - `rbac_handler_flow.md`
 
             - `ci_workflow.md`
             - `deployment_guide.md`
