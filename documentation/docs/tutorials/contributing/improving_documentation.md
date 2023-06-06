@@ -175,53 +175,38 @@ In this example, the `.json` file represents a documentation structure with two 
 
 5. Within each tutorial object, include a `"title"` key to specify the title or heading for that specific tutorial.
 
-By using this .json file structure, you can easily define the hierarchy and relationships between tutorials, allowing you to create nested tutorials and organize your documentation in a logical and structured manner.
-
-#### Folder structure for the MOOCs documentation
-
-The MOOCs documentation is divided into several sections, each of which is contained in a separate folder within the `documentation` folder. The folder structure for the MOOCs documentation is as follows:
+For this example here is what the folder structure would look like assuming the root folder is `documentation / docs / tutorials /`:
 
 ```yaml
-- `documentation /`
-    - `docs /`
-        - `tutorials /`
-        - `contributing /`
-            - `improving_documentation.md`
-            - `adding_a_course.md`
-            - `api_project_structure.md`
-            - `project_structure.md`
-            - `raising_issues.md`
-            - `raising_pr.md`
-            - `contributing.md`
-            - `contributing.json`
+- documentation/
+    - docs/
+        - tutorials/
+            - maintainers/
+                - maintainers.md
+                - reviewing_pr.md
+                - ci_workflow.md
+                - secrets_and_security.md
+                - deployment_guide.md
 
-        - `localization_and_translation /`
-            - `backend.md`
-            - `client.md`
-            - `localization.md`
-            - `translation.md`
-            - `localization_and_translation.json`
+            - api/
+                - api.md
+                - api_structure.md
+                - api_authentication_flow.md
+                - jwt_token_management.md
+                - rbac_handler_flow.md
 
-        - `technical_guide /`
-            - `api_guide /`
-                - `api_authentication_flow.md`
-                - `api_structure`
-                - `api.md`
-                - `jwt_token_management.md`
-                - `rbac_handler_flow.md`
-
-            - `ci_workflow.md`
-            - `deployment_guide.md`
-            - `reviewing_pr.md`
-            - `secrets_and_security.md`
-            - `technical_guide.json`
-
-        - `changelog.md`
-        - `environment_setup.md`
-
-    - `server.js`
-    - `jsdoc.json`
-    - `package-lock.json`
-    - `package.json`
-    - `README.md`
+            - tutorials.json
 ```
+
+In this structure:
+
+- The `.json` configuration file is located in the `tutorials.json`
+- The `tutorials` folder contains subfolders representing different sections or categories of tutorials.
+- Each section or category folder, such as `maintainers` and `api`, contains the `.md` files for individual tutorials.
+- Additionally, for each section or category folder, there should be an accompanying `*.md` file that serves as the entry overview, providing an overview of the tutorials within that section. For example, `maintainers.md` provides an overview of the tutorials in the "Technical guide for Maintainers" section.
+
+The nested structure allows you to organize tutorials hierarchically, making it easier to navigate and find specific tutorials based on their topic or category.
+
+It's important to note that the tutorial structure allows only one level of nesting. This means you can have main sections and their respective tutorials, but you cannot create further nested folders within the tutorials.
+
+By following this folder structure and accompanying `.md` overview files, you can easily define the hierarchy and relationships between tutorials, allowing you to create nested tutorials and organize your documentation in a logical and structured manner.

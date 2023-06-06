@@ -16,7 +16,7 @@
             }
         }
     },
-    "api": {
+    "api_guide": {
         "title": "Technical guide for API developers",
         "children": {
             "api_structure": {
