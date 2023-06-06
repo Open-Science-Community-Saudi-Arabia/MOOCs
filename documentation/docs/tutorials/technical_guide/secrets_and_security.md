@@ -51,11 +51,11 @@ In our MOOCs platform project, we utilize GitHub repository secrets to securely 
 ### Purpose of Repository Secrets
 The primary purpose of repository secrets is to safeguard sensitive information that is required during the development, testing, and deployment stages of our project. Examples of sensitive data that can be stored as repository secrets include:
 
-    API keys and access tokens for third-party services
-    Database credentials
-    Encryption keys and secrets
-    Environment-specific configuration values
-    Any other sensitive data required for the project's operation
+- API keys and access tokens for third-party services
+- Database credentials
+- Encryption keys and secrets
+- Environment-specific configuration values
+- Any other sensitive data required for the project's operation
 
 By storing these sensitive credentials and information as repository secrets, we ensure that they are not exposed in our project's source code or visible to unauthorized individuals. This helps maintain the security and integrity of our project.
 
