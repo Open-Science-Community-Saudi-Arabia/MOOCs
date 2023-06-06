@@ -7,6 +7,9 @@
             },
             "ci_workflow": {
                 "title": "CI Workflow"
+            },
+            "secret_management": {
+                "title": "Secret Access/Management"
             }
         }
     },
