@@ -50,33 +50,48 @@ To improve the MOOCs documentation, you can use JSDoc to add additional document
 #### Folder structure for the MOOCs documentation
 The MOOCs documentation is divided into several sections, each of which is contained in a separate folder within the `documentation` folder. The folder structure for the MOOCs documentation is as follows:
 
-- `documentation`
-  - `docs`
-    - `tutorials`
-      - `contributing`
-        - `improving_documentation.md`
-        - `improving_documentation.js`
-      - `localization_and_translation`
-        - `backend.md`
-        - `client.md`
-        - `localization.md`
-        - `translation.md`
-        - `localization_and_translation.json`  
-      - `technical_guide`
-        - `api_guide`
-          - `api_authentication_flow.md`
-          - `api_structure`
-          - `api.md`
-          - `jwt_token_management.md`
-          - `rbac_handler_flow.md`
-        - `ci_workflow.md`
-        - `deployment_guide.md`
-        - `reviewing_pr.md`
-        - `secrets_and_security.md`
-        - `technical_guide.json`
-      - `changelog.md`
-      - `environment_setup.md`
-    - `index.js`
-    - `index.md`
+```
+- `documentation /`
+    - `docs /`
+        - `tutorials /`
+        - `contributing /`
+            - `improving_documentation.md`
+            - `adding_a_course.md`
+            - `api_project_structure.md`
+            - `project_structure.md`
+            - `raising_issues.md`
+            - `raising_pr.md`
+            - `contributing.md`
+            - `contributing.json`
+
+        - `localization_and_translation /`
+            - `backend.md`
+            - `client.md`
+            - `localization.md`
+            - `translation.md`
+            - `localization_and_translation.json`  
+
+        - `technical_guide /`
+            - `api_guide /`
+            - `api_authentication_flow.md`
+            - `api_structure`
+            - `api.md`
+            - `jwt_token_management.md`
+            - `rbac_handler_flow.md`
+
+            - `ci_workflow.md`
+            - `deployment_guide.md`
+            - `reviewing_pr.md`
+            - `secrets_and_security.md`
+            - `technical_guide.json`
+
+        - `changelog.md`
+        - `environment_setup.md`
+    
+    - `server.js`
+    - `jsdoc.json`
+    - `package-lock.json`
     - `package.json`
     - `README.md`
+    
+```
