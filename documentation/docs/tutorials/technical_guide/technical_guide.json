@@ -11,8 +11,8 @@
             "secrets_and_security": {
                 "title": "Secret Access/Management"
             },
-            "deployment": {
-                "title": "Deployment"
+            "deployment_guide": {
+                "title": "Deployment Guide"
             }
         }
     },
