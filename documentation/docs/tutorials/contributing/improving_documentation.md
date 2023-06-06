@@ -121,6 +121,62 @@ Remember to update the `.json` file whenever you add or modify sections to ensur
 
 By following this structure, you can maintain a well-organized and easily navigable documentation repository.
 
+#### Nested `.json` configuration for tutorials
+To structure tutorials and create nested tutorials within your documentation, you can use the `.json` file to define the hierarchy and relationships between tutorials. Here's an example of how you can structure tutorials using a `.json` file:
+
+```yaml
+{
+    "maintainers": {
+        "title": "Technical guide for Maintainers",
+        "children": {
+            "reviewing_pr": {
+                "title": "Reviewing pull requests"
+            },
+            "ci_workflow": {
+                "title": "CI Workflow"
+            },
+            "secrets_and_security": {
+                "title": "Secret Access/Management"
+            },
+            "deployment_guide": {
+                "title": "Deployment Guide"
+            }
+        }
+    },
+    "api": {
+        "title": "Technical guide for API developers",
+        "children": {
+            "api_structure": {
+                "title": "API structure"
+            },
+            "api_authentication_flow": {
+                "title": "API authentication flow"
+            },
+            "jwt_token_management": {
+                "title": "JWT token management"
+            },
+            "rbac_handler_flow": {
+                "title": "Role based access control flow"
+            }
+        }
+    }
+}
+```
+
+In this example, the `.json` file represents a documentation structure with two main sections: "Technical guide for Maintainers" and "Technical guide for API developers". Each section has its own set of tutorials represented as nested objects.
+
+1. Define the main sections or categories as top-level objects within the `.json` file, such as "maintainers" and "api".
+
+2. Within each main section, provide a `"title"` key to specify the title or heading for that section. For example, "Technical guide for Maintainers" and "Technical guide for API developers".
+
+3. Add a `"children"` key within each main section to define the nested tutorials. Each tutorial is represented as a child object within the `"children"` object.
+
+4. For each tutorial, provide a unique key as the object's key, such as "reviewing_pr" and "ci_workflow".
+
+5. Within each tutorial object, include a `"title"` key to specify the title or heading for that specific tutorial.
+
+By using this .json file structure, you can easily define the hierarchy and relationships between tutorials, allowing you to create nested tutorials and organize your documentation in a logical and structured manner.
+
 #### Folder structure for the MOOCs documentation
 
 The MOOCs documentation is divided into several sections, each of which is contained in a separate folder within the `documentation` folder. The folder structure for the MOOCs documentation is as follows:
