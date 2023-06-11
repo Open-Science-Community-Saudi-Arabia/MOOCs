@@ -7,10 +7,16 @@
             },
             "ci_workflow": {
                 "title": "CI Workflow"
+            },
+            "secrets_and_security": {
+                "title": "Secret Access/Management"
+            },
+            "deployment_guide": {
+                "title": "Deployment Guide"
             }
         }
     },
-    "api": {
+    "api_guide": {
         "title": "Technical guide for API developers",
         "children": {
             "api_structure": {

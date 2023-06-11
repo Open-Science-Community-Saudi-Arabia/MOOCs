@@ -55,6 +55,27 @@ Instructions on how to run the backend server:
 
 - Copy the content of `.env.example` file and paste it into `.env.dev` file
 - Fill in the required fields in the `.env.dev` file
+- To start the server initally these environment variables must be set. 
+        
+        MONGO_URI_DEV = <MongoDB connection URL>
+        PORT = 5000
+
+        JWT_ACCESS_SECRET = X5hyeNLbpVpsJ5v52og8_cwb41AeVtcPMsaguWXvql7X5h
+        JWT_ACCESS_EXP = 1h
+        JWT_REFRESH_SECRET = yeNLbpVpsJ5v52og8_cwb41AeVtcPMsaguWXvql
+        JWT_REFRESH_EXP = 7d
+
+        OAUTH_CLIENT_ID = <Google Client ID>
+        OAUTH_CLIENT_SECRET = <Google Client Secret>
+        OAUTH_REFRESH_TOKEN = <Google Refresh Token>
+        OAUTH_ACCESS_TOKEN = <Google Access Token>
+
+        GITHUB_CLIENT_ID = <Github Client ID>
+        GITHUB_CLIENT_SECRET = <Github Client Secret>
+
+        CLIENT_APP_URL = https://localhost://5173
+
+    Note: There are other environment variables that are optional and can be set if needed. 
 - To start the server, run the following command:
 
   ```bash
@@ -62,8 +83,7 @@ Instructions on how to run the backend server:
   ```
 
 - Now you can access the API on `http://localhost:5000`
-  
+
 ### Setting up Frontend
 
 #### Prerequisites
-
