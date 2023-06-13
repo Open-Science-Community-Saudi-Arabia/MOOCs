@@ -32,12 +32,10 @@ export async function dynamicActivate(locale: Locale) {
   if (locale === "ar") {
     document.documentElement.dir = "rtl";
     document.documentElement.lang = locale;
-    document.body.style.cssText = `fontFamily: "'IBM Plex Sans Arabic', sans-serif"`;
     document.body.classList.add("rtl");
   } else {
     document.documentElement.lang = locale;
     document.documentElement.dir = "ltr";
-    document.body.style.cssText = `fontFamily:  "'Plus Jakarta Sans', sans-serif";`;
     document.body.classList.remove("rtl");
   }
   i18n.load(locale, messages);

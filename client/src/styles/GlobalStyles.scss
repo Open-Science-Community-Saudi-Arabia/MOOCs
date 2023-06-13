@@ -3,6 +3,33 @@
 
 @import "./mixins.scss";
 
+@font-face {
+  font-family: "Bismillah";
+  src: url("./font/bismillah.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "AwalRamadhan-ttf";
+  src: url("./font/AwalRamadhan.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "AwalRamadhan";
+  src: url("./font/AwalRamadhan.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kahlil";
+  src: url("./font/Kahlil.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "RamadhanAmazing";
+  src: url("./font/RamadhanAmazing.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --black: hsla(0, 0%, 11%, 1);
   --white: hsl(0, 0%, 100%);
@@ -74,7 +101,13 @@ input {
 .aligned {
   text-align: left;
 }
+.rtl{
+  font-family: "Bismillah", sans-serif;
+  // font-family: "AwalRamadhan", sans-serif;
+  // font-family: "AwalRamadhan-ttf", sans-serif;
+}
 html[dir="rtl"] {
+
   .aligned {
     text-align: right;
   }
