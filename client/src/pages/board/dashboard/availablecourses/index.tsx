@@ -42,7 +42,7 @@ const AvailableCourses = ({ courses }: any) => {
               onClick={() => enrollUserHandler(content._id)}
               aria-label={content.title}
               key={content._id}
-              style={{ width: "400px", height: "280px" }}
+              style={{ width: "300px", height: "300px" }}
               className="availablecourses__courses-content"
             >
               <div className="availablecourses__courses-content__img-container">

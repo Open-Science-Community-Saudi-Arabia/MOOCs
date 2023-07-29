@@ -4,7 +4,6 @@ import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
-import { useQuery } from "react-query";
 import { getCourses } from "../../../utils/api/courses";
 
 /**
@@ -78,5 +77,3 @@ const Board = () => {
 
 export default Board;
 
-// Add a join button,
-// you should be able to tell  if you are enrolled or not

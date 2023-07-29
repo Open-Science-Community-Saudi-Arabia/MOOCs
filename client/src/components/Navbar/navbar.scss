@@ -69,7 +69,6 @@
       margin-top: 0;
       @include flex(space-around, center);
       gap: 2em;
-      margin-top: 1.5rem;
     }
     
     .btns {
@@ -82,7 +81,12 @@
       }
       .auth-btn-signup,
       .auth-btn-login {
+
+
+       
         @include button(auto, var(--green), var(--white));
+          
+        padding: 10px 30px !important;;
       }
     }
   }
