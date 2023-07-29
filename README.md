@@ -32,7 +32,7 @@
     <a href="https://documenter.getpostman.com/view/20633788/2s93JwMgmb"><strong>API Docs</strong></a>
     <br />
     <br />
-    <a href="https://oscsa-moocs.netlify.app/">View Demo</a>
+    <a href="https://moocs-client.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Report Bug</a>
     ·
@@ -41,7 +41,7 @@
 </div>
 
 ## Deployment
-Frontend: https://oscsa-moocs.netlify.app/
+Frontend: https://moocs-client.netlify.app/ 
 
 ## Technologies
 
