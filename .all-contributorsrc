@@ -115,6 +115,16 @@
         "translation",
         "review"
       ]
+    },
+    {
+      "login": "alswajiab",
+      "name": "Abdulrahman Alswaji",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42093749?v=4",
+      "profile": "https://github.com/alswajiab",
+      "contributions": [
+        "ideas",
+        "mentoring"
+      ]
     }
   ],
   "contributorsPerLine": 7,
