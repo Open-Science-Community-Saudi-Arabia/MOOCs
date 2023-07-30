@@ -14,12 +14,11 @@
 <div align="center" style="display:flex; align-items: center; justify-content: center" flex-direction="row">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://avatars.githubusercontent.com/u/79674464?s=200&v=4">
-    <img src="https://avatars.githubusercontent.com/u/79674464?s=200&v=4" width="80" height="80" alt="Logo"/>
+    <img src="imgs/Open Science Community_arabic-logi.png" width="400" alt="Logo"/>
   </picture>
-  <p align="center" style="font-size:30px; margin-top: 10px; margin-left: 10px">OSCSA</p>
 </div>
 
-<h1 align="center">Massive Open Online Courses (MOOCs) for Open Science in Arabic</h1>
+<h1 align="center">Open Innovation Platform</h1>
 
 <div align="center">
     Massive Open Online Courses (MOOCs) for Open Science in Arabic that include videos, MCQ questions and written resources!
