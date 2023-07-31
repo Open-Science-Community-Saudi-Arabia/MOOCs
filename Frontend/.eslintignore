@@ -1,8 +1,0 @@
-# node node_modules
-/node_modules/*
-jsdocs
-
-#build artefacts
-dist/*
-build/*
-coverage/*
