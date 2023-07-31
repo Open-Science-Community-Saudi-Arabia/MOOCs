@@ -6,12 +6,13 @@
 
 <div align="center" style="display:flex; align-items: center; justify-content: center" flex-direction="row">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://avatars.githubusercontent.com/u/79674464?s=200&v=4">
-    <img src="imgs/Open Science Community_arabic-logi.png" width="400" alt="Logo"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/assets/54219127/c8c7ef37-0209-4a42-b395-2a7650a86724">
+    <img src="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/assets/54219127/c8c7ef37-0209-4a42-b395-2a7650a86724" width="400" alt="Logo"/>
   </picture>
-</div>
+</div> 
 
-<h1 align="center">Open Innovation Platform</h1>
+
+<h1 align="center">Open Innovation For Open Science</h1>
 
 <div align="center">
     Massive Open Online Courses (MOOCs) for Open Science in Arabic that include videos, MCQ questions and written resources!
@@ -31,11 +32,15 @@
     <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Request Feature</a>
   </p>
 </div>
+<br/>
 
-## Deployment
-Frontend: https://moocs-client.netlify.app/ 
+# Deployment
+Frontend: https://moocs-client.netlify.app/  
+API: https://documenter.getpostman.com/view/20633788/2s93JwMgmb
 
-## Technologies
+<br/>
+
+# Technologies
 
 ### Frontend Technologies
 
@@ -47,6 +52,8 @@ Frontend: https://moocs-client.netlify.app/
 | `EsLint`           | v8.2.0  | Code Linting         |
 | `Vite`             | v2.6.8  | Code Bundler         |
 
+<br/>
+
 ### Backend Technologies
 
 | Technology              | Version | Use                         |
@@ -55,16 +62,17 @@ Frontend: https://moocs-client.netlify.app/
 | `ExpressJS`             | v3.10   | Framework for building APIs |
 | `MongoDB`               |    -    | Non-Relational Database     |
 
+<br/>
 
-## Contributing :two_hearts:
+# Contributing :two_hearts:
 - If you like it, leave your star in this project :star2:
 - If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
 - Please follow our [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
 - This is the guide to how the UI Design should look when implementing any frontend pages. [Click this link to see the figma design](https://www.figma.com/file/mkhBuJAS2arzy3wrbTZp2D/Simple-Landing-page-for-OSCSA%2C-with-Log-In-and-Sign-Up-Pages?node-id=0%3A1) 
 
-## Getting Started
+<br/>
 
-### Environment Setup
+## Environment Setup
 
 - Make sure you have nodejs installed by running the following command:
 
@@ -74,33 +82,24 @@ node -v
 
 - If the output is not the version of your nodejs installation, install nodejs from [here](https://nodejs.org/en/download/)
 
-*Things to note*
-- Linting has been set up for staged commits in the repository.
-- We're using `eslint` for js linting, and `prettier` for code formating.
-- Please make it a point to install `eslint` and `prettier` plugins on vscode to aid in your coding process.
-- Your code has to be properly formatted and have the correct syntax for you to be able to commit your changes.
-- Make sure you attend to all warnings and errors before you commit your code
+<br/>
 
-### Setting up the Frontend
+## Frontend Setup
 
 - Open `Git Bash` terminal inside root project folder
 - cd into the frontend folder by typing
 
 ```bash
-cd Frontend
+cd client
 ```
 
-- After ensuring you've installed nodejs install [yarn](https://www.npmjs.com/package/yarn).
-- To install dependencies, run the following command:
+- Install project dependencies, run the command:
 
 ```bash
 yarn install
 ```
 
-
-### STARTING THE SERVER
-
-- To start the whole application server
+### To start the frontend application 
 
 ```bash
 yarn dev
@@ -115,7 +114,7 @@ yarn dev
 yarn build
 ```
 
-### Checking formatting of whole project
+### Checking formatting
 
 - Run this script to check if all files meet prettier standard rules of formatting
 
@@ -129,22 +128,24 @@ yarn format:check
 yarn format:fix
 ```
 
-### Checking code syntax is in line with eslint rules
-
-- Run this script to check if all files meet eslint standard rules of code sytax
+- Checking code syntax is in line with eslint rules
 
 ```bash
 yarn lint:check
 ```
 
-- Run this script to fix all auto-fixable syntax errors in the whole project
+- Fix all auto-fixable syntax errors in the whole project
 
 ```bash
 yarn lint:fix
 ```
 
 ## Things to note as you contribute
-
+- Linting has been set up for staged commits in the repository.
+- We're using `eslint` for js linting, and `prettier` for code formating.
+- Please make it a point to install `eslint` and `prettier` plugins on vscode to aid in your coding process.
+- Your code has to be properly formatted and have the correct syntax for you to be able to commit your changes.
+- Make sure you attend to all warnings and errors before you commit your code.
 - Any page you code has to be responsive.
 - Write clear and concise commit messages.
 - Always run `yarn` after pulling code from the upstream repository.
@@ -153,7 +154,10 @@ yarn lint:fix
 - Run `prettier --check "input name of file here"` to check if your code is well formatted before you commit
 - Run `eslint input name of file here --color` to check if the files you edited con form to the standards required for this project
 
-### Setting up Backend
+
+<br/>
+
+## Backend Setup
 
 Instructions on how to run the backend server:
 
@@ -171,8 +175,10 @@ npm install
 ```
 
 - create a .env file in the project folder with the `MONGO_URI`, `PORT` variables
+  
+<br/>
 
-#### STARTING THE SERVER
+### START THE SERVER
 
 - To start the whole application server
 
@@ -183,12 +189,17 @@ npm run dev
 - Open your browser on localhost with the port you specified to see the result.
 - You're all set and ready to code😁
 
+  
+<br/>
+
 ## License
 
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
 
 [![CC BY 4.0][cc-by-image]][cc-by]
+
+<br/>
 
 ## Contributors ✨
 
