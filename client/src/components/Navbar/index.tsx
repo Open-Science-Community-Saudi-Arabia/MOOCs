@@ -22,7 +22,7 @@ import LanguageToggle from "../LanguageToggle";
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isDesktop = useMediaQuery("(min-width: 1280px)");
+  const isDesktop = useMediaQuery("(min-width: 1030px)");
 
   return (
     <>

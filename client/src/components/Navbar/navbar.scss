@@ -3,7 +3,7 @@
   @include flex(space-between, center);
   padding: 1em;
   @include ipad {
-    padding: 1em 5em;
+    padding: 1em 2em;
   }
   @include xl-screen {
     width: 60%;
@@ -64,7 +64,7 @@
     gap: 13px;
     margin-top: 20px;
     position: relative;
-    @include laptop {
+    @include ipad {
       flex-direction: row;
       margin-top: 0;
       @include flex(space-around, center);
@@ -75,17 +75,13 @@
       @include flex(space-around, start);
       flex-direction: column;
       gap: 20px;
-      @include laptop {
+      @include ipad {
         flex-direction: row;
         @include flex(space-around, center);
       }
       .auth-btn-signup,
       .auth-btn-login {
-
-
-       
         @include button(auto, var(--green), var(--white));
-          
         padding: 10px 30px !important;;
       }
     }
