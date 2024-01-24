@@ -27,14 +27,18 @@
       cursor: pointer;
       position: relative;
       &__img-container {
-        width: 300px;
+        width: 100%;
+        margin: auto;
+        padding:1em;
         height: 200px;
-        position: relative;
+   
         .img-container-overlay {
           @include flex(center, center);
           position: absolute;
-          height: 100%;
+          height: 75%;
           width: 100%;
+          left:0;
+          top:0;
           background-color: var(--green-light);
           opacity: 0%;
           border-radius: 20px 20px 0px 0px;
@@ -81,12 +85,16 @@
         opacity: 70%;
       }
     }
+    
   }
 }
 
-html[dir="rtl"] {
-  .availablecourses {
 
-  }
-}
+.no-content{
+  display: flex;
 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10em;
+      }

@@ -39,15 +39,21 @@
     }
   }
   &__right {
+    text-align: center;
     &-img {
-      display: none;
+      width:15rem;
+      
+     margin: auto;
       @include ipad {
         display: block;
         height: 320px;
+        width:20rem;
       }
       @include laptop {
         display: block;
         height: 400px;
+        width:auto 
+
       }
     }
   }

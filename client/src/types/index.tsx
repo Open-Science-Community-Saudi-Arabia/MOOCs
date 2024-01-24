@@ -34,7 +34,9 @@ export interface Courses {
   _id: string;
   author: string;
   title: string;
+  title_tr: string;
   description: string;
+  description_tr: string;
   enrolled_users: [];
   isAvailable: boolean;
   preview_image: string;
@@ -52,6 +54,7 @@ export interface CourseSections {
 export interface Exercise {
   _id: string;
   title: string;
+  title_tr: string;
   questions: Questions[];
   order:number
   best_percentage_passed:number
@@ -60,7 +63,9 @@ export interface Questions {
   _id: string;
   correct_option: string;
   options: string[];
+  options_tr: string[];
   question: string;
+  question_tr: string;
 }
 
 export interface TextMaterial {
@@ -69,6 +74,7 @@ export interface TextMaterial {
   file_url: string;
   type: string;
   title: string;
+  title_tr: string;
 }
 
 export interface Video {
@@ -78,6 +84,7 @@ export interface Video {
   duration: string;
   type: string;
   title: string;
+  title_tr: string;
   order:number
 }
 

@@ -1,9 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import Header from "./header";
 import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
-import { useQuery } from "react-query";
 import { getCourses } from "../../../utils/api/courses";
 
 /**
@@ -16,22 +16,47 @@ import { getCourses } from "../../../utils/api/courses";
   <Route path="dashboard" element={<Board />} />
  */
 const Board = () => {
-  const queryKey = "getCourses";
-  const {
-    data: courses,
-    isFetching,
-    error,
-    refetch,
-  }: any = useQuery(queryKey, getCourses, {
-    // refetchOnWindowFocus: true,
-    staleTime: 0,
-    cacheTime: 0,
-    refetchInterval: 0,
-  });
+  const [availableCourses, setAvailableCourses] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const isMounted = useRef(false);
+  useEffect(() => {
+    setLoading(true);
+    isMounted.current = true;
+    getCourses()
+      .then((response) => {
+        if (isMounted) {
+          setLoading(false);
+          setAvailableCourses(response.data.courses);
+        }
+      })
+      .catch((error) => {
+        setError(error);
+      });
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const getAvailableCourses = async () => {
+    try {
+      const response = await getCourses();
+      if (response.success) {
+        setLoading(false);
+        setAvailableCourses(response.data.courses);
+      }
+    } catch (error) {
+      setError(true);
+    } finally {
+      setError(false);
+    }
+  };
+
   return (
     <section className="dashboard">
       <Header />
-      {isFetching ? (
+      {isLoading ? (
         <div className="dashboard__spinner">
           <Spinner width="60px" height="60px" color="#009985" />
         </div>
@@ -40,11 +65,11 @@ const Board = () => {
           <ErrorFallBack
             message="Something went wrong!"
             description="We encountered an error while fetching courses"
-            reset={refetch}
+            reset={getAvailableCourses}
           />
         </div>
       ) : (
-        <AvailableCourses courses={courses} />
+        <AvailableCourses courses={availableCourses} />
       )}
     </section>
   );
@@ -52,5 +77,3 @@ const Board = () => {
 
 export default Board;
 
-// Add a join button,
-// you should be able to tell  if you are enrolled or not

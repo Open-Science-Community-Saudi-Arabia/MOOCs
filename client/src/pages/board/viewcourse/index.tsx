@@ -27,7 +27,6 @@ import { t, Trans } from "@lingui/macro";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 
-
 /**
  * @category Client App
  * @subcategory Pages
@@ -59,24 +58,6 @@ const ViewCourse = () => {
   const [bestScore, setBestScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
-  // const {
-  //   data: coursedata,
-  //   isLoading,
-  //   isError,
-  //   refetch,
-  // } = useCourse(params.id);
-  // const queryKey = "getCourse";
-  // const {
-  //   data: coursedata,
-  //   isFetching,
-  //   error,
-  //   refetch,
-  // }: any = useQuery(queryKey, getCourse(params.id), {
-  //   refetchOnWindowFocus: true,
-  //   staleTime: 0,
-  //   cacheTime: 0,
-  //   refetchInterval: 0,
-  // });
   const queryKey = "getCourse";
   const {
     data: coursedata,
@@ -84,13 +65,15 @@ const ViewCourse = () => {
     error,
     refetch,
   }: any = useQuery([queryKey, params.id], () => getCourse(params.id), {
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     staleTime: 0,
     cacheTime: 0,
     refetchInterval: 0,
   });
+
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const course = coursedata?.data.course;
+  const locale = localStorage.getItem("language") || "en";
 
   useEffect(() => {
     isIpad ? setCourseContent(true) : setCourseContent(false);
@@ -198,7 +181,8 @@ const ViewCourse = () => {
                 <TiArrowBack />
               </button>{" "}
               <h1 className="viewcourse-container__header__heading-title">
-                <Trans> Title: </Trans> {course?.title}
+                <Trans>Title:</Trans>{" "}
+                {locale === "en" ? course?.title : course?.title_tr}
               </h1>
             </div>
             <div
@@ -214,7 +198,7 @@ const ViewCourse = () => {
             >
               <Trans> Your Progress</Trans>{" "}
               <ProgressBar
-                overallScore={true}
+                overallScore={overAllScore}
                 width={150}
                 bgcolor="#6abd41"
                 progress={Math.round(overAllScore)}
@@ -225,7 +209,7 @@ const ViewCourse = () => {
                   filter:
                     overAllScore <= 80 ? "brightness(0.5)" : "brightness(1)",
                 }}
-                disabled={overAllScore <= 80}
+                disabled={overAllScore > 0 || overAllScore == undefined}
                 onClick={() => {
                   viewCertificate();
                 }}
@@ -329,7 +313,8 @@ const ViewCourse = () => {
                         {" "}
                         <p className="viewcourse-container__content-course-section__heading">
                           {" "}
-                          <Trans> Section</Trans> {index + 1}: {content.title}
+                          <Trans> Section</Trans> {index + 1}:{" "}
+                          {locale === "en" ? course?.title : course?.title_tr}
                         </p>
                         {content.videos.map((videoitem: Video, j: number) => {
                           return (
@@ -348,12 +333,16 @@ const ViewCourse = () => {
                             >
                               <div className="viewcourse-container__content-course-section__listitem-title">
                                 <p className="viewcourse-container__content-course-section__listitem-text">
-                                  <RxDot /> {videoitem?.title}
+                                  <RxDot />{" "}
+                                  {locale === "en"
+                                    ? videoitem?.title
+                                    : videoitem?.title_tr}
                                 </p>
                                 <div className="viewcourse-container__content-course-section__listitem-duration">
                                   {" "}
                                   <MdOndemandVideo />
-                                  {videoitem?.duration} min
+                                  {videoitem?.duration}
+                                  <Trans> min</Trans>
                                 </div>
                               </div>
                             </button>
@@ -378,7 +367,10 @@ const ViewCourse = () => {
                               >
                                 <div className="viewcourse-container__content-course-section__listitem-title">
                                   <p className="viewcourse-container__content-course-section__listitem-text">
-                                    <RxDot /> {textcontent.title}
+                                    <RxDot />{" "}
+                                    {locale === "en"
+                                      ? textcontent.title
+                                      : textcontent.title_tr}
                                   </p>
                                   <p className="viewcourse-container__content-course-section__listitem__status">
                                     {textcontent.type}
@@ -490,4 +482,7 @@ const ViewCourse = () => {
 };
 export default ViewCourse;
 
+// todo
 // Work on course content, specially the quiz, the hover/active state covers the progress bar(find alternative)
+// work on smooth language toggle
+// and reloading always take back user to first item, rather save current item

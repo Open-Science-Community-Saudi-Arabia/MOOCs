@@ -21,7 +21,7 @@ export async function getCourses() {
  * @param  {string} id  course id
  * @return {Promise<object>} response data
  */
-export async function getCourse(id: string) {
+export async function getCourse(id: string|any) {
   const response = await makeApiCall(`/course/${id}`);
   return response;
 }
