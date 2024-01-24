@@ -1,34 +1,42 @@
 {
-  "source": {
-    "include": ["../API/src", "../Frontend/src","../client/src"],
-    "exclude": ["../API/src/utils/email/templates", "../client/src/locales"],
-    "includePattern": "\\.(jsx|js|ts|tsx)$",
-    "excludePattern": "(node_modules/|docs)"
-  },
-  "templates": {
-    "theme": "cerulean",
-    "syntaxTheme": "dark"
-  },
-  "tags": {
-    "allowUnknownTags": true
-  },
-  "plugins": [
-    "plugins/markdown",
-    "node_modules/docdash",
-    "node_modules/better-docs/category",
-    "node_modules/better-docs/typescript"
-  ],
-  "opts": {
-    "destination": "./docs/",
-    "recurse": true,
-    "template": "node_modules/better-docs",
-    "theme_opts": {
-      "default_theme": "white",
-      "navType": "vertical",
-      "collapse": true,
-      "inverseNav": true
+    "source": {
+        "include": [
+            "../API/src",
+            "../Frontend/src",
+            "../client/src",
+            "./docs/tutorials"
+        ],
+        "exclude": [
+            "../API/src/utils/email/templates",
+            "../client/src/locales"
+        ],
+        "includePattern": "\\.(jsx|js|ts|tsx)$",
+        "excludePattern": "(node_modules/|docs)"
     },
-    "readme": "README.md",
-    "tutorials": "./docs/tutorials"
-  }
+    "templates": {
+        "theme": "cerulean",
+        "syntaxTheme": "dark"
+    },
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "plugins": [
+        "plugins/markdown",
+        "node_modules/docdash",
+        "node_modules/better-docs/category",
+        "node_modules/better-docs/typescript"
+    ],
+    "opts": {
+        "destination": "./docs/",
+        "recurse": true,
+        "template": "node_modules/better-docs",
+        "theme_opts": {
+            "default_theme": "white",
+            "navType": "vertical",
+            "collapse": true,
+            "inverseNav": true
+        },
+        "readme": "README.md",
+        "tutorials": "./docs/tutorials"
+    }
 }

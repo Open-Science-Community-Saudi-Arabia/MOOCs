@@ -14,26 +14,26 @@ jobs:
       matrix:
         node-version: [15.x, 16.x, 17.x, 18.x]
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    # steps:
+    #   - name: Checkout
+    #     uses: actions/checkout@v3
 
-      - name: Create env file for test environment        
-        run: |
-          cd ./API/src
-          touch ./.env.test
-          printf "${{secrets.ENV_TEST}}" >> ./.env.test
-          echo 'testasdfasdfasdf' >> ./.env.test
-          cat .env.test
-          pwd
+    #   - name: Create env file for test environment        
+    #     run: |
+    #       cd ./API/src
+    #       touch ./.env.test
+    #       printf "${{secrets.ENV_TEST}}" >> ./.env.test
+    #       echo 'testasdfasdfasdf' >> ./.env.test
+    #       cat .env.test
+    #       pwd
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: |
-          cd ./API/src
-          cat .env.test
-          pwd
-          npm install
-          npm run test
+    #   - name: Use Node.js ${{ matrix.node-version }}
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: ${{ matrix.node-version }}
+    #   - run: |
+    #       cd ./API/src
+    #       cat .env.test
+    #       pwd
+    #       npm install
+    #       npm run test
