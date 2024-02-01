@@ -26,6 +26,9 @@ jobs:
           echo 'testasdfasdfasdf' >> ./.env.test
           cat .env.test
           pwd
+          printf "${{ secrets.ENV_TEST}}" >> ./.env.test
+
+      - run: printf "${{ secrets.ENV_TEST}}" >> ./.env.test
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
