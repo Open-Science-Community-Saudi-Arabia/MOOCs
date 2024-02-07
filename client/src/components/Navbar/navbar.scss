@@ -15,8 +15,10 @@
   }
   &__navbar-container {
     width: 75%;
+
     @include flex(space-between, center);
     .navbar {
+      padding: 0em 1em;
       @include flex(space-around, center);
       gap: 3em;
     }
@@ -28,10 +30,10 @@
     right: 0;
     top: 0;
     width: 100%;
-    padding: 1em 2em;
+    padding: 1em 1.5em;
     background-color: var(--white);
     .sidebar-logo {
-      @include flex(space-between, center);
+      @include flex(space-between, start);
       margin-bottom: 2em;
       &__image {
         height: 84px;
@@ -53,6 +55,7 @@
     font-weight: 500;
     color: var(--gray);
     font-weight: 600;
+    width: max-content;
     &:hover {
       color: var(--green);
     }
@@ -70,11 +73,11 @@
       @include flex(space-around, center);
       gap: 2em;
     }
-    
+
     .btns {
       @include flex(space-around, start);
       flex-direction: column;
-      gap: 20px;
+      gap: 15px;
       @include ipad {
         flex-direction: row;
         @include flex(space-around, center);
@@ -82,7 +85,21 @@
       .auth-btn-signup,
       .auth-btn-login {
         @include button(auto, var(--green), var(--white));
-        padding: 10px 30px !important;;
+        padding: 10px 15px !important;
+        width: max-content;
+      }
+    }
+  }
+}
+
+html[dir="rtl"] {
+  .header__navbar-container {
+    width: 80%;
+    .navbar {
+      gap: 2em;
+
+      @include laptop {
+        gap: 3em;
       }
     }
   }

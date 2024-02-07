@@ -71,17 +71,17 @@ const index=()=> {
               {" "}
               <Trans>Follow Us</Trans>
             </h3>
-            <Link className="nav-link" to="https://twitter.com/OpenSciSaudi">
+            <Link className="nav-link"  target="_blank" to="https://twitter.com/OpenSciSaudi">
               <img className="nav-link__image" src={Twitter} alt="twitter" />
             </Link>
             <Link
-              className="nav-link"
+              className="nav-link"  target="_blank"
               to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/"
             >
               <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
             </Link>
             <Link
-              className="nav-link"
+              className="nav-link"  target="_blank"
               to="https://github.com/Open-Science-Community-Saudi-Arabia"
             >
               <img className="nav-link__image" src={Github} alt="github" />

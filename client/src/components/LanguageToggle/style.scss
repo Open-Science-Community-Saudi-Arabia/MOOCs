@@ -5,13 +5,9 @@
   cursor: pointer;
   &__selected {
     border: none;
-
     @include flex(space-around, center);
     font-size: 16px;
-    gap: 8px;
-    @include ipad {
-     
-    }
+    gap: 8px; 
     svg {
       vertical-align: middle;
     }
@@ -20,8 +16,13 @@
     width: 120px;
     background-color: var(--white);
     position: absolute;
-    left: -30px;
-    top: 35px;
+    left: 49px;
+    top: 5px;
+    @include ipad {
+  
+      left: -30px;
+      top: 35px;
+    }
     border: 1px solid var(--green-light);
     @include flex(space-around, center);
     flex-direction: column;
