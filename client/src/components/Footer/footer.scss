@@ -25,12 +25,10 @@
     &__content {
       flex-basis: 90%;
       @include flex(space-around, start);
-      // text-align: center;
       flex-wrap: wrap;
       gap: 25px;
       @include ipad {
         @include flex(space-between, start);
-        // text-align: left;
         gap: 50px;
       }
       &-quicklinks,
