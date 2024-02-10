@@ -1,8 +1,6 @@
 import Github from "../images/github-image.png";
 import cc from "../images/cc.png";
 import Outreachy from "../images/outreachy.png";
-import Unesco from "../images/unesco.webp";
-import CSS from "../images/css.png";
 import creativecommon from "../images/creative-common.png";
 import githublogo from "../images/github-logo.png";
 import nextflow from "../images/next-flow.png";
@@ -11,9 +9,6 @@ import web3 from "../images/web3.png";
 import openbook from "../images/openbook.svg";
 import knowledge from "../images/knowledge.svg";
 import brain from "../images/brain.svg";
-import capenteries from "../images/capenteries.svg";
-import openscience from "../images/open-science.svg";
-import ttw from "../images/ttw.svg";
 import { t } from "@lingui/macro";
 
 // Display Course List
@@ -110,35 +105,9 @@ export const OpenPractice = [
 export const Supporter = [
   {
     id: 0,
-    // icon: Unesco,
     icon:  Outreachy,
     name: "UNESCO",
   },
-  // {
-  //   id: 1,
-  //   icon: Outreachy,
-  //   name: "Outreachy",
-  // },
-  // {
-  //   id: 2,
-  //   icon: CSS,
-  //   name: "CSS",
-  // },
-  // {
-  //   id: 3,
-  //   icon: capenteries,
-  //   name: "carpenteries",
-  // },
-  // {
-  //   id: 4,
-  //   icon: ttw,
-  //   name: "the turning way",
-  // },
-  // {
-  //   id: 5,
-  //   icon: openscience,
-  //   name: "open science",
-  // },
 ];
 
 const data = {
