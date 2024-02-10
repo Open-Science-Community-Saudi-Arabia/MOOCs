@@ -1,30 +1,23 @@
-# name: Merge Crowdin branch into Frontend_ui
+name: Merge Crowdin branch into frontend-ui
 
-# on:
-#   pull_request:
-#     branches: [frontend-ui]
+on:
+  pull_request:
+    branches: [frontend-ui]
 
-#   workflow_dispatch:
+  workflow_dispatch:
 
-# jobs:
-#   merge:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: automerge branch
-#         run: |
-#           git checkout frontend-ui
-#           git pull origin frontend-ui
-#           git merge l10n_frontend-ui
-
-#       - name: Run to compile translation
-#         run: |
-#           git checkout frontend-ui
-#           git pull origin frontend-ui
-#           cd client
-#           yarn compile
-#       - name: Run to compile translation
-#         run: |
-#           git add .
-#           git commit -m "updated translation from crowdin"
-#           git push origin frontend-ui
+jobs:
+  merge:
+    needs: pull-request
+    name: merge
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: merge
+        uses: mtanzi/action-automerge@v1
+        id: merge
+        with:
+          github_token: ${{ secrets.REPO_TOKEN }}
+          source: "test-branch"
+          target: "frontend-ui"
