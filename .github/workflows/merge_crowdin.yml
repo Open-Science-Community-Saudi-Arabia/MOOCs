@@ -1,23 +1,13 @@
-name: Merge Crowdin branch into frontend-ui
-
+name: Automerge Crowdin
 on:
   pull_request:
     branches: [frontend-ui]
-
-  workflow_dispatch:
-
 jobs:
-  merge:
-    needs: pull-request
-    name: merge
+  automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: merge
-        uses: mtanzi/action-automerge@v1
-        id: merge
-        with:
-          github_token: ${{ secrets.REPO_TOKEN }}
-          source: "test-branch"
-          target: "frontend-ui"
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.16.2"
+        env:
+          GITHUB_TOKEN: "${{ secrets.REPO_TOKEN }}"
