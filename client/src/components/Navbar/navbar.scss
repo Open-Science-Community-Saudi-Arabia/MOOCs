@@ -38,6 +38,10 @@
       &__image {
         height: 84px;
       }
+      .nav-close{
+        gap:1em;
+        @include flex(space-between, center);
+      }
       &__close-icon {
         font-size: 30px;
         color: var(--black);
@@ -54,7 +58,6 @@
     font-size: 16px;
     font-weight: 500;
     color: var(--gray);
-    font-weight: 600;
     width: max-content;
     &:hover {
       color: var(--green);
@@ -73,7 +76,12 @@
       @include flex(space-around, center);
       gap: 2em;
     }
-
+.nav-language-toogle{
+  display: none;
+  @include ipad {
+    display: block;
+  }
+}
     .btns {
       @include flex(space-around, start);
       flex-direction: column;

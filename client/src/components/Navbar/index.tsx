@@ -53,7 +53,12 @@ const index = () => {
                       alt="Open source community Saudia Arabia logo"
                     />
                   </Link>
-                  <button
+                 <div className="nav-close">
+                 <div className="nav-language-toogle">
+               <LanguageToggle />
+               </div>
+
+                 <button
                     aria-label="close"
                     onClick={() => {
                       setIsOpen(false);
@@ -62,6 +67,7 @@ const index = () => {
                   >
                     <IoMdCloseCircle className="sidebar-logo__close-icon" />
                   </button>
+                 </div>
                 </div>
               )}
               <nav className="navbar">
@@ -81,7 +87,9 @@ const index = () => {
               </nav>
 
               <div className="auth-btn">
-                <LanguageToggle />
+               <div className="nav-language-toogle">
+               <LanguageToggle />
+               </div>
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">

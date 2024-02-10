@@ -16,11 +16,10 @@
     width: 120px;
     background-color: var(--white);
     position: absolute;
-    left: 49px;
-    top: 5px;
+  right:0px;
+    // top: 5px;
     @include ipad {
-  
-      left: -30px;
+      right:0px;
       top: 35px;
     }
     border: 1px solid var(--green-light);

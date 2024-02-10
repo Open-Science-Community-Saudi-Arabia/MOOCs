@@ -9,7 +9,7 @@
 @mixin button($width, $bg-color, $color) {
   background-color: $bg-color;
   color: $color;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 15px;
   border-radius: 8px;
   width: $width;
