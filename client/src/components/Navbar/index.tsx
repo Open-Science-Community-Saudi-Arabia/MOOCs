@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import {useState } from "react";
 import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
-import useClickOutside from "../../hooks/useClickOutside";
 import LanguageToggle from "../LanguageToggle";
 
 /**
@@ -21,7 +20,6 @@ import LanguageToggle from "../LanguageToggle";
 
 const index = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const isDesktop = useMediaQuery("(min-width: 1030px)");
 
   return (
@@ -55,7 +53,12 @@ const index = () => {
                       alt="Open source community Saudia Arabia logo"
                     />
                   </Link>
-                  <button
+                 <div className="nav-close">
+                 <div className="nav-language-toogle">
+               <LanguageToggle />
+               </div>
+
+                 <button
                     aria-label="close"
                     onClick={() => {
                       setIsOpen(false);
@@ -64,6 +67,7 @@ const index = () => {
                   >
                     <IoMdCloseCircle className="sidebar-logo__close-icon" />
                   </button>
+                 </div>
                 </div>
               )}
               <nav className="navbar">
@@ -76,16 +80,16 @@ const index = () => {
                 <Link className="navlink" to="/">
                   <Trans>About</Trans>
                 </Link>
-                <Link className="navlink" to="/">
-                  <Trans>Faq</Trans>
-                </Link>
+               
                 <Link className="navlink" to="/">
                   <Trans>Blog</Trans>
                 </Link>
               </nav>
 
               <div className="auth-btn">
-                <LanguageToggle />
+               <div className="nav-language-toogle">
+               <LanguageToggle />
+               </div>
 
                 <div className="btns">
                   <Link to="/login" className="auth-btn-login">
