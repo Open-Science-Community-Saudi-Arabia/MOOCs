@@ -10,12 +10,13 @@
 
   &__languageToggle {
     position: absolute;
-    top: 10px;
+    top: 25px;
     right: 60px;
   }
   &__heading {
     margin-bottom: 1em;
     font-size: 25px;
+    font-weight: 500;
     @include ipad {
       font-size: 27px;
     }
@@ -46,7 +47,7 @@
     margin-bottom: 1em;
   }
   &__hr-line {
-    margin-top: 30px;
+    margin-top: 10px;
     @include flex(center, center);
     gap: 10px;
     &__or {
@@ -79,7 +80,7 @@
       font-size: 16px;
       font-weight: 400;
       border-radius: 6px;
-      margin-top: 30px !important;
+      margin-top: 10px !important;
       &:focus {
         border-bottom-width: 2px;
       }
@@ -178,6 +179,15 @@
   }
 }
 html[dir="rtl"] {
+  .login-signup  {
+    &__heading{
+      font-size: 15px;
+      @include ipad {
+        font-size: 20px;
+  
+      }
+    }
+  }
   .eye-icon {
     right: unset;
     left: 10px;

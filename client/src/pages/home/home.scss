@@ -69,7 +69,7 @@
   &__heading {
     font-size: 25px;
     text-align: center;
-    font-weight: 700;
+    font-weight: 500;
     @include ipad {
       font-size: 30px;
     }
@@ -119,6 +119,7 @@
       }
       &__name {
         font-size: 17px;
+        font-weight: 500;
        
         @include xl-screen {
           font-size: 20px;
@@ -184,7 +185,7 @@
   &__link {
     @include flex(center, center);
     position: relative;
-    font-weight: 700;
+    font-weight: 500;
     width: 250px;
     margin: 2em auto;
     padding: 1rem;
@@ -225,7 +226,7 @@
     &-heading {
       font-size: 25px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 500;
       @include ipad {
         font-size: 30px;
       }
@@ -257,7 +258,7 @@
           }
           &-name {
             font-size: 18px;
-            font-weight: 700;
+            font-weight: 400;
             @include ipad {
               font-size: 22px;
             }
@@ -265,7 +266,7 @@
           &-description {
 
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 400;
             color: var(--gray);
             line-height: 30px;
             @include ipad {
@@ -292,7 +293,7 @@
     }
     &-heading {
       font-size: 24px;
-      font-weight: 700;
+      font-weight: 500;
       @include ipad {
         font-size: 28px;
       }
@@ -340,7 +341,7 @@
     }
     &-heading {
       font-size: 25px;
-      font-weight: 700;
+      font-weight: 400;
       text-align: center;
       color: var(--white);
       @include meduim-screen {
@@ -361,7 +362,7 @@
       border: none;
       margin-top: 2rem;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 500;
       &:hover {
         background-color: var(--white);
         color: var(--green);

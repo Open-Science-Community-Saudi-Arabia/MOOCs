@@ -4,7 +4,6 @@
 .footer-container {
   .footer {
     padding: 1.5em;
-    // text-align: center;
     @include ipad {
       @include flex(space-between, center);
       gap: 80px;
@@ -25,19 +24,17 @@
     &__content {
       flex-basis: 90%;
       @include flex(space-around, start);
-      // text-align: center;
       flex-wrap: wrap;
       gap: 25px;
       @include ipad {
         @include flex(space-between, start);
-        // text-align: left;
         gap: 50px;
       }
       &-quicklinks,
       &-communities {
         .heading {
           font-size: 16px;
-          font-weight: 700;
+          font-weight: 500;
           margin-bottom: 0.5rem;
         }
         .nav-link {
@@ -55,7 +52,7 @@
       &-info {
         .heading {
           font-size: 16px;
-          font-weight: 700;
+          font-weight: 500;
           margin-bottom: 0.5rem;
         }
         .nav-link {
@@ -81,7 +78,7 @@
   &__copyright {
     text-align: center;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--gray);
     padding-bottom: 2rem;
     span{

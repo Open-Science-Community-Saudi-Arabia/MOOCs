@@ -1,0 +1,13 @@
+name: Automerge Crowdin
+on:
+  pull_request:
+    branches: [frontend-ui]
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.16.2"
+        env:
+          GITHUB_TOKEN: "${{ secrets.REPO_TOKEN }}"
