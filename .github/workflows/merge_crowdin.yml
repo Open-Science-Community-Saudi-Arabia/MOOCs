@@ -1,13 +1,38 @@
-name: Automerge Crowdin
+name: Extract and compile translation
 on:
-  pull_request:
-    branches: [frontend-ui]
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - "frontend-ui"
+
 jobs:
-  automerge:
+  if_merged:
+    if: github.event.pull_request.head.ref == 'l10n_frontend-ui' && github.event.pull_request.merged == true
+    name: Enter client directory
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     steps:
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.16.2"
-        env:
-          GITHUB_TOKEN: "${{ secrets.REPO_TOKEN }}"
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update source code
+        run: |
+          npm run extract
+          npm run compile
+
+      - name: Commit report
+        run: |
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          git add -A
+          git commit -am "Translation compiled and extracted"
+          git push
