@@ -17,7 +17,7 @@ import { Trans } from "@lingui/macro";
  *  <Footer />
  */
 
-const index=()=> {
+const index = () => {
   return (
     <section className="footer-container">
       <div className="footer">
@@ -65,23 +65,32 @@ const index=()=> {
             >
               <Trans>Documentation </Trans>
             </Link>
+            <Link className="nav-link" to="">
+              <Trans>FAQ </Trans>
+            </Link>
           </div>
           <div className="footer__content-sociallinks">
             <h3 className="heading ">
               {" "}
               <Trans>Follow Us</Trans>
             </h3>
-            <Link className="nav-link"  target="_blank" to="https://twitter.com/OpenSciSaudi">
+            <Link
+              className="nav-link"
+              target="_blank"
+              to="https://twitter.com/OpenSciSaudi"
+            >
               <img className="nav-link__image" src={Twitter} alt="twitter" />
             </Link>
             <Link
-              className="nav-link"  target="_blank"
+              className="nav-link"
+              target="_blank"
               to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/"
             >
               <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
             </Link>
             <Link
-              className="nav-link"  target="_blank"
+              className="nav-link"
+              target="_blank"
               to="https://github.com/Open-Science-Community-Saudi-Arabia"
             >
               <img className="nav-link__image" src={Github} alt="github" />
@@ -101,10 +110,9 @@ const index=()=> {
       </div>
       <p className="footer-container__copyright">
         <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}{" "}
-        
-          {" "}
-          <span><Trans>Designed by Sandy Goodnews</Trans></span>
-   
+        <span>
+          <Trans>Designed by Sandy Goodnews</Trans>
+        </span>
       </p>
     </section>
   );

@@ -51,6 +51,7 @@
     @include flex(center, center);
     gap: 10px;
     &__or {
+      font-weight: 400;
       font-size: 14px;
       color: #46404082;
     }
@@ -105,7 +106,7 @@
     }
     .eye-icon {
       position: absolute;
-      top: 57px;
+      top:40px;
       right: 10px;
       transform: translateY(-50%);
       font-size: 20px;
@@ -129,7 +130,7 @@
     }
     &-content {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 400;
       &__link {
         color: var(--green) !important;
         text-align: center;
@@ -153,7 +154,7 @@
   &__content {
     text-align: center;
     &__title {
-      font-weight: bold;
+      font-weight:400;
       font-size: 18px;
       @include ipad {
         font-size: 26px;
@@ -167,14 +168,14 @@
       }
       &-link{
         
-        font-weight: 600;
+        font-weight: 400;
         color: var(--green);
       }
     }
     &__checkmail{
       margin-top: 2em;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 400;
     }
   }
 }
@@ -193,7 +194,7 @@ html[dir="rtl"] {
     left: 10px;
   }
   .login-signup__languageToggle {
-    left: 60px;
+    left: 120px;
     right: unset;
   }
 }
