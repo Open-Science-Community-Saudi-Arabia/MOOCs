@@ -4,6 +4,7 @@ import "./styles/GlobalStyles.scss";
 import "react-tooltip/dist/react-tooltip.css";
 import LandingPage from "./pages/home";
 import Login from "./pages/auth/login";
+import AdminLogin from "./pages/auth/admin/login";
 import Signup from "./pages/auth/signup";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgot-password";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route element={<Layout />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
