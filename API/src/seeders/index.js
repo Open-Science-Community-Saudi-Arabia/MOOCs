@@ -1,193 +1,265 @@
-require('dotenv').config({ path: `${__dirname}/../.env.dev` });
+require("dotenv").config({ path: `${__dirname}/../.env.dev` });
 
-const mongoose = require('mongoose');
-const { Course, CourseSection, Question, Video, Exercise, TextMaterial } = require('../models/course.models');
-const { videos, exercises, text_materials, course_sections, course, questions } = require('./settings');
-const { User, Status } = require('../models/user.models');
-const Password = require('../models/password.models');
+const mongoose = require("mongoose");
+const {
+  Course,
+  CourseSection,
+  Question,
+  Video,
+  Exercise,
+  TextMaterial,
+} = require("../models/course.models");
+const {
+  videos,
+  exercises,
+  text_materials,
+  course_sections,
+  course,
+  questions,
+} = require("./settings");
+const { User, Status } = require("../models/user.models");
+const Password = require("../models/password.models");
 
-
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 
 // Function to connect to the database
 async function connectToDatabase() {
-    try {
-        const MONGO_URL = process.env.MONGO_URI_DEV
+  try {
+    const MONGO_URL = process.env.MONGO_URI_DEV;
 
-        console.log("Connecting to local database...");
+    console.log("Connecting to local database...");
 
-        await mongoose.connect(MONGO_URL);
-        
-        console.log("Connected to local database successfully");
-    } catch (error) {
-        console.log("'[Error] - Error connecting to local database");
-        process.exit(1);
-    }
+    await mongoose.connect(MONGO_URL);
+
+    console.log("Connected to local database successfully");
+  } catch (error) {
+    console.log("'[Error] - Error connecting to local database");
+    process.exit(1);
+  }
 }
 
 async function createTestUser() {
-    // Get randdom email
-    const random_email = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + '@gmail.com';
+  // Get randdom email
+  const random_email =
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15) +
+    "@gmail.com";
 
-    const user_data = {
-        email: random_email,
-        password: 'testpassword',
-        firstname: 'Test',
-        lastname: 'User',
-        role: 'EndUser',
-    }
+  const user_data = {
+    email: random_email,
+    password: "testpassword",
+    firstname: "Test",
+    lastname: "User",
+    role: "EndUser",
+  };
 
-    const user = await User.create(user_data);
+  const user = await User.create(user_data);
 
-    await Password.create({ user: user._id, password: user_data.password });
+  await Password.create({ user: user._id, password: user_data.password });
 
-    await Status.create({ user: user._id, isVerified: true, isActive: true });
+  await Status.create({ user: user._id, isVerified: true, isActive: true });
 
-    return user_data
+  return user_data;
 }
+
+exports.createSuperAdmin = async () => {
+  try {
+    let userCount = await User.estimatedDocumentCount();
+    if (userCount === 0) {
+      const user_data = {
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD,
+        firstname: "Admin-Mooc",
+        lastname: "Admin",
+        role: "SuperAdmin",
+      };
+      const user = await User.create(user_data);
+      await Password.create({ user: user._id, password: user_data.password });
+      await Status.create({ user: user._id, isVerified: true, isActive: true });
+      console.log("Super Admin created");
+      return user_data;
+    }
+  } catch (error) {
+    console.log("Error creating default admin", error);
+  }
+};
 
 // Function to enroll a user for a course
 async function enrollUserForCourse(user, course) {
-    await Course.updateOne(
-        { _id: course._id },
-        { $addToSet: { enrolled_users: user._id } }
-    );
+  await Course.updateOne(
+    { _id: course._id },
+    { $addToSet: { enrolled_users: user._id } }
+  );
 }
 
 // Function to enroll all users for all courses
 // so that all users can access all courses
 async function enrollAllUsersForAllCourses() {
-    const users = await User.find({ role: 'EndUser' });
-    const courses = await Course.find();
+  const users = await User.find({ role: "EndUser" });
+  const courses = await Course.find();
 
-    for (let i = 0; i < users.length; i++) {
-        for (let j = 0; j < courses.length; j++) {
-            await enrollUserForCourse(users[i], courses[j]);
-        }
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < courses.length; j++) {
+      await enrollUserForCourse(users[i], courses[j]);
     }
+  }
 }
 
 // Function to create a new course
 async function createCourse() {
-    // Convert preview image path to absolute path
-    course.preview_image = 'https://res.cloudinary.com/dipyrsqvy/image/upload/v1679875257/courses/preview_images/course_preview_6420dcd1283f2c65f97b674c.jpg';
+  // Convert preview image path to absolute path
+  course.preview_image =
+    "https://res.cloudinary.com/dipyrsqvy/image/upload/v1679875257/courses/preview_images/course_preview_6420dcd1283f2c65f97b674c.jpg";
 
-    const new_course = await Course.create(course);
-    console.log('Course created successfully');
-    return new_course;
+  const new_course = await Course.create(course);
+  console.log("Course created successfully");
+  return new_course;
 }
 
 // Function to create course sections for a given course
 async function createCourseSections(new_course) {
-    for (let i = 0; i < course_sections.length; i++) {
-        console.log('creating new course section ' + i)
+  for (let i = 0; i < course_sections.length; i++) {
+    console.log("creating new course section " + i);
 
-        const new_course_section = await CourseSection.create({
-            ...course_sections[i],
-            course: new_course._id,
-        });
+    const new_course_section = await CourseSection.create({
+      ...course_sections[i],
+      course: new_course._id,
+    });
 
-        await createVideos(new_course, new_course_section, i);
-        await createExercises(new_course, new_course_section, i);
-        await createTextMaterials(new_course, new_course_section, i);
+    await createVideos(new_course, new_course_section, i);
+    await createExercises(new_course, new_course_section, i);
+    await createTextMaterials(new_course, new_course_section, i);
 
-        console.log('[OK] - course section ' + i + ' created successfully')
-    }
+    console.log("[OK] - course section " + i + " created successfully");
+  }
 }
 
 // Function to create videos for a given course section
-async function createVideos(new_course, new_course_section, course_section_index) {
-    for (let j = 0; j < videos.length; j++) {
-        if (videos[j].course_section === course_section_index) {
-            console.log('creating new video ' + j + ' for course section ' + course_section_index + '')
-            await Video.create({
-                ...videos[j],
-                course_section: new_course_section._id,
-                course: new_course._id,
-            });
-            console.log('[OK] - video ' + j + ' created successfully')
-        }
+async function createVideos(
+  new_course,
+  new_course_section,
+  course_section_index
+) {
+  for (let j = 0; j < videos.length; j++) {
+    if (videos[j].course_section === course_section_index) {
+      console.log(
+        "creating new video " +
+          j +
+          " for course section " +
+          course_section_index +
+          ""
+      );
+      await Video.create({
+        ...videos[j],
+        course_section: new_course_section._id,
+        course: new_course._id,
+      });
+      console.log("[OK] - video " + j + " created successfully");
     }
+  }
 }
 
 // Function to create exercises for a given course section
-async function createExercises(new_course, new_course_section, course_section_index) {
-    for (let j = 0; j < exercises.length; j++) {
-        let new_exercise;
+async function createExercises(
+  new_course,
+  new_course_section,
+  course_section_index
+) {
+  for (let j = 0; j < exercises.length; j++) {
+    let new_exercise;
 
-        // Create exercise if it belongs to the current course section
-        if (exercises[j].course_section === course_section_index) {
-            console.log('creating new exercise ' + j + ' for course section ' + course_section_index + '')
+    // Create exercise if it belongs to the current course section
+    if (exercises[j].course_section === course_section_index) {
+      console.log(
+        "creating new exercise " +
+          j +
+          " for course section " +
+          course_section_index +
+          ""
+      );
 
-            new_exercise = await Exercise.create({
-                ...exercises[j],
-                course_section: new_course_section._id,
-                course: new_course._id,
-            });
+      new_exercise = await Exercise.create({
+        ...exercises[j],
+        course_section: new_course_section._id,
+        course: new_course._id,
+      });
 
-            await createQuestions(new_course, new_exercise, j);
+      await createQuestions(new_course, new_exercise, j);
 
-            console.log('[OK] - exercise ' + j + ' created successfully')
-        }
+      console.log("[OK] - exercise " + j + " created successfully");
     }
+  }
 }
 
 // Function to create questions for a given exercise
 async function createQuestions(new_course, new_exercise, exercise_index) {
-    for (let k = 0; k < questions.length; k++) {
-        console.log('creating new question ' + k + ' for exercise ' + exercise_index + '')
-        if (questions[k].exercise === exercise_index) {
-            await Question.create({
-                ...questions[k],
-                exercise: new_exercise._id,
-                course: new_course._id,
-            });
-        }
-        console.log('[OK] - question ' + k + ' created successfully')
+  for (let k = 0; k < questions.length; k++) {
+    console.log(
+      "creating new question " + k + " for exercise " + exercise_index + ""
+    );
+    if (questions[k].exercise === exercise_index) {
+      await Question.create({
+        ...questions[k],
+        exercise: new_exercise._id,
+        course: new_course._id,
+      });
     }
+    console.log("[OK] - question " + k + " created successfully");
+  }
 }
 
 // This function creates text materials for each course section in the database
-async function createTextMaterials(new_course, new_course_section, course_section_index) {
-    for (let j = 0; j < text_materials.length; j++) {
-        // Check if the text material is for the current course section being created
-        if (text_materials[j].course_section === course_section_index) {
-            // Set the file URL for the text material
-            const file_url = "https://res.cloudinary.com/dipyrsqvy/image/upload/v1679254945/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dc27d07a77d6c06a454a/textmaterial_641765bcf7e6c01b997c0b42_resume%20test.pdf.pdf"
+async function createTextMaterials(
+  new_course,
+  new_course_section,
+  course_section_index
+) {
+  for (let j = 0; j < text_materials.length; j++) {
+    // Check if the text material is for the current course section being created
+    if (text_materials[j].course_section === course_section_index) {
+      // Set the file URL for the text material
+      const file_url =
+        "https://res.cloudinary.com/dipyrsqvy/image/upload/v1679254945/course_6411dbb7d07a77d6c06a44f3/coursesection_6411dc27d07a77d6c06a454a/textmaterial_641765bcf7e6c01b997c0b42_resume%20test.pdf.pdf";
 
-            console.log('creating new text material ' + j + ' for course section ' + course_section_index + '')
+      console.log(
+        "creating new text material " +
+          j +
+          " for course section " +
+          course_section_index +
+          ""
+      );
 
-            // Create the text material in the database
-            await TextMaterial.create({
-                ...text_materials[j],
-                course_section: new_course_section._id,
-                course: new_course._id,
-                file_url
-            });
+      // Create the text material in the database
+      await TextMaterial.create({
+        ...text_materials[j],
+        course_section: new_course_section._id,
+        course: new_course._id,
+        file_url,
+      });
 
-            console.log('[OK] - text material ' + j + ' created successfully')
-        }
+      console.log("[OK] - text material " + j + " created successfully");
     }
+  }
 }
 
 // This function seeds the database with courses, course sections, and text materials
 async function seedDatabase() {
-    try {
-        // Connect to the database
-        await connectToDatabase();
-        // Create a new course in the database
-        const new_course = await createCourse();
-        // Create course sections for the new course
-        await createCourseSections(new_course);
+  try {
+    // Connect to the database
+    await connectToDatabase();
+    // Create a new course in the database
+    const new_course = await createCourse();
+    // Create course sections for the new course
+    await createCourseSections(new_course);
 
-        const new_user = await createTestUser();
+    const new_user = await createTestUser();
 
-        await enrollAllUsersForAllCourses();
+    await enrollAllUsersForAllCourses();
 
-        console.log('Database seeded successfully');
+    console.log("Database seeded successfully");
 
-        console.log(
-            `
+    console.log(
+      `
             User created successfully
 
             Email: ${new_user.email}
@@ -195,19 +267,16 @@ async function seedDatabase() {
 
             Use the above credentials to log into the client app
             `
-        )
-
-    } catch (error) {
-        console.log(error);
-    } finally {
-        mongoose.disconnect();
-        process.exit(0);
-    }
+    );
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mongoose.disconnect();
+    process.exit(0);
+  }
 }
 
-seedDatabase();
-
 // Handle any unhandled promise rejections by logging them
-process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+process.on("unhandledRejection", (reason, p) => {
+  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
 });

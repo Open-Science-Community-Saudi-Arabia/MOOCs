@@ -21,8 +21,6 @@ passport.deserializeUser(function (id, done) {
 
 router
     .post('/signup', authController.signup)
-    .post('/addadmin', rbac('SuperAdmin'), authController.addAdmin)
-
     // SuperAdmin Account Activation/Deactivation
     .get('/superadmin/reqactivation/:email', authController.requestSuperAdminAccountActivation)
     .post('/superadmin/activate', basicAuth('su_activation'), authController.activateSuperAdminAccount)
