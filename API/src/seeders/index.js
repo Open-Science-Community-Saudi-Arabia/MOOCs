@@ -76,6 +76,9 @@ exports.createSuperAdmin = async () => {
       const user = await User.create(user_data);
       await Password.create({ user: user._id, password: user_data.password });
       await Status.create({ user: user._id, isVerified: true, isActive: true });
+      const userStatus = await User.findById(user._id).populate("status");
+      userStatus.status.isActive = true;
+      await userStatus.status.save();
       console.log("Super Admin created");
       return user_data;
     }
