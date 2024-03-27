@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Header from "./header";
+import Header from "../../../components/DashboardHeader";
 import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";

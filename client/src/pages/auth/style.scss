@@ -10,16 +10,17 @@
 
   &__languageToggle {
     position: absolute;
-    top: 25px;
-    right: 60px;
+    top: 30px;
+    right: 40px;
   }
   &__heading {
     margin-bottom: 1em;
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 400;
     @include ipad {
-      font-size: 27px;
+      font-size: 23px;
     }
+   
   }
   &__google {
     cursor: pointer;
@@ -29,7 +30,7 @@
       height: 50px;
       border: 1px solid var(--gray-203);
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 400;
       color: #46404082;
       border-radius: 6px;
       @include flex(center, center);
@@ -81,7 +82,7 @@
       font-size: 16px;
       font-weight: 400;
       border-radius: 6px;
-      margin-top: 10px !important;
+      margin-top: 20px !important;
       &:focus {
         border-bottom-width: 2px;
       }
@@ -106,7 +107,7 @@
     }
     .eye-icon {
       position: absolute;
-      top:40px;
+      top: 50px;
       right: 10px;
       transform: translateY(-50%);
       font-size: 20px;
@@ -148,13 +149,13 @@
     width: 300px;
     margin: auto;
     @include ipad {
-      width:400px
+      width: 400px;
     }
   }
   &__content {
     text-align: center;
     &__title {
-      font-weight:400;
+      font-weight: 400;
       font-size: 18px;
       @include ipad {
         font-size: 26px;
@@ -166,13 +167,12 @@
       @include ipad {
         font-size: 17px;
       }
-      &-link{
-        
+      &-link {
         font-weight: 400;
         color: var(--green);
       }
     }
-    &__checkmail{
+    &__checkmail {
       margin-top: 2em;
       font-size: 15px;
       font-weight: 400;
@@ -180,12 +180,11 @@
   }
 }
 html[dir="rtl"] {
-  .login-signup  {
-    &__heading{
+  .login-signup {
+    &__heading {
       font-size: 15px;
       @include ipad {
         font-size: 20px;
-  
       }
     }
   }
@@ -196,5 +195,11 @@ html[dir="rtl"] {
   .login-signup__languageToggle {
     left: 120px;
     right: unset;
+  }
+}
+
+.button-field {
+  button {
+    @include button(100%, var(--green), var(--white));
   }
 }
