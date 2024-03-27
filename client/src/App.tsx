@@ -16,6 +16,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminBoard from "./pages/admin";
+import CollaboratorBoard from "./pages/collaborator";
 
 const queryClient = new QueryClient();
 function App() {
@@ -38,6 +40,13 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="dashboard" element={<Board />} />
             <Route path="course/:id" element={<ViewCourse />} />
+
+            <Route
+              path="/collaborator/dashboard"
+              element={<CollaboratorBoard />}
+            />
+            {/* admin */}
+            <Route path="/admin/dashboard" element={<AdminBoard />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />

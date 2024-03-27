@@ -48,7 +48,12 @@ const Login = () => {
 
       if (response.success) {
         setToken(response.data.access_token);
-        navigate("/dashboard");
+
+        if (response.data.user.role === "Admin") {
+          navigate("/collaborator/dashboard");
+        } else if (response.data.user.role === "EndUser") {
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       setError(true);
@@ -82,9 +87,7 @@ const Login = () => {
               onClick={() => googlelogin()}
             >
               <FcGoogle />
-              <Trans>
-                Sign in with Google </Trans>
-              
+              <Trans>Sign in with Google </Trans>
             </button>
           </div>
           <div className="login-signup__hr-line">
@@ -161,7 +164,6 @@ const Login = () => {
             <div className="login-signup__bottom-content">
               <Trans>Don't have an account? </Trans>{" "}
               <Link to="/signup" className="login-signup__bottom-content__link">
-
                 <Trans> Sign Up</Trans>
               </Link>
             </div>

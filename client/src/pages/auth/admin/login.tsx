@@ -38,7 +38,15 @@ const Login = () => {
       let response = await login(formData);
       if (response.success) {
         setToken(response.data.access_token);
-       console.log(response)
+        if (response.data.user.role === "SuperAdmin") {
+          navigate("/admin/dashboard");
+        } else {
+          toast.error("Unauthorized", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 5000,
+            theme: "colored",
+          });
+        }
       }
     } catch (error: any) {
       setError(true);
