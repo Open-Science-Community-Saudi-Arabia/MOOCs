@@ -1,4 +1,4 @@
-import React from "react";
+
 import verificationImage from "../../../images/verification-email-sent.jpg";
 interface IProps {
   emailLink: string;

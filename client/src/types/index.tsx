@@ -4,6 +4,7 @@ export interface SignUpRequestPayload {
   email: string;
   password: string;
   passwordConfirm: string;
+  role:string
 }
 export interface LoginInRequestPayload {
   email: string;
