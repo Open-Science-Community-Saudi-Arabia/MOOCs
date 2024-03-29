@@ -54,7 +54,7 @@ const Signup = () => {
           email: event.target.email.value,
           password: event.target.password.value,
           passwordConfirm: event.target.confirmpassword.value,
-          role: isUser === "user" ? "EndUser" : "Admin",
+          role: isUser === "User" ? "EndUser" : "Admin",
         };
         setLoading(true);
         const response = await signUp(formData);
