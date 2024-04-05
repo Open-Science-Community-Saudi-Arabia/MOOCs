@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { dynamicActivate } from "./i18n";
+import "./styles/GlobalStyles.scss";
 
 const googleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 

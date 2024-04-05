@@ -4,6 +4,7 @@ import "./styles/GlobalStyles.scss";
 import "react-tooltip/dist/react-tooltip.css";
 import LandingPage from "./pages/home";
 import Login from "./pages/auth/login";
+import AdminLogin from "./pages/auth/admin/login";
 import Signup from "./pages/auth/signup";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgot-password";
@@ -15,6 +16,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminBoard from "./pages/admin";
+import CollaboratorBoard from "./pages/collaborator";
 
 const queryClient = new QueryClient();
 function App() {
@@ -25,6 +28,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route element={<Layout />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
@@ -36,6 +40,13 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="dashboard" element={<Board />} />
             <Route path="course/:id" element={<ViewCourse />} />
+
+            <Route
+              path="/collaborator/dashboard"
+              element={<CollaboratorBoard />}
+            />
+            {/* admin */}
+            <Route path="/admin/dashboard" element={<AdminBoard />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />

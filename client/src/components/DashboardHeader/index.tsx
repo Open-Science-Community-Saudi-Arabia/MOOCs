@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
-import logo from "../../../../images/logo.svg";
+import logo from "../../images/logo.svg";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { BsPersonFill} from "react-icons/bs";
 import { Link } from "react-router-dom";
-import useClickOutside from "../../../../hooks/useClickOutside";
+import useClickOutside from "../../hooks/useClickOutside";
 import "./style.scss";
 import { t, Trans } from "@lingui/macro";
-import LanguageToggle from "../../../../components/LanguageToggle";
-import { logout } from "../../../../context";
+import LanguageToggle from "../../components/LanguageToggle";
+import { logout } from "../../context";
 
 
 const Header = () => {
