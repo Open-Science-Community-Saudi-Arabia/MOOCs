@@ -105,7 +105,7 @@ const handleUnverifiedUser = function (user) {
     // Generate email verification link
     const { access_token } = await getAuthTokens(user, "verification");
 
-    const verification_url = `${config.CLIENT_APP_URL}/api/v1/auth/verifyemail/${access_token}`;
+    const verification_url = `${config.CLIENT_APP_URL}/verifyemail/${access_token}`;
 
     if (process.env.NODE_ENV == "test") {
       await TestAuthToken.findOneAndUpdate(
@@ -271,7 +271,6 @@ exports.signup = async (req, res, next) => {
   return res.status(200).json({ success: true, data: { user: new_user } });
 };
 
-
 // Login a user
 /**
  * Login a user and return a JWT token.
@@ -389,10 +388,10 @@ exports.verifyEmail = async (req, res, next) => {
   }
 
   user.status.isVerified = true;
+  user.status.isActive = true;
   await user.status.save();
 
   await BlacklistedToken.create({ token });
-
   return res.status(200).send({ success: true, message: "Email verified" });
 };
 
@@ -1022,8 +1021,6 @@ exports.googleSignin = async (req, res, next) => {
     await returnAuthTokens(new_user, 200, res);
     return;
   }
-
-  console.log(existing_user.toObject());
 
   await returnAuthTokens(existing_user, 200, res);
 };

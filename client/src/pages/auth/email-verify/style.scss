@@ -34,20 +34,20 @@
       @include button(auto, var(--green), var(--white));
     }
   }
-  &__invalid{
-    color:var(--error);
-    font-size:25px;
+  &__invalid {
+    color: var(--error);
+    font-size: 16px;
     font-weight: 700;
-    text-align:center;
+    text-align: center;
   }
-  &__subtitle{
-    margin:2em;
-    text-align:center;
+  &__subtitle {
+    margin: 2em;
+    text-align: center;
     font-weight: 700;
-    font-size:14px;
-    a{
+    font-size: 14px;
+    a {
       text-decoration: underline;
-      color:var(--green)
+      color: var(--green);
     }
   }
 }

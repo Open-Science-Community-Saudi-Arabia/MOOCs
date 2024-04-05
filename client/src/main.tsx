@@ -24,7 +24,7 @@ const I18nApp = () => {
   }, []);
 
   return (
-    <React.StrictMode>
+    <>
       <BrowserRouter>
         <GoogleOAuthProvider clientId={googleID}>
           <I18nProvider i18n={i18n}>
@@ -33,7 +33,7 @@ const I18nApp = () => {
         </GoogleOAuthProvider>
       </BrowserRouter>
       <ToastContainer />
-    </React.StrictMode>
+    </>
   );
 };
 
