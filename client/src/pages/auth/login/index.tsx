@@ -48,7 +48,6 @@ const Login = () => {
 
       if (response.success) {
         setToken(response.data.access_token);
-
         if (response.data.user.role === "Admin") {
           navigate("/collaborator/dashboard");
         } else if (response.data.user.role === "EndUser") {

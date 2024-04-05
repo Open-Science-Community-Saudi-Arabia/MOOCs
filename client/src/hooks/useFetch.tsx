@@ -20,7 +20,7 @@ const useFetch = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleGoogle = async (code: any) => {
+  const handleGoogle = async (code: any, role?: string) => {
     try {
       setLoading(true);
       const response = await axios({
@@ -30,16 +30,28 @@ const useFetch = () => {
           Authorization: `Bearer ${code}`,
           "Content-Type": "application/json",
         },
+        data: {
+          role:
+            role === "User"
+              ? "EndUser"
+              : role === "Collaborator"
+              ? "Admin"
+              : null,
+        },
       });
 
       if (response.data.success === true) {
         setToken(response.data.data.access_token);
-        navigate("/dashboard");
+        if (response.data.data.user.role === "Admin") {
+          navigate("/collaborator/dashboard");
+        } else if (response.data.data.user.role === "EndUser") {
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error.message ? "request failed" : error.response.data.message,
+        error.message ? "Request failed, try again" : error.response.data.message,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,

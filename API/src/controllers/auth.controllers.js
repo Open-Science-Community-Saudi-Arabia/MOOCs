@@ -104,7 +104,6 @@ const handleUnverifiedUser = function (user) {
   return async function (req) {
     // Generate email verification link
     const { access_token } = await getAuthTokens(user, "verification");
-
     const verification_url = `${config.CLIENT_APP_URL}/verifyemail/${access_token}`;
 
     if (process.env.NODE_ENV == "test") {
@@ -229,7 +228,9 @@ exports.signup = async (req, res, next) => {
   if (existing_user) return handleExistingUser(existing_user)(req, res, next);
 
   let new_user;
+
   const session = await mongoose.startSession();
+
   await session.withTransaction(async () => {
     await User.create(
       [{ firstname, lastname, email, role, preferred_language }],
@@ -260,7 +261,6 @@ exports.signup = async (req, res, next) => {
     new_user.status.isActive = true;
     new_user.status.isVerified = true;
     await new_user.status.save();
-
     return res.status(200).json({ success: true, data: { user: new_user } });
   }
 
@@ -300,7 +300,6 @@ exports.login = async (req, res, next) => {
   }
   //check if email exists
   const currentUser = await User.findOne({ email }).populate("password status");
-  //console.log(currentUser);
 
   //Check if email and password matches
   if (
@@ -427,7 +426,6 @@ exports.requestSuperAdminAccountActivation = async (req, res, next) => {
   }).populate("status");
   if (!super_admin)
     return next(new BadRequestError("Superadmin account does not exist"));
-  //console.log(super_admin)
 
   // Check if account is active
   if (super_admin.status.isActive)
@@ -514,7 +512,6 @@ exports.activateSuperAdminAccount = async (req, res, next) => {
     _id: req.user.id,
     role: "SuperAdmin",
   }).populate("status");
-  //console.log(admin)
 
   // Check if user exists
   if (!admin) {
@@ -584,7 +581,6 @@ exports.requestSuperAdminAccountDeactivation = async (req, res, next) => {
   if (!super_admin)
     return next(new BadRequestError("Superadmin account does not exist"));
 
-  //console.log(super_admin)
   // Check if account is active
   if (!super_admin.status.isActive)
     return next(new BadRequestError("Account is already inactive"));
@@ -829,7 +825,6 @@ exports.forgetPassword = async (req, res, next) => {
     );
 
   const current_user = await User.findOne({ email });
-  //console.log(current_user);
 
   //  Check if user exists
   if (!current_user) return next(new BadRequestError("User does not exist"));
@@ -986,7 +981,7 @@ exports.googleSignin = async (req, res, next) => {
       firstname: payload.given_name,
       lastname: payload.family_name,
       email: payload.email,
-      role: "EndUser",
+      role: req.body.role || "EndUser",
       password: random_str,
       passwordConfirm: random_str,
       googleId: payload.sub,
@@ -1017,6 +1012,10 @@ exports.googleSignin = async (req, res, next) => {
       await session.commitTransaction();
       session.endSession();
     });
+    const user = await User.findById(new_user.id).populate("status");
+    user.status.isVerified = true;
+    user.status.isActive = true;
+    await user.status.save();
 
     await returnAuthTokens(new_user, 200, res);
     return;
