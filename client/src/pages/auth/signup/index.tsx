@@ -105,7 +105,7 @@ const Signup = () => {
             <LanguageToggle />
           </div>
 
-           <h1 className="login-signup__heading">{t`Sign Up As ${isUser}`}</h1>
+          <h1 className="login-signup__heading">Sign Up As {isUser} </h1>
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"

@@ -33,7 +33,7 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route
-              path="/api/v1/auth/verifyemail/:access_token"
+              path="/verifyemail/:access_token"
               element={<EmailVerify />}
             />
           </Route>

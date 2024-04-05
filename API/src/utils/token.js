@@ -92,7 +92,7 @@ const getAuthTokens = async (user_id, token_type = null) => {
   try {
     // Get user details
     const current_user = await User.findById(user_id).populate("status");
-    console.log(current_user)
+
     if (!current_user) {
       throw new NotFoundError("User does not exist");
     }
