@@ -34,6 +34,17 @@ export async function login(payload: LoginInRequestPayload) {
 }
 
 /**
+ * @description handle login endpoint
+ * @param  {object} payload  request data
+ * @return {Promise<object>} response data
+ */
+export async function loginAdmin(payload: LoginInRequestPayload) {
+  const response = await makeApiCall("/auth/login-admin", "post", payload);
+  return response;
+}
+
+
+/**
  * @description handle forgot-password endpoint
  * @param   {object} payload  request data
  * @return {Promise<object>} response data

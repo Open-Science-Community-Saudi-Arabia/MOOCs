@@ -62,30 +62,6 @@ async function createTestUser() {
   return user_data;
 }
 
-exports.createSuperAdmin = async () => {
-  try {
-    let userCount = await User.estimatedDocumentCount();
-    if (userCount === 0) {
-      const user_data = {
-        email: process.env.ADMIN_EMAIL,
-        password: process.env.ADMIN_PASSWORD,
-        firstname: "Admin-Mooc",
-        lastname: "Admin",
-        role: "SuperAdmin",
-      };
-      const user = await User.create(user_data);
-      await Password.create({ user: user._id, password: user_data.password });
-      await Status.create({ user: user._id, isVerified: true, isActive: true });
-      const userStatus = await User.findById(user._id).populate("status");
-      userStatus.status.isActive = true;
-      await userStatus.status.save();
-      console.log("Super Admin created");
-      return user_data;
-    }
-  } catch (error) {
-    console.log("Error creating default admin", error);
-  }
-};
 
 // Function to enroll a user for a course
 async function enrollUserForCourse(user, course) {

@@ -705,6 +705,84 @@ exports.deactivateSuperAdminAccount = async (req, res, next) => {
   });
 };
 
+exports.loginSuperAdmin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return next(new BadRequestError("Please provide email and password"));
+    }
+    //check if email exists
+    const existing_user = await User.findOne({
+      email: process.env.ADMIN_EMAIL,
+    }).populate("password status");
+    if (
+      existing_user &&
+      (await existing_user.password.comparePassword(
+        password,
+        existing_user.password
+      ))
+    ) {
+      const { access_token, refresh_token } = await getAuthTokens(
+        existing_user,
+        "access"
+      );
+      return res.status(200).json({
+        success: true,
+        data: {
+          user: existing_user,
+          access_token,
+          refresh_token,
+        },
+      });
+    } else if (
+      !existing_user &&
+      email === config.ADMIN_EMAIL &&
+      password === config.ADMIN_PASSWORD
+    ) {
+      const user_data = {
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD,
+        firstname: "Admin-Mooc",
+        lastname: "Admin",
+        role: "SuperAdmin",
+      };
+      const user = await User.create(user_data);
+      await Password.create({ user: user._id, password: user_data.password });
+      await Status.create({ user: user._id, isVerified: true, isActive: true });
+      const userStatus = await User.findById(user._id).populate("status");
+      userStatus.status.isActive = true;
+      await userStatus.status.save();
+      console.log("Super Admin created");
+
+      // Get access and refresh token
+      const { access_token, refresh_token } = await getAuthTokens(
+        user,
+        "access"
+      );
+      return res.status(200).json({
+        success: true,
+        data: {
+          user,
+          access_token,
+          refresh_token,
+        },
+      });
+    } else if (
+      !existing_user ||
+      !(await existing_user.password.comparePassword(
+        password,
+        existing_user.password
+      ))
+    ) {
+      return next(new BadRequestError("Incorrect email or password"));
+    } else {
+      return next(new BadRequestError("Incorrect email or password"));
+    }
+  } catch (error) {
+    console.log("Error admin login", error);
+  }
+};
+
 /**
  * Activate user account
  *

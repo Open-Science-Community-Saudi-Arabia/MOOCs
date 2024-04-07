@@ -3,7 +3,7 @@ import "../style.scss";
 import { toast } from "react-toastify";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../../utils/api/auth";
+import { loginAdmin} from "../../../utils/api/auth";
 import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import { setToken } from "../../../utils";
@@ -35,7 +35,7 @@ const Login = () => {
         password: event.target.password.value,
       };
       setLoading(true);
-      let response = await login(formData);
+      let response = await loginAdmin(formData);
       if (response.success) {
         setToken(response.data.access_token);
         if (response.data.user.role === "SuperAdmin") {
