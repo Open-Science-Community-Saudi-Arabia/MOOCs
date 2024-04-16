@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Header from "../../../components/DashboardHeader";
+
 import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
@@ -55,7 +55,6 @@ const Board = () => {
 
   return (
     <section className="dashboard">
-      <Header />
       {isLoading ? (
         <div className="dashboard__spinner">
           <Spinner width="60px" height="60px" color="#009985" />

@@ -7,7 +7,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import "./style.scss";
 import { t, Trans } from "@lingui/macro";
 import LanguageToggle from "../../components/LanguageToggle";
-import { logout } from "../../context";
+import { logout } from "../../utils";
 
 
 const Header = () => {

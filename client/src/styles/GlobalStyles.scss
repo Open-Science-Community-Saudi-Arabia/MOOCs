@@ -15,7 +15,7 @@
   --gray: #666;
   --light-gray: hsl(0deg 0% 96%);
   --gray-100: #f5f8fe;
-  --green: #009985;
+  --green: hsl(172, 100%, 30%);
   --green-light: hsl(172deg 100% 30% / 11%);
   --gray-203: rgb(203, 213, 225);
   --error: hsl(0, 79%, 63%);
@@ -41,12 +41,15 @@ a {
   color: var(--black);
 }
 button,
-input {
+input,textarea {
   outline: none;
   border-radius: 8px;
   background-color: transparent;
   cursor: pointer;
   color: var(--black);
+}
+input::placeholder, textarea::placeholder{
+  font-size: 14px;
 }
 .icon-button {
   border: none;
