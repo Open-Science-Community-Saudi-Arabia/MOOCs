@@ -1,0 +1,38 @@
+- Create each course section(s),
+- Each course section has title and description
+- Each course section has video(s), pdf(s), and quizzes
+
+[id: 1,
+title:""
+course:[
+        { title: "a course section",
+          description: "description of it"
+           enrolled_users:"",
+            preview_image:"",
+                isAvailable:""
+          video:[
+             { 
+        id: 1,
+      title: "video title 1"
+      url: "link to video"
+     },
+   { 
+    id: 2,
+    title: "video title 1"
+    url: "link to video"
+     }
+     ]
+pdf:[
+    {
+
+    }
+]
+quizzes:[
+    {
+
+    }
+]
+}
+]
+
+]
