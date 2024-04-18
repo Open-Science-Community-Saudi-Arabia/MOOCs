@@ -5,10 +5,11 @@
   top: 0;
   z-index: 1;
   width: 100%;
+
   &__container {
     padding: 0.5em;
     width: 100%;
-    max-width: 1400px;
+    // max-width: 1400px;
     margin: auto;
     @include flex(space-between, center);
     gap: 10px;

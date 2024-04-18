@@ -1,0 +1,30 @@
+@import "../../styles/mixins.scss";
+.add-new-course {
+  label {
+    font-weight: 400;
+    padding-top: 5px;
+    font-size: 14px;
+    color:var(--gray)
+  }
+  input,
+  textarea {
+    border: 1px solid var(--gray-203);
+    padding: 10px;
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+  }
+  input[type="file"] {
+    border: 1px solid var(--gray-203);
+    padding: 10px;
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+    // width: 60%;
+  }
+  .course-section-btn {
+    @include button("fit-content", var(--green), var(--white));
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+}

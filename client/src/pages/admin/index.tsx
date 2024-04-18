@@ -1,9 +1,7 @@
-import Header from "../../components/DashboardHeader";
 
 export default function index() {
   return (
-    <section className="dashboard">
-  <Header/>
+    <section className="admin-dashboard">
   <div className='m-64'>Admin dashboard</div>
 </section>
   )

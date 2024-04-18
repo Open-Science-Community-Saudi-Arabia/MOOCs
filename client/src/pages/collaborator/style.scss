@@ -1,0 +1,7 @@
+@import "../../styles/mixins.scss";
+
+.collaborator-dashboard {
+  .add-btn {
+    @include button(15rem, var(--green), var(--white));
+  }
+}
