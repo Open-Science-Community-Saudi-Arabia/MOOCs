@@ -1,4 +1,5 @@
 import makeApiCall from ".";
+import { Courses } from "../../types";
 
 /**
  * @category Client App
@@ -21,8 +22,18 @@ export async function getCourses() {
  * @param  {string} id  course id
  * @return {Promise<object>} response data
  */
-export async function getCourse(id: string|any) {
+export async function getCourse(id: string | any) {
   const response = await makeApiCall(`/course/${id}`);
+  return response;
+}
+
+/**
+ * @description create Individual Course
+ * @param  {string} id  course id
+ * @return {Promise<object>} response data
+ */
+export async function createCourse(payload:Courses|any) {
+  const response = await makeApiCall(`/course/new`, "post",payload);
   return response;
 }
 
@@ -68,7 +79,7 @@ export async function exerciseScore(id: string, payload: any) {
  * @return {Promise<object>} response data
  */
 
-export async function getCertificate(id: string|any) {
+export async function getCertificate(id: string | any) {
   const response = await makeApiCall(`certificate/course/${id}`);
   return response;
 }

@@ -38,7 +38,7 @@ export default function Question({
   });
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-semibold"> New Question</h2>
+      <h2 className="font-semibold"> Edit Question</h2>
       <div className="my-5">
         <label className="text-xs text-gray-dark">Question</label>
         <input
@@ -89,3 +89,49 @@ export default function Question({
     </form>
   );
 }
+
+
+
+
+// const reqBody = Object.assign({}, req.body);
+//   const parseReqBody = JSON.parse(reqBody.body);
+//   console.log(parseReqBody);
+//   const preview_image = req.file;
+//   if (!preview_image) {
+//     return next(new BadRequestError("Missing preview image"));
+//   }
+
+//   const newCourse = await Course.create(parseReqBody);
+//   // await newCourse.save();
+//   console.log(newCourse );
+//   // // Upload preview image to cloudinary
+//   const file_url = await uploadToCloudinary({
+//     path: preview_image.path,
+//     file_name: `course_preview_${newCourse._id}`,
+//     destination_path: "courses/preview_images",
+//   });
+
+//   // const courseTemp = await CourseReport.findOne({
+//   //   _id: newCourse.id,
+//   // });
+
+//   // // Save file url to database
+//   // newCourse.preview_image = file_url;
+//   // const savedCourse = await newCourse.save();
+
+//   // parseReqBody.coursesection.map(async (ele) => {
+//   //   const test = await CourseSection.create({
+//   //     title: ele.title,
+//   //     course: course_id,
+//   //   });
+//   //   console.log(test);
+//   //   // ele.video.map(async (videoEle) => {
+//   //   //   await Video.create({
+//   //   //     title: videoEle.title,
+//   //   //     video_url: videoEle.url,
+//   //   //     description: videoEle.description,
+//   //   //     course: course_id,
+//   //   //     course_section: course_section._id,
+//   //   //   });
+//   //   // });
+//   // });

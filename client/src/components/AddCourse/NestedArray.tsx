@@ -23,6 +23,8 @@ export default ({
           onClick={() => {
             append({
               link: "",
+              title: "",
+              description: "",
             });
           }}
           data-tooltip-id="my-tooltip"
@@ -47,15 +49,29 @@ export default ({
       {fields.map((item, k) => {
         return (
           <div className="flex items-center gap-x-2 my-4" key={item.id}>
-            <label>
-              <IoIosLink size={20} />
-            </label>
-            <input
-              type="url"
-              className="!w-[40%]"
-              placeholder={t`url`}
-              {...register(`coursesection.${nestIndex}.video.${k}.link`)}
-            />
+            <label className="w-16">Video</label>
+            <div className="flex items-center gap-x-4 w-4/5">
+              <input
+                type="text"
+                className="!w-[60%]"
+                placeholder={t`title`}
+                {...register(`coursesection.${nestIndex}.video.${k}.title`)}
+              />
+
+              <input
+                type="text"
+                className="!w-[60%]"
+                placeholder={t`description`}
+                {...register(`coursesection.${nestIndex}.video.${k}.description`)}
+              />
+
+              <input
+                type="url"
+                className="!w-[60%]"
+                placeholder={t`url`}
+                {...register(`coursesection.${nestIndex}.video.${k}.link`)}
+              />
+            </div>
 
             <button type="button" onClick={() => remove(k)}>
               <MdClose size={20} color="red" />

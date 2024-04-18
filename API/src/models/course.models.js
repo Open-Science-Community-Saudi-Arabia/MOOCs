@@ -20,7 +20,7 @@ const options = {
   toObject: { virtuals: true },
 };
 async function translate_document(doc) {
-  console.log(doc);
+  // console.log(doc);
   const translated_doc = await translateDoc(doc);
 
   return await doc.updateOne(translated_doc);
@@ -268,10 +268,6 @@ exerciseSchema.virtual("questions", {
 const videoSchema = new Schema(
   {
     type: { type: String, default: "video" },
-    author: {
-      type: String,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
@@ -280,19 +276,8 @@ const videoSchema = new Schema(
     },
     video_url: { type: String, required: true },
     description: { type: String, required: true },
-    duration: { type: String, required: true },
-    course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
-    course_section: {
-      type: Schema.Types.ObjectId,
-      ref: "CourseSection",
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
+
     order: { type: Number, default: Date.now() },
-    isAvailable: { type: Boolean, default: true },
     title_tr: {
       type: String,
       minLength: 3,
@@ -302,7 +287,7 @@ const videoSchema = new Schema(
   },
   options
 );
-videoSchema.post("save", translate_document);
+// videoSchema.post("save", translate_document);
 // videoSchema.post('update', translate_document)
 videoSchema.virtual("downloadable_resources", {
   localField: "_id",
@@ -377,33 +362,39 @@ const courseSectionSchema = new Schema(
   {
     title: { type: String, required: true, minLength: 3, maxLength: 40 },
     title_tr: { type: String, minLength: 3, maxLength: 40 },
-    course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
-    deleted: { type: Schema.Types.ObjectId, ref: "Course" },
-    order: { type: Number, default: Date.now() },
+    description: {
+      type: String,
+      required: true,
+    },
+    description_tr: {
+      type: String,
+    },
+    video: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    exercise: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
   },
   options
 );
-courseSectionSchema.post("save", translate_document);
+// courseSectionSchema.post("save", translate_document);
 // courseSectionSchema.post('update', translate_document)
 
-courseSectionSchema.virtual("videos", {
-  localField: "_id",
-  foreignField: "course_section",
-  ref: "Video",
-  justOne: false,
-});
-courseSectionSchema.virtual("exercises", {
-  localField: "_id",
-  foreignField: "course_section",
-  ref: "Exercise",
-  justOne: false,
-});
-courseSectionSchema.virtual("textmaterials", {
-  localField: "_id",
-  foreignField: "course_section",
-  ref: "TextMaterial",
-  justOne: false,
-});
+// courseSectionSchema.virtual("videos", {
+//   localField: "_id",
+//   foreignField: "course_section",
+//   ref: "Video",
+//   justOne: false,
+// });
+// courseSectionSchema.virtual("exercises", {
+//   localField: "_id",
+//   foreignField: "course_section",
+//   ref: "Exercise",
+//   justOne: false,
+// });
+// courseSectionSchema.virtual("textmaterials", {
+//   localField: "_id",
+//   foreignField: "course_section",
+//   ref: "TextMaterial",
+//   justOne: false,
+// });
 
 /**
  * @description Combines the contents of the course section into one array
@@ -426,16 +417,16 @@ function combineContents(courseSection) {
   return courseSection;
 }
 
-courseSectionSchema.post("find", async function (courseSections) {
-  for (let courseSection of courseSections) {
-    await combineContents(courseSection);
-  }
-});
+// courseSectionSchema.post("find", async function (courseSections) {
+//   for (let courseSection of courseSections) {
+//     await combineContents(courseSection);
+//   }
+// });
 
-courseSectionSchema.post("findOne", async function (courseSection) {
-  const doc = await combineContents(courseSection);
-  return doc.toObject();
-});
+// courseSectionSchema.post("findOne", async function (courseSection) {
+//   const doc = await combineContents(courseSection);
+//   return doc.toObject();
+// });
 
 /**
  * @type {courseSchema}
@@ -460,14 +451,19 @@ const courseSchema = new Schema(
     description_tr: {
       type: String,
     },
-    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    course_section: [{ type: Schema.Types.ObjectId, ref: "CourseSection" }],
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    preview_image: { type: String, required: true },
+    preview_image: { type: String },
+    status: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending",
+    },
     isAvailable: { type: Boolean, default: true },
   },
   options
 );
-courseSchema.post("save", translate_document);
+// courseSchema.post("save", translate_document);
 // courseSchema.pre('validate', translate_document)
 
 courseSchema.virtual("exercises", {

@@ -6,19 +6,23 @@ import Modal from "../Modal";
 import { useState } from "react";
 import Question from "./Question";
 import EditQuestion from "./EditQuestion";
+import { createCourse } from "../../utils/api/courses";
 
 type Inputs = {
   title: string;
   description: string;
+  author: string;
   coursesection: {
     title: string;
     description: string;
-    video: { link: [] }[];
+    video: { title: ""; description: ""; link: [] }[];
   }[];
 };
 const defaultValues: Inputs = {
   title: "",
   description: "",
+  author: "",
+
   coursesection: [
     {
       title: "",
@@ -31,6 +35,7 @@ const defaultValues: Inputs = {
 let renderCount = 0;
 export default function index() {
   const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<any>();
   const [currentSection, setCurrentSection] = useState<number>(0);
   const [currentQuestion, setCurrentQuestion] = useState<{
     title: string;
@@ -51,14 +56,29 @@ export default function index() {
   } = useForm<Inputs>({
     defaultValues,
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-
-    let see = data.coursesection.map((ele, index) => ({
+  const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    data.coursesection.map((ele: any, index: any) => ({
       ...ele,
       ...exerciseQuestion[index],
     }));
-    console.log(see);
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     console.log(reader.result);
+    //     // Logs data:<type>;base64,wL2dvYWwgbW9yZ...
+    // };
+    //   const test= reader.readAsDataURL(selectedImage[0]);
+    //   data = { ...data, preview_image: selectedImage[0] };
+    //   console.log(test)
+    const formData = new FormData();
+
+    formData.append("file", selectedImage[0]);
+    formData.append("body", JSON.stringify(data));
+    try {
+      const res = await createCourse(formData);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -99,17 +119,59 @@ export default function index() {
     <div className="add-new-course w-full">
       <h1 className="text-xl font-semibold py-8 text-primary">New Course</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-8 w-full">
-          <label className="" htmlFor="title">
-            Title
-          </label>
-          <input
-            type="text"
-            placeholder={t`Title`}
-            {...register("title", { required: true })}
-          />
+        <div className="flex items-start justify-between">
+          <div className="w-8/12">
+            <div className="mb-8 w-full">
+              <label className="" htmlFor="title">
+                Title
+              </label>
+              <input
+                type="text"
+                placeholder={t`Title`}
+                {...register("title", { required: true })}
+              />
+            </div>
+            <div className="mb-8 w-full">
+              <label className="" htmlFor="cover-photo">
+                Author
+              </label>
+              <input
+                type="text"
+                placeholder={t`Author`}
+                {...register("author", { required: true })}
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <label>Cover photo</label>
+            <label>
+              {selectedImage ? (
+                <div className="relative w-48 h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/20 flex items-center justify-center flex-col">
+                  <img
+                    className=" w-48 h-48"
+                    src={URL.createObjectURL(selectedImage[0])}
+                  />
+                </div>
+              ) : (
+                <div className="w-48 cursor-pointer h-48 top-0 bg-gray z-20 rounded-md flex flex-col items-center justify-center font-medium text-xs p-5 text-center">
+                  Click to upload image
+                </div>
+              )}
+
+              <input
+                type="file"
+                size={100000}
+                id="cover-photo"
+                className="absolute top-20 text-sm invisible w-10"
+                accept=".jpg, .jpeg, .png"
+                placeholder={t`cover`}
+                onChange={(e) => setSelectedImage(e.target.files)}
+              />
+            </label>
+          </div>
         </div>
-        <div className="w-full">
+
+        <div className="w-5/6">
           <label className="" htmlFor="description">
             Description
           </label>
@@ -133,13 +195,13 @@ export default function index() {
         {fields.map((item, index) => (
           <div key={index} className="my-16 relative">
             <div>
-              <div>
+              <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
                   Course section {index + 1}
                 </label>
                 <button
                   type="button"
-                  className="italic text-xs text-red underline ml-64"
+                  className="italic text-xs text-red underline"
                   onClick={() => remove(index)}
                 >
                   Remove
@@ -194,6 +256,7 @@ export default function index() {
                     (ele: any, j: number) => {
                       return (
                         <button
+                          type="button"
                           key={j}
                           className="underline text-sm text-gray-dark"
                           onClick={() => {
