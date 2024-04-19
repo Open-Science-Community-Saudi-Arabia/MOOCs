@@ -15,19 +15,18 @@ type Inputs = {
   coursesection: {
     title: string;
     description: string;
-    video: { title: ""; description: ""; link: [] }[];
+    resources: { title: ""; description: ""; link: [] }[];
   }[];
 };
 const defaultValues: Inputs = {
   title: "",
   description: "",
   author: "",
-
   coursesection: [
     {
       title: "",
       description: "",
-      video: [],
+      resources: [],
     },
   ],
 };
@@ -50,6 +49,7 @@ export default function index() {
   >([]);
   const {
     register,
+    setValue,
     handleSubmit,
     control,
     watch,
@@ -57,13 +57,10 @@ export default function index() {
   } = useForm<Inputs>({
     defaultValues,
   });
-  const watchItems = watch()
-  console.log(watchItems)
+  // const watchItems = watch();
+  // console.log(watchItems);
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    data.coursesection.map((ele: any, index: any) => ({
-      ...ele,
-      ...exerciseQuestion[index],
-    }));
+  console.log(data)
     const formData = new FormData();
 
     formData.append("file", selectedImage[0]);
@@ -106,8 +103,32 @@ export default function index() {
       setExerciseQuestion((current) => [...current, currentQuestion]);
     }
 
+    
     setOpen(false);
   };
+console.log(exerciseQuestion)
+  // const addQuestionHandler = (values: any) => {
+  //   setValue(`coursesection.${0}.resources`, values);
+  //   const questionArr = [];
+
+  //   // console.o
+  //   if (exerciseQuestion.length > currentSection) {
+  //     const newExerciseQuestion = exerciseQuestion.map((exercise) => {
+  //       if (exercise.coursesection === currentSection) {
+  //         return {
+  //           ...exercise,
+  //           question: exercise.question.concat(currentQuestion.question),
+  //         };
+  //       }
+  //       return exercise;
+  //     });
+  //     setExerciseQuestion(newExerciseQuestion);
+  //   } else {
+  //     setExerciseQuestion((current) => [...current, currentQuestion]);
+  //   }
+
+  //   // setOpen(false);
+  // };
 
   // console.log(exerciseQuestion);
   return (
@@ -181,7 +202,9 @@ export default function index() {
           <button
             className="course-section-btn"
             type="button"
-            onClick={() => append({ title: "", description: "", video: [] })}
+            onClick={() =>
+              append({ title: "", description: "", resources: [] })
+            }
           >
             Add course section
           </button>
@@ -234,6 +257,7 @@ export default function index() {
             </div>
 
             <NestedArray
+              openModal={() => setOpen(true)}
               currentQuestionHandler={() => {
                 setCurrentQuestion(undefined);
               }}
@@ -243,29 +267,7 @@ export default function index() {
               nestIndex={index}
               {...{ control, register }}
             />
-            {exerciseQuestion[index] && (
-              <div className="flex items-center gap-x-3">
-                <label>Exercises</label>
-                <div className="border-gray/50 mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
-                  {exerciseQuestion[index]?.question.map(
-                    (ele: any, j: number) => {
-                      return (
-                        <button
-                          type="button"
-                          key={j}
-                          className="underline text-sm text-gray-dark"
-                          onClick={() => {
-                            setCurrentQuestion(ele), setOpen(true);
-                          }}
-                        >
-                          Question{j + 1}
-                        </button>
-                      );
-                    }
-                  )}
-                </div>
-              </div>
-            )}
+           
           </div>
         ))}
 
@@ -279,16 +281,7 @@ export default function index() {
           </button>
         </div>
       </form>
-      <Modal show={open} handleClose={() => setOpen(false)}>
-        {currentQuestion ? (
-          <EditQuestion
-            currentQuestion={currentQuestion}
-            editQuestionHandler={editQuestionHandler}
-          />
-        ) : (
-          <Question addQuestionHandler={addQuestionHandler} />
-        )}
-      </Modal>
+     
     </div>
   );
 }
