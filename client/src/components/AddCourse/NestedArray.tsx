@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useWatch } from "react-hook-form";
 import { IoIosLink } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
@@ -14,6 +14,10 @@ export default ({
     control,
     name: `coursesection.${nestIndex}.video`,
   });
+  const selectType = useWatch({
+    control,
+    name: `coursesection.${nestIndex}.video`,
+  });
 
   return (
     <div>
@@ -22,7 +26,6 @@ export default ({
           type="button"
           onClick={() => {
             append({
-              link: "",
               title: "",
               description: "",
             });
@@ -49,7 +52,15 @@ export default ({
       {fields.map((item, k) => {
         return (
           <div className="flex items-center gap-x-2 my-4" key={item.id}>
-            <label className="w-16">Video</label>
+            <select
+              className="p-2 border rounded-md text-sm text-gray-dark border-gray"
+              {...register(`coursesection.${nestIndex}.video.${k}.type`)}
+            >
+              <option value="">Select type</option>
+              <option value="video">Video</option>
+              <option value="pdf">PDF</option>
+            </select>
+
             <div className="flex items-center gap-x-4 w-4/5">
               <input
                 type="text"
@@ -62,15 +73,25 @@ export default ({
                 type="text"
                 className="!w-[60%]"
                 placeholder={t`description`}
-                {...register(`coursesection.${nestIndex}.video.${k}.description`)}
+                {...register(
+                  `coursesection.${nestIndex}.video.${k}.description`
+                )}
               />
 
-              <input
-                type="url"
-                className="!w-[60%]"
-                placeholder={t`url`}
-                {...register(`coursesection.${nestIndex}.video.${k}.link`)}
-              />
+              {selectType[k]?.type == "video" ? (
+                <input
+                  type="url"
+                  className="!w-[60%]"
+                  placeholder={t`url`}
+                  {...register(`coursesection.${nestIndex}.video.${k}.link`)}
+                />
+              ) : selectType[k]?.type == "pdf" ? (
+                <input
+                  type="file"
+                  className="!w-[60%]"
+                  {...register(`coursesection.${nestIndex}.video.${k}.file`)}
+                />
+              ) : null}
             </div>
 
             <button type="button" onClick={() => remove(k)}>

@@ -76,7 +76,7 @@ export default function Question({ addQuestionHandler }: Props) {
         <input
           className="!w-full"
           type="text"
-          {...register("correctanswer", { required: true })}
+          {...register("correctanswer")}
         />
       </div>
 

@@ -52,23 +52,18 @@ export default function index() {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues,
   });
+  const watchItems = watch()
+  console.log(watchItems)
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     data.coursesection.map((ele: any, index: any) => ({
       ...ele,
       ...exerciseQuestion[index],
     }));
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     console.log(reader.result);
-    //     // Logs data:<type>;base64,wL2dvYWwgbW9yZ...
-    // };
-    //   const test= reader.readAsDataURL(selectedImage[0]);
-    //   data = { ...data, preview_image: selectedImage[0] };
-    //   console.log(test)
     const formData = new FormData();
 
     formData.append("file", selectedImage[0]);
