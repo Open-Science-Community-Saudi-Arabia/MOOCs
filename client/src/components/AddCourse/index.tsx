@@ -15,7 +15,7 @@ type Inputs = {
   coursesection: {
     title: string;
     description: string;
-    resources: { title: ""; description: ""; link: [] }[];
+    resources: { title: ""; description: "" }[];
   }[];
 };
 const defaultValues: Inputs = {
@@ -60,7 +60,7 @@ export default function index() {
   // const watchItems = watch();
   // console.log(watchItems);
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-  console.log(data)
+    console.log(data);
     const formData = new FormData();
 
     formData.append("file", selectedImage[0]);
@@ -103,34 +103,10 @@ export default function index() {
       setExerciseQuestion((current) => [...current, currentQuestion]);
     }
 
-    
     setOpen(false);
   };
-console.log(exerciseQuestion)
-  // const addQuestionHandler = (values: any) => {
-  //   setValue(`coursesection.${0}.resources`, values);
-  //   const questionArr = [];
-
-  //   // console.o
-  //   if (exerciseQuestion.length > currentSection) {
-  //     const newExerciseQuestion = exerciseQuestion.map((exercise) => {
-  //       if (exercise.coursesection === currentSection) {
-  //         return {
-  //           ...exercise,
-  //           question: exercise.question.concat(currentQuestion.question),
-  //         };
-  //       }
-  //       return exercise;
-  //     });
-  //     setExerciseQuestion(newExerciseQuestion);
-  //   } else {
-  //     setExerciseQuestion((current) => [...current, currentQuestion]);
-  //   }
-
-  //   // setOpen(false);
-  // };
-
   // console.log(exerciseQuestion);
+ 
   return (
     <div className="add-new-course w-full">
       <h1 className="text-xl font-semibold py-8 text-primary">New Course</h1>
@@ -210,8 +186,8 @@ console.log(exerciseQuestion)
           </button>
         </div>
 
-        {fields.map((item, index) => (
-          <div key={index} className="my-16 relative">
+        {fields.map((field, index) => (
+          <div key={field.id} className="my-16 relative">
             <div>
               <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
@@ -267,7 +243,6 @@ console.log(exerciseQuestion)
               nestIndex={index}
               {...{ control, register }}
             />
-           
           </div>
         ))}
 
@@ -281,7 +256,6 @@ console.log(exerciseQuestion)
           </button>
         </div>
       </form>
-     
     </div>
   );
 }

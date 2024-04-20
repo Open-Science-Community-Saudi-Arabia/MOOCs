@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
-import {
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-  useWatch,
-} from "react-hook-form";
-import { MdClose } from "react-icons/md";
+import { useState } from "react";
+import { useFieldArray, useWatch } from "react-hook-form";
+
 import Modal from "../Modal";
 import { toast } from "react-toastify";
+import { Options } from "./Options";
 
 export default function Question({
   subNestIndex,
@@ -16,9 +12,10 @@ export default function Question({
   register,
 }: any) {
   const [open, setOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState<number>();
+  const [selectedQuestion, setSelectedQuestion] = useState<any>();
+  // const [selectedQuestion, setSelectedQuestion] = useState<any>();
 
-  const { fields, remove, append } = useFieldArray({
+  const { remove, append } = useFieldArray({
     control,
     name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz`,
   });
@@ -26,7 +23,8 @@ export default function Question({
     control,
     name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz`,
   });
-
+  console.log(selectedQuestion);
+  const k = quizArr?.length - 1;
   return (
     <div className="flex items-center gap-x-3 h-auto flex-wrap">
       {quizArr?.map((ele: any, j: number) => {
@@ -36,7 +34,7 @@ export default function Question({
             key={j}
             className="underline text-xs text-gray-dark"
             onClick={() => {
-              setSelectedQuestion(j), setOpen(true);
+              setSelectedQuestion(ele);
             }}
           >
             Question {j + 1}
@@ -50,183 +48,138 @@ export default function Question({
         onClick={() => {
           setOpen(true),
             append({
+              options: [{ name: "" }],
               question: "",
               correctanswer: "",
-              options: [],
             });
         }}
       >
         Add Question
       </button>
-      {fields.map((item, k) => {
-        return (
-          <div key={item.id}>
-            {/* <div className={`${selectedQuestion === k ? "block" : "hidden"}`}>
-              <Modal
-                show={open}
-                handleClose={() => {
-                  setOpen(false);
-                }}
-              >
-                <h2 className="font-semibold"> New Question</h2>
-                <div className="my-5">
-                  <label className="text-xs text-gray-dark">Question</label>
-                  <input
-                    type="text"
-                    className="!w-full"
-                    {...register(
-                      `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
-                    )}
-                  />
-                </div>
-                <Options
-                  subNestIndex={k}
-                  nestIndex={nestIndex}
-                  quizIndex={k}
-                  {...{ control, register }}
-                />
-
-                <div className="my-5">
-                  <label className="text-xs text-gray-dark">
-                    Correct options
-                  </label>
-                  <input
-                    className="!w-full"
-                    type="text"
-                    {...register(
-                      `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
-                    )}
-                  />
-                </div>
-
-                <button
-                  className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
-                  type="button"
-                  onClick={() => {
-                    if (
-                      quizArr[k].question === "" ||
-                      quizArr[k].correctanswer === "" ||
-                      quizArr[k].options.length < 0
-                    ) {
-                      toast.error("incomplete field", {
-                        position: toast.POSITION.TOP_CENTER,
-                        autoClose: 5000,
-                        theme: "colored",
-                      });
-                    } else {
-                      setOpen(false), setSelectedQuestion(-1);
-                    }
-                  }}
-                >
-                  Edit
-                </button>
-              </Modal>
-            </div> */}
-            <Modal
-              show={open }
-              handleClose={() => {
-                setOpen(false), remove(k);
-              }}
-            >
-              <h2 className="font-semibold"> New Question</h2>
-              <div className="my-5">
-                <label className="text-xs text-gray-dark">Question</label>
-                <input
-                  type="text"
-                  className="!w-full"
-                  {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
-                  )}
-                />
-              </div>
-              <Options
-                subNestIndex={k}
-                nestIndex={nestIndex}
-                quizIndex={k}
-                {...{ control, register }}
-              />
-
-              <div className="my-5">
-                <label className="text-xs text-gray-dark">
-                  Correct options
-                </label>
-                <input
-                  className="!w-full"
-                  type="text"
-                  {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
-                  )}
-                />
-              </div>
-
-              <button
-                className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
-                type="button"
-                onClick={() => {
-                  if (
-                    quizArr[k].question === "" ||
-                    quizArr[k].correctanswer === "" ||
-                    quizArr[k].options.length < 0
-                  ) {
-                    toast.error("incomplete field", {
-                      position: toast.POSITION.TOP_CENTER,
-                      autoClose: 5000,
-                      theme: "colored",
-                    });
-                  } else {
-                    setOpen(false), setSelectedQuestion(-1);
-                  }
-                }}
-              >
-                Add
-              </button>
-            </Modal>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-export function Options({
-  subNestIndex,
-  nestIndex,
-  quizIndex,
-  control,
-  register,
-}: any) {
-  const { fields, remove, append } = useFieldArray({
-    control,
-    name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${quizIndex}.options`,
-  });
-  return (
-    <div className="h-auto max-h-64 overflow-auto">
-      <label className="text-xs text-gray-dark">Options (max 4)</label>
-      {fields.map((item, index) => {
-        return (
-          <div key={item.id} className="mb-2 gap-x-4 flex items-center">
+      {selectedQuestion.length && (
+        <Modal
+          show={selectedQuestion.length}
+          handleClose={() => {
+            setOpen(false)
+          }}
+        >
+          <h2 className="font-semibold"> Question </h2>
+          <div className="my-5">
+            <label className="text-xs text-gray-dark">Question</label>
             <input
+              type="text"
+              className="!w-full"
               {...register(
-                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${quizIndex}.options.${index}.name`
+                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
               )}
+            />
+          </div>
+
+          {quizArr?.length > 0 && (
+            <Options
+             
+              subNestIndex={subNestIndex}
+              nestIndex={nestIndex}
+              quizIndex={k}
+              {...{ control, register }}
+            />
+          )}
+
+          <div className="my-5">
+            <label className="text-xs text-gray-dark">Correct options</label>
+            <input
               className="!w-full"
               type="text"
-              required
+              {...register(
+                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
+              )}
             />
-
-            <button type="button" onClick={() => remove(index)}>
-              <MdClose size={16} color={"red"} />
-            </button>
           </div>
-        );
-      })}
-      <button
-        className="text-xs rounded-md bg-gray/70 hover:bg-gray font-medium p-2"
-        type="button"
-        onClick={() => append({ name: "" })}
+
+          <button
+            className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
+            type="button"
+            onClick={() => {
+              if (
+                quizArr[k].question === "" ||
+                quizArr[k].correctanswer === "" ||
+                quizArr[k].options.length < 0
+              ) {
+                toast.error("incomplete field", {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                  theme: "colored",
+                });
+              } else {
+                setOpen(false);
+              }
+            }}
+          >
+            Add
+          </button>
+        </Modal>
+      )}
+      <Modal
+        show={open}
+        handleClose={() => {
+          setOpen(false), remove(k);
+        }}
       >
-        + Add
-      </button>
+        <h2 className="font-semibold"> New Question</h2>
+        <div className="my-5">
+          <label className="text-xs text-gray-dark">Question</label>
+          <input
+            type="text"
+            className="!w-full"
+            {...register(
+              `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
+            )}
+          />
+        </div>
+
+        {quizArr?.length > 0 && (
+          <Options
+            quizArr={quizArr}
+            subNestIndex={subNestIndex}
+            nestIndex={nestIndex}
+            quizIndex={k}
+            {...{ control, register }}
+          />
+        )}
+
+        <div className="my-5">
+          <label className="text-xs text-gray-dark">Correct options</label>
+          <input
+            className="!w-full"
+            type="text"
+            {...register(
+              `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
+            )}
+          />
+        </div>
+
+        <button
+          className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
+          type="button"
+          onClick={() => {
+            if (
+              quizArr[k].question === "" ||
+              quizArr[k].correctanswer === "" ||
+              quizArr[k].options.length < 0
+            ) {
+              toast.error("incomplete field", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000,
+                theme: "colored",
+              });
+            } else {
+              setOpen(false);
+            }
+          }}
+        >
+          Add
+        </button>
+      </Modal>
     </div>
   );
 }

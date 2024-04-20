@@ -36,9 +36,9 @@ export default ({ nestIndex, control, register }: any) => {
         </button>
       </div>
 
-      {fields.map((item, subNestIndex) => {
+      {fields.map((field, subNestIndex) => {
         return (
-          <div className="flex items-center gap-x-2 my-4" key={item.id}>
+          <div className="flex items-center gap-x-2 my-4" key={field.id}>
             <select
               className="p-2 border rounded-md w-20 text-sm text-gray-dark border-gray"
               {...register(
