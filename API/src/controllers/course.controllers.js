@@ -63,17 +63,14 @@ const { translateDoc, translateCourse } = require("../utils/crowdin");
  * @throws {error} if an error occured
  * */
 exports.createCourse = async (req, res, next) => {
-  const reqBody = Object.assign({}, req.body);
-  const parseReqBody = JSON.parse(reqBody.body);
   const preview_image = req.file;
 
   if (!preview_image) {
     return next(new BadRequestError("Missing preview image"));
   }
 
-  const newCourse = await Course.create(parseReqBody);
+  const newCourse = new Course(req.body);
 
-  // console.log(newCourse);
   // Upload preview image to cloudinary
   const file_url = await uploadToCloudinary({
     path: preview_image.path,
@@ -83,7 +80,7 @@ exports.createCourse = async (req, res, next) => {
 
   // Save file url to database
   newCourse.preview_image = file_url;
-  await newCourse.save();
+  const savedCourse = await newCourse.save();
 
   // Delete file from server
   await fs.unlink(preview_image.path, (err) => {
@@ -91,33 +88,16 @@ exports.createCourse = async (req, res, next) => {
       console.log(err);
     }
   });
-  await Promise.all(
-    parseReqBody.coursesection.map(async (ele) => {
-      const newCourseSection = await CourseSection.create({
-        title: ele.title,
-        description: ele.description,
-        course: newCourse._id,
-      });
-      ele.video.map(async (videoEle) => {
-        const video = await Video.create({
-          title: videoEle.title,
-          video_url: videoEle.link,
-          description: videoEle.description,
-        });
-        const coursesection = await CourseSection.findById({
-          _id: newCourseSection._id,
-        });
-        await coursesection.video.push(video._id);
-        await coursesection.save();
-      });
-      const course = await Course.findOne({ _id: newCourse._id });
-      await course.course_section.push(newCourseSection._id);
-      await course.save();
-    })
-  );
-  const course = await CourseSection.findOne({ })
 
-  console.log(course);
+  // let course = await translateDoc(savedCourse)
+  let course = savedCourse;
+
+  return res.status(200).send({
+    success: true,
+    data: {
+      course,
+    },
+  });
 };
 
 /**
