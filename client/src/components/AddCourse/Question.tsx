@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useFieldArray, useWatch } from "react-hook-form";
-
 import Modal from "../Modal";
 import { toast } from "react-toastify";
 import { Options } from "./Options";
@@ -12,8 +11,7 @@ export default function Question({
   register,
 }: any) {
   const [open, setOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState<any>();
-  // const [selectedQuestion, setSelectedQuestion] = useState<any>();
+  const [selectedQuestion, setSelectedQuestion] = useState<any>({});
 
   const { remove, append } = useFieldArray({
     control,
@@ -23,7 +21,7 @@ export default function Question({
     control,
     name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz`,
   });
-  console.log(selectedQuestion);
+
   const k = quizArr?.length - 1;
   return (
     <div className="flex items-center gap-x-3 h-auto flex-wrap">
@@ -34,7 +32,7 @@ export default function Question({
             key={j}
             className="underline text-xs text-gray-dark"
             onClick={() => {
-              setSelectedQuestion(ele);
+              setSelectedQuestion({ ...ele, index: j });
             }}
           >
             Question {j + 1}
@@ -56,43 +54,41 @@ export default function Question({
       >
         Add Question
       </button>
-      {selectedQuestion.length && (
+      {selectedQuestion?.question && (
         <Modal
-          show={selectedQuestion.length}
+          show={selectedQuestion.question}
           handleClose={() => {
-            setOpen(false)
+            setSelectedQuestion("");
           }}
         >
-          <h2 className="font-semibold"> Question </h2>
+          <h2 className="font-semibold">
+            {" "}
+            Question {selectedQuestion.index + 1}{" "}
+          </h2>
           <div className="my-5">
             <label className="text-xs text-gray-dark">Question</label>
             <input
               type="text"
               className="!w-full"
-              {...register(
-                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
-              )}
+              defaultValue={selectedQuestion.question}
             />
           </div>
-
-          {quizArr?.length > 0 && (
-            <Options
-             
-              subNestIndex={subNestIndex}
-              nestIndex={nestIndex}
-              quizIndex={k}
-              {...{ control, register }}
+          <label className="text-xs text-gray-dark">Options (max 4)</label>
+          {selectedQuestion.options.map((ele: { name: string }, i: number) => (
+            <input
+              key={i}
+              type="text"
+              className="!w-full"
+              defaultValue={ele.name}
             />
-          )}
+          ))}
 
           <div className="my-5">
             <label className="text-xs text-gray-dark">Correct options</label>
             <input
               className="!w-full"
               type="text"
-              {...register(
-                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
-              )}
+              defaultValue={selectedQuestion.correctanswer}
             />
           </div>
 
@@ -100,22 +96,11 @@ export default function Question({
             className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
             type="button"
             onClick={() => {
-              if (
-                quizArr[k].question === "" ||
-                quizArr[k].correctanswer === "" ||
-                quizArr[k].options.length < 0
-              ) {
-                toast.error("incomplete field", {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                  theme: "colored",
-                });
-              } else {
-                setOpen(false);
-              }
+              remove(selectedQuestion.index);
+              setSelectedQuestion("");
             }}
           >
-            Add
+            Delete
           </button>
         </Modal>
       )}

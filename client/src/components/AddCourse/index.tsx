@@ -2,10 +2,7 @@ import { t } from "@lingui/macro";
 import "./style.scss";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
-import Modal from "../Modal";
 import { useState } from "react";
-import Question from "./Question";
-import EditQuestion from "./EditQuestion";
 import { createCourse } from "../../utils/api/courses";
 
 type Inputs = {
@@ -33,44 +30,28 @@ const defaultValues: Inputs = {
 
 let renderCount = 0;
 export default function index() {
-  const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<any>();
-  const [currentSection, setCurrentSection] = useState<number>(0);
-  const [currentQuestion, setCurrentQuestion] = useState<{
-    title: string;
-    option: { name: string }[];
-    correctanswer: string;
-  }>();
-  const [exerciseQuestion, setExerciseQuestion] = useState<
-    {
-      coursesection: number;
-      question: { title: string; options: []; correctanswer: string }[];
-    }[]
-  >([]);
+
   const {
     register,
-    setValue,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues,
   });
-  // const watchItems = watch();
-  // console.log(watchItems);
+
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
     console.log(data);
-    const formData = new FormData();
-
-    formData.append("file", selectedImage[0]);
-    formData.append("body", JSON.stringify(data));
-    try {
-      const res = await createCourse(formData);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    // const formData = new FormData();
+    // formData.append("file", selectedImage[0]);
+    // formData.append("body", JSON.stringify(data));
+    // try {
+    //   const res = await createCourse(formData);
+    //   console.log(res);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -80,33 +61,6 @@ export default function index() {
 
   renderCount++;
 
-  const editQuestionHandler = (values: any) => {
-    console.log(values);
-  };
-  const addQuestionHandler = (values: any) => {
-    const currentQuestion = {
-      coursesection: currentSection,
-      question: [values],
-    };
-    if (exerciseQuestion.length > currentSection) {
-      const newExerciseQuestion = exerciseQuestion.map((exercise) => {
-        if (exercise.coursesection === currentSection) {
-          return {
-            ...exercise,
-            question: exercise.question.concat(currentQuestion.question),
-          };
-        }
-        return exercise;
-      });
-      setExerciseQuestion(newExerciseQuestion);
-    } else {
-      setExerciseQuestion((current) => [...current, currentQuestion]);
-    }
-
-    setOpen(false);
-  };
-  // console.log(exerciseQuestion);
- 
   return (
     <div className="add-new-course w-full">
       <h1 className="text-xl font-semibold py-8 text-primary">New Course</h1>
@@ -232,17 +186,7 @@ export default function index() {
               </div>
             </div>
 
-            <NestedArray
-              openModal={() => setOpen(true)}
-              currentQuestionHandler={() => {
-                setCurrentQuestion(undefined);
-              }}
-              addExercise={() => {
-                setCurrentSection(index), setOpen(true);
-              }}
-              nestIndex={index}
-              {...{ control, register }}
-            />
+            <NestedArray nestIndex={index} {...{ control, register }} />
           </div>
         ))}
 
@@ -259,3 +203,5 @@ export default function index() {
     </div>
   );
 }
+
+
