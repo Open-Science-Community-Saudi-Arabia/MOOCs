@@ -23,22 +23,24 @@ export default function Question({
   });
 
   const k = quizArr?.length - 1;
+
   return (
     <div className="flex items-center gap-x-3 h-auto flex-wrap">
-      {quizArr?.map((ele: any, j: number) => {
-        return (
-          <button
-            type="button"
-            key={j}
-            className="underline text-xs text-gray-dark"
-            onClick={() => {
-              setSelectedQuestion({ ...ele, index: j });
-            }}
-          >
-            Question {j + 1}
-          </button>
-        );
-      })}
+      {quizArr?.length > 0 &&
+        quizArr?.map((ele: any, j: number) => {
+          return (
+            <button
+              type="button"
+              key={j}
+              className="underline text-xs text-gray-dark"
+              onClick={() => {
+                setSelectedQuestion({ ...ele, index: j });
+              }}
+            >
+              Question {j + 1}
+            </button>
+          );
+        })}
 
       <button
         className="py-2 px-3 text-xs text-white bg-primary rounded-lg hover:bg-primary/90 font-medium"

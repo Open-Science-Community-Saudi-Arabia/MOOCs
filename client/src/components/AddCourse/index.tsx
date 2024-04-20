@@ -42,16 +42,50 @@ export default function index() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    console.log(data);
-    // const formData = new FormData();
-    // formData.append("file", selectedImage[0]);
-    // formData.append("body", JSON.stringify(data));
-    // try {
-    //   const res = await createCourse(formData);
-    //   console.log(res);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    // validate for image
+    let coursesection = data.coursesection.map((item: any, i: number) => {
+      let output = item.resources.map((ele: any) => {
+        if (ele.type === "video") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            link: ele.link,
+          });
+        }
+        if (ele.type === "pdf") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            file: ele.file,
+          });
+        }
+        if (ele.type === "quiz") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            quiz: ele.quiz,
+          });
+        }
+        return ele;
+      });
+
+      return { ...item, resources: output };
+    });
+
+    const parseData = { ...data, coursesection };
+
+    const formData = new FormData();
+    formData.append("file", selectedImage[0]);
+    formData.append("body", JSON.stringify(parseData));
+    try {
+      const res = await createCourse(formData);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -203,5 +237,3 @@ export default function index() {
     </div>
   );
 }
-
-
