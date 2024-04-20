@@ -118,6 +118,7 @@ jsdocs
 *.njsproj
 *.sln
 *.sw?
+*.todo
 
 
 # Documentation

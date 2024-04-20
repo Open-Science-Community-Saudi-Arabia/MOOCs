@@ -1,91 +1,172 @@
-import { useEffect } from "react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { MdClose } from "react-icons/md";
+import { useState } from "react";
+import { useFieldArray, useWatch } from "react-hook-form";
+import Modal from "../Modal";
+import { toast } from "react-toastify";
+import { Options } from "./Options";
 
-type Inputs = {
-  title: string;
-  option: { name: string }[];
-  correctanswer: string;
-};
-type Props = {
-  addQuestionHandler: (values: any) => void;
-  
-};
-const defaultValues: Inputs = {
-  title: "",
-  option: [{ name: "" }],
-  correctanswer: "",
-};
+export default function Question({
+  subNestIndex,
+  nestIndex,
+  control,
+  register,
+}: any) {
+  const [open, setOpen] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState<any>({});
 
-export default function Question({ addQuestionHandler }: Props) {
-  const { register, handleSubmit, control, reset } = useForm<Inputs>({
-    defaultValues,
-  });
-  useEffect(() => {
-    reset({
-      title: "",
-      option: [{ name: "" }],
-      correctanswer: "",
-    });
-  }, [addQuestionHandler]);
-
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
-    addQuestionHandler(values);
-  };
-  const { fields, remove, append } = useFieldArray({
+  const { remove, append } = useFieldArray({
     control,
-    name: "option",
+    name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz`,
   });
+  const quizArr = useWatch({
+    control,
+    name: `coursesection.${nestIndex}.resources.${subNestIndex}.quiz`,
+  });
+
+  const k = quizArr?.length - 1;
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-semibold"> New Question</h2>
-      <div className="my-5">
-        <label className="text-xs text-gray-dark">Question</label>
-        <input
-          type="text"
-          className="!w-full"
-          {...register("title", { required: true })}
-        />
-      </div>
-      <div className="h-auto max-h-64 overflow-auto">
-        <label className="text-xs text-gray-dark">Options (max 4)</label>
-        {fields.map((item, index) => (
-          <div key={index} className="mb-2 gap-x-4 flex items-center ">
+    <div className="flex items-center gap-x-3 h-auto flex-wrap">
+      {quizArr?.length > 0 &&
+        quizArr?.map((ele: any, j: number) => {
+          return (
+            <button
+              type="button"
+              key={j}
+              className="underline text-xs text-gray-dark"
+              onClick={() => {
+                setSelectedQuestion({ ...ele, index: j });
+              }}
+            >
+              Question {j + 1}
+            </button>
+          );
+        })}
+
+      <button
+        className="py-2 px-3 text-xs text-white bg-primary rounded-lg hover:bg-primary/90 font-medium"
+        type="button"
+        onClick={() => {
+          setOpen(true),
+            append({
+              options: [{ name: "" }],
+              question: "",
+              correctanswer: "",
+            });
+        }}
+      >
+        Add Question
+      </button>
+      {selectedQuestion?.question && (
+        <Modal
+          show={selectedQuestion.question}
+          handleClose={() => {
+            setSelectedQuestion("");
+          }}
+        >
+          <h2 className="font-semibold">
+            {" "}
+            Question {selectedQuestion.index + 1}{" "}
+          </h2>
+          <div className="my-5">
+            <label className="text-xs text-gray-dark">Question</label>
             <input
-              {...register(`option.${index}.name`)}
+              type="text"
+              className="!w-full"
+              defaultValue={selectedQuestion.question}
+            />
+          </div>
+          <label className="text-xs text-gray-dark">Options (max 4)</label>
+          {selectedQuestion.options.map((ele: { name: string }, i: number) => (
+            <input
+              key={i}
+              type="text"
+              className="!w-full"
+              defaultValue={ele.name}
+            />
+          ))}
+
+          <div className="my-5">
+            <label className="text-xs text-gray-dark">Correct options</label>
+            <input
               className="!w-full"
               type="text"
-              required
+              defaultValue={selectedQuestion.correctanswer}
             />
-
-            <button type="button" onClick={() => remove(index)}>
-              <MdClose size={16} color={"red"} />
-            </button>
           </div>
-        ))}
-      </div>
-      <button
-        className="text-xs rounded-md bg-gray/70 hover:bg-gray font-medium p-2"
-        type="button"
-        onClick={() => append({ name: "" })}
-      >
-        + Add
-      </button>
-      <div className="my-5">
-        <label className="text-xs text-gray-dark">Correct options</label>
-        <input
-          className="!w-full"
-          type="text"
-          {...register("correctanswer", { required: true })}
-        />
-      </div>
 
-      <button
-        className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
-        type="submit"
+          <button
+            className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
+            type="button"
+            onClick={() => {
+              remove(selectedQuestion.index);
+              setSelectedQuestion("");
+            }}
+          >
+            Delete
+          </button>
+        </Modal>
+      )}
+      <Modal
+        show={open}
+        handleClose={() => {
+          setOpen(false), remove(k);
+        }}
       >
-        Submit
-      </button>
-    </form>
+        <h2 className="font-semibold"> New Question</h2>
+        <div className="my-5">
+          <label className="text-xs text-gray-dark">Question</label>
+          <input
+            type="text"
+            className="!w-full"
+            {...register(
+              `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
+            )}
+          />
+        </div>
+
+        {quizArr?.length > 0 && (
+          <Options
+            quizArr={quizArr}
+            subNestIndex={subNestIndex}
+            nestIndex={nestIndex}
+            quizIndex={k}
+            {...{ control, register }}
+          />
+        )}
+
+        <div className="my-5">
+          <label className="text-xs text-gray-dark">Correct options</label>
+          <input
+            className="!w-full"
+            type="text"
+            {...register(
+              `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
+            )}
+          />
+        </div>
+
+        <button
+          className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
+          type="button"
+          onClick={() => {
+            if (
+              quizArr[k].question === "" ||
+              quizArr[k].correctanswer === "" ||
+              quizArr[k].options.length < 0
+            ) {
+              toast.error("incomplete field", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000,
+                theme: "colored",
+              });
+            } else {
+              setOpen(false);
+            }
+          }}
+        >
+          Add
+        </button>
+      </Modal>
+    </div>
   );
 }

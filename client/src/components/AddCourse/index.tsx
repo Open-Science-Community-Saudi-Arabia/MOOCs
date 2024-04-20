@@ -2,10 +2,7 @@ import { t } from "@lingui/macro";
 import "./style.scss";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
-import Modal from "../Modal";
 import { useState } from "react";
-import Question from "./Question";
-import EditQuestion from "./EditQuestion";
 import { createCourse } from "../../utils/api/courses";
 
 type Inputs = {
@@ -15,39 +12,26 @@ type Inputs = {
   coursesection: {
     title: string;
     description: string;
-    video: { title: ""; description: ""; link: [] }[];
+    resources: { title: ""; description: "" }[];
   }[];
 };
 const defaultValues: Inputs = {
   title: "",
   description: "",
   author: "",
-
   coursesection: [
     {
       title: "",
       description: "",
-      video: [],
+      resources: [],
     },
   ],
 };
 
 let renderCount = 0;
 export default function index() {
-  const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<any>();
-  const [currentSection, setCurrentSection] = useState<number>(0);
-  const [currentQuestion, setCurrentQuestion] = useState<{
-    title: string;
-    option: { name: string }[];
-    correctanswer: string;
-  }>();
-  const [exerciseQuestion, setExerciseQuestion] = useState<
-    {
-      coursesection: number;
-      question: { title: string; options: []; correctanswer: string }[];
-    }[]
-  >([]);
+
   const {
     register,
     handleSubmit,
@@ -56,14 +40,46 @@ export default function index() {
   } = useForm<Inputs>({
     defaultValues,
   });
+
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    data.coursesection.map((ele: any, index: any) => ({
-      ...ele,
-      ...exerciseQuestion[index],
-    }));
+    // validate for image
+    let coursesection = data.coursesection.map((item: any, i: number) => {
+      let output = item.resources.map((ele: any) => {
+        if (ele.type === "video") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            link: ele.link,
+          });
+        }
+        if (ele.type === "pdf") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            file: ele.file,
+          });
+        }
+        if (ele.type === "quiz") {
+          return (ele = {
+            type: ele.type,
+            title: ele.title,
+            description: ele.description,
+            quiz: ele.quiz,
+          });
+        }
+        return ele;
+      });
+
+      return { ...item, resources: output };
+    });
+
+    const parseData = { ...data, coursesection };
+
     const formData = new FormData();
     formData.append("file", selectedImage[0]);
-    formData.append("body", JSON.stringify(data));
+    formData.append("body", JSON.stringify(parseData));
     try {
       const res = await createCourse(formData);
       console.log(res);
@@ -78,34 +94,6 @@ export default function index() {
   });
 
   renderCount++;
-
-  const editQuestionHandler = (values: any) => {
-    console.log(values);
-  };
-
-  const addQuestionHandler = (values: any) => {
-    const currentQuestion = {
-      coursesection: currentSection,
-      question: [values],
-    };
-    if (exerciseQuestion.length > currentSection) {
-      const newExerciseQuestion = exerciseQuestion.map((exercise) => {
-        if (exercise.coursesection === currentSection) {
-          return {
-            ...exercise,
-            question: exercise.question.concat(currentQuestion.question),
-          };
-        }
-        return exercise;
-      });
-      setExerciseQuestion(newExerciseQuestion);
-    } else {
-      setExerciseQuestion((current) => [...current, currentQuestion]);
-    }
-
-    setOpen(false);
-  };
-
 
   return (
     <div className="add-new-course w-full">
@@ -178,14 +166,16 @@ export default function index() {
           <button
             className="course-section-btn"
             type="button"
-            onClick={() => append({ title: "", description: "", video: [] })}
+            onClick={() =>
+              append({ title: "", description: "", resources: [] })
+            }
           >
             Add course section
           </button>
         </div>
 
-        {fields.map((item, index) => (
-          <div key={index} className="my-16 relative">
+        {fields.map((field, index) => (
+          <div key={field.id} className="my-16 relative">
             <div>
               <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
@@ -230,39 +220,7 @@ export default function index() {
               </div>
             </div>
 
-            <NestedArray
-              currentQuestionHandler={() => {
-                setCurrentQuestion(undefined);
-              }}
-              addExercise={() => {
-                setCurrentSection(index), setOpen(true);
-              }}
-              nestIndex={index}
-              {...{ control, register }}
-            />
-            {exerciseQuestion[index] && (
-              <div className="flex items-center gap-x-3">
-                <label>Exercises</label>
-                <div className="border-gray/50 mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
-                  {exerciseQuestion[index]?.question.map(
-                    (ele: any, j: number) => {
-                      return (
-                        <button
-                          type="button"
-                          key={j}
-                          className="underline text-sm text-gray-dark"
-                          onClick={() => {
-                            setCurrentQuestion(ele), setOpen(true);
-                          }}
-                        >
-                          Question{j + 1}
-                        </button>
-                      );
-                    }
-                  )}
-                </div>
-              </div>
-            )}
+            <NestedArray nestIndex={index} {...{ control, register }} />
           </div>
         ))}
 
@@ -276,16 +234,6 @@ export default function index() {
           </button>
         </div>
       </form>
-      <Modal show={open} handleClose={() => setOpen(false)}>
-        {currentQuestion ? (
-          <EditQuestion
-            currentQuestion={currentQuestion}
-            editQuestionHandler={editQuestionHandler}
-          />
-        ) : (
-          <Question addQuestionHandler={addQuestionHandler} />
-        )}
-      </Modal>
     </div>
   );
 }
