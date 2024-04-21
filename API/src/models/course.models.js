@@ -619,7 +619,7 @@ const DownloadableResource = mongoose.model(
   "DownloadableResource",
   downloadableResourceSchema
 );
-const Course = mongoose.model("Course", courseSchema);
+// const Course = mongoose.model("Course", courseSchema);
 const CourseSection = mongoose.model("CourseSection", courseSectionSchema);
 const ExerciseSubmission = mongoose.model(
   "ExerciseSubmission",
@@ -630,7 +630,7 @@ const CourseReport = mongoose.model("CourseReport", courseReportSchema);
 
 module.exports = {
   Video,
-  Course,
+  // Course,
   CourseSection,
   Question,
   Exercise,
