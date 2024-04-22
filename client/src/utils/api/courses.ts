@@ -89,3 +89,8 @@ export async function getCertificate(id: string | any) {
 //   const query = useQuery(["course"], () => getCourse(id));
 //   return query;
 // }
+
+export async function getContributorCourses(collaboratorId : string) {
+  const response = await makeApiCall(`/course/contributor/${collaboratorId }`);
+  return response;
+}

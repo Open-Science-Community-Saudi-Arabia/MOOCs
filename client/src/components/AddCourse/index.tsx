@@ -5,6 +5,9 @@ import NestedArray from "./NestedArray";
 import { useState } from "react";
 import { createCourse } from "../../utils/api/courses";
 import { generateCloudinaryURL } from "../../utils";
+import { toast } from "react-toastify";
+import Spinner from "../Spinner";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   title: string;
@@ -31,7 +34,9 @@ const defaultValues: Inputs = {
 
 let renderCount = 0;
 export default function index() {
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<any>();
+  const [isLoading, setLoading] = useState(false);
 
   const {
     register,
@@ -43,6 +48,7 @@ export default function index() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    setLoading(true);
     let coursesection = await Promise.all(
       data.coursesection.map(async (item: any, i: number) => {
         let resources = await Promise.all(
@@ -86,7 +92,13 @@ export default function index() {
     formData.append("body", JSON.stringify(parseData));
     try {
       const res = await createCourse(formData);
-      console.log(res);
+      setLoading(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+      navigate("/collaborator/dashboard");
     } catch (err) {
       console.log(err);
     }
@@ -234,7 +246,7 @@ export default function index() {
             className="w-96 text-white bg-primary py-4 rounded-lg mt-1 hover:bg-primary/80 font-medium"
           >
             {" "}
-            Add Course{" "}
+            {isLoading?  <Spinner width="30px" height="30px" color="#fff" />: "Add Course"}
           </button>
         </div>
       </form>
