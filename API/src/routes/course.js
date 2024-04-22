@@ -23,8 +23,8 @@ router.use(basicAuth());
 
 router
   .post("/new", permit("Admin SuperAdmin"), upload.single("file"), createCourse)
-  .get("/courseId", permit("EndUser SuperAdmin"), getCourse)
-  .get("/contributorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
+  .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
+  .get("/contributor/:collaboratorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
   .get("/", permit("Admin SuperAdmin"), getAllCourses);
 
 module.exports = router;
