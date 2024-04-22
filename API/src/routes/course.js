@@ -1,6 +1,11 @@
 const router = require("express").Router();
 
-const { createCourse } = require("../controllers/course");
+const {
+  createCourse,
+  getCourse,
+  getAllCourses,
+  getCollaboratorCourses,
+} = require("../controllers/course");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -16,11 +21,10 @@ const { basicAuth } = require("../middlewares/auth");
 
 router.use(basicAuth());
 
-router.post(
-  "/new",
-  permit("Admin SuperAdmin"),
-  upload.single("file"),
-  createCourse
-);
+router
+  .post("/new", permit("Admin SuperAdmin"), upload.single("file"), createCourse)
+  .get("/courseId", permit("EndUser SuperAdmin"), getCourse)
+  .get("/contributorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
+  .get("/", permit("Admin SuperAdmin"), getAllCourses);
 
 module.exports = router;

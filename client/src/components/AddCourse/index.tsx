@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
 import { useState } from "react";
 import { createCourse } from "../../utils/api/courses";
+import { generateCloudinaryURL } from "../../utils";
 
 type Inputs = {
   title: string;
@@ -42,38 +43,41 @@ export default function index() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    // validate for image
-    let coursesection = data.coursesection.map((item: any, i: number) => {
-      let output = item.resources.map((ele: any) => {
-        if (ele.type === "video") {
-          return (ele = {
-            type: ele.type,
-            title: ele.title,
-            description: ele.description,
-            link: ele.link,
-          });
-        }
-        if (ele.type === "pdf") {
-          return (ele = {
-            type: ele.type,
-            title: ele.title,
-            description: ele.description,
-            file: ele.file,
-          });
-        }
-        if (ele.type === "quiz") {
-          return (ele = {
-            type: ele.type,
-            title: ele.title,
-            description: ele.description,
-            quiz: ele.quiz,
-          });
-        }
-        return ele;
-      });
+    let coursesection = await Promise.all(
+      data.coursesection.map(async (item: any, i: number) => {
+        let resources = await Promise.all(
+          item.resources.map(async (ele: any) => {
+            if (ele.type === "video") {
+              return (ele = {
+                type: ele.type,
+                title: ele.title,
+                description: ele.description,
+                link: ele.link,
+              });
+            }
+            if (ele.type === "pdf") {
+              return (ele = {
+                type: ele.type,
+                title: ele.title,
+                description: ele.description,
+                file: await generateCloudinaryURL(ele.file[0], data.title),
+              });
+            }
+            if (ele.type === "quiz") {
+              return (ele = {
+                type: ele.type,
+                title: ele.title,
+                description: ele.description,
+                quiz: ele.quiz,
+              });
+            }
+            return ele;
+          })
+        );
 
-      return { ...item, resources: output };
-    });
+        return { ...item, resources };
+      })
+    );
 
     const parseData = { ...data, coursesection };
 

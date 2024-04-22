@@ -35,6 +35,7 @@ const courseSchema = new Schema(
         resources: [],
       }),
     ],
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     preview_image: { type: String },
     status: {
@@ -42,7 +43,7 @@ const courseSchema = new Schema(
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending",
     },
-    isAvailable: { type: Boolean, default: true },
+    isAvailable: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
