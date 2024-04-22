@@ -83,6 +83,7 @@ export default ({ nestIndex, control, register }: any) => {
               ) : selectType[subNestIndex]?.type == "pdf" ? (
                 <input
                   type="file"
+                  accept=".pdf"
                   className="!w-[60%]"
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.file`
