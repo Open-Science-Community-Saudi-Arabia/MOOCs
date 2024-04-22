@@ -2,6 +2,8 @@
 
 .collaborator-dashboard {
   .add-btn {
-    @include button(15rem, var(--green), var(--white));
+    font-size: 9px !important;
+    padding: 9px 16px !important;
+    @include button(auto, var(--green), var(--white));
   }
 }

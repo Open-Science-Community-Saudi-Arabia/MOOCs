@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { setToken } from "../utils";
+import { setToken, setUserId } from "../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -42,6 +42,8 @@ const useFetch = () => {
 
       if (response.data.success === true) {
         setToken(response.data.data.access_token);
+        setUserId(response.data.data.user._id);
+
         if (response.data.data.user.role === "Admin") {
           navigate("/collaborator/dashboard");
         } else if (response.data.data.user.role === "EndUser") {
@@ -51,7 +53,9 @@ const useFetch = () => {
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error.message ? "Request failed, try again" : error.response.data.message,
+        error.message
+          ? "Request failed, try again"
+          : error.response.data.message,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,

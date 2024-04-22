@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGOUT_KEY, TOKEN_KEY } from "./constants";
+import { LOGOUT_KEY, TOKEN_KEY, USERID } from "./constants";
 
 const { VITE_CLOUDINARY_CLOUD_NAME, VITE_CLOUDINARY_UPLOAD_PRESET } =
   import.meta.env;
@@ -26,6 +26,16 @@ export function getToken() {
 export function setToken(token: string) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   localStorage.setItem(TOKEN_KEY, token);
+}
+export function setUserId(id: string) {
+  localStorage.setItem(USERID, id);
+}
+export function getUserId() {
+  let userId = localStorage.getItem(USERID);
+  if (!userId) {
+    window.location.assign("/login");
+  }
+  return userId;
 }
 
 export const logout = async () => {

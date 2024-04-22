@@ -1,6 +1,6 @@
 @import "../../styles/mixins.scss";
 .dashboard-header {
-  background-color: rgb(236, 245, 244);
+  background-color: rgb(188, 226, 221);
   position: fixed;
   top: 0;
   z-index: 1;
@@ -38,7 +38,7 @@
       font-weight: 400;
       border-radius: 10px;
       padding: 0 15px;
-      border: 1px solid var(--gray-203);
+      border: 1px solid #acabab78;
       &:focus {
         border: 1px solid var(--green);
       }

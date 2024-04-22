@@ -38,7 +38,8 @@ const getACourse = async (courseId) => {
 };
 
 const allCollaboratorCourses = async (collaboratorId) => {
-  const course = await Course.findById(collaboratorId);
+  const course = await Course.find({ createdBy: collaboratorId });
+  console.log(course);
   return course;
 };
 
