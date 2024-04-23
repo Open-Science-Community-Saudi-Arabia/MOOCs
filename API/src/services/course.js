@@ -44,7 +44,7 @@ const allCollaboratorCourses = async (collaboratorId) => {
 };
 
 const allCourses = async () => {
-  const course = await Course.findOne();
+  const course = await Course.find();
   return course;
 };
 
