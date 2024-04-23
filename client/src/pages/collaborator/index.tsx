@@ -4,15 +4,10 @@ import { Link } from "react-router-dom";
 import { getContributorCourses } from "../../utils/api/courses";
 import Spinner from "../../components/Spinner";
 import { getUserId } from "../../utils";
-import dayjs from "dayjs";
-
-import advancedFormat from "dayjs/plugin/advancedFormat.js";
-dayjs.extend(advancedFormat);
-dayjs().format();
+import CourseCard from "../../components/Course/CourseCard";
 
 export default function index() {
   const [courses, setCourses] = useState<any[]>([]);
-
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -44,7 +39,7 @@ export default function index() {
       ) : courses?.length > 0 ? (
         <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
           <div className="flex items-center justify-between mt-6">
-            <h1 className="text-2xl font-medium">Your Courses</h1>
+            <h1 className="text-lg font-medium">Your Courses</h1>
             <Link to="/collaborator/add-course" className="add-btn">
               {" "}
               Add Course
@@ -52,51 +47,14 @@ export default function index() {
           </div>
           <div className="flex items-center flex-wrap gap-x-3 justify-start mt-8">
             {courses.map((ele: any) => {
-              return (
-                <button
-                  key={ele._id}
-                  className="hover:shadow-xl rounded-md text-left w-72 h-40 pt-3 pb-3 px-4 border-gray border bg-white"
-                >
-                  <div className="flex items-center justify-center gap-x-6 mb-8">
-                    <img
-                      className="rounded-full w-10 h-10"
-                      src={ele.preview_image}
-                      alt="preview image"
-                    />
-                    <h3 className="text-base w-64 text-left font-semibold">
-                      {ele.title}
-                    </h3>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <p className={`text-gray-dark font-medium w-20 text-xs`}>
-                      Review{" "}
-                      <span
-                        className={`${ele.status === "Pending"
-                            ? "text-error"
-                            : "text-success"
-                          }`}
-                      >
-                        {ele.status}
-                      </span>
-                    </p>
-                    <p className="text-gray-dark/80 w-24 text-xs">
-                      created on
-                      <span>
-                        {" "}
-                        {dayjs(ele.createdAt).format("MMMM Do, YYYY")}
-                      </span>
-                    </p>
-                  </div>
-                </button>
-              );
+              return <CourseCard key={ele._id} course={ele} />;
             })}
           </div>
         </div>
       ) : (
-        <div className="flex items-center flex-col h-96 justify-center">
-          <div className="py-3"> No Course Added</div>
-          <Link to="/collaborator/add-course" className="add-btn">
+        <div className="flex items-center flex-col h-[30rem] justify-center">
+          <p className="py-3 text-gray-dark/50 mb-4"> No Course Added Yet!</p>
+          <Link to="/collaborator/add-course" className="px-4 py-3 bg-primary text-white rounded-md w-64 text-center">
             {" "}
             Add Course
           </Link>

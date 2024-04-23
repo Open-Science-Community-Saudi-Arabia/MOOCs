@@ -18,7 +18,7 @@ import ViewCourse from "./pages/board/viewcourse";
 import AdminBoard from "./pages/admin";
 import CollaboratorBoard from "./pages/collaborator";
 import DashboardLayout from "./components/Layouts/dashboard";
-import AddCourse from "./components/AddCourse";
+import AddCourse from "./components/Course/AddCourse";
 
 const queryClient = new QueryClient();
 function App() {

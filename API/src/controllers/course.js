@@ -13,7 +13,7 @@ const createCourse = async (req, res) => {
     await createACourse(userId, preview_image, parseReqBody);
     return res.status(200).send({
       success: true,
-      message: "New course created succuessfully",
+      message: "New course created successfully",
     });
   } catch (error) {
     console.log(error);
@@ -35,7 +35,8 @@ const getCourse = async (req, res) => {
 
 const   getCollaboratorCourses = async (req, res) => {
   try {
-    const collaboratorId = req.params.collaboratorId;
+    const collaboratorId = req.params.collaboratorId ;
+   
     const course = await allCollaboratorCourses(collaboratorId);
     return res.status(200).send({
       success: true,

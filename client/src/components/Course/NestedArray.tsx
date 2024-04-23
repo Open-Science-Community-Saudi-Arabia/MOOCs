@@ -1,6 +1,5 @@
 import { t } from "@lingui/macro";
 import { useFieldArray, useWatch } from "react-hook-form";
-import { IoIosLink } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Question from "./Question";
@@ -28,7 +27,7 @@ export default ({ nestIndex, control, register }: any) => {
           }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="PDF, video or quizzes"
-          className="py-2 px-3 text-xs text-white bg-primary rounded-lg hover:bg-primary/90 font-medium"
+          className="p-2 text-xs text-white bg-primary rounded-md hover:bg-primary/90 font-medium"
         >
           Add Course Materials
           <Tooltip id="my-tooltip" place="top" />
@@ -57,6 +56,7 @@ export default ({ nestIndex, control, register }: any) => {
                 type="text"
                 className="!w-[30%]"
                 placeholder={t`title`}
+                autoComplete="false"
                 {...register(
                   `coursesection.${nestIndex}.resources.${subNestIndex}.title`
                 )}
@@ -66,6 +66,7 @@ export default ({ nestIndex, control, register }: any) => {
                 type="text"
                 className="!w-[30%]"
                 placeholder={t`description`}
+                autoComplete="false"
                 {...register(
                   `coursesection.${nestIndex}.resources.${subNestIndex}.description`
                 )}
@@ -75,6 +76,7 @@ export default ({ nestIndex, control, register }: any) => {
                 <input
                   type="url"
                   className="!w-[60%]"
+                  autoComplete="false"
                   placeholder={t`url`}
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.link`

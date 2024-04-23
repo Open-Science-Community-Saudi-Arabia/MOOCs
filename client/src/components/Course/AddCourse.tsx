@@ -139,7 +139,7 @@ export default function index() {
             </div>
           </div>
           <div className="relative">
-            <label>Cover photo</label>
+            <label>Course photo</label>
             <label>
               {selectedImage ? (
                 <div className="relative w-48 h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/20 flex items-center justify-center flex-col">
@@ -202,7 +202,7 @@ export default function index() {
                   className="italic text-xs text-red underline"
                   onClick={() => remove(index)}
                 >
-                  Remove
+                 Delete
                 </button>
               </div>
               <div className="my-3 flex items-center gap-x-8">

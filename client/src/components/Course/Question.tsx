@@ -118,6 +118,7 @@ export default function Question({
           <input
             type="text"
             className="!w-full"
+            autoComplete="false"
             {...register(
               `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
             )}
@@ -139,6 +140,7 @@ export default function Question({
           <input
             className="!w-full"
             type="text"
+            autoComplete="false"
             {...register(
               `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
             )}

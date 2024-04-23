@@ -24,6 +24,7 @@ export function Options({
               {...register(
                 `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${quizIndex}.options.${index}.name`
               )}
+              autoComplete="false"
               className="!w-full"
               type="text"
               required

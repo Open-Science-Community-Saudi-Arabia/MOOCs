@@ -84,13 +84,13 @@ export async function getCertificate(id: string | any) {
   return response;
 }
 
-// Get a course
-// export function useCourse(id: any) {
-//   const query = useQuery(["course"], () => getCourse(id));
-//   return query;
-// }
 
 export async function getContributorCourses(collaboratorId : string) {
   const response = await makeApiCall(`/course/contributor/${collaboratorId }`);
+  return response;
+}
+
+export async function getAllCourses() {
+  const response = await makeApiCall(`/course`);
   return response;
 }
