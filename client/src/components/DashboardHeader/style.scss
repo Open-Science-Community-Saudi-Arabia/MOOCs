@@ -1,12 +1,12 @@
 @import "../../styles/mixins.scss";
 .dashboard-header {
-  background-color: rgb(188, 226, 221);
+  background-color: white;
   position: fixed;
   top: 0;
   z-index: 1;
   width: 100%;
-
   &__container {
+    background-color: rgb(205, 233, 229);
     padding: 0.5em;
     width: 100%;
     margin: auto;

@@ -12,6 +12,7 @@ export default {
       "gray-dark":"#666",
       success: "#44b774",
       error: "#ea5555",
+     black: "#000",
     }
   
   },

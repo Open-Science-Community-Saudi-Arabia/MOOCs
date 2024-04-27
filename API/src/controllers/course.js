@@ -1,7 +1,7 @@
 const { createACourse, getACourse, allCollaboratorCourses,allCourses } = require("../services/course");
 
 const createCourse = async (req, res) => {
-  console.log(req.user);
+
   try {
     const reqBody = Object.assign({}, req.body);
     const parseReqBody = JSON.parse(reqBody.body);
