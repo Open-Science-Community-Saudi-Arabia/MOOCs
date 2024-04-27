@@ -28,7 +28,7 @@ export default function index() {
     };
     getAvailableCourses();
   }, []);
-  console.log(courses);
+
   return (
     <section className="h-screen admin-dashboard">
       {isLoading ? (
@@ -41,14 +41,17 @@ export default function index() {
 
           <div className="flex items-center justify-between mt-6">
             <h2 className="text-xl mt-6">All courses</h2>
-            <Link to="/collaborator/add-course" className="bg-primary text-sm text-white rounded-md px-3 py-2">
+            <Link
+              to="/collaborator/add-course"
+              className="bg-primary text-sm text-white rounded-md px-3 py-2"
+            >
               {" "}
               Add Course
             </Link>
           </div>
           <div className="flex items-center flex-wrap gap-x-3 justify-start mt-8">
             {courses.map((ele: any) => {
-              return <CourseCard key={ele._id} course={ele} />;
+              return <CourseCard key={ele._id} course={ele} role="Admin" />;
             })}
           </div>
         </div>

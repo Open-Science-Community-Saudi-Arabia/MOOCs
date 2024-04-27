@@ -8,6 +8,7 @@ import { generateCloudinaryURL } from "../../utils";
 import { toast } from "react-toastify";
 import Spinner from "../Spinner";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 
 type Inputs = {
   title: string;
@@ -19,25 +20,32 @@ type Inputs = {
     resources: { title: ""; description: "" }[];
   }[];
 };
-const defaultValues: Inputs = {
-  title: "",
-  description: "",
-  author: "",
-  coursesection: [
-    {
-      title: "",
-      description: "",
-      resources: [],
-    },
-  ],
+type Props = {
+  selectedCourse?: any;
+  handleSelectedCourse: (selectedCourse: any) => void;
 };
 
 let renderCount = 0;
-export default function index() {
+export default function index({ selectedCourse, handleSelectedCourse }: Props) {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<any>();
+  const [status, setStatus] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
 
+  const defaultValues: Inputs = {
+    title: selectedCourse ? selectedCourse?.title : "",
+    description: selectedCourse ? selectedCourse?.description : "",
+    author: selectedCourse ? selectedCourse?.author : "",
+    coursesection: selectedCourse
+      ? selectedCourse?.course_section
+      : [
+          {
+            title: "",
+            description: "",
+            resources: [],
+          },
+        ],
+  };
   const {
     register,
     handleSubmit,
@@ -46,8 +54,9 @@ export default function index() {
   } = useForm<Inputs>({
     defaultValues,
   });
-
+  // console.log(selectedCourse);
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    console.log(status);
     setLoading(true);
     let coursesection = await Promise.all(
       data.coursesection.map(async (item: any, i: number) => {
@@ -85,7 +94,9 @@ export default function index() {
       })
     );
 
-    const parseData = { ...data, coursesection };
+    const parseData = status.length
+      ? { ...data, coursesection, status }
+      : { ...data, coursesection };
 
     const formData = new FormData();
     formData.append("file", selectedImage[0]);
@@ -110,10 +121,26 @@ export default function index() {
   });
 
   renderCount++;
-
+  // console.log(selectedCourse);
   return (
-    <div className="add-new-course w-full">
-      <h1 className="text-xl font-semibold py-8 text-primary">New Course</h1>
+    <div
+      className={`${
+        selectedCourse ? "h-[90vh] overflow-auto pr-8" : "h-full"
+      } add-new-course w-full`}
+    >
+      <h1 className="text-xl font-semibold pb-8 text-primary gap-x-2 flex items-center">
+        <button
+          onClick={() =>
+            selectedCourse?.title
+              ? handleSelectedCourse("")
+              : navigate("/collaborator/dashboard")
+          }
+          className="text-primary"
+        >
+          <IoIosArrowBack />
+        </button>
+        {selectedCourse?.title ? "Edit Course" : "New Course"}
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start justify-between">
           <div className="w-8/12">
@@ -141,11 +168,15 @@ export default function index() {
           <div className="relative">
             <label>Course photo</label>
             <label>
-              {selectedImage ? (
+              {selectedImage || selectedCourse?.title ? (
                 <div className="relative w-48 h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/20 flex items-center justify-center flex-col">
                   <img
                     className=" w-48 h-48"
-                    src={URL.createObjectURL(selectedImage[0])}
+                    src={
+                      selectedCourse?.title
+                        ? selectedCourse.preview_image
+                        : URL.createObjectURL(selectedImage[0])
+                    }
                   />
                 </div>
               ) : (
@@ -202,11 +233,11 @@ export default function index() {
                   className="italic text-xs text-red underline"
                   onClick={() => remove(index)}
                 >
-                 Delete
+                  Delete
                 </button>
               </div>
               <div className="my-3 flex items-center gap-x-8">
-                <div className="w-full">
+                <div className="!w-4/6">
                   <label className="" htmlFor="title">
                     Title
                   </label>
@@ -240,14 +271,35 @@ export default function index() {
           </div>
         ))}
 
-        <div className="text-center mt-48">
+        <div className="text-center mt-48 relative">
           <button
             type="submit"
             className="w-96 text-white bg-primary py-4 rounded-lg mt-1 hover:bg-primary/80 font-medium"
           >
             {" "}
-            {isLoading?  <Spinner width="30px" height="30px" color="#fff" />: "Add Course"}
+            {isLoading && status !== "Draft" ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : selectedCourse?.title ? (
+              "Edit Course"
+            ) : (
+              "Add Course"
+            )}
           </button>
+
+          {!selectedCourse?.title && (
+            <button
+              type="submit"
+              onClick={() => setStatus("Draft")}
+              className="w-40 absolute right-0 text-black hover:bg-black/40 py-4 rounded-lg mt-1 bg-[#cbd5e1] font-medium"
+            >
+              {" "}
+              {isLoading && status === "Draft" ? (
+                <Spinner width="30px" height="30px" color="#fff" />
+              ) : (
+                "Save as Draft"
+              )}
+            </button>
+          )}
         </div>
       </form>
     </div>
