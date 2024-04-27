@@ -20,7 +20,6 @@ export default function index() {
         const response = await getAllCourses();
         if (response.success) {
           setLoading(false);
-
           setCourses(response.data);
         }
       } catch (error) {

@@ -56,7 +56,6 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    console.log(data);
     setLoading(true);
 
     if (selectedCourse?.title) {
@@ -74,7 +73,7 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
         });
         handleSelectedCourse!("");
       } catch (err) {
-        // console.log(err);
+
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
@@ -135,7 +134,7 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
         });
         navigate(-1);
       } catch (err) {
-        console.log(err);
+
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
@@ -161,9 +160,7 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
       <h1 className="text-xl font-semibold pb-8 text-primary gap-x-2 flex items-center">
         <button
           onClick={() =>
-            selectedCourse?.title
-              ? handleSelectedCourse!("")
-              : navigate(-1)
+            selectedCourse?.title ? handleSelectedCourse!("") : navigate(-1)
           }
           className="text-primary"
         >

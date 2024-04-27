@@ -21,7 +21,7 @@ const createACourse = async (userId, preview_image, body) => {
   //     resources: ele.resources,
   //   });
   // });
-  
+
   newCourse.course_section = body.coursesection;
   const courseDetails = await newCourse.save();
 
@@ -68,7 +68,7 @@ const updateACourse = async (courseId, body, preview_image) => {
     });
   }
   const course = await Course.findById(courseId);
-  console.log(body.coursesection[0]);
+
   course.preview_image =
     preview_image !== undefined ? file_url : course.preview_image;
   course.title = body.title;
