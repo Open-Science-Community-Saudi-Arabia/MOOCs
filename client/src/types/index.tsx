@@ -4,7 +4,7 @@ export interface SignUpRequestPayload {
   email: string;
   password: string;
   passwordConfirm: string;
-  role:string
+  role: string;
 }
 export interface LoginInRequestPayload {
   email: string;
@@ -39,26 +39,36 @@ export interface Courses {
   description: string;
   description_tr: string;
   enrolled_users: [];
+  createdBy: {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    role: string;
+    preferred_language: string;
+  };
+  createdAt: Date;
   isAvailable: boolean;
   preview_image: string;
+  status: string;
   course_sections: CourseSections[];
 }
+
 export interface CourseSections {
   _id: string;
   title: string;
-  overall:number;
+  overall: number;
   exercises: Exercise[];
   videos: Video[];
   textmaterials: TextMaterial[];
-
 }
 export interface Exercise {
   _id: string;
   title: string;
   title_tr: string;
   questions: Questions[];
-  order:number
-  best_percentage_passed:number
+  order: number;
+  best_percentage_passed: number;
 }
 export interface Questions {
   _id: string;
@@ -86,7 +96,7 @@ export interface Video {
   type: string;
   title: string;
   title_tr: string;
-  order:number
+  order: number;
 }
 
 export interface AppContextState {

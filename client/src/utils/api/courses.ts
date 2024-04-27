@@ -32,8 +32,8 @@ export async function getCourse(id: string | any) {
  * @param  {string} id  course id
  * @return {Promise<object>} response data
  */
-export async function createCourse(payload:Courses|any) {
-  const response = await makeApiCall(`/course/new`, "post",payload);
+export async function createCourse(payload: Courses | any) {
+  const response = await makeApiCall(`/course/new`, "post", payload);
   return response;
 }
 
@@ -84,13 +84,22 @@ export async function getCertificate(id: string | any) {
   return response;
 }
 
-
-export async function getContributorCourses(collaboratorId : string) {
-  const response = await makeApiCall(`/course/contributor/${collaboratorId }`);
+export async function getContributorCourses(collaboratorId: string) {
+  const response = await makeApiCall(`/course/contributor/${collaboratorId}`);
   return response;
 }
 
 export async function getAllCourses() {
   const response = await makeApiCall(`/course`);
+  return response;
+}
+
+export async function approveACourse(courseId: string) {
+  const response = await makeApiCall(`/course/approve/${courseId}`);
+  return response;
+}
+
+export async function updateACourse(courseId: string, payload: any) {
+  const response = await makeApiCall(`/course/${courseId}`, "patch", payload);
   return response;
 }

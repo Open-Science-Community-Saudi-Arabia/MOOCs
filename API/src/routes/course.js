@@ -5,6 +5,8 @@ const {
   getCourse,
   getAllCourses,
   getCollaboratorCourses,
+  approveCourse,
+  updateCourse
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -25,6 +27,8 @@ router
   .post("/new", permit("Admin SuperAdmin"), upload.single("file"), createCourse)
   .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
   .get("/contributor/:collaboratorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
-  .get("/", permit("Admin SuperAdmin"), getAllCourses);
+  .get("/", permit("SuperAdmin"), getAllCourses)
+  .patch("approve/:courseId", permit("SuperAdmin"), approveCourse)
+  .patch("/:courseId", permit("Admin SuperAdmin"),upload.single("file"),updateCourse);
 
 module.exports = router;
