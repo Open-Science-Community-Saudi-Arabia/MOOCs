@@ -45,7 +45,7 @@ function App() {
               element={<CollaboratorBoard />}
             />
             <Route path="dashboard" element={<Board />} />
-            <Route path="/collaborator/add-course" element={<AddCourse/>} />
+            <Route path="/course/add-course" element={<AddCourse/>} />
             {/* admin */}
             <Route path="/admin/dashboard" element={<AdminBoard />} />
           </Route>

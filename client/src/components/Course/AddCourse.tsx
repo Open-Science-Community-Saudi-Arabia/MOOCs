@@ -3,7 +3,7 @@ import "./style.scss";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
 import { useState } from "react";
-import { createCourse } from "../../utils/api/courses";
+import { createCourse, updateACourse } from "../../utils/api/courses";
 import { generateCloudinaryURL } from "../../utils";
 import { toast } from "react-toastify";
 import Spinner from "../Spinner";
@@ -22,7 +22,7 @@ type Inputs = {
 };
 type Props = {
   selectedCourse?: any;
-  handleSelectedCourse: (selectedCourse: any) => void;
+  handleSelectedCourse?: (selectedCourse: any) => void;
 };
 
 let renderCount = 0;
@@ -54,64 +54,93 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
   } = useForm<Inputs>({
     defaultValues,
   });
-  // console.log(selectedCourse);
+
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    console.log(status);
     setLoading(true);
-    let coursesection = await Promise.all(
-      data.coursesection.map(async (item: any, i: number) => {
-        let resources = await Promise.all(
-          item.resources.map(async (ele: any) => {
-            if (ele.type === "video") {
-              return (ele = {
-                type: ele.type,
-                title: ele.title,
-                description: ele.description,
-                link: ele.link,
-              });
-            }
-            if (ele.type === "pdf") {
-              return (ele = {
-                type: ele.type,
-                title: ele.title,
-                description: ele.description,
-                file: await generateCloudinaryURL(ele.file[0], data.title),
-              });
-            }
-            if (ele.type === "quiz") {
-              return (ele = {
-                type: ele.type,
-                title: ele.title,
-                description: ele.description,
-                quiz: ele.quiz,
-              });
-            }
-            return ele;
-          })
-        );
 
-        return { ...item, resources };
-      })
-    );
+    if (selectedCourse?.title) {
+      const formData = new FormData();
+      selectedImage ? formData.append("file", selectedImage[0]) : null;
+      formData.append("body", JSON.stringify(data));
 
-    const parseData = status.length
-      ? { ...data, coursesection, status }
-      : { ...data, coursesection };
+      try {
+        const res = await updateACourse(selectedCourse._id, formData);
+        setLoading(false);
+        toast.success(res.message, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
+        handleSelectedCourse!("");
+      } catch (err) {
 
-    const formData = new FormData();
-    formData.append("file", selectedImage[0]);
-    formData.append("body", JSON.stringify(parseData));
-    try {
-      const res = await createCourse(formData);
-      setLoading(false);
-      toast.success(res.message, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        theme: "colored",
-      });
-      navigate("/collaborator/dashboard");
-    } catch (err) {
-      console.log(err);
+        toast.error("Request Failed", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
+      }
+    } else {
+      let coursesection = await Promise.all(
+        data.coursesection.map(async (item: any, i: number) => {
+          let resources = await Promise.all(
+            item.resources.map(async (ele: any) => {
+              if (ele.type === "video") {
+                return (ele = {
+                  type: ele.type,
+                  title: ele.title,
+                  description: ele.description,
+                  link: ele.link,
+                });
+              }
+              if (ele.type === "pdf") {
+                return (ele = {
+                  type: ele.type,
+                  title: ele.title,
+                  description: ele.description,
+                  file: await generateCloudinaryURL(ele.file[0], data.title),
+                });
+              }
+              if (ele.type === "quiz") {
+                return (ele = {
+                  type: ele.type,
+                  title: ele.title,
+                  description: ele.description,
+                  quiz: ele.quiz,
+                });
+              }
+              return ele;
+            })
+          );
+
+          return { ...item, resources };
+        })
+      );
+
+      const parseData = status.length
+        ? { ...data, coursesection, status }
+        : { ...data, coursesection };
+
+      const formData = new FormData();
+      formData.append("file", selectedImage[0]);
+      formData.append("body", JSON.stringify(parseData));
+      try {
+        const res = await createCourse(formData);
+        setLoading(false);
+        toast.success(res.message, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
+        navigate(-1);
+      } catch (err) {
+
+        toast.error("Request Failed", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
+      }
     }
   };
 
@@ -121,7 +150,7 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
   });
 
   renderCount++;
-  // console.log(selectedCourse);
+
   return (
     <div
       className={`${
@@ -131,9 +160,7 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
       <h1 className="text-xl font-semibold pb-8 text-primary gap-x-2 flex items-center">
         <button
           onClick={() =>
-            selectedCourse?.title
-              ? handleSelectedCourse("")
-              : navigate("/collaborator/dashboard")
+            selectedCourse?.title ? handleSelectedCourse!("") : navigate(-1)
           }
           className="text-primary"
         >
@@ -173,9 +200,9 @@ export default function index({ selectedCourse, handleSelectedCourse }: Props) {
                   <img
                     className=" w-48 h-48"
                     src={
-                      selectedCourse?.title
-                        ? selectedCourse.preview_image
-                        : URL.createObjectURL(selectedImage[0])
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage[0])
+                        : selectedCourse.preview_image
                     }
                   />
                 </div>

@@ -58,7 +58,7 @@ export default function index() {
         <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
           <div className="flex items-center justify-between mt-6">
             <h1 className="text-xl font-medium">Your Courses</h1>
-            <Link to="/collaborator/add-course" className="add-btn">
+            <Link to="/course/add-course" className="add-btn">
               {" "}
               Add New Course
             </Link>
@@ -79,7 +79,7 @@ export default function index() {
         <div className="flex items-center flex-col h-[30rem] justify-center">
           <p className="py-3 text-gray-dark/50 mb-4"> No Course Added Yet!</p>
           <Link
-            to="/collaborator/add-course"
+            to="/course/add-course"
             className="px-4 py-3 bg-primary text-white rounded-md w-64 text-center"
           >
             {" "}
