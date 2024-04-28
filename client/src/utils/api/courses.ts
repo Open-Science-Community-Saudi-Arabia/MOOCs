@@ -99,6 +99,11 @@ export async function approveACourse(courseId: string) {
   return response;
 }
 
+export async function archiveACourse(courseId: string) {
+  const response = await makeApiCall(`/course/archive/${courseId}`);
+  return response;
+}
+
 export async function updateACourse(courseId: string, payload: any) {
   const response = await makeApiCall(`/course/${courseId}`, "patch", payload);
   return response;

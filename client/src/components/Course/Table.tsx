@@ -9,7 +9,7 @@ import { Courses } from "../../types";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { approveACourse } from "../../utils/api/courses";
+import { approveACourse, archiveACourse } from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
 import { toast } from "react-toastify";
@@ -29,6 +29,26 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
     setLoadingAction(true);
     try {
       let res = await approveACourse(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
+  const archiveCourse = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await archiveACourse(courseAction._id);
       setLoadingAction(false);
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -126,7 +146,7 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
                 View Course
               </button>
               <button
-                onClick={() => ""}
+                onClick={() => archiveCourse()}
                 className="font-medium py-2.5 px-3 w-full text-left border border-y-[1px] border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
               >
                 Archive Course

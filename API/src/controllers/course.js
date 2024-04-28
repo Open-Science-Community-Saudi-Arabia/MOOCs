@@ -5,6 +5,7 @@ const {
   allCourses,
   approveACourse,
   updateACourse,
+  archiveACourse
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -82,6 +83,20 @@ const approveCourse = async (req, res) => {
   }
 };
 
+const archiveCourse = async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    await archiveACourse(courseId);
+
+    return res.status(200).send({
+      success: true,
+      message: "Course Deleted",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updateCourse = async (req, res) => {
   const courseId = req.params.courseId;
 
@@ -106,4 +121,5 @@ module.exports = {
   getCollaboratorCourses,
   approveCourse,
   updateCourse,
+  archiveCourse 
 };

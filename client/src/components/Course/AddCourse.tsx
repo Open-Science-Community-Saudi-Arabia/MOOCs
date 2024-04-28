@@ -3,7 +3,11 @@ import "./style.scss";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
 import { useState } from "react";
-import { createCourse, updateACourse } from "../../utils/api/courses";
+import {
+  archiveACourse,
+  createCourse,
+  updateACourse,
+} from "../../utils/api/courses";
 import { parsedData } from "../../utils";
 import { toast } from "react-toastify";
 import Spinner from "../Spinner";
@@ -43,6 +47,26 @@ export default function index({
   const [status, setStatus] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
 
+  const archiveCourse = async () => {
+    setStatus("Draft");
+    try {
+      let res = await archiveACourse(selectedCourse._id);
+      setStatus("");
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setStatus("");
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
   const defaultValues: Inputs = {
     title: selectedCourse ? selectedCourse?.title : "",
     description: selectedCourse ? selectedCourse?.description : "",
@@ -50,12 +74,12 @@ export default function index({
     coursesection: selectedCourse
       ? selectedCourse?.course_section
       : [
-        {
-          title: "",
-          description: "",
-          resources: [],
-        },
-      ],
+          {
+            title: "",
+            description: "",
+            resources: [],
+          },
+        ],
   };
   const {
     register,
@@ -125,8 +149,9 @@ export default function index({
 
   return (
     <div
-      className={`${selectedCourse ? "h-[90vh] overflow-auto pr-8" : "h-full"
-        } add-new-course w-full`}
+      className={`${
+        selectedCourse ? "h-[90vh] overflow-auto pr-8" : "h-full"
+      } add-new-course w-full`}
     >
       <div className="flex items-center pb-8 justify-between">
         <h1 className="text-xl font-semibold text-primary gap-x-2 flex items-center">
@@ -310,10 +335,8 @@ export default function index({
                 {" "}
                 {isLoading && status !== "Draft" ? (
                   <Spinner width="30px" height="30px" color="#fff" />
-                ) : selectedCourse?.title ? (
-                  "Edit Course"
                 ) : (
-                  "Add Course"
+                  "Submit"
                 )}
               </button>
             )
@@ -322,7 +345,7 @@ export default function index({
           {selectedCourse?.title ? (
             <button
               type="button"
-              onClick={() => setStatus("Archive")}
+              onClick={() => archiveCourse()}
               className="w-40 absolute right-0 text-white hover:bg-[#dc2626] py-3 text-sm bg-error rounded-lg mt-1 font-medium"
             >
               {" "}
