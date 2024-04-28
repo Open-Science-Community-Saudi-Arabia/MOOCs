@@ -7,6 +7,7 @@ import { Courses } from "../../types";
 import Modal from "../../components/Modal";
 import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 export default function index() {
   const [selectedCourse, setSelectedCourse] = useState<any>({});
@@ -39,7 +40,7 @@ export default function index() {
 
   return (
     <section className="h-screen admin-dashboard">
-      <h1 className="text-center text-2xl">Admin Board</h1>
+      <h1 className="text-center text-xl">Admin Board</h1>
 
       {selectedCourse?.title ? (
         <Modal
@@ -47,6 +48,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+            role="Admin"
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
           />
@@ -58,13 +60,16 @@ export default function index() {
       ) : courses?.length > 0 ? (
         <div className="">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl ">All courses</h2>
+            <h2 className="text-xl">All courses</h2>
             <Link
               to={`/course/add-course`}
-              className="bg-primary text-sm text-white rounded-md px-3 py-2"
+              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
             >
               {" "}
-              Add Course
+              <span className="flex items-center justify-center gap-x-1">
+                {" "}
+                <IoMdAddCircleOutline size={18} /> Add New Course
+              </span>
             </Link>
           </div>
 

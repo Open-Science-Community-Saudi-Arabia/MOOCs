@@ -55,10 +55,10 @@ const getCollaboratorCourses = async (req, res) => {
 };
 
 const getAllCourses = async (req, res) => {
-  try {
-    const course = await allCourses();
+  try { 
+    const courses = await allCourses();
 
-    const filtered = course.filter((ele) => ele.status !== "Draft");
+    const filtered = courses.filter((ele) => ele.status !== "Draft");
     return res.status(200).send({
       success: true,
       data: filtered,
@@ -71,7 +71,7 @@ const getAllCourses = async (req, res) => {
 const approveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
-    const course = await approveACourse(courseId);
+    await approveACourse(courseId);
 
     return res.status(200).send({
       success: true,
@@ -87,10 +87,9 @@ const updateCourse = async (req, res) => {
 
   const reqBody = Object.assign({}, req.body);
   const parseReqBody = JSON.parse(reqBody.body);
-//  console.log(parseReqBody.coursesection[0].resources[2])
 
   try {
-    const course = await updateACourse(courseId, parseReqBody,req.file);
+    const course = await updateACourse(courseId, parseReqBody, req.file);
     return res.status(200).send({
       success: true,
       message: "Course Updated",

@@ -7,6 +7,7 @@ export default {
   theme: {
     colors: {
       primary: "hsl(172, 100%, 30%)",
+      "primary-hover":"#049a86cc",
       gray:"rgb(203, 213, 225)",
       white: "hsl(0, 0%, 100%)",
       "gray-dark":"#666",

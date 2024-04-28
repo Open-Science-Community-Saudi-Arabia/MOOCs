@@ -7,12 +7,13 @@ import { getUserId } from "../../utils";
 import CourseCard from "../../components/Course/CourseCard";
 import Modal from "../../components/Modal";
 import AddCourse from "../../components/Course/AddCourse";
+import { toast } from "react-toastify";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 export default function index() {
   const [courses, setCourses] = useState<any[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<any>({});
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -25,13 +26,15 @@ export default function index() {
           setCourses(response.data);
         }
       } catch (error) {
-        setError(true);
-      } finally {
-        setError(false);
+        toast.error("Fetching data failed", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 5000,
+          theme: "colored",
+        });
       }
     };
     getAvailableCourses();
-  }, []);
+  }, [selectedCourse]);
 
   const handleSelectedCourse = (selectedCourse: any) => {
     setSelectedCourse(selectedCourse);
@@ -39,7 +42,7 @@ export default function index() {
 
   return (
     <section className="collaborator-dashboard h-screen overflow-auto">
-      <p className="text-center font-medium text-2xl"> Collaborator Board</p>
+      <p className="text-center font-medium text-xl"> Collaborator Board</p>
       {selectedCourse?.title ? (
         <Modal
           show={selectedCourse?.title}
@@ -58,9 +61,12 @@ export default function index() {
         <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
           <div className="flex items-center justify-between mt-6">
             <h1 className="text-xl font-medium">Your Courses</h1>
-            <Link to="/course/add-course" className="add-btn">
+            <Link to="/course/add-course" className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2 font-semibold">
               {" "}
-              Add New Course
+              <span className="flex items-center justify-center gap-x-1">
+                {" "}
+                <IoMdAddCircleOutline size={18} /> Add New Course
+              </span>
             </Link>
           </div>
           <div className="flex items-center flex-wrap gap-4 justify-start mt-8">

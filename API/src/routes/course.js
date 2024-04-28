@@ -28,7 +28,7 @@ router
   .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
   .get("/contributor/:collaboratorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
   .get("/", permit("SuperAdmin"), getAllCourses)
-  .patch("approve/:courseId", permit("SuperAdmin"), approveCourse)
+  .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
   .patch("/:courseId", permit("Admin SuperAdmin"),upload.single("file"),updateCourse);
 
 module.exports = router;

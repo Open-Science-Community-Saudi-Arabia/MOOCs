@@ -5,16 +5,28 @@ dayjs().format();
 
 interface IProps {
   course: any;
-  role?: string;
   handleSelectedCourse: (course: any) => void;
 }
 export default function CourseCard({
   course,
-  role,
   handleSelectedCourse,
 }: IProps) {
   return (
-    <div className="hover:shadow-xl hover:bg-primary/5 flex flex-col justify-between rounded-md text-left w-96 py-5 px-4 border-gray border bg-white">
+    <div
+      onClick={() => handleSelectedCourse(course)}
+      className=" cursor-pointer hover:shadow-xl hover:bg-primary/5 flex flex-col justify-between rounded-md text-left w-96 py-3 px-4 border-gray border bg-white"
+    >
+      <p
+        className={`${
+          course.status === "Pending"
+            ? "bg-error"
+            : course.status === "Draft"
+            ? "bg-gray-dark"
+            : "bg-success"
+        } font-semibold rounded-full px-2 py-1 text-white text-right text-[10px] ml-auto`}
+      >
+        {course.status}
+      </p>
       <div className="flex items-start justify-center gap-x-5 w-full">
         <img
           className="rounded-full w-10 h-10"
@@ -35,32 +47,16 @@ export default function CourseCard({
             <p
               className={`line-clamp-2 text-xs text-gray-dark leading-relaxed`}
             >
-             {course.description}
+              {course.description}
             </p>
           </div>
 
-          {role === "Admin" && (
-            <p className="text-xs text-gray-dark">By {course.author}</p>
-          )}
-          <div className="flex items-center juatify-between">
-            <button
-              className="rounded-[5px] py-2 px-2 text-xs bg-primary/80 text-white"
-              onClick={() => handleSelectedCourse(course)}
-            >
-              View course
-            </button>
-            <p
-              className={`${
-                course.status === "Pending"
-                  ? "text-error"
-                  : course.status === "Draft"
-                  ? "text-gray-dark"
-                  : "text-success"
-              } font-semibold text-right text-xs ml-auto`}
-            >
-              {course.status}
-            </p>
-          </div>
+          <button
+            className="rounded-[5px] py-2 px-2 text-xs bg-primary/80 text-white"
+            onClick={() => handleSelectedCourse(course)}
+          >
+            View details
+          </button>
         </div>
       </div>
     </div>
