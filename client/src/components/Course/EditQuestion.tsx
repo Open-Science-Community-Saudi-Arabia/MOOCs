@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 
@@ -20,7 +19,7 @@ export default function Question({
   editQuestionHandler,
   currentQuestion,
 }: Props) {
-  const { register, handleSubmit, control, reset } = useForm<Inputs>({
+  const { register, handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
       title: currentQuestion.title,
       option: currentQuestion.option,

@@ -48,7 +48,7 @@ export default function index({
   const [isLoading, setLoading] = useState(false);
 
   const archiveCourse = async () => {
-    setStatus("Draft");
+    setStatus("Archived");
     try {
       let res = await archiveACourse(selectedCourse._id);
       setStatus("");
@@ -64,6 +64,9 @@ export default function index({
         autoClose: 5000,
         theme: "colored",
       });
+    }
+    finally{
+      handleSelectedCourse!("");
     }
   };
 
@@ -150,7 +153,7 @@ export default function index({
   return (
     <div
       className={`${
-        selectedCourse ? "h-[90vh] overflow-auto pr-8" : "h-full"
+        selectedCourse ? "h-[90vh] overflow-auto pl-4 pr-10" : "h-full"
       } add-new-course w-full`}
     >
       <div className="flex items-center pb-8 justify-between">
@@ -330,7 +333,7 @@ export default function index({
             selectedCourse?.status !== "Approved" && (
               <button
                 type="submit"
-                className="w-96 text-white bg-primary py-4 rounded-lg mt-1 hover:bg-primary/80 font-medium"
+                className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary/80 font-medium"
               >
                 {" "}
                 {isLoading && status !== "Draft" ? (
@@ -346,14 +349,14 @@ export default function index({
             <button
               type="button"
               onClick={() => archiveCourse()}
-              className="w-40 absolute right-0 text-white hover:bg-[#dc2626] py-3 text-sm bg-error rounded-lg mt-1 font-medium"
+              className="w-40 absolute right-0 top-2 text-white hover:bg-[#dc2626] py-3 text-sm bg-error rounded-lg mt-1 font-medium"
             >
               {" "}
-              {isLoading && status === "Archive" ? (
+              {status === "Archived" ? (
                 <Spinner width="30px" height="30px" color="#fff" />
               ) : (
                 <span className="flex items-center justify-center gap-x-2">
-                  <MdOutlineDeleteOutline size={20} /> Archive Course
+                  <MdOutlineDeleteOutline size={20} /> Delete Course
                 </span>
               )}
             </button>
@@ -361,7 +364,7 @@ export default function index({
             <button
               type="submit"
               onClick={() => setStatus("Draft")}
-              className="w-40 absolute right-0 text-black hover:bg-[#b7c1cd] py-4 rounded-lg mt-1 bg-[#cbd5e1] font-medium"
+              className="w-40 absolute right-0 text-black hover:bg-[#b7c1cd] h-12 py-4 rounded-lg mt-1 bg-[#cbd5e1] font-medium"
             >
               {" "}
               {isLoading && status === "Draft" ? (

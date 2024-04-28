@@ -40,7 +40,7 @@ const courseSchema = new Schema(
     preview_image: { type: String },
     status: {
       type: String,
-      enum: ["Pending", "Approved", "Draft", "Archive", "Rejected"],
+      enum: ["Pending", "Approved", "Draft", "Archived", "Rejected"],
       default: "Pending",
     },
     isAvailable: { type: Boolean, default: false },
