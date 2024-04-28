@@ -1,9 +1,10 @@
 const {
   createACourse,
   getACourse,
-  allCollaboratorCourses,
+  getAContributorCourses,
   allCourses,
   approveACourse,
+  allApprovedCourses,
   updateACourse,
   archiveACourse,
 } = require("../services/course");
@@ -41,11 +42,11 @@ const getCourse = async (req, res) => {
   }
 };
 
-const getCollaboratorCourses = async (req, res) => {
+const getContributorCourses = async (req, res) => {
   try {
-    const collaboratorId = req.params.collaboratorId;
+    const contributorId = req.params.contributorId;
 
-    const course = await allCollaboratorCourses(collaboratorId);
+    const course = await getAContributorCourses(contributorId);
     const filtered = course.filter((ele) => ele.status !== "Archived");
     return res.status(200).send({
       success: true,
@@ -64,6 +65,19 @@ const getAllCourses = async (req, res) => {
     return res.status(200).send({
       success: true,
       data: filtered,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getApprovedCourses = async (req, res) => {
+  try {
+    const courses = await allApprovedCourses();
+
+    return res.status(200).send({
+      success: true,
+      data: courses,
     });
   } catch (error) {
     console.log(error);
@@ -119,8 +133,9 @@ module.exports = {
   createCourse,
   getCourse,
   getAllCourses,
-  getCollaboratorCourses,
+  getContributorCourses,
   approveCourse,
   updateCourse,
   archiveCourse,
+  getApprovedCourses,
 };

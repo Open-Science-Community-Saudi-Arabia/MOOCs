@@ -31,21 +31,15 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
         data: {
-          role:
-            role === "User"
-              ? "EndUser"
-              : role === "Collaborator"
-              ? "Admin"
-              : null,
+          role: role === "User" ? "EndUser" : "Contributor",
         },
       });
 
       if (response.data.success === true) {
         setToken(response.data.data.access_token);
         setUserId(response.data.data.user._id);
-
-        if (response.data.data.user.role === "Admin") {
-          navigate("/collaborator/dashboard");
+        if (response.data.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
         } else if (response.data.data.user.role === "EndUser") {
           navigate("/dashboard");
         }

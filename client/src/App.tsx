@@ -16,7 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
 import AdminBoard from "./pages/admin";
-import CollaboratorBoard from "./pages/collaborator";
+import ContributorBoard from "./pages/contributor";
 import DashboardLayout from "./components/Layouts/dashboard";
 import AddCourse from "./components/Course/AddCourse";
 
@@ -41,8 +41,8 @@ function App() {
 
           <Route element={<DashboardLayout />}>
             <Route
-              path="/collaborator/dashboard"
-              element={<CollaboratorBoard />}
+              path="/contributor/dashboard"
+              element={<ContributorBoard />}
             />
             <Route path="dashboard" element={<Board />} />
             <Route path="/course/add-course" element={<AddCourse/>} />

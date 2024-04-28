@@ -54,7 +54,7 @@ const Signup = () => {
           email: event.target.email.value,
           password: event.target.password.value,
           passwordConfirm: event.target.confirmpassword.value,
-          role: role === "User" ? "EndUser" : "Admin",
+          role: role === "User" ? "EndUser" : "Contributor",
         };
         setLoading(true);
         const response = await signUp(formData);
@@ -87,8 +87,8 @@ const Signup = () => {
             <button onClick={() => setRole("User")} className="!text-lg">
               As User
             </button>
-            <button onClick={() => setRole("Collaborator")} className="text-lg">
-              As Collaborator
+            <button onClick={() => setRole("Contributor")} className="text-lg">
+              As Contributor
             </button>
           </div>
         </div>

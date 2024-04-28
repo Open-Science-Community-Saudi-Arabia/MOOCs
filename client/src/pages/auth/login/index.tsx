@@ -49,8 +49,8 @@ const Login = () => {
       if (response.success) {
         setToken(response.data.access_token);
         setUserId(response.data.user._id);
-        if (response.data.user.role === "Admin") {
-          navigate("/collaborator/dashboard");
+        if (response.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
         } else if (response.data.user.role === "EndUser") {
           navigate("/dashboard");
         }

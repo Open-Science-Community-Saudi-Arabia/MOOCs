@@ -4,10 +4,11 @@ const {
   createCourse,
   getCourse,
   getAllCourses,
-  getCollaboratorCourses,
+  getContributorCourses,
   approveCourse,
   updateCourse,
   archiveCourse,
+  getApprovedCourses,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -18,26 +19,36 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
 const permit = require("../middlewares/permission_handler");
 const { basicAuth } = require("../middlewares/auth");
 
 router.use(basicAuth());
 
 router
-  .post("/new", permit("Admin SuperAdmin"), upload.single("file"), createCourse)
+  .post(
+    "/new",
+    permit("Contributor SuperAdmin"),
+    upload.single("file"),
+    createCourse
+  )
+  .get(
+    "/approved",
+    permit("EndUser Contributor SuperAdmin"),
+    getApprovedCourses
+  )
   .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
   .get(
-    "/contributor/:collaboratorId",
-    permit("Admin SuperAdmin"),
-    getCollaboratorCourses
+    "/contributor/:contributorId",
+    permit("Contributor SuperAdmin"),
+    getContributorCourses
   )
   .get("/", permit("SuperAdmin"), getAllCourses)
+
   .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
-  .get("/archive/:courseId", permit("Admin SuperAdmin"), archiveCourse)
+  .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
   .patch(
     "/:courseId",
-    permit("Admin SuperAdmin"),
+    permit("Contributor SuperAdmin"),
     upload.single("file"),
     updateCourse
   );
