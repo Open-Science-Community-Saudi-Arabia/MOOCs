@@ -50,13 +50,12 @@ const approveACourse = async (courseId) => {
 
 const archiveACourse = async (courseId) => {
   const course = await Course.findById(courseId);
-  course.status = "Archive";
+  course.status = "Archived";
   await course.save();
   return course;
 };
 
 const updateACourse = async (courseId, body, preview_image) => {
-
   let file_url;
   if (preview_image !== undefined) {
     file_url = await uploadToCloudinary({
@@ -73,6 +72,7 @@ const updateACourse = async (courseId, body, preview_image) => {
   course.description = body.description;
   course.author = body.author;
   course.course_section = body.coursesection;
+  course.status = body.status ? body.status : "Pending";
 
   const courseDetails = await course.save();
   if (preview_image !== undefined) {
@@ -93,5 +93,5 @@ module.exports = {
   allCourses,
   approveACourse,
   updateACourse,
-  archiveACourse
+  archiveACourse,
 };

@@ -5,7 +5,7 @@ const {
   allCourses,
   approveACourse,
   updateACourse,
-  archiveACourse
+  archiveACourse,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -46,9 +46,10 @@ const getCollaboratorCourses = async (req, res) => {
     const collaboratorId = req.params.collaboratorId;
 
     const course = await allCollaboratorCourses(collaboratorId);
+    const filtered = course.filter((ele) => ele.status !== "Archived");
     return res.status(200).send({
       success: true,
-      data: course,
+      data: filtered,
     });
   } catch (error) {
     console.log(error);
@@ -56,7 +57,7 @@ const getCollaboratorCourses = async (req, res) => {
 };
 
 const getAllCourses = async (req, res) => {
-  try { 
+  try {
     const courses = await allCourses();
 
     const filtered = courses.filter((ele) => ele.status !== "Draft");
@@ -104,7 +105,7 @@ const updateCourse = async (req, res) => {
   const parseReqBody = JSON.parse(reqBody.body);
 
   try {
-    const course = await updateACourse(courseId, parseReqBody, req.file);
+    await updateACourse(courseId, parseReqBody, req.file);
     return res.status(200).send({
       success: true,
       message: "Course Updated",
@@ -121,5 +122,5 @@ module.exports = {
   getCollaboratorCourses,
   approveCourse,
   updateCourse,
-  archiveCourse 
+  archiveCourse,
 };

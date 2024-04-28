@@ -7,10 +7,7 @@ interface IProps {
   course: any;
   handleSelectedCourse: (course: any) => void;
 }
-export default function CourseCard({
-  course,
-  handleSelectedCourse,
-}: IProps) {
+export default function CourseCard({ course, handleSelectedCourse }: IProps) {
   return (
     <div
       onClick={() => handleSelectedCourse(course)}

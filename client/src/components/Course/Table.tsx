@@ -14,6 +14,13 @@ dayjs.extend(advancedFormat);
 dayjs().format();
 import { toast } from "react-toastify";
 import Spinner from "../Spinner";
+import {
+  MdOutlineUnarchive,
+  MdPendingActions,
+  MdViewInAr,
+} from "react-icons/md";
+import { FcAcceptDatabase } from "react-icons/fc";
+import { FaRegFileArchive } from "react-icons/fa";
 
 type Props = {
   courses: Courses[];
@@ -138,33 +145,55 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
             )}
           </button>
           {courseAction._id === info.row.original._id && (
-            <div className="z-10 shadow shadow-xl w-32 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
+            <div className="z-10 shadow shadow-xl w-36 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
               <button
                 onClick={() => handleSelectedCourse(info.row.original)}
-                className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 text-left block rounded-none w-full"
+                className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 text-left block text-gray-dark rounded-none w-full"
               >
-                View Course
+                <span className="flex items-center gap-x-2">
+                  <MdViewInAr size={14} />
+                  View course
+                </span>
               </button>
               <button
                 onClick={() => archiveCourse()}
-                className="font-medium py-2.5 px-3 w-full text-left border border-y-[1px] border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
+                className="font-medium py-2.5 px-3 w-full text-left border border-y-[1px] text-gray-dark border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
               >
-                Archive Course
+                {info.row.original.status === "Archived" ? (
+                  <span className="flex items-center gap-x-2">
+                    {" "}
+                    <MdOutlineUnarchive size={14} />
+                    Un-Archive
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-x-2">
+                    {" "}
+                    <FaRegFileArchive size={14} /> Archive course
+                  </span>
+                )}
               </button>
               {info.row.original.status === "Pending" ? (
                 <button
                   onClick={() => approveCourse()}
-                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray/70 rounded-none text-xs block"
+                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray/70 text-gray-dark rounded-none text-xs block"
                 >
-                  Approve Course
+                  <span className="flex items-center gap-x-2">
+                    <FcAcceptDatabase size={14} />
+                    Approve course
+                  </span>
                 </button>
-              ) : (
+              ) : info.row.original.status === "Approved" ? (
                 <button
                   onClick={() => ""}
-                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none text-xs block"
+                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
                 >
-                  Revoke Approval
+                  <span className="flex items-center gap-x-2">
+                    <MdPendingActions size={14} />
+                    Revoke approval
+                  </span>
                 </button>
+              ) : (
+                ""
               )}
             </div>
           )}
