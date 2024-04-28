@@ -29,8 +29,8 @@ const getACourse = async (courseId) => {
   return course;
 };
 
-const allCollaboratorCourses = async (collaboratorId) => {
-  const course = await Course.find({ createdBy: collaboratorId });
+const getAContributorCourses = async (contributorId) => {
+  const course = await Course.find({ createdBy: contributorId });
   return course;
 };
 
@@ -39,6 +39,11 @@ const allCourses = async () => {
     path: "createdBy",
   });
   return course;
+};
+
+const allApprovedCourses = async () => {
+  const courses = await Course.find({status:"Approved"})
+  return courses;
 };
 
 const approveACourse = async (courseId) => {
@@ -89,9 +94,10 @@ const updateACourse = async (courseId, body, preview_image) => {
 module.exports = {
   createACourse,
   getACourse,
-  allCollaboratorCourses,
+  getAContributorCourses,
   allCourses,
   approveACourse,
   updateACourse,
+  allApprovedCourses,
   archiveACourse,
 };

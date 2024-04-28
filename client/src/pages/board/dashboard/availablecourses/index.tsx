@@ -32,8 +32,8 @@ const AvailableCourses = ({ courses }: any) => {
   };
 
   return (
-    <div className="availablecourses ">
-      {courses.length ? (
+    <div className="availablecourses">
+      {courses?.length ? (
         <>
           <h1 className="availablecourses__heading aligned">
             <Trans>Available Courses</Trans>

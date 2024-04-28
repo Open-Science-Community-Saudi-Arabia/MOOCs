@@ -84,18 +84,23 @@ export async function getCertificate(id: string | any) {
   return response;
 }
 
-export async function getContributorCourses(collaboratorId: string) {
-  const response = await makeApiCall(`/course/contributor/${collaboratorId}`);
+export async function getContributorCourses(contributorId: string) {
+  const response = await makeApiCall(`/course/contributor/${contributorId}`);
   return response;
 }
 
 export async function getAllCourses() {
-  const response = await makeApiCall(`/course`);
+  const response = await makeApiCall(`/course`, "get");
+  return response;
+}
+
+export async function getUserCourses() {
+  const response = await makeApiCall("/course/approved","get");
   return response;
 }
 
 export async function approveACourse(courseId: string) {
-  const response = await makeApiCall(`/course/approve/${courseId}`);
+  const response = await makeApiCall(`/course/approve/${courseId}`,"get");
   return response;
 }
 
@@ -108,3 +113,6 @@ export async function updateACourse(courseId: string, payload: any) {
   const response = await makeApiCall(`/course/${courseId}`, "patch", payload);
   return response;
 }
+
+
+

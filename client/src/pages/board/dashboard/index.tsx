@@ -4,7 +4,7 @@ import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
-import { getCourses } from "../../../utils/api/courses";
+import {  getUserCourses } from "../../../utils/api/courses";
 
 /**
  * @category Client App
@@ -24,7 +24,7 @@ const Board = () => {
   useEffect(() => {
     setLoading(true);
     isMounted.current = true;
-    getCourses()
+    getUserCourses()
       .then((response) => {
         if (isMounted) {
           setLoading(false);
@@ -39,9 +39,10 @@ const Board = () => {
     };
   }, []);
 
+
   const getAvailableCourses = async () => {
     try {
-      const response = await getCourses();
+      const response = await getUserCourses();
       if (response.success) {
         setLoading(false);
         setAvailableCourses(response.data.courses);

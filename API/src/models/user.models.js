@@ -14,7 +14,7 @@
  * The role of a user can be one of the following: </br>
  * - EndUser - A regular user, who can access the API and use it to perform CRUD operations on the database. </br>
  * </br>
- * - Admin -  A user who can access the API and use it to perform CRUD operations on the database,
+ * - Contributor -  A user who can access the API and use it to perform CRUD operations on the database,
  * but they can only access the data that they have created. </br>
  * </br>
  * - SuperAdmin - A user who can access the API and use it to perform CRUD operations on the database,
@@ -40,7 +40,7 @@ const options = { toObject: { virtuals: true } };
  * @property {String} firstname - The user's first name
  * @property {String} lastname - The user's last name
  * @property {String} email - The user's email
- * @property {String} role - The user's role (EndUser, Admin, SuperAdmin)
+ * @property {String} role - The user's role (EndUser, Contributor, SuperAdmin)
  * @property {String} [googleId] - The user's google id
  * @property {String} [githubId] - The user's github id
  * @property {MongooseVirtualType} password - The user's password object
@@ -69,7 +69,7 @@ const options = { toObject: { virtuals: true } };
  *
  * <b> Note: </b>
  * By default, for new users with the role EndUser, their account will be active and unverified .
- * If the user is an admin or superadmin, the account is inactive and unverified by default.
+ * If the user is an contributor or superadmin, the account is inactive and unverified by default.
  *
  * @property {ObjectId} user - The user to whom the status belongs
  * @property {Boolean} isActive - Whether the account is active or not
@@ -103,7 +103,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       required: true,
-      enum: ["EndUser", "Admin", "SuperAdmin"],
+      enum: ["EndUser", "Contributor", "SuperAdmin"],
       default: "EndUser",
     },
     preferred_language: { type: String, enum: ["en", "ar"], default: "en" },

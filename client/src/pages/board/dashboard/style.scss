@@ -1,6 +1,6 @@
 @import "../../../styles/mixins.scss";
 .dashboard {
-  height: 100%;
+  height: 100vh;
   &__spinner {
     @include flex(center, center);
     height: 100vh;
