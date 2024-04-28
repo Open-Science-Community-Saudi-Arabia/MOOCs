@@ -6,7 +6,8 @@ const {
   getAllCourses,
   getCollaboratorCourses,
   approveCourse,
-  updateCourse
+  updateCourse,
+  archiveCourse,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -26,9 +27,19 @@ router.use(basicAuth());
 router
   .post("/new", permit("Admin SuperAdmin"), upload.single("file"), createCourse)
   .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
-  .get("/contributor/:collaboratorId", permit("Admin SuperAdmin"), getCollaboratorCourses)
+  .get(
+    "/contributor/:collaboratorId",
+    permit("Admin SuperAdmin"),
+    getCollaboratorCourses
+  )
   .get("/", permit("SuperAdmin"), getAllCourses)
-  .patch("approve/:courseId", permit("SuperAdmin"), approveCourse)
-  .patch("/:courseId", permit("Admin SuperAdmin"),upload.single("file"),updateCourse);
+  .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
+  .get("/archive/:courseId", permit("Admin SuperAdmin"), archiveCourse)
+  .patch(
+    "/:courseId",
+    permit("Admin SuperAdmin"),
+    upload.single("file"),
+    updateCourse
+  );
 
 module.exports = router;

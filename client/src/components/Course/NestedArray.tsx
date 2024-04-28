@@ -3,6 +3,7 @@ import { useFieldArray, useWatch } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Question from "./Question";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 export default ({ nestIndex, control, register }: any) => {
   const { fields, remove, append } = useFieldArray({
@@ -27,9 +28,13 @@ export default ({ nestIndex, control, register }: any) => {
           }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="PDF, video or quizzes"
-          className="p-2 text-xs text-white bg-primary rounded-md hover:bg-primary/90 font-medium"
+          className="p-2 text-xs text-white bg-primary rounded-md hover:bg-primary-hover font-medium"
         >
-          Add Course Materials
+          <span className="flex items-center justify-center gap-x-1">
+            {" "}
+            <IoMdAddCircleOutline size={18} />
+            Add Materials
+          </span>
           <Tooltip id="my-tooltip" place="top" />
         </button>
       </div>

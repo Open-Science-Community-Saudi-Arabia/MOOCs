@@ -210,25 +210,6 @@
         }
       }
 
-      // Pdf View
-      .viewpdf {
-        width: 100%;
-        height: 550px;
-        overflow-y: scroll;
-        margin: auto;
-        &__pagenumber {
-          z-index: -1;
-          text-align: center;
-          margin: 1em;
-          font-size: 18px;
-          font-weight: 600;
-        }
-        &__document {
-          position: relative;
-          z-index: -2;
-          padding: 0em 2em;
-        }
-      }
       // Result
       .quizresult {
         margin: 1em auto;
@@ -411,6 +392,29 @@
   &__img {
     width: 700px;
     border: 1px solid rgb(214, 213, 213);
+  }
+}
+
+// Pdf View
+.viewpdf {
+  width: 100%;
+  height: 550px;
+  overflow-y: auto;
+  margin: auto;
+  &__pagenumber {
+    z-index: -1;
+    text-align: center;
+    margin: 1em;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  &__document {
+    position: relative;
+    z-index: -2;
+    padding: 0em 2em;
+  }
+  .react-pdf__Page__textContent {
+    display: none;
   }
 }
 

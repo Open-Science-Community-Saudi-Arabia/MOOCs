@@ -13,15 +13,6 @@ const createACourse = async (userId, preview_image, body) => {
 
   newCourse.preview_image = file_url;
   newCourse.createdBy = userId;
-
-  // body.coursesection.map((ele) => {
-  //   newCourse.course_section.push({
-  //     title: ele.title,
-  //     description: ele.description,
-  //     resources: ele.resources,
-  //   });
-  // });
-
   newCourse.course_section = body.coursesection;
   const courseDetails = await newCourse.save();
 
@@ -57,8 +48,15 @@ const approveACourse = async (courseId) => {
   return course;
 };
 
+const archiveACourse = async (courseId) => {
+  const course = await Course.findById(courseId);
+  course.status = "Archive";
+  await course.save();
+  return course;
+};
+
 const updateACourse = async (courseId, body, preview_image) => {
-  // console.log(preview_image);
+
   let file_url;
   if (preview_image !== undefined) {
     file_url = await uploadToCloudinary({
@@ -95,4 +93,5 @@ module.exports = {
   allCourses,
   approveACourse,
   updateACourse,
+  archiveACourse
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { LOGOUT_KEY, TOKEN_KEY, USERID } from "./constants";
 
+
 const { VITE_CLOUDINARY_CLOUD_NAME, VITE_CLOUDINARY_UPLOAD_PRESET } =
   import.meta.env;
 
@@ -65,4 +66,43 @@ export const generateCloudinaryURL = async (file: File, coursename: string) => {
   } catch {
     (err: any) => console.log(err);
   }
+};
+
+export const parsedData = async (data: any) => {
+  let coursesection = await Promise.all(
+    data.coursesection.map(async (item: any, i: number) => {
+      let resources = await Promise.all(
+        item.resources.map(async (ele: any) => {
+          if (ele.type === "video") {
+            return (ele = {
+              type: ele.type,
+              title: ele.title,
+              description: ele.description,
+              link: ele.link,
+            });
+          }
+          if (ele.type === "pdf") {
+            return (ele = {
+              type: ele.type,
+              title: ele.title,
+              description: ele.description,
+              file: await generateCloudinaryURL(ele.file[0], data.title),
+            });
+          }
+          if (ele.type === "quiz") {
+            return (ele = {
+              type: ele.type,
+              title: ele.title,
+              description: ele.description,
+              quiz: ele.quiz,
+            });
+          }
+          return ele;
+        })
+      );
+
+      return { ...item, resources };
+    })
+  );
+  return { ...data, coursesection };
 };

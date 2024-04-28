@@ -48,6 +48,7 @@ export interface Courses {
     preferred_language: string;
   };
   createdAt: Date;
+  updatedAt:Date;
   isAvailable: boolean;
   preview_image: string;
   status: string;

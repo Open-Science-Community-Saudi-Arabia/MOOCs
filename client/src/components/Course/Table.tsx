@@ -8,8 +8,12 @@ import {
 import { Courses } from "../../types";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { approveACourse, archiveACourse } from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
+import { toast } from "react-toastify";
+import Spinner from "../Spinner";
 
 type Props = {
   courses: Courses[];
@@ -17,7 +21,49 @@ type Props = {
 };
 
 export default function Table({ courses, handleSelectedCourse }: Props) {
+  const [courseAction, setCourseAction] = useState<any>({});
+  const [isLoadingAction, setLoadingAction] = useState(false);
   const columnHelper = createColumnHelper<Courses>();
+
+  const approveCourse = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await approveACourse(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
+  const archiveCourse = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await archiveACourse(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
 
   const columns = [
     columnHelper.accessor("preview_image", {
@@ -37,7 +83,7 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
           {info.getValue().firstname} {info.getValue().lastname}
         </p>
       ),
-      header: () => <span>Createdby</span>,
+      header: () => <span>Contributor's name</span>,
     }),
     columnHelper.accessor("createdBy.role", {
       cell: (info) => <p>{info.getValue()}</p>,
@@ -47,7 +93,10 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
       cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
       header: () => <span>Created Date</span>,
     }),
-
+    columnHelper.accessor(`updatedAt`, {
+      cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
+      header: () => <span>Updated Date</span>,
+    }),
     columnHelper.accessor((row) => row.status, {
       id: "status",
       cell: (info) => (
@@ -58,13 +107,70 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
               : info.getValue() === "Draft"
               ? "bg-gray-dark"
               : "bg-success"
-          } font-semibold text-white rounded-full py-1 text-center text-xs ml-auto`}
+          } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
         >
           {info.getValue()}
         </div>
       ),
       header: () => <span>Status</span>,
       footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("author", {
+      cell: (info) => (
+        <div className="flex justify-center w-full relative">
+          <button
+            onClick={() =>
+              setCourseAction(
+                courseAction._id === info.row.original._id
+                  ? ""
+                  : info.row.original
+              )
+            }
+            type="button"
+            className={`${
+              courseAction._id === info.row.original._id && "bg-gray"
+            } hover:bg-gray p-1.5 text-dark-gray`}
+          >
+            {isLoadingAction && courseAction._id === info.row.original._id ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : (
+              <BsThreeDotsVertical />
+            )}
+          </button>
+          {courseAction._id === info.row.original._id && (
+            <div className="z-10 shadow shadow-xl w-32 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
+              <button
+                onClick={() => handleSelectedCourse(info.row.original)}
+                className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 text-left block rounded-none w-full"
+              >
+                View Course
+              </button>
+              <button
+                onClick={() => archiveCourse()}
+                className="font-medium py-2.5 px-3 w-full text-left border border-y-[1px] border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
+              >
+                Archive Course
+              </button>
+              {info.row.original.status === "Pending" ? (
+                <button
+                  onClick={() => approveCourse()}
+                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray/70 rounded-none text-xs block"
+                >
+                  Approve Course
+                </button>
+              ) : (
+                <button
+                  onClick={() => ""}
+                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none text-xs block"
+                >
+                  Revoke Approval
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      ),
+      header: () => <span>Actions</span>,
     }),
   ];
 
@@ -78,13 +184,13 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
 
   return (
     <div className="border rounded-md border-gray">
-      <table className="w-full bg-[#f6fafd]">
+      <table className="w-full ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr className="" key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
-                  className="px-3 py-4 text-left font-semibold"
+                  className="px-3 text-sm py-4 text-left font-semibold"
                   key={header.id}
                 >
                   {header.isPlaceholder
@@ -101,14 +207,13 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
         <tbody>
           {table.getRowModel().rows.map((row, i) => (
             <tr
-              onClick={() => handleSelectedCourse(data[i])}
               className={`${
-                i % 2 && "bg-primary/10"
-              } border border-x-0 border-gray  cursor-pointer hover:bg-primary/50`}
+                i % 2 ? " bg-[#f6fafd]" : "bg-primary/10"
+              } border border-x-0 border-gray cursor-pointer hover:bg-primary/40`}
               key={row.id}
             >
               {row.getVisibleCells().map((cell) => (
-                <td className="px-3 py-3" key={cell.id}>
+                <td className="px-3 text-sm py-3" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
