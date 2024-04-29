@@ -20,32 +20,12 @@ const Board = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const isMounted = useRef(false);
-  useEffect(() => {
-    setLoading(true);
-    isMounted.current = true;
-    getUserCourses()
-      .then((response) => {
-        if (isMounted) {
-          setLoading(false);
-          setAvailableCourses(response.data.courses);
-        }
-      })
-      .catch((error) => {
-        setError(error);
-      });
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-
   const getAvailableCourses = async () => {
     try {
       const response = await getUserCourses();
       if (response.success) {
         setLoading(false);
-        setAvailableCourses(response.data.courses);
+        setAvailableCourses(response.data);
       }
     } catch (error) {
       setError(true);
@@ -53,6 +33,16 @@ const Board = () => {
       setError(false);
     }
   };
+
+  // const isMounted = useRef(false);
+  useEffect(() => {
+    setLoading(true);
+
+     getAvailableCourses()
+  }, []);
+
+console.log(availableCourses)
+
 
   return (
     <section className="dashboard">

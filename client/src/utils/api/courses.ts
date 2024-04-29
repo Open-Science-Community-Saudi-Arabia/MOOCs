@@ -95,12 +95,12 @@ export async function getAllCourses() {
 }
 
 export async function getUserCourses() {
-  const response = await makeApiCall("/course/approved","get");
+  const response = await makeApiCall("/course/approved", "get");
   return response;
 }
 
 export async function approveACourse(courseId: string) {
-  const response = await makeApiCall(`/course/approve/${courseId}`,"get");
+  const response = await makeApiCall(`/course/approve/${courseId}`, "get");
   return response;
 }
 
@@ -109,10 +109,12 @@ export async function archiveACourse(courseId: string) {
   return response;
 }
 
-export async function updateACourse(courseId: string, payload: any) {
+export async function updateACourse(courseId: string, payload: FormData) {
   const response = await makeApiCall(`/course/${courseId}`, "patch", payload);
   return response;
 }
 
-
-
+export async function makeCoursePending(courseId: string) {
+  const response = await makeApiCall(`/course/pending/${courseId}`);
+  return response;
+}

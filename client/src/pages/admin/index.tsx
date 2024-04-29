@@ -14,25 +14,26 @@ export default function index() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const getAvailableCourses = async () => {
     setLoading(true);
-    const getAvailableCourses = async () => {
-      try {
-        const response = await getAllCourses();
-        if (response.success) {
-          setLoading(false);
-          setCourses(response.data);
-        }
-      } catch (error) {
-        toast.error("Fetching data failed", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000,
-          theme: "colored",
-        });
+    try {
+      const response = await getAllCourses();
+      if (response.success) {
+        setLoading(false);
+        setCourses(response.data);
       }
-    };
+    } catch (error) {
+      toast.error("Fetching data failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
+  useEffect(() => {
     getAvailableCourses();
-  }, [selectedCourse]);
+  }, []);
 
   const handleSelectedCourse = (selectedCourse: any) => {
     setSelectedCourse(selectedCourse);
@@ -48,6 +49,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+          getAvailableCourses={getAvailableCourses}
             role="Admin"
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
@@ -63,7 +65,7 @@ export default function index() {
             <h2 className="text-xl">All courses</h2>
             <Link
               to={`/course/add-course`}
-              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
+              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3"
             >
               {" "}
               <span className="flex items-center justify-center gap-x-1">
@@ -74,6 +76,7 @@ export default function index() {
           </div>
 
           <Table
+           getAvailableCourses={ getAvailableCourses}
             courses={courses}
             handleSelectedCourse={handleSelectedCourse}
           />
@@ -81,6 +84,16 @@ export default function index() {
       ) : (
         <div className="flex items-center flex-col h-96 justify-center">
           <p className="py-3 text-gray-dark/50"> No Course Added</p>
+          <Link
+            to={`/course/add-course`}
+            className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
+          >
+            {" "}
+            <span className="flex items-center justify-center gap-x-1">
+              {" "}
+              <IoMdAddCircleOutline size={18} /> Add New Course
+            </span>
+          </Link>
         </div>
       )}
     </section>

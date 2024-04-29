@@ -33,7 +33,7 @@ export default function Question({
               key={j}
               className="underline text-xs text-gray-dark"
               onClick={() => {
-                setSelectedQuestion(ele);
+                setSelectedQuestion({ ...ele, index: j });
               }}
             >
               Question {j + 1}

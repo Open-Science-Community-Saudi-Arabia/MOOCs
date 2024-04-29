@@ -7,6 +7,7 @@ const {
   allApprovedCourses,
   updateACourse,
   archiveACourse,
+  pendingACourse,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -24,7 +25,10 @@ const createCourse = async (req, res) => {
       message: "New course created successfully",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -38,7 +42,10 @@ const getCourse = async (req, res) => {
       data: filtered,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -53,7 +60,10 @@ const getContributorCourses = async (req, res) => {
       data: filtered,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -67,7 +77,10 @@ const getAllCourses = async (req, res) => {
       data: filtered,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -80,7 +93,10 @@ const getApprovedCourses = async (req, res) => {
       data: courses,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -98,6 +114,22 @@ const approveCourse = async (req, res) => {
   }
 };
 
+const makeCoursePending = async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    await pendingACourse(courseId);
+    return res.status(200).send({
+      success: true,
+      message: "Course Updated",
+    });
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 const archiveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -108,7 +140,10 @@ const archiveCourse = async (req, res) => {
       message: "Course Deleted",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -125,7 +160,10 @@ const updateCourse = async (req, res) => {
       message: "Course Updated",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -138,4 +176,5 @@ module.exports = {
   updateCourse,
   archiveCourse,
   getApprovedCourses,
+  makeCoursePending,
 };

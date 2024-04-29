@@ -9,32 +9,34 @@ import Modal from "../../components/Modal";
 import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { Courses } from "../../types";
 
 export default function index() {
-  const [courses, setCourses] = useState<any[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState<any>({});
+  const [courses, setCourses] = useState<Courses[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<Courses | any>({});
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const getAvailableCourses = async () => {
     setLoading(true);
     const userId: any = getUserId();
-    const getAvailableCourses = async () => {
-      try {
-        const response = await getContributorCourses(userId);
-        if (response.success) {
-          setLoading(false);
-          setCourses(response.data);
-        }
-      } catch (error) {
-        toast.error("Fetching data failed", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000,
-          theme: "colored",
-        });
+    try {
+      const response = await getContributorCourses(userId);
+      if (response.success) {
+        setLoading(false);
+        setCourses(response.data);
       }
-    };
+    } catch (error) {
+      toast.error("Fetching data failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
+  useEffect(() => {
     getAvailableCourses();
-  }, [selectedCourse]);
+  }, []);
 
   const handleSelectedCourse = (selectedCourse: any) => {
     setSelectedCourse(selectedCourse);
@@ -49,6 +51,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+            getAvailableCourses={getAvailableCourses}
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
           />
@@ -61,7 +64,10 @@ export default function index() {
         <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
           <div className="flex items-center justify-between mt-6">
             <h1 className="text-xl font-medium">Your Courses</h1>
-            <Link to="/course/add-course" className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2 font-semibold">
+            <Link
+              to="/course/add-course"
+              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3 font-semibold"
+            >
               {" "}
               <span className="flex items-center justify-center gap-x-1">
                 {" "}
