@@ -9,7 +9,11 @@ import { Courses } from "../../types";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { approveACourse, archiveACourse } from "../../utils/api/courses";
+import {
+  approveACourse,
+  archiveACourse,
+  makeCoursePending,
+} from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
 import { toast } from "react-toastify";
@@ -25,14 +29,20 @@ import { FaRegFileArchive } from "react-icons/fa";
 type Props = {
   courses: Courses[];
   handleSelectedCourse: (course: Courses) => void;
+  getAvailableCourses: () => void;
 };
 
-export default function Table({ courses, handleSelectedCourse }: Props) {
+export default function Table({
+  courses,
+  getAvailableCourses,
+  handleSelectedCourse,
+}: Props) {
   const [courseAction, setCourseAction] = useState<any>({});
   const [isLoadingAction, setLoadingAction] = useState(false);
   const columnHelper = createColumnHelper<Courses>();
 
   const approveCourse = async () => {
+    setCourseAction({});
     setLoadingAction(true);
     try {
       let res = await approveACourse(courseAction._id);
@@ -49,10 +59,13 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
         autoClose: 5000,
         theme: "colored",
       });
+    } finally {
+      getAvailableCourses();
     }
   };
 
   const archiveCourse = async () => {
+    setCourseAction({});
     setLoadingAction(true);
     try {
       let res = await archiveACourse(courseAction._id);
@@ -69,9 +82,32 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
         autoClose: 5000,
         theme: "colored",
       });
+    } finally {
+      getAvailableCourses();
     }
   };
-
+  const revokeApproval = async () => {
+    setCourseAction({});
+    setLoadingAction(true);
+    try {
+      let res = await makeCoursePending(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } finally {
+      getAvailableCourses();
+    }
+  };
   const columns = [
     columnHelper.accessor("preview_image", {
       cell: (info) => (
@@ -81,12 +117,12 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
     }),
 
     columnHelper.accessor("title", {
-      cell: (info) => info.getValue(),
+      cell: (info) => <p className="w-48">{info.getValue()}</p>,
       header: () => <span>Title</span>,
     }),
     columnHelper.accessor("createdBy", {
       cell: (info) => (
-        <p>
+        <p className="w-36">
           {info.getValue().firstname} {info.getValue().lastname}
         </p>
       ),
@@ -96,9 +132,9 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
       cell: (info) => <p>{info.getValue()}</p>,
       header: () => <span>Role</span>,
     }),
-    columnHelper.accessor(`createdAt`, {
-      cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
-      header: () => <span>Created Date</span>,
+    columnHelper.accessor(`createdBy.email`, {
+      cell: (info) => <p className="w-36">{info.getValue()}</p>,
+      header: () => <span>Email</span>,
     }),
     columnHelper.accessor(`updatedAt`, {
       cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
@@ -139,7 +175,7 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
             } hover:bg-gray p-1.5 text-dark-gray`}
           >
             {isLoadingAction && courseAction._id === info.row.original._id ? (
-              <Spinner width="30px" height="30px" color="#fff" />
+              <Spinner width="20px" height="20px" color="#fff" />
             ) : (
               <BsThreeDotsVertical />
             )}
@@ -184,7 +220,7 @@ export default function Table({ courses, handleSelectedCourse }: Props) {
                 </button>
               ) : info.row.original.status === "Approved" ? (
                 <button
-                  onClick={() => ""}
+                  onClick={() => revokeApproval()}
                   className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
                 >
                   <span className="flex items-center gap-x-2">

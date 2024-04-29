@@ -31,8 +31,10 @@ type Inputs = {
   }[];
 };
 type Props = {
+  
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
+  getAvailableCourses: () => void;
   role?: string;
 };
 
@@ -41,6 +43,7 @@ export default function index({
   selectedCourse,
   handleSelectedCourse,
   role,
+  getAvailableCourses
 }: Props) {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<any>();
@@ -66,7 +69,7 @@ export default function index({
       });
     }
     finally{
-      handleSelectedCourse!("");
+      getAvailableCourses()
     }
   };
 
@@ -110,7 +113,7 @@ export default function index({
           autoClose: 5000,
           theme: "colored",
         });
-        handleSelectedCourse!("");
+
       } catch (err) {
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
@@ -141,6 +144,7 @@ export default function index({
         });
       }
     }
+    getAvailableCourses()
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -156,7 +160,7 @@ export default function index({
         selectedCourse ? "h-[90vh] overflow-auto pl-4 pr-10" : "h-full"
       } add-new-course w-full`}
     >
-      <div className="flex items-center pb-8 justify-between">
+      <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold text-primary gap-x-2 flex items-center">
           <button
             onClick={() =>
@@ -168,15 +172,25 @@ export default function index({
           </button>
           {selectedCourse?.title ? "Edit Course" : "New Course"}
         </h1>
+     
         {selectedCourse?.updatedAt && (
-          <p className="text-gray-dark/70 text-xs mr-36">
+          <div className="flex items-center gap-x-2  mr-36">
+             <p className="text-gray-dark/70 text-xs">
+            {" "}
+          Created on{" "}
+            {dayjs(selectedCourse?.createdAt).format("MMMM Do, YYYY")};
+          </p>
+          <p className="text-gray-dark/70 text-xs">
             {" "}
             Last updated{" "}
             {dayjs(selectedCourse?.updatedAt).format("MMMM Do, YYYY")}
           </p>
+          </div>
+         
         )}
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <p className="text-sm text-gray-dark/50 pt-3">Ensure correct punctuation for all fields.</p>
+      <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start justify-between">
           <div className="w-8/12">
             <div className="mb-8 w-full">
@@ -318,7 +332,7 @@ export default function index({
           {role == "Admin" ? (
             <button
               type="submit"
-              className="w-96 text-white bg-primary py-4 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+              className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
             >
               {" "}
               {isLoading && status !== "Draft" ? (
@@ -333,7 +347,7 @@ export default function index({
             selectedCourse?.status !== "Approved" && (
               <button
                 type="submit"
-                className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary/80 font-medium"
+                className="w-96 text-white bg-primary h-14 rounded-lg mt-1 hover:bg-primary/80 font-medium"
               >
                 {" "}
                 {isLoading && status !== "Draft" ? (
@@ -349,7 +363,7 @@ export default function index({
             <button
               type="button"
               onClick={() => archiveCourse()}
-              className="w-40 absolute right-0 top-2 text-white hover:bg-[#dc2626] py-3 text-sm bg-error rounded-lg mt-1 font-medium"
+              className="w-40 absolute right-0 top-2 text-white hover:bg-[#dc2626] h-12 text-sm bg-error rounded-lg mt-1 font-medium"
             >
               {" "}
               {status === "Archived" ? (
@@ -364,7 +378,7 @@ export default function index({
             <button
               type="submit"
               onClick={() => setStatus("Draft")}
-              className="w-40 absolute right-0 text-black hover:bg-[#b7c1cd] h-12 py-4 rounded-lg mt-1 bg-[#cbd5e1] font-medium"
+              className="w-40 absolute right-0 text-black top-2 hover:bg-[#b7c1cd] h-12 text-sm rounded-lg mt-1 bg-[#cbd5e1] font-medium"
             >
               {" "}
               {isLoading && status === "Draft" ? (

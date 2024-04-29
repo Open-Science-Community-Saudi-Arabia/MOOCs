@@ -7,8 +7,8 @@ const createACourse = async (userId, preview_image, body) => {
 
   const file_url = await uploadToCloudinary({
     path: preview_image.path,
-    file_name: `course_preview_${newCourse._id}`,
-    destination_path: "courses/preview_images",
+    file_name: `preview_image_${newCourse._id}`,
+    destination_path: `moocs_resources/${newCourse.title}`,
   });
 
   newCourse.preview_image = file_url;
@@ -42,13 +42,20 @@ const allCourses = async () => {
 };
 
 const allApprovedCourses = async () => {
-  const courses = await Course.find({status:"Approved"})
+  const courses = await Course.find({ status: "Approved" });
   return courses;
 };
 
 const approveACourse = async (courseId) => {
   const course = await Course.findById(courseId);
   course.status = "Approved";
+  await course.save();
+  return course;
+};
+
+const pendingACourse = async (courseId) => {
+  const course = await Course.findById(courseId);
+  course.status = "Pending";
   await course.save();
   return course;
 };
@@ -100,4 +107,5 @@ module.exports = {
   updateACourse,
   allApprovedCourses,
   archiveACourse,
+  pendingACourse,
 };
