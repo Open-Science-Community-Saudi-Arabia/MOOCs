@@ -179,3 +179,7 @@ module.exports = {
   getApprovedCourses,
   makeCoursePending,
 };
+
+
+//enrolled user to a quiz
+//remove correct answer from quiz
