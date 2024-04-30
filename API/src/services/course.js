@@ -1,4 +1,5 @@
 const { Course } = require("../models/course");
+const { User } = require("../models/user.models");
 const fs = require("fs");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 
@@ -42,7 +43,9 @@ const allCourses = async () => {
 };
 
 const allApprovedCourses = async () => {
-  const courses = await Course.find({ status: "Approved" });
+  const courses = await Course.find({ status: "Approved" }).select(
+    "-course_section"
+  );
   return courses;
 };
 
@@ -98,6 +101,16 @@ const updateACourse = async (courseId, body, preview_image) => {
   return courseDetails;
 };
 
+const enrollAUser = async (courseId, userId) => {
+  const course = await Course.findById(courseId);
+  const user = await User.findById(userId);
+  user.enrolledcourse.push(course._id);
+  await user.save();
+  course.enrolled_users.push(user._id);
+  await course.save();
+  return user;
+};
+
 module.exports = {
   createACourse,
   getACourse,
@@ -108,4 +121,5 @@ module.exports = {
   allApprovedCourses,
   archiveACourse,
   pendingACourse,
+  enrollAUser,
 };

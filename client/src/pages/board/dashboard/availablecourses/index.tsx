@@ -9,29 +9,29 @@ import { toast } from "react-toastify";
 import "./style.scss";
 
 const AvailableCourses = ({ courses }: any) => {
-  const [isLoading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const navigate = useNavigate();
   const locale = localStorage.getItem("language") || "en";
-
-  const enrollUserHandler = async (id: string) => {
-    navigate(`/course/${id}`);
-    // setLoading(true);
-    // setSelectedId(id);
-    // try {
-    //   let response = await enrollUser(id);
-    //   if (response) {
-    //     navigate(`/course/${id}`);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.message, {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 5000,
-    //     theme: "colored",
-    //   });
-    // }
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
+  console.log(userId)
+  const enrollUserHandler = async (courseId: string) => {
+    setSelectedId(courseId);
+    try {
+      let response = await enrollUser(courseId);
+      if (response.message) {
+        setSelectedId("");
+        navigate(`/course/${courseId}`);
+      }
+    } catch (error: any) {
+      setSelectedId("");
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
   };
-
+  // console.log(courses)
   return (
     <div className="availablecourses">
       {courses?.length ? (
@@ -44,11 +44,11 @@ const AvailableCourses = ({ courses }: any) => {
               return (
                 <div
                   // disabled={!content.isAvailable}
-                  onClick={() => enrollUserHandler(content._id)}
+                  onClick={() => content.enrolled_users.includes(userId) ? navigate(`/course/${content._id}`) : ""}
                   aria-label={content.title}
                   key={content._id}
                   style={{ width: "350px", height: "auto" }}
-                  className="hover:border-primary hover:text-primary overflow-hidden availablecourses__courses-content"
+                  className="p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
                 >
                   <div className="availablecourses__courses-content__img-container">
                     <img
@@ -58,25 +58,35 @@ const AvailableCourses = ({ courses }: any) => {
                     />
                   </div>
 
-                  <div className="availablecourses__courses-content__bottom aligned p-4">
-                    <p className=" line-clamp-1 availablecourses__courses-content__bottom-text pb-4">
+                  <div className="availablecourses__courses-content__bottom aligned pt-3">
+                    <p className=" line-clamp-1 availablecourses__courses-content__bottom-text">
                       {locale === "en" ? content.title : content.title_tr}
                     </p>
-                    <p className="line-clamp-3 text-[13px] text-gray-100">
-                      {" "}
-                      {locale === "en"
-                        ? content.description
-                        : content.description_tr}
-                    </p>
+                    <div className="py-3">
+                      <p className="line-clamp-3 text-[14px] text-gray-100">
+                        {" "}
+                        {locale === "en"
+                          ? content.description
+                          : content.description_tr}
+                      </p>
+                    </div>
                     <p className="text-[13px] text-gray-100 py-2">
                       {" "}
                       By {content.author}
                     </p>
-                    <div className="flex items-center justify-between pt-3">
-                      <p className="text-sm text-gray-dark">2 users enrolled</p>
-                      <button className="py-2 text-sm rounded-full w-max font-semibold px-3 bg-primary text-white">
-                        Start Learning
-                      </button>
+                    <div className="flex items-center justify-between relative pt-5">
+                      {!content.enrolled_users.includes(userId) && <button
+                        type="button"
+                        onClick={() => enrollUserHandler(content._id)}
+                        className="py-2 text-sm rounded-full h-12 w-36 font-semibold px-4 bg-primary text-white"
+                      >
+                        {selectedId === content._id ? (
+                          <Spinner width="20px" height="20px" color="#fff" />
+                        ) : (
+                          "Start Learning"
+                        )}
+                      </button>}
+                      <p className="text-sm text-gray-100 absolute right-5">1680+  {""} enrolled</p>
                     </div>
                   </div>
                 </div>

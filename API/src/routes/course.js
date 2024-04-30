@@ -9,7 +9,8 @@ const {
   updateCourse,
   archiveCourse,
   getApprovedCourses,
-  makeCoursePending
+  makeCoursePending,
+  enrollUser,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -48,6 +49,7 @@ router
   .get("/pending/:courseId", permit("SuperAdmin"), makeCoursePending)
   .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
   .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
+  .get("/enroll/:courseId", enrollUser)
   .patch(
     "/:courseId",
     permit("Contributor SuperAdmin"),

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Certificate from "./Certificate";
 import "./style.scss";
-import { IoMdClose } from "react-icons/io";
 import { TiArrowBack } from "react-icons/ti";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BiCollapseAlt } from "react-icons/bi";
+import { MdOutlinePlayLesson } from "react-icons/md";
 import {
   getCertificate,
   getCourse,
@@ -136,6 +137,7 @@ const ViewCourse = () => {
       });
     }
   };
+  console.log(displayContent);
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -185,7 +187,7 @@ const ViewCourse = () => {
                 progress={Math.round(overAllScore)}
                 height={35}
               />
-              <button
+              {/* <button
                 style={{
                   filter:
                     overAllScore <= 80 ? "brightness(0.5)" : "brightness(1)",
@@ -201,7 +203,7 @@ const ViewCourse = () => {
                 ) : (
                   t`View Certificate`
                 )}
-              </button>
+              </button> */}
               {!isCourseContent && (
                 <button
                   onClick={() => {
@@ -280,7 +282,7 @@ const ViewCourse = () => {
                     className="viewcourse-container__content-course-display-btn icon-button"
                     onClick={() => setCourseContent(false)}
                   >
-                    <IoMdClose />
+                    <BiCollapseAlt />
                   </button>
                 </div>
 
@@ -393,7 +395,14 @@ const ViewCourse = () => {
                                 >
                                   <div className="viewcourse-container__content-course-section__listitem-title">
                                     <p className="flex items-center font-medium">
-                                      <Trans>Lesson Quiz </Trans> {index + 1}
+                                      <RxDot
+                                        className={`${
+                                          displayContent?.title === ele.title
+                                            ? "text-white"
+                                            : "text-primary"
+                                        } `}
+                                      />{" "}
+                                      <Trans> Quiz Lesson</Trans> {index + 1}
                                     </p>
 
                                     <div className="viewcourse-container__content-course-section__listitem__score">
@@ -421,6 +430,9 @@ const ViewCourse = () => {
                                       height={18}
                                     />{" "} */}
                                     </div>
+                                    <p className="viewcourse-container__content-course-section__listitem__status">
+                                      <MdOutlinePlayLesson />
+                                    </p>
                                   </div>
                                 </button>
                               )}
@@ -461,6 +473,7 @@ const ViewCourse = () => {
                   <p className="viewcourse-container__tab-container__tab-content-text">
                     <Trans> Course description</Trans>
                   </p>
+                  <p>{displayContent?.description}</p>
                 </div>
               ) : (
                 <></>

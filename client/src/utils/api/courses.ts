@@ -42,8 +42,9 @@ export async function createCourse(payload: Courses | any) {
  * @param  {string} id  user id
  * @return {Promise<object>} response data
  */
-export async function enrollUser(id: string) {
-  const response = await makeApiCall(`course/enroll/${id}`, "post");
+export async function enrollUser(courseId: string) {
+
+  const response = await makeApiCall(`/course/enroll/${courseId}`);
   return response;
 }
 

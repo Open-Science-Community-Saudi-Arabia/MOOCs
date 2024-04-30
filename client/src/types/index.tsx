@@ -38,7 +38,7 @@ export interface Courses {
   title_tr: string;
   description: string;
   description_tr: string;
-  enrolled_users: [];
+  enrolled_users: string[];
   createdBy: {
     _id: string;
     firstname: string;

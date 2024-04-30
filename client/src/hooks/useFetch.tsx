@@ -31,7 +31,7 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
         data: {
-          role: role === "User" ? "EndUser" : "Contributor",
+          role: role === "User" ? "EndUser" : role === "Contributor" ? "Contributor" : "EndUser",
         },
       });
 

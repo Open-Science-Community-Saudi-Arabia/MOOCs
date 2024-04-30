@@ -106,6 +106,7 @@ const userSchema = new Schema(
       enum: ["EndUser", "Contributor", "SuperAdmin"],
       default: "EndUser",
     },
+    enrolledcourse:[{ type: Schema.Types.ObjectId, ref: "Course" }],
     preferred_language: { type: String, enum: ["en", "ar"], default: "en" },
     googleId: { type: String, select: false },
     githubId: { type: String, select: false },
@@ -151,15 +152,15 @@ userSchema.virtual("enrolled_courses", {
   ref: "Course",
 });
 
-userSchema.pre("save", async function (next, { skipValidation }) {
-  if (skipValidation) return next();
+// userSchema.pre("save", async function (next, { skipValidation }) {
+//   if (skipValidation) return next();
 
-  // Check if user already exists - Incase index is not created
-  const email_exists = await User.findOne({ email: this.email });
-  if (email_exists) {
-    throw new BadRequestError("Email already exists please user another email");
-  }
-});
+//   // Check if user already exists - Incase index is not created
+//   const email_exists = await User.findOne({ email: this.email });
+//   if (email_exists) {
+//     throw new BadRequestError("Email already exists please user another email");
+//   }
+// });
 
 statusSchema.pre("save", async function (next) {
   // Check if it is a new document

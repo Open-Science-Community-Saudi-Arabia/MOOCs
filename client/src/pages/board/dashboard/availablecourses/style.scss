@@ -1,14 +1,7 @@
 @import "../../../../styles/mixins.scss";
 
 .availablecourses {
-  // padding: 7em 2.5em 0em 2.5em;
-  // background-color: var(--white);
   max-width: 1400px;
-  // text-align: center;
-  @include ipad {
-    // padding: 8em 2.5em 0em 2.5em;
-    // text-align: left;
-  }
   &__heading {
     font-weight: 700;
     font-size: 20px;
@@ -27,44 +20,22 @@
       cursor: pointer;
       position: relative;
       &__img-container {
-        width: 100%;
         margin: auto;
-
-        // .img-container-overlay {
-        //   @include flex(center, center);
-        //   position: absolute;
-        //   height: 75%;
-        //   width: 100%;
-        //   left: 0;
-        //   top: 0;
-        //   background-color: var(--green-light);
-        //   opacity: 0%;
-        //   border-radius: 20px 20px 0px 0px;
-
-        //   svg {
-        //     font-size: 60px;
-        //   }
-        // }
-
         &-img {
-          // border-radius: 10px;
           width: 100%;
-          height: 150px;
-          object-fit: cover;
-          object-position:top
+          height: 80px;
+          object-fit: contain;
+          object-position: left;
         }
       }
 
       &__bottom {
-        padding: 1em;
         text-align: left;
 
         &-text {
-          // padding-bottom: 0.5em;
           font-size: 18px;
           font-weight: 600;
         }
-
 
         &-coursenumber {
           padding-top: 4px;

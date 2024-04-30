@@ -8,6 +8,7 @@ const {
   updateACourse,
   archiveACourse,
   pendingACourse,
+  enrollAUser,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -35,7 +36,8 @@ const createCourse = async (req, res) => {
 const getCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
-    const course = await getACourse(courseId);
+    const course = await getACourse(courseId, req.user.role);
+
     return res.status(200).send({
       success: true,
       data: course,
@@ -88,7 +90,6 @@ const getAllCourses = async (req, res) => {
 const getApprovedCourses = async (req, res) => {
   try {
     const courses = await allApprovedCourses();
-
     return res.status(200).send({
       success: true,
       data: courses,
@@ -111,7 +112,10 @@ const approveCourse = async (req, res) => {
       message: "Course Approved",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
   }
 };
 
@@ -168,6 +172,27 @@ const updateCourse = async (req, res) => {
   }
 };
 
+const enrollUser = async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const user = await enrollAUser(courseId, req.user.id);
+   
+    if (user) {
+      return res.status(200).send({
+        success: true,
+        message: "Course enrolled succesfully",
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourse,
@@ -178,8 +203,8 @@ module.exports = {
   archiveCourse,
   getApprovedCourses,
   makeCoursePending,
+  enrollUser,
 };
-
 
 //enrolled user to a quiz
 //remove correct answer from quiz

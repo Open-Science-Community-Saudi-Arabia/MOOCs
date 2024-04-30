@@ -11,7 +11,6 @@
     @include flex(center, center);
     height: 100vh;
   }
-
   &-container {
     position: relative;
     &__header {
@@ -35,7 +34,6 @@
         &-title {
           font-size: 17px;
           font-weight: 700;
-
           @include ipad {
             font-size: 20px;
           }
@@ -71,9 +69,8 @@
       .d-none {
         display: none;
       }
-
       &__btn {
-        @include button(140px, transparent, var(--white));
+        @include button(auto, transparent, var(--white));
         height: 40px;
         border: 1px solid gray !important;
         padding: 0.8em;
@@ -90,12 +87,11 @@
         }
       }
     }
-
     &__content {
       width: 100%;
       padding-top: 80px;
       z-index: -1;
-      // height: 600px;
+      height: 600px;
       @include flex(space-between, start);
       &_left {
         height: 100%;
@@ -113,40 +109,27 @@
       .closed-leftcontent {
         width: 100%;
       }
-      // Iframe
       &-iframe {
         border: none;
       }
-
-      // Quiz component
       .quiz-section {
-        padding: 1em 0em;
-        margin: 0em auto;
         overflow-y: auto;
+        padding: 1em 2em;
+        width: 80%;
+        margin: auto;
         &__heading {
           text-align: center;
           margin-bottom: 2em;
-          @include ipad {
-            margin-bottom: 4em;
-          }
+         
           &-title {
+            font-weight: 500;
             font-size: 20px;
-            padding-bottom: 5px;
-            @include ipad {
-              font-size: 25px;
-            }
+            padding: 20px 0;
           }
           &-subtitle {
-            font-size: 18px;
+            text-align: left;
+            font-size: 17px;
             font-weight: 500;
-          }
-        }
-        &__container {
-          padding: 0em 1em;
-          @include ipad {
-            padding: 0em 2em;
-            width:80%;
-            margin:auto
           }
         }
         &__content {
@@ -155,17 +138,17 @@
 
           &-question {
             margin-bottom: 1em;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 16px;
             @include ipad {
               font-size: 18px;
             }
             p {
-              font-size: 16px;
-              font-weight: 700;
+              font-size: 10px;
+              font-weight: 600;
               padding-bottom: 20px;
               @include ipad {
-                font-size: 20px;
+                font-size: 18px;
               }
             }
           }
@@ -183,9 +166,8 @@
               font-size: 14px;
               font-weight: 500;
               gap: 5px;
-              
-              @include ipad {
 
+              @include ipad {
                 font-size: 16px;
               }
             }
@@ -207,7 +189,6 @@
         }
       }
 
-      // Result
       .quizresult {
         margin: 1em auto;
         text-align: center;
@@ -242,7 +223,7 @@
 
       // Course Content
       &-course {
-        height: 550px;
+        // height: 550px;
         overflow-y: scroll;
         background-color: var(--white);
         border-left: 1px solid var(--green-light);
@@ -282,16 +263,16 @@
           }
         }
         &-container {
-          padding-top: 3em;
+          padding-top: 4em;
         }
         &-section {
           z-index: 2;
           &__heading {
-            padding: 1.5em 1em 0.5em;
+            padding: 1em;
             font-weight: 600;
             font-size: 15px;
             @include flex(start, start);
-            gap:2px;
+            gap: 2px;
             border-bottom: 1px solid var(--green-light);
           }
           .active-item {
@@ -307,7 +288,7 @@
             border-radius: initial !important;
             padding: 1em;
             border-bottom: 1px solid var(--green-light);
-           
+
             &-title {
               @include flex(space-between, center);
               gap: 8px;
@@ -354,9 +335,8 @@
         gap: 60px;
         &__tabitem {
           cursor: pointer;
-          font-size: 18px;
+          font-size: 16px;
           padding-bottom: 0.5em;
-          color: var(--gray);
           font-weight: 600;
           &:hover {
             color: var(--green);
@@ -372,9 +352,9 @@
         line-height: 30px;
 
         &-text {
-          font-size: 20px;
-          font-weight: bold;
-          margin-bottom: 1em;
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 0.5em;
         }
       }
     }
