@@ -31,7 +31,7 @@ export default function CourseCard({ course, handleSelectedCourse }: IProps) {
           alt="preview image"
         />
         <div className="w-full">
-          <div className="relative ">
+          <div className="relative">
             <h3 className="text-[17px] text-left line-clamp-1 font-semibold">
               {course.title}
             </h3>

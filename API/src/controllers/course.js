@@ -36,15 +36,16 @@ const getCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const course = await getACourse(courseId);
-    const filtered = course.filter((ele) => ele.status !== "Draft");
     return res.status(200).send({
       success: true,
-      data: filtered,
+      data: course,
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",
+      error: error,
     });
   }
 };

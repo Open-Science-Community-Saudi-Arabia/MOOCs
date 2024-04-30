@@ -31,19 +31,18 @@ type Inputs = {
   }[];
 };
 type Props = {
-  
+  getAvailableCourses?: () => void;
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
-  getAvailableCourses: () => void;
   role?: string;
 };
 
 let renderCount = 0;
 export default function index({
+  getAvailableCourses,
   selectedCourse,
   handleSelectedCourse,
   role,
-  getAvailableCourses
 }: Props) {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<any>();
@@ -68,8 +67,9 @@ export default function index({
         theme: "colored",
       });
     }
-    finally{
-      getAvailableCourses()
+    finally{  
+
+      getAvailableCourses!()
     }
   };
 
@@ -144,7 +144,9 @@ export default function index({
         });
       }
     }
-    getAvailableCourses()
+    getAvailableCourses!()
+    handleSelectedCourse!("")
+
   };
 
   const { fields, append, remove } = useFieldArray({
