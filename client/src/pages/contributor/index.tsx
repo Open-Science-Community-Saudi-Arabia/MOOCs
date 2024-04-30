@@ -44,7 +44,7 @@ export default function index() {
 
   return (
     <section className="contributor-dashboard h-screen overflow-auto">
-      <p className="text-center font-medium text-xl"> Contributor Board</p>
+      <p className="text-center font-medium text-xl"> Contributor's Board</p>
       {selectedCourse?.title ? (
         <Modal
           show={selectedCourse?.title}

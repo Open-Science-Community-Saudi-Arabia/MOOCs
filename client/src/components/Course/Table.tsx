@@ -129,11 +129,11 @@ export default function Table({
       header: () => <span>Contributor's name</span>,
     }),
     columnHelper.accessor("createdBy.role", {
-      cell: (info) => <p>{info.getValue()}</p>,
+      cell: (info) => <p className="w-20">{info.getValue()}</p>,
       header: () => <span>Role</span>,
     }),
     columnHelper.accessor(`createdBy.email`, {
-      cell: (info) => <p className="w-36">{info.getValue()}</p>,
+      cell: (info) => <p className="w-48">{info.getValue()}</p>,
       header: () => <span>Email</span>,
     }),
     columnHelper.accessor(`updatedAt`, {
@@ -181,7 +181,7 @@ export default function Table({
             )}
           </button>
           {courseAction._id === info.row.original._id && (
-            <div className="z-10 shadow shadow-xl w-36 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
+            <div className="z-10 shadow shadow-xl w-40 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
               <button
                 onClick={() => handleSelectedCourse(info.row.original)}
                 className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 text-left block text-gray-dark rounded-none w-full"
@@ -219,6 +219,7 @@ export default function Table({
                   </span>
                 </button>
               ) : info.row.original.status === "Approved" ? (
+                <>
                 <button
                   onClick={() => revokeApproval()}
                   className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
@@ -228,6 +229,16 @@ export default function Table({
                     Revoke approval
                   </span>
                 </button>
+                 <button
+                 onClick={() => ""}
+                 className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none border border-t-[1px] border-x-0 text-gray-dark border-gray text-xs block"
+               >
+                 <span className="flex items-center gap-x-2">
+                   <MdPendingActions size={14} />
+                  Make Unavailable
+                 </span>
+               </button>
+               </>
               ) : (
                 ""
               )}
@@ -278,7 +289,7 @@ export default function Table({
               key={row.id}
             >
               {row.getVisibleCells().map((cell) => (
-                <td className="px-3 text-sm py-3" key={cell.id}>
+                <td className="px-3 text-sm py-3 w-auto" key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

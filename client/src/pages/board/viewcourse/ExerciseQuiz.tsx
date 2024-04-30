@@ -37,18 +37,22 @@ const ExerciseQuiz = ({
   const [quizIndex, setQuizIndex] = useState(0);
   const locale = localStorage.getItem("language") || "en";
 
-  // const onChangeValue = (id: string, event: any, index: number) => {
-  //   if (exerciseData) {
-  //     if (quizIndex + 1 === exerciseData?.questions.length) {
-  //       changedViewSubmit(true);
-  //     } else {
-  //       changeQuizIndex(quizIndex + 1);
-  //     }
-  //   }
-  //   setSubmission((prevState) => {
-  //     return { ...prevState, [id]: event.target.value };
-  //   });
-  // };
+  const onChangeValue = (id: string, event: any, index: number) => {
+    setQuizIndex(quizIndex + 1);
+    if(quizIndex > displayContent.quiz.length){
+
+    }
+    // if (exerciseData) {
+    //   if (quizIndex + 1 === exerciseData?.questions.length) {
+    //     changedViewSubmit(true);
+    //   } else {
+    //     changeQuizIndex(quizIndex + 1);
+    //   }
+    // }
+    // setSubmission((prevState) => {
+    //   return { ...prevState, [id]: event.target.value };
+    // });
+  };
 
   // const submitResult = async () => {
   //   if (exerciseData) {
@@ -71,12 +75,12 @@ const ExerciseQuiz = ({
   //     }
   //   }
   // };
-  console.log(displayContent);
+  // console.log(displayContent);
   return (
     <section className="quiz-section">
       <div className="quiz-section__heading">
         <h1 className="quiz-section__heading-title">
-          <Trans> Quiz:</Trans>
+          <Trans> Quiz : </Trans>{" "}
           {locale === "en" ? displayContent?.title : displayContent?.title_tr}
         </h1>
         <p className="quiz-section__heading-subtitle">
@@ -105,7 +109,7 @@ const ExerciseQuiz = ({
               return (
                 <label
                   key={j}
-                  // onChange={(e) => onChangeValue(list.name, e, j)}
+                  onChange={(e) => onChangeValue(list.name, e, j)}
                   htmlFor={list.name}
                   className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label "
                 >
@@ -123,7 +127,7 @@ const ExerciseQuiz = ({
             })}
           </div>
         </div>
-        {viewSubmit && (
+        {/* {viewSubmit && (
           <button
             className="quiz-section__submit-btn"
             // onClick={() => submitResult()}
@@ -134,7 +138,7 @@ const ExerciseQuiz = ({
               t`Submit`
             )}
           </button>
-        )}
+        )} */}
       </div>
     </section>
   );

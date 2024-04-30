@@ -8,6 +8,7 @@ export default {
     colors: {
       primary: "hsl(172, 100%, 30%)",
       "primary-hover":"#049a86cc",
+      "primary-light":"#0099851c",
       gray:"rgb(203, 213, 225)",
       "gray-100":"rgb(102, 102, 102)",
       white: "hsl(0, 0%, 100%)",
