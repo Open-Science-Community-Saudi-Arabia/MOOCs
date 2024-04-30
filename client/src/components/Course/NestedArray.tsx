@@ -82,7 +82,7 @@ export default ({ nestIndex, control, register }: any) => {
                   type="url"
                   className="!w-[60%]"
                   autoComplete="false"
-                  placeholder={t`url`}
+                  placeholder={t`Youtube embed url`}
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.link`
                   )}

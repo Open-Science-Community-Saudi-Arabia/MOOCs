@@ -24,7 +24,7 @@ export async function getCourses() {
  */
 export async function getCourse(id: string | any) {
   const response = await makeApiCall(`/course/${id}`);
-  return response;
+  return response.data;
 }
 
 /**

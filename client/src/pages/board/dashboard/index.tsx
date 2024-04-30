@@ -41,7 +41,7 @@ const Board = () => {
      getAvailableCourses()
   }, []);
 
-console.log(availableCourses)
+// console.log(availableCourses)
 
 
   return (
@@ -54,7 +54,7 @@ console.log(availableCourses)
         <div className="dashboard__error">
           <ErrorFallBack
             message="Something went wrong!"
-            description="We encountered an error while fetching courses"
+            description="We encountered an error while fetching course(s)."
             reset={getAvailableCourses}
           />
         </div>

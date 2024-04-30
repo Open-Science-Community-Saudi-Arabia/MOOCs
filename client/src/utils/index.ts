@@ -1,7 +1,6 @@
 import axios from "axios";
 import { LOGOUT_KEY, TOKEN_KEY, USERID } from "./constants";
 
-
 const { VITE_CLOUDINARY_CLOUD_NAME, VITE_CLOUDINARY_UPLOAD_PRESET } =
   import.meta.env;
 
@@ -79,6 +78,7 @@ export const parsedData = async (data: any) => {
               title: ele.title,
               description: ele.description,
               link: ele.link,
+              // videoDuration:
             });
           }
           if (ele.type === "pdf") {
@@ -105,4 +105,16 @@ export const parsedData = async (data: any) => {
     })
   );
   return { ...data, coursesection };
+};
+
+export const videoDuration = async (videoUrl: string) => {
+  const videoId = `LnSYihRoGA4`;
+  const YOUR_API_KEY = `AIzaSyBxlUP2nm4zuUfeDk_MAmMsuxy3OfhDZhs`;
+
+  const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${YOUR_API_KEY}`;
+
+  const response = await fetch(url);
+  let res = await response.json();
+
+  console.log(res);
 };
