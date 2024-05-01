@@ -78,9 +78,8 @@
       right: 0;
       background-color: var(--white);
       padding: 1em;
+      border-radius: 5px;
       color: var(--green);
-      font-weight: 600;
-      width: 100px;
       border: none;
       @include ipad {
         right: -23px;
@@ -94,7 +93,3 @@
     }
   }
 }
-
-
-
-

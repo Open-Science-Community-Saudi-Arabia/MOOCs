@@ -30,6 +30,7 @@ export function setToken(token: string) {
 export function setUserId(id: string) {
   localStorage.setItem(USERID, id);
 }
+
 export function getUserId() {
   let userId = localStorage.getItem(USERID);
   if (!userId) {
@@ -38,10 +39,16 @@ export function getUserId() {
   return userId;
 }
 
+export function storeData(access_token: string, userId: string) {
+  window.localStorage.removeItem(LOGOUT_KEY);
+  setToken(access_token);
+  setUserId(userId);
+
+}
 export const logout = async () => {
   axios.defaults.headers.common.Authorization = "";
   window.localStorage.removeItem(TOKEN_KEY);
-  // to support logging out from all windows
+  window.localStorage.removeItem(USERID);
   window.localStorage.setItem(LOGOUT_KEY, Date.now().toString());
   window.location.assign("/login");
 };
@@ -109,7 +116,6 @@ export const parsedData = async (data: any) => {
 
 // export const videoDuration = async (videoUrl: string) => {
 //   const videoId = `LnSYihRoGA4`;
-
 
 //   const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=contentDetails&key=${YOUR_API_KEY}`;
 

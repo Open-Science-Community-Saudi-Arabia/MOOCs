@@ -138,7 +138,7 @@ export default function Table({
     }),
     columnHelper.accessor(`updatedAt`, {
       cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
-      header: () => <span>Updated Date</span>,
+      header: () => <span>Last Updated</span>,
     }),
     columnHelper.accessor((row) => row.status, {
       id: "status",
@@ -148,6 +148,8 @@ export default function Table({
             info.getValue() === "Pending"
               ? "bg-error"
               : info.getValue() === "Draft"
+              ? "bg-gray-dark"
+              : info.getValue() === "Archived"
               ? "bg-gray-dark"
               : "bg-success"
           } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
@@ -199,7 +201,7 @@ export default function Table({
                   <span className="flex items-center gap-x-2">
                     {" "}
                     <MdOutlineUnarchive size={14} />
-                    Un-Archive
+                    Un-archive
                   </span>
                 ) : (
                   <span className="flex items-center gap-x-2">
@@ -220,25 +222,25 @@ export default function Table({
                 </button>
               ) : info.row.original.status === "Approved" ? (
                 <>
-                <button
-                  onClick={() => revokeApproval()}
-                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
-                >
-                  <span className="flex items-center gap-x-2">
-                    <MdPendingActions size={14} />
-                    Revoke approval
-                  </span>
-                </button>
-                 <button
-                 onClick={() => ""}
-                 className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none border border-t-[1px] border-x-0 text-gray-dark border-gray text-xs block"
-               >
-                 <span className="flex items-center gap-x-2">
-                   <MdPendingActions size={14} />
-                  Make Unavailable
-                 </span>
-               </button>
-               </>
+                  <button
+                    onClick={() => revokeApproval()}
+                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
+                  >
+                    <span className="flex items-center gap-x-2">
+                      <MdPendingActions size={14} />
+                      Revoke approval
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => ""}
+                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none border border-t-[1px] border-x-0 text-gray-dark border-gray text-xs block"
+                  >
+                    <span className="flex items-center gap-x-2">
+                      <MdPendingActions size={14} />
+                      Make Unavailable
+                    </span>
+                  </button>
+                </>
               ) : (
                 ""
               )}
