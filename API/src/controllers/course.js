@@ -10,6 +10,7 @@ const {
   pendingACourse,
   enrollAUser,
   toggleAvailablity,
+  toggleEditing,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -214,6 +215,25 @@ const toggleCourseAvailablity = async (req, res) => {
   }
 };
 
+const toggleCourseEditing = async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    const course = await toggleEditing(courseId);
+    if (course) {
+      return res.status(200).send({
+        success: true,
+        message: "Course editing updating",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourse,
@@ -226,6 +246,7 @@ module.exports = {
   makeCoursePending,
   enrollUser,
   toggleCourseAvailablity,
+  toggleCourseEditing,
 };
 
 //enrolled user to a quiz

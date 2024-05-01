@@ -12,6 +12,7 @@ const {
   makeCoursePending,
   enrollUser,
   toggleCourseAvailablity,
+  toggleCourseEditing,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -54,6 +55,8 @@ router
     permit("SuperAdmin"),
     toggleCourseAvailablity
   )
+  .get("/toggle-editing/:courseId", permit("SuperAdmin"), toggleCourseEditing)
+
   .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
   .get("/enroll/:courseId", enrollUser)
   .patch(

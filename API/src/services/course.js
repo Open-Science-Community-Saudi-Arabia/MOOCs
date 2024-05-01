@@ -118,6 +118,13 @@ const toggleAvailablity = async (courseId) => {
   return course;
 };
 
+const toggleEditing = async (courseId) => {
+  const course = await Course.findById(courseId);
+  course.enableEditing = !course.enableEditing;
+  await course.save();
+  return course;
+};
+
 module.exports = {
   createACourse,
   getACourse,
@@ -130,4 +137,5 @@ module.exports = {
   pendingACourse,
   enrollAUser,
   toggleAvailablity,
+  toggleEditing,
 };

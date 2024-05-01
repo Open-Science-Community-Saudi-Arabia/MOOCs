@@ -50,6 +50,7 @@ export interface Courses {
   createdAt: Date;
   updatedAt: Date;
   isAvailable: boolean;
+  enableEditing: boolean;
   preview_image: string;
   status: string;
   course_sections: CourseSections[];
@@ -78,8 +79,8 @@ export interface Quiz {
   _id: string;
   title: string;
   title_tr: string;
-  options:[]
-  options_tr:[{name:string}]
+  options: [];
+  options_tr: [{ name: string }];
   question_tr: string;
   question: string;
   order: number;
@@ -126,9 +127,6 @@ export type LocaleContextType = {
   locale: Locale;
   changeLocale: (locale: Locale) => void;
 };
-
-
-
 
 // import { Dispatch, SetStateAction, useState } from "react";
 // import { Questions,Quiz } from "../../../types";
@@ -230,7 +228,7 @@ export type LocaleContextType = {
 //                       : content.question_tr} ?
 //                   </div>
 //                   <div className="quiz-section__content-options">
-                
+
 //                     {(locale === "en"
 //                       ? content.options
 //                       : content.options_tr

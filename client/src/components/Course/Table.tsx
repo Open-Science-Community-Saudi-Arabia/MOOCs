@@ -14,6 +14,7 @@ import {
   archiveACourse,
   makeCoursePending,
   toggleAvailablity,
+  toggleCourseEditing,
 } from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
@@ -89,10 +90,11 @@ export default function Table({
       getAvailableCourses();
     }
   };
-  const unEditableCourse = async () => {
+
+  const toggleAvailablityHandler = async () => {
     setLoadingAction(true);
     try {
-      let res = await archiveACourse(courseAction._id);
+      let res = await toggleAvailablity(courseAction._id);
       setLoadingAction(false);
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -111,10 +113,10 @@ export default function Table({
     }
   };
 
-  const toggleAvailablityHandler = async () => {
+  const toggleCourseEditingHandler = async () => {
     setLoadingAction(true);
     try {
-      let res = await toggleAvailablity(courseAction._id);
+      let res = await toggleCourseEditing(courseAction._id);
       setLoadingAction(false);
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -278,36 +280,31 @@ export default function Table({
                     </span>
                   </button>
 
-                  {info.row.original.isAvailable ? (
-                    <button
-                      onClick={() => toggleAvailablityHandler()}
-                      className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
-                    >
+                  <button
+                    onClick={() => toggleAvailablityHandler()}
+                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
+                  >
+                    {info.row.original.isAvailable ? (
                       <span className="flex items-center gap-x-2">
                         <CgUnavailable size={14} />
                         Make unavailable
                       </span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => toggleAvailablityHandler()}
-                      className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
-                    >
+                    ) : (
                       <span className="flex items-center gap-x-2">
                         <MdOutlineAccessTime size={14} />
                         Make available
                       </span>
-                    </button>
-                  )}
+                    )}
+                  </button>
                 </>
               ) : (
                 ""
               )}
               <button
-                onClick={() => unEditableCourse()}
+                onClick={() => toggleCourseEditingHandler()}
                 className="font-medium py-2.5 px-3 w-full text-left border-gray text-gray-dark border-x-0 rounded-none hover:bg-gray/70 text-xs block"
               >
-                {info.row.original.status === "Editable" ? (
+                {info.row.original.enableEditing ? (
                   <span className="flex items-center gap-x-2">
                     <MdOutlineEditOff size={14} />
                     Disable editing
