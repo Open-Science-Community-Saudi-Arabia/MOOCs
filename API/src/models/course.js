@@ -43,7 +43,7 @@ const courseSchema = new Schema(
       enum: ["Pending", "Approved", "Draft", "Archived", "Rejected"],
       default: "Pending",
     },
-    isAvailable: { type: Boolean, default: false },
+    isAvailable: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

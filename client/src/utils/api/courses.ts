@@ -43,7 +43,6 @@ export async function createCourse(payload: Courses | any) {
  * @return {Promise<object>} response data
  */
 export async function enrollUser(courseId: string) {
-
   const response = await makeApiCall(`/course/enroll/${courseId}`);
   return response;
 }
@@ -117,5 +116,9 @@ export async function updateACourse(courseId: string, payload: FormData) {
 
 export async function makeCoursePending(courseId: string) {
   const response = await makeApiCall(`/course/pending/${courseId}`);
+  return response;
+}
+export async function toggleAvailablity(courseId: string) {
+  const response = await makeApiCall(`/course/toggle-available/${courseId}`);
   return response;
 }
