@@ -11,6 +11,7 @@ const {
   getApprovedCourses,
   makeCoursePending,
   enrollUser,
+  toggleCourseAvailablity,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -48,6 +49,11 @@ router
 
   .get("/pending/:courseId", permit("SuperAdmin"), makeCoursePending)
   .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
+  .get(
+    "/toggle-available/:courseId",
+    permit("SuperAdmin"),
+    toggleCourseAvailablity
+  )
   .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
   .get("/enroll/:courseId", enrollUser)
   .patch(

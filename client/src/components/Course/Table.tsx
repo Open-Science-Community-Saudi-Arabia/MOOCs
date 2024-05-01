@@ -13,6 +13,7 @@ import {
   approveACourse,
   archiveACourse,
   makeCoursePending,
+  toggleAvailablity,
 } from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
@@ -25,6 +26,10 @@ import {
 } from "react-icons/md";
 import { FcAcceptDatabase } from "react-icons/fc";
 import { FaRegFileArchive } from "react-icons/fa";
+import { MdOutlineEditOff } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
+import { MdOutlineAccessTime } from "react-icons/md";
+import { CgUnavailable } from "react-icons/cg";
 
 type Props = {
   courses: Courses[];
@@ -37,12 +42,11 @@ export default function Table({
   getAvailableCourses,
   handleSelectedCourse,
 }: Props) {
-  const [courseAction, setCourseAction] = useState<any>({});
+  const [courseAction, setCourseAction] = useState<Courses | any>({});
   const [isLoadingAction, setLoadingAction] = useState(false);
   const columnHelper = createColumnHelper<Courses>();
 
   const approveCourse = async () => {
-    setCourseAction({});
     setLoadingAction(true);
     try {
       let res = await approveACourse(courseAction._id);
@@ -65,7 +69,6 @@ export default function Table({
   };
 
   const archiveCourse = async () => {
-    setCourseAction({});
     setLoadingAction(true);
     try {
       let res = await archiveACourse(courseAction._id);
@@ -86,8 +89,51 @@ export default function Table({
       getAvailableCourses();
     }
   };
+  const unEditableCourse = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await archiveACourse(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } finally {
+      getAvailableCourses();
+    }
+  };
+
+  const toggleAvailablityHandler = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await toggleAvailablity(courseAction._id);
+      setLoadingAction(false);
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      setLoadingAction(false);
+      toast.error("Request failed", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } finally {
+      getAvailableCourses();
+    }
+  };
+
   const revokeApproval = async () => {
-    setCourseAction({});
     setLoadingAction(true);
     try {
       let res = await makeCoursePending(courseAction._id);
@@ -167,7 +213,7 @@ export default function Table({
             onClick={() =>
               setCourseAction(
                 courseAction._id === info.row.original._id
-                  ? ""
+                  ? {}
                   : info.row.original
               )
             }
@@ -195,7 +241,7 @@ export default function Table({
               </button>
               <button
                 onClick={() => archiveCourse()}
-                className="font-medium py-2.5 px-3 w-full text-left border border-y-[1px] text-gray-dark border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
+                className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px] text-gray-dark border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
               >
                 {info.row.original.status === "Archived" ? (
                   <span className="flex items-center gap-x-2">
@@ -213,7 +259,7 @@ export default function Table({
               {info.row.original.status === "Pending" ? (
                 <button
                   onClick={() => approveCourse()}
-                  className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray/70 text-gray-dark rounded-none text-xs block"
+                  className="font-medium py-2.5 px-3 border-x-0 text-left border border-b-[1px] border-t-0 border-x-0  border-gray  w-full hover:bg-gray/70 text-gray-dark rounded-none text-xs block"
                 >
                   <span className="flex items-center gap-x-2">
                     <FcAcceptDatabase size={14} />
@@ -224,26 +270,56 @@ export default function Table({
                 <>
                   <button
                     onClick={() => revokeApproval()}
-                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
+                    className="font-medium py-2.5 px-3 text-left  w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
                   >
                     <span className="flex items-center gap-x-2">
                       <MdPendingActions size={14} />
                       Revoke approval
                     </span>
                   </button>
-                  <button
-                    onClick={() => ""}
-                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none border border-t-[1px] border-x-0 text-gray-dark border-gray text-xs block"
-                  >
-                    <span className="flex items-center gap-x-2">
-                      <MdPendingActions size={14} />
-                      Make Unavailable
-                    </span>
-                  </button>
+
+                  {info.row.original.isAvailable ? (
+                    <button
+                      onClick={() => toggleAvailablityHandler()}
+                      className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
+                    >
+                      <span className="flex items-center gap-x-2">
+                        <CgUnavailable size={14} />
+                        Make unavailable
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => toggleAvailablityHandler()}
+                      className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
+                    >
+                      <span className="flex items-center gap-x-2">
+                        <MdOutlineAccessTime size={14} />
+                        Make available
+                      </span>
+                    </button>
+                  )}
                 </>
               ) : (
                 ""
               )}
+              <button
+                onClick={() => unEditableCourse()}
+                className="font-medium py-2.5 px-3 w-full text-left border-gray text-gray-dark border-x-0 rounded-none hover:bg-gray/70 text-xs block"
+              >
+                {info.row.original.status === "Editable" ? (
+                  <span className="flex items-center gap-x-2">
+                    <MdOutlineEditOff size={14} />
+                    Disable editing
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-x-2">
+                    {" "}
+                    <CiEdit size={14} />
+                    Enable editing
+                  </span>
+                )}
+              </button>
             </div>
           )}
         </div>
