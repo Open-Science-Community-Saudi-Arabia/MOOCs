@@ -1,5 +1,4 @@
 import makeApiCall from ".";
-import { setToken } from "..";
 import {
   ForgetPasswordReqPayload,
   LoginInRequestPayload,

@@ -66,10 +66,8 @@ export default function index({
         autoClose: 5000,
         theme: "colored",
       });
-    }
-    finally{  
-
-      getAvailableCourses!()
+    } finally {
+      getAvailableCourses!();
     }
   };
 
@@ -113,7 +111,6 @@ export default function index({
           autoClose: 5000,
           theme: "colored",
         });
-
       } catch (err) {
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
@@ -144,9 +141,8 @@ export default function index({
         });
       }
     }
-    getAvailableCourses!()
-    handleSelectedCourse!("")
-
+    getAvailableCourses!();
+    handleSelectedCourse!("");
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -174,24 +170,25 @@ export default function index({
           </button>
           {selectedCourse?.title ? "Edit Course" : "New Course"}
         </h1>
-     
+
         {selectedCourse?.updatedAt && (
           <div className="flex items-center gap-x-2  mr-36">
-             <p className="text-gray-dark/70 text-xs">
-            {" "}
-          Created on{" "}
-            {dayjs(selectedCourse?.createdAt).format("MMMM Do, YYYY")};
-          </p>
-          <p className="text-gray-dark/70 text-xs">
-            {" "}
-            Last updated{" "}
-            {dayjs(selectedCourse?.updatedAt).format("MMMM Do, YYYY")}
-          </p>
+            <p className="text-gray-dark/70 text-xs">
+              {" "}
+              Created on{" "}
+              {dayjs(selectedCourse?.createdAt).format("MMMM Do, YYYY")};
+            </p>
+            <p className="text-gray-dark/70 text-xs">
+              {" "}
+              Last updated{" "}
+              {dayjs(selectedCourse?.updatedAt).format("MMMM Do, YYYY")}
+            </p>
           </div>
-         
         )}
       </div>
-      <p className="text-sm text-gray-dark/50 pt-3">Ensure correct punctuation for all fields.</p>
+      <p className="text-sm text-gray-dark/50 pt-3">
+        Ensure correct punctuation for all fields.
+      </p>
       <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex items-start justify-between">
           <div className="w-8/12">
@@ -331,35 +328,19 @@ export default function index({
         ))}
 
         <div className="text-center mt-48 mb-8 relative">
-          {role == "Admin" ? (
-            <button
-              type="submit"
-              className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
-            >
-              {" "}
-              {isLoading && status !== "Draft" ? (
-                <Spinner width="30px" height="30px" color="#fff" />
-              ) : selectedCourse?.title ? (
-                "Edit Course"
-              ) : (
-                "Add Course"
-              )}
-            </button>
-          ) : (
-            selectedCourse?.status !== "Approved" && (
-              <button
-                type="submit"
-                className="w-96 text-white bg-primary h-14 rounded-lg mt-1 hover:bg-primary/80 font-medium"
-              >
-                {" "}
-                {isLoading && status !== "Draft" ? (
-                  <Spinner width="30px" height="30px" color="#fff" />
-                ) : (
-                  "Submit"
-                )}
-              </button>
-            )
-          )}
+          <button
+            type="submit"
+            className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+          >
+            {" "}
+            {isLoading && status !== "Draft" ? (
+              <Spinner width="30px" height="30px" color="#fff" />
+            ) : selectedCourse?.title ? (
+              "Edit Course"
+            ) : (
+              "Add Course"
+            )}
+          </button>
 
           {selectedCourse?.title ? (
             <button

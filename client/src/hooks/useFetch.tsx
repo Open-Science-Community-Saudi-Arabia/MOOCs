@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { setToken, setUserId } from "../utils";
+import {storeData } from "../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -36,8 +36,8 @@ const useFetch = () => {
       });
 
       if (response.data.success === true) {
-        setToken(response.data.data.access_token);
-        setUserId(response.data.data.user._id);
+      
+        storeData(response.data.data.access_token,response.data.data.user._id)
         if (response.data.data.user.role === "Contributor") {
           navigate("/contributor/dashboard");
         } else if (response.data.data.user.role === "EndUser") {

@@ -13,7 +13,7 @@ const AvailableCourses = ({ courses }: any) => {
   const navigate = useNavigate();
   const locale = localStorage.getItem("language") || "en";
   const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
-  console.log(userId)
+
   const enrollUserHandler = async (courseId: string) => {
     setSelectedId(courseId);
     try {
@@ -31,7 +31,7 @@ const AvailableCourses = ({ courses }: any) => {
       });
     }
   };
-  // console.log(courses)
+
   return (
     <div className="availablecourses">
       {courses?.length ? (
@@ -44,7 +44,11 @@ const AvailableCourses = ({ courses }: any) => {
               return (
                 <div
                   // disabled={!content.isAvailable}
-                  onClick={() => content.enrolled_users.includes(userId) ? navigate(`/course/${content._id}`) : ""}
+                  onClick={() =>
+                    content.enrolled_users.includes(userId)
+                      ? navigate(`/course/${content._id}`)
+                      : ""
+                  }
                   aria-label={content.title}
                   key={content._id}
                   style={{ width: "350px", height: "auto" }}
@@ -74,19 +78,23 @@ const AvailableCourses = ({ courses }: any) => {
                       {" "}
                       By {content.author}
                     </p>
-                    <div className="flex items-center justify-between relative pt-5">
-                      {!content.enrolled_users.includes(userId) && <button
-                        type="button"
-                        onClick={() => enrollUserHandler(content._id)}
-                        className="py-2 text-sm rounded-full h-12 w-36 font-semibold px-4 bg-primary text-white"
-                      >
-                        {selectedId === content._id ? (
-                          <Spinner width="20px" height="20px" color="#fff" />
-                        ) : (
-                          "Start Learning"
-                        )}
-                      </button>}
-                      <p className="text-sm text-gray-100 absolute right-5">1680+  {""} enrolled</p>
+                    <div className="flex items-center justify-between relative pt-8 pb-4">
+                      {!content.enrolled_users.includes(userId) && (
+                        <button
+                          type="button"
+                          onClick={() => enrollUserHandler(content._id)}
+                          className="py-2 text-sm rounded-full absolute h-12 w-36 font-semibold px-4 bg-primary text-white"
+                        >
+                          {selectedId === content._id ? (
+                            <Spinner width="20px" height="20px" color="#fff" />
+                          ) : (
+                            "Start Learning"
+                          )}
+                        </button>
+                      )}
+                      <p className="text-sm text-gray-100 absolute right-5">
+                        1680+ {""} enrolled
+                      </p>
                     </div>
                   </div>
                 </div>

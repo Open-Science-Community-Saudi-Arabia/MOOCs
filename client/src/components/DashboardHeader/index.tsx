@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import logo from "../../images/logo.svg";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { BsPersonFill} from "react-icons/bs";
+import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
+import { BsPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useClickOutside from "../../hooks/useClickOutside";
 import "./style.scss";
@@ -9,11 +9,12 @@ import { t, Trans } from "@lingui/macro";
 import LanguageToggle from "../../components/LanguageToggle";
 import { logout } from "../../utils";
 
-
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
   useClickOutside(ref, () => setOpen(false));
+
+  //Get user's profile/endpoint for the email
   return (
     <div className="dashboard-header">
       <div className="dashboard-header__container">
@@ -48,17 +49,22 @@ const Header = () => {
             onClick={() => setOpen(!isOpen)}
             className="icon-button dashboard-header-profile__btn"
           >
-            <span className="dashboard-header-profile__btn-text icon-button"><BsPersonFill/></span>
-            <RiArrowDropDownLine />
+            <span className="dashboard-header-profile__btn-text icon-button">
+              <BsPersonFill />
+            </span>
+            {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
           </button>
           {isOpen && (
-            <button
-              ref={ref}
-              onClick={logout}
-              className="dashboard-header-profile__logout-btn"
-            >
-              <Trans> Log Out</Trans>
-            </button>
+            <div className="dashboard-header-profile__logout-btn">
+              <p className="text-xs pb-3">sandygoodnews@gmail.com</p>
+              <button
+                className="text-xs bg-primary font-medium rounded-md py-1.5 px-2 text-white "
+                ref={ref}
+                onClick={logout}
+              >
+                <Trans> Log Out</Trans>
+              </button>
+            </div>
           )}
         </div>
       </div>
