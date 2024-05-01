@@ -328,19 +328,60 @@ export default function index({
         ))}
 
         <div className="text-center mt-48 mb-8 relative">
-          <button
-            type="submit"
-            className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
-          >
-            {" "}
-            {isLoading && status !== "Draft" ? (
-              <Spinner width="30px" height="30px" color="#fff" />
-            ) : selectedCourse?.title ? (
-              "Edit Course"
-            ) : (
-              "Add Course"
-            )}
-          </button>
+          {selectedCourse?.title ? (
+            role === "SuperAdmin" ||
+            (selectedCourse.enableEditing && (
+              <button
+                type="submit"
+                className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+              >
+                {" "}
+                {isLoading && status !== "Draft" ? (
+                  <Spinner width="30px" height="30px" color="#fff" />
+                ) : (
+                  "Edit Course"
+                )}
+              </button>
+            ))
+          ) : (
+            <button
+              type="submit"
+              className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+            >
+              Add Course
+            </button>
+          )}
+
+          {/* <div className="text-center mt-48 mb-8 relative"> */}
+          {/* {role == "SuperAdmin" ? (
+            <button
+              type="submit"
+              className="w-96 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+            >
+              {" "}
+              {isLoading && status !== "Draft" ? (
+                <Spinner width="30px" height="30px" color="#fff" />
+              ) : selectedCourse?.title ? (
+                "Edit Course"
+              ) : (
+                "Add Course"
+              )}
+            </button>
+          ) : (
+            selectedCourse?.enableEditing && (
+              <button
+                type="submit"
+                className="w-96 text-white bg-primary h-14 rounded-lg mt-1 hover:bg-primary/80 font-medium"
+              >
+                {" "}
+                {isLoading && status !== "Draft" ? (
+                  <Spinner width="30px" height="30px" color="#fff" />
+                ) : (
+                  "Submit"
+                )}
+              </button>
+            )
+          )} */}
 
           {selectedCourse?.title ? (
             <button
