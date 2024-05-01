@@ -118,7 +118,13 @@ export async function makeCoursePending(courseId: string) {
   const response = await makeApiCall(`/course/pending/${courseId}`);
   return response;
 }
+
 export async function toggleAvailablity(courseId: string) {
   const response = await makeApiCall(`/course/toggle-available/${courseId}`);
+  return response;
+}
+
+export async function toggleCourseEditing(courseId: string) {
+  const response = await makeApiCall(`/course/toggle-editing/${courseId}`);
   return response;
 }

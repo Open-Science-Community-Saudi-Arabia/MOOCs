@@ -44,6 +44,7 @@ const courseSchema = new Schema(
       default: "Pending",
     },
     isAvailable: { type: Boolean, default: true },
+    enableEditing: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
