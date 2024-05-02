@@ -257,6 +257,7 @@ const evaluateQuizScore = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const score = await evaluateUserAnswers(userId, courseId, quizPayload);
+    // console.log(score)
     return res.status(200).json({
       success: true,
       score: score,

@@ -53,6 +53,7 @@ const getAUserCourse = async (userId, courseId) => {
       if (ele.type === "quiz") {
         let newQuiz = ele.quiz.map((item) => {
           return (item = {
+            _id: item._id,
             options: item.options,
             question: item.question,
           });
@@ -169,13 +170,14 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const courseIndex = userCourses.enrolledcourse.findIndex(
     (course) => course._id == courseId
   );
-  const userCourse = userCourses.enrolledcourse[courseIndex];
 
+  const userCourse = userCourses.enrolledcourse[courseIndex];
   let quizAnswer = [...quizAnswers];
 
   userCourse.course_section.map((course) => {
     course.resources.map((ele) => {
       if (ele._id == resourceId) {
+        console.log("taste");
         ele.quiz.map((item, index) => {
           if (item._id == quizAnswer[index]._id) {
             quizAnswer[index].answer === item.correctanswer
@@ -190,6 +192,30 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const noOfCorrectAnswers = quizAnswer.filter(
     (obj) => obj.correct === true
   ).length;
+
+  // let currentQuiz;
+  // let score;
+  // //update score
+
+  // const course_section = userCourse.course_section.map((course) => {
+  //   let resources = course.resources.map((ele) => {
+  //     if (ele._id == resourceId) {
+  //       score = (noOfCorrectAnswers / ele.quiz.length) * 100;
+  //       return (ele = {
+  //         ...ele,
+  //         highest_score: ele.highest_score > score ? ele.highest_score : score,
+  //       });
+  //       currentQuiz = { ...ele };
+  //     }
+
+  //     return ele;
+  //   });
+  //   return { ...course, resources };
+  // });
+
+  // console.log(course_section[0].resources[2]);
+  // console.log(currentQuiz);
+
   return noOfCorrectAnswers;
 };
 

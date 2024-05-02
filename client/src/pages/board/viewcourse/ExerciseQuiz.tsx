@@ -51,7 +51,6 @@ const ExerciseQuiz = ({
         resourceId: displayContent._id,
         quizAnswers: quizAnswers,
       });
-      console.log(response);
       setDisplayScore(response.score);
       // if (response) {
       //   changedCurrentScore(response.data.report.percentage_passed);
@@ -69,7 +68,7 @@ const ExerciseQuiz = ({
       setLoading(false);
     }
   };
-  console.log(displayScore);
+  console.log(displayContent);
 
   const tryAgainhandler = () => {
     setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
