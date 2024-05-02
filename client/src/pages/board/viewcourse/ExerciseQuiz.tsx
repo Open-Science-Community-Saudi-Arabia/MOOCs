@@ -40,11 +40,10 @@ const ExerciseQuiz = ({
 
   // console.log(viewSubmit)
 
-  const onChangeValue = (id: string, event: any, index: number) => {
+  const onChangeValue = (id: string, selectedAnswer: string) => {
     setQuizIndex(quizIndex + 1);
-
-    console.log(displayContent.quiz.length);
-    setQuizAnswers([...quizAnswers, { _id: id, answer: event.target.value }]);
+    console.log(id,selectedAnswer);
+    // setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
     // if (quizIndex === displayContent.quiz.length) {
     //   setViewSubmit(true);
     // }
@@ -59,6 +58,7 @@ const ExerciseQuiz = ({
     //   return { ...prevState, [id]: event.target.value };
     // });
   };
+  console.log(displayContent);
   console.log(quizAnswers);
   // const submitResult = async () => {
   //   if (exerciseData) {
@@ -115,7 +115,12 @@ const ExerciseQuiz = ({
               return (
                 <label
                   key={j}
-                  onChange={(e) => onChangeValue(list.name, e, j)}
+                  onChange={(e) =>
+                    onChangeValue(
+                      displayContent?.quiz[quizIndex]._id,
+                      list.name
+                    )
+                  }
                   htmlFor={list.name}
                   className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label "
                 >

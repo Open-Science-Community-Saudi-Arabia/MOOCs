@@ -141,8 +141,10 @@ export default function index({
         });
       }
     }
-    getAvailableCourses!();
-    handleSelectedCourse!("");
+    if (selectedCourse) {
+      getAvailableCourses!();
+      handleSelectedCourse!("");
+    }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -348,7 +350,11 @@ export default function index({
               type="submit"
               className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
             >
-              Add Course
+              {isLoading && status !== "Draft" ? (
+                <Spinner width="30px" height="30px" color="#fff" />
+              ) : (
+                "Add Course"
+              )}
             </button>
           )}
           {selectedCourse?.title ? (

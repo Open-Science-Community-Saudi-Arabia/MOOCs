@@ -76,7 +76,7 @@ const ViewCourse = () => {
     cacheTime: 0,
     refetchInterval: 0,
   });
-  console.log(displayContent);
+  // console.log(displayContent);
   const isIpad = useMediaQuery("(min-width: 1024px)");
 
   const locale = localStorage.getItem("language") || "en";
@@ -137,7 +137,7 @@ const ViewCourse = () => {
       });
     }
   };
-  console.log(displayContent);
+  // console.log(displayContent);
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -308,7 +308,7 @@ const ViewCourse = () => {
                         </p>
                         {content.resources.map((ele, j) => {
                           return (
-                            <div key={j}>
+                            <div key={ele._id}>
                               {ele.type === "video" ? (
                                 <button
                                   aria-label="Watch video"
