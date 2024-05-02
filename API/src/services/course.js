@@ -35,6 +35,39 @@ const getAContributorCourses = async (contributorId) => {
   return course;
 };
 
+const getAUserCourse = async (userId, courseId) => {
+  const userCourses = await User.findById(userId)
+    .lean()
+    .select("enrolledcourse")
+    .populate({
+      path: "enrolledcourse",
+    });
+
+  const index = userCourses.enrolledcourse.findIndex(
+    (course) => course._id == courseId
+  );
+  const userCourse = userCourses.enrolledcourse[index];
+
+  let course_section = userCourse.course_section.map((course) => {
+    let resources = course.resources.map((ele) => {
+      if (ele.type === "quiz") {
+        let newQuiz = ele.quiz.map((item) => {
+          return (item = {
+            _id: item._id,
+            options: item.options,
+            question: item.question,
+          });
+        });
+        return { ...ele, quiz: newQuiz };
+      }
+      return ele;
+    });
+    return { ...course, resources };
+  });
+  let course = { ...userCourse, course_section };
+  return course;
+};
+
 const allCourses = async () => {
   const course = await Course.find().populate({
     path: "createdBy",
@@ -125,6 +158,66 @@ const toggleEditing = async (courseId) => {
   return course;
 };
 
+const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
+  const { resourceId, quizAnswers } = quizPayload;
+  const userCourses = await User.findById(userId)
+    .lean()
+    .select("enrolledcourse")
+    .populate({
+      path: "enrolledcourse",
+    });
+
+  const courseIndex = userCourses.enrolledcourse.findIndex(
+    (course) => course._id == courseId
+  );
+
+  const userCourse = userCourses.enrolledcourse[courseIndex];
+  let quizAnswer = [...quizAnswers];
+
+  userCourse.course_section.map((course) => {
+    course.resources.map((ele) => {
+      if (ele._id == resourceId) {
+        ele.quiz.map((item, index) => {
+          if (item._id == quizAnswer[index]._id) {
+            quizAnswer[index].answer === item.correctanswer
+              ? (quizAnswer[index].correct = true)
+              : (quizAnswer[index].correct = false);
+          }
+        });
+      }
+    });
+  });
+
+  const noOfCorrectAnswers = quizAnswer.filter(
+    (obj) => obj.correct === true
+  ).length;
+
+  // let currentQuiz;
+  // let score;
+  // //update score
+
+  // const course_section = userCourse.course_section.map((course) => {
+  //   let resources = course.resources.map((ele) => {
+  //     if (ele._id == resourceId) {
+  //       score = (noOfCorrectAnswers / ele.quiz.length) * 100;
+  //       return (ele = {
+  //         ...ele,
+  //         highest_score: ele.highest_score > score ? ele.highest_score : score,
+  //       });
+  //       currentQuiz = { ...ele };
+  //     }
+
+  //     return ele;
+  //   });
+  //   return { ...course, resources };
+  // });
+
+  // console.log(course_section[0].resources[2]);
+  // console.log(currentQuiz);
+
+  return noOfCorrectAnswers;
+};
+
 module.exports = {
   createACourse,
   getACourse,
@@ -138,4 +231,6 @@ module.exports = {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
+  evaluateUserAnswers,
+  getAUserCourse,
 };

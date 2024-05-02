@@ -13,6 +13,8 @@ const {
   enrollUser,
   toggleCourseAvailablity,
   toggleCourseEditing,
+  evaluateQuizScore,
+  getUserCourse
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -47,7 +49,7 @@ router
     getContributorCourses
   )
   .get("/", permit("SuperAdmin"), getAllCourses)
-
+  .get("/:userId/:courseId", getUserCourse)
   .get("/pending/:courseId", permit("SuperAdmin"), makeCoursePending)
   .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
   .get(
@@ -59,6 +61,7 @@ router
 
   .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
   .get("/enroll/:courseId", enrollUser)
+  .post("/exercise-score/:userId/:courseId", evaluateQuizScore)
   .patch(
     "/:courseId",
     permit("Contributor SuperAdmin"),

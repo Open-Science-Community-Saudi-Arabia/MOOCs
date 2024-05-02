@@ -11,6 +11,8 @@ const {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
+  evaluateUserAnswers,
+  getAUserCourse
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -89,6 +91,24 @@ const getAllCourses = async (req, res) => {
   }
 };
 
+const getUserCourse = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const courseId = req.params.courseId;
+
+    const course = await getAUserCourse(userId, courseId);
+    return res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 const getApprovedCourses = async (req, res) => {
   try {
     const courses = await allApprovedCourses();
@@ -156,10 +176,8 @@ const archiveCourse = async (req, res) => {
 
 const updateCourse = async (req, res) => {
   const courseId = req.params.courseId;
-
   const reqBody = Object.assign({}, req.body);
   const parseReqBody = JSON.parse(reqBody.body);
-
   try {
     await updateACourse(courseId, parseReqBody, req.file);
     return res.status(200).send({
@@ -197,7 +215,6 @@ const enrollUser = async (req, res) => {
 
 const toggleCourseAvailablity = async (req, res) => {
   const courseId = req.params.courseId;
-
   try {
     const course = await toggleAvailablity(courseId);
     if (course) {
@@ -234,6 +251,26 @@ const toggleCourseEditing = async (req, res) => {
   }
 };
 
+const evaluateQuizScore = async (req, res) => {
+  const quizPayload = req.body;
+  const userId = req.params.userId;
+  const courseId = req.params.courseId;
+  try {
+    const score = await evaluateUserAnswers(userId, courseId, quizPayload);
+    // console.log(score)
+    return res.status(200).json({
+      success: true,
+      score: score,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourse,
@@ -247,6 +284,8 @@ module.exports = {
   enrollUser,
   toggleCourseAvailablity,
   toggleCourseEditing,
+  evaluateQuizScore,
+  getUserCourse
 };
 
 //enrolled user to a quiz

@@ -10,8 +10,7 @@ import { BiCollapseAlt } from "react-icons/bi";
 import { MdOutlinePlayLesson } from "react-icons/md";
 import {
   getCertificate,
-  getCourse,
-  getCourses,
+  getUserCourse,
 } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
@@ -46,7 +45,8 @@ import { FaRegFilePdf } from "react-icons/fa";
  */
 
 const ViewCourse = () => {
-  const params = useParams();
+  const params:string| any = useParams();
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<Resources>();
@@ -55,7 +55,6 @@ const ViewCourse = () => {
   const [exerciseData, setExerciseData] = useState<Quiz>();
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
-  // const [quizIndex, setQuizIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
@@ -70,13 +69,19 @@ const ViewCourse = () => {
     isFetching,
     error,
     refetch,
-  }: any = useQuery([queryKey, params.id], () => getCourse(params.id), {
-    refetchOnWindowFocus: false,
-    staleTime: 0,
-    cacheTime: 0,
-    refetchInterval: 0,
-  });
-  console.log(displayContent);
+  }: any = useQuery(
+    [queryKey, params.id],
+    () => getUserCourse(userId, params.id)
+    // {
+    //   refetchOnWindowFocus: false,
+    //   staleTime: 0,
+    //   cacheTime: 0,
+    //   refetchInterval: 0,
+    // }
+  );
+
+
+
   const isIpad = useMediaQuery("(min-width: 1024px)");
 
   const locale = localStorage.getItem("language") || "en";
@@ -137,7 +142,7 @@ const ViewCourse = () => {
       });
     }
   };
-  console.log(displayContent);
+  // console.log(displayContent);
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -237,8 +242,7 @@ const ViewCourse = () => {
               {displayContent?.type === "quiz" ? (
                 <ExerciseQuiz
                   displayContent={displayContent}
-                  // changeQuizIndex={changeQuizIndex}
-                  // quizIndex={quizIndex}
+                  courseId={params.id}
                   changedDisplayContent={changedDisplayContent}
                   changeBestScoreHandler={changeBestScoreHandler}
                   changedViewSubmit={changedViewSubmit}
@@ -308,7 +312,7 @@ const ViewCourse = () => {
                         </p>
                         {content.resources.map((ele, j) => {
                           return (
-                            <div key={j}>
+                            <div key={ele._id}>
                               {ele.type === "video" ? (
                                 <button
                                   aria-label="Watch video"
