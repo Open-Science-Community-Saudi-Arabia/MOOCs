@@ -68,7 +68,7 @@ const ExerciseQuiz = ({
       setLoading(false);
     }
   };
-  console.log(displayContent);
+  // console.log(displayContent);
 
   const tryAgainhandler = () => {
     setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
