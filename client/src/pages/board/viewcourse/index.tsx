@@ -46,7 +46,7 @@ import { FaRegFilePdf } from "react-icons/fa";
  */
 
 const ViewCourse = () => {
-  const params = useParams();
+  const params:string| any = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<Resources>();
@@ -55,7 +55,6 @@ const ViewCourse = () => {
   const [exerciseData, setExerciseData] = useState<Quiz>();
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
-  // const [quizIndex, setQuizIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [viewSubmit, setViewSubmit] = useState(false);
   const [submission, setSubmission] = useState({});
@@ -237,8 +236,7 @@ const ViewCourse = () => {
               {displayContent?.type === "quiz" ? (
                 <ExerciseQuiz
                   displayContent={displayContent}
-                  // changeQuizIndex={changeQuizIndex}
-                  // quizIndex={quizIndex}
+                  courseId={params.id}
                   changedDisplayContent={changedDisplayContent}
                   changeBestScoreHandler={changeBestScoreHandler}
                   changedViewSubmit={changedViewSubmit}

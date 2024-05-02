@@ -13,7 +13,7 @@ const {
   enrollUser,
   toggleCourseAvailablity,
   toggleCourseEditing,
-  evaluateQuizscore
+  evaluateQuizScore,
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -60,7 +60,7 @@ router
 
   .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
   .get("/enroll/:courseId", enrollUser)
-  .get("/score/:courseId", evaluateQuizscore)
+  .post("/exercise-score/:userId/:courseId", evaluateQuizScore)
   .patch(
     "/:courseId",
     permit("Contributor SuperAdmin"),

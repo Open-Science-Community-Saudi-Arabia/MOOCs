@@ -7,8 +7,7 @@ import { t, Trans } from "@lingui/macro";
 
 interface IProps {
   displayContent: Resources;
-  // quizIndex: number;
-  // changeQuizIndex: (quizIndex: number) => void;
+  courseId: string;
   changedDisplayContent: (item: any) => void;
   changeBestScoreHandler: (bestScore: number) => void;
   changedCurrentScore: (currentScore: number) => void;
@@ -23,7 +22,7 @@ interface IProps {
 const ExerciseQuiz = ({
   changedCurrentScore,
   displayContent,
-  // changeQuizIndex,
+  courseId,
   changedDisplayContent,
   changeBestScoreHandler,
   changedViewSubmit,
@@ -35,7 +34,9 @@ const ExerciseQuiz = ({
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
+  const [displayScore, setDisplayScore] = useState("");
   const locale = localStorage.getItem("language") || "en";
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
   const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
 
   const onChangeValue = (id: string, selectedAnswer: string) => {
@@ -46,8 +47,12 @@ const ExerciseQuiz = ({
   const submitResult = async () => {
     setLoading(true);
     try {
-      let response = await exerciseScore(displayContent._id, quizAnswers);
-      console.log(response)
+      let response = await exerciseScore(courseId, userId, {
+        resourceId: displayContent._id,
+        quizAnswers: quizAnswers,
+      });
+      console.log(response);
+      setDisplayScore(response.score);
       // if (response) {
       //   changedCurrentScore(response.data.report.percentage_passed);
       //   changeBestScoreHandler(response.data.report.best_percentage_passed);
@@ -55,15 +60,20 @@ const ExerciseQuiz = ({
       //   changedOverAllScore(response.data.report.course_progress);
       // }
     } catch (error: any) {
-      setLoading(false);
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
+    } finally {
+      setLoading(false);
     }
   };
+  console.log(displayScore);
 
+  const tryAgainhandler = () => {
+    setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
+  };
 
   return (
     <section className="quiz-section">
@@ -72,13 +82,13 @@ const ExerciseQuiz = ({
           <Trans> Quiz : </Trans>{" "}
           {locale === "en" ? displayContent?.title : displayContent?.title_tr}
         </h1>
-        <p className="quiz-section__heading-subtitle">
-          {" "}
-          <Trans> Pick the right option.</Trans>
-        </p>
       </div>
       {quizIndex < displayContent.quiz.length ? (
         <div className="quiz-section__container">
+          <p className="quiz-section__heading-subtitle">
+            {" "}
+            <Trans> Pick the right option.</Trans>
+          </p>
           <div className="quiz-section__content">
             <div className="quiz-section__content-question">
               <p>
@@ -121,6 +131,30 @@ const ExerciseQuiz = ({
                 );
               })}
             </div>
+          </div>
+        </div>
+      ) : displayScore !== "" ? (
+        <div className="flex flex-col mt-12  items-center">
+          {" "}
+          <p className="text-2xl font-medium">
+            {" "}
+            Score:{(Number(displayScore) / displayContent.quiz.length) * 100}%
+          </p>
+          <div className="mt-12 text-sm">
+            <button
+              onClick={() => {
+                tryAgainhandler();
+              }}
+              className="bg-primary py-2 px-4 rounded-md text-white font-medium"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={() => ""}
+              className="bg-primary py-2 px-4 rounded-md ml-6 text-white font-medium"
+            >
+              Continue
+            </button>
           </div>
         </div>
       ) : (

@@ -125,6 +125,42 @@ const toggleEditing = async (courseId) => {
   return course;
 };
 
+const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
+  const { resourceId, quizAnswers } = quizPayload;
+  const userCourses = await User.findById(userId)
+    .lean()
+    .select("enrolledcourse")
+    .populate({
+      path: "enrolledcourse",
+    });
+
+  const courseIndex = userCourses.enrolledcourse.findIndex(
+    (course) => course._id == courseId
+  );
+  const userCourse = userCourses.enrolledcourse[courseIndex];
+
+  let quizAnswer = [...quizAnswers];
+
+  userCourse.course_section.map((course) => {
+    course.resources.map((ele) => {
+      if (ele._id == resourceId) {
+        ele.quiz.map((item, index) => {
+          if (item._id == quizAnswer[index]._id) {
+            quizAnswer[index].answer === item.correctanswer
+              ? (quizAnswer[index].correct = true)
+              : (quizAnswer[index].correct = false);
+          }
+        });
+      }
+    });
+  });
+
+  const noOfCorrectAnswers = quizAnswer.filter(
+    (obj) => obj.correct === true
+  ).length;
+  return noOfCorrectAnswers;
+};
+
 module.exports = {
   createACourse,
   getACourse,
@@ -138,4 +174,5 @@ module.exports = {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
+  evaluateUserAnswers,
 };

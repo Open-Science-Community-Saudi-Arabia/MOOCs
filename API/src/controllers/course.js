@@ -11,6 +11,7 @@ const {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
+  evaluateUserAnswers,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -234,16 +235,16 @@ const toggleCourseEditing = async (req, res) => {
   }
 };
 
-const  evaluateQuizscore = async (req, res) => {
+const evaluateQuizScore = async (req, res) => {
+  const quizPayload = req.body;
+  const userId = req.params.userId;
   const courseId = req.params.courseId;
   try {
-    const course = await toggleEditing(courseId);
-    if (course) {
-      return res.status(200).send({
-        success: true,
-        message: "Course editing updating",
-      });
-    }
+    const score = await evaluateUserAnswers(userId, courseId, quizPayload);
+    return res.status(200).json({
+      success: true,
+      score: score,
+    });
   } catch (error) {
     console.log(error);
     return res.status(400).send({
@@ -252,6 +253,7 @@ const  evaluateQuizscore = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   createCourse,
   getCourse,
@@ -265,7 +267,7 @@ module.exports = {
   enrollUser,
   toggleCourseAvailablity,
   toggleCourseEditing,
-  evaluateQuizscore
+  evaluateQuizScore,
 };
 
 //enrolled user to a quiz
