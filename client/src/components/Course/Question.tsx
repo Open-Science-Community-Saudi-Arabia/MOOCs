@@ -3,6 +3,7 @@ import { useFieldArray, useWatch } from "react-hook-form";
 import Modal from "../Modal";
 import { toast } from "react-toastify";
 import { Options } from "./Options";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Question({
   subNestIndex,
@@ -47,6 +48,7 @@ export default function Question({
         onClick={() => {
           setOpen(true),
             append({
+              _id:uuidv4(),
               options: [{ name: "" }],
               question: "",
               correctanswer: "",
