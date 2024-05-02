@@ -177,7 +177,6 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   userCourse.course_section.map((course) => {
     course.resources.map((ele) => {
       if (ele._id == resourceId) {
-        console.log("taste");
         ele.quiz.map((item, index) => {
           if (item._id == quizAnswer[index]._id) {
             quizAnswer[index].answer === item.correctanswer
