@@ -17,15 +17,15 @@ export async function getCourses() {
   return response;
 }
 
-/**
- * @description Get Individual Course
- * @param  {string} id  course id
- * @return {Promise<object>} response data
- */
-export async function getCourse(courseId: string | any) {
-  const response = await makeApiCall(`/course/${courseId}`);
-  return response.data;
-}
+// /**
+//  * @description Get Individual Course
+//  * @param  {string} id  course id
+//  * @return {Promise<object>} response data
+//  */
+// export async function getCourse(courseId: string | any) {
+//   const response = await makeApiCall(`/course/${courseId}`);
+//   return response.data;
+// }
 
 /**
  * @description create Individual Course
@@ -127,4 +127,9 @@ export async function toggleAvailablity(courseId: string) {
 export async function toggleCourseEditing(courseId: string) {
   const response = await makeApiCall(`/course/toggle-editing/${courseId}`);
   return response;
+}
+
+export async function getUserCourse(userId: string, courseId: string) {
+  const response = await makeApiCall(`/course/${userId}/${courseId}`);
+  return response.data;
 }

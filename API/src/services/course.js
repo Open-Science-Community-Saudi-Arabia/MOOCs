@@ -35,6 +35,38 @@ const getAContributorCourses = async (contributorId) => {
   return course;
 };
 
+const getAUserCourse = async (userId, courseId) => {
+  const userCourses = await User.findById(userId)
+    .lean()
+    .select("enrolledcourse")
+    .populate({
+      path: "enrolledcourse",
+    });
+
+  const index = userCourses.enrolledcourse.findIndex(
+    (course) => course._id == courseId
+  );
+  const userCourse = userCourses.enrolledcourse[index];
+
+  let course_section = userCourse.course_section.map((course) => {
+    let resources = course.resources.map((ele) => {
+      if (ele.type === "quiz") {
+        let newQuiz = ele.quiz.map((item) => {
+          return (item = {
+            options: item.options,
+            question: item.question,
+          });
+        });
+        return { ...ele, quiz: newQuiz };
+      }
+      return ele;
+    });
+    return { ...course, resources };
+  });
+  let course = { ...userCourse, course_section };
+  return course;
+};
+
 const allCourses = async () => {
   const course = await Course.find().populate({
     path: "createdBy",
@@ -175,4 +207,5 @@ module.exports = {
   toggleAvailablity,
   toggleEditing,
   evaluateUserAnswers,
+  getAUserCourse,
 };

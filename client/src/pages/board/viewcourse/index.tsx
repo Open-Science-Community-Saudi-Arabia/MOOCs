@@ -10,8 +10,7 @@ import { BiCollapseAlt } from "react-icons/bi";
 import { MdOutlinePlayLesson } from "react-icons/md";
 import {
   getCertificate,
-  getCourse,
-  getCourses,
+  getUserCourse,
 } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
@@ -47,6 +46,7 @@ import { FaRegFilePdf } from "react-icons/fa";
 
 const ViewCourse = () => {
   const params:string| any = useParams();
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<Resources>();
@@ -69,13 +69,19 @@ const ViewCourse = () => {
     isFetching,
     error,
     refetch,
-  }: any = useQuery([queryKey, params.id], () => getCourse(params.id), {
-    refetchOnWindowFocus: false,
-    staleTime: 0,
-    cacheTime: 0,
-    refetchInterval: 0,
-  });
-  // console.log(displayContent);
+  }: any = useQuery(
+    [queryKey, params.id],
+    () => getUserCourse(userId, params.id)
+    // {
+    //   refetchOnWindowFocus: false,
+    //   staleTime: 0,
+    //   cacheTime: 0,
+    //   refetchInterval: 0,
+    // }
+  );
+
+
+
   const isIpad = useMediaQuery("(min-width: 1024px)");
 
   const locale = localStorage.getItem("language") || "en";
