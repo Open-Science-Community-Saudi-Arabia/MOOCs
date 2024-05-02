@@ -36,15 +36,21 @@ const ExerciseQuiz = ({
   const [isLoading, setLoading] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const locale = localStorage.getItem("language") || "en";
+  const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
+
+  // console.log(viewSubmit)
 
   const onChangeValue = (id: string, event: any, index: number) => {
     setQuizIndex(quizIndex + 1);
-    if(quizIndex > displayContent.quiz.length){
 
-    }
+    console.log(displayContent.quiz.length);
+    setQuizAnswers([...quizAnswers, { _id: id, answer: event.target.value }]);
+    // if (quizIndex === displayContent.quiz.length) {
+    //   setViewSubmit(true);
+    // }
     // if (exerciseData) {
     //   if (quizIndex + 1 === exerciseData?.questions.length) {
-    //     changedViewSubmit(true);
+
     //   } else {
     //     changeQuizIndex(quizIndex + 1);
     //   }
@@ -53,7 +59,7 @@ const ExerciseQuiz = ({
     //   return { ...prevState, [id]: event.target.value };
     // });
   };
-
+  console.log(quizAnswers);
   // const submitResult = async () => {
   //   if (exerciseData) {
   //     setLoading(true);
