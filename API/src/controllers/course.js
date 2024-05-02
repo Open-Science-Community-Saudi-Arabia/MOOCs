@@ -234,6 +234,24 @@ const toggleCourseEditing = async (req, res) => {
   }
 };
 
+const  evaluateQuizscore = async (req, res) => {
+  const courseId = req.params.courseId;
+  try {
+    const course = await toggleEditing(courseId);
+    if (course) {
+      return res.status(200).send({
+        success: true,
+        message: "Course editing updating",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
 module.exports = {
   createCourse,
   getCourse,
@@ -247,6 +265,7 @@ module.exports = {
   enrollUser,
   toggleCourseAvailablity,
   toggleCourseEditing,
+  evaluateQuizscore
 };
 
 //enrolled user to a quiz

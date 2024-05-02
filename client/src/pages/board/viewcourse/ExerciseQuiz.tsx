@@ -38,50 +38,33 @@ const ExerciseQuiz = ({
   const locale = localStorage.getItem("language") || "en";
   const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
 
-  // console.log(viewSubmit)
-
   const onChangeValue = (id: string, selectedAnswer: string) => {
     setQuizIndex(quizIndex + 1);
-    console.log(id,selectedAnswer);
-    // setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
-    // if (quizIndex === displayContent.quiz.length) {
-    //   setViewSubmit(true);
-    // }
-    // if (exerciseData) {
-    //   if (quizIndex + 1 === exerciseData?.questions.length) {
-
-    //   } else {
-    //     changeQuizIndex(quizIndex + 1);
-    //   }
-    // }
-    // setSubmission((prevState) => {
-    //   return { ...prevState, [id]: event.target.value };
-    // });
+    setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
   };
-  console.log(displayContent);
-  console.log(quizAnswers);
-  // const submitResult = async () => {
-  //   if (exerciseData) {
-  //     setLoading(true);
-  //     try {
-  //       let response = await exerciseScore(exerciseData?._id, { submission });
-  //       if (response) {
-  //         changedCurrentScore(response.data.report.percentage_passed);
-  //         changeBestScoreHandler(response.data.report.best_percentage_passed);
-  //         changedDisplayContent("result");
-  //         changedOverAllScore(response.data.report.course_progress);
-  //       }
-  //     } catch (error: any) {
-  //       setLoading(false);
-  //       toast.error(error.message, {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 5000,
-  //         theme: "colored",
-  //       });
-  //     }
-  //   }
-  // };
-  // console.log(displayContent);
+
+  const submitResult = async () => {
+    setLoading(true);
+    try {
+      let response = await exerciseScore(displayContent._id, quizAnswers);
+      console.log(response)
+      // if (response) {
+      //   changedCurrentScore(response.data.report.percentage_passed);
+      //   changeBestScoreHandler(response.data.report.best_percentage_passed);
+      //   changedDisplayContent("result");
+      //   changedOverAllScore(response.data.report.course_progress);
+      // }
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    }
+  };
+
+
   return (
     <section className="quiz-section">
       <div className="quiz-section__heading">
@@ -94,69 +77,65 @@ const ExerciseQuiz = ({
           <Trans> Pick the right option.</Trans>
         </p>
       </div>
-      <div className="quiz-section__container">
-        <div className="quiz-section__content">
-          <div className="quiz-section__content-question">
-            <p>
-              {" "}
-              <Trans> Question</Trans> {quizIndex + 1} of{" "}
-              {displayContent?.quiz.length}
-            </p>
-            {locale === "en"
-              ? displayContent?.quiz[quizIndex].question
-              : displayContent?.quiz[quizIndex].question_tr}{" "}
-            ?
-          </div>
-          <div className="quiz-section__content-options">
-            {(locale === "en"
-              ? displayContent?.quiz[quizIndex]?.options
-              : displayContent?.quiz[quizIndex]?.options_tr
-            ).map((list: { name: string }, j: number) => {
-              return (
-                <label
-                  key={j}
-                  onChange={(e) =>
-                    onChangeValue(
-                      displayContent?.quiz[quizIndex]._id,
-                      list.name
-                    )
-                  }
-                  htmlFor={list.name}
-                  className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label "
-                >
-                  <input
-                    type="radio"
-                    id={list.name}
-                    name="options"
-                    className="quiz-section__content-options__radio-btn"
-                    value={list.name}
-                  />
+      {quizIndex < displayContent.quiz.length ? (
+        <div className="quiz-section__container">
+          <div className="quiz-section__content">
+            <div className="quiz-section__content-question">
+              <p>
+                {" "}
+                <Trans> Question</Trans> {quizIndex + 1} of{" "}
+                {displayContent?.quiz.length}
+              </p>
+              {locale === "en"
+                ? displayContent?.quiz[quizIndex].question
+                : displayContent?.quiz[quizIndex].question_tr}{" "}
+              ?
+            </div>
+            <div className="quiz-section__content-options">
+              {(locale === "en"
+                ? displayContent?.quiz[quizIndex].options
+                : displayContent?.quiz[quizIndex].options_tr
+              ).map((list: { name: string }, j: number) => {
+                return (
+                  <label
+                    key={list.name}
+                    onChange={(e) =>
+                      onChangeValue(
+                        displayContent?.quiz[quizIndex]._id,
+                        list.name
+                      )
+                    }
+                    htmlFor={list.name}
+                    className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label"
+                  >
+                    <input
+                      type="radio"
+                      id={list.name}
+                      name="options"
+                      className="quiz-section__content-options__radio-btn"
+                      value={list.name}
+                    />
 
-                  {list.name}
-                </label>
-              );
-            })}
+                    {list.name}
+                  </label>
+                );
+              })}
+            </div>
           </div>
         </div>
-        {/* {viewSubmit && (
-          <button
-            className="quiz-section__submit-btn"
-            // onClick={() => submitResult()}
-          >
-            {isLoading ? (
-              <Spinner width="30px" height="30px" color="#fff" />
-            ) : (
-              t`Submit`
-            )}
-          </button>
-        )} */}
-      </div>
+      ) : (
+        <button
+          className="quiz-section__submit-btn h-12"
+          onClick={() => submitResult()}
+        >
+          {isLoading ? (
+            <Spinner width="30px" height="30px" color="#fff" />
+          ) : (
+            t`Submit`
+          )}
+        </button>
+      )}
     </section>
   );
 };
 export default ExerciseQuiz;
-
-// quiz heading should indication title e.g section one quiz exercise
-// check for excessive network calls
-
-// use Tool tip on the certificate to mention that 80%IS NEDDED
