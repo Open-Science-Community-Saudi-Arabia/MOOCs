@@ -32,7 +32,39 @@ const courseSchema = new Schema(
         description_tr: {
           type: String,
         },
-        resources: [],
+        resources: [
+          new Schema({
+            type: String,
+            title: String,
+            title_tr: String,
+            description: {
+              type: String,
+              required: true,
+            },
+            description_tr: {
+              type: String,
+            },
+            file: {
+              type: String,
+              required: function () {
+                return this.type === "pdf";
+              },
+            },
+            link: {
+              type: String,
+              required: function () {
+                return this.type === "video";
+              },
+            },
+            quiz: {
+              type: Array,
+              required: function () {
+                return this.type === "quiz";
+              },
+              default: undefined,
+            },
+          }),
+        ],
       }),
     ],
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
