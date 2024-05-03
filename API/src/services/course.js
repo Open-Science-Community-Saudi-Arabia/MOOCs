@@ -161,12 +161,9 @@ const toggleEditing = async (courseId) => {
 const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const { resourceId, quizAnswers } = quizPayload;
   const userCourses = await User.findById(userId)
-    .lean()
-    .select("enrolledcourse")
     .populate({
       path: "enrolledcourse",
     });
-
   const courseIndex = userCourses.enrolledcourse.findIndex(
     (course) => course._id == courseId
   );
@@ -214,6 +211,8 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
 
   // console.log(course_section[0].resources[2]);
   // console.log(currentQuiz);
+
+  // const user = await User.findById(userId);
 
   return noOfCorrectAnswers;
 };
