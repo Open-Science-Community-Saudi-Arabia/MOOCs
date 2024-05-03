@@ -130,7 +130,6 @@ const updateACourse = async (courseId, body, preview_image) => {
       }
     });
   }
-
   return courseDetails;
 };
 
@@ -188,32 +187,6 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const noOfCorrectAnswers = quizAnswer.filter(
     (obj) => obj.correct === true
   ).length;
-
-  // let currentQuiz;
-  // let score;
-  // //update score
-
-  // const course_section = userCourse.course_section.map((course) => {
-  //   let resources = course.resources.map((ele) => {
-  //     if (ele._id == resourceId) {
-  //       score = (noOfCorrectAnswers / ele.quiz.length) * 100;
-  //       return (ele = {
-  //         ...ele,
-  //         highest_score: ele.highest_score > score ? ele.highest_score : score,
-  //       });
-  //       currentQuiz = { ...ele };
-  //     }
-
-  //     return ele;
-  //   });
-  //   return { ...course, resources };
-  // });
-
-  // console.log(course_section[0].resources[2]);
-  // console.log(currentQuiz);
-
-  // const user = await User.findById(userId);
-
   return noOfCorrectAnswers;
 };
 
