@@ -118,7 +118,7 @@ const updateACourse = async (courseId, body, preview_image) => {
   course.description = body.description;
   course.author = body.author;
   course.course_section = body.coursesection;
-  course.status = body.status ? body.status : "Pending";
+  course.status = body.status;
 
   const courseDetails = await course.save();
   if (preview_image !== undefined) {
