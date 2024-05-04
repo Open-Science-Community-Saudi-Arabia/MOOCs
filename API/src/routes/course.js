@@ -15,6 +15,7 @@ const {
   toggleCourseEditing,
   evaluateQuizScore,
   getUserCourse,
+  updateQuizScore
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -68,6 +69,7 @@ router.post(
   upload.single("file"),
   createCourse
 );
+router.post("/update-score", updateQuizScore);
 router.post("/exercise-score/:userId/:courseId", evaluateQuizScore);
 router.patch(
   "/:courseId",

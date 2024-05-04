@@ -38,15 +38,11 @@ const getAContributorCourses = async (contributorId) => {
 const getAUserCourse = async (userId, courseId) => {
   const userCourses = await User.findById(userId)
     .lean()
-    .select("enrolledcourse")
-    .populate({
-      path: "enrolledcourse",
-    });
+    .populate("enrolledcourse");
 
-  const index = userCourses.enrolledcourse.findIndex(
-    (course) => course._id == courseId
+  const userCourse = userCourses.enrolledcourse.find((course) =>
+    course._id.equals(courseId)
   );
-  const userCourse = userCourses.enrolledcourse[index];
 
   let course_section = userCourse.course_section.map((course) => {
     let resources = course.resources.map((ele) => {
@@ -64,7 +60,9 @@ const getAUserCourse = async (userId, courseId) => {
     });
     return { ...course, resources };
   });
+
   let course = { ...userCourse, course_section };
+
   return course;
 };
 
@@ -159,15 +157,12 @@ const toggleEditing = async (courseId) => {
 
 const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const { resourceId, quizAnswers } = quizPayload;
-  const userCourses = await User.findById(userId).populate({
-    path: "enrolledcourse",
-  });
 
-  const courseIndex = userCourses.enrolledcourse.findIndex(
-    (course) => course._id == courseId
+  const userCourses = await User.findById(userId).populate("enrolledcourse");
+
+  const userCourse = userCourses.enrolledcourse.find((course) =>
+    course._id.equals(courseId)
   );
-
-  const userCourse = userCourses.enrolledcourse[courseIndex];
   let quizAnswer = [...quizAnswers];
 
   userCourse.course_section.map((course) => {
@@ -192,6 +187,44 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   return noOfCorrectAnswers;
 };
 
+const updateScore = async () => {
+  // const courseToUpdate = userCourses.enrolledcourse.find((course) =>
+  //   course._id.equals(courseId)
+  // );
+  // if (courseToUpdate) {
+  //   courseToUpdate.title = "doing testing";
+  // } else {
+  //   throw new Error("Author not found in the book authors array.");
+  // }
+  // const course_section = await userCourse.course_section.map((cour) => {
+  //   let resources = cour.resources.map((ele) => {
+  //     if (ele._id == resourceId) {
+  //       ele.highest_score = 56;
+  //     }
+  //     return ele;
+  //   });
+  //   return { ...cour, resources };
+  // });
+  // console.log({ ...userCourse, course_section });
+  // await User.updateOne(
+  //   {
+  //     _id: userId,
+  //     "enrolledcourse.title": "lovingagain",
+  //   },
+  //   {
+  //     $set: {
+  //       "enrolledcourse.$.course_section": course_section,
+  //     },
+  //   },
+  //   {
+  //     new: true,
+  //   }
+  // );
+  // const checkCOurse = await User.findById(userId);
+  // await userCourses.save();
+  // console.log(checkCOurse.enrolledcourse[0].course_section[0].resources);
+};
+
 module.exports = {
   createACourse,
   getACourse,
@@ -207,4 +240,5 @@ module.exports = {
   toggleEditing,
   evaluateUserAnswers,
   getAUserCourse,
+  updateScore,
 };
