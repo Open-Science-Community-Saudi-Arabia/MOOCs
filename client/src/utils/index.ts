@@ -43,7 +43,6 @@ export function storeData(access_token: string, userId: string) {
   window.localStorage.removeItem(LOGOUT_KEY);
   setToken(access_token);
   setUserId(userId);
-
 }
 export const logout = async () => {
   axios.defaults.headers.common.Authorization = "";
@@ -93,7 +92,10 @@ export const parsedData = async (data: any) => {
               type: ele.type,
               title: ele.title,
               description: ele.description,
-              file: await generateCloudinaryURL(ele.file[0], data.title),
+              file:
+                typeof ele.file === "string"
+                  ? ele.file
+                  : await generateCloudinaryURL(ele.file[0], data.title),
             });
           }
           if (ele.type === "quiz") {
@@ -102,7 +104,7 @@ export const parsedData = async (data: any) => {
               title: ele.title,
               description: ele.description,
               quiz: ele.quiz,
-              highest_score:0
+              highest_score: 0,
             });
           }
           return ele;

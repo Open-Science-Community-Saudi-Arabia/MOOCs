@@ -71,6 +71,7 @@ export default function index({
     }
   };
 
+
   const defaultValues: Inputs = {
     title: selectedCourse ? selectedCourse?.title : "",
     description: selectedCourse ? selectedCourse?.description : "",
@@ -99,9 +100,11 @@ export default function index({
     const newData = await parsedData(data);
 
     if (selectedCourse?.title) {
+      const tempData = { ...newData, status: selectedCourse?.status };
+
       const formData = new FormData();
       selectedImage ? formData.append("file", selectedImage[0]) : null;
-      formData.append("body", JSON.stringify(newData));
+      formData.append("body", JSON.stringify(tempData));
 
       try {
         const res = await updateACourse(selectedCourse._id, formData);

@@ -4,8 +4,12 @@ import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Question from "./Question";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import ViewPdf from "../../pages/board/viewcourse/ViewPdf";
+import { useState } from "react";
+import Modal from "../Modal";
 
-export default ({ nestIndex, control, register }: any) => {
+export default ({ nestIndex, control, register, selectedCourse }: any) => {
+  const [pdfFile, setPdfFile] = useState("");
   const { fields, remove, append } = useFieldArray({
     control,
     name: `coursesection.${nestIndex}.resources`,
@@ -87,6 +91,31 @@ export default ({ nestIndex, control, register }: any) => {
                     `coursesection.${nestIndex}.resources.${subNestIndex}.link`
                   )}
                 />
+              ) : selectType[subNestIndex]?.type == "pdf" &&
+                selectedCourse?.course_section[nestIndex]?.resources[
+                  subNestIndex
+                ]?.file ? (
+                <div>
+                  <button
+                    type="button"
+                    className="underline text-xs text-gray-dark"
+                    onClick={() =>
+                      setPdfFile(
+                        selectedCourse.course_section[nestIndex].resources[
+                          subNestIndex
+                        ].file
+                      )
+                    }
+                  >
+                    View Pdf
+                  </button>
+                  <Modal
+                    show={pdfFile !== ""}
+                    handleClose={() => setPdfFile("")}
+                  >
+                    <ViewPdf pdfUrl={pdfFile} />
+                  </Modal>
+                </div>
               ) : selectType[subNestIndex]?.type == "pdf" ? (
                 <input
                   type="file"
