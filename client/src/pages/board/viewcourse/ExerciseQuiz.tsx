@@ -74,6 +74,21 @@ const ExerciseQuiz = ({
     setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
   };
 
+  const acceptAndContinue = () => {
+    setLoading(true);
+    
+    try {
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="quiz-section">
       <div className="quiz-section__heading">
@@ -134,11 +149,7 @@ const ExerciseQuiz = ({
         </div>
       ) : displayScore !== "" ? (
         <div className="flex flex-col mt-12  items-center">
-          {" "}
-          <p className="text-2xl font-medium">
-            {" "}
-            Score:{(Number(displayScore) / displayContent.quiz.length) * 100}%
-          </p>
+          <p className="text-2xl font-medium"> Score:{displayScore}%</p>
           <div className="mt-12 text-sm">
             <button
               onClick={() => {
@@ -149,10 +160,10 @@ const ExerciseQuiz = ({
               Try Again
             </button>
             <button
-              onClick={() => ""}
+              onClick={() => acceptAndContinue()}
               className="bg-primary py-2 px-4 rounded-md ml-6 text-white font-medium"
             >
-              Continue
+              Accept and Continue
             </button>
           </div>
         </div>

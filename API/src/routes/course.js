@@ -14,7 +14,8 @@ const {
   toggleCourseAvailablity,
   toggleCourseEditing,
   evaluateQuizScore,
-  getUserCourse
+  getUserCourse,
+  updateQuizScore
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -30,43 +31,51 @@ const { basicAuth } = require("../middlewares/auth");
 
 router.use(basicAuth());
 
-router
-  .post(
-    "/new",
-    permit("Contributor SuperAdmin"),
-    upload.single("file"),
-    createCourse
-  )
-  .get(
-    "/approved",
-    permit("EndUser Contributor SuperAdmin"),
-    getApprovedCourses
-  )
-  .get("/:courseId", permit("EndUser SuperAdmin"), getCourse)
-  .get(
-    "/contributor/:contributorId",
-    permit("Contributor SuperAdmin"),
-    getContributorCourses
-  )
-  .get("/", permit("SuperAdmin"), getAllCourses)
-  .get("/:userId/:courseId", getUserCourse)
-  .get("/pending/:courseId", permit("SuperAdmin"), makeCoursePending)
-  .get("/approve/:courseId", permit("SuperAdmin"), approveCourse)
-  .get(
-    "/toggle-available/:courseId",
-    permit("SuperAdmin"),
-    toggleCourseAvailablity
-  )
-  .get("/toggle-editing/:courseId", permit("SuperAdmin"), toggleCourseEditing)
+router.get("/", permit("SuperAdmin"), getAllCourses);
+router.get("/approved", getApprovedCourses);
+router.get("/enroll/:courseId", enrollUser);
 
-  .get("/archive/:courseId", permit("Contributor SuperAdmin"), archiveCourse)
-  .get("/enroll/:courseId", enrollUser)
-  .post("/exercise-score/:userId/:courseId", evaluateQuizScore)
-  .patch(
-    "/:courseId",
-    permit("Contributor SuperAdmin"),
-    upload.single("file"),
-    updateCourse
-  );
+router.get("/:courseId", permit("EndUser SuperAdmin"), getCourse);
+router.get(
+  "/contributor/:contributorId",
+  permit("Contributor SuperAdmin"),
+  getContributorCourses
+);
+
+router.get("/pending/:courseId", permit("SuperAdmin"), makeCoursePending);
+router.get("/approve/:courseId", permit("SuperAdmin"), approveCourse);
+router.get(
+  "/toggle-available/:courseId",
+  permit("SuperAdmin"),
+  toggleCourseAvailablity
+);
+router.get(
+  "/toggle-editing/:courseId",
+  permit("SuperAdmin"),
+  toggleCourseEditing
+);
+
+router.get(
+  "/archive/:courseId",
+  permit("Contributor SuperAdmin"),
+  archiveCourse
+);
+
+router.get("/:userId/:courseId", getUserCourse);
+
+router.post(
+  "/new",
+  permit("Contributor SuperAdmin"),
+  upload.single("file"),
+  createCourse
+);
+router.post("/update-score", updateQuizScore);
+router.post("/exercise-score/:userId/:courseId", evaluateQuizScore);
+router.patch(
+  "/:courseId",
+  permit("Contributor SuperAdmin"),
+  upload.single("file"),
+  updateCourse
+);
 
 module.exports = router;

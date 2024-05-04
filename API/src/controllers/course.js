@@ -12,7 +12,8 @@ const {
   toggleAvailablity,
   toggleEditing,
   evaluateUserAnswers,
-  getAUserCourse
+  getAUserCourse,
+  updateScore
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -271,6 +272,26 @@ const evaluateQuizScore = async (req, res) => {
   }
 };
 
+const updateQuizScore =async (req, res) => {
+  const quizPayload = req.body;
+  const userId = req.params.userId;
+  const courseId = req.params.courseId;
+  try {
+    const score = await updateScore(userId, courseId, quizPayload);
+
+    return res.status(200).json({
+      success: true,
+      score: score,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+    });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourse,
@@ -285,5 +306,6 @@ module.exports = {
   toggleCourseAvailablity,
   toggleCourseEditing,
   evaluateQuizScore,
+  updateQuizScore,
   getUserCourse
 };

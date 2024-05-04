@@ -70,6 +70,7 @@ export interface Resources {
   link?: string;
   file?: string;
   _id: string;
+  highest_score?:number
 }
 export interface Quiz {
   _id: string;
