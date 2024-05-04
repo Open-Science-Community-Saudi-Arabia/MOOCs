@@ -142,7 +142,7 @@ const ViewCourse = () => {
       });
     }
   };
-  // console.log(displayContent);
+  console.log(displayContent);
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -411,28 +411,29 @@ const ViewCourse = () => {
 
                                     <div className="viewcourse-container__content-course-section__listitem__score">
                                       <p
-                                      // style={{
-                                      //   color:
-                                      //     quizitem.best_percentage_passed > 0
-                                      //       ? "#009985"
-                                      //       : "#666",
-                                      // }}
+                                      style={{
+                                        color:
+                                       ele?.highest_score! > 0
+                                            ? "#009985"
+                                            : "#666",
+                                      }}
                                       >
-                                        {" "}
-                                        {/* {quizitem.best_percentage_passed > 0
+                                    
+                                      {/* {quizitem.best_percentage_passed > 0
                                         ? quizitem.best_percentage_passed ||
                                           bestScore
-                                        : 0}
-                                      %{" "} */}
+                                        : 0} */}
+                                  
                                       </p>
-                                      {/* <ProgressBar
+                                      <ProgressBar
                                       width={80}
+                                      overallScore={ele?.highest_score}
                                       bgcolor="#009985"
                                       progress={Math.round(
-                                        quizitem.best_percentage_passed
+                                        ele?.highest_score!
                                       )}
-                                      height={18}
-                                    />{" "} */}
+                                      height={25}
+                                    />{" "} 
                                     </div>
                                     <p className="viewcourse-container__content-course-section__listitem__status">
                                       <MdOutlinePlayLesson />

@@ -134,11 +134,7 @@ const ExerciseQuiz = ({
         </div>
       ) : displayScore !== "" ? (
         <div className="flex flex-col mt-12  items-center">
-          {" "}
-          <p className="text-2xl font-medium">
-            {" "}
-            Score:{(Number(displayScore) / displayContent.quiz.length) * 100}%
-          </p>
+          <p className="text-2xl font-medium"> Score:{displayScore}%</p>
           <div className="mt-12 text-sm">
             <button
               onClick={() => {

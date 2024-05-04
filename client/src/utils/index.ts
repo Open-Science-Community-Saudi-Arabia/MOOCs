@@ -102,6 +102,7 @@ export const parsedData = async (data: any) => {
               title: ele.title,
               description: ele.description,
               quiz: ele.quiz,
+              highest_score:0
             });
           }
           return ele;
