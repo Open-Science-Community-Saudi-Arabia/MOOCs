@@ -73,7 +73,7 @@ const index = () => {
             <h3 className="heading ">
               {" "}
               <Trans>Follow Us</Trans>
-            </h3>
+            <div className="flex itens-center flex-wrap gap-x-2">
             <Link
               className="nav-link"
               target="_blank"
@@ -95,6 +95,8 @@ const index = () => {
             >
               <img className="nav-link__image" src={Github} alt="github" />
             </Link>
+              </div></h3>
+            
           </div>
           <div className="footer__content-info">
             <h3 className="heading ">
