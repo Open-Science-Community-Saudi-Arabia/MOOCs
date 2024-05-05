@@ -89,7 +89,6 @@ const ProgressBar = ({
     fontSize: "13px",
   };
 
-  console.log(progress)
   return (
     <div style={Parentdiv}>
       <div style={Childdiv}>

@@ -234,7 +234,7 @@ export default function Table({
             <div className="z-10 shadow shadow-xl w-40 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
               <button
                 onClick={() => handleSelectedCourse(info.row.original)}
-                className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 text-left block text-gray-dark rounded-none w-full"
+                className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 border-b-[1px] border-gray text-left block text-gray-dark rounded-none w-full"
               >
                 <span className="flex items-center gap-x-2">
                   <MdViewInAr size={14} />
@@ -272,7 +272,7 @@ export default function Table({
                 <>
                   <button
                     onClick={() => revokeApproval()}
-                    className="font-medium py-2.5 px-3 text-left  w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
+                    className="font-medium py-2.5 px-3 text-left border-b-[1px] border-gray  w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
                   >
                     <span className="flex items-center gap-x-2">
                       <MdPendingActions size={14} />
@@ -334,8 +334,8 @@ export default function Table({
   });
 
   return (
-    <div className="border rounded-md border-gray">
-      <table className="w-full ">
+    <div className="border rounded-md h-[80vh] border-gray overflow-x-auto">
+      <table className="w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr className="" key={headerGroup.id}>

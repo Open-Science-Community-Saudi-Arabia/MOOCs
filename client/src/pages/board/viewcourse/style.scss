@@ -33,7 +33,7 @@
         gap: 20px;
         &-title {
           font-size: 17px;
-          font-weight: 700;
+          font-weight: 600;
           @include ipad {
             font-size: 20px;
           }
@@ -54,7 +54,7 @@
         }
       }
       &__ipad-right {
-        z-index: 5;
+        z-index: 5 !important;
         border-radius: 20px;
         position: absolute;
         top: 50px;
@@ -90,7 +90,6 @@
     &__content {
       width: 100%;
       padding-top: 80px;
-      z-index: -1;
       height: 600px;
       @include flex(space-between, start);
       &_left {
@@ -98,7 +97,6 @@
       }
       .open-leftcontent {
         width: 0%;
-
         @include ipad {
           width: 70%;
         }
@@ -119,7 +117,6 @@
         margin: auto;
         &__heading {
           text-align: center;
-         
           &-title {
             font-weight: 500;
             font-size: 20px;
@@ -133,7 +130,7 @@
           }
         }
         &__content {
-          z-index: -1;
+          // z-index: -1;
           margin-bottom: 3em;
 
           &-question {
@@ -166,7 +163,6 @@
               font-size: 14px;
               font-weight: 500;
               gap: 5px;
-
               @include ipad {
                 font-size: 16px;
               }
@@ -250,7 +246,7 @@
           }
           &-text {
             font-size: 17px;
-            font-weight: 700;
+            font-weight: 600;
           }
           &-btn {
             svg {
@@ -319,7 +315,6 @@
             &__score {
               font-size: 11px;
               font-weight: 600;
-
               gap: 5px;
               @include flex(space-between, center);
             }
@@ -328,7 +323,11 @@
       }
     }
     &__tab-container {
-      padding: 4em 4em 3em 4em;
+      padding: 1em;
+      width: 100% !important;
+      @include ipad {
+        padding: 4em 2em 3em 2em;
+      }
       &-tab {
         border-bottom: 1px solid var(--gray-203);
         @include flex(start, center);

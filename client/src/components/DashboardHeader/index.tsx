@@ -14,7 +14,7 @@ const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<{
     email: string;
-    firstname:string;
+    firstname: string;
     lastname: string;
   }>({ email: "", firstname: "", lastname: "" });
   const ref = useRef<HTMLButtonElement>(null);
@@ -23,7 +23,6 @@ const Header = () => {
   const getUserInfo = async () => {
     try {
       let res = await userProfile();
-      console.log(res);
       setUserInfo(res.data.user);
     } catch (err) {
       console.log(err);
@@ -71,13 +70,15 @@ const Header = () => {
             <span className="dashboard-header-profile__btn-text icon-button">
               <BsPersonFill />
             </span>
-          <span className="absolute left-4">
-          {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
-          </span>
+            <span className="absolute left-4">
+              {isOpen ? <RiArrowDropUpLine /> : <RiArrowDropDownLine />}
+            </span>
           </button>
           {isOpen && (
             <div className="dashboard-header-profile__logout-btn">
-              <h2 className="w-max">{userInfo.firstname} {userInfo.lastname}</h2>
+              <h2 className="w-max">
+                {userInfo.firstname} {userInfo.lastname}
+              </h2>
               <p className="text-[10px]">{userInfo.email}</p>
               <button
                 className="text-xs bg-primary mt-3 hover:bg-primary-hover font-medium rounded-md py-1.5 px-2 text-white "

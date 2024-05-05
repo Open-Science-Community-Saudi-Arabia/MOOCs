@@ -71,7 +71,6 @@ export default function index({
     }
   };
 
-
   const defaultValues: Inputs = {
     title: selectedCourse ? selectedCourse?.title : "",
     description: selectedCourse ? selectedCourse?.description : "",
@@ -160,10 +159,10 @@ export default function index({
   return (
     <div
       className={`${
-        selectedCourse ? "h-[90vh] overflow-auto pl-4 pr-10" : "h-full"
+        selectedCourse ? "h-[90vh] overflow-auto pl-4 pr-6 md:pr-10" : "h-full"
       } add-new-course w-full`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-start md:justify-between">
         <h1 className="text-xl font-semibold text-primary gap-x-2 flex items-center">
           <button
             onClick={() =>
@@ -177,7 +176,7 @@ export default function index({
         </h1>
 
         {selectedCourse?.updatedAt && (
-          <div className="flex items-center gap-x-2  mr-36">
+          <div className="md:flex items-center gap-x-2  md:mr-36">
             <p className="text-gray-dark/70 text-xs">
               {" "}
               Created on{" "}
@@ -195,8 +194,8 @@ export default function index({
         Ensure correct punctuation for all fields.
       </p>
       <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex items-start justify-between">
-          <div className="w-8/12">
+        <div className="flex md:flex-row flex-col items-start justify-between">
+          <div className="w-full md:w-8/12">
             <div className="mb-8 w-full">
               <label className="" htmlFor="title">
                 Title
@@ -222,9 +221,9 @@ export default function index({
             <label>Course photo</label>
             <label>
               {selectedImage || selectedCourse?.title ? (
-                <div className="relative w-48 h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/50 flex items-center justify-center flex-col">
+                <div className="relative w-28 h-28 md:w-48 md:h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/50 flex items-center justify-center flex-col">
                   <img
-                    className=" w-48 h-48"
+                    className="w-full h-full"
                     src={
                       selectedImage
                         ? URL.createObjectURL(selectedImage[0])
@@ -233,7 +232,7 @@ export default function index({
                   />
                 </div>
               ) : (
-                <div className="w-48 cursor-pointer h-48 top-0 bg-gray z-20 rounded-md flex flex-col items-center justify-center font-medium text-xs p-5 text-center">
+                <div className="cursor-pointer w-28 h-28 md:w-48 md:h-48 top-0 bg-gray z-20 rounded-md flex flex-col items-center justify-center font-medium text-xs p-5 text-center">
                   Click to upload image
                 </div>
               )}
@@ -251,7 +250,7 @@ export default function index({
           </div>
         </div>
 
-        <div className="w-5/6">
+        <div className="mt-6 md:mt-0 w-full md:w-5/6">
           <label className="" htmlFor="description">
             Description
           </label>
@@ -262,7 +261,7 @@ export default function index({
           />
         </div>
 
-        <div className="flex items-center gap-x-6 mt-28 mb-4">
+        <div className="flex items-center gap-x-6 mt-20 md:mt-28 mb-4">
           <button
             className="course-section-btn"
             type="button"
@@ -293,7 +292,7 @@ export default function index({
                   <MdDelete size={18} />
                 </button>
               </div>
-              <div className="my-3 flex items-center gap-x-8">
+              <div className="my-3 flex items-center gap-x-4 md:gap-x-8">
                 <div className="!w-4/6">
                   <label className="" htmlFor="title">
                     Title
@@ -332,7 +331,7 @@ export default function index({
           </div>
         ))}
 
-        <div className="text-center mt-48 mb-8 relative">
+        <div className="text-center mt-28 md:mt-48 mb-8 relative">
           {selectedCourse?.title ? (
             role === "SuperAdmin" ||
             (selectedCourse.enableEditing && (
@@ -364,7 +363,7 @@ export default function index({
             <button
               type="button"
               onClick={() => archiveCourse()}
-              className="w-40 absolute right-0 top-2 text-white hover:bg-[#dc2626] h-12 text-sm bg-error rounded-lg mt-1 font-medium"
+              className="w-56 md:w-40 md:absolute right-0 top-2 text-white hover:bg-[#dc2626] h-12 text-sm bg-error rounded-lg mt-1 font-medium"
             >
               {" "}
               {status === "Archived" ? (
@@ -379,7 +378,7 @@ export default function index({
             <button
               type="submit"
               onClick={() => setStatus("Draft")}
-              className="w-40 absolute right-0 text-black top-2 hover:bg-[#b7c1cd] h-12 text-sm rounded-lg mt-1 bg-[#cbd5e1] font-medium"
+              className="w-56 md:w-40 md:absolute right-0 text-black top-2 hover:bg-[#b7c1cd] h-12 text-sm rounded-lg mt-1 bg-[#cbd5e1] font-medium"
             >
               {" "}
               {isLoading && status === "Draft" ? (

@@ -24,7 +24,7 @@ export default function CourseCard({ course, handleSelectedCourse }: IProps) {
       >
         {course.status}
       </p>
-      <div className="flex items-start justify-center gap-x-5 w-full">
+      <div className="flex items-start justify-center md:gap-x-5 w-full">
         <img
           className="rounded-full w-10 h-10"
           src={course.preview_image}
