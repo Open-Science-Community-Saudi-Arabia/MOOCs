@@ -17,17 +17,16 @@
     }
     &__logo {
       text-align: center;
-      .logo-image {
-        width: 200px;
-      }
+      width: 200px;
+      display: block;
+      margin: auto;
     }
     &__content {
       flex-basis: 90%;
-      @include flex(space-around, start);
+      @include flex(space-between, start);
       flex-wrap: wrap;
       gap: 25px;
       @include ipad {
-        @include flex(space-between, start);
         gap: 50px;
       }
       &-quicklinks,
@@ -81,20 +80,20 @@
     font-weight: 500;
     color: var(--gray);
     padding-bottom: 2rem;
-    span{
+    span {
       margin-left: 0.5em;
       font-size: 13px;
     }
   }
 }
 
-html[dir='rtl']{
+html[dir="rtl"] {
   .nav-link {
     margin-right: 0rem !important;
     margin-left: 1rem;
     &__image {
-      margin-right: 0px  !important;;
+      margin-right: 0px !important;
       margin-left: 5px;
     }
-}
+  }
 }

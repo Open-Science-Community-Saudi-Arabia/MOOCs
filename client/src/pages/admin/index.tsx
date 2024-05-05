@@ -41,7 +41,7 @@ export default function index() {
 
   return (
     <section className="h-screen admin-dashboard">
-      <h1 className="text-center text-xl">Admin Board</h1>
+      <h1 className="text-center mb-6 text-xl">Admin Board</h1>
 
       {selectedCourse?.title ? (
         <Modal
