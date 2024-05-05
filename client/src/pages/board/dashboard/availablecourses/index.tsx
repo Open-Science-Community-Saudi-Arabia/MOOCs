@@ -63,7 +63,7 @@ const AvailableCourses = ({ courses }: any) => {
                   </div>
 
                   <div className="availablecourses__courses-content__bottom aligned pt-3">
-                    <p className=" line-clamp-1 availablecourses__courses-content__bottom-text">
+                    <p className="line-clamp-1 availablecourses__courses-content__bottom-text">
                       {locale === "en" ? content.title : content.title_tr}
                     </p>
                     <div className="py-3">
@@ -83,7 +83,7 @@ const AvailableCourses = ({ courses }: any) => {
                         <button
                           type="button"
                           onClick={() => enrollUserHandler(content._id)}
-                          className="py-2 text-sm rounded-full absolute h-12 w-36 font-semibold px-4 bg-primary text-white"
+                          className="py-1 md:py-2 text-xs md:text-sm rounded-full absolute h-12 w-30 md:w-36 font-semibold px-4 bg-primary text-white"
                         >
                           {selectedId === content._id ? (
                             <Spinner width="20px" height="20px" color="#fff" />
@@ -92,7 +92,7 @@ const AvailableCourses = ({ courses }: any) => {
                           )}
                         </button>
                       )}
-                      <p className="text-sm text-gray-100 absolute right-5">
+                      <p className="text-xs md:text-sm text-gray-100 absolute right-5">
                         1680+ {""} enrolled
                       </p>
                     </div>

@@ -3,17 +3,18 @@
 .availablecourses {
   max-width: 1400px;
   &__heading {
-    font-weight: 700;
+    font-weight: 500;
     font-size: 20px;
+    margin: 1em 0em;
+    @include ipad {
+      margin: 2em 0em 1em 0em;
+    }
   }
   &__courses {
-    @include flex(center, center);
+    @include flex(start, center);
     flex-wrap: wrap;
     gap: 25px;
-    margin-top: 2em;
-    @include ipad {
-      @include flex(start, center);
-    }
+  
     &-content {
       border-radius: 10px;
       border: 1px solid var(--gray-203);
@@ -31,10 +32,12 @@
 
       &__bottom {
         text-align: left;
-
         &-text {
-          font-size: 18px;
-          font-weight: 600;
+          font-size: 16px;
+          font-weight: 500;
+          @include ipad {
+            font-size: 18px;
+          }
         }
 
         &-coursenumber {

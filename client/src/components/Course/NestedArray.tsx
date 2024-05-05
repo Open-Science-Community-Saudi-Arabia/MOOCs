@@ -45,7 +45,10 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
 
       {fields.map((field, subNestIndex) => {
         return (
-          <div className="flex items-center gap-x-2 my-4" key={field.id}>
+          <div
+            className="flex items-center flex-wrap md:flex-nowrap gap-x-2 my-4"
+            key={field.id}
+          >
             <select
               className="p-2 border rounded-md w-20 text-sm text-gray-dark border-gray"
               {...register(
@@ -60,10 +63,10 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
               <option value="quiz">Quiz</option>
             </select>
 
-            <div className="flex items-center gap-x-4 w-full">
+            <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 w-full">
               <input
                 type="text"
-                className="!w-[30%]"
+                className="w-full md:!w-[30%]"
                 placeholder={t`title`}
                 autoComplete="false"
                 {...register(
@@ -73,7 +76,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
 
               <input
                 type="text"
-                className="!w-[30%]"
+                className="w-full md:!w-[30%]"
                 placeholder={t`description`}
                 autoComplete="false"
                 {...register(
@@ -84,7 +87,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
               {selectType[subNestIndex]?.type == "video" ? (
                 <input
                   type="url"
-                  className="!w-[60%]"
+                  className="w-full md:!w-[60%]"
                   autoComplete="false"
                   placeholder={t`Youtube embed url`}
                   {...register(
@@ -120,13 +123,13 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                 <input
                   type="file"
                   accept=".pdf"
-                  className="!w-[60%]"
+                  className="w-full md:!w-[60%]"
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.file`
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "quiz" ? (
-                <div className="border-gray/50 !w-[60%] mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
+                <div className="border-gray/50 w-full md:!w-[60%] mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
                   <Question
                     subNestIndex={subNestIndex}
                     nestIndex={nestIndex}

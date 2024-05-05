@@ -7,11 +7,7 @@ import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BiCollapseAlt } from "react-icons/bi";
-import { MdOutlinePlayLesson } from "react-icons/md";
-import {
-  getCertificate,
-  getUserCourse,
-} from "../../../utils/api/courses";
+import { getCertificate, getUserCourse } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import ExerciseQuiz from "./ExerciseQuiz";
@@ -45,7 +41,7 @@ import { FaRegFilePdf } from "react-icons/fa";
  */
 
 const ViewCourse = () => {
-  const params:string| any = useParams();
+  const params: string | any = useParams();
   const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
@@ -79,8 +75,6 @@ const ViewCourse = () => {
     //   refetchInterval: 0,
     // }
   );
-
-
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
 
@@ -142,7 +136,7 @@ const ViewCourse = () => {
       });
     }
   };
-  console.log(displayContent);
+
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -213,7 +207,8 @@ const ViewCourse = () => {
                 <button
                   onClick={() => {
                     setCourseContent(true);
-                    !isIpad ? setIsOpen(false) : null;
+                    setIsOpen(!isOpen);
+                    // !isIpad ? setIsOpen(false) : null;
                   }}
                   className="viewcourse-container__header__btn"
                 >
@@ -223,19 +218,20 @@ const ViewCourse = () => {
               )}
               <LanguageToggle btncolor="#ffff" />
             </div>
-            {!isIpad && (
-              <button
-                aria-label="dot-menu"
-                className="viewcourse-container__header-doticon icon-button"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <BiDotsVerticalRounded />
-              </button>
-            )}
+
+            <button
+              aria-label="dot-menu"
+              className={`${
+                isIpad ? "hidden" : "block"
+              } viewcourse-container__header-doticon icon-button`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <BiDotsVerticalRounded />
+            </button>
           </div>
           <div className="viewcourse-container__content">
             <div
-              className={`viewcourse-container__content_left ${
+              className={`viewcourse-container__content_left z-0 ${
                 isCourseContent ? "open-leftcontent" : "closed-leftcontent"
               }`}
             >
@@ -274,6 +270,7 @@ const ViewCourse = () => {
                 ></iframe>
               )}
             </div>
+
             {isCourseContent && (
               <div className="viewcourse-container__content-course">
                 <div className="viewcourse-container__content-course-display">
@@ -411,33 +408,24 @@ const ViewCourse = () => {
 
                                     <div className="viewcourse-container__content-course-section__listitem__score">
                                       <p
-                                      style={{
-                                        color:
-                                       ele?.highest_score! > 0
-                                            ? "#009985"
-                                            : "#666",
-                                      }}
-                                      >
-                                    
-                                      {/* {quizitem.best_percentage_passed > 0
-                                        ? quizitem.best_percentage_passed ||
-                                          bestScore
-                                        : 0} */}
-                                  
-                                      </p>
+                                        style={{
+                                          color:
+                                            ele?.highest_score! > 0
+                                              ? "#009985"
+                                              : "#666",
+                                        }}
+                                      ></p>
                                       <ProgressBar
-                                      width={80}
-                                      overallScore={ele?.highest_score}
-                                      bgcolor="#009985"
-                                      progress={Math.round(
-                                        ele?.highest_score!
-                                      )}
-                                      height={25}
-                                    />{" "} 
+                                        width={80}
+                                        overallScore={ele?.highest_score}
+                                        bgcolor="#009985"
+                                        progress={Math.round(
+                                          ele?.highest_score!
+                                        )}
+                                        height={25}
+                                      />{" "}
                                     </div>
-                                    <p className="viewcourse-container__content-course-section__listitem__status">
-                                      <MdOutlinePlayLesson />
-                                    </p>
+                                   
                                   </div>
                                 </button>
                               )}
