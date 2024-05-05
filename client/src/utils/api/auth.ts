@@ -42,7 +42,6 @@ export async function loginAdmin(payload: LoginInRequestPayload) {
   return response;
 }
 
-
 /**
  * @description handle forgot-password endpoint
  * @param   {object} payload  request data
@@ -69,5 +68,10 @@ export async function resetpassword(payload: ResetPasswordReqPayload) {
  */
 export async function verifyEmail(payload: any) {
   const response = await makeApiCall(`/auth/verifyemail/${payload}`, "get");
+  return response;
+}
+
+export async function userProfile() {
+  const response = await makeApiCall(`/auth/user`, "get");
   return response;
 }
