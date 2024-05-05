@@ -68,15 +68,15 @@ const ProgressBar = ({
   const Parentdiv = {
     height: height,
     width: width,
-    backgroundColor: overallScore ? "#424141" : "#80808033",
-    borderRadius: 100,
+    backgroundColor: overallScore ? "#42414126" : "#80808033",
+    borderRadius: 60,
   };
 
   const Childdiv = {
     height: "100%",
     width: `${progress}%`,
     backgroundColor: progress > 0 ? bgcolor : "",
-    borderRadius: 40,
+    borderRadius: 30,
     padding: "0.5em",
   };
 
@@ -84,15 +84,16 @@ const ProgressBar = ({
     display: "flex",
     alignItems: "center",
     color: "#000",
-    fontWeight: "bolder",
+    fontWeight: 400,
     height: "100%",
-    fontSize: "14px",
+    fontSize: "13px",
   };
 
+  console.log(progress)
   return (
     <div style={Parentdiv}>
       <div style={Childdiv}>
-        <span style={progresstext}>{overallScore && `${progress}%`}</span>
+        <span style={progresstext}>{ `${progress}%`}</span>
       </div>
     </div>
   );

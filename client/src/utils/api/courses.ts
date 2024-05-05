@@ -1,4 +1,5 @@
 import makeApiCall from ".";
+import { Courses } from "../../types";
 
 /**
  * @category Client App
@@ -16,13 +17,23 @@ export async function getCourses() {
   return response;
 }
 
+// /**
+//  * @description Get Individual Course
+//  * @param  {string} id  course id
+//  * @return {Promise<object>} response data
+//  */
+// export async function getCourse(courseId: string | any) {
+//   const response = await makeApiCall(`/course/${courseId}`);
+//   return response.data;
+// }
+
 /**
- * @description Get Individual Course
+ * @description create Individual Course
  * @param  {string} id  course id
  * @return {Promise<object>} response data
  */
-export async function getCourse(id: string|any) {
-  const response = await makeApiCall(`/course/${id}`);
+export async function createCourse(payload: Courses | any) {
+  const response = await makeApiCall(`/course/new`, "post", payload);
   return response;
 }
 
@@ -31,8 +42,8 @@ export async function getCourse(id: string|any) {
  * @param  {string} id  user id
  * @return {Promise<object>} response data
  */
-export async function enrollUser(id: string) {
-  const response = await makeApiCall(`course/enroll/${id}`, "post");
+export async function enrollUser(courseId: string) {
+  const response = await makeApiCall(`/course/enroll/${courseId}`);
   return response;
 }
 
@@ -57,8 +68,8 @@ export async function updateExercise(id: string, payload: any) {
  * @param  {string} id  course ID
  * @return {Promise<object>} response data
  */
-export async function exerciseScore(id: string, payload: any) {
-  const response = await makeApiCall(`exercise/score/${id}`, "post", payload);
+export async function exerciseScore(courseId:string, userId: string, payload: any) {
+  const response = await makeApiCall(`/course/exercise-score/${userId}/${courseId}`, "post", payload);
   return response;
 }
 
@@ -68,13 +79,57 @@ export async function exerciseScore(id: string, payload: any) {
  * @return {Promise<object>} response data
  */
 
-export async function getCertificate(id: string|any) {
+export async function getCertificate(id: string | any) {
   const response = await makeApiCall(`certificate/course/${id}`);
   return response;
 }
 
-// Get a course
-// export function useCourse(id: any) {
-//   const query = useQuery(["course"], () => getCourse(id));
-//   return query;
-// }
+export async function getContributorCourses(contributorId: string) {
+  const response = await makeApiCall(`/course/contributor/${contributorId}`);
+  return response;
+}
+
+export async function getAllCourses() {
+  const response = await makeApiCall(`/course`, "get");
+  return response;
+}
+
+export async function getUserCourses() {
+  const response = await makeApiCall("/course/approved", "get");
+  return response;
+}
+
+export async function approveACourse(courseId: string) {
+  const response = await makeApiCall(`/course/approve/${courseId}`, "get");
+  return response;
+}
+
+export async function archiveACourse(courseId: string) {
+  const response = await makeApiCall(`/course/archive/${courseId}`);
+  return response;
+}
+
+export async function updateACourse(courseId: string, payload: FormData) {
+  const response = await makeApiCall(`/course/${courseId}`, "patch", payload);
+  return response;
+}
+
+export async function makeCoursePending(courseId: string) {
+  const response = await makeApiCall(`/course/pending/${courseId}`);
+  return response;
+}
+
+export async function toggleAvailablity(courseId: string) {
+  const response = await makeApiCall(`/course/toggle-available/${courseId}`);
+  return response;
+}
+
+export async function toggleCourseEditing(courseId: string) {
+  const response = await makeApiCall(`/course/toggle-editing/${courseId}`);
+  return response;
+}
+
+export async function getUserCourse(userId: string, courseId: string) {
+  const response = await makeApiCall(`/course/${userId}/${courseId}`);
+  return response.data;
+}

@@ -1,14 +1,14 @@
 @import "../../styles/mixins.scss";
 .dashboard-header {
-  background-color: rgb(236, 245, 244);
+  background-color: white;
   position: fixed;
   top: 0;
   z-index: 1;
   width: 100%;
   &__container {
+    background-color: rgb(205, 233, 229);
     padding: 0.5em;
     width: 100%;
-    max-width: 1400px;
     margin: auto;
     @include flex(space-between, center);
     gap: 10px;
@@ -18,7 +18,7 @@
     }
   }
   &__logo {
-    height: 80px;
+    height: 60px;
     display: none;
     @include ipad {
       display: block;
@@ -30,14 +30,14 @@
     width: 100%;
     &__input {
       cursor: auto;
-      height: 50px;
+      height: 45px;
       width: 100%;
       border: none;
       font-size: 16px;
       font-weight: 400;
       border-radius: 10px;
       padding: 0 15px;
-      border: 1px solid var(--gray-203);
+      border: 1px solid #acabab78;
       &:focus {
         border: 1px solid var(--green);
       }
@@ -78,9 +78,8 @@
       right: 0;
       background-color: var(--white);
       padding: 1em;
+      border-radius: 5px;
       color: var(--green);
-      font-weight: 600;
-      width: 100px;
       border: none;
       @include ipad {
         right: -23px;
@@ -94,7 +93,3 @@
     }
   }
 }
-
-
-
-

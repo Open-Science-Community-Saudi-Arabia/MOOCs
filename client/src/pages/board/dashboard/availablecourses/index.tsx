@@ -9,20 +9,21 @@ import { toast } from "react-toastify";
 import "./style.scss";
 
 const AvailableCourses = ({ courses }: any) => {
-  const [isLoading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string>();
   const navigate = useNavigate();
   const locale = localStorage.getItem("language") || "en";
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
 
-  const enrollUserHandler = async (id: string) => {
-    setLoading(true);
-    setSelectedId(id);
+  const enrollUserHandler = async (courseId: string) => {
+    setSelectedId(courseId);
     try {
-      let response = await enrollUser(id);
-      if (response) {
-        navigate(`/course/${id}`);
+      let response = await enrollUser(courseId);
+      if (response.message) {
+        setSelectedId("");
+        navigate(`/course/${courseId}`);
       }
     } catch (error: any) {
+      setSelectedId("");
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
@@ -32,8 +33,8 @@ const AvailableCourses = ({ courses }: any) => {
   };
 
   return (
-    <div className="availablecourses ">
-      {courses.length ? (
+    <div className="availablecourses">
+      {courses?.length ? (
         <>
           <h1 className="availablecourses__heading aligned">
             <Trans>Available Courses</Trans>
@@ -41,22 +42,19 @@ const AvailableCourses = ({ courses }: any) => {
           <div className="availablecourses__courses">
             {courses?.map((content: Courses) => {
               return (
-                <button
-                  onClick={() => enrollUserHandler(content._id)}
+                <div
+                  // disabled={!content.isAvailable}
+                  onClick={() =>
+                    content.enrolled_users.includes(userId)
+                      ? navigate(`/course/${content._id}`)
+                      : ""
+                  }
                   aria-label={content.title}
                   key={content._id}
-                  style={{ width: "300px", height: "300px" }}
-                  className="availablecourses__courses-content"
+                  style={{ width: "350px", height: "auto" }}
+                  className="p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
                 >
                   <div className="availablecourses__courses-content__img-container">
-                    {" "}
-                    <div className={"img-container-overlay"}>
-                      {isLoading && selectedId === content._id ? (
-                        <Spinner width="50px" height="50px" color="#0a0a0a" />
-                      ) : (
-                        <BsFillPlayCircleFill />
-                      )}
-                    </div>
                     <img
                       className="availablecourses__courses-content__img-container-img"
                       src={content.preview_image}
@@ -64,18 +62,42 @@ const AvailableCourses = ({ courses }: any) => {
                     />
                   </div>
 
-                  <div className="availablecourses__courses-content__bottom aligned">
-                    <p className="availablecourses__courses-content__bottom-text">
+                  <div className="availablecourses__courses-content__bottom aligned pt-3">
+                    <p className=" line-clamp-1 availablecourses__courses-content__bottom-text">
                       {locale === "en" ? content.title : content.title_tr}
                     </p>
-                    <p className="availablecourses__courses-content__bottom-author">
+                    <div className="py-3">
+                      <p className="line-clamp-3 text-[14px] text-gray-100">
+                        {" "}
+                        {locale === "en"
+                          ? content.description
+                          : content.description_tr}
+                      </p>
+                    </div>
+                    <p className="text-[13px] text-gray-100 py-2">
                       {" "}
-                      {locale === "en"
-                        ? content.description
-                        : content.description_tr}
+                      By {content.author}
                     </p>
+                    <div className="flex items-center justify-between relative pt-8 pb-4">
+                      {!content.enrolled_users.includes(userId) && (
+                        <button
+                          type="button"
+                          onClick={() => enrollUserHandler(content._id)}
+                          className="py-2 text-sm rounded-full absolute h-12 w-36 font-semibold px-4 bg-primary text-white"
+                        >
+                          {selectedId === content._id ? (
+                            <Spinner width="20px" height="20px" color="#fff" />
+                          ) : (
+                            "Start Learning"
+                          )}
+                        </button>
+                      )}
+                      <p className="text-sm text-gray-100 absolute right-5">
+                        1680+ {""} enrolled
+                      </p>
+                    </div>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>

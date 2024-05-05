@@ -11,7 +11,6 @@
     @include flex(center, center);
     height: 100vh;
   }
-
   &-container {
     position: relative;
     &__header {
@@ -35,7 +34,6 @@
         &-title {
           font-size: 17px;
           font-weight: 700;
-
           @include ipad {
             font-size: 20px;
           }
@@ -71,9 +69,8 @@
       .d-none {
         display: none;
       }
-
       &__btn {
-        @include button(140px, transparent, var(--white));
+        @include button(auto, transparent, var(--white));
         height: 40px;
         border: 1px solid gray !important;
         padding: 0.8em;
@@ -90,7 +87,6 @@
         }
       }
     }
-
     &__content {
       width: 100%;
       padding-top: 80px;
@@ -113,38 +109,27 @@
       .closed-leftcontent {
         width: 100%;
       }
-      // Iframe
       &-iframe {
         border: none;
       }
-
-      // Quiz component
       .quiz-section {
-        padding: 1em 0em;
-        margin: 0em auto;
         overflow-y: auto;
+        padding: 1em 2em;
+        width: 80%;
+        margin: auto;
         &__heading {
           text-align: center;
-          margin-bottom: 2em;
-          @include ipad {
-            margin-bottom: 4em;
-          }
+         
           &-title {
+            font-weight: 500;
             font-size: 20px;
-            padding-bottom: 5px;
-            @include ipad {
-              font-size: 25px;
-            }
+            padding: 20px 0;
           }
           &-subtitle {
-            font-size: 18px;
+            text-align: left;
+            font-size: 17px;
             font-weight: 500;
-          }
-        }
-        &__container {
-          padding: 0em 1em;
-          @include ipad {
-            padding: 0em 2em;
+            margin-bottom: 2em;
           }
         }
         &__content {
@@ -153,17 +138,17 @@
 
           &-question {
             margin-bottom: 1em;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 16px;
             @include ipad {
               font-size: 18px;
             }
             p {
-              font-size: 16px;
-              font-weight: 700;
-              padding-bottom: 10px;
+              font-size: 10px;
+              font-weight: 600;
+              padding-bottom: 20px;
               @include ipad {
-                font-size: 20px;
+                font-size: 18px;
               }
             }
           }
@@ -172,7 +157,6 @@
               cursor: pointer;
               z-index: 80;
               @include flex(start, center);
-              background-color: rgb(231, 238, 241);
               width: 100%;
               color: var(--black);
               border: none;
@@ -183,12 +167,7 @@
               font-weight: 500;
               gap: 5px;
 
-              &:hover {
-                background-color: var(--green);
-                color: var(--white);
-              }
               @include ipad {
-                width: 65%;
                 font-size: 16px;
               }
             }
@@ -210,26 +189,6 @@
         }
       }
 
-      // Pdf View
-      .viewpdf {
-        width: 100%;
-        height: 550px;
-        overflow-y: scroll;
-        margin: auto;
-        &__pagenumber {
-          z-index: -1;
-          text-align: center;
-          margin: 1em;
-          font-size: 18px;
-          font-weight: 600;
-        }
-        &__document {
-          position: relative;
-          z-index: -2;
-          padding: 0em 2em;
-        }
-      }
-      // Result
       .quizresult {
         margin: 1em auto;
         text-align: center;
@@ -264,7 +223,7 @@
 
       // Course Content
       &-course {
-        height: 550px;
+        // height: 550px;
         overflow-y: scroll;
         background-color: var(--white);
         border-left: 1px solid var(--green-light);
@@ -304,14 +263,16 @@
           }
         }
         &-container {
-          padding-top: 3em;
+          padding-top: 4em;
         }
         &-section {
           z-index: 2;
           &__heading {
-            padding: 1.5em 1em 0.5em;
-            font-weight: bold;
+            padding: 1em;
+            font-weight: 600;
             font-size: 15px;
+            @include flex(start, start);
+            gap: 2px;
             border-bottom: 1px solid var(--green-light);
           }
           .active-item {
@@ -327,9 +288,7 @@
             border-radius: initial !important;
             padding: 1em;
             border-bottom: 1px solid var(--green-light);
-            &:hover {
-              background-color: var(--green-light);
-            }
+
             &-title {
               @include flex(space-between, center);
               gap: 8px;
@@ -346,7 +305,7 @@
               padding-top: 5px;
               gap: 5px;
               font-size: 12px;
-              color: var(--gray);
+              // color: var(--gray);
               @include flex(start, center);
               svg {
                 font-size: 14px;
@@ -369,16 +328,15 @@
       }
     }
     &__tab-container {
-      padding: 3em 4em;
+      padding: 4em 4em 3em 4em;
       &-tab {
         border-bottom: 1px solid var(--gray-203);
         @include flex(start, center);
         gap: 60px;
         &__tabitem {
           cursor: pointer;
-          font-size: 18px;
+          font-size: 16px;
           padding-bottom: 0.5em;
-          color: var(--gray);
           font-weight: 600;
           &:hover {
             color: var(--green);
@@ -394,9 +352,9 @@
         line-height: 30px;
 
         &-text {
-          font-size: 20px;
-          font-weight: bold;
-          margin-bottom: 1em;
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 0.5em;
         }
       }
     }
@@ -411,6 +369,29 @@
   &__img {
     width: 700px;
     border: 1px solid rgb(214, 213, 213);
+  }
+}
+
+// Pdf View
+.viewpdf {
+  width: 100%;
+  height: 550px;
+  overflow-y: auto;
+  margin: auto;
+  &__pagenumber {
+    z-index: -1;
+    text-align: center;
+    margin: 1em;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  &__document {
+    position: relative;
+    z-index: -2;
+    padding: 0em 2em;
+  }
+  .react-pdf__Page__textContent {
+    display: none;
   }
 }
 

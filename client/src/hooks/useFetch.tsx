@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { setToken } from "../utils";
+import {storeData } from "../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -31,19 +31,15 @@ const useFetch = () => {
           "Content-Type": "application/json",
         },
         data: {
-          role:
-            role === "User"
-              ? "EndUser"
-              : role === "Collaborator"
-              ? "Admin"
-              : null,
+          role: role === "User" ? "EndUser" : role === "Contributor" ? "Contributor" : "EndUser",
         },
       });
 
       if (response.data.success === true) {
-        setToken(response.data.data.access_token);
-        if (response.data.data.user.role === "Admin") {
-          navigate("/collaborator/dashboard");
+      
+        storeData(response.data.data.access_token,response.data.data.user._id)
+        if (response.data.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
         } else if (response.data.data.user.role === "EndUser") {
           navigate("/dashboard");
         }
@@ -51,7 +47,9 @@ const useFetch = () => {
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error.message ? "Request failed, try again" : error.response.data.message,
+        error.message
+          ? "Request failed, try again"
+          : error.response.data.message,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,

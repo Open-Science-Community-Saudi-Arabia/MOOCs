@@ -8,16 +8,17 @@ import AdminLogin from "./pages/auth/admin/login";
 import Signup from "./pages/auth/signup";
 import ResetPassword from "./pages/auth/reset-password";
 import ForgotPassword from "./pages/auth/forgot-password";
-import Layout from "./components/Layout";
+import Layout from "./components/Layouts";
 import Spinner from "./components/Spinner";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
-import ProtectedRoute from "./components/ProtectedRoute";
 import AdminBoard from "./pages/admin";
-import CollaboratorBoard from "./pages/collaborator";
+import ContributorBoard from "./pages/contributor";
+import DashboardLayout from "./components/Layouts/dashboard";
+import AddCourse from "./components/Course/AddCourse";
 
 const queryClient = new QueryClient();
 function App() {
@@ -37,18 +38,18 @@ function App() {
               element={<EmailVerify />}
             />
           </Route>
-          <Route element={<ProtectedRoute />}>
-            <Route path="dashboard" element={<Board />} />
-            <Route path="course/:id" element={<ViewCourse />} />
 
+          <Route element={<DashboardLayout />}>
             <Route
-              path="/collaborator/dashboard"
-              element={<CollaboratorBoard />}
+              path="/contributor/dashboard"
+              element={<ContributorBoard />}
             />
+            <Route path="dashboard" element={<Board />} />
+            <Route path="/course/add-course" element={<AddCourse/>} />
             {/* admin */}
             <Route path="/admin/dashboard" element={<AdminBoard />} />
           </Route>
-
+          <Route path="course/:id" element={<ViewCourse />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>

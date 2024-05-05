@@ -4,7 +4,7 @@ export interface SignUpRequestPayload {
   email: string;
   password: string;
   passwordConfirm: string;
-  role:string
+  role: string;
 }
 export interface LoginInRequestPayload {
   email: string;
@@ -16,13 +16,8 @@ export interface LoginResponse {
   last_name: string;
   account_type: string;
   email_address?: string;
-  phone_number?: string;
   account_id: string;
   email_verified: boolean;
-  date_of_birth?: Date | null;
-  organization_name?: string;
-  country?: string;
-  profile_photo_url?: string;
 }
 export interface ForgetPasswordReqPayload {
   email: string;
@@ -38,35 +33,56 @@ export interface Courses {
   title_tr: string;
   description: string;
   description_tr: string;
-  enrolled_users: [];
+  enrolled_users: string[];
+  createdBy: {
+    _id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    role: string;
+    preferred_language: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
   isAvailable: boolean;
+  enableEditing: boolean;
   preview_image: string;
+  status: string;
   course_sections: CourseSections[];
 }
+
 export interface CourseSections {
   _id: string;
   title: string;
-  overall:number;
-  exercises: Exercise[];
-  videos: Video[];
-  textmaterials: TextMaterial[];
-
+  title_tr: string;
+  description: string;
+  description_tr: string;
+  resources: Resources[];
 }
-export interface Exercise {
+export interface Resources {
+  title: string;
+  title_tr: string;
+  description: string;
+  description_tr: string;
+  type: string;
+  overall: number;
+  quiz: Quiz[];
+  link?: string;
+  file?: string;
+  _id: string;
+  highest_score?:number
+}
+export interface Quiz {
   _id: string;
   title: string;
   title_tr: string;
-  questions: Questions[];
-  order:number
-  best_percentage_passed:number
-}
-export interface Questions {
-  _id: string;
-  correct_option: string;
-  options: string[];
-  options_tr: string[];
-  question: string;
+  options: [{ name: string }];
+  options_tr: [{ name: string }];
   question_tr: string;
+  question: string;
+  correctanswer: string;
+  correctanswer_tr: string;
+  best_percentage_passed: number;
 }
 
 export interface TextMaterial {
@@ -81,12 +97,12 @@ export interface TextMaterial {
 export interface Video {
   _id: string;
   description: string;
-  video_url: string;
+  link: string;
   duration: string;
   type: string;
   title: string;
   title_tr: string;
-  order:number
+  order: number;
 }
 
 export interface AppContextState {

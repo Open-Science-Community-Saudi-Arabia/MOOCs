@@ -9,7 +9,7 @@ import Spinner from "../../../components/Spinner";
 import { LoginInRequestPayload } from "../../../types";
 import useFetch from "../../../hooks/useFetch";
 import { useGoogleLogin } from "@react-oauth/google";
-import { setToken } from "../../../utils";
+import { storeData } from "../../../utils";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { Trans, t } from "@lingui/macro";
 
@@ -47,9 +47,10 @@ const Login = () => {
       let response = await login(formData);
 
       if (response.success) {
-        setToken(response.data.access_token);
-        if (response.data.user.role === "Admin") {
-          navigate("/collaborator/dashboard");
+        storeData(response.data.access_token, response.data.user._id);
+
+        if (response.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
         } else if (response.data.user.role === "EndUser") {
           navigate("/dashboard");
         }

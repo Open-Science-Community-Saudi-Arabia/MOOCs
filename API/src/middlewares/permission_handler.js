@@ -1,17 +1,17 @@
 /**
  * @description Role based permission handler
- * 
+ *
  * @category Backend API
  * @subcategory Middlewares
- * 
+ *
  * @module RBAC Permission Handler
- * 
+ *
  * @description This module contains a middleware
  * that handles role based access control.
  */
 
 const asyncWrapper = require("../utils/async_wrapper");
-const {  ForbiddenError } = require("../utils/errors");
+const { ForbiddenError } = require("../utils/errors");
 
 // USAGE
 /*
@@ -26,18 +26,18 @@ const {  ForbiddenError } = require("../utils/errors");
 */
 
 module.exports = function (roles) {
-    /**
-     * @description Role based permission handler
-     * 
-     * @param {String} roles 
-     */
-    return asyncWrapper(async (req, res, next) => {
-        const allowed_roles = roles.split(" ");
+  /**
+   * @description Role based permission handler
+   *
+   * @param {String} roles
+   */
 
-        if (!allowed_roles.includes(req.user.role)) {
-            throw new ForbiddenError("Unauthorized access");
-        }
+  return asyncWrapper(async (req, res, next) => {
+    const allowed_roles = roles.split(" ");
+    if (!allowed_roles.includes(req.user.role)) {
+      throw new ForbiddenError("Unauthorized access");
+    }
 
-        next();
-    });
+    next();
+  });
 };

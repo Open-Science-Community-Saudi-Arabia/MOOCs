@@ -1,23 +1,26 @@
 import { useEffect, useState } from "react";
+import "./style.scss";
 import { Link } from "react-router-dom";
+import { getContributorCourses } from "../../utils/api/courses";
 import Spinner from "../../components/Spinner";
-import { getAllCourses } from "../../utils/api/courses";
-import Table from "../../components/Course/Table";
-import { Courses } from "../../types";
+import { getUserId } from "../../utils";
+import CourseCard from "../../components/Course/CourseCard";
 import Modal from "../../components/Modal";
 import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { Courses } from "../../types";
 
 export default function index() {
-  const [selectedCourse, setSelectedCourse] = useState<any>({});
   const [courses, setCourses] = useState<Courses[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<Courses | any>({});
   const [isLoading, setLoading] = useState(false);
 
   const getAvailableCourses = async () => {
     setLoading(true);
+    const userId: any = getUserId();
     try {
-      const response = await getAllCourses();
+      const response = await getContributorCourses(userId);
       if (response.success) {
         setLoading(false);
         setCourses(response.data);
@@ -40,17 +43,15 @@ export default function index() {
   };
 
   return (
-    <section className="h-screen admin-dashboard">
-      <h1 className="text-center text-xl">Admin Board</h1>
-
+    <section className="contributor-dashboard h-screen overflow-auto">
+      <p className="text-center font-medium text-xl"> Contributor's Board</p>
       {selectedCourse?.title ? (
         <Modal
           show={selectedCourse?.title}
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
-          getAvailableCourses={getAvailableCourses}
-            role="Admin"
+            getAvailableCourses={getAvailableCourses}
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
           />
@@ -60,12 +61,12 @@ export default function index() {
           <Spinner width="100px" height="100px" color="#009985" />
         </div>
       ) : courses?.length > 0 ? (
-        <div className="">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl">All courses</h2>
+        <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
+          <div className="flex items-center justify-between mt-6">
+            <h1 className="text-xl font-medium">Your Courses</h1>
             <Link
-              to={`/course/add-course`}
-              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3"
+              to="/course/add-course"
+              className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3 font-semibold"
             >
               {" "}
               <span className="flex items-center justify-center gap-x-1">
@@ -74,25 +75,27 @@ export default function index() {
               </span>
             </Link>
           </div>
-
-          <Table
-           getAvailableCourses={ getAvailableCourses}
-            courses={courses}
-            handleSelectedCourse={handleSelectedCourse}
-          />
+          <div className="flex items-center flex-wrap gap-4 justify-start mt-8">
+            {courses.map((ele: any) => {
+              return (
+                <CourseCard
+                  key={ele._id}
+                  course={ele}
+                  handleSelectedCourse={handleSelectedCourse}
+                />
+              );
+            })}
+          </div>
         </div>
       ) : (
-        <div className="flex items-center flex-col h-96 justify-center">
-          <p className="py-3 text-gray-dark/50"> No Course Added</p>
+        <div className="flex items-center flex-col h-[30rem] justify-center">
+          <p className="py-3 text-gray-dark/50 mb-4"> No Course Added Yet!</p>
           <Link
-            to={`/course/add-course`}
-            className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
+            to="/course/add-course"
+            className="px-4 py-3 bg-primary text-white rounded-md w-64 text-center"
           >
             {" "}
-            <span className="flex items-center justify-center gap-x-1">
-              {" "}
-              <IoMdAddCircleOutline size={18} /> Add New Course
-            </span>
+            Add Course
           </Link>
         </div>
       )}
