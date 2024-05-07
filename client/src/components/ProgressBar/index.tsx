@@ -68,7 +68,7 @@ const ProgressBar = ({
   const Parentdiv = {
     height: height,
     width: width,
-    backgroundColor: overallScore ? "#42414126" : "#80808033",
+    backgroundColor: overallScore ? "#42414126" : "#56525233",
     borderRadius: 60,
   };
 
@@ -83,16 +83,16 @@ const ProgressBar = ({
   const progresstext = {
     display: "flex",
     alignItems: "center",
-    color: "#000",
-    fontWeight: 400,
+    color: "#fff",
+    fontWeight: 500,
     height: "100%",
-    fontSize: "13px",
+    fontSize: "12px",
   };
 
   return (
     <div style={Parentdiv}>
       <div style={Childdiv}>
-        <span style={progresstext}>{ `${progress}%`}</span>
+        <span style={progresstext}>{`${progress}%`}</span>
       </div>
     </div>
   );

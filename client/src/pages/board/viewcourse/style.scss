@@ -112,9 +112,11 @@
       }
       .quiz-section {
         overflow-y: auto;
-        padding: 1em 2em;
-        width: 80%;
+        width: 90%;
         margin: auto;
+        @include ipad {
+          width: 80%;
+        }
         &__heading {
           text-align: center;
           &-title {
@@ -130,9 +132,7 @@
           }
         }
         &__content {
-          // z-index: -1;
           margin-bottom: 3em;
-
           &-question {
             margin-bottom: 1em;
             font-weight: 500;

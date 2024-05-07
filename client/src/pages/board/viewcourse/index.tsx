@@ -7,7 +7,11 @@ import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BiCollapseAlt } from "react-icons/bi";
-import { getCertificate, getUserCourse } from "../../../utils/api/courses";
+import {
+  getCertificate,
+  getOverallUserQuiz,
+  getUserCourse,
+} from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import ExerciseQuiz from "./ExerciseQuiz";
@@ -47,7 +51,6 @@ const ViewCourse = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<Resources>();
   const [isCourseContent, setCourseContent] = useState(true);
-  const [videoData, setVideoData] = useState<Video>();
   const [exerciseData, setExerciseData] = useState<Quiz>();
   const [pdfData, setPdfData] = useState<TextMaterial>();
   const [selectedIndex, setSelectedIndex] = useState("");
@@ -56,7 +59,6 @@ const ViewCourse = () => {
   const [submission, setSubmission] = useState({});
   const [overAllScore, setOverAllScore] = useState(0);
   const [currentScore, setCurrentScore] = useState<number>(0);
-  const [bestScore, setBestScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
   const queryKey = "getCourse";
@@ -84,29 +86,31 @@ const ViewCourse = () => {
     course?._id
       ? setDisplayContent(course?.course_section[0]?.resources[0])
       : null;
+    getOverAllScore(course?._id);
   }, [course]);
 
-  // const changeQuizIndex = (quizIndex: number) => {
-  //   setQuizIndex(quizIndex);
-  // };
-  const changeBestScoreHandler = (bestScore: number) => {
-    setBestScore(bestScore);
-  };
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
   };
-  const changedViewSubmit = (viewSubmit: boolean) => {
-    setViewSubmit(viewSubmit);
+
+  const getUserQuizScore = (quizId: string) => {
+    return (
+      course.userQuizScore.find(
+        (ele: { quizId: string }) => ele.quizId === quizId
+      )?.score || 0
+    );
   };
-  const changedOverAllScore = (overAllScore: number) => {
-    setOverAllScore(overAllScore);
-  };
-  const changedCurrentScore = (currentScore: number) => {
-    setCurrentScore(currentScore);
+
+  const getOverAllScore = async (courseId: string) => {
+    try {
+      const res = await getOverallUserQuiz(courseId);
+      setOverAllScore(res.score);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getexerciseData = (id: string) => {
-    // changeQuizIndex(0);
     const dataitem = course?.course_sections
       .map((course: CourseSections) => course)
       .flat()
@@ -237,17 +241,9 @@ const ViewCourse = () => {
             >
               {displayContent?.type === "quiz" ? (
                 <ExerciseQuiz
+                  getOverAllScore={getOverAllScore}
                   displayContent={displayContent}
                   courseId={params.id}
-                  changedDisplayContent={changedDisplayContent}
-                  changeBestScoreHandler={changeBestScoreHandler}
-                  changedViewSubmit={changedViewSubmit}
-                  setSubmission={setSubmission}
-                  viewSubmit={viewSubmit}
-                  submission={submission}
-                  reset={refetch}
-                  changedCurrentScore={changedCurrentScore}
-                  changedOverAllScore={changedOverAllScore}
                 />
               ) : displayContent?.type === "pdf" ? (
                 <ViewPdf pdfUrl={pdfData?.file_url} />
@@ -410,22 +406,21 @@ const ViewCourse = () => {
                                       <p
                                         style={{
                                           color:
-                                            ele?.highest_score! > 0
+                                            getUserQuizScore(ele._id) > 0
                                               ? "#009985"
                                               : "#666",
                                         }}
                                       ></p>
                                       <ProgressBar
                                         width={80}
-                                        overallScore={ele?.highest_score}
-                                        bgcolor="#009985"
+                                        overallScore={getUserQuizScore(ele._id)}
+                                        bgcolor="#6abd41"
                                         progress={Math.round(
-                                          ele?.highest_score!
+                                          getUserQuizScore(ele._id)
                                         )}
                                         height={25}
                                       />{" "}
                                     </div>
-                                   
                                   </div>
                                 </button>
                               )}
