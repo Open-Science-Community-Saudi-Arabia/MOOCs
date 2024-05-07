@@ -62,6 +62,7 @@ router.get(
 );
 
 router.get("/:userId/:courseId", getUserCourse);
+router.get("/:userId/:courseId", getUserCourse);
 
 router.post(
   "/new",

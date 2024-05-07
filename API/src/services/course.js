@@ -38,6 +38,7 @@ const getAContributorCourses = async (contributorId) => {
 const getAUserCourse = async (userId, courseId) => {
   const userCourses = await User.findById(userId)
     .lean()
+    .select("quizScore enrolledcourse")
     .populate("enrolledcourse");
 
   const userCourse = userCourses.enrolledcourse.find((course) =>
@@ -61,9 +62,13 @@ const getAUserCourse = async (userId, courseId) => {
     return { ...course, resources };
   });
 
-  let course = { ...userCourse, course_section };
+  const userQuizScore = userCourses.quizScore.filter(
+    (ele) => ele.courseId == courseId
+  );
 
-  return course;
+  const course = { ...userCourse, course_section };
+
+  return { ...course, userQuizScore };
 };
 
 const allCourses = async () => {
@@ -184,46 +189,32 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
       quizAnswer.length) *
     100;
 
+  const user = await User.findById(userId);
+
+  const courseQuiz = {
+    quizId: resourceId,
+    courseId,
+    score: noOfCorrectAnswers,
+  };
+
+  const userScore = user.quizScore.map((ele) => {
+    if (ele.courseId == courseId) {
+      return (ele = {
+        ...ele,
+        score: ele.score > noOfCorrectAnswers ? ele.score : noOfCorrectAnswers,
+      });
+    } else {
+      return courseQuiz;
+    }
+  });
+
+  user.quizScore = userScore;
+  await user.save();
+
   return noOfCorrectAnswers;
 };
 
-const updateScore = async () => {
-  // const courseToUpdate = userCourses.enrolledcourse.find((course) =>
-  //   course._id.equals(courseId)
-  // );
-  // if (courseToUpdate) {
-  //   courseToUpdate.title = "doing testing";
-  // } else {
-  //   throw new Error("Author not found in the book authors array.");
-  // }
-  // const course_section = await userCourse.course_section.map((cour) => {
-  //   let resources = cour.resources.map((ele) => {
-  //     if (ele._id == resourceId) {
-  //       ele.highest_score = 56;
-  //     }
-  //     return ele;
-  //   });
-  //   return { ...cour, resources };
-  // });
-  // console.log({ ...userCourse, course_section });
-  // await User.updateOne(
-  //   {
-  //     _id: userId,
-  //     "enrolledcourse.title": "lovingagain",
-  //   },
-  //   {
-  //     $set: {
-  //       "enrolledcourse.$.course_section": course_section,
-  //     },
-  //   },
-  //   {
-  //     new: true,
-  //   }
-  // );
-  // const checkCOurse = await User.findById(userId);
-  // await userCourses.save();
-  // console.log(checkCOurse.enrolledcourse[0].course_section[0].resources);
-};
+const updateScore = async () => {};
 
 module.exports = {
   createACourse,

@@ -133,3 +133,9 @@ export async function getUserCourse(userId: string, courseId: string) {
   const response = await makeApiCall(`/course/${userId}/${courseId}`);
   return response.data;
 }
+
+
+export async function getOverallUserQuiz(courseId: string) {
+  const response = await makeApiCall(`/user/overall-score/${courseId}`);
+  return response;
+}

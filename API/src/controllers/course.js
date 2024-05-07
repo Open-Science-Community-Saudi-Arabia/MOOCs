@@ -13,7 +13,7 @@ const {
   toggleEditing,
   evaluateUserAnswers,
   getAUserCourse,
-  updateScore
+  updateScore,
 } = require("../services/course");
 
 const createCourse = async (req, res) => {
@@ -98,6 +98,7 @@ const getUserCourse = async (req, res) => {
     const courseId = req.params.courseId;
 
     const course = await getAUserCourse(userId, courseId);
+
     return res.status(200).json({
       success: true,
       data: course,
@@ -272,7 +273,7 @@ const evaluateQuizScore = async (req, res) => {
   }
 };
 
-const updateQuizScore =async (req, res) => {
+const updateQuizScore = async (req, res) => {
   const quizPayload = req.body;
   const userId = req.params.userId;
   const courseId = req.params.courseId;
@@ -307,5 +308,5 @@ module.exports = {
   toggleCourseEditing,
   evaluateQuizScore,
   updateQuizScore,
-  getUserCourse
+  getUserCourse,
 };

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Quiz, Resources } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
@@ -6,31 +6,15 @@ import Spinner from "../../../components/Spinner";
 import { t, Trans } from "@lingui/macro";
 
 interface IProps {
+  getOverAllScore: (courseId: string) => void;
   displayContent: Resources;
   courseId: string;
-  changedDisplayContent: (item: any) => void;
-  changeBestScoreHandler: (bestScore: number) => void;
-  changedCurrentScore: (currentScore: number) => void;
-  changedOverAllScore: (overAllScore: number) => void;
-  changedViewSubmit: (viewSubmit: boolean) => void;
-  setSubmission: Dispatch<SetStateAction<{}>>;
-  viewSubmit: boolean;
-  submission: object;
-  reset: () => void;
 }
 
 const ExerciseQuiz = ({
-  changedCurrentScore,
   displayContent,
   courseId,
-  changedDisplayContent,
-  changeBestScoreHandler,
-  changedViewSubmit,
-  setSubmission,
-  viewSubmit,
-  submission,
-  changedOverAllScore,
-  reset,
+  getOverAllScore,
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
@@ -52,12 +36,8 @@ const ExerciseQuiz = ({
         quizAnswers: quizAnswers,
       });
       setDisplayScore(response.score);
-      // if (response) {
-      //   changedCurrentScore(response.data.report.percentage_passed);
-      //   changeBestScoreHandler(response.data.report.best_percentage_passed);
-      //   changedDisplayContent("result");
-      //   changedOverAllScore(response.data.report.course_progress);
-      // }
+      getOverAllScore(courseId);
+      
     } catch (error: any) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -68,7 +48,6 @@ const ExerciseQuiz = ({
       setLoading(false);
     }
   };
-  // console.log(displayContent);
 
   const tryAgainhandler = () => {
     setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
@@ -76,7 +55,7 @@ const ExerciseQuiz = ({
 
   const acceptAndContinue = () => {
     setLoading(true);
-    
+
     try {
     } catch (error: any) {
       toast.error(error.message, {
@@ -139,7 +118,6 @@ const ExerciseQuiz = ({
                       className="quiz-section__content-options__radio-btn"
                       value={list.name}
                     />
-
                     {list.name}
                   </label>
                 );
