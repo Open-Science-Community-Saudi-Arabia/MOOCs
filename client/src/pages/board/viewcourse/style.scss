@@ -185,41 +185,8 @@
         }
       }
 
-      .quizresult {
-        margin: 1em auto;
-        text-align: center;
-        &__heading {
-          &__title {
-            font-size: 22px;
-            font-weight: 700;
-            padding-bottom: 0.5em;
-          }
-          &__subtitle {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--gray);
-          }
-        }
-        &__btns {
-          @include flex(center, center);
-          &__completed {
-            color: var(--green);
-            @include flex(center, center);
-            gap: 40px;
-            &-text {
-              font-size: 20px;
-              font-weight: 600;
-            }
-          }
-          &__button {
-            @include button(auto, var(--green), var(--white));
-          }
-        }
-      }
-
       // Course Content
       &-course {
-        // height: 550px;
         overflow-y: scroll;
         background-color: var(--white);
         border-left: 1px solid var(--green-light);

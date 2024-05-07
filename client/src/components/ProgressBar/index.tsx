@@ -32,7 +32,7 @@ interface IProgressBarProps {
 const CircularProgressBar = ({ currentScore }: ICircularBarProps) => {
   const isIpad = useMediaQuery("(min-width: 1024px)");
   return (
-    <div className="progressbar" style={{ width: isIpad ? "250px" : "200px" }}>
+    <div className="progressbar" style={{ width: isIpad ? "200px" : "150px" }}>
       <CircularProgressbar
         value={Math.round(currentScore)}
         text={`${Math.round(currentScore)}%`}

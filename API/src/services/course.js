@@ -184,7 +184,7 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
     });
   });
 
-  const noOfCorrectAnswers =
+  const currentScore =
     (quizAnswer.filter((obj) => obj.correct === true).length /
       quizAnswer.length) *
     100;
@@ -194,14 +194,14 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const courseQuiz = {
     quizId: resourceId,
     courseId,
-    score: noOfCorrectAnswers,
+    score: currentScore,
   };
 
   const userScore = user.quizScore.map((ele) => {
     if (ele.courseId == courseId) {
       return (ele = {
         ...ele,
-        score: ele.score > noOfCorrectAnswers ? ele.score : noOfCorrectAnswers,
+        score: ele.score > currentScore ? ele.score : currentScore,
       });
     } else {
       return courseQuiz;
@@ -211,7 +211,7 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   user.quizScore = userScore;
   await user.save();
 
-  return noOfCorrectAnswers;
+  return { currentScore, quizScore: user.quizScore };
 };
 
 const updateScore = async () => {};

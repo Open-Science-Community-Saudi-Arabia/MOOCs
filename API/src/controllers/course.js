@@ -94,10 +94,9 @@ const getAllCourses = async (req, res) => {
 
 const getUserCourse = async (req, res) => {
   try {
-    const userId = req.params.userId;
     const courseId = req.params.courseId;
 
-    const course = await getAUserCourse(userId, courseId);
+    const course = await getAUserCourse(req.user.id, courseId);
 
     return res.status(200).json({
       success: true,
