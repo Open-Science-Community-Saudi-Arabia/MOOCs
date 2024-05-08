@@ -14,8 +14,6 @@ const {
   toggleCourseAvailablity,
   toggleCourseEditing,
   evaluateQuizScore,
-  getUserCourse,
-  updateQuizScore
 } = require("../controllers/course");
 
 const multer = require("multer");
@@ -61,17 +59,13 @@ router.get(
   archiveCourse
 );
 
-router.get("/:userId/:courseId", getUserCourse);
-router.get("/:userId/:courseId", getUserCourse);
-
 router.post(
   "/new",
   permit("Contributor SuperAdmin"),
   upload.single("file"),
   createCourse
 );
-router.post("/update-score", updateQuizScore);
-router.post("/exercise-score/:userId/:courseId", evaluateQuizScore);
+router.post("/exercise-score/:courseId", evaluateQuizScore);
 router.patch(
   "/:courseId",
   permit("Contributor SuperAdmin"),

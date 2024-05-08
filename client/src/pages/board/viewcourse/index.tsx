@@ -16,13 +16,7 @@ import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import ExerciseQuiz from "./ExerciseQuiz";
 import ViewPdf from "./ViewPdf";
-import {
-  CourseSections,
-  Quiz,
-  Resources,
-  TextMaterial,
-  Video,
-} from "../../../types";
+import { CourseSections, Resources } from "../../../types";
 
 import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
@@ -64,7 +58,7 @@ const ViewCourse = () => {
     refetch,
   }: any = useQuery(
     [queryKey, params.id],
-    () => getUserCourse(userId, params.id)
+    () => getUserCourse(params.id)
     // {
     //   refetchOnWindowFocus: false,
     //   staleTime: 0,
@@ -74,7 +68,6 @@ const ViewCourse = () => {
   );
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
-
   const locale = localStorage.getItem("language") || "en";
 
   useEffect(() => {
@@ -90,7 +83,7 @@ const ViewCourse = () => {
   };
 
   const updateQuizScorehandler = (data: any) => {
-    console.log(data);
+    setQuizScores(data);
   };
 
   const getOverAllScore = async (courseId: string) => {
