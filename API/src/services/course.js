@@ -35,8 +35,6 @@ const getAContributorCourses = async (contributorId) => {
   return course;
 };
 
-
-
 const allCourses = async () => {
   const course = await Course.find().populate({
     path: "createdBy",
@@ -186,8 +184,6 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   return { currentScore, quizScore: user.quizScore };
 };
 
-
-
 module.exports = {
   createACourse,
   getACourse,
@@ -201,5 +197,5 @@ module.exports = {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
-  evaluateUserAnswers
+  evaluateUserAnswers,
 };

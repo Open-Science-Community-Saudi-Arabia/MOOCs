@@ -1,3 +1,4 @@
+const { Course } = require("../models/course");
 const { User } = require("../models/user.models");
 
 const getScore = async (userId, courseId) => {
@@ -8,19 +9,11 @@ const getScore = async (userId, courseId) => {
   return overallScore;
 };
 
-
 const getAUserCourse = async (userId, courseId) => {
-  const userCourses = await User.findById(userId)
-    .lean()
-    .select("quizScore enrolledcourse")
-    .populate("enrolledcourse");
+  const course = await Course.findById(courseId).lean();
 
-  const userCourse = userCourses.enrolledcourse.find((course) =>
-    course._id.equals(courseId)
-  );
-
-  let course_section = userCourse.course_section.map((course) => {
-    let resources = course.resources.map((ele) => {
+  let course_section = course.course_section.map((coursesection) => {
+    let resources = coursesection.resources.map((ele) => {
       if (ele.type === "quiz") {
         let newQuiz = ele.quiz.map((item) => {
           return (item = {
@@ -33,14 +26,16 @@ const getAUserCourse = async (userId, courseId) => {
       }
       return ele;
     });
-    return { ...course, resources };
+    return { ...coursesection, resources };
   });
+  const courseinfo = { ...course, course_section };
 
-  const userQuizScore = userCourses.quizScore.filter(
+  const user = await User.findById(userId);
+  const userQuizScore = user.quizScore.filter(
     (ele) => ele.courseId == courseId
   );
-  const course = { ...userCourse, course_section };
-  return { ...course, quizScore: userQuizScore };
+
+  return { ...courseinfo, quizScore: userQuizScore };
 };
 
 module.exports = {
