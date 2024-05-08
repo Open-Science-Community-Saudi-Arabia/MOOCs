@@ -35,41 +35,7 @@ const getAContributorCourses = async (contributorId) => {
   return course;
 };
 
-const getAUserCourse = async (userId, courseId) => {
-  const userCourses = await User.findById(userId)
-    .lean()
-    .select("quizScore enrolledcourse")
-    .populate("enrolledcourse");
 
-  const userCourse = userCourses.enrolledcourse.find((course) =>
-    course._id.equals(courseId)
-  );
-
-  let course_section = userCourse.course_section.map((course) => {
-    let resources = course.resources.map((ele) => {
-      if (ele.type === "quiz") {
-        let newQuiz = ele.quiz.map((item) => {
-          return (item = {
-            _id: item._id,
-            options: item.options,
-            question: item.question,
-          });
-        });
-        return { ...ele, quiz: newQuiz };
-      }
-      return ele;
-    });
-    return { ...course, resources };
-  });
-
-  const userQuizScore = userCourses.quizScore.filter(
-    (ele) => ele.courseId == courseId
-  );
-
-  const course = { ...userCourse, course_section };
-
-  return { ...course, userQuizScore };
-};
 
 const allCourses = async () => {
   const course = await Course.find().populate({
@@ -197,24 +163,30 @@ const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
     score: currentScore,
   };
 
-  const userScore = user.quizScore.map((ele) => {
-    if (ele.courseId == courseId) {
-      return (ele = {
-        ...ele,
-        score: ele.score > currentScore ? ele.score : currentScore,
-      });
-    } else {
-      return courseQuiz;
-    }
-  });
+  let array = [...user.quizScore];
 
-  user.quizScore = userScore;
-  await user.save();
+  const elem = array.find(({ quizId }) => quizId === resourceId);
+  if (elem) {
+    elem.score = elem.score > currentScore ? elem.score : currentScore;
+  } else {
+    array.push(courseQuiz);
+  }
 
+  await User.updateOne(
+    {
+      _id: userId,
+    },
+    {
+      $set: {
+        quizScore: array,
+      },
+    },
+    { upsert: true }
+  );
   return { currentScore, quizScore: user.quizScore };
 };
 
-const updateScore = async () => {};
+
 
 module.exports = {
   createACourse,
@@ -229,7 +201,5 @@ module.exports = {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
-  evaluateUserAnswers,
-  getAUserCourse,
-  updateScore,
+  evaluateUserAnswers
 };

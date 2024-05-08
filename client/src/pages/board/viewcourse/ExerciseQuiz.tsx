@@ -23,11 +23,10 @@ const ExerciseQuiz = ({
   const [quizIndex, setQuizIndex] = useState(0);
   const [displayScore, setDisplayScore] = useState("");
   const locale = localStorage.getItem("language") || "en";
-  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
+  
   const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
 
   const onChangeValue = (id: string, selectedAnswer: string) => {
-    console.log(selectedAnswer);
     setQuizIndex(quizIndex + 1);
     setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
   };
@@ -35,7 +34,7 @@ const ExerciseQuiz = ({
   const submitResult = async () => {
     setLoading(true);
     try {
-      let response = await exerciseScore(courseId, userId, {
+      let response = await exerciseScore(courseId, {
         resourceId: displayContent._id,
         quizAnswers: quizAnswers,
       });
@@ -60,7 +59,6 @@ const ExerciseQuiz = ({
 
   const acceptAndContinue = () => {
     setLoading(true);
-
     try {
     } catch (error: any) {
       toast.error(error.message, {
@@ -121,7 +119,7 @@ const ExerciseQuiz = ({
                           e.target.value
                         )
                       }
-                      // className="quiz-section__content-options__radio-btn"
+                      className="quiz-section__content-options__radio-btn"
                       value={list.name}
                     />
                     {list.name}

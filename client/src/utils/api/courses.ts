@@ -68,8 +68,8 @@ export async function updateExercise(id: string, payload: any) {
  * @param  {string} id  course ID
  * @return {Promise<object>} response data
  */
-export async function exerciseScore(courseId:string, userId: string, payload: any) {
-  const response = await makeApiCall(`/course/exercise-score/${userId}/${courseId}`, "post", payload);
+export async function exerciseScore(courseId:string, payload: any) {
+  const response = await makeApiCall(`/course/exercise-score/${courseId}`, "post", payload);
   return response;
 }
 
@@ -129,11 +129,10 @@ export async function toggleCourseEditing(courseId: string) {
   return response;
 }
 
-export async function getUserCourse(userId: string, courseId: string) {
-  const response = await makeApiCall(`/course/${userId}/${courseId}`);
+export async function getUserCourse( courseId: string) {
+  const response = await makeApiCall(`/user/course/${courseId}`);
   return response.data;
 }
-
 
 export async function getOverallUserQuiz(courseId: string) {
   const response = await makeApiCall(`/user/overall-score/${courseId}`);
