@@ -4,17 +4,20 @@ import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
 import Spinner from "../../../components/Spinner";
 import { t, Trans } from "@lingui/macro";
+import { CircularProgressBar } from "../../../components/ProgressBar";
 
 interface IProps {
   getOverAllScore: (courseId: string) => void;
   displayContent: Resources;
   courseId: string;
+  updateQuizScorehandler: (data: any) => void;
 }
 
 const ExerciseQuiz = ({
   displayContent,
   courseId,
   getOverAllScore,
+  updateQuizScorehandler,
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
@@ -24,6 +27,7 @@ const ExerciseQuiz = ({
   const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
 
   const onChangeValue = (id: string, selectedAnswer: string) => {
+    console.log(selectedAnswer);
     setQuizIndex(quizIndex + 1);
     setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
   };
@@ -35,9 +39,10 @@ const ExerciseQuiz = ({
         resourceId: displayContent._id,
         quizAnswers: quizAnswers,
       });
-      setDisplayScore(response.score);
+
+      setDisplayScore(response.score.currentScore);
       getOverAllScore(courseId);
-      
+      updateQuizScorehandler(response.score.quizScore);
     } catch (error: any) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -102,12 +107,6 @@ const ExerciseQuiz = ({
                 return (
                   <label
                     key={list.name}
-                    onChange={(e) =>
-                      onChangeValue(
-                        displayContent?.quiz[quizIndex]._id,
-                        list.name
-                      )
-                    }
                     htmlFor={list.name}
                     className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label"
                   >
@@ -115,7 +114,14 @@ const ExerciseQuiz = ({
                       type="radio"
                       id={list.name}
                       name="options"
-                      className="quiz-section__content-options__radio-btn"
+                      checked={false}
+                      onChange={(e) =>
+                        onChangeValue(
+                          displayContent?.quiz[quizIndex]._id,
+                          e.target.value
+                        )
+                      }
+                      // className="quiz-section__content-options__radio-btn"
                       value={list.name}
                     />
                     {list.name}
@@ -126,22 +132,27 @@ const ExerciseQuiz = ({
           </div>
         </div>
       ) : displayScore !== "" ? (
-        <div className="flex flex-col mt-12  items-center">
-          <p className="text-2xl font-medium"> Score:{displayScore}%</p>
-          <div className="mt-12 text-sm">
+        <div className="flex flex-col items-center">
+          <h2 className="font-medium">
+            {" "}
+            <Trans>Quiz Result</Trans>
+          </h2>
+          <CircularProgressBar currentScore={Number(displayScore)} />
+
+          <div className="mt-6 text-sm">
             <button
               onClick={() => {
                 tryAgainhandler();
               }}
               className="bg-primary py-2 px-4 rounded-md text-white font-medium"
             >
-              Try Again
+              <Trans> ReTake Quiz</Trans>
             </button>
             <button
               onClick={() => acceptAndContinue()}
               className="bg-primary py-2 px-4 rounded-md ml-6 text-white font-medium"
             >
-              Accept and Continue
+              Continue
             </button>
           </div>
         </div>

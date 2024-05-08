@@ -23,7 +23,7 @@ import {
   TextMaterial,
   Video,
 } from "../../../types";
-import Result from "./Result";
+
 import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
@@ -51,14 +51,9 @@ const ViewCourse = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [displayContent, setDisplayContent] = useState<Resources>();
   const [isCourseContent, setCourseContent] = useState(true);
-  const [exerciseData, setExerciseData] = useState<Quiz>();
-  const [pdfData, setPdfData] = useState<TextMaterial>();
-  const [selectedIndex, setSelectedIndex] = useState("");
+  const [quizScores, setQuizScores] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [viewSubmit, setViewSubmit] = useState(false);
-  const [submission, setSubmission] = useState({});
   const [overAllScore, setOverAllScore] = useState(0);
-  const [currentScore, setCurrentScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
   const queryKey = "getCourse";
@@ -87,18 +82,15 @@ const ViewCourse = () => {
       ? setDisplayContent(course?.course_section[0]?.resources[0])
       : null;
     getOverAllScore(course?._id);
+    setQuizScores(course?.quizScore);
   }, [course]);
 
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
   };
 
-  const getUserQuizScore = (quizId: string) => {
-    return (
-      course.userQuizScore.find(
-        (ele: { quizId: string }) => ele.quizId === quizId
-      )?.score || 0
-    );
+  const updateQuizScorehandler = (data: any) => {
+    console.log(data);
   };
 
   const getOverAllScore = async (courseId: string) => {
@@ -110,24 +102,11 @@ const ViewCourse = () => {
     }
   };
 
-  const getexerciseData = (id: string) => {
-    const dataitem = course?.course_sections
-      .map((course: CourseSections) => course)
-      .flat()
-      .find((data: Quiz) => data._id === id);
-    setSelectedIndex(id);
-    setExerciseData(dataitem);
-    changedDisplayContent("exercise");
-    setViewSubmit(false);
-    setSubmission({});
-  };
-
   const viewCertificate = async () => {
     setLoadingCertificate(true);
     try {
       let response = await getCertificate(params.id);
       if (response.success) {
-        setPdfData(response.data.certificate.certificate_url);
         changedDisplayContent("certificate");
         setLoadingCertificate(false);
       }
@@ -244,17 +223,12 @@ const ViewCourse = () => {
                   getOverAllScore={getOverAllScore}
                   displayContent={displayContent}
                   courseId={params.id}
+                  updateQuizScorehandler={updateQuizScorehandler}
                 />
               ) : displayContent?.type === "pdf" ? (
-                <ViewPdf pdfUrl={pdfData?.file_url} />
-              ) : displayContent?.type === "result" ? (
-                <Result
-                  currentScore={currentScore}
-                  selectedIndex={selectedIndex}
-                  getexerciseData={getexerciseData}
-                />
+                <ViewPdf pdfUrl={displayContent?.file} />
               ) : displayContent?.type === "certificate" ? (
-                <Certificate pdfUrl={pdfData} />
+                <Certificate pdfUrl={displayContent?.file} />
               ) : (
                 <iframe
                   title={displayContent?.title}
@@ -406,17 +380,25 @@ const ViewCourse = () => {
                                       <p
                                         style={{
                                           color:
-                                            getUserQuizScore(ele._id) > 0
+                                            quizScores?.find(
+                                              (quiz) => quiz.quizId == ele._id
+                                            )?.score > 0
                                               ? "#009985"
                                               : "#666",
                                         }}
                                       ></p>
                                       <ProgressBar
                                         width={80}
-                                        overallScore={getUserQuizScore(ele._id)}
+                                        overallScore={
+                                          quizScores?.find(
+                                            (quiz) => quiz.quizId == ele._id
+                                          )?.score || 0
+                                        }
                                         bgcolor="#6abd41"
                                         progress={Math.round(
-                                          getUserQuizScore(ele._id)
+                                          quizScores?.find(
+                                            (quiz) => quiz.quizId == ele._id
+                                          )?.score || 0
                                         )}
                                         height={25}
                                       />{" "}

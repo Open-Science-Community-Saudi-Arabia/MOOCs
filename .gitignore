@@ -120,6 +120,8 @@ jsdocs
 *.sw?
 *.todo
 
+todo
+
 
 # Documentation
 /documentation/docs/*.html
