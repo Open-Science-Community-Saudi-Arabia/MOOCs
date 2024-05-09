@@ -9,7 +9,7 @@ if (environments.includes(NODE_ENV)) {
 // Project config variables
 const config = require("./utils/config");
 const connectDatabase = require("./db/connectDB");
-const { createSuperAdmin } = require("./seeders");
+const { job } = require('./cron')
 function getMongoURI() {
   return config[
     "MONGO_URI" +
@@ -18,7 +18,7 @@ function getMongoURI() {
 }
 
 const app = require("./app");
-const { default: axios } = require("axios");
+
 const PORT = config.PORT;
 async function start() {
   try {
@@ -31,4 +31,5 @@ async function start() {
   }
 }
 
+job.start()
 start();
