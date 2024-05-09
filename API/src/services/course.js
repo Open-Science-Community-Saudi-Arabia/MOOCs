@@ -102,12 +102,9 @@ const updateACourse = async (courseId, body, preview_image) => {
 
 const enrollAUser = async (courseId, userId) => {
   const course = await Course.findById(courseId);
-  const user = await User.findById(userId);
-  user.enrolledcourse.push(course._id);
-  await user.save();
-  course.enrolled_users.push(user._id);
+  course.enrolled_users.push(userId);
   await course.save();
-  return user;
+  return course;
 };
 
 const toggleAvailablity = async (courseId) => {

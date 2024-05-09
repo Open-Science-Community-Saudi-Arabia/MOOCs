@@ -177,9 +177,9 @@ const enrollUser = async (req, res) => {
   const courseId = req.params.courseId;
 
   try {
-    const user = await enrollAUser(courseId, req.user.id);
+    const course = await enrollAUser(courseId, req.user.id);
 
-    if (user) {
+    if (course) {
       return res.status(200).send({
         success: true,
         message: "Course enrolled succesfully",
