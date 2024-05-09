@@ -60,7 +60,7 @@ const index = () => {
               <Link className="nav-link" to="https://osc-ksa.com/">
                 <Trans>OSCSA</Trans>
               </Link>
-              <Link className="nav-link" to="">
+              <Link className="nav-link" to="/">
                 <Trans>Partnership </Trans>
               </Link>
               <Link

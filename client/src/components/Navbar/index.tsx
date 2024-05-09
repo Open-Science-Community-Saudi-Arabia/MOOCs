@@ -70,7 +70,7 @@ const index = () => {
                  </div>
                 </div>
               )}
-              <nav className="navbar">
+              {/* <nav className="navbar">
                 <Link className="navlink" to="/">
                   <Trans>Home</Trans>
                 </Link>
@@ -84,7 +84,7 @@ const index = () => {
                 <Link className="navlink" to="/">
                   <Trans>Blog</Trans>
                 </Link>
-              </nav>
+              </nav> */}
 
               <div className="auth-btn">
                <div className="nav-language-toogle">

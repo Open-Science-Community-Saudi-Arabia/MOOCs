@@ -14,7 +14,7 @@
     height: 80px;
   }
   &__navbar-container {
-    width: 75%;
+    // width: 75%;
 
     @include flex(space-between, center);
     .navbar {
