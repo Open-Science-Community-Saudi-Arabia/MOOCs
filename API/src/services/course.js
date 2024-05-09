@@ -124,15 +124,11 @@ const toggleEditing = async (courseId) => {
 const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const { resourceId, quizAnswers } = quizPayload;
 
-  const userCourses = await User.findById(userId).populate("enrolledcourse");
-
-  const userCourse = userCourses.enrolledcourse.find((course) =>
-    course._id.equals(courseId)
-  );
+  const course = await Course.findById(courseId);
   let quizAnswer = [...quizAnswers];
 
-  userCourse.course_section.map((course) => {
-    course.resources.map((ele) => {
+  course.course_section.map((coursesection) => {
+    coursesection.resources.map((ele) => {
       if (ele._id == resourceId) {
         ele.quiz.map((item, index) => {
           if (item._id == quizAnswer[index]._id) {
