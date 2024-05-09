@@ -63,21 +63,10 @@ const courseSchema = new Schema(
               },
               default: undefined,
             },
-            highest_score: {
-              type: Number,
-              required: function () {
-                return this.type === "quiz";
-              },
-              default: undefined,
-            },
           }),
         ],
       }),
     ],
-    overall_score: {
-      type: Number,
-      default: undefined,
-    },
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
     enrolled_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
     preview_image: { type: String },

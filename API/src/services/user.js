@@ -3,9 +3,20 @@ const { User } = require("../models/user.models");
 
 const getScore = async (userId, courseId) => {
   const user = await User.findById(userId);
+  const course = await Course.findById(courseId);
+  let totalQuizSore = [];
+
+  course.course_section.map((coursesection) => {
+    coursesection.resources.map((ele) => {
+      if (ele.type === "quiz") {
+        totalQuizSore.push(ele._id);
+      }
+    });
+  });
+
   const scoreArray = user.quizScore.filter((ele) => ele.courseId == courseId);
   const sum = scoreArray.reduce((acc, o) => acc + o.score, 0);
-  const overallScore = sum / user.quizScore.length;
+  const overallScore = sum / totalQuizSore.length;
   return overallScore;
 };
 
@@ -37,6 +48,7 @@ const getAUserCourse = async (userId, courseId) => {
 
   return { ...courseinfo, quizScore: userQuizScore };
 };
+
 
 module.exports = {
   getScore,
