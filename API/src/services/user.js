@@ -44,8 +44,7 @@ const getAUserCourse = async (userId, courseId) => {
   const user = await User.findById(userId);
   const userQuizScore = user.quizScore.filter(
     (ele) => ele.courseId == courseId
-  );
-
+  );console.log(userQuizScore)
   return { ...courseinfo, quizScore: userQuizScore };
 };
 
