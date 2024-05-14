@@ -1,8 +1,9 @@
 /**
- * @category Backend API
- * @subcategory Models
+ * @category API
+ * @subcategory Model
  * 
- * @module AuthModel
+ * @module Authentication
+ * 
  */
 
 const mongoose = require('mongoose');
@@ -13,11 +14,7 @@ const bcrypt = require('bcryptjs');
 /**
  * @typedef {Object} passwordSchema
  * 
- * @description This schema is used to store user passwords.
- * 
- * <br>
- * 
- * <b>NOTE:</b> The password is hashed before being stored in the database.
+ * @description This schema stores user hashed passwords.
  * 
  * @property {String} password - The user password
  * @property {ObjectId} user - The user to whom the password belongs
@@ -50,7 +47,7 @@ passwordSchema.pre('save', async function (next) {
 
 /**
  * @description This method is used to update the user password.
- * it first hashes the new password and then saves it to the database.
+ * The new password is hashed and saved to the database.
  * 
  * @method updatePassword
  * @param {string} newPassword 
@@ -58,7 +55,6 @@ passwordSchema.pre('save', async function (next) {
 passwordSchema.methods.updatePassword = async function (newPassword) {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(newPassword, salt);
-
     await this.save();
 }
 

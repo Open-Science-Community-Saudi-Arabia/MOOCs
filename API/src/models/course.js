@@ -1,3 +1,28 @@
+/**
+ * @category API
+ * @subcategory Model
+ *
+ * @module Course
+ */
+
+/**
+ * @typedef {Object} courseSchema
+ *
+ * @description This schema stores course.
+ *
+ * @property {String} author - The course author
+ * @property {String} title - The course title
+ * @property {String} description - Description of the course
+ * @property {Array} course_section - The course section
+ * @property {ObjectId} createdBy - The user who created the course
+ * @property {Array} enrolled_users - List of enrolled user to the course
+ * @property {string} preview_image - The course image
+ * @property {string} status - The course status
+ * @property {boolean} isAvailable - The course availability status
+ * @property {boolean} enableEditing - Editing course status
+/**
+ * @type {courseSchema}
+ */
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 

@@ -1,8 +1,27 @@
+/**
+ * @category API
+ * @subcategory Services
+ * @module CourseService
+ * @description The service module for handling course logic.
+ * @requires ../models/course
+ * @requires ../models/user.models
+ * @requires .../utils/cloudinary
+ *
+ */
+
 const { Course } = require("../models/course");
 const { User } = require("../models/user.models");
 const fs = require("fs");
 const { uploadToCloudinary } = require("../utils/cloudinary");
 
+/**
+ *
+ * @description Create a new course by admin or contributor. PDFs and image are upload on clodinary.
+ * @param {string} userId - UserId.
+ * @param {object} preview_image - Preview image .
+ * @param {object} reqBody - The HTTP request body object.
+ * @returns {Object} - New created course details
+ */
 const createACourse = async (userId, preview_image, body) => {
   const newCourse = await Course.create(body);
 
@@ -25,16 +44,33 @@ const createACourse = async (userId, preview_image, body) => {
   return courseDetails;
 };
 
+/**
+ *
+ * @description Query database for a specific course with course ID
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const getACourse = async (courseId) => {
   const course = await Course.findById(courseId);
   return course;
 };
 
+/**
+ *
+ * @description Query database for a specific contributor courses
+ * @param {string} contributorId - contributorId
+ * @returns {Object} - Course details retrived
+ */
 const getAContributorCourses = async (contributorId) => {
   const course = await Course.find({ createdBy: contributorId });
   return course;
 };
 
+/**
+ *
+ * @description Query database for all courses.
+ * @returns {Object} - Course details retrived
+ */
 const allCourses = async () => {
   const course = await Course.find().populate({
     path: "createdBy",
@@ -42,6 +78,11 @@ const allCourses = async () => {
   return course;
 };
 
+/**
+ *
+ * @description Query database for all course with status approved
+ * @returns {Object} - Course details retrived
+ */
 const allApprovedCourses = async () => {
   const courses = await Course.find({ status: "Approved" }).select(
     "-course_section"
@@ -49,6 +90,12 @@ const allApprovedCourses = async () => {
   return courses;
 };
 
+/**
+ *
+ * @description Query database and update course status to approved
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const approveACourse = async (courseId) => {
   const course = await Course.findById(courseId);
   course.status = "Approved";
@@ -56,6 +103,12 @@ const approveACourse = async (courseId) => {
   return course;
 };
 
+/**
+ *
+ * @description Query database and update course status to pending
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const pendingACourse = async (courseId) => {
   const course = await Course.findById(courseId);
   course.status = "Pending";
@@ -63,6 +116,12 @@ const pendingACourse = async (courseId) => {
   return course;
 };
 
+/**
+ *
+ * @description Query database and update course status to archived
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const archiveACourse = async (courseId) => {
   const course = await Course.findById(courseId);
   course.status = "Archived";
@@ -70,6 +129,14 @@ const archiveACourse = async (courseId) => {
   return course;
 };
 
+/**
+ *
+ * @description Query database and update a course
+ * @param {string} courseId - Course Id
+ * @param {object} reqbody - Request body object
+ * @param {object} preview_image - Curse Preview image
+ * @returns {Object} - Course details retrived
+ */
 const updateACourse = async (courseId, body, preview_image) => {
   let file_url;
   if (preview_image !== undefined) {
@@ -100,6 +167,13 @@ const updateACourse = async (courseId, body, preview_image) => {
   return courseDetails;
 };
 
+/**
+ *
+ * @description Enroll a user into a particular course
+ * @param {string} courseId - Course Id
+ * @param {string} userId - User Id
+ * @returns {Object} - Course details retrived
+ */
 const enrollAUser = async (courseId, userId) => {
   const course = await Course.findById(courseId);
   course.enrolled_users.push(userId);
@@ -107,6 +181,12 @@ const enrollAUser = async (courseId, userId) => {
   return course;
 };
 
+/**
+ *
+ * @description Query database and toggle course availability
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const toggleAvailablity = async (courseId) => {
   const course = await Course.findById(courseId);
   course.isAvailable = !course.isAvailable;
@@ -114,6 +194,12 @@ const toggleAvailablity = async (courseId) => {
   return course;
 };
 
+/**
+ *
+ * @description Query database and toggle course editing mode
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
 const toggleEditing = async (courseId) => {
   const course = await Course.findById(courseId);
   course.enableEditing = !course.enableEditing;
@@ -121,6 +207,13 @@ const toggleEditing = async (courseId) => {
   return course;
 };
 
+/**
+ *
+ * @description Evaluate quiz submission , check quiz answers and update the database for a user
+ * @param {string} userId - User Id
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Quiz score details
+ */
 const evaluateUserAnswers = async (userId, courseId, quizPayload) => {
   const { resourceId, quizAnswers } = quizPayload;
 

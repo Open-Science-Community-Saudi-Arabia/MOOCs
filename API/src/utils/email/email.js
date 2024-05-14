@@ -1,14 +1,12 @@
 /**
- * @fileoverview Email utilities.
+ * @fileoverview Email handling.
  *
- * @category Backend API
+ * @category API
  * @subcategory Utilities
+ * @module Email
  *
- * @module Email Utilities
+ * @description This module contains functions for sending emails using Nodemailer.
  *
- * @description This module contains functions for sending emails.
- *
- * @requires nodemailer
  */
 
 const nodemailer = require("nodemailer");
@@ -19,8 +17,6 @@ const {
   email_verification_template,
   email_verification_template_ar,
 } = require("./templates");
-
-// 3. Send email to user
 
 /**
  * Send Email
@@ -33,15 +29,9 @@ const {
  * @param {string} options.html - HTML to send in the email
  * @returns {Promise} Promise object represents the result of sending the email
  * @throws {Error} Throws an error if the email could not be sent
- * @async
- * @function
- * @memberof module:Email Utilities
- * @name sendEmail
  */
-
 const sendEmail = async (options) => {
   try {
-    //1. Create the transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
       host: "smtp.gmail.com",
@@ -53,7 +43,6 @@ const sendEmail = async (options) => {
       },
     });
 
-    //2. Define Email Options
     const mailOptions = {
       from: "MOOCs platform",
       to: options.email,
@@ -61,13 +50,13 @@ const sendEmail = async (options) => {
       text: options.message,
       html: options.html,
     };
-    // actually send message
     await transporter.sendMail(mailOptions);
   } catch (error) {
     console.log(error);
     return error;
   }
 };
+
 
 class EmailMessage {
   constructor(lang = "en") {
