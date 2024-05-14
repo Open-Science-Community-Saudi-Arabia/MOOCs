@@ -13,6 +13,10 @@ app.use(express.json());
 
 require("./routes/routes_handler")(app);
 
+app.get('/', (req, res) => {
+  res.send('Welcome to Open Innovation')
+})
+
 app.use(errorHandler);
 app.use((req, res, next) => {
   res.status(404).json({
