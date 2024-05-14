@@ -1,17 +1,14 @@
 /**
- * @fileoverview User Model
+ * @category API
+ * @subcategory Model
  *
- * @category Backend API
- * @subcategory Models
- *
- * @module UserModel
+ * @module User
  * @description This module contains the user model and its submodels,
  * users are the main entities in the system, they are the ones who can access the API,
  * each user has a role, which determines the level of access they have to the API. </br>
  *
  * </br>
- *
- * The role of a user can be one of the following: </br>
+ * User roles: </br>
  * - EndUser - A regular user, who can access the API and use it to perform CRUD operations on the database. </br>
  * </br>
  * - Contributor -  A user who can access the API and use it to perform CRUD operations on the database,
@@ -30,8 +27,31 @@ const mongoose = require("mongoose");
 const { BadRequestError } = require("../utils/errors");
 const validator = require("validator");
 const Schema = mongoose.Schema;
-
 const options = { toObject: { virtuals: true } };
+
+/**
+ * @typedef {Object} statusSchema
+ *
+ * @description User account status, every user has a status object,
+ * which contains information about the user's account status,
+ * such as whether the account is active or not, and whether the account is verified or not.
+ *
+ * @property {ObjectId} user - The user to whom the status belongs
+ * @property {Boolean} isActive - Whether the account is active or not
+ * @property {Boolean} isVerified - Whether the account is verified or not
+ *
+ * @see {@link module:UserModel~userSchema userSchema}
+ */
+
+/**
+ * @type {statusSchema}
+ */
+const statusSchema = new Schema({
+  user: { type: String, required: true, ref: "User" },
+  isActive: { type: Boolean, default: true },
+  isVerified: { type: Boolean, default: false },
+});
+
 
 /**
  * @typedef {Object} userSchema
@@ -56,36 +76,6 @@ const options = { toObject: { virtuals: true } };
  * @see {@link module:CourseModel~courseSchema courseSchema}
  * @see {@link module:AuthModel~passwordSchema passwordSchema}
  */
-
-/**
- * @typedef {Object} statusSchema
- *
- * @description User account status, every user has a status object,
- * which contains information about the user's account status,
- * such as whether the account is active or not, and whether the account is verified or not.
- *
- * </br>
- * </br>
- *
- * <b> Note: </b>
- * By default, for new users with the role EndUser, their account will be active and unverified .
- * If the user is an contributor or superadmin, the account is inactive and unverified by default.
- *
- * @property {ObjectId} user - The user to whom the status belongs
- * @property {Boolean} isActive - Whether the account is active or not
- * @property {Boolean} isVerified - Whether the account is verified or not
- *
- * @see {@link module:UserModel~userSchema userSchema}
- */
-
-/**
- * @type {statusSchema}
- */
-const statusSchema = new Schema({
-  user: { type: String, required: true, ref: "User" },
-  isActive: { type: Boolean, default: true },
-  isVerified: { type: Boolean, default: false },
-});
 
 /**
  * @type {userSchema}
@@ -115,7 +105,8 @@ const userSchema = new Schema(
   { timestamp: true, toObject: { virtuals: true } }
 );
 
-// Get users password from Password collection
+
+
 /**
  * @description This virtual property is used to get the
  * user's password from the Password collection
@@ -163,11 +154,8 @@ userSchema.virtual("enrolled_courses", {
 // });
 
 statusSchema.pre("save", async function (next) {
-  // Check if it is a new document
   if (this.isNew) {
-    //console.log('Not modified')
     await this.populate("user");
-    // Check if user is an enduser
     if (this.user.role == "EndUser") this.isActive = true;
     else this.isActive = false;
   }

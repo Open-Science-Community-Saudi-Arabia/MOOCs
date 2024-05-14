@@ -1,105 +1,125 @@
 /**
- * Custom Error Classes
- * 
- * @category Backend API
+ * @fileoverview Custom Error Classes.
+ *
+ * @category API
  * @subcategory Utilities
- * 
- * @module Custom Error Classes
- * 
- * @description This module contains custom error classes
- * 
- * @requires Error
+ *
+ * @module Custom Error
+ *
+ * @description This file contains custom error classes
+ *
  */
 
 
 /**
- * Custom Error Class
- * 
- * @class CustomAPIError
+ * @name CustomAPIError
+ * @description Base class for all custom error classes
  * @extends Error
- * 
- * @description This class is the base class for all custom error classes
- * 
+ *
  * @param {string} message - Error message
  * @param {number} statusCode - HTTP status code
  */
 class CustomAPIError extends Error {
-    constructor(message, statusCode = 500){
-        super(message)
-        this.statusCode = statusCode
-    }
+  constructor(message, statusCode = 500) {
+    super(message);
+    this.statusCode = statusCode;
+  }
 }
 
 /**
- * @class BadRequestError
+ * @name BadRequestError
+ * @description Error from a bad request
+ * @extends Error
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
  */
 class BadRequestError extends CustomAPIError {
-    constructor (message){
-        super(message)
-        this.statusCode = 400
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 400;
+  }
 }
 
 /**
- * @class UnauthorizedError
+ * @name UnauthorizedError
+* @extends CustomAPIError
+ * @description UnauthorizedError handles error for unauthenticated and unathorized requests
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
  */
 class UnauthorizedError extends CustomAPIError {
-    constructor (message) {
-        super(message) 
-        this.statusCode = 401
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 401;
+  }
 }
 
 /**
- * @class ForbiddenError
+ * @name ForbiddenError
+ * @extends CustomAPIError
+ * @description ForbiddenError handles error for request not allowed
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
  */
 class ForbiddenError extends CustomAPIError {
-    constructor (message) {
-        super(message)
-        this.statusCode = 403
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 403;
+  }
 }
 
 /**
- * @class NotFoundError
+ * @name NotFoundError
+ * @extends CustomAPIError
+ * @description NotFoundError handles error with not existing routes.
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
+ *
  */
 class NotFoundError extends CustomAPIError {
-    constructor (message) {
-        super(message)
-        this.statusCode = 404
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 404;
+  }
 }
 
 /**
- * @class ConflictError
+ * @name ConflictError
+ * @extends CustomAPIError
+ * @description ConflictError handles conflict error.
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
  */
 class ConflictError extends CustomAPIError {
-    constructor (message) {
-        super(message)
-        this.statusCode = 409
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 409;
+  }
 }
 
 /**
- * @class InternalServerError
+ * @name InternalServerError
+ * @extends CustomAPIError
+ * @description InternalServerError handles error from server.
+ * @param {string} message - Error message
+ * @param {number} statusCode - HTTP status code
  */
 class InternalServerError extends CustomAPIError {
-    constructor (message) {
-        super(message)
-        this.statusCode = 500
-    }
+  constructor(message) {
+    super(message);
+    this.statusCode = 500;
+  }
 }
 
 const UnauthenticatedError = UnauthorizedError;
 
-
 module.exports = {
-    CustomAPIError,
-    BadRequestError,
-    UnauthorizedError,
-    UnauthenticatedError,
-    ForbiddenError,
-    NotFoundError,
-    ConflictError,
-    InternalServerError
-}
+  CustomAPIError,
+  BadRequestError,
+  UnauthorizedError,
+  UnauthenticatedError,
+  ForbiddenError,
+  NotFoundError,
+  ConflictError,
+  InternalServerError,
+};

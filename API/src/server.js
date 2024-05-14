@@ -6,7 +6,7 @@ if (environments.includes(NODE_ENV)) {
   require("dotenv").config({ path: `${__dirname}/.env` });
 }
 
-// Project config variables
+
 const config = require("./utils/config");
 const connectDatabase = require("./db/connectDB");
 const { job } = require('./cron')

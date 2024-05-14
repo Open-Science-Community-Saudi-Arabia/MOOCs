@@ -3,21 +3,7 @@ const { basicAuth } = require('../middlewares/auth');
 const rbac = require('../middlewares/permission_handler');
 const authController = require('../controllers/auth.controllers');
 const router = express.Router();
-const passport = require('passport');
-const { githubStrategy } = require('../utils/passport');
 
-/**
- * @todo - Improve modularity for passport
- */
-passport.use(githubStrategy);
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-    User.findOne({ googleId: id }, function (err, user) {
-        done(err, user);
-    });
-});
 
 router
     .post('/signup', authController.signup)
@@ -36,15 +22,6 @@ router
     .post('/forgotpassword', authController.forgetPassword)
     .patch('/resetpassword/', basicAuth('password_reset'), authController.resetPassword)
     .post('/googlesignin', authController.googleSignin)
-    .get(
-        '/github',
-        passport.authenticate('github', { scope: ['user:email'] })
-    )
-    .get(
-        '/github/callback',
-        passport.authenticate('github'),
-        authController.passportOauthCallback
-    )
     .post('/google/callback', authController.googleSignin)
     .get('/verifyemail/:token', authController.verifyEmail)
     .get('/user', basicAuth(), authController.getLoggedInUser)

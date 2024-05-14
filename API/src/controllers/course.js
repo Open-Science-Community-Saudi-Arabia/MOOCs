@@ -1,3 +1,29 @@
+/**
+ * @category API
+ * @subcategory Controllers
+ * @module Course Controller
+ * @description This module contains the controllers for handling course logic.
+ * @requires ../services/course
+ * 
+ * The following routes are handled by this module and their corresponding functions: </br>
+ *
+ * </br>
+ *
+ * <b>GET</b> / - superadmin</br>
+ * <b>GET</b> /approved</br>
+ * <b>GET</b> /enroll/:courseId</br>
+ * <b>GET</b> /:courseId - EndUser SuperAdmin</br>
+ * <b>GET</b> /contributor/:contributorId - Contributor SuperAdmin</br>
+ * <b>GET</b> /pending/:courseId - SuperAdmin</br>
+ * <b>GET</b> /toggle-available/:courseId - SuperAdmin</br>
+ * <b>GET</b> /toggle-editing/:courseId - SuperAdmin</br>
+ * <b>GET</b> /archive/:courseId - Contributor SuperAdmin</br>
+ * <b>POST</b> /new - Contributor SuperAdmin</br>
+ * <b>POST</b> /exercise-score/:courseId </br>
+ * <b>PATCH</b>/:courseId - Contributor SuperAdmin </br>
+ *
+ */
+
 const {
   createACourse,
   getACourse,
@@ -14,6 +40,14 @@ const {
   evaluateUserAnswers,
 } = require("../services/course");
 
+/**
+ *
+ * @description Create a new course by admin or contributor.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const createCourse = async (req, res) => {
   try {
     const reqBody = Object.assign({}, req.body);
@@ -36,6 +70,14 @@ const createCourse = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Get a specific course. Allowed for EndUser and SuperAdmin
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and course data
+ * @throws {Error} If error occurs
+ */
 const getCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
@@ -55,6 +97,14 @@ const getCourse = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Get a specific contributor course. Request permitted for contributors.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and course data
+ * @throws {Error} If error occurs
+ */
 const getContributorCourses = async (req, res) => {
   try {
     const contributorId = req.params.contributorId;
@@ -73,6 +123,14 @@ const getContributorCourses = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Get all courses excluding contributors drafts. Request permitted for super admin only. 
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and all courses data
+ * @throws {Error} If error occurs
+ */
 const getAllCourses = async (req, res) => {
   try {
     const courses = await allCourses();
@@ -90,6 +148,14 @@ const getAllCourses = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Get all approved course.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and all approved courses data
+ * @throws {Error} If error occurs
+ */
 const getApprovedCourses = async (req, res) => {
   try {
     const courses = await allApprovedCourses();
@@ -105,6 +171,14 @@ const getApprovedCourses = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Approved a course. Only Super admin can approve courses.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const approveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -122,6 +196,14 @@ const approveCourse = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Update course status to pending. Only Super admin can update course status.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const makeCoursePending = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -138,6 +220,15 @@ const makeCoursePending = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Update course status to archive. Only Super admin can update course status. 
+ * Archiving a course is similar to delete but with an extended period.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const archiveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -155,6 +246,14 @@ const archiveCourse = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Update course. Only Super admin  and contributor can can update a course. 
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const updateCourse = async (req, res) => {
   const courseId = req.params.courseId;
   const reqBody = Object.assign({}, req.body);
@@ -173,9 +272,16 @@ const updateCourse = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Enrolling into a course by the end user. Request permitted for end users. 
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const enrollUser = async (req, res) => {
   const courseId = req.params.courseId;
-
   try {
     const course = await enrollAUser(courseId, req.user.id);
 
@@ -194,6 +300,14 @@ const enrollUser = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Update a course avaialbility. Only Super admin can update course availabilty. 
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const toggleCourseAvailablity = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -213,6 +327,14 @@ const toggleCourseAvailablity = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Toggle a course editing mode. Only Super admin can update course editing status. 
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and message
+ * @throws {Error} If error occurs
+ */
 const toggleCourseEditing = async (req, res) => {
   const courseId = req.params.courseId;
   try {
@@ -232,6 +354,14 @@ const toggleCourseEditing = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Evaluate and check quiz score answers after the user submits selection for a course quiz.
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and evaluate score for the quiz
+ * @throws {Error} If error occurs
+ */
 const evaluateQuizScore = async (req, res) => {
   const quizPayload = req.body;
 
