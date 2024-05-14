@@ -9,10 +9,10 @@ import useMediaQuery from "../../hooks/usemediaQuery";
 import LanguageToggle from "../LanguageToggle";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Component
  * @module Navbar
- * @description This module contains the components in the frontend,
+ * @description The home page navbar,
  * @component
  * @example
  *  <Navbar />

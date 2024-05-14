@@ -4,7 +4,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 
 interface IProps {
   pdfUrl: any;
-  // isCourseContent: boolean;
 }
 
 const ViewPdf = ({ pdfUrl }: IProps) => {

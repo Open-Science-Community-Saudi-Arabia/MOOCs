@@ -9,10 +9,10 @@ interface ErrorFallbackProps {
 }
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Component
  * @module Error
- * @description The Error modal pops up when there is an error fetching courses.
+ * @description The error modal pops up when there is an error fetching courses.
  * @component
  * @example
  *  <ErrorFallBack message="Something went wrong!" description="We encountered an error while fetching courses" reset={reset} />

@@ -13,10 +13,10 @@ import { t, Trans } from "@lingui/macro";
 import VerificationLink from "../verification-link";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
  * @module Signup
- * @description Users sign up with name,email and password, including Google signup option.
+ * @description Users and contributor can register with name, email and password, including Google signup option.
  * @component
  * @example
  <Route path="/signup" element={<Signup />} />

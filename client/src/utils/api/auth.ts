@@ -7,14 +7,14 @@ import {
 } from "../../types";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Utilities
- * @module Auth
+ * @module User Authentication
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset,
  */
 
 /**
- * @description handle signup endpoint
+ * @description Signup endpoint
  * @param  {object} payload  request data
  * @return {Promise<object>} response data
  */
@@ -23,7 +23,7 @@ export async function signUp(payload: SignUpRequestPayload) {
 }
 
 /**
- * @description handle login endpoint
+ * @description Login endpoint
  * @param  {object} payload  request data
  * @return {Promise<object>} response data
  */
@@ -33,7 +33,7 @@ export async function login(payload: LoginInRequestPayload) {
 }
 
 /**
- * @description handle login endpoint
+ * @description Admin login endpoint
  * @param  {object} payload  request data
  * @return {Promise<object>} response data
  */
@@ -43,7 +43,7 @@ export async function loginAdmin(payload: LoginInRequestPayload) {
 }
 
 /**
- * @description handle forgot-password endpoint
+ * @description Forgot-password endpoint
  * @param   {object} payload  request data
  * @return {Promise<object>} response data
  */
@@ -53,24 +53,28 @@ export async function forgotpassword(payload: ForgetPasswordReqPayload) {
 }
 
 /**
- * @description handle reset-password endpoint
+ * @description Reset-password endpoint
  * @param   {object} payload  request data
- * @return {object} response data
+ * @return {Promise<object>} response data
  */
 export async function resetpassword(payload: ResetPasswordReqPayload) {
   const response = await makeApiCall(`/auth/resetpassword`, "patch", payload);
   return response;
 }
 /**
- * @description handle verifyEmail endpoint
+ * @description VerifyEmail endpoint
  * @param   {object} payload  request data
- * @return {object} response data
+ * @return {Promise<object>} response data
  */
 export async function verifyEmail(payload: any) {
   const response = await makeApiCall(`/auth/verifyemail/${payload}`, "get");
   return response;
 }
 
+/**
+ * @description User profile endpoint
+ * @return {Promise<object>} response data
+ */
 export async function userProfile() {
   const response = await makeApiCall(`/auth/user`, "get");
   return response;

@@ -29,10 +29,10 @@ import { useQuery } from "react-query";
 import { FaRegFilePdf } from "react-icons/fa";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
- * @module ViewCourse
- * @description To view individual course content.
+ * @module View Course
+ * @description User can view individual course content.
  * @component
  * @example
 <Route path="course/:id" element={<ViewCourse />} />

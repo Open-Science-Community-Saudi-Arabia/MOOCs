@@ -1,3 +1,11 @@
+/**
+ * @category Client
+ * @subcategory Pages
+ * @description The landing Page for the open innovation platform.
+ * @component
+ * @example
+ * <Route path="/" element={<Home />} />
+ */
 import Navbar from "../../components/Navbar";
 import "./home.scss";
 import illustration from "../../images/hero-image.svg";
@@ -8,15 +16,6 @@ import { MdArrowForward } from "react-icons/md";
 import Footer from "../../components/Footer";
 import { Trans } from "@lingui/macro";
 
-/**
- * @category Client App
- * @subcategory Pages
- * @module Home
- * @description The landing Page.
- * @component
- * @example
- * <Route path="/" element={<LandingPage />} />
- */
 
 const Home = () => {
   return (

@@ -8,10 +8,10 @@ import "./footer.scss";
 import { Trans } from "@lingui/macro";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Component
  * @module Footer
- * @description The footer component,
+ * @description The footer of the home page,
  * @component
  * @example
  *  <Footer />

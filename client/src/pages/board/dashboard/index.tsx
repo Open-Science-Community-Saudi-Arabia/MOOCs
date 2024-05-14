@@ -7,10 +7,10 @@ import AvailableCourses from "./availablecourses";
 import {  getUserCourses } from "../../../utils/api/courses";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
- * @module Dashboard
- * @description To view all available course content.
+ * @module User Dashboard
+ * @description User can view all available courses.
  * @component
  * @example
   <Route path="dashboard" element={<Board />} />

@@ -11,6 +11,16 @@ import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { Courses } from "../../types";
 
+/**
+ * @category Client
+ * @subcategory Pages
+ * @module Contributor Board
+ * @description The dashboard for contributor to create, edit and view courses.
+ * @component
+ * @example
+ *  <Route path="/contributor/dashboard" element={<ContributorBoard />} />
+ */
+
 export default function index() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Courses | any>({});

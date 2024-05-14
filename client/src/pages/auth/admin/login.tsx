@@ -11,10 +11,10 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { Trans, t } from "@lingui/macro";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
- * @module Login
- * @description Users login with email and password, including Google signup option.
+ * @module Admin Login
+ * @description Admin login with email and password.
  * @component
  * @example
    <Route path="admin/login" element={<AdminLogin />} />

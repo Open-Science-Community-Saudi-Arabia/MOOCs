@@ -6,9 +6,9 @@ const token = localStorage.getItem(TOKEN_KEY);
 const baseURL = import.meta.env.VITE_API_BASEURL;
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Utilities
- * @module RequestConfig
+ * @module Axios RequestConfig
  * @description This module handles Axios Request Config for API request.
  */
 

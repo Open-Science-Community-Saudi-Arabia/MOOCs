@@ -8,7 +8,15 @@ interface Props {
   children: ReactNode;
   width?:string
 }
-
+/**
+ * @category Client
+ * @subcategory Component
+ * @module Modal
+ * @description The modal pops up when a user is editing or viewing a course, quiz question or pdfs,
+ * @component
+ * @example
+ *  <Modal show handleClose children width />
+ */
 const Modal = ({ handleClose, show, children ,width}: Props) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
