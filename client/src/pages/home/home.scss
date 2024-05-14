@@ -3,12 +3,13 @@
 // mobile first
 .hero-container {
   width: 90%;
-  margin: 5em auto;
+  margin: 3em auto;
   @include ipad {
     @include flex(space-between, center);
   }
   @include xl-screen {
     width: 60%;
+    margin: 5em auto;
   }
   &__left {
     &-heading {

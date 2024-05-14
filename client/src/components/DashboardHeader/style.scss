@@ -1,0 +1,92 @@
+@import "../../styles/mixins.scss";
+.dashboard-header {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  &__container {
+    background-color: rgb(205, 233, 229);
+    padding: 1em 1.5em;
+    width: 100%;
+    margin: auto;
+    @include flex(space-between, center);
+  }
+  &__logo {
+    height: 60px;
+    display: none;
+    @include ipad {
+      display: block;
+      width: 100%;
+      @include flex(space-between, center);
+    }
+  }
+  &-inputfield {
+    width: 100%;
+    &__input {
+      cursor: auto;
+      height: 45px;
+      width: 100%;
+      border: none;
+      font-size: 16px;
+      font-weight: 400;
+      border-radius: 10px;
+      padding: 0 15px;
+      border: 1px solid #acabab78;
+      &:focus {
+        border: 1px solid var(--green);
+      }
+    }
+    @include meduim-screen {
+      width: 70%;
+    }
+    @include ipad {
+      width: 500px;
+    }
+  }
+  &-profile {
+    margin-left: 20px;
+    position: relative;
+    cursor: pointer;
+    @include flex(space-between, center);
+    gap: 30px;
+    &__btn {
+      @include flex(space-between, center);
+      position: relative;
+      &-text {
+        font-size: 16px;
+        color: var(--green);
+        border-radius: 100%;
+        font-weight: 500;
+        @include ipad {
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+      svg {
+        color: var(--green);
+        font-size: 25px;
+      }
+    }
+    &__logout-btn {
+      position: absolute;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+      top: 32px;
+      right: 0;
+      background-color: var(--white);
+      padding: 0.5em 1em 1em 1em;
+      border-radius: 5px;
+      color: var(--green);
+      border: none;
+      @include ipad {
+        right: -13px;
+      }
+    }
+    .rtl &__logout-btn {
+      right: 10px;
+      @include ipad {
+        right: 50px;
+      }
+    }
+  }
+}

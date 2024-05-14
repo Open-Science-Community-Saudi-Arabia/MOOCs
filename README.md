@@ -34,13 +34,13 @@
 </div>
 <br/>
 
-# Deployment
+## Deployment
 Frontend: https://moocs-client.netlify.app/  
 API: https://documenter.getpostman.com/view/20633788/2s93JwMgmb
 
 <br/>
 
-# Technologies
+## Technologies
 
 ### Frontend Technologies
 
@@ -64,130 +64,23 @@ API: https://documenter.getpostman.com/view/20633788/2s93JwMgmb
 
 <br/>
 
-# Contributing :two_hearts:
-- If you like it, leave your star in this project :star2:
-- If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
-- Please follow our [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
-- This is the guide to how the UI Design should look when implementing any frontend pages. [Click this link to see the figma design](https://www.figma.com/file/mkhBuJAS2arzy3wrbTZp2D/Simple-Landing-page-for-OSCSA%2C-with-Log-In-and-Sign-Up-Pages?node-id=0%3A1) 
-
-<br/>
-
 ## Environment Setup
 
-- Make sure you have nodejs installed by running the following command:
+- Make sure you have NodeJs installed by running the following command:
 
 ```bash
 node -v
 ```
-
-- If the output is not the version of your nodejs installation, install nodejs from [here](https://nodejs.org/en/download/)
-
-<br/>
-
-## Frontend Setup
-
-- Open `Git Bash` terminal inside root project folder
-- cd into the frontend folder by typing
-
-```bash
-cd client
-```
-
-- Install project dependencies, run the command:
-
-```bash
-yarn install
-```
-
-### To start the frontend application 
-
-```bash
-yarn dev
-```
-
-- Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
-- You're all set. Happy coding😁
-
-### Creating a production building
-
-```bash
-yarn build
-```
-
-### Checking formatting
-
-- Run this script to check if all files meet prettier standard rules of formatting
-
-```bash
-yarn format:check
-```
-
-- Run this script to fix all auto-fixable formatting errors in the whole project
-
-```bash
-yarn format:fix
-```
-
-- Checking code syntax is in line with eslint rules
-
-```bash
-yarn lint:check
-```
-
-- Fix all auto-fixable syntax errors in the whole project
-
-```bash
-yarn lint:fix
-```
-
-## Things to note as you contribute
-- Linting has been set up for staged commits in the repository.
-- We're using `eslint` for js linting, and `prettier` for code formating.
-- Please make it a point to install `eslint` and `prettier` plugins on vscode to aid in your coding process.
-- Your code has to be properly formatted and have the correct syntax for you to be able to commit your changes.
-- Make sure you attend to all warnings and errors before you commit your code.
-- Any page you code has to be responsive.
-- Write clear and concise commit messages.
-- Always run `yarn` after pulling code from the upstream repository.
-- Always, **Always** make pull requests to the **dev_team2** branch, not the `main` branch. All pull requests to the `main` branch will not be merged.
-- Please, always test your code and make sure it works correctly before making a pull request
-- Run `prettier --check "input name of file here"` to check if your code is well formatted before you commit
-- Run `eslint input name of file here --color` to check if the files you edited con form to the standards required for this project
-
-
-<br/>
-
-## Backend Setup
-
-Instructions on how to run the backend server:
-
-- Open `Git Bash` terminal inside root project folder
-- cd into the backend folder by typing
-
-```bash
-cd backend_API
-```
-
-- To install dependencies, run the following command:
-
-```bash
-npm install
-```
-
-- create a .env file in the project folder with the `MONGO_URI`, `PORT` variables
+- If the output is not the version of your NodeJs installation, install NodeJs from [here](https://nodejs.org/en/download/)
   
 <br/>
 
-### START THE SERVER
-
-- To start the whole application server
-
-```bash
-npm run dev
-```
-
-- Open your browser on localhost with the port you specified to see the result.
-- You're all set and ready to code😁
+## Contributing :two_hearts:
+- If you like it, leave your star in this project :star2:
+- If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
+- Please follow our general [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
+- [Contributing Gudlines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/client/README.md) for the client
+- [Contributing Gudlines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/API/CONTRIBUTING.md) for the backend APIs
 
   
 <br/>

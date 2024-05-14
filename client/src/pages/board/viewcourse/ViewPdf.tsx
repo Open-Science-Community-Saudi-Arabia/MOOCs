@@ -15,7 +15,7 @@ const ViewPdf = ({ pdfUrl }: IProps) => {
   const onDocumentLoadSuccess = ({ numPages }: any) => {
     setNumPages(numPages);
   };
-  console.log(pdfUrl)
+
   return (
     <div className="viewpdf">
       <p className="viewpdf__pagenumber">

@@ -1,7 +1,7 @@
 @import "../../styles/mixins.scss";
 .header {
   @include flex(space-between, center);
-  padding: 1em;
+  padding: 0.5em 1em;
   @include ipad {
     padding: 1em 2em;
   }
@@ -14,7 +14,7 @@
     height: 80px;
   }
   &__navbar-container {
-    width: 75%;
+    // width: 75%;
 
     @include flex(space-between, center);
     .navbar {
@@ -33,10 +33,10 @@
     padding: 1em 1.5em;
     background-color: var(--white);
     .sidebar-logo {
-      @include flex(space-between, start);
+      @include flex(space-between, center);
       margin-bottom: 2em;
       &__image {
-        height: 84px;
+        height: 60px;
       }
       .nav-close{
         gap:1em;

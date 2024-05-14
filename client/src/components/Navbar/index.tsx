@@ -3,7 +3,7 @@ import logo from "../../images/logo.svg";
 import dropdownBar from "../../images/bar.svg";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
-import { IoMdCloseCircle } from "react-icons/io";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import { Trans } from "@lingui/macro";
 import useMediaQuery from "../../hooks/usemediaQuery";
 import LanguageToggle from "../LanguageToggle";
@@ -65,12 +65,12 @@ const index = () => {
                     }}
                     className="icon-button"
                   >
-                    <IoMdCloseCircle className="sidebar-logo__close-icon" />
+                    < IoCloseCircleOutline className="sidebar-logo__close-icon" />
                   </button>
                  </div>
                 </div>
               )}
-              <nav className="navbar">
+              {/* <nav className="navbar">
                 <Link className="navlink" to="/">
                   <Trans>Home</Trans>
                 </Link>
@@ -84,7 +84,7 @@ const index = () => {
                 <Link className="navlink" to="/">
                   <Trans>Blog</Trans>
                 </Link>
-              </nav>
+              </nav> */}
 
               <div className="auth-btn">
                <div className="nav-language-toogle">

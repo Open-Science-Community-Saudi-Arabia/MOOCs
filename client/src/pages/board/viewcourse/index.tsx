@@ -2,22 +2,22 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Certificate from "./Certificate";
 import "./style.scss";
-import { IoMdClose } from "react-icons/io";
 import { TiArrowBack } from "react-icons/ti";
 import { RxDot } from "react-icons/rx";
 import { MdOndemandVideo } from "react-icons/md";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BiCollapseAlt } from "react-icons/bi";
 import {
   getCertificate,
-  getCourse,
-  getCourses,
+  getOverallUserQuiz,
+  getUserCourse,
 } from "../../../utils/api/courses";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
-import Quiz from "./Quiz";
+import ExerciseQuiz from "./ExerciseQuiz";
 import ViewPdf from "./ViewPdf";
-import { CourseSections, Exercise, TextMaterial, Video } from "../../../types";
-import Result from "./Result";
+import { CourseSections, Resources } from "../../../types";
+
 import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ import { ProgressBar } from "../../../components/ProgressBar";
 import { t, Trans } from "@lingui/macro";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
+import { FaRegFilePdf } from "react-icons/fa";
 
 /**
  * @category Client App
@@ -38,103 +39,60 @@ import { useQuery } from "react-query";
  */
 
 const ViewCourse = () => {
-  const params = useParams();
+  const params: string | any = useParams();
+  const userId: string | any = localStorage.getItem("MOOCS_WEB_APP_USERID");
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
-  const [displayContent, setDisplayContent] = useState<
-    "video" | "exercise" | "pdf" | "result" | "certificate"
-  >("video");
+  const [displayContent, setDisplayContent] = useState<Resources>();
   const [isCourseContent, setCourseContent] = useState(true);
-  const [videoData, setVideoData] = useState<Video>();
-  const [exerciseData, setExerciseData] = useState<Exercise>();
-  const [pdfData, setPdfData] = useState<TextMaterial>();
-  const [selectedIndex, setSelectedIndex] = useState("");
-  const [quizIndex, setQuizIndex] = useState<number>(0);
+  const [quizScores, setQuizScores] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [viewSubmit, setViewSubmit] = useState(false);
-  const [submission, setSubmission] = useState({});
   const [overAllScore, setOverAllScore] = useState(0);
-  const [currentScore, setCurrentScore] = useState<number>(0);
-  const [bestScore, setBestScore] = useState<number>(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
   const queryKey = "getCourse";
   const {
-    data: coursedata,
+    data: course,
     isFetching,
     error,
     refetch,
-  }: any = useQuery([queryKey, params.id], () => getCourse(params.id), {
-    refetchOnWindowFocus: false,
-    staleTime: 0,
-    cacheTime: 0,
-    refetchInterval: 0,
-  });
+  }: any = useQuery(
+    [queryKey, params.id],
+    () => getUserCourse(params.id)
+    // {
+    //   refetchOnWindowFocus: false,
+    //   staleTime: 0,
+    //   cacheTime: 0,
+    //   refetchInterval: 0,
+    // }
+  );
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
-  const course = coursedata?.data.course;
   const locale = localStorage.getItem("language") || "en";
 
   useEffect(() => {
-    isIpad ? setCourseContent(true) : setCourseContent(false);
-    getVideodata(course?.course_sections[0].videos[0]._id);
-    setOverAllScore(course?.overall);
-  }, [isIpad, course]);
+    course?._id
+      ? setDisplayContent(course?.course_section[0]?.resources[0])
+      : null;
+    getOverAllScore(course?._id);
+    setQuizScores(course?.quizScore);
+  }, [course]);
 
-  const changeQuizIndex = (quizIndex: number) => {
-    setQuizIndex(quizIndex);
-  };
-  const changeBestScoreHandler = (bestScore: number) => {
-    setBestScore(bestScore);
-  };
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
   };
-  const changedViewSubmit = (viewSubmit: boolean) => {
-    setViewSubmit(viewSubmit);
-  };
-  const changedOverAllScore = (overAllScore: number) => {
-    setOverAllScore(overAllScore);
-  };
-  const changedCurrentScore = (currentScore: number) => {
-    setCurrentScore(currentScore);
+
+  const updateQuizScorehandler = (data: any) => {
+    setQuizScores(data);
   };
 
-  const getVideodata = (id: string) => {
-    changedDisplayContent("video");
-    if (selectedIndex === "") {
-      setVideoData(course?.course_sections[0].videos[0]);
-    } else {
-      const dataitem = course?.course_sections
-        .map((course: CourseSections) => course.videos)
-        .flat()
-        .find((data: Video) => data._id === id);
-      setVideoData(dataitem);
+  const getOverAllScore = async (courseId: string) => {
+    try {
+      const res = await getOverallUserQuiz(courseId);
+      setOverAllScore(res.score);
+    } catch (err) {
+      console.log(err);
     }
-    setSelectedIndex(id);
-  };
-
-  const getexerciseData = (id: string) => {
-    changeQuizIndex(0);
-    const dataitem = course?.course_sections
-      .map((course: CourseSections) => course.exercises)
-      .flat()
-      .find((data: Exercise) => data._id === id);
-    setSelectedIndex(id);
-    setExerciseData(dataitem);
-    changedDisplayContent("exercise");
-    setViewSubmit(false);
-    setSubmission({});
-  };
-
-  const getPdfdata = (id: string) => {
-    const dataitem = course?.course_sections
-      .map((course: CourseSections) => course.textmaterials)
-      .flat()
-      .find((data: TextMaterial) => data._id === id);
-    setPdfData(dataitem);
-    setSelectedIndex(id);
-    changedDisplayContent("pdf");
   };
 
   const viewCertificate = async () => {
@@ -142,7 +100,6 @@ const ViewCourse = () => {
     try {
       let response = await getCertificate(params.id);
       if (response.success) {
-        setPdfData(response.data.certificate.certificate_url);
         changedDisplayContent("certificate");
         setLoadingCertificate(false);
       }
@@ -155,6 +112,7 @@ const ViewCourse = () => {
       });
     }
   };
+
   return (
     <section className="viewcourse">
       {isFetching ? (
@@ -204,7 +162,7 @@ const ViewCourse = () => {
                 progress={Math.round(overAllScore)}
                 height={35}
               />
-              <button
+              {/* <button
                 style={{
                   filter:
                     overAllScore <= 80 ? "brightness(0.5)" : "brightness(1)",
@@ -220,12 +178,13 @@ const ViewCourse = () => {
                 ) : (
                   t`View Certificate`
                 )}
-              </button>
+              </button> */}
               {!isCourseContent && (
                 <button
                   onClick={() => {
                     setCourseContent(true);
-                    !isIpad ? setIsOpen(false) : null;
+                    setIsOpen(!isOpen);
+                    // !isIpad ? setIsOpen(false) : null;
                   }}
                   className="viewcourse-container__header__btn"
                 >
@@ -235,58 +194,46 @@ const ViewCourse = () => {
               )}
               <LanguageToggle btncolor="#ffff" />
             </div>
-            {!isIpad && (
-              <button
-                aria-label="dot-menu"
-                className="viewcourse-container__header-doticon icon-button"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <BiDotsVerticalRounded />
-              </button>
-            )}
+
+            <button
+              aria-label="dot-menu"
+              className={`${
+                isIpad ? "hidden" : "block"
+              } viewcourse-container__header-doticon icon-button`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <BiDotsVerticalRounded />
+            </button>
           </div>
           <div className="viewcourse-container__content">
             <div
-              className={`viewcourse-container__content_left ${
+              className={`viewcourse-container__content_left z-0 ${
                 isCourseContent ? "open-leftcontent" : "closed-leftcontent"
               }`}
             >
-              {displayContent === "exercise" ? (
-                <Quiz
-                  exerciseData={exerciseData}
-                  changeQuizIndex={changeQuizIndex}
-                  quizIndex={quizIndex}
-                  changedDisplayContent={changedDisplayContent}
-                  changeBestScoreHandler={changeBestScoreHandler}
-                  changedViewSubmit={changedViewSubmit}
-                  setSubmission={setSubmission}
-                  viewSubmit={viewSubmit}
-                  submission={submission}
-                  reset={refetch}
-                  changedCurrentScore={changedCurrentScore}
-                  changedOverAllScore={changedOverAllScore}
+              {displayContent?.type === "quiz" ? (
+                <ExerciseQuiz
+                  getOverAllScore={getOverAllScore}
+                  displayContent={displayContent}
+                  courseId={params.id}
+                  updateQuizScorehandler={updateQuizScorehandler}
                 />
-              ) : displayContent === "pdf" ? (
-                <ViewPdf pdfUrl={pdfData?.file_url} />
-              ) : displayContent === "result" ? (
-                <Result
-                  currentScore={currentScore}
-                  selectedIndex={selectedIndex}
-                  getexerciseData={getexerciseData}
-                />
-              ) : displayContent === "certificate" ? (
-                <Certificate pdfUrl={pdfData} />
+              ) : displayContent?.type === "pdf" ? (
+                <ViewPdf pdfUrl={displayContent?.file} />
+              ) : displayContent?.type === "certificate" ? (
+                <Certificate pdfUrl={displayContent?.file} />
               ) : (
                 <iframe
-                  title={videoData?.title}
+                  title={displayContent?.title}
                   width="100%"
                   height="550"
-                  src={videoData?.video_url}
+                  src={displayContent?.link}
                   allowFullScreen
                   className="viewcourse-container__content-iframe"
                 ></iframe>
               )}
             </div>
+
             {isCourseContent && (
               <div className="viewcourse-container__content-course">
                 <div className="viewcourse-container__content-course-display">
@@ -299,12 +246,12 @@ const ViewCourse = () => {
                     className="viewcourse-container__content-course-display-btn icon-button"
                     onClick={() => setCourseContent(false)}
                   >
-                    <IoMdClose />
+                    <BiCollapseAlt />
                   </button>
                 </div>
 
                 <div className="viewcourse-container__content-course-container">
-                  {course?.course_sections.map(
+                  {course?.course_section.map(
                     (content: CourseSections, index: number) => (
                       <div
                         className="viewcourse-container__content-course-section"
@@ -313,127 +260,148 @@ const ViewCourse = () => {
                         {" "}
                         <p className="viewcourse-container__content-course-section__heading">
                           {" "}
-                          <Trans> Section</Trans> {index + 1}:{" "}
-                          {locale === "en" ? course?.title : course?.title_tr}
+                          <span className="w-[40%]">
+                            <Trans> Section</Trans> {index + 1}:{" "}
+                          </span>
+                          <span className="w-full line-clamp-1">
+                            {" "}
+                            {locale === "en"
+                              ? content?.title
+                              : content?.title_tr}
+                          </span>
                         </p>
-                        {content.videos.map((videoitem: Video, j: number) => {
+                        {content.resources.map((ele, j) => {
                           return (
-                            <button
-                              key={videoitem._id}
-                              aria-label="Watch video"
-                              className={`viewcourse-container__content-course-section__listitem ${
-                                selectedIndex === videoitem._id && "active-item"
-                              }`}
-                              onClick={() => {
-                                getVideodata(videoitem._id),
-                                  isIpad
-                                    ? setCourseContent(true)
-                                    : setCourseContent(false);
-                              }}
-                            >
-                              <div className="viewcourse-container__content-course-section__listitem-title">
-                                <p className="viewcourse-container__content-course-section__listitem-text">
-                                  <RxDot />{" "}
-                                  {locale === "en"
-                                    ? videoitem?.title
-                                    : videoitem?.title_tr}
-                                </p>
-                                <div className="viewcourse-container__content-course-section__listitem-duration">
-                                  {" "}
-                                  <MdOndemandVideo />
-                                  {videoitem?.duration}
-                                  <Trans> min</Trans>
-                                </div>
-                              </div>
-                            </button>
+                            <div key={ele._id}>
+                              {ele.type === "video" ? (
+                                <button
+                                  aria-label="Watch video"
+                                  className={`viewcourse-container__content-course-section__listitem ${
+                                    displayContent?.title === ele.title
+                                      ? "bg-primary !text-white"
+                                      : "hover:bg-primary/30"
+                                  } `}
+                                  onClick={() => {
+                                    setDisplayContent(ele),
+                                      isIpad
+                                        ? setCourseContent(true)
+                                        : setCourseContent(false);
+                                  }}
+                                >
+                                  <div className="viewcourse-container__content-course-section__listitem-title">
+                                    <p className="flex items-center font-medium">
+                                      <RxDot
+                                        className={`${
+                                          displayContent?.title === ele.title
+                                            ? "text-white"
+                                            : "text-primary"
+                                        } `}
+                                      />{" "}
+                                      {locale === "en"
+                                        ? ele?.title
+                                        : ele?.title_tr}
+                                    </p>
+                                    <div className="viewcourse-container__content-course-section__listitem-duration ">
+                                      {" "}
+                                      <MdOndemandVideo />
+                                      {/* {videoDuration(ele.link)} */}
+                                      {/* <Trans> min</Trans> */}
+                                    </div>
+                                  </div>
+                                </button>
+                              ) : ele.type === "pdf" ? (
+                                <button
+                                  aria-label="Take quiz"
+                                  onClick={() => {
+                                    setDisplayContent(ele),
+                                      isIpad
+                                        ? setCourseContent(true)
+                                        : setCourseContent(false);
+                                  }}
+                                  className={`viewcourse-container__content-course-section__listitem ${
+                                    displayContent?.title === ele.title
+                                      ? "bg-primary !text-white"
+                                      : "hover:bg-primary/30"
+                                  }`}
+                                >
+                                  <div className="viewcourse-container__content-course-section__listitem-title">
+                                    <p className="flex items-center font-medium">
+                                      <RxDot
+                                        className={`${
+                                          displayContent?.title === ele.title
+                                            ? "text-white"
+                                            : "text-primary"
+                                        } `}
+                                      />{" "}
+                                      {locale === "en"
+                                        ? ele?.title
+                                        : ele?.title_tr}
+                                    </p>
+                                    <p className="viewcourse-container__content-course-section__listitem__status">
+                                      <FaRegFilePdf />
+                                    </p>
+                                  </div>
+                                </button>
+                              ) : (
+                                <button
+                                  aria-label="Take quiz"
+                                  onClick={() => {
+                                    setDisplayContent(ele),
+                                      isIpad
+                                        ? setCourseContent(true)
+                                        : setCourseContent(false);
+                                  }}
+                                  className={`viewcourse-container__content-course-section__listitem ${
+                                    displayContent?.title === ele.title
+                                      ? "bg-primary !text-white"
+                                      : "hover:bg-primary/30"
+                                  }`}
+                                >
+                                  <div className="viewcourse-container__content-course-section__listitem-title">
+                                    <p className="flex items-center font-medium">
+                                      <RxDot
+                                        className={`${
+                                          displayContent?.title === ele.title
+                                            ? "text-white"
+                                            : "text-primary"
+                                        } `}
+                                      />{" "}
+                                      <Trans> Quiz Lesson</Trans> {index + 1}
+                                    </p>
+
+                                    <div className="viewcourse-container__content-course-section__listitem__score">
+                                      <p
+                                        style={{
+                                          color:
+                                            quizScores?.find(
+                                              (quiz) => quiz.quizId == ele._id
+                                            )?.score > 0
+                                              ? "#009985"
+                                              : "#666",
+                                        }}
+                                      ></p>
+                                      <ProgressBar
+                                        width={80}
+                                        overallScore={
+                                          quizScores?.find(
+                                            (quiz) => quiz.quizId == ele._id
+                                          )?.score || 0
+                                        }
+                                        bgcolor="#6abd41"
+                                        progress={Math.round(
+                                          quizScores?.find(
+                                            (quiz) => quiz.quizId == ele._id
+                                          )?.score || 0
+                                        )}
+                                        height={25}
+                                      />{" "}
+                                    </div>
+                                  </div>
+                                </button>
+                              )}
+                            </div>
                           );
                         })}
-                        {content.textmaterials.map(
-                          (textcontent: TextMaterial) => {
-                            return (
-                              <button
-                                key={textcontent._id}
-                                aria-label="Take quiz"
-                                onClick={() => {
-                                  getPdfdata(textcontent._id);
-                                  isIpad
-                                    ? setCourseContent(true)
-                                    : setCourseContent(false);
-                                }}
-                                className={`viewcourse-container__content-course-section__listitem ${
-                                  selectedIndex === textcontent._id &&
-                                  "active-item"
-                                }`}
-                              >
-                                <div className="viewcourse-container__content-course-section__listitem-title">
-                                  <p className="viewcourse-container__content-course-section__listitem-text">
-                                    <RxDot />{" "}
-                                    {locale === "en"
-                                      ? textcontent.title
-                                      : textcontent.title_tr}
-                                  </p>
-                                  <p className="viewcourse-container__content-course-section__listitem__status">
-                                    {textcontent.type}
-                                  </p>
-                                </div>
-                              </button>
-                            );
-                          }
-                        )}
-                        {content.exercises.map(
-                          (quizitem: Exercise, index: number) => {
-                            return (
-                              <button
-                                key={quizitem._id}
-                                aria-label="Take quiz"
-                                onClick={() => {
-                                  getexerciseData(quizitem._id);
-                                  isIpad
-                                    ? setCourseContent(true)
-                                    : setCourseContent(false);
-                                }}
-                                className={`viewcourse-container__content-course-section__listitem ${
-                                  selectedIndex === quizitem._id &&
-                                  "active-item"
-                                }`}
-                              >
-                                <div className="viewcourse-container__content-course-section__listitem-title">
-                                  <p className="viewcourse-container__content-course-section__listitem-text">
-                                    <RxDot />
-                                    <Trans> Quiz Exercise:</Trans>
-                                    {index + 1}
-                                  </p>
-
-                                  <div className="viewcourse-container__content-course-section__listitem__score">
-                                    <p
-                                      style={{
-                                        color:
-                                          quizitem.best_percentage_passed > 0
-                                            ? "#009985"
-                                            : "#666",
-                                      }}
-                                    >
-                                      {" "}
-                                      {quizitem.best_percentage_passed > 0
-                                        ? quizitem.best_percentage_passed ||
-                                          bestScore
-                                        : 0}
-                                      %{" "}
-                                    </p>
-                                    <ProgressBar
-                                      width={80}
-                                      bgcolor="#009985"
-                                      progress={Math.round(
-                                        quizitem.best_percentage_passed
-                                      )}
-                                      height={18}
-                                    />{" "}
-                                  </div>
-                                </div>
-                              </button>
-                            );
-                          }
-                        )}
                       </div>
                     )
                   )}
@@ -468,7 +436,7 @@ const ViewCourse = () => {
                   <p className="viewcourse-container__tab-container__tab-content-text">
                     <Trans> Course description</Trans>
                   </p>
-                  {/* {viewcourse?.description} */}
+                  <p>{displayContent?.description}</p>
                 </div>
               ) : (
                 <></>

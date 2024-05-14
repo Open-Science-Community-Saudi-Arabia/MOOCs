@@ -1,12 +1,12 @@
 /**
- * @fileoverview Token utilities.
+ * @fileoverview Manage user token and authentication.
  *
- * @category Backend API
+ * @category API
  * @subcategory Utilities
- * 
- * @module Token Utility
- * 
- * @description This module contains functions for generating and verifying JWT tokens.
+ *
+ * @module Token
+ *
+ * @description  This module contains functions for generating and verifying JWT tokens.
  *
  * @requires ../models/user.models
  * @requires ../models/token.models
@@ -29,13 +29,14 @@ const { v4: UUID } = require("uuid");
  *
  * @description This function returns the secret and expiry for the specified token type. <br>
  * The token type can be one of the following: <br>
- * - `access` - Access token <br>
- * - `refresh` - Refresh token <br>
- * - `password_reset` - Password reset token <br>
+ * `access` - Access token <br>
+ * `refresh` - Refresh token <br>
+ * `password_reset` - Password reset token <br>
  *
  * @param {string} type - Type of token to generate
- * @returns secret and expiry for the specified token type
+ * @returns {object}  - Secret and expiry date for the specified token type
  */
+
 const getRequiredConfigVars = (type) => {
   switch (type) {
     case "access":
@@ -81,16 +82,16 @@ const getRequiredConfigVars = (type) => {
  *
  * @description This function generates a JWT token for the specified user. <br>
  *
- * @param {ObjectId} user_id - ID of the user to generate token for
+ * @param {ObjectId} user_id - Generate token for user with the ID
  * @param {string} token_type - Type of token to generate
- * @returns JWT token
+ * @returns {object} - Access and refresh token
  *
  * @throws {NotFoundError} - If user does not exist
  * @throws {Error} - If any other error occurs
  *  */
+
 const getAuthTokens = async (user_id, token_type = null) => {
   try {
-    // Get user details
     const current_user = await User.findById(user_id).populate("status");
     if (!current_user) {
       throw new NotFoundError("User does not exist");
@@ -102,19 +103,11 @@ const getAuthTokens = async (user_id, token_type = null) => {
       role: current_user.role,
       status: current_user.status,
     };
-
-    // Set token type to access if not specified
     if (!token_type) token_type = "access";
-
-    // Get token secret and expiry
     let { secret, expiry } = getRequiredConfigVars(token_type);
-
-    // Set token expiry to 6 hours if in development
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "dev") {
       expiry = "6h";
     }
-
-    // Generate tokens
     const access_token = jwt.sign(data, secret, { expiresIn: expiry });
     const refresh_token = jwt.sign(data, config.JWT_REFRESH_SECRET, {
       expiresIn: config.JWT_REFRESH_EXP,
@@ -129,14 +122,13 @@ const getAuthTokens = async (user_id, token_type = null) => {
 /**
  * Generates Auth Codes
  *
- * @description Generate authentication codes for user,
- * such as verification code, password reset code, activation code, deactivation code
+ * @description Generate authentication codes,
+ * verification code, password reset code, activation code, deactivation code for user , depends on code type.
  *
- * @param {ObjectId} user_id
- * @param {string} code_type
+ * @param {ObjectId} user_id - Generate token for user with the ID
+ * @param {string} code_type - Type of token to generate
  *
- * @returns verification_code, password_reset_code,
- * @returns activation_code1, activation_code2, activation_code3
+ * @returns {object} verification_code, password_reset_code, activation_code1, activation_code2, activation_code3
  */
 const getAuthCodes = async (user_id, code_type) => {
   return new Promise(async (resolve, reject) => {
@@ -158,7 +150,6 @@ const getAuthCodes = async (user_id, code_type) => {
           { verification_code },
           { new: true, upsert: true }
         );
-        // console.log(autho);
       }
 
       if (code_type == "password_reset") {
@@ -168,56 +159,33 @@ const getAuthCodes = async (user_id, code_type) => {
           { password_reset_code },
           { new: true, upsert: true }
         );
-
-        // console.log(autho);
       }
 
-      // If code_type is 'su_activation', generate 3 codes - SuperAdminAccountActivation
       if (code_type == "su_activation") {
         activation_code1 = UUID(); // Will be sent to user
         activation_code2 = UUID(); // Will be sent to first admin
         activation_code3 = UUID(); // Will be sent to second admin
 
         const activation_code = `${activation_code1}-${activation_code2}-${activation_code3}`;
-
         const autho = await AuthCode.findOneAndUpdate(
           { user: user_id },
           { activation_code, expiresIn: 60 * 60 * 24 },
           { new: true, upsert: true }
         );
-
-        // console.log(autho);
       }
 
-      // If code_type is 'su_deactivation', generate 3 codes - SuperAdminAccountDeactivation
       if (code_type == "su_deactivation") {
         deactivation_code1 = UUID(); // Will be sent to user
         deactivation_code2 = UUID(); // Will be sent to first admin
         deactivation_code3 = UUID(); // Will be sent to second admin
 
         const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`;
-
         await AuthCode.findOneAndUpdate(
           { user: user_id },
           { deactivation_code },
           { new: true, upsert: true }
         );
       }
-
-      if (process.env.NODE_ENV === "dev") {
-        console.log(
-          "getAuthCodes",
-          verification_code,
-          password_reset_code,
-          activation_code1,
-          activation_code2,
-          activation_code3,
-          deactivation_code1,
-          deactivation_code2,
-          deactivation_code3
-        );
-      }
-
       resolve({
         verification_code,
         password_reset_code,
@@ -237,7 +205,7 @@ const getAuthCodes = async (user_id, code_type) => {
 /**
  * Decode JWT
  *
- * @description Decodes a JWT token
+ * @description Decode a JWT token
  *
  * @param {string} token
  * @returns {Object} - Decoded token

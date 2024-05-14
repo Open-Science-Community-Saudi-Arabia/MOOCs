@@ -1,5 +1,4 @@
 import makeApiCall from ".";
-import { setToken } from "..";
 import {
   ForgetPasswordReqPayload,
   LoginInRequestPayload,
@@ -34,6 +33,16 @@ export async function login(payload: LoginInRequestPayload) {
 }
 
 /**
+ * @description handle login endpoint
+ * @param  {object} payload  request data
+ * @return {Promise<object>} response data
+ */
+export async function loginAdmin(payload: LoginInRequestPayload) {
+  const response = await makeApiCall("/auth/login-admin", "post", payload);
+  return response;
+}
+
+/**
  * @description handle forgot-password endpoint
  * @param   {object} payload  request data
  * @return {Promise<object>} response data
@@ -59,5 +68,10 @@ export async function resetpassword(payload: ResetPasswordReqPayload) {
  */
 export async function verifyEmail(payload: any) {
   const response = await makeApiCall(`/auth/verifyemail/${payload}`, "get");
+  return response;
+}
+
+export async function userProfile() {
+  const response = await makeApiCall(`/auth/user`, "get");
   return response;
 }

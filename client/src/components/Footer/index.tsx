@@ -30,71 +30,86 @@ const index = () => {
           />
         </Link>
 
-        <div className="footer__content ">
-          <div className="footer__content-quicklinks">
-            <h3 className="heading aligned">
-              <Trans>Quick Links</Trans>
-            </h3>
-            <Link className="nav-link" to="/login">
-              <Trans>Courses</Trans>
-            </Link>
-            <Link className="nav-link" to="https://oscsa-en-blog.netlify.app/">
-              <Trans>Blog</Trans>
-            </Link>
-            <Link className="nav-link" to="">
-              <Trans>Guidelines</Trans>{" "}
-            </Link>
-            <Link className="nav-link" to="">
-              <Trans>Resources</Trans>
-            </Link>
-          </div>
-          <div className="footer__content-communities">
-            <h3 className="heading aligned">
-              {" "}
-              <Trans>Communities</Trans>
-            </h3>
-            <Link className="nav-link" to="https://osc-ksa.com/">
-              <Trans>OSCSA</Trans>
-            </Link>
-            <Link className="nav-link" to="">
-              <Trans>Partnership </Trans>
-            </Link>
-            <Link
-              className="nav-link"
-              to="https://moocs-documentation.netlify.app/"
-            >
-              <Trans>Documentation </Trans>
-            </Link>
-            <Link className="nav-link" to="">
-              <Trans>FAQ </Trans>
-            </Link>
+        <div className="footer__content">
+          <div className="flex items-center justify-between w-full sm:w-[40%]">
+            <div className="footer__content-quicklinks">
+              <h3 className="heading aligned">
+                <Trans>Quick Links</Trans>
+              </h3>
+              <Link className="nav-link" to="/login">
+                <Trans>Courses</Trans>
+              </Link>
+              <Link
+                className="nav-link"
+                to="https://oscsa-en-blog.netlify.app/"
+              >
+                <Trans>Blog</Trans>
+              </Link>
+              <Link className="nav-link" to="">
+                <Trans>Guidelines</Trans>{" "}
+              </Link>
+              <Link className="nav-link" to="">
+                <Trans>Resources</Trans>
+              </Link>
+            </div>
+            <div className="footer__content-communities">
+              <h3 className="heading aligned">
+                {" "}
+                <Trans>Communities</Trans>
+              </h3>
+              <Link className="nav-link" to="https://osc-ksa.com/">
+                <Trans>OSCSA</Trans>
+              </Link>
+              <Link className="nav-link" to="/">
+                <Trans>Partnership </Trans>
+              </Link>
+              <Link
+                className="nav-link"
+                to="https://moocs-documentation.netlify.app/"
+              >
+                <Trans>Documentation </Trans>
+              </Link>
+              <Link className="nav-link" to="">
+                <Trans>FAQ </Trans>
+              </Link>
+            </div>
           </div>
           <div className="footer__content-sociallinks">
             <h3 className="heading ">
               {" "}
               <Trans>Follow Us</Trans>
+              <div className="flex itens-center flex-wrap gap-x-2">
+                <Link
+                  className="nav-link"
+                  target="_blank"
+                  to="https://twitter.com/OpenSciSaudi"
+                >
+                  <img
+                    className="nav-link__image"
+                    src={Twitter}
+                    alt="twitter"
+                  />
+                </Link>
+                <Link
+                  className="nav-link"
+                  target="_blank"
+                  to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/"
+                >
+                  <img
+                    className="nav-link__image"
+                    src={LinkedIn}
+                    alt="linkedin"
+                  />
+                </Link>
+                <Link
+                  className="nav-link"
+                  target="_blank"
+                  to="https://github.com/Open-Science-Community-Saudi-Arabia"
+                >
+                  <img className="nav-link__image" src={Github} alt="github" />
+                </Link>
+              </div>
             </h3>
-            <Link
-              className="nav-link"
-              target="_blank"
-              to="https://twitter.com/OpenSciSaudi"
-            >
-              <img className="nav-link__image" src={Twitter} alt="twitter" />
-            </Link>
-            <Link
-              className="nav-link"
-              target="_blank"
-              to="https://www.linkedin.com/company/open-science-community-saudi-arabia/mycompany/"
-            >
-              <img className="nav-link__image" src={LinkedIn} alt="linkedin" />
-            </Link>
-            <Link
-              className="nav-link"
-              target="_blank"
-              to="https://github.com/Open-Science-Community-Saudi-Arabia"
-            >
-              <img className="nav-link__image" src={Github} alt="github" />
-            </Link>
           </div>
           <div className="footer__content-info">
             <h3 className="heading ">
@@ -110,7 +125,7 @@ const index = () => {
       </div>
       <p className="footer-container__copyright">
         <Trans>Copyright © OSCSA MOOCS</Trans> {new Date().getFullYear()}{" "}
-        <span>
+        <span className="block md:inline">
           <Trans>Designed by Sandy Goodnews</Trans>
         </span>
       </p>

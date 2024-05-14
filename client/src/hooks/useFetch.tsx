@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { setToken } from "../utils";
+import {storeData } from "../utils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ const useFetch = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleGoogle = async (code: any) => {
+  const handleGoogle = async (code: any, role?: string) => {
     try {
       setLoading(true);
       const response = await axios({
@@ -30,16 +30,26 @@ const useFetch = () => {
           Authorization: `Bearer ${code}`,
           "Content-Type": "application/json",
         },
+        data: {
+          role: role === "User" ? "EndUser" : role === "Contributor" ? "Contributor" : "EndUser",
+        },
       });
 
       if (response.data.success === true) {
-        setToken(response.data.data.access_token);
-        navigate("/dashboard");
+      
+        storeData(response.data.data.access_token,response.data.data.user._id)
+        if (response.data.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
+        } else if (response.data.data.user.role === "EndUser") {
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       console.log(error);
       toast.error(
-        error.message ? "request failed" : error.response.data.message,
+        error.message
+          ? "Request failed, try again"
+          : error.response.data.message,
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
