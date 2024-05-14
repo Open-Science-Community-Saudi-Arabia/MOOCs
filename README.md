@@ -12,10 +12,10 @@
 </div> 
 
 
-<h1 align="center">Open Innovation For Open Science</h1>
+<h1 align="center">Open Innovation For Open Science.</h1>
 
 <div align="center">
-    Massive Open Online Courses (MOOCs) for Open Science in Arabic that include videos, MCQ questions and written resources!
+    Massive Open Online Courses (MOOCs) for Open Science educational resources!
 </div>
 <br />
 
@@ -51,6 +51,7 @@ API: https://documenter.getpostman.com/view/20633788/2s93JwMgmb
 | `NodeJs`           | v14     | Environment          |
 | `EsLint`           | v8.2.0  | Code Linting         |
 | `Vite`             | v2.6.8  | Code Bundler         |
+| `Typescript`       |   -     | Static typing  |
 
 <br/>
 
