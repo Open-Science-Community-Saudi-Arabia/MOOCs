@@ -10,10 +10,10 @@ interface IProps {
 }
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Component
- * @module LanguageToggler
- * @description The component displays and toggles the language selection menu,
+ * @module Language Toggler
+ * @description The component displays and toggles the language selection menu on each pages,
  * @component
  * @example
  *   <LanguageToggle />

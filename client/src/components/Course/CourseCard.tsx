@@ -3,11 +3,20 @@ import advancedFormat from "dayjs/plugin/advancedFormat.js";
 dayjs.extend(advancedFormat);
 dayjs().format();
 
-interface IProps {
+interface Props {
   course: any;
   handleSelectedCourse: (course: any) => void;
 }
-export default function CourseCard({ course, handleSelectedCourse }: IProps) {
+/**
+ * @category Client
+ * @subcategory Pages
+ * @module Course Card
+ * @description The course card for contributors.
+ * @component
+ * @example
+ *  <CourseCard course handleSelectedCourse />
+ */
+export default function CourseCard({ course, handleSelectedCourse }: Props) {
   return (
     <div
       onClick={() => handleSelectedCourse(course)}

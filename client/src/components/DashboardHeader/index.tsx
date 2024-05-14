@@ -10,6 +10,15 @@ import LanguageToggle from "../../components/LanguageToggle";
 import { logout } from "../../utils";
 import { userProfile } from "../../utils/api/auth";
 
+ /**
+   * @category Client
+   * @subcategory Component
+   * @module Dashboard Header
+   * @description The header for the protected pages.
+   * @component
+   * @example
+   *  <Header />
+   */
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const [userInfo, setUserInfo] = useState<{

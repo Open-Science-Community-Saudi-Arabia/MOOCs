@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./style.scss";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
  * @module PageNotFound
  * @description A Custom error page for not existing routes.

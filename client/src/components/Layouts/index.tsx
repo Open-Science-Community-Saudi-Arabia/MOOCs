@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import "./style.scss";
 
  /**
-   * @category Client App
+   * @category Client
    * @subcategory Component
    * @module Layout
    * @description The layout component wraps the Auth pages using react-router-outlet.

@@ -10,10 +10,10 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { t, Trans } from "@lingui/macro";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
- * @module ForgotPassword
- * @description Users can retrieve forgotten password using their email .
+ * @module Forgot Password
+ * @description Users can retrieve forgotten password using their email.
  * @component
  * @example
    <Route path="/forgotpassword" element={<ForgotPassword />} />

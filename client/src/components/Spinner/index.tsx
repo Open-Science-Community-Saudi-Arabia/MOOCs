@@ -7,10 +7,10 @@ interface ISpinnerProps {
 }
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Component
  * @module Spinner
- * @description This module contains the components in the frontend,
+ * @description The spinner shows the loading state of the app.
  * @component
  * @example
  * <Spinner width="30px" height="30px" color="#fff" />

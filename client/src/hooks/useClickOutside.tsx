@@ -1,7 +1,7 @@
 import  {  useEffect } from "react";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Hooks
  * @module useClickOutside
  * @description The hooks closes the opened DOM ref when user clicks outside.

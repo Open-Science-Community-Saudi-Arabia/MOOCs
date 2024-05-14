@@ -1,7 +1,8 @@
 {
     "source": {
         "include": [
-            "../API/src"
+            "../API/src",
+            "../client/src"
         ],
         "exclude": [
             "../API/src/utils/email/templates",

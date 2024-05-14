@@ -9,6 +9,16 @@ import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
+/**
+ * @category Client
+ * @subcategory Pages
+ * @module Admin Board
+ * @description The dashboard for admin to access and manage all courses.
+ * @component
+ * @example
+ *  <Route path="/admin/dashboard" element={<AdminBoard />} />
+ */
+
 export default function index() {
   const [selectedCourse, setSelectedCourse] = useState<any>({});
   const [courses, setCourses] = useState<Courses[]>([]);

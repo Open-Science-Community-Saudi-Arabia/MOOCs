@@ -3,8 +3,8 @@ import { en, ar } from "make-plural/plurals";
 import { Locale } from "./types";
 
 /**
- * @category Client App
- * @subcategory Component
+ * @category Client
+ * @subcategory i18n
  * @module Translation
  * @description Translate content to selected language.
  */
@@ -18,7 +18,7 @@ export const locales = {
 };
 
 /**
- * @description load language selection data
+ * @description Loads the selected language data
  * @param  {string} locale
  */
 

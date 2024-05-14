@@ -30,7 +30,8 @@ type Inputs = {
     resources: { title: ""; description: "" }[];
   }[];
 };
-type Props = {
+
+interface Props {
   getAvailableCourses?: () => void;
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
@@ -38,6 +39,14 @@ type Props = {
 };
 
 let renderCount = 0;
+
+/**
+ * @category Client
+ * @subcategory Pages
+ * @module Add Course
+ * @description Contributors and super-admin can add courses.
+ * 
+ */
 export default function index({
   getAvailableCourses,
   selectedCourse,

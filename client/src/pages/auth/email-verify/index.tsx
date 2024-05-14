@@ -8,10 +8,10 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import Spinner from "../../../components/Spinner";
 
 /**
- * @category Client App
+ * @category Client
  * @subcategory Pages
- * @module VerifyEmail
- * @description Verification link.
+ * @module Verify Email
+ * @description Email Verification link from email is successful or fails.
  * @component
  * @example
    <Route path="/api/v1/auth/verifyemail/:access_token" element={<EmailVerify />} />
