@@ -79,8 +79,8 @@ node -v
 - If you like it, leave your star in this project :star2:
 - If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
 - Please follow our general [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
-- [Contributing Gudlines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/client/README.md) for the client
-- [Contributing Gudlines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/API/CONTRIBUTING.md) for the backend APIs
+- Go to [Contributing Guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/client/README.md) to learn how to contribute to the client app.
+- Go to [Contributing Guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/API/CONTRIBUTING.md) for the backend APIs.
 
   
 <br/>
