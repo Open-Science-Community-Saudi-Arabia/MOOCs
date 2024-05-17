@@ -20,6 +20,10 @@ The MOOCs API is structured as follows:
 │   │   │   ├── course.route.js
 │   │   │   ├── auth.route.js
 │   │   │   ├── ...
+│   │   ├── services
+│   │   │   ├── user.js
+│   │   │   ├── course.js
+│   │   │   ├── ...
 │   │   ├── db
 │   │   │   ├── index.js
 │   │   ├── middlewares
@@ -39,7 +43,6 @@ The MOOCs API is structured as follows:
 │   │   ├── .env.example
 │   │   ├── .env.dev
 │   │   ├── .env.test
-│   │   ├── .gitignore
 │   │   ├── .eslintrc.json
 │   │   ├── .prettierrc
 ```
