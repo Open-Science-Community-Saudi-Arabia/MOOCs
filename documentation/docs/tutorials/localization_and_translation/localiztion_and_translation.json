@@ -1,6 +1,6 @@
 {
     "localization": {
-        "title": "Localization and Translation in the Open Innovation lab",
+        "title": "Localization and Translation",
         "children": {
             "backend": {
                 "title": "Localization within the Backend API"

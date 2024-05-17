@@ -71,6 +71,9 @@ The MOOCs API is structured as follows:
 │   │   ├── utils
 │   │   │   ├── auth.js
 │   │   │   ├── ...
+|   |   |-- services
+│   │   │   ├── course.js
+│   │   │   ├── user.js
 │   │   ├── tests
 │   │   │   ├── course.test.js
 │   │   │   ├── auth.test.js
@@ -95,7 +98,8 @@ The MOOCs API is structured as follows:
 The `API` directory contains the source code for the MOOCs API. The `API` directory is structured as follows:
 
 - `controllers` - Contains the controller files for the MOOCs API, e.g. course, user controllers etc.
-- `models` - Contains the model files for the MOOCs API, e.g. course, user models etc.
+- `services` - Contains the logic for the MOOCs API
+- `models` - Contains the database files for the MOOCs API, e.g. course, user models etc.
 - `routes` - Contains the route files for the MOOCs API
 - `middlewares` - Contains the middleware files for the MOOCs API, e.g. authentication, errorHandler, etc.
 - `utils` - Contains the utility files for the MOOCs API e.g. email, auth, etc.
