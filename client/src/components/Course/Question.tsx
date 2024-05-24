@@ -3,7 +3,7 @@ import { useFieldArray, useWatch } from "react-hook-form";
 import Modal from "../Modal";
 import { toast } from "react-toastify";
 import { Options } from "./Options";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default function Question({
   subNestIndex,
@@ -48,7 +48,7 @@ export default function Question({
         onClick={() => {
           setOpen(true),
             append({
-              _id:uuidv4(),
+              _id: uuidv4(),
               options: [{ name: "" }],
               question: "",
               correctanswer: "",
@@ -126,7 +126,8 @@ export default function Question({
                   className="!w-full"
                   autoComplete="false"
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.question`,
+                    { required: true }
                   )}
                 />
               </div>
@@ -149,7 +150,8 @@ export default function Question({
                   type="text"
                   autoComplete="false"
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${k}.correctanswer`,
+                    { required: true }
                   )}
                 />
               </div>
@@ -158,12 +160,15 @@ export default function Question({
                 className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
                 type="button"
                 onClick={() => {
+                  console.log(quizArr[k]);
                   if (
                     quizArr[k].question === "" ||
                     quizArr[k].correctanswer === "" ||
-                    quizArr[k].options.length < 0
+                    quizArr[k].options.map(
+                      (ele: { name: string }) => ele.name === ""
+                    )
                   ) {
-                    toast.error("incomplete field", {
+                    toast.error("Incomplete field", {
                       position: toast.POSITION.TOP_CENTER,
                       autoClose: 5000,
                       theme: "colored",

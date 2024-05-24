@@ -66,11 +66,12 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
             <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 w-full">
               <input
                 type="text"
+                
                 className="w-full md:!w-[30%]"
                 placeholder={t`title`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`,{ required: true }
                 )}
               />
 
@@ -80,7 +81,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                 placeholder={t`description`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`,{ required: true }
                 )}
               />
 
@@ -91,7 +92,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   autoComplete="false"
                   placeholder={t`Youtube embed url`}
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.link`
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.link` , { required: true }
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "pdf" &&
@@ -125,7 +126,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   accept=".pdf"
                   className="w-full md:!w-[60%]"
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`, { required: true }
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "quiz" ? (

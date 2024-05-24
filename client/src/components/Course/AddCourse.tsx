@@ -36,7 +36,7 @@ interface Props {
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
   role?: string;
-};
+}
 
 let renderCount = 0;
 
@@ -45,7 +45,7 @@ let renderCount = 0;
  * @subcategory Pages
  * @module Add Course
  * @description Contributors and super-admin can add courses.
- * 
+ *
  */
 export default function index({
   getAvailableCourses,
@@ -103,7 +103,24 @@ export default function index({
     defaultValues,
   });
 
+  if (Object.keys(errors).length) {
+    toast.error(" Missing incomplete fields", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 5000,
+      theme: "colored",
+    });
+  }
+  
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    if (selectedImage === undefined) {
+      toast.error("Add course preview image", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+      return;
+    }
+
     setLoading(true);
     const newData = await parsedData(data);
 

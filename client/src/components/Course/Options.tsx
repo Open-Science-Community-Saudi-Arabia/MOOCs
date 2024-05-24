@@ -21,12 +21,12 @@ export function Options({
           <div key={field.id} className="mb-2 gap-x-4 flex items-center">
             <input
               {...register(
-                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${quizIndex}.options.${index}.name`
+                `coursesection.${nestIndex}.resources.${subNestIndex}.quiz.${quizIndex}.options.${index}.name`,
+                { required: true }
               )}
               autoComplete="false"
               className="!w-full"
               type="text"
-              required
             />
 
             <button type="button" onClick={() => remove(index)}>
