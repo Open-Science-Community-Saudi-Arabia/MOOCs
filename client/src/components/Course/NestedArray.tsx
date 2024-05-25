@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { useFieldArray, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Question from "./Question";
@@ -7,6 +7,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import ViewPdf from "../../pages/board/viewcourse/ViewPdf";
 import { useState } from "react";
 import Modal from "../Modal";
+import { toast } from "react-toastify";
 
 export default ({ nestIndex, control, register, selectedCourse }: any) => {
   const [pdfFile, setPdfFile] = useState("");
@@ -66,12 +67,13 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
             <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 w-full">
               <input
                 type="text"
-                
+                max={30}
                 className="w-full md:!w-[30%]"
                 placeholder={t`title`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`,{ required: true }
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`,
+                  { required: true }
                 )}
               />
 
@@ -81,7 +83,8 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                 placeholder={t`description`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`,{ required: true }
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`,
+                  { required: true }
                 )}
               />
 
@@ -92,7 +95,8 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   autoComplete="false"
                   placeholder={t`Youtube embed url`}
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.link` , { required: true }
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.link`,
+                    { required: true }
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "pdf" &&
@@ -126,9 +130,57 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   accept=".pdf"
                   className="w-full md:!w-[60%]"
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`, { required: true }
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`,
+                    {validate: (files: { size: number; }[]) => files[0]?.size < 100000 || 'Max 10MB',
+
+                      onChange: (e: {
+                        currentTarget: { files: { size: number }[] };
+                      }) => {
+                        if (e.currentTarget.files) {
+                          if (e.currentTarget.files[0].size > 100000) {
+                            toast.error("file size too large", {
+                              position: toast.POSITION.TOP_CENTER,
+                              autoClose: 5000,
+                              theme: "colored",
+                            });
+                          }
+                        }
+                      },
+                      required: true,
+                    }
                   )}
                 />
+          //       <Controller
+          //   control={control}
+          //   name={"pdf"}
+          //   rules={{ required: "Recipe picture is required" }}
+          //   render={({ field: { value, onChange, ...field } }) => {
+          //     return (
+          //       <input
+                
+          //         {...field}
+          //         value={value?.fileName}
+          //         onChange={(e) => {
+          //           if (e.target.files) {
+          //             if (e.target.files[0].size > 100000) {
+          //           toast.error("file size too large", {
+          //                 position: toast.POSITION.TOP_CENTER,
+          //                 autoClose: 5000,
+          //                 theme: "colored",
+          //               });
+          //               return 
+          //             } else {
+          //               // setValue(`addresses[${index}].file`, _event.target.files[0])
+          //             }
+          //           }
+          //         }}
+          //         type="file"
+          //         accept=".pdf"
+          //         className="w-full md:!w-[60%]"
+          //       />
+          //     );
+          //   }}
+          // />
               ) : selectType[subNestIndex]?.type == "quiz" ? (
                 <div className="border-gray/50 w-full md:!w-[60%] mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
                   <Question

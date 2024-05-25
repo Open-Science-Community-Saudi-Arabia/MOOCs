@@ -56,16 +56,7 @@ const ViewCourse = () => {
     isFetching,
     error,
     refetch,
-  }: any = useQuery(
-    [queryKey, params.id],
-    () => getUserCourse(params.id)
-    // {
-    //   refetchOnWindowFocus: false,
-    //   staleTime: 0,
-    //   cacheTime: 0,
-    //   refetchInterval: 0,
-    // }
-  );
+  }: any = useQuery([queryKey, params.id], () => getUserCourse(params.id));
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const locale = localStorage.getItem("language") || "en";
@@ -304,8 +295,6 @@ const ViewCourse = () => {
                                     <div className="viewcourse-container__content-course-section__listitem-duration ">
                                       {" "}
                                       <MdOndemandVideo />
-                                      {/* {videoDuration(ele.link)} */}
-                                      {/* <Trans> min</Trans> */}
                                     </div>
                                   </div>
                                 </button>
@@ -366,7 +355,14 @@ const ViewCourse = () => {
                                             : "text-primary"
                                         } `}
                                       />{" "}
-                                      <Trans> Quiz Lesson</Trans> {index + 1}
+                                      <Trans>
+                                        {" "}
+                                        Quiz:{" "}
+                                        {locale === "en"
+                                          ? ele?.title
+                                          : ele?.title_tr}
+                                      </Trans>{" "}
+                                      {index + 1}
                                     </p>
 
                                     <div className="viewcourse-container__content-course-section__listitem__score">
