@@ -131,8 +131,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   className="w-full md:!w-[60%]"
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.file`,
-                    {validate: (files: { size: number; }[]) => files[0]?.size < 100000 || 'Max 10MB',
-
+                    {validate: (files: { size: number; }[]) => files[0]?.size < 100000 || 'Max 100KB',
                       onChange: (e: {
                         currentTarget: { files: { size: number }[] };
                       }) => {
