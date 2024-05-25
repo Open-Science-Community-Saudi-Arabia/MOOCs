@@ -7,6 +7,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import ViewPdf from "../../pages/board/viewcourse/ViewPdf";
 import { useState } from "react";
 import Modal from "../Modal";
+import { toast } from "react-toastify";
 
 export default ({ nestIndex, control, register, selectedCourse }: any) => {
   const [pdfFile, setPdfFile] = useState("");
@@ -66,12 +67,13 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
             <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 w-full">
               <input
                 type="text"
-                
+                max={30}
                 className="w-full md:!w-[30%]"
                 placeholder={t`title`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`,{ required: true }
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.title`,
+                  { required: true }
                 )}
               />
 
@@ -81,7 +83,8 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                 placeholder={t`description`}
                 autoComplete="false"
                 {...register(
-                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`,{ required: true }
+                  `coursesection.${nestIndex}.resources.${subNestIndex}.description`,
+                  { required: true }
                 )}
               />
 
@@ -92,7 +95,8 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   autoComplete="false"
                   placeholder={t`Youtube embed url`}
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.link` , { required: true }
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.link`,
+                    { required: true }
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "pdf" &&
@@ -126,7 +130,23 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   accept=".pdf"
                   className="w-full md:!w-[60%]"
                   {...register(
-                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`, { required: true }
+                    `coursesection.${nestIndex}.resources.${subNestIndex}.file`,
+                    {validate: (files: { size: number; }[]) => files[0]?.size < 100000 || 'Max 100KB',
+                      onChange: (e: {
+                        currentTarget: { files: { size: number }[] };
+                      }) => {
+                        if (e.currentTarget.files) {
+                          if (e.currentTarget.files[0].size > 100000) {
+                            toast.error("file size too large", {
+                              position: toast.POSITION.TOP_CENTER,
+                              autoClose: 5000,
+                              theme: "colored",
+                            });
+                          }
+                        }
+                      },
+                      required: true,
+                    }
                   )}
                 />
               ) : selectType[subNestIndex]?.type == "quiz" ? (

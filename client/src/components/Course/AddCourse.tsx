@@ -110,9 +110,9 @@ export default function index({
       theme: "colored",
     });
   }
-  
+
   const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-    if (selectedImage === undefined) {
+    if (selectedImage === undefined && !selectedCourse) {
       toast.error("Add course preview image", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
@@ -259,7 +259,8 @@ export default function index({
                 </div>
               ) : (
                 <div className="cursor-pointer w-28 h-28 md:w-48 md:h-48 top-0 bg-gray z-20 rounded-md flex flex-col items-center justify-center font-medium text-xs p-5 text-center">
-                  Click to upload image
+                  Click to upload image (PNG,JPEG,JPG)
+                  <span className="block">* Max Size: 100KB </span>
                 </div>
               )}
 
@@ -270,7 +271,19 @@ export default function index({
                 className="absolute top-20 text-sm invisible w-10"
                 accept=".jpg, .jpeg, .png"
                 placeholder={t`cover`}
-                onChange={(e) => setSelectedImage(e.target.files)}
+                onChange={(e) => {
+                  if (e.target.files) {
+                    if (e.target.files[0].size > 100000) {
+                      toast.error("file size too large", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 5000,
+                        theme: "colored",
+                      });
+                    } else {
+                      setSelectedImage(e.target.files);
+                    }
+                  }
+                }}
               />
             </label>
           </div>
@@ -325,6 +338,7 @@ export default function index({
                   </label>
                   <input
                     className="!w-full"
+                    maxLength={30}
                     type="text"
                     placeholder={t`course title`}
                     {...register(`coursesection.${index}.title`, {

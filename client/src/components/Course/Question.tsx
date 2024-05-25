@@ -164,7 +164,7 @@ export default function Question({
                   if (
                     quizArr[k].question === "" ||
                     quizArr[k].correctanswer === "" ||
-                    quizArr[k].options.map(
+                    quizArr[k].options.find(
                       (ele: { name: string }) => ele.name === ""
                     )
                   ) {

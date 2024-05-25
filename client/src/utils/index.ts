@@ -110,7 +110,7 @@ export const parsedData = async (data: any) => {
       let resources = await Promise.all(
         item.resources.map(async (ele: any) => {
           if (ele.type === "video") {
-            return (ele = {
+            return (ele = {_id:ele._id,
               type: ele.type,
               title: ele.title,
               description: ele.description,
@@ -119,7 +119,7 @@ export const parsedData = async (data: any) => {
             });
           }
           if (ele.type === "pdf") {
-            return (ele = {
+            return (ele = {_id:ele._id,
               type: ele.type,
               title: ele.title,
               description: ele.description,
@@ -130,7 +130,7 @@ export const parsedData = async (data: any) => {
             });
           }
           if (ele.type === "quiz") {
-            return (ele = {
+            return (ele = {_id:ele._id,
               type: ele.type,
               title: ele.title,
               description: ele.description,
