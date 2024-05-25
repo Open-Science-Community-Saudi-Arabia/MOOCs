@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro";
-import { Controller, useFieldArray, useWatch } from "react-hook-form";
+import { useFieldArray, useWatch } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import Question from "./Question";
@@ -150,37 +150,6 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                     }
                   )}
                 />
-          //       <Controller
-          //   control={control}
-          //   name={"pdf"}
-          //   rules={{ required: "Recipe picture is required" }}
-          //   render={({ field: { value, onChange, ...field } }) => {
-          //     return (
-          //       <input
-                
-          //         {...field}
-          //         value={value?.fileName}
-          //         onChange={(e) => {
-          //           if (e.target.files) {
-          //             if (e.target.files[0].size > 100000) {
-          //           toast.error("file size too large", {
-          //                 position: toast.POSITION.TOP_CENTER,
-          //                 autoClose: 5000,
-          //                 theme: "colored",
-          //               });
-          //               return 
-          //             } else {
-          //               // setValue(`addresses[${index}].file`, _event.target.files[0])
-          //             }
-          //           }
-          //         }}
-          //         type="file"
-          //         accept=".pdf"
-          //         className="w-full md:!w-[60%]"
-          //       />
-          //     );
-          //   }}
-          // />
               ) : selectType[subNestIndex]?.type == "quiz" ? (
                 <div className="border-gray/50 w-full md:!w-[60%] mt-2 gap-x-3 border w-96 rounded-lg p-3 w-max-content flex items-center">
                   <Question
