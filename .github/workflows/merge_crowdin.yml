@@ -8,7 +8,7 @@ on:
 
 jobs:
   if_merged:
-    if: github.event.pull_request.head.ref == 'l10n_main' && github.event.pull_request.merged == true
+    if: github.event.pull_request.head.ref == 'l10n_main'
     name: Enter client directory
     runs-on: ubuntu-latest
     defaults:
