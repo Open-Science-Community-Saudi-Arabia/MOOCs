@@ -4,6 +4,7 @@ import Modal from "../Modal";
 import { toast } from "react-toastify";
 import { Options } from "./Options";
 import { v4 as uuidv4 } from "uuid";
+import { Trans } from "@lingui/macro";
 
 export default function Question({
   subNestIndex,
@@ -37,7 +38,8 @@ export default function Question({
                 setSelectedQuestion({ ...ele, index: j });
               }}
             >
-              Question {j + 1}
+              <Trans> Question </Trans>
+              {j + 1}
             </button>
           );
         })}
@@ -55,7 +57,7 @@ export default function Question({
             });
         }}
       >
-        Add Question
+        <Trans> Add Question</Trans>
       </button>
       {selectedQuestion?.question && (
         <Modal
@@ -66,17 +68,21 @@ export default function Question({
         >
           <h2 className="font-semibold">
             {" "}
-            Question {selectedQuestion.index + 1}{" "}
+            <Trans> Question</Trans> {selectedQuestion.index + 1}{" "}
           </h2>
           <div className="my-5">
-            <label className="text-xs text-gray-dark">Question</label>
+            <label className="text-xs text-gray-dark">
+              <Trans>Question</Trans>
+            </label>
             <input
               type="text"
               className="!w-full"
               defaultValue={selectedQuestion.question}
             />
           </div>
-          <label className="text-xs text-gray-dark">Options (max 4)</label>
+          <label className="text-xs text-gray-dark">
+            <Trans>Options (max 4)</Trans>
+          </label>
           {selectedQuestion.options.map((ele: { name: string }, i: number) => (
             <input
               key={i}
@@ -87,7 +93,9 @@ export default function Question({
           ))}
 
           <div className="my-5">
-            <label className="text-xs text-gray-dark">Correct options</label>
+            <label className="text-xs text-gray-dark">
+              <Trans>Correct options</Trans>
+            </label>
             <input
               className="!w-full"
               type="text"
@@ -103,7 +111,7 @@ export default function Question({
               setSelectedQuestion("");
             }}
           >
-            Delete
+            <Trans> Delete</Trans>
           </button>
         </Modal>
       )}
@@ -118,9 +126,13 @@ export default function Question({
                 remove(k), setOpen(false);
               }}
             >
-              <h2 className="font-semibold"> New Question</h2>
+              <h2 className="font-semibold">
+                <Trans> New Question</Trans>
+              </h2>
               <div className="my-5">
-                <label className="text-xs text-gray-dark">Question</label>
+                <label className="text-xs text-gray-dark">
+                  <Trans>Question</Trans>
+                </label>
                 <input
                   type="text"
                   className="!w-full"
@@ -143,7 +155,7 @@ export default function Question({
 
               <div className="my-5">
                 <label className="text-xs text-gray-dark">
-                  Correct options
+                  <Trans> Correct options</Trans>
                 </label>
                 <input
                   className="!w-full"
@@ -160,7 +172,6 @@ export default function Question({
                 className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
                 type="button"
                 onClick={() => {
-                  console.log(quizArr[k]);
                   if (
                     quizArr[k].question === "" ||
                     quizArr[k].correctanswer === "" ||
@@ -178,7 +189,7 @@ export default function Question({
                   }
                 }}
               >
-                Add
+              <Trans> Add</Trans>
               </button>
             </Modal>
           )

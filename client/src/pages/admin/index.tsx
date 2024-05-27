@@ -8,6 +8,7 @@ import Modal from "../../components/Modal";
 import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { Trans } from "@lingui/macro";
 
 /**
  * @category Client
@@ -51,7 +52,7 @@ export default function index() {
 
   return (
     <section className="h-screen admin-dashboard">
-      <h1 className="text-center mb-6 text-xl">Admin Board</h1>
+      <h1 className="text-center mb-6 text-xl"><Trans>Admin Board</Trans></h1>
 
       {selectedCourse?.title ? (
         <Modal

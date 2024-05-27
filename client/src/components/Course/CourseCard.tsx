@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
 dayjs.extend(advancedFormat);
@@ -46,7 +47,8 @@ export default function CourseCard({ course, handleSelectedCourse }: Props) {
             </h3>
             <span className="text-xs text-gray-dark/50 absolute -bottom-[16px]">
               {" "}
-              Created on {dayjs(course.createdAt).format("MMMM Do, YYYY")}
+              <Trans> Created on </Trans>
+              {dayjs(course.createdAt).format("MMMM Do, YYYY")}
             </span>
           </div>
           <div className="py-6">
@@ -61,7 +63,7 @@ export default function CourseCard({ course, handleSelectedCourse }: Props) {
             className="rounded-[5px] py-2 px-2 text-xs bg-primary/80 text-white"
             onClick={() => handleSelectedCourse(course)}
           >
-            View details
+            <Trans> View details</Trans>
           </button>
         </div>
       </div>

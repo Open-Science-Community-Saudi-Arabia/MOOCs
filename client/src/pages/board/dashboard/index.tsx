@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import "./style.scss";
 import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import AvailableCourses from "./availablecourses";
 import {  getUserCourses } from "../../../utils/api/courses";
+import { t } from "@lingui/macro";
 
 /**
  * @category Client
@@ -34,15 +34,11 @@ const Board = () => {
     }
   };
 
-  // const isMounted = useRef(false);
+
   useEffect(() => {
     setLoading(true);
-
      getAvailableCourses()
   }, []);
-
-// console.log(availableCourses)
-
 
   return (
     <section className="dashboard">
@@ -53,8 +49,8 @@ const Board = () => {
       ) : error ? (
         <div className="dashboard__error">
           <ErrorFallBack
-            message="Something went wrong!"
-            description="We encountered an error while fetching course(s)."
+            message={t`Something went wrong!`}
+            description={t `We encountered an error while fetching course(s).`}
             reset={getAvailableCourses}
           />
         </div>

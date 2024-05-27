@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import "./style.scss";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
@@ -198,7 +198,7 @@ export default function index({
           >
             <IoIosArrowBack />
           </button>
-          {selectedCourse?.title ? "Edit Course" : "New Course"}
+          {selectedCourse?.title ? t`Edit Course` : t`New Course`}
         </h1>
 
         {selectedCourse?.updatedAt && (
@@ -217,14 +217,14 @@ export default function index({
         )}
       </div>
       <p className="text-sm text-gray-dark/50 pt-3">
-        Ensure correct punctuation for all fields.
+        <Trans>Ensure correct punctuation for all fields.</Trans>
       </p>
       <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex md:flex-row flex-col items-start justify-between">
           <div className="w-full md:w-8/12">
             <div className="mb-8 w-full">
               <label className="" htmlFor="title">
-                Title
+                <Trans> Title</Trans>
               </label>
               <input
                 type="text"
@@ -234,7 +234,7 @@ export default function index({
             </div>
             <div className="mb-8 w-full">
               <label className="" htmlFor="cover-photo">
-                Author
+                <Trans> Author</Trans>
               </label>
               <input
                 type="text"
@@ -244,7 +244,9 @@ export default function index({
             </div>
           </div>
           <div className="relative">
-            <label>Course photo</label>
+            <label>
+              <Trans>Course photo</Trans>
+            </label>
             <label>
               {selectedImage || selectedCourse?.title ? (
                 <div className="relative w-28 h-28 md:w-48 md:h-48 rounded-md overflow-hidden border-[1px] border-solid border-gray/50 flex items-center justify-center flex-col">
@@ -259,8 +261,10 @@ export default function index({
                 </div>
               ) : (
                 <div className="cursor-pointer w-28 h-28 md:w-48 md:h-48 top-0 bg-gray z-20 rounded-md flex flex-col items-center justify-center font-medium text-xs p-5 text-center">
-                  Click to upload image (PNG,JPEG,JPG)
-                  <span className="block">* Max Size: 100KB </span>
+                  <Trans> Click to upload image (PNG,JPEG,JPG)</Trans>
+                  <span className="block">
+                    <Trans>* Max Size: 100KB</Trans>{" "}
+                  </span>
                 </div>
               )}
 
@@ -291,7 +295,7 @@ export default function index({
 
         <div className="mt-6 md:mt-0 w-full md:w-5/6">
           <label className="" htmlFor="description">
-            Description
+            <Trans> Description</Trans>
           </label>
           <textarea
             className="h-36"
@@ -311,7 +315,7 @@ export default function index({
             <span className="flex items-center justify-center gap-x-1">
               {" "}
               <IoMdAddCircleOutline size={18} />
-              Add Section
+              <Trans> Add Section</Trans>
             </span>
           </button>
         </div>
@@ -321,7 +325,8 @@ export default function index({
             <div>
               <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
-                  Course section {index + 1}
+                  <Trans> Course section </Trans>
+                  {index + 1}
                 </label>
                 <button
                   type="button"
@@ -334,7 +339,7 @@ export default function index({
               <div className="my-3 flex items-center gap-x-4 md:gap-x-8">
                 <div className="!w-4/6">
                   <label className="" htmlFor="title">
-                    Title
+                    <Trans> Title</Trans>
                   </label>
                   <input
                     className="!w-full"
@@ -348,7 +353,7 @@ export default function index({
                 </div>
                 <div className="w-full">
                   <label className="" htmlFor="title">
-                    Description
+                    <Trans> Description</Trans>
                   </label>
 
                   <input
@@ -383,7 +388,7 @@ export default function index({
                 {isLoading && status !== "Draft" ? (
                   <Spinner width="30px" height="30px" color="#fff" />
                 ) : (
-                  "Edit Course"
+                  t`Edit Course`
                 )}
               </button>
             ))
@@ -395,7 +400,7 @@ export default function index({
               {isLoading && status !== "Draft" ? (
                 <Spinner width="30px" height="30px" color="#fff" />
               ) : (
-                "Add Course"
+                t`Add Course`
               )}
             </button>
           )}
@@ -410,7 +415,8 @@ export default function index({
                 <Spinner width="30px" height="30px" color="#fff" />
               ) : (
                 <span className="flex items-center justify-center gap-x-2">
-                  <MdOutlineDeleteOutline size={20} /> Delete Course
+                  <MdOutlineDeleteOutline size={20} />{" "}
+                  <Trans>Delete Course</Trans>
                 </span>
               )}
             </button>
@@ -424,7 +430,7 @@ export default function index({
               {isLoading && status === "Draft" ? (
                 <Spinner width="30px" height="30px" color="#fff" />
               ) : (
-                "Save as Draft"
+                t`Save as Draft`
               )}
             </button>
           )}

@@ -1,6 +1,5 @@
-import { t, Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { useState } from "react";
-import { BsFillPlayCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner";
 import { Courses } from "../../../../types";
@@ -43,7 +42,6 @@ const AvailableCourses = ({ courses }: any) => {
             {courses?.map((content: Courses) => {
               return (
                 <div
-                  // disabled={!content.isAvailable}
                   onClick={() =>
                     content.enrolled_users.includes(userId)
                       ? navigate(`/course/${content._id}`)
@@ -76,7 +74,8 @@ const AvailableCourses = ({ courses }: any) => {
                     </div>
                     <p className="text-[13px] text-gray-100 py-2">
                       {" "}
-                      By {content.author}
+                      <Trans> By </Trans>
+                      {content.author}
                     </p>
                     <div className="flex items-center justify-between relative pt-8 pb-4">
                       {!content.enrolled_users.includes(userId) && (
@@ -88,7 +87,7 @@ const AvailableCourses = ({ courses }: any) => {
                           {selectedId === content._id ? (
                             <Spinner width="20px" height="20px" color="#fff" />
                           ) : (
-                            "Start Learning"
+                            t`Start Learning`
                           )}
                         </button>
                       )}
@@ -103,7 +102,9 @@ const AvailableCourses = ({ courses }: any) => {
           </div>
         </>
       ) : (
-        <p className="no-content">No Courses Available</p>
+        <p className="no-content">
+          <Trans>No Courses Available</Trans>
+        </p>
       )}
     </div>
   );

@@ -10,6 +10,7 @@ import AddCourse from "../../components/Course/AddCourse";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { Courses } from "../../types";
+import { Trans } from "@lingui/macro";
 
 /**
  * @category Client
@@ -54,7 +55,9 @@ export default function index() {
 
   return (
     <section className="contributor-dashboard h-screen overflow-auto">
-      <p className="text-center font-medium text-xl"> Contributor's Board</p>
+      <p className="text-center font-medium text-xl">
+        <Trans>Contributor's Board</Trans>{" "}
+      </p>
       {selectedCourse?.title ? (
         <Modal
           show={selectedCourse?.title}
@@ -73,7 +76,9 @@ export default function index() {
       ) : courses?.length > 0 ? (
         <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
           <div className="flex items-center justify-between mt-6">
-            <h1 className="text-xl font-medium">Your Courses</h1>
+            <h1 className="text-xl font-medium">
+              <Trans>Your Courses</Trans>
+            </h1>
             <Link
               to="/course/add-course"
               className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3 font-semibold"
@@ -81,7 +86,7 @@ export default function index() {
               {" "}
               <span className="flex items-center justify-center gap-x-1">
                 {" "}
-                <IoMdAddCircleOutline size={18} /> Add New Course
+                <IoMdAddCircleOutline size={18} /> <Trans>Add New Course</Trans>
               </span>
             </Link>
           </div>
@@ -99,13 +104,16 @@ export default function index() {
         </div>
       ) : (
         <div className="flex items-center flex-col h-[30rem] justify-center">
-          <p className="py-3 text-gray-dark/50 mb-4"> No Course Added Yet!</p>
+          <p className="py-3 text-gray-dark/50 mb-4">
+            {" "}
+            <Trans> No Course Added Yet!</Trans>
+          </p>
           <Link
             to="/course/add-course"
             className="px-4 py-3 bg-primary text-white rounded-md w-64 text-center"
           >
             {" "}
-            Add Course
+            <Trans>Add Course</Trans>
           </Link>
         </div>
       )}

@@ -1,3 +1,4 @@
+import { Trans, t } from "@lingui/macro";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 
@@ -37,9 +38,14 @@ export default function Question({
   });
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-semibold"> Edit Question</h2>
+      <h2 className="font-semibold">
+        {" "}
+        <Trans>Edit Question</Trans>
+      </h2>
       <div className="my-5">
-        <label className="text-xs text-gray-dark">Question</label>
+        <label className="text-xs text-gray-dark">
+          <Trans>Question</Trans>
+        </label>
         <input
           type="text"
           className="!w-full"
@@ -47,9 +53,11 @@ export default function Question({
         />
       </div>
       <div className="h-auto max-h-64 overflow-auto">
-        <label className="text-xs text-gray-dark">Options (max 4)</label>
+        <label className="text-xs text-gray-dark">
+          <Trans>Options (max 4)</Trans>
+        </label>
         {fields.map((item, index) => (
-          <div key={index} className="mb-2 gap-x-4 flex items-center ">
+          <div key={index} className="mb-2 gap-x-4 flex items-center">
             <input
               {...register(`option.${index}.name`)}
               className="!w-full"
@@ -68,22 +76,23 @@ export default function Question({
         type="button"
         onClick={() => append({ name: "" })}
       >
-        + Add
+        <Trans> + Add</Trans>
       </button>
       <div className="my-5">
-        <label className="text-xs text-gray-dark">Correct options</label>
+        <label className="text-xs text-gray-dark">
+          <Trans>Correct options</Trans>
+        </label>
         <input
           className="!w-full"
           type="text"
           {...register("correctanswer", { required: true })}
         />
       </div>
-
       <button
         className="w-64 block mx-auto text-white bg-primary py-3 rounded-lg mt-1 hover:bg-primary/90 font-medium"
         type="submit"
       >
-        Edit
+        <Trans> Edit</Trans>
       </button>
     </form>
   );
