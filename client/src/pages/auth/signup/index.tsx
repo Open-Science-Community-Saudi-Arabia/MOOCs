@@ -32,7 +32,7 @@ const Signup = () => {
   const { handleGoogle, loading } = useFetch();
 
   const googlelogin = useGoogleLogin({
-    onSuccess: (codeResponse) => handleGoogle(codeResponse.code,role),
+    onSuccess: (codeResponse) => handleGoogle(codeResponse.code, role),
     flow: "auth-code",
   });
 
@@ -75,37 +75,37 @@ const Signup = () => {
   };
 
   return (
-    <>
+    <section>
+      <div className="login-signup__languageToggle">
+        {" "}
+        <LanguageToggle />
+      </div>
       {isSendVerifyLink ? (
         <VerificationLink emailLink={email} />
       ) : loading ? (
         <Spinner width="100px" height="100px" color="#009985" />
       ) : role === "" ? (
         <div>
-          <h2 className="text-center font-normal text-2xl">Sign Up to MOOCs</h2>
+          <h2 className="text-center font-normal text-2xl"> <Trans> Sign Up to MOOCs</Trans></h2>
           <div className="button-field gap-8 md:w-96 mt-12 mx-auto flex-col md:flex-row flex items-center justify-center">
             <button onClick={() => setRole("User")} className="!text-lg">
-              As User
+            <Trans> As User</Trans>
             </button>
             <button onClick={() => setRole("Contributor")} className="text-lg">
-              As Contributor
+            <Trans>  As Contributor</Trans>
             </button>
           </div>
         </div>
       ) : (
-        <section className="login-signup">
+        <div className="login-signup">
           <button
             className="text-left mb-8 flex items-center"
             onClick={() => setRole("")}
           >
-            <MdOutlineArrowBackIos /> back
+            <MdOutlineArrowBackIos />   <Trans> back</Trans>
           </button>
-          <div className="login-signup__languageToggle">
-            {" "}
-            <LanguageToggle />
-          </div>
 
-          <h1 className="login-signup__heading">Sign Up As {role} </h1>
+          <h1 className="login-signup__heading">{t`Sign Up As ${role}`} </h1>
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"
@@ -225,9 +225,9 @@ const Signup = () => {
               </Link>
             </div>
           </div>
-        </section>
+        </div>
       )}
-    </>
+    </section>
   );
 };
 

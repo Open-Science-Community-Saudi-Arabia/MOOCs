@@ -23,7 +23,7 @@ const ExerciseQuiz = ({
   const [quizIndex, setQuizIndex] = useState(0);
   const [displayScore, setDisplayScore] = useState("");
   const locale = localStorage.getItem("language") || "en";
-  
+
   const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
 
   const onChangeValue = (id: string, selectedAnswer: string) => {
@@ -55,20 +55,6 @@ const ExerciseQuiz = ({
 
   const tryAgainhandler = () => {
     setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
-  };
-
-  const acceptAndContinue = () => {
-    setLoading(true);
-    try {
-    } catch (error: any) {
-      toast.error(error.message, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 5000,
-        theme: "colored",
-      });
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -145,12 +131,6 @@ const ExerciseQuiz = ({
               className="bg-primary py-2 px-4 rounded-md text-white font-medium"
             >
               <Trans> ReTake Quiz</Trans>
-            </button>
-            <button
-              onClick={() => acceptAndContinue()}
-              className="bg-primary py-2 px-4 rounded-md ml-6 text-white font-medium"
-            >
-              Continue
             </button>
           </div>
         </div>

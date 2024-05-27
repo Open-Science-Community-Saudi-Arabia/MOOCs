@@ -175,7 +175,7 @@ const ViewCourse = () => {
                   onClick={() => {
                     setCourseContent(true);
                     setIsOpen(!isOpen);
-                    // !isIpad ? setIsOpen(false) : null;
+                   
                   }}
                   className="viewcourse-container__header__btn"
                 >
@@ -445,8 +445,3 @@ const ViewCourse = () => {
   );
 };
 export default ViewCourse;
-
-// todo
-// Work on course content, specially the quiz, the hover/active state covers the progress bar(find alternative)
-// work on smooth language toggle
-// and reloading always take back user to first item, rather save current item

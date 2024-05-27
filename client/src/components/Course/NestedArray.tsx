@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { MdClose } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
@@ -38,7 +38,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
           <span className="flex items-center justify-center gap-x-1">
             {" "}
             <IoMdAddCircleOutline size={18} />
-            Add Materials
+            <Trans> Add Materials</Trans>
           </span>
           <Tooltip id="my-tooltip" place="top" />
         </button>
@@ -57,11 +57,17 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
               )}
             >
               <option disabled value="">
-                Select type
+                <Trans> Select type</Trans>
               </option>
-              <option value="video">Video</option>
-              <option value="pdf">PDF</option>
-              <option value="quiz">Quiz</option>
+              <option value="video">
+                <Trans>Video</Trans>
+              </option>
+              <option value="pdf">
+                <Trans>PDF</Trans>
+              </option>
+              <option value="quiz">
+                <Trans>Quiz</Trans>
+              </option>
             </select>
 
             <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 w-full">
@@ -115,7 +121,7 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                       )
                     }
                   >
-                    View Pdf
+                    <Trans> View Pdf</Trans>
                   </button>
                   <Modal
                     show={pdfFile !== ""}
@@ -131,7 +137,9 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
                   className="w-full md:!w-[60%]"
                   {...register(
                     `coursesection.${nestIndex}.resources.${subNestIndex}.file`,
-                    {validate: (files: { size: number; }[]) => files[0]?.size < 100000 || 'Max 100KB',
+                    {
+                      validate: (files: { size: number }[]) =>
+                        files[0]?.size < 100000 || "Max 100KB",
                       onChange: (e: {
                         currentTarget: { files: { size: number }[] };
                       }) => {

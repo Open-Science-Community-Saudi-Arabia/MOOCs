@@ -32,7 +32,6 @@ const EmailVerify = () => {
           setLoading(false);
           setValidUrl(true);
         }
-  
       } catch (error: any) {
         setLoading(false);
         setValidUrl(false);
@@ -42,7 +41,6 @@ const EmailVerify = () => {
     emailVerifyHandler();
   }, []);
 
-  
   const navigate = useNavigate();
   return (
     <>
@@ -78,7 +76,12 @@ const EmailVerify = () => {
               </h1>
               <p className="verifyEmail__subtitle">
                 {" "}
-                Go back to <a href="/signup">Signup</a> page
+                <Trans>Go back to </Trans>{" "}
+                <a href="/signup">
+                  {" "}
+                  <Trans>Signup </Trans>
+                </a>{" "}
+                <Trans>page</Trans>
               </p>
             </div>
           )}

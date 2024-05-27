@@ -31,6 +31,7 @@ import { MdOutlineEditOff } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { CgUnavailable } from "react-icons/cg";
+import { Trans, t } from "@lingui/macro";
 
 type Props = {
   courses: Courses[];
@@ -59,7 +60,7 @@ export default function Table({
       });
     } catch (err) {
       setLoadingAction(false);
-      toast.error("Request failed", {
+      toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
@@ -81,7 +82,7 @@ export default function Table({
       });
     } catch (err) {
       setLoadingAction(false);
-      toast.error("Request failed", {
+      toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
@@ -103,7 +104,7 @@ export default function Table({
       });
     } catch (err) {
       setLoadingAction(false);
-      toast.error("Request failed", {
+      toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
@@ -125,7 +126,7 @@ export default function Table({
       });
     } catch (err) {
       setLoadingAction(false);
-      toast.error("Request failed", {
+      toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
@@ -147,7 +148,7 @@ export default function Table({
       });
     } catch (err) {
       setLoadingAction(false);
-      toast.error("Request failed", {
+      toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
@@ -161,12 +162,20 @@ export default function Table({
       cell: (info) => (
         <img className="w-10 h-10 rounded-full" src={info.getValue()} />
       ),
-      header: () => <span>Cover</span>,
+      header: () => (
+        <span>
+          <Trans>Cover</Trans>
+        </span>
+      ),
     }),
 
     columnHelper.accessor("title", {
       cell: (info) => <p className="w-48">{info.getValue()}</p>,
-      header: () => <span>Title</span>,
+      header: () => (
+        <span>
+          <Trans>Title</Trans>
+        </span>
+      ),
     }),
     columnHelper.accessor("createdBy", {
       cell: (info) => (
@@ -174,19 +183,35 @@ export default function Table({
           {info.getValue().firstname} {info.getValue().lastname}
         </p>
       ),
-      header: () => <span>Contributor's name</span>,
+      header: () => (
+        <span>
+          <Trans>Contributor's name</Trans>
+        </span>
+      ),
     }),
     columnHelper.accessor("createdBy.role", {
       cell: (info) => <p className="w-20">{info.getValue()}</p>,
-      header: () => <span>Role</span>,
+      header: () => (
+        <span>
+          <Trans>Role</Trans>
+        </span>
+      ),
     }),
     columnHelper.accessor(`createdBy.email`, {
       cell: (info) => <p className="w-48">{info.getValue()}</p>,
-      header: () => <span>Email</span>,
+      header: () => (
+        <span>
+          <Trans>Email</Trans>
+        </span>
+      ),
     }),
     columnHelper.accessor(`updatedAt`, {
       cell: (info) => dayjs(info.getValue()).format("Do MMMM, YYYY"),
-      header: () => <span>Last Updated</span>,
+      header: () => (
+        <span>
+          <Trans>Last Updated</Trans>
+        </span>
+      ),
     }),
     columnHelper.accessor((row) => row.status, {
       id: "status",
@@ -205,7 +230,11 @@ export default function Table({
           {info.getValue()}
         </div>
       ),
-      header: () => <span>Status</span>,
+      header: () => (
+        <span>
+          <Trans>Status</Trans>
+        </span>
+      ),
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("author", {
@@ -238,7 +267,7 @@ export default function Table({
               >
                 <span className="flex items-center gap-x-2">
                   <MdViewInAr size={14} />
-                  View course
+                  <Trans> View course</Trans>
                 </span>
               </button>
               <button
@@ -249,50 +278,50 @@ export default function Table({
                   <span className="flex items-center gap-x-2">
                     {" "}
                     <MdOutlineUnarchive size={14} />
-                    Un-archive
+                    <Trans> Un-archive</Trans>
                   </span>
                 ) : (
                   <span className="flex items-center gap-x-2">
                     {" "}
-                    <FaRegFileArchive size={14} /> Archive course
+                    <FaRegFileArchive size={14} /> <Trans>Archive course</Trans>
                   </span>
                 )}
               </button>
               {info.row.original.status === "Pending" ? (
                 <button
                   onClick={() => approveCourse()}
-                  className="font-medium py-2.5 px-3 border-x-0 text-left border border-b-[1px] border-t-0 border-x-0  border-gray  w-full hover:bg-gray/70 text-gray-dark rounded-none text-xs block"
+                  className="font-medium py-2.5 px-3 border-x-0 text-left border border-b-[1px] border-t-0 border-x-0 border-gray w-full hover:bg-gray/70 text-gray-dark rounded-none text-xs block"
                 >
                   <span className="flex items-center gap-x-2">
                     <FcAcceptDatabase size={14} />
-                    Approve course
+                    <Trans> Approve course</Trans>
                   </span>
                 </button>
               ) : info.row.original.status === "Approved" ? (
                 <>
                   <button
                     onClick={() => revokeApproval()}
-                    className="font-medium py-2.5 px-3 text-left border-b-[1px] border-gray  w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
+                    className="font-medium py-2.5 px-3 text-left border-b-[1px] border-gray w-full hover:bg-gray text-gray-dark rounded-none text-xs block"
                   >
                     <span className="flex items-center gap-x-2">
                       <MdPendingActions size={14} />
-                      Revoke approval
+                      <Trans> Revoke approval</Trans>
                     </span>
                   </button>
 
                   <button
                     onClick={() => toggleAvailablityHandler()}
-                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none  border border-b-[1px] border-x-0  border-gray  text-gray-dark text-xs block"
+                    className="font-medium py-2.5 px-3 text-left w-full hover:bg-gray rounded-none border border-b-[1px] border-x-0 border-gray text-gray-dark text-xs block"
                   >
                     {info.row.original.isAvailable ? (
                       <span className="flex items-center gap-x-2">
                         <CgUnavailable size={14} />
-                        Make unavailable
+                        <Trans> Make unavailable</Trans>
                       </span>
                     ) : (
                       <span className="flex items-center gap-x-2">
                         <MdOutlineAccessTime size={14} />
-                        Make available
+                        <Trans> Make available</Trans>
                       </span>
                     )}
                   </button>
@@ -307,13 +336,13 @@ export default function Table({
                 {info.row.original.enableEditing ? (
                   <span className="flex items-center gap-x-2">
                     <MdOutlineEditOff size={14} />
-                    Disable editing
+                    <Trans> Disable editing</Trans>
                   </span>
                 ) : (
                   <span className="flex items-center gap-x-2">
                     {" "}
                     <CiEdit size={14} />
-                    Enable editing
+                    <Trans> Enable editing</Trans>
                   </span>
                 )}
               </button>
@@ -321,7 +350,7 @@ export default function Table({
           )}
         </div>
       ),
-      header: () => <span>Actions</span>,
+      header: () => <span><Trans>Actions</Trans></span>,
     }),
   ];
 
