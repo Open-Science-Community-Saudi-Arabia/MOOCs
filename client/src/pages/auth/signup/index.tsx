@@ -108,7 +108,10 @@ const Signup = () => {
             <MdOutlineArrowBackIos /> <Trans> back</Trans>
           </button>
 
-          <h1 className="login-signup__heading">{t`Sign Up As ${role}`} </h1>
+          <h1 className="login-signup__heading">
+            {" "}
+            <Trans>Sign Up As </Trans> {t`${role}`}{" "}
+          </h1>
           <div className="login-signup__google">
             <button
               className="login-signup__google__login-btn"

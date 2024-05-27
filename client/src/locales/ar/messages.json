@@ -130,6 +130,7 @@
   "See All Courses": "تصفح جميع الدورات التدريبية",
   "Select type": "حدد نوع",
   "Sign Up": "إنشاء حساب",
+  "Sign Up As": "",
   "Sign Up As {role}": "Sign Up As {role}",
   "Sign Up to MOOCs": "إنشاء حساب في الدورات التدريبية",
   "Sign in with Google": "تسجيل الدخول باستخدام Google",
@@ -173,5 +174,6 @@
   "{description}": "{description}",
   "{error}": "{error}",
   "{message}": "{message}",
+  "{role}": "",
   "{title}": "{title}"
 }

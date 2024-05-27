@@ -130,6 +130,7 @@
   "See All Courses": "See All Courses",
   "Select type": "Select type",
   "Sign Up": "Sign Up",
+  "Sign Up As": "Sign Up As",
   "Sign Up As {role}": "Sign Up As {role}",
   "Sign Up to MOOCs": "Sign Up to MOOCs",
   "Sign in with Google": "Sign in with Google",
@@ -173,5 +174,6 @@
   "{description}": "{description}",
   "{error}": "{error}",
   "{message}": "{message}",
+  "{role}": "{role}",
   "{title}": "{title}"
 }
