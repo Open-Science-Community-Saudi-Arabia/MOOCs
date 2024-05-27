@@ -1,6 +1,7 @@
 {
   "* Max Size: 100KB": "* الحجم الأقصى: 100 كيلو بايت",
   "+ Add": "+ إضافة",
+  "1680+  enrolled": "",
   "A beginner-friendly course to introduce the concepts and practices of Open Science.": "دورة تدريبية للتعريف بأساسيات مفاهيم وممارسات العلوم المفتوحة.",
   "About": "حول المبادرة",
   "Actions": "الإجراءات",
@@ -28,6 +29,7 @@
   "Confirm Password": "تأكيد كلمة المرور",
   "Confirm password": "تأكيد كلمة المرور",
   "Contact Info": "بيانات الاتصال",
+  "Contributor": "",
   "Contributor's Board": "مجلس المساهمين",
   "Contributor's name": "اسم المساهم",
   "Copyright © OSCSA MOOCS": "حقوق الطبع والنشر محفوظة لمجتمع العلوم المفتوحة السعودي",
@@ -144,6 +146,7 @@
   "Un-archive": "إلغاء الأرشيف",
   "Unlock the secrets of Open Science.": "اكشف أسرار العلوم المفتوحة.",
   "Useful links": "روابط مفيدة",
+  "User": "",
   "Video": "فيديو",
   "View Certificate": "عرض الشهادة",
   "View Pdf": "عرض Pdf",

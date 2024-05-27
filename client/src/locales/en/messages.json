@@ -1,6 +1,7 @@
 {
   "* Max Size: 100KB": "* Max Size: 100KB",
   "+ Add": "+ Add",
+  "1680+  enrolled": "1680+  enrolled",
   "A beginner-friendly course to introduce the concepts and practices of Open Science.": "A beginner-friendly course to introduce the concepts and practices of Open Science.",
   "About": "About",
   "Actions": "Actions",
@@ -28,6 +29,7 @@
   "Confirm Password": "Confirm Password",
   "Confirm password": "Confirm password",
   "Contact Info": "Contact Info",
+  "Contributor": "Contributor",
   "Contributor's Board": "Contributor's Board",
   "Contributor's name": "Contributor's name",
   "Copyright © OSCSA MOOCS": "Copyright © OSCSA MOOCS",
@@ -144,6 +146,7 @@
   "Un-archive": "Un-archive",
   "Unlock the secrets of Open Science.": "Unlock the secrets of Open Science.",
   "Useful links": "Useful links",
+  "User": "User",
   "Video": "Video",
   "View Certificate": "View Certificate",
   "View Pdf": "View Pdf",

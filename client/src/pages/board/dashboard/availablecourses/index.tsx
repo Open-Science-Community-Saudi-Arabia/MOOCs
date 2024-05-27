@@ -74,7 +74,7 @@ const AvailableCourses = ({ courses }: any) => {
                     </div>
                     <p className="text-[13px] text-gray-100 py-2">
                       {" "}
-                      <Trans> By </Trans>
+                      <Trans> By </Trans> {""}
                       {content.author}
                     </p>
                     <div className="flex items-center justify-between relative pt-8 pb-4">
@@ -92,7 +92,7 @@ const AvailableCourses = ({ courses }: any) => {
                         </button>
                       )}
                       <p className="text-xs md:text-sm text-gray-100 absolute right-5">
-                        1680+ {""} enrolled
+                       <Trans> 1680+ {""} enrolled</Trans>
                       </p>
                     </div>
                   </div>

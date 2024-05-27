@@ -86,13 +86,16 @@ const Signup = () => {
         <Spinner width="100px" height="100px" color="#009985" />
       ) : role === "" ? (
         <div>
-          <h2 className="text-center font-normal text-2xl"> <Trans> Sign Up to MOOCs</Trans></h2>
+          <h2 className="text-center font-normal text-2xl">
+            {" "}
+            <Trans> Sign Up to MOOCs</Trans>
+          </h2>
           <div className="button-field gap-8 md:w-96 mt-12 mx-auto flex-col md:flex-row flex items-center justify-center">
-            <button onClick={() => setRole("User")} className="!text-lg">
-            <Trans> As User</Trans>
+            <button onClick={() => setRole(t`User`)} className="!text-lg">
+              <Trans> As User</Trans>
             </button>
-            <button onClick={() => setRole("Contributor")} className="text-lg">
-            <Trans>  As Contributor</Trans>
+            <button onClick={() => setRole(t`Contributor`)} className="text-lg">
+              <Trans> As Contributor</Trans>
             </button>
           </div>
         </div>
@@ -102,7 +105,7 @@ const Signup = () => {
             className="text-left mb-8 flex items-center"
             onClick={() => setRole("")}
           >
-            <MdOutlineArrowBackIos />   <Trans> back</Trans>
+            <MdOutlineArrowBackIos /> <Trans> back</Trans>
           </button>
 
           <h1 className="login-signup__heading">{t`Sign Up As ${role}`} </h1>

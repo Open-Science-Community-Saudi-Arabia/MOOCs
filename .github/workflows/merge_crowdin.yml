@@ -2,7 +2,7 @@ name: Extract and compile translation
 on:
   pull_request_target:
     types:
-      - closed
+      - opened
     branches:
       - "main"
 
@@ -26,7 +26,6 @@ jobs:
 
       - name: Update source code
         run: |
-          npm run extract
           npm run compile
 
       - name: Commit report
@@ -34,5 +33,5 @@ jobs:
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
           git add -A
-          git commit -am "Translation compiled and extracted"
-          git push
+          git commit -m "Translation compiled and extracted"
+          git push origin l10n_main
