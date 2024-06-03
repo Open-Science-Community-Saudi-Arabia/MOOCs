@@ -13,6 +13,10 @@ import {
  * @description This module contains the controllers for handling user authentication, including login, signup, password reset,
  */
 
+const currentLanguage= localStorage.getItem("language");
+
+console.log(currentLanguage)
+
 /**
  * @description Signup endpoint
  * @param  {object} payload  request data
