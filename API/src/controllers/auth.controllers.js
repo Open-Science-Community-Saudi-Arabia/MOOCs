@@ -35,6 +35,7 @@ const {
   ForbiddenError,
 } = require("../utils/errors");
 const { getAuthCodes, getAuthTokens } = require("../utils/token.js");
+const { translateDoc } = require("../utils/crowdin2.js");
 const { OAuth2Client } = require("google-auth-library");
 const { User, Status } = require("../models/user.models");
 const {
@@ -288,7 +289,17 @@ exports.login = async (req, res, next) => {
   );
 
   currentUser.enrolled_courses = undefined;
+  // const data = {
+  //   title: "Hello, world!",
+  //   description: "testing Crowdin",
+  //   question: "testing question",
+  // };
 
+  // Translate the response message
+  // const translatedMessage = await translateDoc();
+
+  // const translatedMessage = await translateText(data.message, "ar");
+  // console.log(translatedMessage);
   return res.status(200).json({
     success: true,
     data: {

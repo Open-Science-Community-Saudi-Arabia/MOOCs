@@ -90,7 +90,7 @@ const Header = () => {
               </h2>
               <p className="text-[10px]">{userInfo.email}</p>
               <button
-                className="text-xs bg-primary mt-3 hover:bg-primary-hover font-medium rounded-md py-1.5 px-2 text-white "
+                className="text-xs bg-primary mt-3 hover:bg-primary-hover font-medium rounded-md py-1.5 px-2 text-white"
                 ref={ref}
                 onClick={logout}
               >

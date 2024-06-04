@@ -49,8 +49,7 @@ const AvailableCourses = ({ courses }: any) => {
                   }
                   aria-label={content.title}
                   key={content._id}
-                  style={{ width: "350px", height: "auto" }}
-                  className="p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
+                  className="relative w-full sm:w-[17rem] md:w-[20rem] h-[20rem] p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
                 >
                   <div className="availablecourses__courses-content__img-container">
                     <img
@@ -77,12 +76,12 @@ const AvailableCourses = ({ courses }: any) => {
                       <Trans> By </Trans> {""}
                       {content.author}
                     </p>
-                    <div className="flex items-center justify-between relative pt-8 pb-4">
-                      {!content.enrolled_users.includes(userId) && (
+                    <div className="bottom-3 absolute">
+                      {!content.enrolled_users.includes(userId) ? (
                         <button
                           type="button"
                           onClick={() => enrollUserHandler(content._id)}
-                          className="py-1 md:py-2 text-xs md:text-sm rounded-full absolute h-12 w-30 md:w-36 font-semibold px-4 bg-primary text-white"
+                          className="py-1 md:py-2 text-xs md:text-sm rounded-full  h-12 w-30 md:w-36 font-semibold px-4 bg-primary text-white"
                         >
                           {selectedId === content._id ? (
                             <Spinner width="20px" height="20px" color="#fff" />
@@ -90,10 +89,8 @@ const AvailableCourses = ({ courses }: any) => {
                             t`Start Learning`
                           )}
                         </button>
-                      )}
-                      <p className="text-xs md:text-sm text-gray-100 absolute right-5">
-                       <Trans> 1680+ {""} enrolled</Trans>
-                      </p>
+                      ):
+                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark">Enrolled</p>}
                     </div>
                   </div>
                 </div>

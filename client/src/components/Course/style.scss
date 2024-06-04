@@ -28,3 +28,15 @@
     font-size: 14px;
   }
 }
+
+html[dir="ltr"] {
+  .table_actions{
+    right:2rem
+  }
+}
+html[dir="rtl"] {
+  .table_actions{
+    left:2rem;
+    // right:0
+  }
+}

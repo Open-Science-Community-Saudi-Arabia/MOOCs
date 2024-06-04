@@ -7,19 +7,18 @@
     border: none;
     @include flex(space-around, center);
     font-size: 16px;
-    gap: 8px; 
+    gap: 8px;
     svg {
       vertical-align: middle;
     }
   }
   &__btn {
-    width: 120px;
+    width: 100px;
     background-color: var(--white);
     position: absolute;
-  right:0px;
-    // top: 5px;
+    right: 0px;
     @include ipad {
-      right:0px;
+      right: 0px;
       top: 35px;
     }
     border: 1px solid var(--green-light);
@@ -30,7 +29,7 @@
     box-shadow: 0 1px 24px rgba(33, 51, 67, 0.12);
     button {
       border: none;
-      padding: 0.5em;
+      padding: 0.2em 0;
       font-size: 14px;
       &:hover {
         text-decoration: underline;

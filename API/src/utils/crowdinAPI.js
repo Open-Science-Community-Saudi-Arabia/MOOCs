@@ -12,7 +12,6 @@
  * @requires axios
  *
  */
-
 const { CROWDIN_API_KEY, CROWDIN_MTS_ID } = require("./config");
 const axios = require("axios");
 
@@ -20,18 +19,9 @@ const auth = {
   headers: {
     authorization: "Bearer " + CROWDIN_API_KEY,
     "Content-Type": "application/json",
-    "Crowdin-API-FileName": "MOOCS API",
+    // "Crowdin-API-FileName": "MOOCS API",
   },
 };
-
-/**
- * Handles translation request from Crowdin
- *
- * @description This function makes a POST request to crowdin APIs with the source language and words to translate.
- *
- * @param {array} str_arr - Array of strings from the source language
- * @returns {array}  - Array of strings for the target language
- */
 
 async function translateStringsWithCrowdinAPI(str_arr) {
   const url = `https://api.crowdin.com/api/v2/mts/${CROWDIN_MTS_ID}/translations`;
@@ -45,6 +35,7 @@ async function translateStringsWithCrowdinAPI(str_arr) {
     },
     auth
   );
+  
 
   // Replace the strings with their translations
   const translated_strings = res.data.data.translations;
@@ -80,7 +71,7 @@ async function translateDoc(document) {
 
     // Get the indexes of the strings to translate
     let string_index = 0;
-    for (const field in data.toObject()) {
+    for (const field in data) {
       if (translatable_fields[field]) {
         // Add the field index to the string_indexes object
         string_indexes[field] = string_index;
@@ -107,11 +98,16 @@ async function translateDoc(document) {
       const translated_correct_option = data.options_tr[data.correct_option];
       data.correct_option = translated_correct_option[0];
     }
-
-    return data;
+console.log(data)
+    // return data;
   } catch (error) {
-    console.log(error);
-    return error;
+    // console.log(error)
+    // if (error.response && error.response.data && error.response.data.errors) {
+      console.error('Translation error:', error.response.data.error||error.response.data.errors[0].error);
+  // } else {
+  //     console.error('Unexpected error:', error.message);
+  // }
+  // throw new Error('Translation failed');
   }
 }
 

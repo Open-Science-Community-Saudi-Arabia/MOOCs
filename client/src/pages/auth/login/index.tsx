@@ -30,6 +30,9 @@ const Login = () => {
   const navigate = useNavigate();
   const { handleGoogle, loading } = useFetch();
 
+  const currentLanguage = localStorage.getItem("language");
+  console.log(currentLanguage);
+
   const googlelogin = useGoogleLogin({
     onSuccess: (codeResponse) => handleGoogle(codeResponse.code),
     flow: "auth-code",
@@ -45,7 +48,7 @@ const Login = () => {
       };
       setLoading(true);
       let response = await login(formData);
-
+      // console.log(response.data);
       if (response.success) {
         storeData(response.data.access_token, response.data.user._id);
 

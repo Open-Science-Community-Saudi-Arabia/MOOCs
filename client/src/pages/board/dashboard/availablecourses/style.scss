@@ -13,7 +13,7 @@
   &__courses {
     @include flex(start, center);
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 40px;
   
     &-content {
       border-radius: 10px;

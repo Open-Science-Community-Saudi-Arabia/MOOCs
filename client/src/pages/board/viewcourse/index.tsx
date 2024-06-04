@@ -175,7 +175,6 @@ const ViewCourse = () => {
                   onClick={() => {
                     setCourseContent(true);
                     setIsOpen(!isOpen);
-                   
                   }}
                   className="viewcourse-container__header__btn"
                 >
