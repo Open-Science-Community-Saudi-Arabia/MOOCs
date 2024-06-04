@@ -20,6 +20,7 @@ function getMongoURI() {
 const app = require("./app");
 
 const PORT = config.PORT;
+
 async function start() {
   try {
     await connectDatabase(getMongoURI());

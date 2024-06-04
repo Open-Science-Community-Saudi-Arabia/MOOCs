@@ -73,7 +73,7 @@ export default function index() {
       ) : courses?.length > 0 ? (
         <div className="">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl">All courses</h2>
+            <h2 className="text-xl"><Trans>All courses</Trans></h2>
             <Link
               to={`/course/add-course`}
               className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3"
@@ -81,7 +81,7 @@ export default function index() {
               {" "}
               <span className="flex items-center justify-center gap-x-1">
                 {" "}
-                <IoMdAddCircleOutline size={18} /> Add New Course
+                <IoMdAddCircleOutline size={18} /> <Trans>Add New Course</Trans>
               </span>
             </Link>
           </div>
@@ -94,7 +94,7 @@ export default function index() {
         </div>
       ) : (
         <div className="flex items-center flex-col h-96 justify-center">
-          <p className="py-3 text-gray-dark/50"> No Course Added</p>
+          <p className="py-3 text-gray-dark/50"> <Trans>No Course Added</Trans></p>
           <Link
             to={`/course/add-course`}
             className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
@@ -102,7 +102,7 @@ export default function index() {
             {" "}
             <span className="flex items-center justify-center gap-x-1">
               {" "}
-              <IoMdAddCircleOutline size={18} /> Add New Course
+              <IoMdAddCircleOutline size={18} /> <Trans>Add New Course</Trans>
             </span>
           </Link>
         </div>
