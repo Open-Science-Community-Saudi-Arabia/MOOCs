@@ -289,25 +289,25 @@ exports.login = async (req, res, next) => {
   );
 
   currentUser.enrolled_courses = undefined;
-  const data = {
-    title: "Hello, world!",
-    description: "testing Crowdin",
-    question: "testing question",
-  };
+  // const data = {
+  //   title: "Hello, world!",
+  //   description: "testing Crowdin",
+  //   question: "testing question",
+  // };
 
   // Translate the response message
-  const translatedMessage = await translateDoc();
+  // const translatedMessage = await translateDoc();
 
   // const translatedMessage = await translateText(data.message, "ar");
   // console.log(translatedMessage);
-  // return res.status(200).json({
-  //   success: true,
-  //   data: {
-  //     user: currentUser,
-  //     access_token,
-  //     refresh_token,
-  //   },
-  // });
+  return res.status(200).json({
+    success: true,
+    data: {
+      user: currentUser,
+      access_token,
+      refresh_token,
+    },
+  });
 };
 
 /**

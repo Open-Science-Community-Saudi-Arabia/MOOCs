@@ -48,16 +48,16 @@ const Login = () => {
       };
       setLoading(true);
       let response = await login(formData);
-      console.log(response.data);
-      // if (response.success) {
-      //   storeData(response.data.access_token, response.data.user._id);
+      // console.log(response.data);
+      if (response.success) {
+        storeData(response.data.access_token, response.data.user._id);
 
-      //   if (response.data.user.role === "Contributor") {
-      //     navigate("/contributor/dashboard");
-      //   } else if (response.data.user.role === "EndUser") {
-      //     navigate("/dashboard");
-      //   }
-      // }
+        if (response.data.user.role === "Contributor") {
+          navigate("/contributor/dashboard");
+        } else if (response.data.user.role === "EndUser") {
+          navigate("/dashboard");
+        }
+      }
     } catch (error: any) {
       setError(true);
       toast.error(error.message, {
