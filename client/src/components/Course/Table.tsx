@@ -32,6 +32,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { CgUnavailable } from "react-icons/cg";
 import { Trans, t } from "@lingui/macro";
+import "./style.scss";
 
 type Props = {
   courses: Courses[];
@@ -160,7 +161,10 @@ export default function Table({
   const columns = [
     columnHelper.accessor("preview_image", {
       cell: (info) => (
-        <img className="w-10 h-10 rounded-full" src={info.getValue()} />
+        <img
+          className="w-10 h-10 border-[1px] border-gray rounded-full"
+          src={info.getValue()}
+        />
       ),
       header: () => (
         <span>
@@ -230,12 +234,6 @@ export default function Table({
           {info.getValue()}
         </div>
       ),
-      header: () => (
-        <span>
-          <Trans>Status</Trans>
-        </span>
-      ),
-      footer: (info) => info.column.id,
     }),
     columnHelper.accessor("author", {
       cell: (info) => (
@@ -260,7 +258,7 @@ export default function Table({
             )}
           </button>
           {courseAction._id === info.row.original._id && (
-            <div className="z-10 shadow shadow-xl w-40 border-dark-gray right-9 top-2 absolute bg-white border border-y-[1px] border-gray rounded-md">
+            <div className="z-10 shadow shadow-xl w-40 border-dark-gray top-2 absolute bg-white border border-y-[1px] border-gray rounded-md table_actions">
               <button
                 onClick={() => handleSelectedCourse(info.row.original)}
                 className="font-medium py-2.5 px-3 text-xs hover:bg-gray/70 border-b-[1px] border-gray text-left block text-gray-dark rounded-none w-full"
@@ -350,7 +348,11 @@ export default function Table({
           )}
         </div>
       ),
-      header: () => <span><Trans>Actions</Trans></span>,
+      header: () => (
+        <span>
+          <Trans>Actions</Trans>
+        </span>
+      ),
     }),
   ];
 

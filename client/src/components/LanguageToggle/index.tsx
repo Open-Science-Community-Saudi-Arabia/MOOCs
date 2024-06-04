@@ -27,7 +27,7 @@ const index = ({ btncolor }: IProps) => {
   useClickOutside(ref, () => setOpenLanguage(false));
   const options = [
     { value: "en", label: "English" },
-    { value: "ar", label: "Arabic" },
+    { value: "ar", label: "عربي" },
   ];
 
   const locale = window.localStorage.getItem("language");
