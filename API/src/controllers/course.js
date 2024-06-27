@@ -4,7 +4,7 @@
  * @module Course Controller
  * @description This module contains the controllers for handling course logic.
  * @requires ../services/course
- * 
+ *
  * The following routes are handled by this module and their corresponding functions: </br>
  *
  * </br>
@@ -39,6 +39,7 @@ const {
   toggleEditing,
   evaluateUserAnswers,
 } = require("../services/course");
+const { translateDoc } = require("../utils/oldCrowdin");
 
 /**
  *
@@ -125,7 +126,7 @@ const getContributorCourses = async (req, res) => {
 
 /**
  *
- * @description Get all courses excluding contributors drafts. Request permitted for super admin only. 
+ * @description Get all courses excluding contributors drafts. Request permitted for super admin only.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and all courses data
@@ -159,9 +160,18 @@ const getAllCourses = async (req, res) => {
 const getApprovedCourses = async (req, res) => {
   try {
     const courses = await allApprovedCourses();
+
+    let tran_courses = [];
+    await Promise.all(
+      courses.map(async (item) => {
+        let testing = await translateDoc(item);
+        tran_courses.push(testing);
+      })
+    );
+
     return res.status(200).send({
       success: true,
-      data: courses,
+      data: tran_courses
     });
   } catch (error) {
     return res.status(400).send({
@@ -222,7 +232,7 @@ const makeCoursePending = async (req, res) => {
 
 /**
  *
- * @description Update course status to archive. Only Super admin can update course status. 
+ * @description Update course status to archive. Only Super admin can update course status.
  * Archiving a course is similar to delete but with an extended period.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
@@ -248,7 +258,7 @@ const archiveCourse = async (req, res) => {
 
 /**
  *
- * @description Update course. Only Super admin  and contributor can can update a course. 
+ * @description Update course. Only Super admin  and contributor can can update a course.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -274,7 +284,7 @@ const updateCourse = async (req, res) => {
 
 /**
  *
- * @description Enrolling into a course by the end user. Request permitted for end users. 
+ * @description Enrolling into a course by the end user. Request permitted for end users.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -302,7 +312,7 @@ const enrollUser = async (req, res) => {
 
 /**
  *
- * @description Update a course avaialbility. Only Super admin can update course availabilty. 
+ * @description Update a course avaialbility. Only Super admin can update course availabilty.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -329,7 +339,7 @@ const toggleCourseAvailablity = async (req, res) => {
 
 /**
  *
- * @description Toggle a course editing mode. Only Super admin can update course editing status. 
+ * @description Toggle a course editing mode. Only Super admin can update course editing status.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
