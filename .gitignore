@@ -124,22 +124,6 @@ todo
 /documentation/docs/img
 /documentation/docs/scripts
 
-# Backend files
-/API/src/.env*
-/API/src/.env
-/API/src/.env.dev
-/API/src/.env.test
-/API/src/seeders/config.js
-*node_modules/
-
-
-# Client  files
-/client/src/.env*
-/client/src/.env
-/client/src/.env.dev
-/client/src/.env.test
-/client/src/.env.local
-
 *node_modules/
 
 # Logs

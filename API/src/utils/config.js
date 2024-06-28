@@ -38,10 +38,6 @@ const EMAIL_HOST = process.env.EMAIL_HOST,
 const SERVER_URL = process.env.SERVER_URL,
   CLIENT_APP_URL = process.env.CLIENT_APP_URL;
 
-/* Github */
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID,
-  GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
-
 /* Cloudinary */
 const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY,
@@ -49,8 +45,6 @@ const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME,
 
 /* CROWDIN */
 const CROWDIN_API_KEY = process.env.CROWDIN_API_KEY,
-  CROWDIN_PROJECT_ID = process.env.CROWDIN_PROJECT_ID,
-  CROWDIN_API = process.env.CROWDIN_API,
   CROWDIN_MTS_ID = process.env.CROWDIN_MTS_ID;
 
 module.exports = {
@@ -91,8 +85,6 @@ module.exports = {
   OAUTH_REFRESH_TOKEN,
   OAUTH_ACCESS_TOKEN,
   GOOGLE_SIGNIN_CLIENT_ID,
-  GITHUB_CLIENT_ID,
-  GITHUB_CLIENT_SECRET,
   HOST_ADMIN_EMAIL1,
   HOST_ADMIN_EMAIL2,
 
@@ -107,7 +99,5 @@ module.exports = {
 
   // CROWDIN
   CROWDIN_API_KEY,
-  CROWDIN_PROJECT_ID,
-  CROWDIN_API,
   CROWDIN_MTS_ID,
 };

@@ -6,15 +6,24 @@ if (environments.includes(NODE_ENV)) {
   require("dotenv").config({ path: `.env` });
 }
 
+
 const config = require("./utils/config");
 const connectDatabase = require("./db/connectDB");
-const { job } = require("./cron");
+const { job } = require('./cron')
+function getMongoURI() {
+  return config[
+    "MONGO_URI" +
+      (environments.includes(NODE_ENV) ? `_${NODE_ENV.toUpperCase()}` : "")
+  ];
+}
+
 const app = require("./app");
 
 const PORT = config.PORT;
+
 async function start() {
   try {
-    await connectDatabase(process.env.MONGO_URI_DEV);
+    await connectDatabase(getMongoURI());
     app.listen(PORT, function () {
       console.log(`Server is running on port ${PORT}....`);
     });
@@ -23,5 +32,5 @@ async function start() {
   }
 }
 
-job.start();
+job.start()
 start();
