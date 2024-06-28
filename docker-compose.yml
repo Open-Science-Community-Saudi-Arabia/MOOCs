@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   mongodb-app:
     image: mongo
@@ -11,8 +11,8 @@ services:
   server:
     container_name: backend-app
     build:
-      context: .
-      dockerfile: ./api/Dockerfile
+      context: ./api
+      dockerfile: Dockerfile
     ports:
       - 7000:7000
     env_file:
@@ -23,8 +23,8 @@ services:
   client:
     container_name: client-app
     build:
-      context: .
-      dockerfile: ./client/Dockerfile
+      context: ./client
+      dockerfile: Dockerfile
     ports:
       - 5173:5173
     env_file:

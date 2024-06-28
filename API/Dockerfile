@@ -8,4 +8,4 @@ RUN rm -rf node_modules && npm install
 
 EXPOSE 7000
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]
