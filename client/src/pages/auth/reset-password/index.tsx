@@ -59,9 +59,7 @@ const ResetPassword = () => {
       <h1 className="login-signup__heading">
         <Trans>Reset Password</Trans>
       </h1>
-      <p className="login-signup__text">
-        <Trans>Enter new password.</Trans>
-      </p>
+      
       <form className="login-signup__form" onSubmit={resetPasswordHandler}>
         <div className="field">
           <label className="sr-only" htmlFor="resetcode">
@@ -73,7 +71,7 @@ const ResetPassword = () => {
             id="resetcode"
             placeholder={t`Reset Code`}
             required
-          />
+          /> 
         </div>
         <div className="field">
           <label className="sr-only" htmlFor="password">
@@ -81,7 +79,7 @@ const ResetPassword = () => {
           </label>
           <input
             type={toggleVisibility ? "text" : "password"}
-            placeholder={t`Password`}
+            placeholder={t`New password`}
             minLength={8}
             name="password"
             id="password"

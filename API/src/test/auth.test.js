@@ -1,5 +1,3 @@
-// require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
-
 const { default: mongoose } = require('mongoose')
 const expect = require('chai').expect
 
@@ -7,7 +5,7 @@ const server = require('../app')
 const request = require('supertest'),
     app = request.agent(server)
 
-// const TestToken = require('../models/test_token.models')
+
 const { User, Status } = require('../models/user.models')
 const { AuthCode, TestAuthToken } = require('../models/token.models')
 

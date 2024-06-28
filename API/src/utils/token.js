@@ -62,18 +62,6 @@ const getRequiredConfigVars = (type) => {
         secret: config.JWT_EMAILVERIFICATION_SECRET,
         expiry: config.JWT_EMAILVERIFICATION_EXP,
       };
-
-    case "su_activation":
-      return {
-        secret: config.JWT_SUPERADMINACTIVATION_SECRET,
-        expiry: config.JWT_SUPERADMINACTIVATION_EXP,
-      };
-
-    case "su_deactivation":
-      return {
-        secret: config.JWT_SUPERADMINACTIVATION_SECRET,
-        expiry: config.JWT_SUPERADMINACTIVATION_EXP,
-      };
   }
 };
 
@@ -134,14 +122,7 @@ const getAuthCodes = async (user_id, code_type) => {
   return new Promise(async (resolve, reject) => {
     try {
       let random_code = `${Math.floor(100000 + Math.random() * 900000)}`;
-      let verification_code,
-        password_reset_code,
-        activation_code1,
-        activation_code2,
-        activation_code3,
-        deactivation_code1,
-        deactivation_code2,
-        deactivation_code3;
+      let verification_code, password_reset_code;
 
       if (code_type == "verification") {
         verification_code = random_code;
@@ -161,40 +142,9 @@ const getAuthCodes = async (user_id, code_type) => {
         );
       }
 
-      if (code_type == "su_activation") {
-        activation_code1 = UUID(); // Will be sent to user
-        activation_code2 = UUID(); // Will be sent to first admin
-        activation_code3 = UUID(); // Will be sent to second admin
-
-        const activation_code = `${activation_code1}-${activation_code2}-${activation_code3}`;
-        const autho = await AuthCode.findOneAndUpdate(
-          { user: user_id },
-          { activation_code, expiresIn: 60 * 60 * 24 },
-          { new: true, upsert: true }
-        );
-      }
-
-      if (code_type == "su_deactivation") {
-        deactivation_code1 = UUID(); // Will be sent to user
-        deactivation_code2 = UUID(); // Will be sent to first admin
-        deactivation_code3 = UUID(); // Will be sent to second admin
-
-        const deactivation_code = `${deactivation_code1}-${deactivation_code2}-${deactivation_code3}`;
-        await AuthCode.findOneAndUpdate(
-          { user: user_id },
-          { deactivation_code },
-          { new: true, upsert: true }
-        );
-      }
       resolve({
         verification_code,
         password_reset_code,
-        activation_code1,
-        activation_code2,
-        activation_code3,
-        deactivation_code1,
-        deactivation_code2,
-        deactivation_code3,
       });
     } catch (error) {
       reject(error);

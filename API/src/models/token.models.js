@@ -59,7 +59,6 @@ const authCodeSchema = new schema(
     activation_code: { type: String },
     deactivation_code: { type: String },
     createdAt: { type: Date, default: Date.now },
-    // expiresIn: { type: Date, default: Date.now + JWT_REFRESH_EXP },
   },
   { timestamps: true }
 );
@@ -69,17 +68,16 @@ const testAuthToken = new schema({
   access_token: { type: schema.Types.String },
 });
 
-const AuthCode = mongoose.model("AuthCode", authCodeSchema);
-const BlacklistedToken = mongoose.model(
-  "BlacklistedToken",
-  blacklistedTokenSchema
-);
 const TestAuthToken = mongoose.model("TestAuthToken", testAuthToken);
-
 testAuthToken.pre("save", async function () {
   if (process.env.NODE_ENV != "test") {
     throw "TestAuthToken collection is only meant for `test` environment";
   }
 });
 
+const AuthCode = mongoose.model("AuthCode", authCodeSchema);
+const BlacklistedToken = mongoose.model(
+  "BlacklistedToken",
+  blacklistedTokenSchema
+);
 module.exports = { BlacklistedToken, AuthCode, TestAuthToken };

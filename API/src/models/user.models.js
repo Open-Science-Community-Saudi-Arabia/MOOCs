@@ -143,25 +143,15 @@ userSchema.virtual("enrolled_courses", {
   ref: "Course",
 });
 
-// userSchema.pre("save", async function (next, { skipValidation }) {
-//   if (skipValidation) return next();
 
-//   // Check if user already exists - Incase index is not created
-//   const email_exists = await User.findOne({ email: this.email });
-//   if (email_exists) {
-//     throw new BadRequestError("Email already exists please user another email");
+// statusSchema.pre("save", async function (next) {
+//   if (this.isNew) {
+//     await this.populate("user");
+//     if (this.user.role == "EndUser") this.isActive = true;
+//     else this.isActive = false;
 //   }
+//   next();
 // });
-
-statusSchema.pre("save", async function (next) {
-  if (this.isNew) {
-    await this.populate("user");
-    if (this.user.role == "EndUser") this.isActive = true;
-    else this.isActive = false;
-  }
-
-  next();
-});
 
 const Status = mongoose.model("Status", statusSchema);
 const User = mongoose.model("User", userSchema);
