@@ -1,7 +1,6 @@
 const MONGO_URI = process.env.MONGO_URI,
   MONGO_URI_TEST = process.env.MONGO_URI_TEST,
-  MONGO_URI_DEV = process.env.MONGO_URI_DEV,
-  MONGO_URI_PROD = process.env.MONGO_URI_PROD;
+  MONGO_URI_DEV = process.env.MONGO_URI_DEV
 
 const PORT = process.env.PORT;
 
@@ -49,7 +48,6 @@ module.exports = {
   MONGO_URI,
   MONGO_URI_TEST,
   MONGO_URI_DEV,
-  MONGO_URI_PROD,
 
   // Server Port
   PORT,
