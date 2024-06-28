@@ -142,8 +142,8 @@ const updateACourse = async (courseId, body, preview_image) => {
   if (preview_image !== undefined) {
     file_url = await uploadToCloudinary({
       path: preview_image.path,
-      file_name: `course_preview_${courseId}`,
-      destination_path: "courses/preview_images",
+      file_name: `preview_image_${courseId}`,
+      destination_path:`moocs_resources/${body.title}`,
     });
   }
   const course = await Course.findById(courseId);
