@@ -21,7 +21,7 @@ const PORT = config.PORT;
 
 async function start() {
   try {
-    await connectDatabase(getMongoURI());
+    await connectDatabase(process.env.MONGO_URI);
     job.start();
     app.listen(PORT, function () {
       console.log(`Server is running on port ${PORT}....`);
