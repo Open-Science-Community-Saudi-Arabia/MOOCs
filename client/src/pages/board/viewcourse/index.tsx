@@ -431,7 +431,12 @@ const ViewCourse = () => {
                   <p className="viewcourse-container__tab-container__tab-content-text">
                     <Trans> Course description</Trans>
                   </p>
-                  <p>{displayContent?.description}</p>
+
+                  <p>
+                    {locale === "en"
+                      ? displayContent?.description
+                      : displayContent?.description_tr}
+                  </p>
                 </div>
               ) : (
                 <></>

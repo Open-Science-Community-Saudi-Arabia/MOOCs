@@ -34,7 +34,6 @@ const Board = () => {
     }
   };
 
-
   useEffect(() => {
     setLoading(true);
      getAvailableCourses()

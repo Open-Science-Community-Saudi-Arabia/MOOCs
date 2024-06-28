@@ -39,7 +39,7 @@ const {
   toggleEditing,
   evaluateUserAnswers,
 } = require("../services/course");
-const { translateDoc } = require("../utils/oldCrowdin");
+const { translateDocArray } = require("../utils/crowdin");
 
 /**
  *
@@ -80,6 +80,7 @@ const createCourse = async (req, res) => {
  * @throws {Error} If error occurs
  */
 const getCourse = async (req, res) => {
+
   try {
     const courseId = req.params.courseId;
     const course = await getACourse(courseId, req.user.role);
@@ -159,19 +160,12 @@ const getAllCourses = async (req, res) => {
  */
 const getApprovedCourses = async (req, res) => {
   try {
-    const courses = await allApprovedCourses();
-
-    let tran_courses = [];
-    await Promise.all(
-      courses.map(async (item) => {
-        let testing = await translateDoc(item);
-        tran_courses.push(testing);
-      })
-    );
+    const approved_courses = await allApprovedCourses();
+    const courses = await translateDocArray(approved_courses);
 
     return res.status(200).send({
       success: true,
-      data: tran_courses
+      data: courses,
     });
   } catch (error) {
     return res.status(400).send({

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mongodb-app:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/mongodb:/data/db
+
+  server:
+    container_name: backend-app
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    ports:
+      - 7000:7000
+    env_file:
+      - ./api/.env.dev
+    links:
+      - mongodb-app
+
+  client:
+    container_name: client-app
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - 5173:5173
+    env_file:
+      - ./client/.env.local
+    links:
+      - mongodb-app
+
+volumes:
+  mongodb:
