@@ -11,7 +11,9 @@ const connectDatabase = require("./db/connectDB");
 const { job } = require("./cron");
 
 function getMongoURI() {
-  return config["MONGO_URI" + (NODE_ENV ? `_${NODE_ENV.toUpperCase()}` : "")];
+  return config[
+    NODE_ENV ? "MONGO_URI" + `_${NODE_ENV.toUpperCase()}` : "MONGO_URI"
+  ];
 }
 
 const app = require("./app");
