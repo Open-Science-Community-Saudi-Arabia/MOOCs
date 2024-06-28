@@ -15,11 +15,7 @@ const PORT = config.PORT;
 
 async function start() {
   try {
-    const getMongoURI = NODE_ENV
-      ? config[`MONGO_URI_${NODE_ENV.toUpperCase()}`]
-      : process.env.MONGO_URI;
-
-    await connectDatabase(getMongoURI);
+    await connectDatabase(config.MONGO_URI);
     job.start();
     app.listen(PORT, function () {
       console.log(`Server is running on port ${PORT}....`);
