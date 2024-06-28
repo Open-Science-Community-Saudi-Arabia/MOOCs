@@ -11,9 +11,9 @@ const connectDatabase = require("./db/connectDB");
 const { job } = require("./cron");
 
 function getMongoURI() {
-  return config[
-    NODE_ENV ? "MONGO_URI" + `_${NODE_ENV.toUpperCase()}` : "MONGO_URI"
-  ];
+  return NODE_ENV
+    ? config[`MONGO_URI_${NODE_ENV.toUpperCase()}`]
+    : config.MONGO_URI;
 }
 
 const app = require("./app");
@@ -21,7 +21,7 @@ const PORT = config.PORT;
 
 async function start() {
   try {
-    await connectDatabase(process.env.MONGO_URI);
+    await connectDatabase(getMongoURI());
     job.start();
     app.listen(PORT, function () {
       console.log(`Server is running on port ${PORT}....`);
