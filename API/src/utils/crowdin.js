@@ -1,17 +1,3 @@
-/**
- * @fileoverview Manage API translations.
- *
- * @category API
- * @subcategory Utilities
- *
- * @module Crowdin
- *
- * @description  The Moocs APIs are translated by sending request to Crowdin APIs.
- *
- * @requires ../utils/config
- * @requires axios
- *
- */
 const { CROWDIN_API_KEY, CROWDIN_MTS_ID } = require("./config");
 const axios = require("axios");
 
@@ -19,7 +5,7 @@ const auth = {
   headers: {
     authorization: "Bearer " + CROWDIN_API_KEY,
     "Content-Type": "application/json",
-    // "Crowdin-API-FileName": "MOOCS API",
+    "Crowdin-API-FileName": "MOOCS API",
   },
 };
 
@@ -35,38 +21,25 @@ async function translateStringsWithCrowdinAPI(str_arr) {
     },
     auth
   );
-  
 
-  // Replace the strings with their translations
   const translated_strings = res.data.data.translations;
 
   return translated_strings;
 }
 
-/**
- * Handles source and target translation data
- *
- * @description This function makes array of strings to translate
- *
- * @param {any} document - data from the source language
- * @returns {any}  - translated data
- */
 async function translateDoc(document) {
   try {
     let data = document;
 
-    // An object that holds the indexes of strings to translate
-    const string_indexes = {};
 
-    // An array of strings to translate
+    const string_indexes = {};
     const strings_to_translate = [];
 
-    // Fields that we want to translate
     const translatable_fields = {
       title: "title",
       description: "description",
-      question: "question",
-      correct_option: "correct_option",
+      //   question: "question",
+      //   correct_option: "correct_option",
     };
 
     // Get the indexes of the strings to translate
@@ -98,20 +71,31 @@ async function translateDoc(document) {
       const translated_correct_option = data.options_tr[data.correct_option];
       data.correct_option = translated_correct_option[0];
     }
-console.log(data)
-    // return data;
+
+    return data;
   } catch (error) {
-    // console.log(error)
-    // if (error.response && error.response.data && error.response.data.errors) {
-      console.error('Translation error:', error.response.data.error||error.response.data.errors[0].error);
-  // } else {
-  //     console.error('Unexpected error:', error.message);
-  // }
-  // throw new Error('Translation failed');
+    console.log(error);
+    return error;
   }
 }
 
+const translateDocArray = async (doc_Array) => {
+  try {
+    let tran_courses = [];
+    await Promise.all(
+      doc_Array.map(async (item) => {
+        let testing = await translateDoc(item.toObject());
+
+        tran_courses.push(testing);
+      })
+    );
+
+    return tran_courses;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
+  translateDocArray,
   translateDoc,
-  translateStringsWithCrowdinAPI,
 };

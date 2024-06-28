@@ -90,7 +90,7 @@ const AvailableCourses = ({ courses }: any) => {
                           )}
                         </button>
                       ):
-                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark">Enrolled</p>}
+                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark"><Trans>Enrolled</Trans></p>}
                     </div>
                   </div>
                 </div>
