@@ -40,6 +40,7 @@ export interface Courses {
     lastname: string;
     email: string;
     role: string;
+    role_tr: string;
     preferred_language: string;
   };
   createdAt: Date;
@@ -48,6 +49,7 @@ export interface Courses {
   enableEditing: boolean;
   preview_image: string;
   status: string;
+  status_tr: string;
   course_sections: CourseSections[];
 }
 
@@ -76,8 +78,7 @@ export interface Quiz {
   _id: string;
   title: string;
   title_tr: string;
-  options: [{ name: string }];
-  options_tr: [{ name: string }];
+  options: [{ name: string,name_tr: string }];
   question_tr: string;
   question: string;
   correctanswer: string;

@@ -4,7 +4,7 @@
  * @module Course Controller
  * @description This module contains the controllers for handling course logic.
  * @requires ../services/course
- * 
+ *
  * The following routes are handled by this module and their corresponding functions: </br>
  *
  * </br>
@@ -39,6 +39,7 @@ const {
   toggleEditing,
   evaluateUserAnswers,
 } = require("../services/course");
+const { translateDocArray } = require("../utils/crowdin");
 
 /**
  *
@@ -110,10 +111,13 @@ const getContributorCourses = async (req, res) => {
     const contributorId = req.params.contributorId;
 
     const course = await getAContributorCourses(contributorId);
+
     const filtered = course.filter((ele) => ele.status !== "Archived");
+
+    let translated_courses = await translateDocArray(filtered);
     return res.status(200).send({
       success: true,
-      data: filtered,
+      data: translated_courses,
     });
   } catch (error) {
     return res.status(400).send({
@@ -125,7 +129,7 @@ const getContributorCourses = async (req, res) => {
 
 /**
  *
- * @description Get all courses excluding contributors drafts. Request permitted for super admin only. 
+ * @description Get all courses excluding contributors drafts. Request permitted for super admin only.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and all courses data
@@ -136,9 +140,11 @@ const getAllCourses = async (req, res) => {
     const courses = await allCourses();
 
     const filtered = courses.filter((ele) => ele.status !== "Draft");
+    let translated_courses = await translateDocArray(filtered);
+
     return res.status(200).send({
       success: true,
-      data: filtered,
+      data: translated_courses,
     });
   } catch (error) {
     return res.status(400).send({
@@ -158,7 +164,9 @@ const getAllCourses = async (req, res) => {
  */
 const getApprovedCourses = async (req, res) => {
   try {
-    const courses = await allApprovedCourses();
+    const approved_courses = await allApprovedCourses();
+    const courses = await translateDocArray(approved_courses);
+
     return res.status(200).send({
       success: true,
       data: courses,
@@ -222,7 +230,7 @@ const makeCoursePending = async (req, res) => {
 
 /**
  *
- * @description Update course status to archive. Only Super admin can update course status. 
+ * @description Update course status to archive. Only Super admin can update course status.
  * Archiving a course is similar to delete but with an extended period.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
@@ -248,7 +256,7 @@ const archiveCourse = async (req, res) => {
 
 /**
  *
- * @description Update course. Only Super admin  and contributor can can update a course. 
+ * @description Update course. Only Super admin  and contributor can can update a course.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -274,7 +282,7 @@ const updateCourse = async (req, res) => {
 
 /**
  *
- * @description Enrolling into a course by the end user. Request permitted for end users. 
+ * @description Enrolling into a course by the end user. Request permitted for end users.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -302,7 +310,7 @@ const enrollUser = async (req, res) => {
 
 /**
  *
- * @description Update a course avaialbility. Only Super admin can update course availabilty. 
+ * @description Update a course avaialbility. Only Super admin can update course availabilty.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message
@@ -329,7 +337,7 @@ const toggleCourseAvailablity = async (req, res) => {
 
 /**
  *
- * @description Toggle a course editing mode. Only Super admin can update course editing status. 
+ * @description Toggle a course editing mode. Only Super admin can update course editing status.
  * @param {object} req - The HTTP request object.
  * @param {object} res - The HTTP response object.
  * @returns {Object} - HTTP response object with success field and message

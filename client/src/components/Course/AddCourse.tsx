@@ -17,6 +17,7 @@ import { MdDelete, MdOutlineDeleteOutline } from "react-icons/md";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
+import { Tooltip } from "react-tooltip";
 dayjs.extend(advancedFormat);
 dayjs().format();
 
@@ -36,6 +37,7 @@ interface Props {
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
   role?: string;
+  locale?: string;
 }
 
 let renderCount = 0;
@@ -48,6 +50,7 @@ let renderCount = 0;
  *
  */
 export default function index({
+  locale,
   getAvailableCourses,
   selectedCourse,
   handleSelectedCourse,
@@ -58,6 +61,7 @@ export default function index({
   const [status, setStatus] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
 
+  console.log(selectedCourse);
   const archiveCourse = async () => {
     setStatus("Archived");
     try {
@@ -81,8 +85,16 @@ export default function index({
   };
 
   const defaultValues: Inputs = {
-    title: selectedCourse ? selectedCourse?.title : "",
-    description: selectedCourse ? selectedCourse?.description : "",
+    title: selectedCourse
+      ? `${locale === "en" ? selectedCourse.title : selectedCourse.title_tr}`
+      : "",
+    description: selectedCourse
+      ? `${
+          locale === "en"
+            ? selectedCourse.description
+            : selectedCourse.description_tr
+        }`
+      : "",
     author: selectedCourse ? selectedCourse?.author : "",
     coursesection: selectedCourse
       ? selectedCourse?.course_section
@@ -325,15 +337,19 @@ export default function index({
             <div>
               <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
-                  <Trans> Course section </Trans>
+                  <Trans> Course section </Trans>{" "}
                   {index + 1}
                 </label>
                 <button
+                  data-tooltip-id="my-tooltip"
+                  data-tooltip-content="Delete course section"
                   type="button"
                   className="italic text-xs text-error"
                   onClick={() => remove(index)}
                 >
+            
                   <MdDelete size={18} />
+                  <Tooltip id="my-tooltip"/>
                 </button>
               </div>
               <div className="my-3 flex items-center gap-x-4 md:gap-x-8">

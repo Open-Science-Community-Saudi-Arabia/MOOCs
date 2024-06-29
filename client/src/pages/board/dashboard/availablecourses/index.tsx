@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner";
@@ -36,7 +36,7 @@ const AvailableCourses = ({ courses }: any) => {
       {courses?.length ? (
         <>
           <h1 className="availablecourses__heading aligned">
-            <Trans>Available Courses</Trans>
+            {t`Available Courses`}
           </h1>
           <div className="availablecourses__courses">
             {courses?.map((content: Courses) => {
@@ -49,7 +49,7 @@ const AvailableCourses = ({ courses }: any) => {
                   }
                   aria-label={content.title}
                   key={content._id}
-                  className="relative w-full sm:w-[17rem] md:w-[20rem] h-[20rem] p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
+                  className="relative w-full sm:w-[17rem] md:w-96 h-[20rem] p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
                 >
                   <div className="availablecourses__courses-content__img-container">
                     <img
@@ -59,21 +59,21 @@ const AvailableCourses = ({ courses }: any) => {
                     />
                   </div>
 
-                  <div className="availablecourses__courses-content__bottom aligned pt-3">
+                  <div className="availablecourses__courses-content__bottom aligned">
                     <p className="line-clamp-1 availablecourses__courses-content__bottom-text">
                       {locale === "en" ? content.title : content.title_tr}
                     </p>
-                    <div className="py-3">
-                      <p className="line-clamp-3 text-[14px] text-gray-100">
+                    <div className="pt-3">
+                      <p className="line-clamp-3 text-[14px] text-gray-dark">
                         {" "}
                         {locale === "en"
                           ? content.description
                           : content.description_tr}
                       </p>
                     </div>
-                    <p className="text-[13px] text-gray-100 py-2">
+                    <p className="text-xs text-gray-100 py-2">
                       {" "}
-                      <Trans> By </Trans> {""}
+                     {t`By`} {""}
                       {content.author}
                     </p>
                     <div className="bottom-3 absolute">
@@ -90,7 +90,7 @@ const AvailableCourses = ({ courses }: any) => {
                           )}
                         </button>
                       ):
-                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark">Enrolled</p>}
+                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark">{t`Enrolled`}</p>}
                     </div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ const AvailableCourses = ({ courses }: any) => {
         </>
       ) : (
         <p className="no-content">
-          <Trans>No Courses Available</Trans>
+         {t`No Courses Available`}
         </p>
       )}
     </div>

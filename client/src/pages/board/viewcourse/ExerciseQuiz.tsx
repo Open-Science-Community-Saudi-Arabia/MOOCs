@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Quiz, Resources } from "../../../types";
+import { Resources } from "../../../types";
 import { exerciseScore } from "../../../utils/api/courses";
 import { toast } from "react-toastify";
 import Spinner from "../../../components/Spinner";
@@ -84,34 +84,33 @@ const ExerciseQuiz = ({
               ?
             </div>
             <div className="quiz-section__content-options">
-              {(locale === "en"
-                ? displayContent?.quiz[quizIndex].options
-                : displayContent?.quiz[quizIndex].options_tr
-              ).map((list: { name: string }, j: number) => {
-                return (
-                  <label
-                    key={list.name}
-                    htmlFor={list.name}
-                    className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label"
-                  >
-                    <input
-                      type="radio"
-                      id={list.name}
-                      name="options"
-                      checked={false}
-                      onChange={(e) =>
-                        onChangeValue(
-                          displayContent?.quiz[quizIndex]._id,
-                          e.target.value
-                        )
-                      }
-                      className="quiz-section__content-options__radio-btn"
-                      value={list.name}
-                    />
-                    {list.name}
-                  </label>
-                );
-              })}
+              {displayContent?.quiz[quizIndex].options.map(
+                (list: { name: string; name_tr: string }, j: number) => {
+                  return (
+                    <label
+                      key={list.name}
+                      htmlFor={list.name}
+                      className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label"
+                    >
+                      <input
+                        type="radio"
+                        id={list.name}
+                        name="options"
+                        checked={false}
+                        onChange={(e) =>
+                          onChangeValue(
+                            displayContent?.quiz[quizIndex]._id,
+                            e.target.value
+                          )
+                        }
+                        className="quiz-section__content-options__radio-btn"
+                        value={list.name}
+                      />
+                      {locale === "en" ? list.name : list.name_tr}
+                    </label>
+                  );
+                }
+              )}
             </div>
           </div>
         </div>

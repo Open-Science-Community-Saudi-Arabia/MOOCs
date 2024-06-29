@@ -2,12 +2,16 @@
 
 .availablecourses {
   max-width: 1400px;
+  margin:0em;
+  @include ipad {
+    margin:0 3em;
+  }
   &__heading {
     font-weight: 500;
     font-size: 20px;
     margin: 1em 0em;
     @include ipad {
-      margin: 2em 0em 1em 0em;
+      margin: 2em 0em;
     }
   }
   &__courses {
@@ -36,7 +40,7 @@
           font-size: 16px;
           font-weight: 500;
           @include ipad {
-            font-size: 18px;
+            font-size: 20px;
           }
         }
 

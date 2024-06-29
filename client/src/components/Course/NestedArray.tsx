@@ -32,13 +32,13 @@ export default ({ nestIndex, control, register, selectedCourse }: any) => {
             });
           }}
           data-tooltip-id="my-tooltip"
-          data-tooltip-content="PDF, video or quizzes"
-          className="p-2 text-xs text-white bg-primary rounded-md hover:bg-primary-hover font-medium"
+          data-tooltip-content="Videos, PDFs, Quiz"
+          className="px-2 py-3 text-xs text-white bg-primary rounded-md hover:bg-primary-hover font-medium"
         >
           <span className="flex items-center justify-center gap-x-1">
             {" "}
             <IoMdAddCircleOutline size={18} />
-            <Trans> Add Materials</Trans>
+            <Trans> Add Resources</Trans>
           </span>
           <Tooltip id="my-tooltip" place="top" />
         </button>

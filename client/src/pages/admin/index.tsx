@@ -24,7 +24,7 @@ export default function index() {
   const [selectedCourse, setSelectedCourse] = useState<any>({});
   const [courses, setCourses] = useState<Courses[]>([]);
   const [isLoading, setLoading] = useState(false);
-
+  const locale = localStorage.getItem("language") || "en";
   const getAvailableCourses = async () => {
     setLoading(true);
     try {
@@ -60,6 +60,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+          locale={locale}
           getAvailableCourses={getAvailableCourses}
             role="Admin"
             handleSelectedCourse={handleSelectedCourse}
@@ -73,7 +74,7 @@ export default function index() {
       ) : courses?.length > 0 ? (
         <div className="">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl"><Trans>All courses</Trans></h2>
+            <h2 className="text-xl"><Trans>All Courses</Trans></h2>
             <Link
               to={`/course/add-course`}
               className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3"
@@ -87,6 +88,7 @@ export default function index() {
           </div>
 
           <Table
+          locale={locale}
            getAvailableCourses={ getAvailableCourses}
             courses={courses}
             handleSelectedCourse={handleSelectedCourse}
