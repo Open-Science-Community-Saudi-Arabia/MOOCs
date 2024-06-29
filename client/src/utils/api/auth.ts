@@ -15,7 +15,6 @@ import {
 
 const currentLanguage= localStorage.getItem("language");
 
-console.log(currentLanguage)
 
 /**
  * @description Signup endpoint

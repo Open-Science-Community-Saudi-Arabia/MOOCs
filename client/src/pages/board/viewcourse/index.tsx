@@ -23,7 +23,7 @@ import useMediaQuery from "../../../hooks/usemediaQuery";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { FaRegFilePdf } from "react-icons/fa";
@@ -85,7 +85,7 @@ const ViewCourse = () => {
       console.log(err);
     }
   };
-console.log(course)
+
   const viewCertificate = async () => {
     setLoadingCertificate(true);
     try {
@@ -130,8 +130,7 @@ console.log(course)
                 <TiArrowBack />
               </button>{" "}
               <h1 className="viewcourse-container__header__heading-title">
-                <Trans>Title:</Trans>{" "}
-                {locale === "en" ? course?.title : course?.title_tr}
+                {t`Title:`} {locale === "en" ? course?.title : course?.title_tr}
               </h1>
             </div>
             <div
@@ -145,7 +144,7 @@ console.log(course)
                     }`
               }`}
             >
-              <Trans> Your Progress</Trans>{" "}
+              {t` Your Progress`}{" "}
               <ProgressBar
                 overallScore={overAllScore}
                 width={150}
@@ -179,7 +178,7 @@ console.log(course)
                   className="viewcourse-container__header__btn"
                 >
                   {" "}
-                  <Trans> Course Content</Trans>
+                  {t`Course Content`}
                 </button>
               )}
               <LanguageToggle btncolor="#ffff" />
@@ -229,7 +228,7 @@ console.log(course)
                 <div className="viewcourse-container__content-course-display">
                   {" "}
                   <p className="viewcourse-container__content-course-display-text">
-                    <Trans> Course content</Trans>
+                    {t`Course content`}
                   </p>
                   <button
                     aria-label="close"
@@ -251,7 +250,7 @@ console.log(course)
                         <p className="viewcourse-container__content-course-section__heading">
                           {" "}
                           <span className="w-[40%]">
-                            <Trans> Section</Trans> {index + 1}:{" "}
+                            {t`Section`} {index + 1}:{" "}
                           </span>
                           <span className="w-full line-clamp-1">
                             {" "}
@@ -354,13 +353,10 @@ console.log(course)
                                             : "text-primary"
                                         } `}
                                       />{" "}
-                                      <Trans>
-                                        {" "}
-                                        Quiz:{" "}
-                                        {locale === "en"
-                                          ? ele?.title
-                                          : ele?.title_tr}
-                                      </Trans>{" "}
+                                      {t`Quiz:`}{""}
+                                      {locale === "en"
+                                        ? ele?.title
+                                        : ele?.title_tr} {""}
                                       {index + 1}
                                     </p>
 
@@ -429,7 +425,7 @@ console.log(course)
               {activeTab === "tab1" ? (
                 <div>
                   <p className="viewcourse-container__tab-container__tab-content-text">
-                    <Trans> Course description</Trans>
+                  {t`Course description`}
                   </p>
 
                   <p>

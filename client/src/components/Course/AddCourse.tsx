@@ -37,7 +37,7 @@ interface Props {
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
   role?: string;
-  locale: string;
+  locale?: string;
 }
 
 let renderCount = 0;

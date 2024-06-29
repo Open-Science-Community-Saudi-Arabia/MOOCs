@@ -5,7 +5,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useClickOutside from "../../hooks/useClickOutside";
 import "./style.scss";
-import { t, Trans } from "@lingui/macro";
+import { t,  } from "@lingui/macro";
 import LanguageToggle from "../../components/LanguageToggle";
 import { logout } from "../../utils";
 import { userProfile } from "../../utils/api/auth";
@@ -56,7 +56,7 @@ const Header = () => {
         <div className="dashboard-header-inputfield">
           {" "}
           <label className="sr-only" htmlFor="search">
-            <Trans> Search</Trans>
+            {t`Search`}
           </label>
           <input
             className="dashboard-header-inputfield__input"
@@ -94,7 +94,7 @@ const Header = () => {
                 ref={ref}
                 onClick={logout}
               >
-                <Trans> Log Out</Trans>
+              {t`Log Out`}
               </button>
             </div>
           )}

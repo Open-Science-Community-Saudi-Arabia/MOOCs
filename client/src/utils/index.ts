@@ -83,7 +83,7 @@ export const generateCloudinaryURL = async (file: File, coursename: string) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", VITE_CLOUDINARY_UPLOAD_PRESET);
-    formData.append("folder", `moocs_resources/${coursename}`);
+    formData.append("folder", `moocs_resources/pdfs/${coursename}`);
     formData.append("cloud_name", VITE_CLOUDINARY_CLOUD_NAME);
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,

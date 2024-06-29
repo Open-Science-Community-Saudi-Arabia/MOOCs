@@ -28,7 +28,7 @@ const createACourse = async (userId, preview_image, body) => {
   const file_url = await uploadToCloudinary({
     path: preview_image.path,
     file_name: `preview_image_${newCourse._id}`,
-    destination_path: `moocs_resources/${newCourse.title}`,
+    destination_path: `moocs_resources/course_images/${newCourse.title}`,
   });
 
   newCourse.preview_image = file_url;
@@ -143,7 +143,7 @@ const updateACourse = async (courseId, body, preview_image) => {
     file_url = await uploadToCloudinary({
       path: preview_image.path,
       file_name: `preview_image_${courseId}`,
-      destination_path:`moocs_resources/${body.title}`,
+      destination_path:`moocs_resources/course_images/${body.title}`,
     });
   }
   const course = await Course.findById(courseId);

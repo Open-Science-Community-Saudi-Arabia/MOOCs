@@ -1,4 +1,4 @@
-import { Trans, t } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../components/Spinner";
@@ -36,7 +36,7 @@ const AvailableCourses = ({ courses }: any) => {
       {courses?.length ? (
         <>
           <h1 className="availablecourses__heading aligned">
-            <Trans>Available Courses</Trans>
+            {t`Available Courses`}
           </h1>
           <div className="availablecourses__courses">
             {courses?.map((content: Courses) => {
@@ -73,7 +73,7 @@ const AvailableCourses = ({ courses }: any) => {
                     </div>
                     <p className="text-xs text-gray-100 py-2">
                       {" "}
-                      <Trans> By </Trans> {""}
+                     {t`By`} {""}
                       {content.author}
                     </p>
                     <div className="bottom-3 absolute">
@@ -90,7 +90,7 @@ const AvailableCourses = ({ courses }: any) => {
                           )}
                         </button>
                       ):
-                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark"><Trans>Enrolled</Trans></p>}
+                      <p className="rounded-full text-sm py-2 px-4 bg-gray-dark/20 w-fit text-gray-dark">{t`Enrolled`}</p>}
                     </div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ const AvailableCourses = ({ courses }: any) => {
         </>
       ) : (
         <p className="no-content">
-          <Trans>No Courses Available</Trans>
+         {t`No Courses Available`}
         </p>
       )}
     </div>
