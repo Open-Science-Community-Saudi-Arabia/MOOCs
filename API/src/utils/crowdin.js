@@ -21,55 +21,47 @@ async function translateStringsWithCrowdinAPI(str_arr) {
     },
     auth
   );
-
   const translated_strings = res.data.data.translations;
-
   return translated_strings;
 }
 
 async function translateDoc(document) {
   try {
-    let data = document;
+    const isMongooseObj = isMongooseDocument(document);
 
-
+    let data = isMongooseObj ? document.toObject() : document;
     const string_indexes = {};
     const strings_to_translate = [];
 
     const translatable_fields = {
       title: "title",
       description: "description",
-      //   question: "question",
-      //   correct_option: "correct_option",
+      question: "question",
+      correctanswer: "correctanswer",
+      name: "name",
+      status: "status",
+      role: "role",
     };
 
-    // Get the indexes of the strings to translate
     let string_index = 0;
     for (const field in data) {
       if (translatable_fields[field]) {
-        // Add the field index to the string_indexes object
         string_indexes[field] = string_index;
         string_index++;
         strings_to_translate.push(data[field]);
       }
     }
-
-    // Use the Crowdin API to translate the strings
     const translated_strings = await translateStringsWithCrowdinAPI(
       strings_to_translate
     );
-
-    // Replace the strings with their translations
     for (const field in string_indexes) {
-      // Add the translated string to the data object
       data[field + "_tr"] = translated_strings[string_indexes[field]];
     }
-
-    // If the document is a question, also translate the options and correct option
-    if (data.type === "question") {
-      data.options_tr = await translateStringsWithCrowdinAPI(data.options);
-
-      const translated_correct_option = data.options_tr[data.correct_option];
-      data.correct_option = translated_correct_option[0];
+    if (data.createdBy?.role) {
+      const translated_role = await translateStringsWithCrowdinAPI([
+        data.createdBy.role,
+      ]);
+      data.createdBy.role_tr = translated_role[0];
     }
 
     return data;
@@ -79,18 +71,48 @@ async function translateDoc(document) {
   }
 }
 
+function isMongooseDocument(obj) {
+  return (
+    obj && typeof obj.save === "function" && typeof obj.populate === "function"
+  );
+}
+
 const translateDocArray = async (doc_Array) => {
   try {
-    let tran_courses = [];
-    await Promise.all(
-      doc_Array.map(async (item) => {
-        let testing = await translateDoc(item.toObject());
+    let translated_courseArray = await Promise.all(
+      doc_Array.map(async (course) => {
+        let course_translated = await translateDoc(course);
+        if (course_translated.course_section !== undefined)
+          await Promise.all(
+            course_translated.course_section.map(async (course_section) => {
+              await translateDoc(course_section);
+              await Promise.all(
+                course_section.resources.map(async (resource) => {
+                  await translateDoc(resource);
 
-        tran_courses.push(testing);
+                  if (resource.type === "quiz") {
+                    await Promise.all(
+                      resource.quiz.map(async (quizs) => {
+                        await translateDoc(quizs);
+                        await Promise.all(
+                          quizs.options.map(async (option) => {
+                            await translateDoc(option);
+                          })
+                        );
+                      })
+                    );
+                  }
+                })
+              );
+              return course_translated;
+            })
+          );
+        course = course_translated;
+        return course;
       })
     );
 
-    return tran_courses;
+    return translated_courseArray;
   } catch (error) {
     console.log(error);
   }

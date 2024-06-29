@@ -35,12 +35,14 @@ import { Trans, t } from "@lingui/macro";
 import "./style.scss";
 
 type Props = {
+  locale: string;
   courses: Courses[];
   handleSelectedCourse: (course: Courses) => void;
   getAvailableCourses: () => void;
 };
 
 export default function Table({
+  locale,
   courses,
   getAvailableCourses,
   handleSelectedCourse,
@@ -173,8 +175,8 @@ export default function Table({
       ),
     }),
 
-    columnHelper.accessor("title", {
-      cell: (info) => <p className="w-48">{info.getValue()}</p>,
+    columnHelper.accessor(`${locale === "en" ? "title" : "title_tr"}`, {
+      cell: (info) => <p className="w-48 m-auto">{info.getValue()}</p>,
       header: () => (
         <span>
           <Trans>Title</Trans>
@@ -193,16 +195,19 @@ export default function Table({
         </span>
       ),
     }),
-    columnHelper.accessor("createdBy.role", {
-      cell: (info) => <p className="w-20">{info.getValue()}</p>,
-      header: () => (
-        <span>
-          <Trans>Role</Trans>
-        </span>
-      ),
-    }),
+    columnHelper.accessor(
+      `${locale === "en" ? "createdBy.role" : "createdBy.role_tr"}`,
+      {
+        cell: (info) => <p className="w-20 m-auto">{info.getValue()}</p>,
+        header: () => (
+          <span>
+            <Trans>Role</Trans>
+          </span>
+        ),
+      }
+    ),
     columnHelper.accessor(`createdBy.email`, {
-      cell: (info) => <p className="w-48">{info.getValue()}</p>,
+      cell: (info) => <p className="w-48 m-auto">{info.getValue()}</p>,
       header: () => (
         <span>
           <Trans>Email</Trans>
@@ -217,24 +222,27 @@ export default function Table({
         </span>
       ),
     }),
-    columnHelper.accessor((row) => row.status, {
-      id: "status",
-      cell: (info) => (
-        <div
-          className={`${
-            info.getValue() === "Pending"
-              ? "bg-error"
-              : info.getValue() === "Draft"
-              ? "bg-gray-dark"
-              : info.getValue() === "Archived"
-              ? "bg-gray-dark"
-              : "bg-success"
-          } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
-        >
-          {info.getValue()}
-        </div>
-      ),
-    }),
+    columnHelper.accessor(
+      (row) => `${locale === "en" ? row.status : row.status_tr}`,
+      {
+        id: t`status`,
+        cell: (info) => (
+          <div
+            className={`${
+              info.getValue() === t`Pending`
+                ? "bg-error"
+                : info.getValue() === t`Draft`
+                ? "bg-gray-dark"
+                : info.getValue() === t`Archived`
+                ? "bg-gray-dark"
+                : "bg-success"
+            } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
+          >
+            {info.getValue()}
+          </div>
+        ),
+      }
+    ),
     columnHelper.accessor("author", {
       cell: (info) => (
         <div className="flex justify-center w-full relative">
@@ -372,7 +380,7 @@ export default function Table({
             <tr className="" key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
-                  className="px-3 text-sm py-4 text-left font-semibold"
+                  className="px-3 text-sm py-4 text-center font-semibold"
                   key={header.id}
                 >
                   {header.isPlaceholder
@@ -395,7 +403,10 @@ export default function Table({
               key={row.id}
             >
               {row.getVisibleCells().map((cell) => (
-                <td className="px-3 text-sm py-3 w-auto" key={cell.id}>
+                <td
+                  className="px-3 text-center text-sm py-3 w-auto"
+                  key={cell.id}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

@@ -26,7 +26,7 @@ export default function index() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Courses | any>({});
   const [isLoading, setLoading] = useState(false);
-
+  const locale = localStorage.getItem("language") || "en";
   const getAvailableCourses = async () => {
     setLoading(true);
     const userId: any = getUserId();
@@ -64,6 +64,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+            locale={locale}
             getAvailableCourses={getAvailableCourses}
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
@@ -96,6 +97,7 @@ export default function index() {
                 <CourseCard
                   key={ele._id}
                   course={ele}
+                  locale={locale}
                   handleSelectedCourse={handleSelectedCourse}
                 />
               );
@@ -110,7 +112,7 @@ export default function index() {
           </p>
           <Link
             to="/course/add-course"
-            className="px-4 py-3 bg-primary text-white rounded-md w-64 text-center"
+            className="px-4 py-3 bg-primary hover:bg-primary/80 text-white rounded-md w-64 text-center"
           >
             {" "}
             <Trans>Add Course</Trans>

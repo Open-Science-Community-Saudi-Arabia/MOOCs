@@ -49,7 +49,7 @@ const AvailableCourses = ({ courses }: any) => {
                   }
                   aria-label={content.title}
                   key={content._id}
-                  className="relative w-full sm:w-[17rem] md:w-[20rem] h-[20rem] p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
+                  className="relative w-full sm:w-[17rem] md:w-96 h-[20rem] p-6 hover:border-primary-light hover:bg-primary-light hover:text-primary overflow-hidden availablecourses__courses-content"
                 >
                   <div className="availablecourses__courses-content__img-container">
                     <img
@@ -59,19 +59,19 @@ const AvailableCourses = ({ courses }: any) => {
                     />
                   </div>
 
-                  <div className="availablecourses__courses-content__bottom aligned pt-3">
+                  <div className="availablecourses__courses-content__bottom aligned">
                     <p className="line-clamp-1 availablecourses__courses-content__bottom-text">
                       {locale === "en" ? content.title : content.title_tr}
                     </p>
-                    <div className="py-3">
-                      <p className="line-clamp-3 text-[14px] text-gray-100">
+                    <div className="pt-3">
+                      <p className="line-clamp-3 text-[14px] text-gray-dark">
                         {" "}
                         {locale === "en"
                           ? content.description
                           : content.description_tr}
                       </p>
                     </div>
-                    <p className="text-[13px] text-gray-100 py-2">
+                    <p className="text-xs text-gray-100 py-2">
                       {" "}
                       <Trans> By </Trans> {""}
                       {content.author}

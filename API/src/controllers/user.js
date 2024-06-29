@@ -14,7 +14,7 @@
  */
 
 const { getScore, getAUserCourse } = require("../services/user");
-const { translateDoc } = require("../utils/crowdin");
+const { translateDocArray } = require("../utils/crowdin");
 
 /**
  *
@@ -52,11 +52,10 @@ const getUserCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const course = await getAUserCourse(req.user.id, courseId);
-   const courses = await translateDoc(course)
-
+   const courses = await translateDocArray([course])
     return res.status(200).json({
       success: true,
-      data: courses,
+      data: courses[0],
     });
   } catch (error) {
     return res.status(400).send({

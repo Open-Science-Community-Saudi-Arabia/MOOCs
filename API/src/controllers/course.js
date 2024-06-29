@@ -80,7 +80,6 @@ const createCourse = async (req, res) => {
  * @throws {Error} If error occurs
  */
 const getCourse = async (req, res) => {
-
   try {
     const courseId = req.params.courseId;
     const course = await getACourse(courseId, req.user.role);
@@ -112,10 +111,13 @@ const getContributorCourses = async (req, res) => {
     const contributorId = req.params.contributorId;
 
     const course = await getAContributorCourses(contributorId);
+
     const filtered = course.filter((ele) => ele.status !== "Archived");
+
+    let translated_courses = await translateDocArray(filtered);
     return res.status(200).send({
       success: true,
-      data: filtered,
+      data: translated_courses,
     });
   } catch (error) {
     return res.status(400).send({
@@ -138,9 +140,11 @@ const getAllCourses = async (req, res) => {
     const courses = await allCourses();
 
     const filtered = courses.filter((ele) => ele.status !== "Draft");
+    let translated_courses = await translateDocArray(filtered);
+
     return res.status(200).send({
       success: true,
-      data: filtered,
+      data: translated_courses,
     });
   } catch (error) {
     return res.status(400).send({

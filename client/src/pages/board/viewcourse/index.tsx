@@ -85,7 +85,7 @@ const ViewCourse = () => {
       console.log(err);
     }
   };
-
+console.log(course)
   const viewCertificate = async () => {
     setLoadingCertificate(true);
     try {
@@ -433,9 +433,14 @@ const ViewCourse = () => {
                   </p>
 
                   <p>
-                    {locale === "en"
-                      ? displayContent?.description
-                      : displayContent?.description_tr}
+                    {displayContent
+                      ? locale === "en"
+                        ? displayContent?.description
+                        : displayContent?.description_tr
+                      : locale === "en"
+                      ? course?.description
+                      : course?.description_tr}
+                    {}
                   </p>
                 </div>
               ) : (
