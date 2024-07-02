@@ -104,7 +104,7 @@ export async function approveACourse(courseId: string) {
  * @param  {string} courseId  Course Id
  * @return {Promise<object>} response data
  */
-export async function archiveACourse(courseId: string) {
+export async function toggleCourseArchive(courseId: string) {
   const response = await makeApiCall(`/course/archive/${courseId}`);
   return response;
 }

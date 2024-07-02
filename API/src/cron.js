@@ -2,7 +2,7 @@ const cron = require('node-cron')
 const https = require('https')
 
 const backendUrl = 'https://moocs.onrender.com'
-const job = cron.schedule('*/14 * * * *', function () {
+const job = cron.schedule('*/5 * * * *', function () {
   https
     .get(backendUrl, (res) => {
       if (res.statusCode === 200) {

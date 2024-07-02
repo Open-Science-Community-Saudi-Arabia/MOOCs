@@ -11,7 +11,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat.js";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   approveACourse,
-  archiveACourse,
+  toggleCourseArchive,
   makeCoursePending,
   toggleAvailablity,
   toggleCourseEditing,
@@ -21,6 +21,7 @@ dayjs().format();
 import { toast } from "react-toastify";
 import Spinner from "../Spinner";
 import {
+  MdDelete,
   MdOutlineUnarchive,
   MdPendingActions,
   MdViewInAr,
@@ -73,10 +74,10 @@ export default function Table({
     }
   };
 
-  const archiveCourse = async () => {
+  const  toggleArchiveHandler = async () => {
     setLoadingAction(true);
     try {
-      let res = await archiveACourse(courseAction._id);
+      let res = await toggleCourseArchive(courseAction._id);
       setLoadingAction(false);
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -163,7 +164,7 @@ export default function Table({
   const columns = [
     columnHelper.accessor("preview_image", {
       cell: (info) => (
-        <img
+        <img alt="course photo"
           className="w-10 h-10 border-[1px] border-gray rounded-full"
           src={info.getValue()}
         />
@@ -222,27 +223,28 @@ export default function Table({
         </span>
       ),
     }),
-    columnHelper.accessor(
-      (row) => `${locale === "en" ? row.status : row.status_tr}`,
-      {
-        id: t`status`,
-        cell: (info) => (
-          <div
-            className={`${
-              info.getValue() === t`Pending`
-                ? "bg-error"
-                : info.getValue() === t`Draft`
-                ? "bg-gray-dark"
-                : info.getValue() === t`Archived`
-                ? "bg-gray-dark"
-                : "bg-success"
-            } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
-          >
-            {info.getValue()}
-          </div>
-        ),
-      }
-    ),
+    columnHelper.accessor(`${locale === "en" ? "status" : "status_tr"}`, {
+      cell: (info) => (
+        <div
+          className={`${
+            info.getValue() === t`Pending`
+              ? "bg-error"
+              : info.getValue() === t`Draft`
+              ? "bg-gray-dark"
+              : info.getValue() === t`Archived`
+              ? "bg-gray-dark/50"
+              : "bg-success"
+          } font-semibold text-white rounded-full py-1.5 px-2 text-center text-xs ml-auto`}
+        >
+          {info.getValue()}
+        </div>
+      ),
+      header: () => (
+        <span>
+          <Trans>Status</Trans>
+        </span>
+      ),
+    }),
     columnHelper.accessor("author", {
       cell: (info) => (
         <div className="flex justify-center w-full relative">
@@ -276,23 +278,37 @@ export default function Table({
                   <Trans> View course</Trans>
                 </span>
               </button>
-              <button
-                onClick={() => archiveCourse()}
-                className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px] text-gray-dark border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block"
-              >
-                {info.row.original.status === "Archived" ? (
-                  <span className="flex items-center gap-x-2">
-                    {" "}
-                    <MdOutlineUnarchive size={14} />
-                    <Trans> Un-archive</Trans>
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-x-2">
+
+              {info.row.original.status === "Archived" ? (
+                <div>
+                  <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
+                    <button  onClick={() => toggleArchiveHandler()} className="flex text-gray-dark items-center gap-x-2">
+                      {" "}
+                      
+                      <MdOutlineUnarchive size={14} />
+                      <Trans> Un-archive</Trans>
+                    </button>
+                  </div>
+                  <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
+                    <button className="flex text-gray-dark items-center gap-x-2">
+                      {" "}
+                      <MdDelete size={14} />
+                      <Trans> Delete</Trans>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
+                  <button
+                    onClick={() => toggleArchiveHandler()}
+                    className="flex text-gray-dark items-center gap-x-2"
+                  >
                     {" "}
                     <FaRegFileArchive size={14} /> <Trans>Archive course</Trans>
-                  </span>
-                )}
-              </button>
+                  </button>
+                </div>
+              )}
+
               {info.row.original.status === "Pending" ? (
                 <button
                   onClick={() => approveCourse()}

@@ -122,9 +122,10 @@ const pendingACourse = async (courseId) => {
  * @param {string} courseId - Course Id
  * @returns {Object} - Course details retrived
  */
-const archiveACourse = async (courseId) => {
+const toggleCourseArchive = async (courseId) => {
   const course = await Course.findById(courseId);
   course.status = "Archived";
+  course.status = course.status === "Archived" ? "Pending" : "Archived";
   await course.save();
   return course;
 };
@@ -143,7 +144,7 @@ const updateACourse = async (courseId, body, preview_image) => {
     file_url = await uploadToCloudinary({
       path: preview_image.path,
       file_name: `preview_image_${courseId}`,
-      destination_path:`moocs_resources/course_images/${body.title}`,
+      destination_path: `moocs_resources/course_images/${body.title}`,
     });
   }
   const course = await Course.findById(courseId);
@@ -278,7 +279,7 @@ module.exports = {
   approveACourse,
   updateACourse,
   allApprovedCourses,
-  archiveACourse,
+  toggleCourseArchive,
   pendingACourse,
   enrollAUser,
   toggleAvailablity,

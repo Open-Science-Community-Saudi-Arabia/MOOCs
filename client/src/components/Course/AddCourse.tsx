@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import NestedArray from "./NestedArray";
 import { useState } from "react";
 import {
-  archiveACourse,
+  toggleCourseArchive,
   createCourse,
   updateACourse,
 } from "../../utils/api/courses";
@@ -61,11 +61,11 @@ export default function index({
   const [status, setStatus] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
 
-  console.log(selectedCourse);
+
   const archiveCourse = async () => {
     setStatus("Archived");
     try {
-      let res = await archiveACourse(selectedCourse._id);
+      let res = await toggleCourseArchive(selectedCourse._id);
       setStatus("");
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -159,7 +159,7 @@ export default function index({
         });
       }
     } else {
-      const tempData = status.length ? { newData, status } : newData;
+      const tempData = status.length ? { ...newData, status } : newData;
 
       const formData = new FormData();
       formData.append("file", selectedImage[0]);
@@ -179,6 +179,8 @@ export default function index({
           autoClose: 5000,
           theme: "colored",
         });
+      }finally{
+        setLoading(false);
       }
     }
     if (selectedCourse) {

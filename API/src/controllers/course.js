@@ -32,7 +32,7 @@ const {
   approveACourse,
   allApprovedCourses,
   updateACourse,
-  archiveACourse,
+  toggleCourseArchive,
   pendingACourse,
   enrollAUser,
   toggleAvailablity,
@@ -139,7 +139,9 @@ const getAllCourses = async (req, res) => {
   try {
     const courses = await allCourses();
 
-    const filtered = courses.filter((ele) => ele.status !== "Draft");
+    const filtered = courses.filter(
+      (ele) => !(ele.status === "Draft" && ele.createdBy.role === "contributor")
+    );
     let translated_courses = await translateDocArray(filtered);
 
     return res.status(200).send({
@@ -240,11 +242,11 @@ const makeCoursePending = async (req, res) => {
 const archiveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
-    await archiveACourse(courseId);
+    await toggleCourseArchive(courseId);
 
     return res.status(200).send({
       success: true,
-      message: "Course Deleted",
+      message: "Course Updated",
     });
   } catch (error) {
     return res.status(400).send({
