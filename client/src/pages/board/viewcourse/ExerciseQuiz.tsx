@@ -7,7 +7,7 @@ import { t, Trans } from "@lingui/macro";
 import { CircularProgressBar } from "../../../components/ProgressBar";
 
 interface IProps {
-  getOverAllScore: (courseId: string) => void;
+
   displayContent: Resources;
   courseId: string;
   updateQuizScorehandler: (data: any) => void;
@@ -16,19 +16,28 @@ interface IProps {
 const ExerciseQuiz = ({
   displayContent,
   courseId,
-  getOverAllScore,
   updateQuizScorehandler,
 }: IProps) => {
   const [isLoading, setLoading] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
-  const [displayScore, setDisplayScore] = useState("");
+  const [displayScore, setDisplayScore] = useState<Number | null>(null);
+  const [isSubmit, setSubmit] = useState<boolean>(false);
   const locale = localStorage.getItem("language") || "en";
-
-  const [quizAnswers, setQuizAnswers] = useState<{}[]>([]);
+  const [quizAnswers, setQuizAnswers] = useState<
+    {
+      answer: string;
+      _id: string;
+    }[]
+  >([]);
 
   const onChangeValue = (id: string, selectedAnswer: string) => {
-    setQuizIndex(quizIndex + 1);
     setQuizAnswers([...quizAnswers, { _id: id, answer: selectedAnswer }]);
+    if (quizIndex === displayContent.quiz.length - 1) {
+      setSubmit(true);
+      return;
+    } else {
+      setQuizIndex(quizIndex + 1);
+    }
   };
 
   const submitResult = async () => {
@@ -40,7 +49,6 @@ const ExerciseQuiz = ({
       });
 
       setDisplayScore(response.score.currentScore);
-      getOverAllScore(courseId);
       updateQuizScorehandler(response.score.quizScore);
     } catch (error: any) {
       toast.error(error.message, {
@@ -54,7 +62,10 @@ const ExerciseQuiz = ({
   };
 
   const tryAgainhandler = () => {
-    setQuizIndex(0), setDisplayScore(""), setQuizAnswers([]);
+    setQuizIndex(0),
+      setDisplayScore(null),
+      setSubmit(false),
+      setQuizAnswers([]);
   };
 
   return (
@@ -65,7 +76,7 @@ const ExerciseQuiz = ({
           {locale === "en" ? displayContent?.title : displayContent?.title_tr}
         </h1>
       </div>
-      {quizIndex < displayContent.quiz.length ? (
+      {displayScore === null ? (
         <div className="quiz-section__container">
           <p className="quiz-section__heading-subtitle">
             {" "}
@@ -90,9 +101,18 @@ const ExerciseQuiz = ({
                     <label
                       key={list.name}
                       htmlFor={list.name}
-                      className="bg-[#e7eef1] hover:bg-primary/40 hover:text-white quiz-section__content-options__label"
+                      className={`${
+                        isSubmit
+                          ? `${
+                              quizAnswers[quizIndex]?.answer === list.name
+                                ? "bg-primary/40"
+                                : " bg-[#e7eef1]"
+                            } cursor-not-allowed`
+                          : "hover:bg-primary/40 hover:text-white"
+                      } bg-[#e7eef1] quiz-section__content-options__label`}
                     >
                       <input
+                        disabled={isSubmit}
                         type="radio"
                         id={list.name}
                         name="options"
@@ -113,8 +133,20 @@ const ExerciseQuiz = ({
               )}
             </div>
           </div>
+          {isSubmit && (
+            <button
+              className="quiz-section__submit-btn h-12"
+              onClick={() => submitResult()}
+            >
+              {isLoading ? (
+                <Spinner width="30px" height="30px" color="#fff" />
+              ) : (
+                t`Submit`
+              )}
+            </button>
+          )}
         </div>
-      ) : displayScore !== "" ? (
+      ) : (
         <div className="flex flex-col items-center">
           <h2 className="font-medium">
             {" "}
@@ -133,17 +165,6 @@ const ExerciseQuiz = ({
             </button>
           </div>
         </div>
-      ) : (
-        <button
-          className="quiz-section__submit-btn h-12"
-          onClick={() => submitResult()}
-        >
-          {isLoading ? (
-            <Spinner width="30px" height="30px" color="#fff" />
-          ) : (
-            t`Submit`
-          )}
-        </button>
       )}
     </section>
   );

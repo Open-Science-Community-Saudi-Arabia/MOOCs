@@ -20,13 +20,13 @@
       z-index: 3;
       width: 100%;
       background-color: var(--black);
-      // padding: 0em 1em;
+     
       height: 80px;
       @include flex(space-between, center);
       width: 100%;
       color: var(--white);
       @include ipad {
-        // padding: 0em 1.5em;
+
       }
       &__heading {
         @include flex(space-between, center);
@@ -112,6 +112,7 @@
       .quiz-section {
         overflow-y: auto;
         width: 90%;
+        height:100%;
         margin: auto;
         @include ipad {
           width: 80%;
@@ -140,12 +141,9 @@
               font-size: 18px;
             }
             p {
-              font-size: 10px;
+              font-size: 18px;
               font-weight: 600;
               padding-bottom: 20px;
-              @include ipad {
-                font-size: 18px;
-              }
             }
           }
           &-options {
@@ -178,7 +176,6 @@
           }
         }
         &__submit-btn {
-          margin: auto;
           height: 50px;
           @include button(100px, var(--green), var(--white));
         }

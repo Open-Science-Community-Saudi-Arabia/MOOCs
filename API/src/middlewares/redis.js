@@ -23,6 +23,15 @@ async function initializeRedisClient() {
   }
 }
 
+async function updateCached(req, data) {
+  const reqDataToHash = {
+    query: req.query,
+    body: req.body,
+  };
+  const key = `/@${hash.sha1(reqDataToHash)}`;
+  if (key) writeData(key, data).then();
+}
+
 function requestToKey(req) {
   const reqDataToHash = {
     query: req.query,
@@ -51,7 +60,6 @@ async function writeData(key, data) {
 }
 
 async function readData(key) {
-
   let cachedValue = undefined;
 
   cachedValue = await redisClient.get(key);
@@ -91,4 +99,4 @@ function redisCacheMiddleware() {
   };
 }
 
-module.exports = { initializeRedisClient, redisCacheMiddleware };
+module.exports = { initializeRedisClient, updateCached, redisCacheMiddleware };

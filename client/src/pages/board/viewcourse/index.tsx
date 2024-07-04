@@ -48,36 +48,39 @@ const ViewCourse = () => {
   const [quizScores, setQuizScores] = useState<any[]>([]);
   const [course, setCourse] = useState<Courses>();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setLoading] = useState<"loading"|"error"|"data">("loading");
+  const [isLoading, setLoading] = useState<"loading" | "error" | "data">(
+    "loading"
+  );
   const [overAllScore, setOverAllScore] = useState(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
-
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const locale = localStorage.getItem("language") || "en";
 
-  useEffect( () => {
+  useEffect(() => {
     const getCourse = async () => {
       try {
         let res = await getUserCourse(params.id);
-        setCourse(res);
+        await getOverAllScore(params.id);
+        setCourse(res); 
         setDisplayContent(res?.course_section[0]?.resources[0]);
-        setQuizScores(course?.quizScore);
+        setQuizScores(res?.quizScore);
         setLoading("data");
       } catch (e) {
         setLoading("error");
       }
     };
-     getCourse()
+    getCourse();
   }, []);
 
   const getCourse = async () => {
     try {
       let res = await getUserCourse(params.id);
       setCourse(res);
-      setDisplayContent(course?.course_section[0]?.resources[0]);
-          getOverAllScore(params.id);
       setQuizScores(course?.quizScore);
+      setDisplayContent(course?.course_section[0]?.resources[0]);
+      getOverAllScore(params.id);
+
       setLoading("data");
     } catch (e) {
       setLoading("error");
@@ -88,19 +91,21 @@ const ViewCourse = () => {
     setDisplayContent(displayContent);
   };
 
-  const updateQuizScorehandler = (data: any) => {
+  const updateQuizScorehandler = async (data: any) => {
     setQuizScores(data);
+    await getOverAllScore(params.id);
   };
 
   const getOverAllScore = async (courseId: string) => {
     try {
       const res = await getOverallUserQuiz(courseId);
+      console.log(res);
       setOverAllScore(res.score);
     } catch (err) {
       console.log(err);
     }
   };
-// console.log(overAllScore)
+  console.log(overAllScore);
   const viewCertificate = async () => {
     setLoadingCertificate(true);
     try {
@@ -121,7 +126,7 @@ const ViewCourse = () => {
 
   return (
     <section className="viewcourse">
-      {isLoading ==="loading" ? (
+      {isLoading === "loading" ? (
         <div className="viewcourse__spinner">
           <Spinner width="60px" height="60px" color="#009985" />
         </div>
@@ -217,7 +222,6 @@ const ViewCourse = () => {
             >
               {displayContent?.type === "quiz" ? (
                 <ExerciseQuiz
-                  getOverAllScore={getOverAllScore}
                   displayContent={displayContent}
                   courseId={params.id}
                   updateQuizScorehandler={updateQuizScorehandler}
@@ -368,8 +372,7 @@ const ViewCourse = () => {
                                             : "text-primary"
                                         } `}
                                       />{" "}
-                                      {t`Quiz:`} 
-                                      {" "}
+                                      {t`Quiz:`}{" "}
                                       {locale === "en"
                                         ? ele?.title
                                         : ele?.title_tr}{" "}
