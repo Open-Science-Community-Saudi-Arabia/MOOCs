@@ -25,7 +25,6 @@
     "react-hook-form": "^7.51.3",
     "react-icons": "^4.7.1",
     "react-pdf": "^6.2.2",
-    "react-query": "^3.39.3",
     "react-router-dom": "^6.7.0",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",

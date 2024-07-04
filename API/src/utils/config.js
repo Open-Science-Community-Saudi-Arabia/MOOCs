@@ -43,6 +43,11 @@ const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME,
 const CROWDIN_API_KEY = process.env.CROWDIN_API_KEY,
   CROWDIN_MTS_ID = process.env.CROWDIN_MTS_ID;
 
+  /* REDIS */
+const REDIS_HOSTNAME = process.env.REDIS_HOSTNAME,
+REDIS_PORT= process.env.REDIS_PORT;
+REDIS_PASSWORD= process.env.REDIS_PASSWORD;
+
 module.exports = {
   // MongoDB URI
   MONGO_URI,
@@ -91,4 +96,9 @@ module.exports = {
   // CROWDIN
   CROWDIN_API_KEY,
   CROWDIN_MTS_ID,
+
+  //REDIS
+  REDIS_HOSTNAME,
+  REDIS_PORT,
+  REDIS_PASSWORD
 };

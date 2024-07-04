@@ -19,13 +19,11 @@
  *
  * @requires mongoose
  * @requires ../utils/errors
- * @requires validator
  * @requires ./token.models
  */
 
 const mongoose = require("mongoose");
-const { BadRequestError } = require("../utils/errors");
-const validator = require("validator");
+// const validator = require("validator");
 const Schema = mongoose.Schema;
 const options = { toObject: { virtuals: true } };
 
@@ -87,8 +85,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
-      validate: [validator.isEmail, "Please Provide a valid Email"],
+      unique: true
     },
     role: {
       type: String,
@@ -143,15 +140,6 @@ userSchema.virtual("enrolled_courses", {
   ref: "Course",
 });
 
-
-// statusSchema.pre("save", async function (next) {
-//   if (this.isNew) {
-//     await this.populate("user");
-//     if (this.user.role == "EndUser") this.isActive = true;
-//     else this.isActive = false;
-//   }
-//   next();
-// });
 
 const Status = mongoose.model("Status", statusSchema);
 const User = mongoose.model("User", userSchema);

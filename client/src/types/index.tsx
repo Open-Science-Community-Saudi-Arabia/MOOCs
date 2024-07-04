@@ -50,7 +50,8 @@ export interface Courses {
   preview_image: string;
   status: string;
   status_tr: string;
-  course_sections: CourseSections[];
+  quizScore:any
+  course_section: CourseSections[];
 }
 
 export interface CourseSections {

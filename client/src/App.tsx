@@ -12,7 +12,6 @@ import Layout from "./components/Layouts";
 import Spinner from "./components/Spinner";
 import ErrorPage from "./pages/error";
 import EmailVerify from "./pages/auth/email-verify";
-import { QueryClient, QueryClientProvider } from "react-query";
 import Board from "./pages/board/dashboard";
 import ViewCourse from "./pages/board/viewcourse";
 import AdminBoard from "./pages/admin";
@@ -20,10 +19,10 @@ import ContributorBoard from "./pages/contributor";
 import DashboardLayout from "./components/Layouts/dashboard";
 import AddCourse from "./components/Course/AddCourse";
 
-const queryClient = new QueryClient();
+
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+
       <Suspense fallback={<Spinner width="30px" height="30px" color="#fff" />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -53,7 +52,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
-    </QueryClientProvider>
+
   );
 }
 

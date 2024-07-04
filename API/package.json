@@ -6,13 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./src/test/ --timeout 40000",
     "dev": "cross-env NODE_ENV=dev nodemon ./src/server.js",
-    "start": "node ./src/server/",
-    "docs:api": "jsdoc2md --conf/igure tooling/docs/jsdoc.json --files src/**/*.js > docs/api.md",
-    "docs:prepare": "gitbook install",
-    "docs:build": "npm run docs:prepare && npm run docs:api && gitbook build",
-    "docs:serve": "npm run docs:prepare && npm run docs:api && gitbook serve",
-    "docs:clean": "rimraf _book",
-    "seed": "node ./src/seeders/index.js"
+    "start": "node ./src/server/"
   },
   "author": "",
   "license": "ISC",
@@ -23,38 +17,26 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
-    "crowdin-api": "^4.0.0",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
-    "express-session": "^1.17.3",
     "google-auth-library": "^8.5.1",
-    "googleapis": "^105.0.0",
-    "http-proxy": "^1.18.1",
-    "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.8.0",
-    "nodemon": "^2.0.19",
-    "passport": "^0.6.0",
-    "passport-github": "^1.1.0",
-    "passport-google-oauth": "^2.0.0",
-    "passport-google-oidc": "^0.1.0",
-    "path": "^0.12.7",
-    "supertest": "^6.3.0",
-    "uuid": "^9.0.0",
-    "validator": "^13.7.0"
+    "object-hash": "^3.0.0",
+    "redis": "^4.6.15",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.3.6",
-    "jsdoc-babel": "^0.5.0",
-    "jsdoc-to-markdown": "^8.0.0",
     "mocha": "^10.1.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   }
 }

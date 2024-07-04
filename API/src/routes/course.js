@@ -26,17 +26,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const permit = require("../middlewares/permission_handler");
 const { basicAuth } = require("../middlewares/auth");
+const { redisCacheMiddleware } = require("../middlewares/redis");
 
 router.use(basicAuth());
 
-router.get("/", permit("SuperAdmin"), getAllCourses);
-router.get("/approved", getApprovedCourses);
+router.get("/", permit("SuperAdmin"), redisCacheMiddleware(), getAllCourses);
+router.get("/approved", redisCacheMiddleware(),getApprovedCourses);
 router.get("/enroll/:courseId", enrollUser);
 
 router.get("/:courseId", permit("EndUser SuperAdmin"), getCourse);
 router.get(
   "/contributor/:contributorId",
   permit("Contributor SuperAdmin"),
+  redisCacheMiddleware(),
   getContributorCourses
 );
 

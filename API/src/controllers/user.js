@@ -26,6 +26,7 @@ const { translateDocArray } = require("../utils/crowdin");
 
 const getUserOverAllScore = async (req, res) => {
   const courseId = req.params.courseId;
+  // console.log(courseId)
   try {
     const overallScore = await getScore(req.user.id, courseId);
     return res.status(200).json({

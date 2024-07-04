@@ -16,7 +16,7 @@ import Spinner from "../../../components/Spinner";
 import ErrorFallBack from "../../../components/ErrorFallBack";
 import ExerciseQuiz from "./ExerciseQuiz";
 import ViewPdf from "./ViewPdf";
-import { CourseSections, Resources } from "../../../types";
+import { CourseSections, Courses, Resources } from "../../../types";
 
 import { tabitem } from "../../../data";
 import useMediaQuery from "../../../hooks/usemediaQuery";
@@ -25,7 +25,7 @@ import LanguageToggle from "../../../components/LanguageToggle";
 import { ProgressBar } from "../../../components/ProgressBar";
 import { t } from "@lingui/macro";
 import { toast } from "react-toastify";
-import { useQuery } from "react-query";
+
 import { FaRegFilePdf } from "react-icons/fa";
 
 /**
@@ -46,28 +46,43 @@ const ViewCourse = () => {
   const [displayContent, setDisplayContent] = useState<Resources>();
   const [isCourseContent, setCourseContent] = useState(true);
   const [quizScores, setQuizScores] = useState<any[]>([]);
+  const [course, setCourse] = useState<Courses>();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setLoading] = useState<"loading"|"error"|"data">("loading");
   const [overAllScore, setOverAllScore] = useState(0);
   const [isLoadingCertificate, setLoadingCertificate] = useState(false);
 
-  const queryKey = "getCourse";
-  const {
-    data: course,
-    isFetching,
-    error,
-    refetch,
-  }: any = useQuery([queryKey, params.id], () => getUserCourse(params.id));
 
   const isIpad = useMediaQuery("(min-width: 1024px)");
   const locale = localStorage.getItem("language") || "en";
 
-  useEffect(() => {
-    course?._id
-      ? setDisplayContent(course?.course_section[0]?.resources[0])
-      : null;
-    getOverAllScore(course?._id);
-    setQuizScores(course?.quizScore);
-  }, [course]);
+  useEffect( () => {
+    const getCourse = async () => {
+      try {
+        let res = await getUserCourse(params.id);
+        setCourse(res);
+        setDisplayContent(res?.course_section[0]?.resources[0]);
+        setQuizScores(course?.quizScore);
+        setLoading("data");
+      } catch (e) {
+        setLoading("error");
+      }
+    };
+     getCourse()
+  }, []);
+
+  const getCourse = async () => {
+    try {
+      let res = await getUserCourse(params.id);
+      setCourse(res);
+      setDisplayContent(course?.course_section[0]?.resources[0]);
+          getOverAllScore(params.id);
+      setQuizScores(course?.quizScore);
+      setLoading("data");
+    } catch (e) {
+      setLoading("error");
+    }
+  };
 
   const changedDisplayContent = (displayContent: any) => {
     setDisplayContent(displayContent);
@@ -85,7 +100,7 @@ const ViewCourse = () => {
       console.log(err);
     }
   };
-
+// console.log(overAllScore)
   const viewCertificate = async () => {
     setLoadingCertificate(true);
     try {
@@ -106,16 +121,16 @@ const ViewCourse = () => {
 
   return (
     <section className="viewcourse">
-      {isFetching ? (
+      {isLoading ==="loading" ? (
         <div className="viewcourse__spinner">
           <Spinner width="60px" height="60px" color="#009985" />
         </div>
-      ) : error ? (
+      ) : isLoading === "error" ? (
         <div className="viewcourse__error">
           <ErrorFallBack
             message="Something went wrong!"
             description="We encountered an error while fetching your courses"
-            reset={refetch}
+            reset={getCourse}
           />
         </div>
       ) : (
@@ -353,10 +368,12 @@ const ViewCourse = () => {
                                             : "text-primary"
                                         } `}
                                       />{" "}
-                                      {t`Quiz:`}{""}
+                                      {t`Quiz:`} 
+                                      {" "}
                                       {locale === "en"
                                         ? ele?.title
-                                        : ele?.title_tr} {""}
+                                        : ele?.title_tr}{" "}
+                                      {""}
                                       {index + 1}
                                     </p>
 
@@ -425,7 +442,7 @@ const ViewCourse = () => {
               {activeTab === "tab1" ? (
                 <div>
                   <p className="viewcourse-container__tab-container__tab-content-text">
-                  {t`Course description`}
+                    {t`Course description`}
                   </p>
 
                   <p>

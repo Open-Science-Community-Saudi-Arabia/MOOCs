@@ -1,20 +1,16 @@
-const NODE_ENV = process.env.NODE_ENV;
-
-if (NODE_ENV) {
-  require("dotenv").config({ path: `.env.${NODE_ENV}` });
-} else {
-  require("dotenv").config({ path: `.env` });
-}
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 const config = require("./utils/config");
 const connectDatabase = require("./db/connectDB");
 const { job } = require("./cron");
 
 const app = require("./app");
+const {initializeRedisClient }= require("./middlewares/redis");
 const PORT = config.PORT;
 
 async function start() {
   try {
+    await initializeRedisClient();
     await connectDatabase(config.MONGO_URI);
     job.start();
     app.listen(PORT, function () {
