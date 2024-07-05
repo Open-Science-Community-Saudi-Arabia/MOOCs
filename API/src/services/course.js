@@ -62,7 +62,7 @@ const getACourse = async (courseId) => {
  * @returns {Object} - Course details retrived
  */
 const getAContributorCourses = async (contributorId) => {
-  const course = await Course.find({ createdBy: contributorId });
+  const course = await Course.find({ createdBy: contributorId }).sort({createdAt: -1});
   return course;
 };
 
@@ -74,7 +74,7 @@ const getAContributorCourses = async (contributorId) => {
 const allCourses = async () => {
   const course = await Course.find().populate({
     path: "createdBy",
-  });
+  }).sort({createdAt: -1});
   return course;
 };
 
@@ -86,7 +86,7 @@ const allCourses = async () => {
 const allApprovedCourses = async () => {
   const courses = await Course.find({ status: "Approved" }).select(
     "-course_section"
-  );
+  ).sort({createdAt: -1});
   return courses;
 };
 
@@ -124,7 +124,6 @@ const pendingACourse = async (courseId) => {
  */
 const toggleCourseArchive = async (courseId) => {
   const course = await Course.findById(courseId);
-  course.status = "Archived";
   course.status = course.status === "Archived" ? "Pending" : "Archived";
   await course.save();
   return course;
@@ -210,6 +209,17 @@ const toggleEditing = async (courseId) => {
 
 /**
  *
+ * @description Query database and toggle course editing mode
+ * @param {string} courseId - Course Id
+ * @returns {Object} - Course details retrived
+ */
+const deleteACourse = async (courseId) => {
+  const updatedCourse = await Course.findByIdAndDelete(courseId);
+  return updatedCourse;
+};
+
+/**
+ *
  * @description Evaluate quiz submission , check quiz answers and update the database for a user
  * @param {string} userId - User Id
  * @param {string} courseId - Course Id
@@ -284,5 +294,6 @@ module.exports = {
   enrollAUser,
   toggleAvailablity,
   toggleEditing,
+  deleteACourse,
   evaluateUserAnswers,
 };

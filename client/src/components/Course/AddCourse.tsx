@@ -33,7 +33,7 @@ type Inputs = {
 };
 
 interface Props {
-  getAvailableCourses?: () => void;
+  deleteCoursesHandler: (course: any) => void;
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
   role?: string;
@@ -51,7 +51,7 @@ let renderCount = 0;
  */
 export default function index({
   locale,
-  getAvailableCourses,
+  deleteCoursesHandler,
   selectedCourse,
   handleSelectedCourse,
   role,
@@ -61,11 +61,11 @@ export default function index({
   const [status, setStatus] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
 
-
   const archiveCourse = async () => {
     setStatus("Archived");
     try {
       let res = await toggleCourseArchive(selectedCourse._id);
+      deleteCoursesHandler({ ...selectedCourse, ...res.data });
       setStatus("");
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -79,8 +79,6 @@ export default function index({
         autoClose: 5000,
         theme: "colored",
       });
-    } finally {
-      getAvailableCourses!();
     }
   };
 
@@ -179,12 +177,11 @@ export default function index({
           autoClose: 5000,
           theme: "colored",
         });
-      }finally{
+      } finally {
         setLoading(false);
       }
     }
     if (selectedCourse) {
-      getAvailableCourses!();
       handleSelectedCourse!("");
     }
   };
@@ -215,23 +212,38 @@ export default function index({
           {selectedCourse?.title ? t`Edit Course` : t`New Course`}
         </h1>
 
-        {selectedCourse?.updatedAt && (
-          <div className="md:flex items-center gap-x-2  md:mr-36">
+        <div>
+          {selectedCourse?.updatedAt && (
+            <div className="md:flex items-center gap-x-2  md:mr-36">
+              <p className="text-gray-dark/70 text-xs">
+                {" "}
+                {t`Created on`}{" "}
+                {dayjs(selectedCourse?.createdAt).format("MMMM Do, YYYY")};
+              </p>
+              <p className="text-gray-dark/70 text-xs">
+                {" "}
+                {t`Last updated`}{" "}
+                {dayjs(selectedCourse?.updatedAt).format("MMMM Do, YYYY")}
+              </p>
+            </div>
+          )}
+         {selectedCourse?._id && <div className="pt-1 flex gap-1 items-center text-gray-dark/70">
             <p className="text-gray-dark/70 text-xs">
               {" "}
-              Created on{" "}
-              {dayjs(selectedCourse?.createdAt).format("MMMM Do, YYYY")};
+             { t`Availablity`}:{" "}
+              {selectedCourse?.isAvailable ? t`Available` : t`Not Available`}
             </p>
+            ;
             <p className="text-gray-dark/70 text-xs">
               {" "}
-              Last updated{" "}
-              {dayjs(selectedCourse?.updatedAt).format("MMMM Do, YYYY")}
+             {t`Editing`}:{" "}
+              {selectedCourse?.enableEditing ? t`Enabled` : t`Not allowed`}
             </p>
-          </div>
-        )}
+          </div>}
+        </div>
       </div>
       <p className="text-sm text-gray-dark/50 pt-3">
-        <Trans>Ensure correct punctuation for all fields.</Trans>
+  {t`Ensure correct punctuation for all fields.`}
       </p>
       <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex md:flex-row flex-col items-start justify-between">
@@ -339,8 +351,7 @@ export default function index({
             <div>
               <div className="flex items-center justify-between">
                 <label className="font-bold !text-base">
-                  <Trans> Course section </Trans>{" "}
-                  {index + 1}
+                  <Trans> Course section </Trans> {index + 1}
                 </label>
                 <button
                   data-tooltip-id="my-tooltip"
@@ -349,9 +360,8 @@ export default function index({
                   className="italic text-xs text-error"
                   onClick={() => remove(index)}
                 >
-            
                   <MdDelete size={18} />
-                  <Tooltip id="my-tooltip"/>
+                  <Tooltip id="my-tooltip" />
                 </button>
               </div>
               <div className="my-3 flex items-center gap-x-4 md:gap-x-8">
@@ -395,34 +405,38 @@ export default function index({
         ))}
 
         <div className="text-center mt-28 md:mt-48 mb-8 relative">
-          {selectedCourse?.title ? (
-            role === "SuperAdmin" ||
-            (selectedCourse.enableEditing && (
+          {selectedCourse?.status !== "Archived" ? (
+            selectedCourse?.title ? (
+              role === "SuperAdmin" ||
+              (selectedCourse.enableEditing && (
+                <button
+                  type="submit"
+                  className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
+                >
+                  {" "}
+                  {isLoading && status !== "Draft" ? (
+                    <Spinner width="30px" height="30px" color="#fff" />
+                  ) : (
+                    t`Edit Course`
+                  )}
+                </button>
+              ))
+            ) : (
               <button
                 type="submit"
                 className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
               >
-                {" "}
                 {isLoading && status !== "Draft" ? (
                   <Spinner width="30px" height="30px" color="#fff" />
                 ) : (
-                  t`Edit Course`
+                  t`Add Course`
                 )}
               </button>
-            ))
+            )
           ) : (
-            <button
-              type="submit"
-              className="w-56 text-white bg-primary py-4 h-14 rounded-lg mt-1 hover:bg-primary-hover font-medium"
-            >
-              {isLoading && status !== "Draft" ? (
-                <Spinner width="30px" height="30px" color="#fff" />
-              ) : (
-                t`Add Course`
-              )}
-            </button>
+            ""
           )}
-          {selectedCourse?.title ? (
+          {selectedCourse?.title && selectedCourse?.status !== "Archived" && (
             <button
               type="button"
               onClick={() => archiveCourse()}
@@ -438,7 +452,8 @@ export default function index({
                 </span>
               )}
             </button>
-          ) : (
+          )}
+          {!selectedCourse && (
             <button
               type="submit"
               onClick={() => setStatus("Draft")}

@@ -27,6 +27,7 @@ export default function index() {
   const [selectedCourse, setSelectedCourse] = useState<Courses | any>({});
   const [isLoading, setLoading] = useState(false);
   const locale = localStorage.getItem("language") || "en";
+
   const getAvailableCourses = async () => {
     setLoading(true);
     const userId: any = getUserId();
@@ -53,6 +54,11 @@ export default function index() {
     setSelectedCourse(selectedCourse);
   };
 
+  const deleteCoursesHandler = (course: Courses) => {
+    setCourses(courses.filter((obj) => obj._id !== course._id));
+    handleSelectedCourse!("");
+  };
+
   return (
     <section className="contributor-dashboard h-screen overflow-auto">
       <p className="text-center font-medium text-xl">
@@ -65,7 +71,7 @@ export default function index() {
         >
           <AddCourse
             locale={locale}
-            getAvailableCourses={getAvailableCourses}
+            deleteCoursesHandler={deleteCoursesHandler}
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
           />
@@ -75,7 +81,7 @@ export default function index() {
           <Spinner width="100px" height="100px" color="#009985" />
         </div>
       ) : courses?.length > 0 ? (
-        <div className="border border-b-gray border-[0px] border-x-0 border-t-0 pb-2">
+        <div className="md:mx-6">
           <div className="flex items-center justify-between mt-6">
             <h1 className="text-xl font-medium">
               <Trans>Your Courses</Trans>
@@ -91,7 +97,7 @@ export default function index() {
               </span>
             </Link>
           </div>
-          <div className="flex items-center flex-wrap gap-4 justify-start mt-8">
+          <div className="flex items-center flex-wrap gap-6 justify-start mt-8">
             {courses.map((ele: any) => {
               return (
                 <CourseCard

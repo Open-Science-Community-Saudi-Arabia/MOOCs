@@ -15,6 +15,7 @@ import {
   makeCoursePending,
   toggleAvailablity,
   toggleCourseEditing,
+  deleteCourse,
 } from "../../utils/api/courses";
 dayjs.extend(advancedFormat);
 dayjs().format();
@@ -52,7 +53,7 @@ export default function Table({
   const [isLoadingAction, setLoadingAction] = useState(false);
   const columnHelper = createColumnHelper<Courses>();
 
-  const updateTableData = (
+  const updateTableDataHandler = (
     resData: { status: string } | { isAdvaliabilty: string }
   ) => {
     UpdateTabledata((data: any[]) =>
@@ -71,7 +72,7 @@ export default function Table({
     try {
       let res = await approveACourse(courseAction._id);
       if (res.success) {
-        updateTableData(res.data);
+        updateTableDataHandler(res.data);
       }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -94,7 +95,7 @@ export default function Table({
     try {
       let res = await toggleCourseArchive(courseAction._id);
       if (res.success) {
-        updateTableData(res.data);
+        updateTableDataHandler(res.data);
       }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -117,7 +118,7 @@ export default function Table({
     try {
       let res = await toggleAvailablity(courseAction._id);
       if (res.success) {
-        updateTableData(res.data);
+        updateTableDataHandler(res.data);
       }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -140,7 +141,7 @@ export default function Table({
     try {
       let res = await toggleCourseEditing(courseAction._id);
       if (res.success) {
-        updateTableData(res.data);
+        updateTableDataHandler(res.data);
       }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -163,7 +164,7 @@ export default function Table({
     try {
       let res = await makeCoursePending(courseAction._id);
       if (res.success) {
-        updateTableData(res.data);
+        updateTableDataHandler(res.data);
       }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
@@ -180,7 +181,33 @@ export default function Table({
       setLoadingAction(false);
     }
   };
-  
+
+  const deleteCourseHandler = async () => {
+    setLoadingAction(true);
+    try {
+      let res = await deleteCourse(courseAction._id);
+      if (res.success) {
+        UpdateTabledata(
+          data.filter((course: Courses) => course._id !== courseAction._id)
+        );
+      }
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } catch (err) {
+      console.log(err)
+      toast.error(t`Request failed`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+        theme: "colored",
+      });
+    } finally {
+      setCourseAction({});
+      setLoadingAction(false);
+    }
+  };
   const columns = [
     columnHelper.accessor("preview_image", {
       cell: (info) => (
@@ -313,7 +340,10 @@ export default function Table({
                     </button>
                   </div>
                   <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
-                    <button className="flex text-gray-dark items-center gap-x-2">
+                    <button
+                      onClick={() => deleteCourseHandler()}
+                      className="flex text-gray-dark items-center gap-x-2"
+                    >
                       {" "}
                       <MdDelete size={14} />
                       <Trans> Delete</Trans>
@@ -321,15 +351,37 @@ export default function Table({
                   </div>
                 </div>
               ) : (
-                <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
-                  <button
-                    onClick={() => toggleArchiveHandler()}
-                    className="flex text-gray-dark items-center gap-x-2"
-                  >
-                    {" "}
-                    <FaRegFileArchive size={14} /> <Trans>Archive course</Trans>
-                  </button>
-                </div>
+                <>
+                  <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
+                    <button
+                      onClick={() => toggleArchiveHandler()}
+                      className="flex text-gray-dark items-center gap-x-2"
+                    >
+                      {" "}
+                      <FaRegFileArchive size={14} />{" "}
+                      <Trans>Archive course</Trans>
+                    </button>
+                  </div>
+                  <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
+                    <button
+                      className="flex text-gray-dark items-center gap-x-2"
+                      onClick={() => toggleCourseEditingHandler()}
+                    >
+                      {info.row.original.enableEditing ? (
+                        <span className="flex items-center gap-x-2">
+                          <MdOutlineEditOff size={14} />
+                          <Trans> Disable editing</Trans>
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-x-2">
+                          {" "}
+                          <CiEdit size={14} />
+                          <Trans> Enable editing</Trans>
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </>
               )}
 
               {info.row.original.status === "Pending" ? (
@@ -374,23 +426,6 @@ export default function Table({
               ) : (
                 ""
               )}
-              <button
-                onClick={() => toggleCourseEditingHandler()}
-                className="font-medium py-2.5 px-3 w-full text-left border-gray text-gray-dark border-x-0 rounded-none hover:bg-gray/70 text-xs block"
-              >
-                {info.row.original.enableEditing ? (
-                  <span className="flex items-center gap-x-2">
-                    <MdOutlineEditOff size={14} />
-                    <Trans> Disable editing</Trans>
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-x-2">
-                    {" "}
-                    <CiEdit size={14} />
-                    <Trans> Enable editing</Trans>
-                  </span>
-                )}
-              </button>
             </div>
           )}
         </div>

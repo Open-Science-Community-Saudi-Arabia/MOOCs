@@ -27,7 +27,7 @@ export default function CourseCard({
   return (
     <div
       onClick={() => handleSelectedCourse(course)}
-      className="cursor-pointer hover:shadow-xl hover:bg-primary/5 flex flex-col justify-between rounded-md text-left w-96 py-5 px-4 border-gray border bg-white"
+      className="cursor-pointer relative hover:shadow-xl hover:bg-primary/5 flex flex-col justify-start rounded-md text-left w-96 h-72 py-5 px-4 border-gray border bg-white"
     >
       <p
         className={`${
@@ -42,7 +42,7 @@ export default function CourseCard({
       >
         {locale === "en" ? course.status : course.status_tr}
       </p>
-      <div className="w-full relative">
+      <div className="w-full">
         <div className="w-full">
           <div className="flex md:gap-x-5 items-center relative">
             {" "}
@@ -58,7 +58,7 @@ export default function CourseCard({
             </div>
           </div>
 
-          <div className="py-6">
+          <div className="py-4">
             <p
               className={`line-clamp-3 text-sm text-gray-dark leading-relaxed`}
             >
@@ -72,7 +72,7 @@ export default function CourseCard({
           </div>
 
           <button
-            className="rounded-[5px] p-2.5 text-xs bg-primary/80 text-white"
+            className="absolute bottom-5 rounded-[5px] p-2.5 text-xs bg-primary/80 text-white"
             onClick={() => handleSelectedCourse(course)}
           >
             <Trans> View details</Trans>

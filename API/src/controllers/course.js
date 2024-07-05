@@ -39,6 +39,7 @@ const {
   toggleAvailablity,
   toggleEditing,
   evaluateUserAnswers,
+  deleteACourse
 } = require("../services/course");
 const { translateDocArray } = require("../utils/crowdin");
 
@@ -92,7 +93,6 @@ const getCourse = async (req, res) => {
       data: course,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -202,7 +202,6 @@ const approveCourse = async (req, res) => {
       data: { status: course.status },
     });
   } catch (error) {
-    console.log(error)
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -228,7 +227,6 @@ const makeCoursePending = async (req, res) => {
       data: { status: course.status },
     });
   } catch (error) {
-    console.log(error)
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -399,6 +397,31 @@ const evaluateQuizScore = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @description Get a specific course. Allowed for EndUser and SuperAdmin
+ * @param {object} req - The HTTP request object.
+ * @param {object} res - The HTTP response object.
+ * @returns {Object} - HTTP response object with success field and course data
+ * @throws {Error} If error occurs
+ */
+const deleteCourse = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+   await deleteACourse(courseId);
+    return res.status(200).send({
+      success: true,
+      message: 'Course deleted',
+    });
+  } catch (error) {
+    return res.status(400).send({
+      success: false,
+      message: "Request failed",
+      error: error,
+    });
+  }
+};
+
 module.exports = {
   createCourse,
   getCourse,
@@ -413,4 +436,5 @@ module.exports = {
   toggleCourseAvailablity,
   toggleCourseEditing,
   evaluateQuizScore,
+  deleteCourse
 };

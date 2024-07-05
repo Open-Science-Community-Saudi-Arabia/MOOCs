@@ -169,3 +169,13 @@ export async function getOverallUserQuiz(courseId: string) {
   const response = await makeApiCall(`/user/overall-score/${courseId}`);
   return response;
 }
+
+/**
+ * @description Delete a course
+ * @param  {string} courseId  Course Id
+ * @return {Promise<object>} response data
+ */
+export async function deleteCourse(courseId: string) {
+  const response = await makeApiCall(`/course/${courseId}`, "delete");
+  return response;
+}

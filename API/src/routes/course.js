@@ -7,6 +7,7 @@ const {
   getContributorCourses,
   approveCourse,
   updateCourse,
+  deleteCourse,
   archiveCourse,
   getApprovedCourses,
   makeCoursePending,
@@ -31,14 +32,13 @@ const { redisCacheMiddleware } = require("../middlewares/redis");
 router.use(basicAuth());
 
 router.get("/", permit("SuperAdmin"), getAllCourses);
-router.get("/approved", redisCacheMiddleware(),getApprovedCourses);
+router.get("/approved", getApprovedCourses);
 router.get("/enroll/:courseId", enrollUser);
 
 router.get("/:courseId", permit("EndUser SuperAdmin"), getCourse);
 router.get(
   "/contributor/:contributorId",
   permit("Contributor SuperAdmin"),
-  redisCacheMiddleware(),
   getContributorCourses
 );
 
@@ -73,6 +73,11 @@ router.patch(
   permit("Contributor SuperAdmin"),
   upload.single("file"),
   updateCourse
+);
+router.delete(
+  "/:courseId",
+  permit("SuperAdmin"),
+deleteCourse
 );
 
 module.exports = router;

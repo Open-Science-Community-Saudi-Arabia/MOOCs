@@ -55,6 +55,10 @@ export default function index() {
     setData(data);
   };
 
+  const deleteCoursesHandler = (course: Courses) => {
+     setData(data.filter((obj) => obj._id !== course._id));
+    handleSelectedCourse!("");
+  };
   return (
     <section className="h-screen admin-dashboard">
       <h1 className="text-center mb-6 text-xl">
@@ -68,7 +72,7 @@ export default function index() {
         >
           <AddCourse
             locale={locale}
-            getAvailableCourses={getAvailableCourses}
+            deleteCoursesHandler={deleteCoursesHandler}
             role="Admin"
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
