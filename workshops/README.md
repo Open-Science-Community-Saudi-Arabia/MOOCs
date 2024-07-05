@@ -1,4 +1,4 @@
-Thomas Mwise
+
 # Open Source Workshop by AREN
 
 ## Names
@@ -7,3 +7,5 @@ Thomas Mwise
 - Bakary Njie
 - Sarah Salah
 - Otieno Stephen
+- Thomas Mwise
+- Zoe
