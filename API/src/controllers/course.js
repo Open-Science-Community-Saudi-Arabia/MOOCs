@@ -24,6 +24,7 @@
  *
  */
 
+
 const {
   createACourse,
   getACourse,
@@ -40,6 +41,7 @@ const {
   evaluateUserAnswers,
 } = require("../services/course");
 const { translateDocArray } = require("../utils/crowdin");
+
 
 /**
  *
@@ -59,6 +61,7 @@ const createCourse = async (req, res) => {
     }
     const userId = req.user.id;
     await createACourse(userId, preview_image, parseReqBody);
+
     return res.status(200).send({
       success: true,
       message: "New course created successfully",
@@ -136,14 +139,14 @@ const getContributorCourses = async (req, res) => {
  * @throws {Error} If error occurs
  */
 const getAllCourses = async (req, res) => {
+  const courses = await allCourses();
+
+  const filtered = courses.filter(
+    (ele) => !(ele.status === "Draft" && ele.createdBy.role === "contributor")
+  );
+  let translated_courses = await translateDocArray(filtered);
+
   try {
-    const courses = await allCourses();
-
-    const filtered = courses.filter(
-      (ele) => !(ele.status === "Draft" && ele.createdBy.role === "contributor")
-    );
-    let translated_courses = await translateDocArray(filtered);
-
     return res.status(200).send({
       success: true,
       data: translated_courses,
@@ -192,13 +195,14 @@ const getApprovedCourses = async (req, res) => {
 const approveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
-    await approveACourse(courseId);
-
+    let course = await approveACourse(courseId);
     return res.status(200).send({
       success: true,
       message: "Course Approved",
+      data: { status: course.status },
     });
   } catch (error) {
+    console.log(error)
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -217,12 +221,14 @@ const approveCourse = async (req, res) => {
 const makeCoursePending = async (req, res) => {
   const courseId = req.params.courseId;
   try {
-    await pendingACourse(courseId);
+    const course =await pendingACourse(courseId);
     return res.status(200).send({
       success: true,
       message: "Course Updated",
+      data: { status: course.status },
     });
   } catch (error) {
+    console.log(error)
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -242,11 +248,12 @@ const makeCoursePending = async (req, res) => {
 const archiveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
-    await toggleCourseArchive(courseId);
+    let course = await toggleCourseArchive(courseId);
 
     return res.status(200).send({
       success: true,
       message: "Course Updated",
+      data: { status: course.status },
     });
   } catch (error) {
     return res.status(400).send({
@@ -302,7 +309,6 @@ const enrollUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -322,14 +328,15 @@ const toggleCourseAvailablity = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course = await toggleAvailablity(courseId);
+
     if (course) {
       return res.status(200).send({
         success: true,
         message: "Course availablity updated",
+        data: { isAvailable: course.isAvailable },
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -349,14 +356,15 @@ const toggleCourseEditing = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course = await toggleEditing(courseId);
+
     if (course) {
       return res.status(200).send({
         success: true,
-        message: "Course editing updating",
+        message: "Course editing update",
+        data: { enableEditing: course.enableEditing },
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",
@@ -384,7 +392,6 @@ const evaluateQuizScore = async (req, res) => {
       score: score,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).send({
       success: false,
       message: "Request failed",

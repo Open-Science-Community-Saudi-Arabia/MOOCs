@@ -37,62 +37,78 @@ import "./style.scss";
 
 type Props = {
   locale: string;
-  courses: Courses[];
+  data: any;
+  UpdateTabledata: (data: any) => void;
   handleSelectedCourse: (course: Courses) => void;
-  getAvailableCourses: () => void;
 };
 
 export default function Table({
   locale,
-  courses,
-  getAvailableCourses,
+  data,
+  UpdateTabledata,
   handleSelectedCourse,
 }: Props) {
   const [courseAction, setCourseAction] = useState<Courses | any>({});
   const [isLoadingAction, setLoadingAction] = useState(false);
   const columnHelper = createColumnHelper<Courses>();
 
+  const updateTableData = (
+    resData: { status: string } | { isAdvaliabilty: string }
+  ) => {
+    UpdateTabledata((data: any[]) =>
+      data.map((course) => {
+        if (course._id === courseAction._id) {
+          return { ...course, ...resData };
+        }
+        return course;
+      })
+    );
+    setCourseAction({});
+  };
+
   const approveCourse = async () => {
     setLoadingAction(true);
     try {
       let res = await approveACourse(courseAction._id);
-      setLoadingAction(false);
+      if (res.success) {
+        updateTableData(res.data);
+      }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } catch (err) {
-      setLoadingAction(false);
       toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } finally {
-      getAvailableCourses();
+      setLoadingAction(false);
     }
   };
 
-  const  toggleArchiveHandler = async () => {
+  const toggleArchiveHandler = async () => {
     setLoadingAction(true);
     try {
       let res = await toggleCourseArchive(courseAction._id);
-      setLoadingAction(false);
+      if (res.success) {
+        updateTableData(res.data);
+      }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } catch (err) {
-      setLoadingAction(false);
       toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } finally {
-      getAvailableCourses();
+      setLoadingAction(false);
     }
   };
 
@@ -100,21 +116,22 @@ export default function Table({
     setLoadingAction(true);
     try {
       let res = await toggleAvailablity(courseAction._id);
-      setLoadingAction(false);
+      if (res.success) {
+        updateTableData(res.data);
+      }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } catch (err) {
-      setLoadingAction(false);
       toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } finally {
-      getAvailableCourses();
+      setLoadingAction(false);
     }
   };
 
@@ -122,21 +139,22 @@ export default function Table({
     setLoadingAction(true);
     try {
       let res = await toggleCourseEditing(courseAction._id);
-      setLoadingAction(false);
+      if (res.success) {
+        updateTableData(res.data);
+      }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } catch (err) {
-      setLoadingAction(false);
       toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } finally {
-      getAvailableCourses();
+      setLoadingAction(false);
     }
   };
 
@@ -144,27 +162,30 @@ export default function Table({
     setLoadingAction(true);
     try {
       let res = await makeCoursePending(courseAction._id);
-      setLoadingAction(false);
+      if (res.success) {
+        updateTableData(res.data);
+      }
       toast.success(res.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } catch (err) {
-      setLoadingAction(false);
       toast.error(t`Request failed`, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         theme: "colored",
       });
     } finally {
-      getAvailableCourses();
+      setLoadingAction(false);
     }
   };
+  
   const columns = [
     columnHelper.accessor("preview_image", {
       cell: (info) => (
-        <img alt="course photo"
+        <img
+          alt="course photo"
           className="w-10 h-10 border-[1px] border-gray rounded-full"
           src={info.getValue()}
         />
@@ -267,7 +288,7 @@ export default function Table({
               <BsThreeDotsVertical />
             )}
           </button>
-          {courseAction._id === info.row.original._id && (
+          {courseAction._id === info.row.original._id && !isLoadingAction && (
             <div className="z-10 shadow shadow-xl w-40 border-dark-gray top-2 absolute bg-white border border-y-[1px] border-gray rounded-md table_actions">
               <button
                 onClick={() => handleSelectedCourse(info.row.original)}
@@ -282,9 +303,11 @@ export default function Table({
               {info.row.original.status === "Archived" ? (
                 <div>
                   <div className="font-medium py-2.5 px-3 w-full text-left border border-b-[1px]  border-gray border-x-0 rounded-none hover:bg-gray/70 text-xs block">
-                    <button  onClick={() => toggleArchiveHandler()} className="flex text-gray-dark items-center gap-x-2">
+                    <button
+                      onClick={() => toggleArchiveHandler()}
+                      className="flex text-gray-dark items-center gap-x-2"
+                    >
                       {" "}
-                      
                       <MdOutlineUnarchive size={14} />
                       <Trans> Un-archive</Trans>
                     </button>
@@ -379,8 +402,6 @@ export default function Table({
       ),
     }),
   ];
-
-  const [data, _setData] = React.useState(() => [...courses]);
 
   const table = useReactTable({
     data,

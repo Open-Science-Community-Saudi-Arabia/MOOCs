@@ -24,12 +24,15 @@ async function initializeRedisClient() {
 }
 
 async function updateCached(req, data) {
+  const see = await redisClient.keys("*");
+  console.log(see);
   const reqDataToHash = {
     query: req.query,
     body: req.body,
   };
+
   const key = `/@${hash.sha1(reqDataToHash)}`;
-  if (key) writeData(key, data).then();
+  if (key) await writeData(key, data);
 }
 
 function requestToKey(req) {
@@ -37,6 +40,7 @@ function requestToKey(req) {
     query: req.query,
     body: req.body,
   };
+
   return `${req.path}@${hash.sha1(reqDataToHash)}`;
 }
 
@@ -48,14 +52,10 @@ async function writeData(key, data) {
   try {
     await redisClient.set(
       key,
-      typeof data === "object" ? JSON.stringify(data) : data,
-      {
-        EX: 180,
-        NX: true,
-      }
+      typeof data === "object" ? JSON.stringify(data) : data
     );
   } catch (e) {
-    console.error(`Failed to cache data for key=${key}`, e);
+    console.error(e);
   }
 }
 

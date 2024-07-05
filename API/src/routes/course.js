@@ -30,7 +30,7 @@ const { redisCacheMiddleware } = require("../middlewares/redis");
 
 router.use(basicAuth());
 
-router.get("/", permit("SuperAdmin"), redisCacheMiddleware(), getAllCourses);
+router.get("/", permit("SuperAdmin"), getAllCourses);
 router.get("/approved", redisCacheMiddleware(),getApprovedCourses);
 router.get("/enroll/:courseId", enrollUser);
 

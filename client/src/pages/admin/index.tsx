@@ -22,16 +22,17 @@ import { Trans } from "@lingui/macro";
 
 export default function index() {
   const [selectedCourse, setSelectedCourse] = useState<any>({});
-  const [courses, setCourses] = useState<Courses[]>([]);
+  const [data, setData] = useState<Courses[]>([]);
   const [isLoading, setLoading] = useState(false);
   const locale = localStorage.getItem("language") || "en";
+
   const getAvailableCourses = async () => {
     setLoading(true);
     try {
       const response = await getAllCourses();
-      if (response.success) {
+      if (response) {
         setLoading(false);
-        setCourses(response.data);
+        setData(response.data || response);
       }
     } catch (error) {
       toast.error("Fetching data failed", {
@@ -50,9 +51,15 @@ export default function index() {
     setSelectedCourse(selectedCourse);
   };
 
+  const UpdateTabledata = (data: any) => {
+    setData(data);
+  };
+
   return (
     <section className="h-screen admin-dashboard">
-      <h1 className="text-center mb-6 text-xl"><Trans>Admin Board</Trans></h1>
+      <h1 className="text-center mb-6 text-xl">
+        <Trans>Admin Board</Trans>
+      </h1>
 
       {selectedCourse?.title ? (
         <Modal
@@ -60,8 +67,8 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
-          locale={locale}
-          getAvailableCourses={getAvailableCourses}
+            locale={locale}
+            getAvailableCourses={getAvailableCourses}
             role="Admin"
             handleSelectedCourse={handleSelectedCourse}
             selectedCourse={selectedCourse}
@@ -71,10 +78,12 @@ export default function index() {
         <div className="h-screen flex items-center flex-col justify-center">
           <Spinner width="100px" height="100px" color="#009985" />
         </div>
-      ) : courses?.length > 0 ? (
+      ) : data?.length > 0 ? (
         <div className="">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl"><Trans>All Courses</Trans></h2>
+            <h2 className="text-xl">
+              <Trans>All Courses</Trans>
+            </h2>
             <Link
               to={`/course/add-course`}
               className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-3"
@@ -88,15 +97,18 @@ export default function index() {
           </div>
 
           <Table
-          locale={locale}
-           getAvailableCourses={ getAvailableCourses}
-            courses={courses}
+            UpdateTabledata={UpdateTabledata}
+            locale={locale}
+            data={data}
             handleSelectedCourse={handleSelectedCourse}
           />
         </div>
       ) : (
         <div className="flex items-center flex-col h-96 justify-center">
-          <p className="py-3 text-gray-dark/50"> <Trans>No Course Added</Trans></p>
+          <p className="py-3 text-gray-dark/50">
+            {" "}
+            <Trans>No Course Added</Trans>
+          </p>
           <Link
             to={`/course/add-course`}
             className="bg-primary hover:bg-primary-hover text-sm text-white rounded-md px-3 py-2"
