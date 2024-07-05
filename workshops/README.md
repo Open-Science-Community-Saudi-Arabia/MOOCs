@@ -3,4 +3,4 @@
 
 ## Names
 
-- .Bakary Njie
+- Bakary Njie
