@@ -4,6 +4,6 @@
 ## Names
 
 
+- Bakary Njie
 - Sarah Salah
 - Otieno Stephen
-
