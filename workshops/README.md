@@ -3,7 +3,5 @@
 
 ## Names
 
-
-- Sarah Salah
 - Otieno Stephen
-
+- - Aminu Oluwafunmilayo O
