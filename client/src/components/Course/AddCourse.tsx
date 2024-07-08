@@ -18,6 +18,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
 import { Tooltip } from "react-tooltip";
+import { Courses } from "../../types";
 dayjs.extend(advancedFormat);
 dayjs().format();
 
@@ -33,11 +34,13 @@ type Inputs = {
 };
 
 interface Props {
-  deleteCoursesHandler: (course: any) => void;
+  deleteCoursesHandler: (course: Courses) => void;
+  updateDataHandler: (courseData: any) => void;
   selectedCourse?: any;
   handleSelectedCourse?: (selectedCourse: any) => void;
   role?: string;
   locale?: string;
+
 }
 
 let renderCount = 0;
@@ -50,6 +53,7 @@ let renderCount = 0;
  *
  */
 export default function index({
+  updateDataHandler,
   locale,
   deleteCoursesHandler,
   selectedCourse,
@@ -143,13 +147,21 @@ export default function index({
 
       try {
         const res = await updateACourse(selectedCourse._id, formData);
-        setLoading(false);
+        updateDataHandler((data: Courses[])=>
+          data.map((course: Courses) => {
+            if (course._id === selectedCourse._id) {
+              return (course = res.data);
+            }
+            return course;
+          })
+        );
         toast.success(res.message, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
           theme: "colored",
         });
       } catch (err) {
+        console.log(err)
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
@@ -158,19 +170,17 @@ export default function index({
       }
     } else {
       const tempData = status.length ? { ...newData, status } : newData;
-
       const formData = new FormData();
       formData.append("file", selectedImage[0]);
       formData.append("body", JSON.stringify(tempData));
       try {
         const res = await createCourse(formData);
-        setLoading(false);
+        navigate(-1);
         toast.success(res.message, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
           theme: "colored",
         });
-        navigate(-1);
       } catch (err) {
         toast.error("Request Failed", {
           position: toast.POSITION.TOP_CENTER,
@@ -227,23 +237,25 @@ export default function index({
               </p>
             </div>
           )}
-         {selectedCourse?._id && <div className="pt-1 flex gap-1 items-center text-gray-dark/70">
-            <p className="text-gray-dark/70 text-xs">
-              {" "}
-             { t`Availablity`}:{" "}
-              {selectedCourse?.isAvailable ? t`Available` : t`Not Available`}
-            </p>
-            ;
-            <p className="text-gray-dark/70 text-xs">
-              {" "}
-             {t`Editing`}:{" "}
-              {selectedCourse?.enableEditing ? t`Enabled` : t`Not allowed`}
-            </p>
-          </div>}
+          {selectedCourse?._id && (
+            <div className="pt-1 flex gap-1 items-center text-gray-dark/70">
+              <p className="text-gray-dark/70 text-xs">
+                {" "}
+                {t`Availablity`}:{" "}
+                {selectedCourse?.isAvailable ? t`Available` : t`Not Available`}
+              </p>
+              ;
+              <p className="text-gray-dark/70 text-xs">
+                {" "}
+                {t`Editing`}:{" "}
+                {selectedCourse?.enableEditing ? t`Enabled` : t`Not allowed`}
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <p className="text-sm text-gray-dark/50 pt-3">
-  {t`Ensure correct punctuation for all fields.`}
+        {t`Ensure correct punctuation for all fields.`}
       </p>
       <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex md:flex-row flex-col items-start justify-between">

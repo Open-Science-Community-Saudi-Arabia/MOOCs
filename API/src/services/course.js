@@ -146,7 +146,9 @@ const updateACourse = async (courseId, body, preview_image) => {
       destination_path: `moocs_resources/course_images/${body.title}`,
     });
   }
-  const course = await Course.findById(courseId);
+  const course = await Course.findById(courseId).populate({
+        path: "createdBy",
+      });
 
   course.preview_image =
     preview_image !== undefined ? file_url : course.preview_image;
@@ -164,6 +166,7 @@ const updateACourse = async (courseId, body, preview_image) => {
       }
     });
   }
+  
   return courseDetails;
 };
 

@@ -51,12 +51,12 @@ export default function index() {
     setSelectedCourse(selectedCourse);
   };
 
-  const UpdateTabledata = (data: any) => {
-    setData(data);
+  const updateTabledata = (courseData:Courses[]) => {
+    setData(courseData);
   };
 
   const deleteCoursesHandler = (course: Courses) => {
-     setData(data.filter((obj) => obj._id !== course._id));
+    setData(data.filter((obj) => obj._id !== course._id));
     handleSelectedCourse!("");
   };
   return (
@@ -71,6 +71,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+            updateDataHandler={updateTabledata}
             locale={locale}
             deleteCoursesHandler={deleteCoursesHandler}
             role="Admin"
@@ -101,7 +102,7 @@ export default function index() {
           </div>
 
           <Table
-            UpdateTabledata={UpdateTabledata}
+            updateTabledata={updateTabledata}
             locale={locale}
             data={data}
             handleSelectedCourse={handleSelectedCourse}

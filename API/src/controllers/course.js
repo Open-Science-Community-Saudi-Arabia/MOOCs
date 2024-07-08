@@ -25,6 +25,7 @@
  */
 
 
+const { deleteCached } = require("../middlewares/redis");
 const {
   createACourse,
   getACourse,
@@ -53,6 +54,7 @@ const { translateDocArray } = require("../utils/crowdin");
  * @throws {Error} If error occurs
  */
 const createCourse = async (req, res) => {
+  await deleteCached(req)
   try {
     const reqBody = Object.assign({}, req.body);
     const parseReqBody = JSON.parse(reqBody.body);
@@ -61,11 +63,12 @@ const createCourse = async (req, res) => {
       return next(new BadRequestError("Missing preview image"));
     }
     const userId = req.user.id;
-    await createACourse(userId, preview_image, parseReqBody);
+   await createACourse(userId, preview_image, parseReqBody);
 
     return res.status(200).send({
       success: true,
       message: "New course created successfully",
+
     });
   } catch (error) {
     return res.status(400).send({
@@ -196,6 +199,7 @@ const approveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     let course = await approveACourse(courseId);
+    await deleteCached(req)
     return res.status(200).send({
       success: true,
       message: "Course Approved",
@@ -221,6 +225,7 @@ const makeCoursePending = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course =await pendingACourse(courseId);
+    await deleteCached(req)
     return res.status(200).send({
       success: true,
       message: "Course Updated",
@@ -247,7 +252,7 @@ const archiveCourse = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     let course = await toggleCourseArchive(courseId);
-
+    await deleteCached(req)
     return res.status(200).send({
       success: true,
       message: "Course Updated",
@@ -273,11 +278,15 @@ const updateCourse = async (req, res) => {
   const courseId = req.params.courseId;
   const reqBody = Object.assign({}, req.body);
   const parseReqBody = JSON.parse(reqBody.body);
+
   try {
-    await updateACourse(courseId, parseReqBody, req.file);
+    const updatedCourse = await updateACourse(courseId, parseReqBody, req.file);
+    const courses = await translateDocArray([updatedCourse])
+    await deleteCached(req)
     return res.status(200).send({
       success: true,
       message: "Course Updated",
+      data:courses[0]
     });
   } catch (error) {
     return res.status(400).send({
@@ -299,7 +308,6 @@ const enrollUser = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course = await enrollAUser(courseId, req.user.id);
-
     if (course) {
       return res.status(200).send({
         success: true,
@@ -326,7 +334,7 @@ const toggleCourseAvailablity = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course = await toggleAvailablity(courseId);
-
+    await deleteCached(req)
     if (course) {
       return res.status(200).send({
         success: true,
@@ -354,7 +362,7 @@ const toggleCourseEditing = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     const course = await toggleEditing(courseId);
-
+    await deleteCached(req)
     if (course) {
       return res.status(200).send({
         success: true,
@@ -380,11 +388,9 @@ const toggleCourseEditing = async (req, res) => {
  */
 const evaluateQuizScore = async (req, res) => {
   const quizPayload = req.body;
-
   const courseId = req.params.courseId;
   try {
     const score = await evaluateUserAnswers(req.user.id, courseId, quizPayload);
-
     return res.status(200).json({
       success: true,
       score: score,
@@ -409,6 +415,7 @@ const deleteCourse = async (req, res) => {
   try {
     const courseId = req.params.courseId;
    await deleteACourse(courseId);
+   await deleteCached(req)
     return res.status(200).send({
       success: true,
       message: 'Course deleted',

@@ -59,6 +59,10 @@ export default function index() {
     handleSelectedCourse!("");
   };
 
+  const updateCoursedata = (courseData:Courses[]) => {
+    setCourses(courseData);
+  };
+  
   return (
     <section className="contributor-dashboard h-screen overflow-auto">
       <p className="text-center font-medium text-xl">
@@ -70,6 +74,7 @@ export default function index() {
           handleClose={() => setSelectedCourse("")}
         >
           <AddCourse
+            updateDataHandler={updateCoursedata}
             locale={locale}
             deleteCoursesHandler={deleteCoursesHandler}
             handleSelectedCourse={handleSelectedCourse}

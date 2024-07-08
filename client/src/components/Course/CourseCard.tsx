@@ -52,7 +52,7 @@ export default function CourseCard({
               alt="preview image"
             />
             <div>
-              <h3 className="text-[19px] text-left line-clamp-1 font-semibold">
+              <h3 className="text-[19px] text-left font-semibold">
                 {locale === "en" ? course.title : course.title_tr}
               </h3>
             </div>

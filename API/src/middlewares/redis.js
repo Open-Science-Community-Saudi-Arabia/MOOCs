@@ -23,25 +23,28 @@ async function initializeRedisClient() {
   }
 }
 
-// async function updateCached(req, data) {
-//   await redisClient.keys("*");
-
-//   const reqDataToHash = {
-//     query: req.query,
-//     body: req.body,
-//   };
-
-//   const key = `/@${hash.sha1(reqDataToHash)}`;
-//   if (key) await writeData(key, data);
-// }
+async function deleteCached(req) {
+  if (req.path === "/") {
+    await redisClient.del("admin-courses");
+  } else {
+    await redisClient.del("contributor");
+  }
+}
 
 function requestToKey(req) {
-  const reqDataToHash = {
-    query: req.query,
-    body: req.body,
-  };
+  const keyType = req.path.split("/")[1];
+  if (req.path === "/") {
+    return `admin-courses`;
+  } else if (keyType === "contributor") {
+    return `contributor`;
+  } else {
+    const reqDataToHash = {
+      query: req.query,
+      body: req.body,
+    };
 
-  return `${req.path}@${hash.sha1(reqDataToHash)}`;
+    return `${req.path}@${hash.sha1(reqDataToHash)}`;
+  }
 }
 
 function isRedisWorking() {
@@ -52,7 +55,11 @@ async function writeData(key, data) {
   try {
     await redisClient.set(
       key,
-      typeof data === "object" ? JSON.stringify(data) : data
+      typeof data === "object" ? JSON.stringify(data) : data,
+      {
+        EX: 1800,
+        NX: true,
+      }
     );
   } catch (e) {
     console.error(e);
@@ -99,4 +106,4 @@ function redisCacheMiddleware() {
   };
 }
 
-module.exports = { initializeRedisClient, redisCacheMiddleware };
+module.exports = { initializeRedisClient, deleteCached, redisCacheMiddleware };

@@ -31,14 +31,14 @@ const { redisCacheMiddleware } = require("../middlewares/redis");
 
 router.use(basicAuth());
 
-router.get("/", permit("SuperAdmin"), getAllCourses);
-router.get("/approved", getApprovedCourses);
+router.get("/", permit("SuperAdmin"), redisCacheMiddleware(),getAllCourses);
+router.get("/approved", redisCacheMiddleware(), getApprovedCourses);
 router.get("/enroll/:courseId", enrollUser);
 
 router.get("/:courseId", permit("EndUser SuperAdmin"), getCourse);
 router.get(
   "/contributor/:contributorId",
-  permit("Contributor SuperAdmin"),
+  permit("Contributor SuperAdmin"), redisCacheMiddleware(),
   getContributorCourses
 );
 

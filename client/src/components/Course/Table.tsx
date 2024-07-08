@@ -39,14 +39,14 @@ import "./style.scss";
 type Props = {
   locale: string;
   data: any;
-  UpdateTabledata: (data: any) => void;
+  updateTabledata: (data: any) => void;
   handleSelectedCourse: (course: Courses) => void;
 };
 
 export default function Table({
   locale,
   data,
-  UpdateTabledata,
+  updateTabledata,
   handleSelectedCourse,
 }: Props) {
   const [courseAction, setCourseAction] = useState<Courses | any>({});
@@ -56,7 +56,7 @@ export default function Table({
   const updateTableDataHandler = (
     resData: { status: string } | { isAdvaliabilty: string }
   ) => {
-    UpdateTabledata((data: any[]) =>
+    updateTabledata((data: any[]) =>
       data.map((course) => {
         if (course._id === courseAction._id) {
           return { ...course, ...resData };
@@ -187,7 +187,7 @@ export default function Table({
     try {
       let res = await deleteCourse(courseAction._id);
       if (res.success) {
-        UpdateTabledata(
+        updateTabledata(
           data.filter((course: Courses) => course._id !== courseAction._id)
         );
       }
