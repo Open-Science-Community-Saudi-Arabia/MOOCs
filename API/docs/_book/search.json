@@ -1,0 +1,1006 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Open Innovation Platform Documentation",
+    "section": "",
+    "text": "Welcome to JSQuarto Documentation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#about",
+    "href": "index.html#about",
+    "title": "Open Innovation Platform Documentation",
+    "section": "About",
+    "text": "About\nJSQuarto is a tool designed to generate JavaScript package API reference documentation using Markdown and Quarto. It serves as an alternative to JSDoc, providing a simpler and more flexible approach for documenting JavaScript code.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#purpose",
+    "href": "index.html#purpose",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Purpose",
+    "text": "Purpose\nThe purpose of JSQuarto is to streamline the process of generating API reference documentation for JavaScript packages. By leveraging Markdown and Quarto, developers can easily create and maintain comprehensive documentation for their JavaScript projects.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#inspiration",
+    "href": "index.html#inspiration",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Inspiration",
+    "text": "Inspiration\nJSQuarto draws inspiration from various documentation tools and methodologies, including: \n\nJSDoc: JSDoc is a popular tool for generating API documentation from JavaScript source code. \nQuarto: Quarto is a versatile document authoring and publishing tool that supports Markdown, LaTeX, and R Markdown formats. \nSphinx: Sphinx is a documentation generation tool widely used in the Python community.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#localization-and-translation",
+    "href": "index.html#localization-and-translation",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Localization and Translation",
+    "text": "Localization and Translation\nJSQuarto is committed to supporting localization and translation of generated documentation. We are planning to integrate Crowdin, a localization management platform, to facilitate translation efforts. This will enable users to present the generated QMD files in multiple languages, making documentation accessible to a wider audience.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#getting-started",
+    "href": "index.html#getting-started",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Getting Started",
+    "text": "Getting Started\n\nPrerequisites\nBefore testing the tool locally, ensure you have the following prerequisites installed on your system:\n\nQuarto\nBabel Quarto\nNode.js and npm (Node Package Manager)\n\n\n\nInstallation\nTo test the tool locally, follow these steps:\n\nInstall the tool by running the command below\nnpm install -g @oscsa/jsquarto  \n\n\n\nUsage\nOnce the dependencies are installed, you can navigate to the root directory of your project and follow the steps below:\n\nTo generate the documentation run the following command\njsq doc:generate source=&lt;path to source files&gt; \nThis will extract the JSDoc comments from the js files and write them to their corresponding Quarto Markdown files.\nIf the source flag is not provided, the tool will set /source_files as default.\nThe generated .qmd files can be found in the /docs folder, you can change the output directory by providing the output flag.\nTo preview the generated documentation run\njsq doc:preview\nThis will generate the documentation, preview with quarto and open a link to preview the docs\nThe generated .qmd files can be found in the /docs folder, you can change the output directory by providing the output flag.\njsq doc:generate source=&lt;path to source files&gt; output=&lt;path to output dir&gt;\nTo include tutorials in the generated documentation, provide the tutorials flag.\njsq doc:generate source=&lt;path to source files&gt; tutorials=&lt;path to tutorials directory&gt;\n\nFor more information on how to integrate translation tools like Crowdin with JSquarto, refer to the Crowding workflow guide.\nFor more details on using JSquarto and to see an example of the generated documentation, visit the JSQuarto documentation",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#contributing-organization",
+    "href": "index.html#contributing-organization",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Contributing Organization",
+    "text": "Contributing Organization\nJSQuarto is developed and maintained by the Open Science Community Saudi Arabia. Our mission is to promote open science practices and foster collaboration among researchers and developers in Saudi Arabia.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#feedback-and-support",
+    "href": "index.html#feedback-and-support",
+    "title": "Open Innovation Platform Documentation",
+    "section": "Feedback and Support",
+    "text": "Feedback and Support\nIf you have any questions, feedback, or need support, please open an issue on GitHub or join our community for assistance.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome to JSQuarto Documentation</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html",
+    "href": "chapters/api/controllers/auth controller.html",
+    "title": "Auth controller",
+    "section": "",
+    "text": "returnAuthTokens\n[function]\nDescription: This function creates a JWT access token and a refresh token and sends them to the client. The access token contains the user’s data which will be required for the client to make authorized requests to the API.\nParams:",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#returnauthtokens",
+    "href": "chapters/api/controllers/auth controller.html#returnauthtokens",
+    "title": "Auth controller",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nuser\nThe user object.\n\n\nres\nThe Express response object.",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#handleunverifieduser",
+    "href": "chapters/api/controllers/auth controller.html#handleunverifieduser",
+    "title": "Auth controller",
+    "section": "handleUnverifiedUser",
+    "text": "handleUnverifiedUser\n[function]\nDescription: Send a new verification email to user if the existing user is unverified. A token is generated and sent to the user for email verification.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nuser\nMongoose user object\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nstring\naccess_token - JWT token",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#handleexistinguser",
+    "href": "chapters/api/controllers/auth controller.html#handleexistinguser",
+    "title": "Auth controller",
+    "section": "handleExistingUser",
+    "text": "handleExistingUser\n[function]\nDescription: Send a new verification email to user if the existing user is unverified.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nuser\nMongoose user object\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nSuccess response object for verified user\n\n\n\nThrown Errors:\n\n\n\nError type\nDescription\n\n\n\n\nBadRequestError\nIf user is already verified",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#signup",
+    "href": "chapters/api/controllers/auth controller.html#signup",
+    "title": "Auth controller",
+    "section": "signup",
+    "text": "signup\n[function]\nDescription: Create a new user and sends a verification email to the user.\nThe user is created using the User model, and the user’s password is hashed using the bcrypt library. The user is created with the status of unverified, which means that the user cannot login until their email address is verified.\nEach user account has a status document linked to it, which holds two data fields: isVerified and isActive. By default, isVerified is set to false, which means that the user cannot login until their email address is verified. isActive is set to true for EndUsers, which means that the user account is active.\nFor Superadmin accounts, it has to be activated using the superadmin activation route.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nrole\nUser role (EndUser, Admin, SuperAdmin)\n\n\npassword\nUser password\n\n\nfirstname\nUser firstname\n\n\n\nReferences:",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#login",
+    "href": "chapters/api/controllers/auth controller.html#login",
+    "title": "Auth controller",
+    "section": "login",
+    "text": "login\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\nnext\nThe next middleware function.\n\n\nreq.body.password\nThe user’s password.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nHTTP response object with user object,\n\n\n\nThrown Errors:\n\n\n\n\n\n\n\nError type\nDescription\n\n\n\n\nCustomAPIError\nIf the email or password is missing or incorrect, or if the",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#verifyemail",
+    "href": "chapters/api/controllers/auth controller.html#verifyemail",
+    "title": "Auth controller",
+    "section": "verifyEmail",
+    "text": "verifyEmail\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\nnext\nThe next middleware function.\n\n\n\nReturns:\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nobject\nThe HTTP response object containing a success value and a message.\n\n\n\nThrown Errors:\n\n\n\nError type\nDescription\n\n\n\n\nCustomAPIError\nIf the token is invalid or expired.",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#loginsuperadmin",
+    "href": "chapters/api/controllers/auth controller.html#loginsuperadmin",
+    "title": "Auth controller",
+    "section": "loginSuperAdmin",
+    "text": "loginSuperAdmin\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\nnext\nThe next middleware function.\n\n\nreq.body.password\nThe user’s password.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nResponse object containing the user object,\n\n\n\nThrown Errors:\n\n\n\n\n\n\n\nError type\nDescription\n\n\n\n\nCustomAPIError\nIf the email or password is missing or incorrect, or if the",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#activateuseraccount",
+    "href": "chapters/api/controllers/auth controller.html#activateuseraccount",
+    "title": "Auth controller",
+    "section": "activateUserAccount",
+    "text": "activateUserAccount\n[function]\nDescription: Activates a user account if the account exists and it’s not already active.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object\n\n\nreq.params.email\nThe email address of the user to activate\n\n\nnext\nThe next middleware function\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nThe HTTP response object\n\n\n\nThrown Errors:\n\n\n\nError type\nDescription\n\n\n\n\nBadRequestError\nIf the email parameter is missing or invalid\n\n\nBadRequestError\nIf the user account is already active\n\n\nError\nIf an unexpected error occurs",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#deactivateuseraccount",
+    "href": "chapters/api/controllers/auth controller.html#deactivateuseraccount",
+    "title": "Auth controller",
+    "section": "deactivateUserAccount",
+    "text": "deactivateUserAccount\n[function]\nDescription: Deactivates user account if user account exists and it’s active\nParams:\n\n\n\nName\nDescription\n\n\n\n\nemail\nUser email",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#forgetpassword",
+    "href": "chapters/api/controllers/auth controller.html#forgetpassword",
+    "title": "Auth controller",
+    "section": "forgetPassword",
+    "text": "forgetPassword\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nemail\nUser’s email address.",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#resetpassword",
+    "href": "chapters/api/controllers/auth controller.html#resetpassword",
+    "title": "Auth controller",
+    "section": "resetPassword",
+    "text": "resetPassword\n[function]\nDescription: Resets the password of the authenticated user if the provided password reset code is valid.\nNote: A request has to be made to the {\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nExpress request object.\n\n\nreq.body.new_password\nNew password.\n\n\nreq.user\nAuthenticated user object.\n\n\n\nReferences:",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#googlesignin",
+    "href": "chapters/api/controllers/auth controller.html#googlesignin",
+    "title": "Auth controller",
+    "section": "googleSignin",
+    "text": "googleSignin\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe request object.",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/auth controller.html#getloggedinuser",
+    "href": "chapters/api/controllers/auth controller.html#getloggedinuser",
+    "title": "Auth controller",
+    "section": "getLoggedInUser",
+    "text": "getLoggedInUser\n[function]\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe request object.\n\n\nreq.user.id\nThe ID of the currently logged in user.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nThe response object containing the current user data.",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Auth controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html",
+    "href": "chapters/api/controllers/course controller.html",
+    "title": "Course controller",
+    "section": "",
+    "text": "createCourse\n[function]\nDescription: Create a new course by admin or contributor.\nParams:\nReturns:",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#createcourse",
+    "href": "chapters/api/controllers/course controller.html#createcourse",
+    "title": "Course controller",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#getcourse",
+    "href": "chapters/api/controllers/course controller.html#getcourse",
+    "title": "Course controller",
+    "section": "getCourse",
+    "text": "getCourse\n[function]\nDescription: Get a specific course. Allowed for EndUser and SuperAdmin\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and course data",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#getcontributorcourses",
+    "href": "chapters/api/controllers/course controller.html#getcontributorcourses",
+    "title": "Course controller",
+    "section": "getContributorCourses",
+    "text": "getContributorCourses\n[function]\nDescription: Get a specific contributor course. Request permitted for contributors.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and course data",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#getallcourses",
+    "href": "chapters/api/controllers/course controller.html#getallcourses",
+    "title": "Course controller",
+    "section": "getAllCourses",
+    "text": "getAllCourses\n[function]\nDescription: Get all courses excluding contributors drafts. Request permitted for super admin only.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and all courses data",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#getapprovedcourses",
+    "href": "chapters/api/controllers/course controller.html#getapprovedcourses",
+    "title": "Course controller",
+    "section": "getApprovedCourses",
+    "text": "getApprovedCourses\n[function]\nDescription: Get all approved course.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and all approved courses data",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#approvecourse",
+    "href": "chapters/api/controllers/course controller.html#approvecourse",
+    "title": "Course controller",
+    "section": "approveCourse",
+    "text": "approveCourse\n[function]\nDescription: Approved a course. Only Super admin can approve courses.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#makecoursepending",
+    "href": "chapters/api/controllers/course controller.html#makecoursepending",
+    "title": "Course controller",
+    "section": "makeCoursePending",
+    "text": "makeCoursePending\n[function]\nDescription: Update course status to pending. Only Super admin can update course status.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#archivecourse",
+    "href": "chapters/api/controllers/course controller.html#archivecourse",
+    "title": "Course controller",
+    "section": "archiveCourse",
+    "text": "archiveCourse\n[function]\nDescription: Update course status to archive. Only Super admin can update course status. Archiving a course is similar to delete but with an extended period.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#updatecourse",
+    "href": "chapters/api/controllers/course controller.html#updatecourse",
+    "title": "Course controller",
+    "section": "updateCourse",
+    "text": "updateCourse\n[function]\nDescription: Update course. Only Super admin and contributor can can update a course.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#enrolluser",
+    "href": "chapters/api/controllers/course controller.html#enrolluser",
+    "title": "Course controller",
+    "section": "enrollUser",
+    "text": "enrollUser\n[function]\nDescription: Enrolling into a course by the end user. Request permitted for end users.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#togglecourseavailablity",
+    "href": "chapters/api/controllers/course controller.html#togglecourseavailablity",
+    "title": "Course controller",
+    "section": "toggleCourseAvailablity",
+    "text": "toggleCourseAvailablity\n[function]\nDescription: Update a course avaialbility. Only Super admin can update course availabilty.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#togglecourseediting",
+    "href": "chapters/api/controllers/course controller.html#togglecourseediting",
+    "title": "Course controller",
+    "section": "toggleCourseEditing",
+    "text": "toggleCourseEditing\n[function]\nDescription: Toggle a course editing mode. Only Super admin can update course editing status.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and message",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#evaluatequizscore",
+    "href": "chapters/api/controllers/course controller.html#evaluatequizscore",
+    "title": "Course controller",
+    "section": "evaluateQuizScore",
+    "text": "evaluateQuizScore\n[function]\nDescription: Evaluate and check quiz score answers after the user submits selection for a course quiz.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and evaluate score for the quiz",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/course controller.html#deletecourse",
+    "href": "chapters/api/controllers/course controller.html#deletecourse",
+    "title": "Course controller",
+    "section": "deleteCourse",
+    "text": "deleteCourse\n[function]\nDescription: Get a specific course. Allowed for EndUser and SuperAdmin\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and course data",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Course controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/user controller.html",
+    "href": "chapters/api/controllers/user controller.html",
+    "title": "User controller",
+    "section": "",
+    "text": "getUserOverAllScore\n[function]\nDescription: The user overall score for an enrollled course.\nParams:\nReturns:",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>User controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/user controller.html#getuseroverallscore",
+    "href": "chapters/api/controllers/user controller.html#getuseroverallscore",
+    "title": "User controller",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and score",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>User controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/controllers/user controller.html#getusercourse",
+    "href": "chapters/api/controllers/user controller.html#getusercourse",
+    "title": "User controller",
+    "section": "getUserCourse",
+    "text": "getUserCourse\n[function]\nDescription: The user enrollled course.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nreq\nThe HTTP request object.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nHTTP response object with success field and course",
+    "crumbs": [
+      "Controllers",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>User controller</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/basic authentication.html",
+    "href": "chapters/api/middlewares/basic authentication.html",
+    "title": "Basic authentication",
+    "section": "",
+    "text": "basicAuth\n[function]\nDescription: This middleware checks if the incoming request has a valid authorization header with a JWT token, and verifies the token to ensure that it’s valid.\nExamples:",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Basic authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/basic authentication.html#basicauth",
+    "href": "chapters/api/middlewares/basic authentication.html#basicauth",
+    "title": "Basic authentication",
+    "section": "",
+    "text": "// Use basicAuth middleware to authenticate incoming requests\n  app.get('/api/protected', basicAuth(), (req, res) =&gt; {\n    // do something with req.user and req.token\n    res.send('Hello World');\n  });\n// Use basicAuth middleware to authenticate incoming requests for a specific token type\n  app.get('/api/protected', basicAuth('verifycation'), (req, res) =&gt; {\n    // here the token type is specified as verification\n    // do something with req.user and req.token\n    res.send('Hello World');\n  });",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Basic authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/error handler.html",
+    "href": "chapters/api/middlewares/error handler.html",
+    "title": "Error handler",
+    "section": "",
+    "text": "handleValidationErr\n[function]\nDescription: Handles Validation Errors, these errors are thrown by mongoose when a model validation fails.",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Error handler</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/error handler.html#errorhandler",
+    "href": "chapters/api/middlewares/error handler.html#errorhandler",
+    "title": "Error handler",
+    "section": "errorHandler",
+    "text": "errorHandler\n[function]\nDescription: Error Handler Middleware handles all errors thrown by the application and sends a response to the client.",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Error handler</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/rbac permission handler.html",
+    "href": "chapters/api/middlewares/rbac permission handler.html",
+    "title": "Rbac permission handler",
+    "section": "",
+    "text": "roles) {return asyncWrapper(async (req, res, next\n[function]\nDescription: Role based permission handler.\nReturns:",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Rbac permission handler</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/middlewares/rbac permission handler.html#roles-return-asyncwrapperasync-req-res-next",
+    "href": "chapters/api/middlewares/rbac permission handler.html#roles-return-asyncwrapperasync-req-res-next",
+    "title": "Rbac permission handler",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nfunction\nHTTP next()",
+    "crumbs": [
+      "Middlewares",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Rbac permission handler</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/course.html",
+    "href": "chapters/api/model/course.html",
+    "title": "Course",
+    "section": "",
+    "text": "mongoose\n[variable]\nDescription: This schema stores course.",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Course</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/authentication.html",
+    "href": "chapters/api/model/authentication.html",
+    "title": "Authentication",
+    "section": "",
+    "text": "passwordSchema\n[variable]\nDescription: This schema stores user hashed passwords.\nReferences:",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/authentication.html#passwordschema-1",
+    "href": "chapters/api/model/authentication.html#passwordschema-1",
+    "title": "Authentication",
+    "section": "passwordSchema",
+    "text": "passwordSchema\n[variable]",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/authentication.html#unknown",
+    "href": "chapters/api/model/authentication.html#unknown",
+    "title": "Authentication",
+    "section": "unknown",
+    "text": "unknown\n[function]\nDescription: This method is used to update the user password. The new password is hashed and saved to the database.",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/authentication.html#unknown-1",
+    "href": "chapters/api/model/authentication.html#unknown-1",
+    "title": "Authentication",
+    "section": "unknown",
+    "text": "unknown\n[function]\nDescription: This method is used to compare the user password with the password.\nReferences:\nhttps://www.npmjs.com/package/bcryptjs",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Authentication</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/token.html",
+    "href": "chapters/api/model/token.html",
+    "title": "Token",
+    "section": "",
+    "text": "blacklistedTokenSchema\n[variable]\nDescription: This schema is used to store blacklisted JWT tokens, so that they can be checked against when a user tries to access a protected route.",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/token.html#authcodeschema",
+    "href": "chapters/api/model/token.html#authcodeschema",
+    "title": "Token",
+    "section": "authCodeSchema",
+    "text": "authCodeSchema\n[variable]\nDescription: This schema is used to store verification codes for user authentication, such as the verification code for email verification, the password reset code.\nReferences:",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/user.html",
+    "href": "chapters/api/model/user.html",
+    "title": "User",
+    "section": "",
+    "text": "statusSchema\n[variable]\nDescription: User account status, every user has a status object, which contains information about the user’s account status, such as whether the account is active or not, and whether the account is verified or not.\nReferences:",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>User</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/user.html#statusschema-1",
+    "href": "chapters/api/model/user.html#statusschema-1",
+    "title": "User",
+    "section": "statusSchema",
+    "text": "statusSchema\n[variable]",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>User</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/user.html#userschema",
+    "href": "chapters/api/model/user.html#userschema",
+    "title": "User",
+    "section": "userSchema",
+    "text": "userSchema\n[variable]\nDescription: This schema is used to store user information\nReferences:\nhttps://mongoosejs.com/docs/guide.html#virtuals",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>User</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/user.html#userschema-1",
+    "href": "chapters/api/model/user.html#userschema-1",
+    "title": "User",
+    "section": "userSchema",
+    "text": "userSchema\n[variable]",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>User</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/model/user.html#unknown",
+    "href": "chapters/api/model/user.html#unknown",
+    "title": "User",
+    "section": "unknown",
+    "text": "unknown\n[other]\nDescription: This virtual property is used to get the user’s password from the Password collection",
+    "crumbs": [
+      "Model",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>User</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html",
+    "href": "chapters/api/services/courseservice.html",
+    "title": "Courseservice",
+    "section": "",
+    "text": "createACourse\n[function]\nDescription: Create a new course by admin or contributor. PDFs and image are upload on clodinary.\nParams:\nReturns:",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#createacourse",
+    "href": "chapters/api/services/courseservice.html#createacourse",
+    "title": "Courseservice",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nuserId\nUserId.\n\n\nreqBody\nThe HTTP request body object.\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nObject\nNew created course details",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#getacourse",
+    "href": "chapters/api/services/courseservice.html#getacourse",
+    "title": "Courseservice",
+    "section": "getACourse",
+    "text": "getACourse\n[function]\nDescription: Query database for a specific course with course ID\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#getacontributorcourses",
+    "href": "chapters/api/services/courseservice.html#getacontributorcourses",
+    "title": "Courseservice",
+    "section": "getAContributorCourses",
+    "text": "getAContributorCourses\n[function]\nDescription: Query database for a specific contributor courses\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncontributorId\ncontributorId\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#allcourses",
+    "href": "chapters/api/services/courseservice.html#allcourses",
+    "title": "Courseservice",
+    "section": "allCourses",
+    "text": "allCourses\n[function]\nDescription: Query database for all courses.\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#allapprovedcourses",
+    "href": "chapters/api/services/courseservice.html#allapprovedcourses",
+    "title": "Courseservice",
+    "section": "allApprovedCourses",
+    "text": "allApprovedCourses\n[function]\nDescription: Query database for all course with status approved\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#approveacourse",
+    "href": "chapters/api/services/courseservice.html#approveacourse",
+    "title": "Courseservice",
+    "section": "approveACourse",
+    "text": "approveACourse\n[function]\nDescription: Query database and update course status to approved\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#pendingacourse",
+    "href": "chapters/api/services/courseservice.html#pendingacourse",
+    "title": "Courseservice",
+    "section": "pendingACourse",
+    "text": "pendingACourse\n[function]\nDescription: Query database and update course status to pending\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#togglecoursearchive",
+    "href": "chapters/api/services/courseservice.html#togglecoursearchive",
+    "title": "Courseservice",
+    "section": "toggleCourseArchive",
+    "text": "toggleCourseArchive\n[function]\nDescription: Query database and update course status to archived\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#updateacourse",
+    "href": "chapters/api/services/courseservice.html#updateacourse",
+    "title": "Courseservice",
+    "section": "updateACourse",
+    "text": "updateACourse\n[function]\nDescription: Query database and update a course\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\npreview_image\nCurse Preview image\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#enrollauser",
+    "href": "chapters/api/services/courseservice.html#enrollauser",
+    "title": "Courseservice",
+    "section": "enrollAUser",
+    "text": "enrollAUser\n[function]\nDescription: Enroll a user into a particular course\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#toggleavailablity",
+    "href": "chapters/api/services/courseservice.html#toggleavailablity",
+    "title": "Courseservice",
+    "section": "toggleAvailablity",
+    "text": "toggleAvailablity\n[function]\nDescription: Query database and toggle course availability\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#toggleediting",
+    "href": "chapters/api/services/courseservice.html#toggleediting",
+    "title": "Courseservice",
+    "section": "toggleEditing",
+    "text": "toggleEditing\n[function]\nDescription: Query database and toggle course editing mode\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#deleteacourse",
+    "href": "chapters/api/services/courseservice.html#deleteacourse",
+    "title": "Courseservice",
+    "section": "deleteACourse",
+    "text": "deleteACourse\n[function]\nDescription: Query database and toggle course editing mode\nParams:\n\n\n\nName\nDescription\n\n\n\n\ncourseId\nCourse Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nCourse details retrived",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/courseservice.html#evaluateuseranswers",
+    "href": "chapters/api/services/courseservice.html#evaluateuseranswers",
+    "title": "Courseservice",
+    "section": "evaluateUserAnswers",
+    "text": "evaluateUserAnswers\n[function]\nDescription: Evaluate quiz submission , check quiz answers and update the database for a user\nParams:\n\n\n\nName\nDescription\n\n\n\n\nuserId\nUser Id\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nQuiz score details",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Courseservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/userservice.html",
+    "href": "chapters/api/services/userservice.html",
+    "title": "Userservice",
+    "section": "",
+    "text": "getScore\n[function]\nDescription: Get the user overall score for an enrollled course.  The overall score is computed from all quiz score divided by total course quiz\nParams:\nReturns:",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Userservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/userservice.html#getscore",
+    "href": "chapters/api/services/userservice.html#getscore",
+    "title": "Userservice",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nuserId\nThe Id of the user.\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nnumber\nThe overall quiz score of the user",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Userservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/services/userservice.html#getausercourse",
+    "href": "chapters/api/services/userservice.html#getausercourse",
+    "title": "Userservice",
+    "section": "getAUserCourse",
+    "text": "getAUserCourse\n[function]\nDescription: Get a user’s enrolled course. \nParams:\n\n\n\nName\nDescription\n\n\n\n\nuserId\nThe Id of the user.\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nThe user’s enrolled course and it’s quiz score",
+    "crumbs": [
+      "Services",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Userservice</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/cloudinary.html",
+    "href": "chapters/api/utilities/cloudinary.html",
+    "title": "Cloudinary",
+    "section": "",
+    "text": "uploadToCloudinary\n[function]",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Cloudinary</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/email.html",
+    "href": "chapters/api/utilities/email.html",
+    "title": "Email",
+    "section": "",
+    "text": "sendEmail\n[function]\nDescription: This function sends an email to the specified email address.\nParams:",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Email</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/email.html#sendemail",
+    "href": "chapters/api/utilities/email.html#sendemail",
+    "title": "Email",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\noptions.email\nEmail address to send email to\n\n\noptions.message\nMessage to send in the email",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Email</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html",
+    "href": "chapters/api/utilities/custom error.html",
+    "title": "Custom error",
+    "section": "",
+    "text": "CustomAPIError\n[class]\nDescription: Base class for all custom error classes\nParams:",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#customapierror",
+    "href": "chapters/api/utilities/custom error.html#customapierror",
+    "title": "Custom error",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#badrequesterror",
+    "href": "chapters/api/utilities/custom error.html#badrequesterror",
+    "title": "Custom error",
+    "section": "BadRequestError",
+    "text": "BadRequestError\n[class]\nDescription: Error from a bad request\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#unauthorizederror",
+    "href": "chapters/api/utilities/custom error.html#unauthorizederror",
+    "title": "Custom error",
+    "section": "UnauthorizedError",
+    "text": "UnauthorizedError\n[class]\nDescription: UnauthorizedError handles error for unauthenticated and unathorized requests\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#forbiddenerror",
+    "href": "chapters/api/utilities/custom error.html#forbiddenerror",
+    "title": "Custom error",
+    "section": "ForbiddenError",
+    "text": "ForbiddenError\n[class]\nDescription: ForbiddenError handles error for request not allowed\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#notfounderror",
+    "href": "chapters/api/utilities/custom error.html#notfounderror",
+    "title": "Custom error",
+    "section": "NotFoundError",
+    "text": "NotFoundError\n[class]\nDescription: NotFoundError handles error with not existing routes.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#conflicterror",
+    "href": "chapters/api/utilities/custom error.html#conflicterror",
+    "title": "Custom error",
+    "section": "ConflictError",
+    "text": "ConflictError\n[class]\nDescription: ConflictError handles conflict error.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/custom error.html#internalservererror",
+    "href": "chapters/api/utilities/custom error.html#internalservererror",
+    "title": "Custom error",
+    "section": "InternalServerError",
+    "text": "InternalServerError\n[class]\nDescription: InternalServerError handles error from server.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nmessage\nError message",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Custom error</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/token.html",
+    "href": "chapters/api/utilities/token.html",
+    "title": "Token",
+    "section": "",
+    "text": "getRequiredConfigVars\n[function]\nDescription: This function returns the secret and expiry for the specified token type.  The token type can be one of the following:  access - Access token  refresh - Refresh token  password_reset - Password reset token\nParams:\nReturns:",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/token.html#getrequiredconfigvars",
+    "href": "chapters/api/utilities/token.html#getrequiredconfigvars",
+    "title": "Token",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ntype\nType of token to generate\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nobject\nSecret and expiry date for the specified token type",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/token.html#getauthtokens",
+    "href": "chapters/api/utilities/token.html#getauthtokens",
+    "title": "Token",
+    "section": "getAuthTokens",
+    "text": "getAuthTokens\n[function]\nDescription: This function generates a JWT token for the specified user. \nParams:\n\n\n\nName\nDescription\n\n\n\n\nuser_id\nGenerate token for user with the ID\n\n\n\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nobject\nAccess and refresh token\n\n\n\nThrown Errors:\n\n\n\nError type\nDescription\n\n\n\n\nNotFoundError\nIf user does not exist",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/token.html#getauthcodes",
+    "href": "chapters/api/utilities/token.html#getauthcodes",
+    "title": "Token",
+    "section": "getAuthCodes",
+    "text": "getAuthCodes\n[function]\nDescription: Generate authentication codes, verification code, password reset code, activation code, deactivation code for user , depends on code type.\nParams:\n\n\n\nName\nDescription\n\n\n\n\nuser_id\nGenerate token for user with the ID",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Token</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/api/utilities/token.html#decodejwt",
+    "href": "chapters/api/utilities/token.html#decodejwt",
+    "title": "Token",
+    "section": "decodeJWT",
+    "text": "decodeJWT\n[function]\nDescription: Decode a JWT token\nReturns:\n\n\n\nType\nDescription\n\n\n\n\nObject\nDecoded token",
+    "crumbs": [
+      "Utilities",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Token</span>"
+    ]
+  }
+]

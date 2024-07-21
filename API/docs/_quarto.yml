@@ -6,7 +6,7 @@ website:
   description: Documentation for JSQuarto, a tool for generating JavaScript
     package API reference documentation using Markdown and Quarto.
 book:
-  title: JSQuarto Documentation
+  title: Open Innovation Platform Documentation
   chapters:
     - index.qmd
     - part: Controllers

@@ -1,0 +1,77 @@
+FAQ                     Frequently Asked Questions
+Get started with pak    Simplified manual. Start here!
+Great pak features      A list of the most important pak features
+Installing pak          All about installing pak.
+Package dependency types
+                        Various types of R package dependencies
+Package sources         Install packages from CRAN, Bioconductor,
+                        GitHub, URLs, etc.
+System requirements     System requirements
+The dependency solver   Find the ideal set of packages and versions to
+                        install
+cache_summary           Package cache utilities
+handle_package_not_found
+                        Install missing packages on the fly
+lib_status              Status of packages in a library
+local_deps              Dependencies of a package tree
+local_deps_explain      Explain dependencies of a package tree
+local_install           Install a package tree
+local_install_deps      Install the dependencies of a package tree
+local_install_dev_deps
+                        Install all (development) dependencies of a
+                        package tree
+local_package_trees     About local package trees
+local_system_requirements
+                        Query system requirements
+lockfile_create         Create a lock file
+lockfile_install        Install packages based on a lock file
+meta_summary            Metadata cache utilities
+pak                     Install specified required packages
+pak configuration       Environment variables and options that modify
+                        the default behavior
+pak_cleanup             Clean up pak caches
+pak_install_extra       Install all optional dependencies of pak
+pak_setup               Set up private pak library (deprecated)
+pak_sitrep              pak SITuation REPort
+pak_update              Update pak itself
+pkg_deps                Look up the dependencies of a package
+pkg_deps_explain        Explain how a package depends on other packages
+pkg_deps_tree           Draw the dependency tree of a package
+pkg_download            Download a package and its dependencies
+pkg_history             Query the history of a CRAN package
+pkg_install             Install packages
+pkg_name_check          Check if an R package name is available
+pkg_remove              Remove installed packages
+pkg_search              Search CRAN packages
+pkg_status              Display installed locations of a package
+pkg_sysreqs             Calculate system requirements of one of more
+                        packages
+ppm_has_binaries        Does PPM build binary packages for the current
+                        platform?
+ppm_platforms           List all platforms supported by Posit Package
+                        Manager (PPM)
+ppm_r_versions          List all R versions supported by Posit Package
+                        Manager (PPM)
+ppm_repo_url            Returns the current Posit Package Manager (PPM)
+                        repository URL
+ppm_snapshots           List all available Posit Package Manager (PPM)
+                        snapshots
+repo_add                Add a new CRAN-like repository
+repo_get                Query the currently configured CRAN-like
+                        repositories
+repo_status             Show the status of CRAN-like repositories
+sysreqs_check_installed
+                        Check if installed packages have all their
+                        system requirements
+sysreqs_db_list         List contents of the system requirements DB,
+                        for a platform
+sysreqs_db_match        Match system requirement descriptions to the
+                        database
+sysreqs_db_update       Update the cached copy of the system
+                        requirements database
+sysreqs_is_supported    Check if a platform has system requirements
+                        support
+sysreqs_list_system_packages
+                        List installed system packages
+sysreqs_platforms       List platforms with system requirements support
+system_r_platform       R platforms

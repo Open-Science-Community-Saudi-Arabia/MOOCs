@@ -1,0 +1,17 @@
+quarto-package	quarto-package
+is_using_quarto	is_using_quarto
+quarto	quarto-package
+quarto_add_extension	quarto_add_extension
+quarto_binary_sitrep	quarto_binary_sitrep
+quarto_create_project	quarto_create_project
+quarto_inspect	quarto_inspect
+quarto_path	quarto_path
+quarto_preview	quarto_preview
+quarto_preview_stop	quarto_preview
+quarto_publish_app	quarto_publish_doc
+quarto_publish_doc	quarto_publish_doc
+quarto_publish_site	quarto_publish_doc
+quarto_render	quarto_render
+quarto_serve	quarto_serve
+quarto_use_template	quarto_use_template
+quarto_version	quarto_version

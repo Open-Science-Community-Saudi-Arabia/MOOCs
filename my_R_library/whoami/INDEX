@@ -1,0 +1,5 @@
+email_address           Email address of the current user
+fullname                Full name of the current user
+gh_username             Find the current user's GitHub username
+username                User name of the current user
+whoami                  User name and full name of the current user

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: Another Approach to Package Installation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> Another Approach to Package Installation
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;pak&rsquo; version 0.7.2</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="cache.html">cache_clean</a></td>
+<td>Package cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="cache.html">cache_delete</a></td>
+<td>Package cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="cache.html">cache_list</a></td>
+<td>Package cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="cache.html">cache_summary</a></td>
+<td>Package cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="faq.html">FAQ</a></td>
+<td>Frequently Asked Questions</td></tr>
+<tr><td style="width: 25%;"><a href="get-started.html">Get started with pak</a></td>
+<td>Simplified manual. Start here!</td></tr>
+<tr><td style="width: 25%;"><a href="features.html">Great pak features</a></td>
+<td>A list of the most important pak features</td></tr>
+<tr><td style="width: 25%;"><a href="handle_package_not_found.html">handle_package_not_found</a></td>
+<td>Install missing packages on the fly</td></tr>
+<tr><td style="width: 25%;"><a href="install.html">Installing pak</a></td>
+<td>All about installing pak.</td></tr>
+<tr><td style="width: 25%;"><a href="lib_status.html">lib_status</a></td>
+<td>Status of packages in a library</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps.html">local_deps</a></td>
+<td>Dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps_explain.html">local_deps_explain</a></td>
+<td>Explain dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps.html">local_deps_tree</a></td>
+<td>Dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps.html">local_dev_deps</a></td>
+<td>Dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps_explain.html">local_dev_deps_explain</a></td>
+<td>Explain dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_deps.html">local_dev_deps_tree</a></td>
+<td>Dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_install.html">local_install</a></td>
+<td>Install a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_install_deps.html">local_install_deps</a></td>
+<td>Install the dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_install_dev_deps.html">local_install_dev_deps</a></td>
+<td>Install all (development) dependencies of a package tree</td></tr>
+<tr><td style="width: 25%;"><a href="local_package_trees.html">local_package_trees</a></td>
+<td>About local package trees</td></tr>
+<tr><td style="width: 25%;"><a href="local_system_requirements.html">local_system_requirements</a></td>
+<td>Query system requirements</td></tr>
+<tr><td style="width: 25%;"><a href="lockfile_create.html">lockfile_create</a></td>
+<td>Create a lock file</td></tr>
+<tr><td style="width: 25%;"><a href="lockfile_install.html">lockfile_install</a></td>
+<td>Install packages based on a lock file</td></tr>
+<tr><td style="width: 25%;"><a href="metadata.html">meta_clean</a></td>
+<td>Metadata cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="metadata.html">meta_list</a></td>
+<td>Metadata cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="metadata.html">meta_summary</a></td>
+<td>Metadata cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="metadata.html">meta_update</a></td>
+<td>Metadata cache utilities</td></tr>
+<tr><td style="width: 25%;"><a href="package-dependency-types.html">Package dependency types</a></td>
+<td>Various types of R package dependencies</td></tr>
+<tr><td style="width: 25%;"><a href="pak_package_sources.html">Package sources</a></td>
+<td>Install packages from CRAN, Bioconductor, GitHub, URLs, etc.</td></tr>
+<tr><td style="width: 25%;"><a href="pak.html">pak</a></td>
+<td>Install specified required packages</td></tr>
+<tr><td style="width: 25%;"><a href="pak-config.html">pak configuration</a></td>
+<td>Environment variables and options that modify the default behavior</td></tr>
+<tr><td style="width: 25%;"><a href="pak-config.html">pak-config</a></td>
+<td>Environment variables and options that modify the default behavior</td></tr>
+<tr><td style="width: 25%;"><a href="pak_cleanup.html">pak_cleanup</a></td>
+<td>Clean up pak caches</td></tr>
+<tr><td style="width: 25%;"><a href="pak_install_extra.html">pak_install_extra</a></td>
+<td>Install all optional dependencies of pak</td></tr>
+<tr><td style="width: 25%;"><a href="pak_setup.html">pak_setup</a></td>
+<td>Set up private pak library (deprecated)</td></tr>
+<tr><td style="width: 25%;"><a href="pak_sitrep.html">pak_sitrep</a></td>
+<td>pak SITuation REPort</td></tr>
+<tr><td style="width: 25%;"><a href="pak_update.html">pak_update</a></td>
+<td>Update pak itself</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_deps.html">pkg_deps</a></td>
+<td>Look up the dependencies of a package</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_deps_explain.html">pkg_deps_explain</a></td>
+<td>Explain how a package depends on other packages</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_deps_tree.html">pkg_deps_tree</a></td>
+<td>Draw the dependency tree of a package</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_download.html">pkg_download</a></td>
+<td>Download a package and its dependencies</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_history.html">pkg_history</a></td>
+<td>Query the history of a CRAN package</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_install.html">pkg_install</a></td>
+<td>Install packages</td></tr>
+<tr><td style="width: 25%;"><a href="lib_status.html">pkg_list</a></td>
+<td>Status of packages in a library</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_name_check.html">pkg_name_check</a></td>
+<td>Check if an R package name is available</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_remove.html">pkg_remove</a></td>
+<td>Remove installed packages</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_search.html">pkg_search</a></td>
+<td>Search CRAN packages</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_status.html">pkg_status</a></td>
+<td>Display installed locations of a package</td></tr>
+<tr><td style="width: 25%;"><a href="pkg_sysreqs.html">pkg_sysreqs</a></td>
+<td>Calculate system requirements of one of more packages</td></tr>
+<tr><td style="width: 25%;"><a href="local_system_requirements.html">pkg_system_requirements</a></td>
+<td>Query system requirements</td></tr>
+<tr><td style="width: 25%;"><a href="ppm_has_binaries.html">ppm_has_binaries</a></td>
+<td>Does PPM build binary packages for the current platform?</td></tr>
+<tr><td style="width: 25%;"><a href="ppm_platforms.html">ppm_platforms</a></td>
+<td>List all platforms supported by Posit Package Manager (PPM)</td></tr>
+<tr><td style="width: 25%;"><a href="ppm_repo_url.html">ppm_repo_url</a></td>
+<td>Returns the current Posit Package Manager (PPM) repository URL</td></tr>
+<tr><td style="width: 25%;"><a href="ppm_r_versions.html">ppm_r_versions</a></td>
+<td>List all R versions supported by Posit Package Manager (PPM)</td></tr>
+<tr><td style="width: 25%;"><a href="ppm_snapshots.html">ppm_snapshots</a></td>
+<td>List all available Posit Package Manager (PPM) snapshots</td></tr>
+<tr><td style="width: 25%;"><a href="repo_add.html">repo_add</a></td>
+<td>Add a new CRAN-like repository</td></tr>
+<tr><td style="width: 25%;"><a href="repo_get.html">repo_get</a></td>
+<td>Query the currently configured CRAN-like repositories</td></tr>
+<tr><td style="width: 25%;"><a href="repo_status.html">repo_ping</a></td>
+<td>Show the status of CRAN-like repositories</td></tr>
+<tr><td style="width: 25%;"><a href="repo_add.html">repo_resolve</a></td>
+<td>Add a new CRAN-like repository</td></tr>
+<tr><td style="width: 25%;"><a href="repo_status.html">repo_status</a></td>
+<td>Show the status of CRAN-like repositories</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs.html">sysreqs</a></td>
+<td>System requirements</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_check_installed.html">sysreqs_check_installed</a></td>
+<td>Check if installed packages have all their system requirements</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_db_list.html">sysreqs_db_list</a></td>
+<td>List contents of the system requirements DB, for a platform</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_db_match.html">sysreqs_db_match</a></td>
+<td>Match system requirement descriptions to the database</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_db_update.html">sysreqs_db_update</a></td>
+<td>Update the cached copy of the system requirements database</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_check_installed.html">sysreqs_fix_installed</a></td>
+<td>Check if installed packages have all their system requirements</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_is_supported.html">sysreqs_is_supported</a></td>
+<td>Check if a platform has system requirements support</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_list_system_packages.html">sysreqs_list_system_packages</a></td>
+<td>List installed system packages</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs_platforms.html">sysreqs_platforms</a></td>
+<td>List platforms with system requirements support</td></tr>
+<tr><td style="width: 25%;"><a href="sysreqs.html">System requirements</a></td>
+<td>System requirements</td></tr>
+<tr><td style="width: 25%;"><a href="system_r_platform.html">system_r_platform</a></td>
+<td>R platforms</td></tr>
+<tr><td style="width: 25%;"><a href="system_r_platform.html">system_r_platform_data</a></td>
+<td>R platforms</td></tr>
+<tr><td style="width: 25%;"><a href="pak_solver.html">The dependency solver</a></td>
+<td>Find the ideal set of packages and versions to install</td></tr>
+</table>
+</div></body></html>
