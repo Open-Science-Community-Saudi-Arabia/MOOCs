@@ -1,144 +1,82 @@
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-<!-- PROJECT LOGO -->
+# Welcome to JSQuarto Documentation
 
-<div align="center" style="display:flex; align-items: center; justify-content: center" flex-direction="row">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/assets/54219127/c8c7ef37-0209-4a42-b395-2a7650a86724">
-    <img src="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/assets/54219127/c8c7ef37-0209-4a42-b395-2a7650a86724" width="400" alt="Logo"/>
-  </picture>
-</div> 
+## About
+JSQuarto is a tool designed to generate JavaScript package API reference documentation using Markdown and Quarto. It serves as an alternative to JSDoc, providing a simpler and more flexible approach for documenting JavaScript code.
 
+## Purpose
+The purpose of JSQuarto is to streamline the process of generating API reference documentation for JavaScript packages. By leveraging Markdown and Quarto, developers can easily create and maintain comprehensive documentation for their JavaScript projects.
 
-<h1 align="center">Open Innovation For Open Science</h1>
+## Inspiration
+JSQuarto draws inspiration from various documentation tools and methodologies, including:  </br> 
 
-<div align="center">
-    Massive Open Online Courses (MOOCs) for Open Science in Arabic that include videos, MCQ questions and written resources!
-</div>
-<br />
+- [JSDoc](https://jsdoc.app/): JSDoc is a popular tool for generating API documentation from JavaScript source code. </br>
+- [Quarto](https://quarto.org/): Quarto is a versatile document authoring and publishing tool that supports Markdown, LaTeX, and R Markdown formats. </br>
+- [Sphinx](https://www.sphinx-doc.org/): Sphinx is a documentation generation tool widely used in the Python community. </br>
 
-<div align="center">
-  <p align="center">
-    <a href="https://moocs-documentation.netlify.app/"><strong>Explore the docs »</strong></a>
-    <a href="https://documenter.getpostman.com/view/20633788/2s93JwMgmb"><strong>API Docs</strong></a>
-    <br />
-    <br />
-    <a href="https://moocs-client.netlify.app/">View Demo</a>
-    ·
-    <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues">Request Feature</a>
-  </p>
-</div>
-<br/>
+## Localization and Translation
+JSQuarto is committed to supporting localization and translation of generated documentation. We are planning to integrate Crowdin, a localization management platform, to facilitate translation efforts. This will enable users to present the generated QMD files in multiple languages, making documentation accessible to a wider audience.
 
-## Deployment
-Frontend: https://moocs-client.netlify.app/  
-API: https://documenter.getpostman.com/view/20633788/2s93JwMgmb
+## Getting Started
+#### Prerequisites
 
-<br/>
+Before testing the tool locally, ensure you have the following prerequisites installed on your system:
 
-## Technologies
+-   [Quarto](https://quarto.org/)
+-   [Babel Quarto](https://docs.ropensci.org/babelquarto/)
+-   Node.js and npm (Node Package Manager)
 
-### Frontend Technologies
+#### Installation
 
-| Technology         | Version | Use                  |
-| ------------------ | ------- | -------------------- |
-| `Prettier`         | v2.7.1  | Code Formatting      |
-| `React`            | v18.2.0 | Frontend Framework   |
-| `NodeJs`           | v14     | Environment          |
-| `EsLint`           | v8.2.0  | Code Linting         |
-| `Vite`             | v2.6.8  | Code Bundler         |
+To test the tool locally, follow these steps:
 
-<br/>
+1. Install the tool by running the command below
 
-### Backend Technologies
+    ```bash
+    npm install -g @oscsa/jsquarto  
+    ```
 
-| Technology              | Version | Use                         |
-| ----------------------- | ------- | --------------------------- |
-| `NodeJS`                | v4.3    | Backend Environment         |
-| `ExpressJS`             | v3.10   | Framework for building APIs |
-| `MongoDB`               |    -    | Non-Relational Database     |
+### Usage
+Once the dependencies are installed, you can navigate to the root directory of your project and follow the steps below:
 
-<br/>
+1. To generate the documentation run the following command
 
-## Environment Setup
+    ```bash
+    jsq doc:generate source=<path to source files> 
+    ```
 
-- Make sure you have NodeJs installed by running the following command:
+    This will extract the JSDoc comments from the js files and write them to their corresponding Quarto Markdown files.
 
-```bash
-node -v
-```
-- If the output is not the version of your NodeJs installation, install NodeJs from [here](https://nodejs.org/en/download/)
-  
-<br/>
+    If the `source` flag is not provided, the tool will set `/source_files` as default.
 
-## Contributing :two_hearts:
-- If you like it, leave your star in this project :star2:
-- If you would like to complain/suggest/contribute to this project, feel free to open a issue :heart_decoration:
-- Please follow our general [contributing guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/CONTRIBUTING.md).
-- Go to [Contributing Guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/client/README.md) to learn how to contribute to the client app.
-- Go to [Contributing Guidelines](https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/blob/main/API/CONTRIBUTING.md) for the backend APIs.
+    The generated `.qmd` files can be found in the `/docs` folder, you can change the output directory by providing the `output` flag.
 
-  
-<br/>
+2. To preview the generated documentation run
 
-## License
+    ```bash
+    jsq doc:preview
+    ```
 
-This work is licensed under a
-[Creative Commons Attribution 4.0 International License][cc-by].
+    This will generate the documentation, preview with quarto and open a link to preview the docs
 
-[![CC BY 4.0][cc-by-image]][cc-by]
+3. The generated `.qmd` files can be found in the `/docs` folder, you can change the output directory by providing the `output` flag.
 
-<br/>
+    ```bash
+    jsq doc:generate source=<path to source files> output=<path to output dir>
+    ```
+    
+4. To include tutorials in the generated documentation, provide the `tutorials` flag.
 
-## Contributors ✨
+    ```bash
+    jsq doc:generate source=<path to source files> tutorials=<path to tutorials directory>
+    ```
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+For more information on how to integrate translation tools like Crowdin with JSquarto, refer to the [Crowding workflow guide](https://jsquarto.netlify.app/chapters/tutorials/how_to/workflows#doc-generation-with-crowdin-translation).
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://adedamolaorofin.web.app"><img src="https://avatars.githubusercontent.com/u/74486522?v=4?s=100" width="100px;" alt="Orofin Adedamola A."/><br /><sub><b>Orofin Adedamola A.</b></sub></a><br /><a href="#infra-Meekunn" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#design-Meekunn" title="Design">🎨</a> <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls?q=is%3Apr+reviewed-by%3AMeekunn" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://realrichi3.github.io"><img src="https://avatars.githubusercontent.com/u/76791916?v=4?s=100" width="100px;" alt="Richie"/><br /><sub><b>Richie</b></sub></a><br /><a href="#infra-RealRichi3" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-RealRichi3" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls?q=is%3Apr+reviewed-by%3ARealRichi3" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://goodnewssandy.netlify.app/"><img src="https://avatars.githubusercontent.com/u/54219127?v=4?s=100" width="100px;" alt="Goodnews Sandy"/><br /><sub><b>Goodnews Sandy</b></sub></a><br /><a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls?q=is%3Apr+reviewed-by%3Asandygudie" title="Reviewed Pull Requests">👀</a> <a href="#infra-sandygudie" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#mentoring-sandygudie" title="Mentoring">🧑‍🏫</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mufidat3250"><img src="https://avatars.githubusercontent.com/u/77861437?v=4?s=100" width="100px;" alt="Wahab Mufidat"/><br /><sub><b>Wahab Mufidat</b></sub></a><br /><a href="#design-mufidat3250" title="Design">🎨</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anslemkelechi"><img src="https://avatars.githubusercontent.com/u/47811347?v=4?s=100" width="100px;" alt="Kelechi Okoronkwo"/><br /><sub><b>Kelechi Okoronkwo</b></sub></a><br /><a href="#infra-anslemkelechi" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/oEbuka"><img src="https://avatars.githubusercontent.com/u/94439139?v=4?s=100" width="100px;" alt="Obiora Ebuka"/><br /><sub><b>Obiora Ebuka</b></sub></a><br /><a href="#infra-oEbuka" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://okereke.dev"><img src="https://avatars.githubusercontent.com/u/65835404?v=4?s=100" width="100px;" alt="Okereke Chinweotito"/><br /><sub><b>Okereke Chinweotito</b></sub></a><br /><a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/commits?author=okerekechinweotito" title="Tests">⚠️</a> <a href="#infra-okerekechinweotito" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AminMusah"><img src="https://avatars.githubusercontent.com/u/60413409?v=4?s=100" width="100px;" alt="Amin Musah Ahmed"/><br /><sub><b>Amin Musah Ahmed</b></sub></a><br /><a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues?q=author%3AAminMusah" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://julianasau.vercel.app"><img src="https://avatars.githubusercontent.com/u/49183775?v=4?s=100" width="100px;" alt="Juliana Sau "/><br /><sub><b>Juliana Sau </b></sub></a><br /><a href="#infra-JulianaSau" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#ideas-JulianaSau" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ORIYOMI289"><img src="https://avatars.githubusercontent.com/u/63899878?v=4?s=100" width="100px;" alt="JewelCodes"/><br /><sub><b>JewelCodes</b></sub></a><br /><a href="#infra-ORIYOMI289" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://batool-almarzouq.netlify.app/"><img src="https://avatars.githubusercontent.com/u/53487593?v=4?s=100" width="100px;" alt="Batool Almarzouq"/><br /><sub><b>Batool Almarzouq</b></sub></a><br /><a href="#mentoring-BatoolMM" title="Mentoring">🧑‍🏫</a> <a href="#question-BatoolMM" title="Answering Questions">💬</a> <a href="#translation-BatoolMM" title="Translation">🌍</a> <a href="https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/pulls?q=is%3Apr+reviewed-by%3ABatoolMM" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/alswajiab"><img src="https://avatars.githubusercontent.com/u/42093749?v=4?s=100" width="100px;" alt="Abdulrahman Alswaji"/><br /><sub><b>Abdulrahman Alswaji</b></sub></a><br /><a href="#ideas-alswajiab" title="Ideas, Planning, & Feedback">🤔</a> <a href="#mentoring-alswajiab" title="Mentoring">🧑‍🏫</a></td>
-    </tr>
-  </tbody>
-</table>
+For more details on using JSquarto and to see an example of the generated documentation, visit the [JSQuarto documentation](https://jsquarto.netlify.app/)
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+## Contributing Organization
+JSQuarto is developed and maintained by the [Open Science Community Saudi Arabia](https://github.com/Open-Science-Community-Saudi-Arabia). Our mission is to promote open science practices and foster collaboration among researchers and developers in Saudi Arabia.
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[cc-by]: http://creativecommons.org/licenses/by/4.0/
-[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
-[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg?style=flat-square
-[forks-shield]: https://img.shields.io/github/forks/Open-Science-Community-Saudi-Arabia/MOOCs.svg?style=flat-square
-[forks-url]: https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/network/members
-[stars-shield]: https://img.shields.io/github/stars/Open-Science-Community-Saudi-Arabia/MOOCs.svg?style=flat-square&color=brightgreen
-[stars-url]: https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Open-Science-Community-Saudi-Arabia/MOOCs.svg?style=flat-square
-[issues-url]: https://github.com/Open-Science-Community-Saudi-Arabia/MOOCs/issues
-
-
+## Feedback and Support
+If you have any questions, feedback, or need support, please [open an issue](https://github.com/Open-Science-Community-Saudi-Arabia/JSquarto/issues) on GitHub or [join our community](https://github.com/Open-Science-Community-Saudi-Arabia) for assistance.

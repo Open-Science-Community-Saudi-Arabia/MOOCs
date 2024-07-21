@@ -1,0 +1,8 @@
+quarto_multilingual_book
+                        Create a starter/example quarto multilingual
+                        book or website
+register_further_languages
+                        Register further languages in Quarto config
+register_main_language
+                        Register main language in Quarto config
+render_book             Render a Quarto multilingual project
