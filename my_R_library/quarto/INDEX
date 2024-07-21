@@ -1,0 +1,12 @@
+is_using_quarto         Check is a directory is using quarto
+quarto_add_extension    Install a Quarto extensions
+quarto_binary_sitrep    Check configurations for quarto binary used
+quarto_create_project   Create a quarto project
+quarto_inspect          Inspect Quarto Input File or Project
+quarto_path             Path to the quarto binary
+quarto_preview          Quarto Preview
+quarto_publish_doc      Publish Quarto Documents
+quarto_render           Render Markdown
+quarto_serve            Serve Interactive Document
+quarto_use_template     Use a custom format extension template
+quarto_version          Check quarto version

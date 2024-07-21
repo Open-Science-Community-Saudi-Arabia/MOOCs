@@ -1,0 +1,74 @@
+pak-package	pak-package
+cache_clean	cache
+cache_delete	cache
+cache_list	cache
+cache_summary	cache
+FAQ	faq
+Get started with pak	get-started
+Great pak features	features
+handle_package_not_found	handle_package_not_found
+Installing pak	install
+lib_status	lib_status
+local_deps	local_deps
+local_deps_explain	local_deps_explain
+local_deps_tree	local_deps
+local_dev_deps	local_deps
+local_dev_deps_explain	local_deps_explain
+local_dev_deps_tree	local_deps
+local_install	local_install
+local_install_deps	local_install_deps
+local_install_dev_deps	local_install_dev_deps
+local_package_trees	local_package_trees
+local_system_requirements	local_system_requirements
+lockfile_create	lockfile_create
+lockfile_install	lockfile_install
+meta_clean	metadata
+meta_list	metadata
+meta_summary	metadata
+meta_update	metadata
+Package dependency types	package-dependency-types
+Package sources	pak_package_sources
+pak	pak
+pak configuration	pak-config
+pak-config	pak-config
+pak_cleanup	pak_cleanup
+pak_install_extra	pak_install_extra
+pak_setup	pak_setup
+pak_sitrep	pak_sitrep
+pak_update	pak_update
+pkg_deps	pkg_deps
+pkg_deps_explain	pkg_deps_explain
+pkg_deps_tree	pkg_deps_tree
+pkg_download	pkg_download
+pkg_history	pkg_history
+pkg_install	pkg_install
+pkg_list	lib_status
+pkg_name_check	pkg_name_check
+pkg_remove	pkg_remove
+pkg_search	pkg_search
+pkg_status	pkg_status
+pkg_sysreqs	pkg_sysreqs
+pkg_system_requirements	local_system_requirements
+ppm_has_binaries	ppm_has_binaries
+ppm_platforms	ppm_platforms
+ppm_repo_url	ppm_repo_url
+ppm_r_versions	ppm_r_versions
+ppm_snapshots	ppm_snapshots
+repo_add	repo_add
+repo_get	repo_get
+repo_ping	repo_status
+repo_resolve	repo_add
+repo_status	repo_status
+sysreqs	sysreqs
+sysreqs_check_installed	sysreqs_check_installed
+sysreqs_db_list	sysreqs_db_list
+sysreqs_db_match	sysreqs_db_match
+sysreqs_db_update	sysreqs_db_update
+sysreqs_fix_installed	sysreqs_check_installed
+sysreqs_is_supported	sysreqs_is_supported
+sysreqs_list_system_packages	sysreqs_list_system_packages
+sysreqs_platforms	sysreqs_platforms
+System requirements	sysreqs
+system_r_platform	system_r_platform
+system_r_platform_data	system_r_platform
+The dependency solver	pak_solver
