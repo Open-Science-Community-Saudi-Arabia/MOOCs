@@ -64,7 +64,7 @@ jobs:
         run: jsq doc:clean
 
       - name: Build book (jsquarto) 
-        run:  tsc -b && jsq doc:generate
+        run: jsq doc:generate
 
       - name: Prepare crowdin translations
         run: jsq fix:crowdin_files 
