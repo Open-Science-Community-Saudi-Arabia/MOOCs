@@ -1,0 +1,53 @@
+# User controller
+
+this module contains the controllers for handling user logic.
+ 
+  the following routes are handled by this module and their corresponding functions: </br>
+ 
+  </br>
+ 
+  <b>get</b> /overall-score/:courseid </br>
+  <b>get</b> /course/:courseid</br>
+
+
+
+## getUserOverAllScore 
+`[function]`
+ 
+**Description:**
+The user overall score for an enrollled course.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and score |
+
+
+
+## getUserCourse 
+`[function]`
+ 
+**Description:**
+The user enrollled course.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and course |
+

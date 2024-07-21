@@ -1,0 +1,29 @@
+# Error handler
+
+error handler middleware
+ 
+  
+
+
+
+## handleValidationErr 
+`[function]`
+ 
+**Description:**
+Handles Validation Errors, these errors are thrown by
+   mongoose when a model validation fails.
+ 
+  
+
+
+
+## errorHandler 
+`[function]`
+ 
+**Description:**
+Error Handler Middleware handles all errors thrown by the application
+  and sends a response to the client.
+ 
+ 
+  
+

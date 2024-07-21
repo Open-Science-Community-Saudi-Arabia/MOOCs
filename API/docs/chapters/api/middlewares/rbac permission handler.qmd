@@ -1,0 +1,22 @@
+# Rbac permission handler
+
+role based permission handler
+ 
+  
+
+
+
+## roles) {return asyncWrapper(async (req, res, next 
+`[function]`
+ 
+**Description:**
+Role based permission handler.
+ 
+  
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| function | HTTP next() |
+

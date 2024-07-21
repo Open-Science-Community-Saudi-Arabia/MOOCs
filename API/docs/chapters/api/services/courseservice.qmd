@@ -1,0 +1,289 @@
+# Courseservice
+
+the service module for handling course logic.
+  
+
+
+
+## createACourse 
+`[function]`
+ 
+**Description:**
+Create a new course by admin or contributor. PDFs and image are upload on clodinary.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  userId | UserId. |
+|  reqBody | The HTTP request body object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | New created course details |
+
+
+
+## getACourse 
+`[function]`
+ 
+**Description:**
+Query database for a specific course with course ID
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## getAContributorCourses 
+`[function]`
+ 
+**Description:**
+Query database for a specific contributor courses
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  contributorId | contributorId |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## allCourses 
+`[function]`
+ 
+**Description:**
+Query database for all courses.
+  
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## allApprovedCourses 
+`[function]`
+ 
+**Description:**
+Query database for all course with status approved
+  
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## approveACourse 
+`[function]`
+ 
+**Description:**
+Query database and update course status to approved
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## pendingACourse 
+`[function]`
+ 
+**Description:**
+Query database and update course status to pending
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## toggleCourseArchive 
+`[function]`
+ 
+**Description:**
+Query database and update course status to archived
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## updateACourse 
+`[function]`
+ 
+**Description:**
+Query database and update a course
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+|  preview_image | Curse Preview image |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## enrollAUser 
+`[function]`
+ 
+**Description:**
+Enroll a user into a particular course
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## toggleAvailablity 
+`[function]`
+ 
+**Description:**
+Query database and toggle course availability
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## toggleEditing 
+`[function]`
+ 
+**Description:**
+Query database and toggle course editing mode
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## deleteACourse 
+`[function]`
+ 
+**Description:**
+Query database and toggle course editing mode
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  courseId | Course Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Course details retrived |
+
+
+
+## evaluateUserAnswers 
+`[function]`
+ 
+**Description:**
+Evaluate quiz submission , check quiz answers and update the database for a user
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  userId | User Id |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Quiz score details |
+

@@ -1,0 +1,21 @@
+# Email
+
+this module contains functions for sending emails using nodemailer.
+
+
+
+## sendEmail 
+`[function]`
+ 
+**Description:**
+This function sends an email to the specified email address.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  options.email | Email address to send email to |
+|  options.message | Message to send in the email |
+

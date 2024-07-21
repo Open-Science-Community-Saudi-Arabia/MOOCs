@@ -1,0 +1,109 @@
+# Custom error
+
+this file contains custom error classes
+
+
+
+## CustomAPIError 
+`[class]`
+ 
+**Description:**
+Base class for all custom error classes
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## BadRequestError 
+`[class]`
+ 
+**Description:**
+Error from a bad request
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## UnauthorizedError 
+`[class]`
+ 
+**Description:**
+UnauthorizedError handles error for unauthenticated and unathorized requests
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## ForbiddenError 
+`[class]`
+ 
+**Description:**
+ForbiddenError handles error for request not allowed
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## NotFoundError 
+`[class]`
+ 
+**Description:**
+NotFoundError handles error with not existing routes.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## ConflictError 
+`[class]`
+ 
+**Description:**
+ConflictError handles conflict error.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+
+
+
+## InternalServerError 
+`[class]`
+ 
+**Description:**
+InternalServerError handles error from server.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  message | Error message |
+

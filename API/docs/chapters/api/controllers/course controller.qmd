@@ -1,0 +1,300 @@
+# Course controller
+
+this module contains the controllers for handling course logic.
+  
+
+
+
+## createCourse 
+`[function]`
+ 
+**Description:**
+Create a new course by admin or contributor.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## getCourse 
+`[function]`
+ 
+**Description:**
+Get a specific course. Allowed for EndUser and SuperAdmin
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and course data |
+
+
+
+## getContributorCourses 
+`[function]`
+ 
+**Description:**
+Get a specific contributor course. Request permitted for contributors.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and course data |
+
+
+
+## getAllCourses 
+`[function]`
+ 
+**Description:**
+Get all courses excluding contributors drafts. Request permitted for super admin only.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and all courses data |
+
+
+
+## getApprovedCourses 
+`[function]`
+ 
+**Description:**
+Get all approved course.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and all approved courses data |
+
+
+
+## approveCourse 
+`[function]`
+ 
+**Description:**
+Approved a course. Only Super admin can approve courses.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## makeCoursePending 
+`[function]`
+ 
+**Description:**
+Update course status to pending. Only Super admin can update course status.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## archiveCourse 
+`[function]`
+ 
+**Description:**
+Update course status to archive. Only Super admin can update course status.
+  Archiving a course is similar to delete but with an extended period.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## updateCourse 
+`[function]`
+ 
+**Description:**
+Update course. Only Super admin  and contributor can can update a course.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## enrollUser 
+`[function]`
+ 
+**Description:**
+Enrolling into a course by the end user. Request permitted for end users.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## toggleCourseAvailablity 
+`[function]`
+ 
+**Description:**
+Update a course avaialbility. Only Super admin can update course availabilty.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## toggleCourseEditing 
+`[function]`
+ 
+**Description:**
+Toggle a course editing mode. Only Super admin can update course editing status.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and message |
+
+
+
+## evaluateQuizScore 
+`[function]`
+ 
+**Description:**
+Evaluate and check quiz score answers after the user submits selection for a course quiz.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and evaluate score for the quiz |
+
+
+
+## deleteCourse 
+`[function]`
+ 
+**Description:**
+Get a specific course. Allowed for EndUser and SuperAdmin
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | HTTP response object with success field and course data |
+

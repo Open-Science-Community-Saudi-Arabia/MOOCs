@@ -1,0 +1,93 @@
+# Token
+
+this module contains functions for generating and verifying jwt tokens.
+ 
+  
+
+
+
+## getRequiredConfigVars 
+`[function]`
+ 
+**Description:**
+This function returns the secret and expiry for the specified token type. <br>
+  The token type can be one of the following: <br>
+  `access` - Access token <br>
+  `refresh` - Refresh token <br>
+  `password_reset` - Password reset token <br>
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  type | Type of token to generate |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | Secret and expiry date for the specified token type |
+
+
+
+## getAuthTokens 
+`[function]`
+ 
+**Description:**
+This function generates a JWT token for the specified user. <br>
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  user_id | Generate token for user with the ID |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | Access and refresh token |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| NotFoundError | If user does not exist |
+
+
+
+## getAuthCodes 
+`[function]`
+ 
+**Description:**
+Generate authentication codes,
+  verification code, password reset code, activation code, deactivation code for user , depends on code type.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  user_id | Generate token for user with the ID |
+
+
+
+## decodeJWT 
+`[function]`
+ 
+**Description:**
+Decode a JWT token
+ 
+  
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | Decoded token |
+
