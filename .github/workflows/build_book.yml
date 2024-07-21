@@ -55,7 +55,7 @@ jobs:
           node-version: 16.x
 
       - name: Install dependencies
-        run: npm i --save &&  npm install @oscsa/jsquarto -g
+        run: npm install @oscsa/jsquarto -g
 
       - name: Set jsquarto config
         run: jsq config:set config=$CONFIG_FILE --force
