@@ -66,8 +66,8 @@ jobs:
       - name: Build book (jsquarto) 
         run: jsq doc:generate
 
-      - name: Prepare crowdin translations
-        run: jsq fix:crowdin_files 
+      # - name: Prepare crowdin translations
+      #   run: jsq fix:crowdin_files 
 
       - name: Install PAK
         run: Rscript -e "install.packages('pak', lib='./my_R_library')"
