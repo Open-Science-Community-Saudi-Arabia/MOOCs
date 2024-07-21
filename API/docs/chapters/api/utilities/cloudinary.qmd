@@ -1,0 +1,10 @@
+# Cloudinary
+
+handles file uploads to cloudinary to a specific folder.
+  resources uploaded to cloudinary includes; course images and pdf files
+
+
+
+## uploadToCloudinary 
+`[function]`
+ 

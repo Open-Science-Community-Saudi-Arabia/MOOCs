@@ -1,0 +1,59 @@
+project:
+  type: book
+  output-dir: _book
+website:
+  title: JSQuarto Documentation
+  description: Documentation for JSQuarto, a tool for generating JavaScript
+    package API reference documentation using Markdown and Quarto.
+book:
+  title: JSQuarto Documentation
+  chapters:
+    - index.qmd
+    - part: Controllers
+      chapters:
+        - chapters/api/controllers/auth controller.qmd
+        - chapters/api/controllers/course controller.qmd
+        - chapters/api/controllers/user controller.qmd
+    - part: Middlewares
+      chapters:
+        - chapters/api/middlewares/basic authentication.qmd
+        - chapters/api/middlewares/error handler.qmd
+        - chapters/api/middlewares/rbac permission handler.qmd
+    - part: Model
+      chapters:
+        - chapters/api/model/course.qmd
+        - chapters/api/model/authentication.qmd
+        - chapters/api/model/token.qmd
+        - chapters/api/model/user.qmd
+    - part: Services
+      chapters:
+        - chapters/api/services/courseservice.qmd
+        - chapters/api/services/userservice.qmd
+    - part: Utilities
+      chapters:
+        - chapters/api/utilities/cloudinary.qmd
+        - chapters/api/utilities/email.qmd
+        - chapters/api/utilities/custom error.qmd
+        - chapters/api/utilities/token.qmd
+format:
+  html:
+    theme: cosmo
+    highlight: github
+    toc: true
+    number-sections: false
+babelquarto:
+  languagecodes:
+    - name: en
+      text: Version in en
+    - name: ar
+      text: Version in ar
+  mainlanguage: en
+  languages:
+    - ar
+lang: en
+title-en: Title in en
+description-en: Description in en
+author-en: Author in en
+title-ar: Title in ar
+description-ar: Description in ar
+author-ar: Author in ar

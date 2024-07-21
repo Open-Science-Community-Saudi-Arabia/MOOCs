@@ -1,0 +1,300 @@
+# Auth controller
+
+this module contains the controllers for handling user authentication, including login, signup, password reset, super admin activation, and deactivation routes.
+ 
+  the following routes are handled by this module and their corresponding functions: </br>
+ 
+  </br>
+ 
+  <b>post</b> /auth/login </br>
+  <b>post</b> /auth/signup </br>
+  <b>post</b> /auth/addadmin  </br>
+  <b>post</b> /auth/user/activate/:email </br>
+  <b>post</b> /auth/user/deactivate/:email l </br>
+  <b>post</b> /auth/forgotpassword </br>
+  <b>post</b> /auth/resetpassword </br>
+  <b>post</b> /auth/googlesignin </br>
+  <b>post</b> /auth/google/callback </br>
+  <b>get</b> /auth/verifyemail/:token </br>
+
+
+
+## returnAuthTokens 
+`[function]`
+ 
+**Description:**
+This function creates a JWT access token and a refresh token and sends them to the client.
+  The access token contains the user's data which will be required for the client to make authorized requests to the API.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  user | The user object. |
+|  res | The Express response object. |
+
+
+
+## handleUnverifiedUser 
+`[function]`
+ 
+**Description:**
+Send a new verification email to user if the existing user is unverified.</br>
+  A token is generated and sent to the user for email verification.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  user | Mongoose user object |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| string | access_token - JWT token |
+
+
+
+## handleExistingUser 
+`[function]`
+ 
+**Description:**
+Send a new verification email to user if the existing user is unverified.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  user | Mongoose user object |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | Success response object for verified user |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| BadRequestError | If user is already verified |
+
+
+
+## signup 
+`[function]`
+ 
+**Description:**
+Create a new user and sends a verification email to the user.
+ 
+  The user is created using the User model, and the user's password is hashed using the bcrypt library.
+  The user is created with the status of unverified, which means that the user cannot login until their email address is verified.
+ 
+  Each user account has a status document linked to it,
+  which holds two data fields: isVerified and isActive. By default, isVerified is set to false, which means that the user cannot login until their email address is verified.
+  isActive is set to true for EndUsers, which means that the user account is active.
+ 
+  For Superadmin accounts, it has to be activated using the superadmin activation route.
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  role | User role (EndUser, Admin, SuperAdmin) |
+|  password | User password |
+|  firstname | User firstname |
+
+**References:**
+
+
+
+
+## login 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+|  next | The next middleware function. |
+|  req.body.password | The user's password. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | HTTP response object with user object, |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| CustomAPIError | If the email or password is missing or incorrect, or if the |
+
+
+
+## verifyEmail 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+|  next | The next middleware function. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | The HTTP response object containing a success value and a message. |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| CustomAPIError | If the token is invalid or expired. |
+
+
+
+## loginSuperAdmin 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object. |
+|  next | The next middleware function. |
+|  req.body.password | The user's password. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | Response object containing the user object, |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| CustomAPIError | If the email or password is missing or incorrect, or if the |
+
+
+
+## activateUserAccount 
+`[function]`
+ 
+**Description:**
+Activates a user account if the account exists and it's not already active.
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The HTTP request object |
+|  req.params.email | The email address of the user to activate |
+|  next | The next middleware function |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | The HTTP response object |
+
+**Thrown Errors:**
+
+| Error type | Description |
+| --- | --- |
+| BadRequestError | If the email parameter is missing or invalid |
+| BadRequestError | If the user account is already active |
+| Error | If an unexpected error occurs |
+
+
+
+## deactivateUserAccount 
+`[function]`
+ 
+**Description:**
+Deactivates user account if user account exists and it's active
+ 
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  email | User email |
+
+
+
+## forgetPassword 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  email | User's email address. |
+
+
+
+## resetPassword 
+`[function]`
+ 
+**Description:**
+Resets the password of the authenticated user if the provided password reset code is valid.<br>
+ 
+  Note: A request has to be made to the {
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | Express request object. |
+|  req.body.new_password | New password. |
+|  req.user | Authenticated user object. |
+
+**References:**
+
+
+
+
+## googleSignin 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The request object. |
+
+
+
+## getLoggedInUser 
+`[function]`
+ 
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  req | The request object. |
+|  req.user.id | The ID of the currently logged in user. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| Object | The response object containing the current user data. |
+

@@ -1,0 +1,73 @@
+# User
+
+this module contains the user model and its submodels,
+  users are the main entities in the system, they are the ones who can access the api,
+  each user has a role, which determines the level of access they have to the api. </br>
+ 
+  </br>
+  user roles: </br>
+  - enduser - a regular user, who can access the api and use it to perform crud operations on the database. </br>
+  </br>
+  - contributor -  a user who can access the api and use it to perform crud operations on the database,
+  but they can only access the data that they have created. </br>
+  </br>
+  - superadmin - a user who can access the api and use it to perform crud operations on the database,
+  but they can only access the data that they have created, they can also create, update and delete users.
+ 
+  
+
+
+
+## statusSchema 
+`[variable]`
+ 
+**Description:**
+User account status, every user has a status object,
+  which contains information about the user's account status,
+  such as whether the account is active or not, and whether the account is verified or not.
+ 
+  
+
+**References:**
+
+
+
+
+## statusSchema 
+`[variable]`
+ 
+
+
+## userSchema 
+`[variable]`
+ 
+**Description:**
+This schema is used to store user information
+ 
+  
+
+**References:**
+
+[https://mongoosejs.com/docs/guide.html#virtuals](https://mongoosejs.com/docs/guide.html#virtuals)
+
+
+
+
+
+
+
+
+## userSchema 
+`[variable]`
+ 
+
+
+## unknown 
+`[other]`
+ 
+**Description:**
+This virtual property is used to get the
+  user's password from the Password collection
+ 
+  
+

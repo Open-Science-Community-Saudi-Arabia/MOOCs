@@ -1,0 +1,47 @@
+# Userservice
+
+the service module for handling user logic.
+
+
+
+## getScore 
+`[function]`
+ 
+**Description:**
+Get the user overall score for an enrollled course. <br/>
+  The overall score is computed from all quiz score divided by total course quiz
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  userId | The Id of the user. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| number | The overall quiz score of the user |
+
+
+
+## getAUserCourse 
+`[function]`
+ 
+**Description:**
+Get a user's enrolled course. <br/>
+  
+
+**Params:**
+
+| Name | Description |
+| --- | --- |
+|  userId | The Id of the user. |
+
+**Returns:**
+
+| Type | Description |
+| --- | --- |
+| object | The user's enrolled course and it's quiz score |
+

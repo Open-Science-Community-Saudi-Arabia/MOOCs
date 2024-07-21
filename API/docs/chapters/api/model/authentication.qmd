@@ -1,0 +1,48 @@
+# Authentication
+
+
+
+
+
+## passwordSchema 
+`[variable]`
+ 
+**Description:**
+This schema stores user hashed passwords.
+  
+  
+
+**References:**
+
+
+
+
+## passwordSchema 
+`[variable]`
+ 
+
+
+## unknown 
+`[function]`
+ 
+**Description:**
+This method is used to update the user password.
+  The new password is hashed and saved to the database.
+  
+  
+
+
+
+## unknown 
+`[function]`
+ 
+**Description:**
+This method is used to compare the user password with the password.
+  
+  
+
+**References:**
+
+[https://www.npmjs.com/package/bcryptjs](https://www.npmjs.com/package/bcryptjs)
+
+

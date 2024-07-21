@@ -1,0 +1,9 @@
+{
+    "includeLocalizedVersions": false,
+    "languages": [
+        "en",
+        "ar"
+    ],
+    "sourceDirectory": "/home/xdj/Desktop/repos/OSCSA/MOOCs/API/src",
+    "outputDirectory": "/home/xdj/Desktop/repos/OSCSA/MOOCs/API/docs"
+}

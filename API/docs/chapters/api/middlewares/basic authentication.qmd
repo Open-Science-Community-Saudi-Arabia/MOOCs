@@ -1,0 +1,37 @@
+# Basic authentication
+
+this module contains the basic authentication middleware.
+ 
+  
+
+
+
+## basicAuth 
+`[function]`
+ 
+**Description:**
+This middleware checks if the incoming request
+  has a valid authorization header with a JWT token,
+  and verifies the token to ensure that it's valid.
+ 
+  
+
+**Examples:**
+
+```javascript
+// Use basicAuth middleware to authenticate incoming requests
+  app.get('/api/protected', basicAuth(), (req, res) => {
+    // do something with req.user and req.token
+    res.send('Hello World');
+  });
+```
+
+```javascript
+// Use basicAuth middleware to authenticate incoming requests for a specific token type
+  app.get('/api/protected', basicAuth('verifycation'), (req, res) => {
+    // here the token type is specified as verification
+    // do something with req.user and req.token
+    res.send('Hello World');
+  });
+```
+

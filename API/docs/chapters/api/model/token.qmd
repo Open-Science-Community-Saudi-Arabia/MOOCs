@@ -1,0 +1,31 @@
+# Token
+
+this module contains the models for authentication,
+  such as the blacklisted token model and the auth code model.
+ 
+  
+
+
+
+## blacklistedTokenSchema 
+`[variable]`
+ 
+**Description:**
+This schema is used to store blacklisted JWT tokens,
+  so that they can be checked against when a user tries to access a protected route.
+  
+
+
+
+## authCodeSchema 
+`[variable]`
+ 
+**Description:**
+This schema is used to store verification codes for user authentication,
+  such as the verification code for email verification, the password reset code.
+ 
+  
+
+**References:**
+
+
