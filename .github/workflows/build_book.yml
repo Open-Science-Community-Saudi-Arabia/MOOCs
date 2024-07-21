@@ -1,0 +1,126 @@
+name: Build Book with Babel Quarto
+
+on:
+  pull_request:
+    branches:
+      - crowdin_integration
+ 
+  workflow_dispatch:
+
+env:
+  PR_AUTHOR_EMAIL: molunorichie@gmail.com
+  PR_AUTHOR_NAME: Richie
+  NEW_BRANCH: build_book-
+  DESTINATION_BRANCH: book
+  CONFIG_FILE: ./API/.jsquarto/config.json
+
+jobs:
+  build_book:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+   
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Set New Branch Name
+        id: set_branch
+        run: echo "NEW_BRANCH=${NEW_BRANCH}$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+
+      - name: Setup R
+        run: |
+          sudo apt-get update
+          sudo apt-get install r-base
+          sudo apt-get install r-base-core
+          sudo apt-get install libssl-dev libcurl4-openssl-dev libxml2-dev
+
+      # Writeable directory is needed for R packages installation, installing to the default library path is not alloweiid
+      - name: Create writable directory for R packages
+        run: |
+          mkdir ./my_R_library
+          chmod u+w ./my_R_library
+
+      - name: Setup quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm i --save &&  npm install @oscsa/jsquarto -g
+
+      - name: Set jsquarto config
+        run: jsq config:set config=$CONFIG_FILE --force
+
+      - name: Remove content of the _book
+        run: jsq doc:clean
+
+      - name: Build book (jsquarto) 
+        run:  tsc -b && jsq doc:generate
+
+      - name: Prepare crowdin translations
+        run: jsq fix:crowdin_files 
+
+      - name: Install PAK
+        run: Rscript -e "install.packages('pak', lib='./my_R_library')"
+          
+      - name: Install Babel quarto
+        run: Rscript -e ".libPaths(c('./my_R_library', .libPaths())); library(pak); pak::pak('ropensci-review-tools/babelquarto', lib='./my_R_library')"
+
+      - name: Build book (babelquarto) 
+        run: |
+          config_output=$(jsq config:get | tail -n 10)
+          echo "$config_output"
+          OUTPUT_DIRECTORY=$(echo "$config_output" | grep -oP '(?<=outputDirectory: ).*' | tr -d "',")
+          echo "outputDirectory: $OUTPUT_DIRECTORY"
+
+          OUTPUT_DIRECTORY=$OUTPUT_DIRECTORY
+
+          Rscript -e ".libPaths(c('./my_R_library', .libPaths())); library(babelquarto); project_dir <- '$OUTPUT_DIRECTORY'; babelquarto::render_book(project_path = project_dir)"
+
+      - name: Fix built book
+        run: |
+          jsq fix:all
+
+      - name: Commit changes
+        run: |
+          git config --global user.email $PR_AUTHOR_EMAIL
+          git config --global user.name $PR_AUTHOR_NAME
+          git checkout -b $NEW_BRANCH
+          git status
+          git add .
+          git commit -m "Build book with babelquarto"
+          git push origin $NEW_BRANCH
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ env.NEW_BRANCH }}
+          destination_branch: ${{ env.DESTINATION_BRANCH }} 
+          pr_title: New book build with babelquarto
+          pr_body: |
+            :crown: *An automated PR*
+
+            Automated PR build book with babel-quarto
+
+            _Created by [repo-sync/pull-request](https://github.com/repo-sync/pull-request)_
+          pr_label: "auto-pr"
+          pr_draft: false
+          pr_allow_empty: true
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Approve pull Request
+        if: steps.create_pr.outputs.pull_request_number
+        uses: hmarr/auto-approve-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull_request_number }}
