@@ -1,0 +1,330 @@
+:root {
+  --PrimaryColor: hsl(197, 71%, 73%);
+  --HoverColor: hsl(202, 100%, 70%);
+  --PaleGreen: hsl(96, 75%, 89%);
+  --whiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(208, 10%, 36%);
+  --textColor: hsl(240, 1%, 48%);
+  --bgColor: hsl(220, 10%, 94%);
+  --greyText: rgb(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  /* font */
+  --biggestFontSize: 2.5rem;
+  --h1FontSize: 1.5rem;
+  --h2FontSize: 1.25rem;
+  --h3FontSize: 1rem;
+  --normalFontSize: 0.938rem;
+  --smallFontSize: 0.813rem;
+  --smallestFontSize: 0.75rem;
+}
+
+.topSection .headerSection {
+  justify-content: space-between;
+}
+.topSection .headerSection .title h1 {
+  font-size: var(--h1FontSize);
+  color: var(--blackColor);
+  font-weight: 700;
+}
+.topSection .headerSection .title p {
+  font-size: var(--normalFontSize);
+  color: var(--textColor);
+  font-weight: 500;
+}
+.topSection .headerSection .searchBar {
+  padding: 1rem 2rem;
+  background: var(--whiteColor);
+  border-radius: 5px;
+  gap: 1rem;
+  box-shadow: 0 2px 4px var(--inputColor);
+}
+.topSection .headerSection .searchBar input {
+  border: none;
+  outline: none;
+  background: none;
+}
+.topSection .headerSection .searchBar .icon {
+  color: var(--textColor);
+}
+.topSection .headerSection .searchBar .icon:hover {
+  color: var(--PrimaryColor);
+}
+.topSection .headerSection .studentDiv {
+  gap: 1rem;
+}
+.topSection .headerSection .studentDiv .icon {
+  font-size: var(--biggestFontSize);
+  background: var(--whiteColor);
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 0 2px 4px var(--inputColor);
+  color: var(--textColor);
+}
+.topSection .headerSection .studentDiv .studentImage {
+  border: 3px solid var(--whiteColor);
+  border-radius: 10px;
+  width: 2.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 4px var(--inputColor);
+}
+.topSection .headerSection .studentDiv .studentImage img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.topSection .cardSection {
+  margin-top: 3rem;
+  gap: 1rem;
+}
+.topSection .cardSection .rightCard {
+  position: relative;
+  flex-basis: 70%;
+  height: 200px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.topSection .cardSection .rightCard .imageDiv {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.topSection .cardSection .rightCard .imageDiv img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.topSection .cardSection .rightCard h1,
+.topSection .cardSection .rightCard p,
+.topSection .cardSection .rightCard .btn {
+  z-index: 100;
+}
+.topSection .cardSection .rightCard h1 {
+  font-size: var(--h1FontSize);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+}
+.topSection .cardSection .rightCard p {
+  padding: 1rem;
+  color: var(--whiteColor);
+  font-weight: 800;
+  font-size: 18px;
+}
+.topSection .cardSection .rightCard .buttons {
+  gap: 1rem;
+}
+.topSection .cardSection .rightCard .buttons .btn {
+  box-shadow: none;
+  padding: 0.8rem 1.5rem;
+  color: var(--PrimaryColor);
+  border-radius: 2px solid transparent;
+}
+.topSection .cardSection .rightCard .buttons .btn:hover {
+  background: var(--PrimaryColor);
+  color: var(--whiteColor);
+}
+.topSection .cardSection .rightCard .buttons .transparent {
+  background: none;
+  border: 2px solid var(--PrimaryColor);
+  color: var(--whiteColor);
+}
+.topSection .cardSection .rightCard .buttons .transparent:hover {
+  background: var(--PrimaryColor);
+  color: var(--whiteColor);
+}
+.topSection .cardSection .leftCard {
+  flex-basis: 30%;
+}
+.topSection .cardSection .leftCard .main {
+  position: relative;
+  padding: 1rem;
+  height: 200px;
+  border-radius: 1rem;
+  justify-content: space-between;
+}
+.topSection .cardSection .leftCard .main::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: var(--PrimaryColor);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 1rem;
+}
+.topSection .cardSection .leftCard .main .textDiv {
+  z-index: 100;
+}
+.topSection .cardSection .leftCard .main .textDiv h1 {
+  font-size: var(--h1FontSize);
+  padding-bottom: 1rem;
+  color: var(--blackColor);
+  margin-top: 3rem;
+}
+.topSection .cardSection .leftCard .main .textDiv .flex {
+  gap: 1.5rem;
+  font-weight: 500;
+  color: var(--blackColor);
+}
+.topSection .cardSection .leftCard .main .textDiv .flex small {
+  font-size: var(--normalFontSize);
+  display: block;
+  color: var(--whiteColor);
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+.topSection .cardSection .leftCard .main .textDiv .link {
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+  cursor: pointer;
+}
+.topSection .cardSection .leftCard .main .textDiv .link:hover {
+  color: var(--whiteColor);
+}
+.topSection .cardSection .leftCard .main .textDiv .link:hover .icon {
+  transform: translateY(10px);
+  transform: 0.3ms ease;
+}
+.topSection .cardSection .leftCard .sideBarCard {
+  display: none;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  justify-content: center;
+  position: relative;
+}
+.topSection .cardSection .leftCard .sideBarCard .icon {
+  position: absolute;
+  background: lightblue;
+  border: 10px solid var(--whiteColor);
+  font-size: 3rem;
+  border-radius: 50%;
+  top: -8px;
+  right: 50%;
+  transform: translate(50%);
+  z-index: 100;
+}
+.topSection .cardSection .leftCard .sideBarCard .cardContent {
+  position: relative;
+  padding: 1rem;
+  background: lightblue;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.topSection .cardSection .leftCard .sideBarCard h3 {
+  font-size: var(--h3FontSize);
+  margin-top: 1rem;
+  padding: 1rem 0;
+  font-weight: 800;
+  color: var(--blackColor);
+}
+.topSection .cardSection .leftCard .sideBarCard p {
+  font-size: var(--normalFontSize);
+  color: var(--textColor);
+  padding-bottom: 1rem;
+  font-weight: 500;
+}
+.topSection .cardSection .leftCard .sideBarCard .btn {
+  position: relative;
+  z-index: 1000;
+}
+.topSection .cardSection .leftCard .sideBarCard .circle1,
+.topSection .cardSection .leftCard .sideBarCard .circle2 {
+  position: absolute;
+  background: var(--greyText);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.topSection .cardSection .leftCard .sideBarCard .circle1 {
+  height: 100px;
+  width: 100px;
+  top: -50px;
+  left: -50px;
+}
+.topSection .cardSection .leftCard .sideBarCard .circle2 {
+  height: 150px;
+  width: 150px;
+  bottom: -80px;
+  right: -70px;
+  z-index: 1;
+}
+
+@media screen and (max-width: 990px) {
+  .cardSection {
+    flex-direction: column;
+  }
+  .cardSection .rightCard,
+.cardSection .leftCard {
+    width: 100%;
+    flex-basis: 100%;
+  }
+  .cardSection .leftCard {
+    margin-top: 2rem;
+    align-items: flex-start;
+    height: 10px !important;
+  }
+  .cardSection .leftCard .sideBarCard {
+    display: block !important;
+    width: 50% !important;
+  }
+}
+@media screen and (max-width: 918px) {
+  .headerSection .searchBar {
+    display: none;
+  }
+}
+@media screen and (max-width: 725px) {
+  .cardSection .leftCard .main {
+    width: 100%;
+  }
+  .cardSection .leftCard .sideBarCard {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 490px) {
+  .headerSection .studentDiv {
+    display: none;
+  }
+  .headerSection .title {
+    text-align: center;
+    margin: auto;
+  }
+  .cardSection .rightCard {
+    text-align: center;
+  }
+  .cardSection .rightCard .buttons {
+    margin: auto;
+    flex-direction: column;
+  }
+  .cardSection .rightCard .buttons .btn {
+    width: 100%;
+  }
+  .cardSection .leftCard .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cardSection .leftCard .main::before {
+    width: 100% !important;
+  }
+}
+@media screen and (max-width: 390px) {
+  .topSection .cardSection .rightCard {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .topSection .cardSection .rightCard h1 {
+    font-size: var(--h2FontSize);
+  }
+}/*# sourceMappingURL=top.css.map */
